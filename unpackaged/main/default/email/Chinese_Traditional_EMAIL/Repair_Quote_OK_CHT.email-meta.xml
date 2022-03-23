@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_維修報價已被確認 NOI</name>
+    <style>none</style>
+    <subject>您認可的維修報價</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+我們在 ***[日期]*** 提供給您的預估維修費用為 ***[金額]***，
+感謝您確認要維修 RIMOWA ***[行李箱Model]***。
+
+我們的客服專員將立刻處理您的要求，預計於 ***[日期]*** 前可領取。
+
+我們將在行李箱維修完成時通知您。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

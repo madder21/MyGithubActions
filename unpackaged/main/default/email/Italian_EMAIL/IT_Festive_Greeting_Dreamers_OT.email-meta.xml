@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>IT - Festive Greeting - Dreamers/OT</name>
+    <style>none</style>
+    <subject>RIMOWA le augura Buone Feste.</subject>
+    <textOnly>Gentile Signor/Signora {!Contact.LastName},
+
+da tutti noi di RIMOWA, i migliori auguri di Buone Feste a lei ed ai sui cari.
+
+Poiché l&#39;anno trascorso ha posto tutti dinnanzi a sfide senza precedenti, ci auguriamo che il 2021 possa portarle felicitá, salute e benessere.
+
+Siamo certi che nuove avventure siano dietro l&#39;angolo!
+
+Buon anno!
+
+Cordialmente
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

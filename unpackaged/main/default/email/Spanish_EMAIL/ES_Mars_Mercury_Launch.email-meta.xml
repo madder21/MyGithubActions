@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Mars &amp; Mercury - Launch</name>
+    <style>none</style>
+    <subject>Descubra nuestros nuevos colores Mars &amp; Mercury.</subject>
+    <textOnly>Estimado Sr./Sra {!Contact.LastName},
+
+Me complace compatir con usted nuestro último lanzamiento Rimowa Original Marte Naranja y Mercurio gris. Estos dos nuevos colores cautivan la imaginación inspirada en destinos lejanos y un espíritu de exploración que traspasa fronteras.
+
+Complementa tu nuevo equipaje Marte y Mercurio con un juego de pegatinas Rimowa de edición especial creado para el lanzamiento y disponible por tiempo limitado.
+
+Me complacerá compartir más sobre este lanzamiento especial con usted. No dude en comunicarse si necesita algo más.
+
+Cordiales saludos.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Avviso di ritiro riparazione</name>
+    <style>none</style>
+    <subject>La riparazione è pronta</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+la riparazione del suo modello RIMOWA ***[Model]*** è terminata.
+
+Sono lieto di confermarle che abbiamo ricevuto la sua valigia e che è pronta per il ritiro.
+
+Ci comunichi quando intende passare a ritirare la sua valigia nel negozio {!User.Base_Store_Code__c} o se preferisce che le venga spedita senza spese.
+
+Le ricordo che la valigia deve essere ritirata entro 30 giorni. Se il ritiro non verrà effettuato entro 30 giorni dalla notifica, la sua valigia potrebbe essere conservata in magazzino e le potranno essere addebitate delle spese aggiuntive.
+
+Non esiti a contattarmi se dovesse avere problemi a ritirare la valigia in tempo, nel qual caso sarò lieto di trovare insieme a lei un’altra soluzione.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

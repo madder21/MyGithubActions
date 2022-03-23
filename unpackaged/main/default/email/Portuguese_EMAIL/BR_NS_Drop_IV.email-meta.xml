@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lançamento Never Still IV</name>
+    <style>none</style>
+    <subject>Novas adições à nossa coleção Never Still</subject>
+    <textOnly>Prezado/Prezada Sr./Sra. {!Contact.LastName},
+
+Eu gostaria de compartilhar com você as mais novas adições à coleção Never Still.
+
+Apresentando materiais de qualidade premium e um design minimalista, a nova coleção de artigos de couro menores inclui uma bolsa para celular, um porta-cartão, um porta-passaporte, uma mini bolsa e um chaveiro com cordão.
+
+OU
+
+Como você já tem um/uma **Nome do produto que cliente possui*, achei que esta bolsa prática, estilosa e produzida na Itália seria um complemento perfeito para sua coleção.
+
+Fico feliz em ajudar se você quiser mais informações.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

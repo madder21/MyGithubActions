@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AddressTypology__c</fullName>
+    <externalId>false</externalId>
+    <label>Address Typology</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>STANDARD</fullName>
+                <default>false</default>
+                <label>STANDARD</label>
+            </value>
+            <value>
+                <fullName>BILLING</fullName>
+                <default>false</default>
+                <label>BILLING</label>
+            </value>
+            <value>
+                <fullName>DELIVERY</fullName>
+                <default>false</default>
+                <label>DELIVERY</label>
+            </value>
+            <value>
+                <fullName>TEMPORARY</fullName>
+                <default>false</default>
+                <label>TEMPORARY</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Collaboration disponible</name>
+    <style>none</style>
+    <subject>Bonne nouvelle ! Votre produit est arrivé.</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+J&#39;ai une excellent nouvelle!
+Nous venons de recevoir votre ***[model]***! Je vous l&#39;ai déjà mis de côté.
+
+A quel moment seriez-vous disponible pour venir en boutique,
+afin que je vous la remette en mains propres?
+
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

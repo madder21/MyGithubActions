@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC V - Azure &amp; Flamingo</name>
+    <style>none</style>
+    <subject>Entdecken Sie unsere neuen Essentials-Farben Azure &amp; Flamingo</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Ich freue mich, Ihnen die bevorstehende Einführung unserer neuesten Essential-Farben Flamingo und Azure mitteilen zu können. Inspiriert von der spektakulären, weltberühmten Tierwelt Tanzanias und lebendigem Wasser, inspiriert diese neue Kollektion aus Koffern, Taschen und Accessoires das Reisen.
+
+Ich würde mich freuen, Ihnen mehr über diese aufregende Einführung zu erzählen.
+Zögern Sie also nicht, uns zu kontaktieren, wenn Sie mehr über diese brandneuen Produkte erfahren möchten.
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

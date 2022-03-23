@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>IT - Packing Cubes - Launch</name>
+    <style>none</style>
+    <subject>Scopri i cubi da imballaggio Rimowa</subject>
+    <textOnly>Gentile Signor/ Signora {!Contact.LastName},
+
+Sono lieto di informarla del lancio della nuova collezione Packing Cubes che si abbinerà perfettamente alla sua Rimowa **modello**.
+
+I Packing Cubes sono una soluzione organizzativa volta a semplificare la sua esperienza di viaggio massimizzando lo spazio interno della sua valigia. Resistenti, idro-repellenti e prodotti con materiali riciclati, la nuova collezione di Packing Cubes è disponibile in colori e grandezze diverse, adattabili alla sua valigia.
+
+Qualora avesse bisogno di ulteriori informazioni sarò lieto di condividerle con lei.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

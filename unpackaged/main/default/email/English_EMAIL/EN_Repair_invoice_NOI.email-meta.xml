@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Repair invoice NOI</name>
+    <style>none</style>
+    <subject>Your repair invoice to settle</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for having your RIMOWA ***[Model]*** repaired by our Client Care experts.
+
+Attached please find the invoice for the repair processed. We kindly ask you to settle this by the mentioned due date of ***[date]***.
+
+I wish you amazing upcoming travels with your RIMOWA. Don&#39;t hesitate to get in touch if you need anything further.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

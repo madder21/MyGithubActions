@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still III - Launch - CHS</name>
+    <style>none</style>
+    <subject>我们最新的 Never Still 手袋现已上市</subject>
+    <textOnly>亲爱的 {!Contact.LastName} 先生/女士：
+
+我真诚地希望您会喜欢**Never Still Product Purchased/Cactus or Mango Suitcase**！
+
+现在我们还推出了Never Still的新款旅行包，非常值得您收藏。
+**NS 3 Product recommendation**的空间很大，可以轻松收纳所有日常用品；它不仅可以用来打造您的专属夏日造型，而且非常适合商务办公使用。
+
+如果您有任何意见和想法，欢迎给我们回信。
+致以最亲切的问候
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

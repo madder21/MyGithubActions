@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Confirmation de Réparation</name>
+    <style>none</style>
+    <subject>Votre RIMOWA a bien été prise en charge.</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Cela a été un plaisir de vous accueillir au sein de notre
+Client Care RIMOWA {!User.Base_Store_Code__c}.
+
+Nos techniciens se chargent de la maintenance de votre
+modèle RIMOWA ***[Model]*** de la collection ***[Model]***.
+
+Nous reviendrons vers vous dès qu&#39;il sera réparé et vous
+remercie de votre confiance.
+
+Je reste à votre disposition si vous avez des questions.
+
+Cordialement,
+
+
+{!User.Name}
+{!User.Base_Store_Code__c}</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Vielen Dank, Geschenk 2d NOI</name>
+    <style>none</style>
+    <subject>Vielen Dank für Ihren Besuch!</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+es war schön, Sie gestern bei RIMOWA {!User.Base_Store_Code__c} kennenzulernen. 
+
+Nochmals herzlichen Glückwunsch zu ***[specialoccasion]***. Ich bin sicher, dass ***[personbeinggifted]*** der RIMOWA ***[Model]***, den Sie ausgewählt haben, sehr gefallen wird. 
+
+Sollte ***[personbeinggifted]*** Fragen zum Produkt haben, kontaktieren Sie mich gerne jederezeit oder besuchen Sie uns gerne im Store {!User.Base_Store_Code__c}.
+
+Herzliche Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

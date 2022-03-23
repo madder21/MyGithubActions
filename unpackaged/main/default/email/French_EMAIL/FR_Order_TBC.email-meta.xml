@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Order to be confirmed</name>
+    <style>none</style>
+    <subject>Finalisation de votre commande RIMOWA</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Je vous remercie de votre intérêt pour RIMOWA.
+
+Je vous invite à suivre le lien ci-dessous afin de pouvoir finaliser votre commande.
+
+**Link**
+
+A très bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+En finalisant votre commande, vous acceptez la politique de vente et de remboursement de RIMOWA ainsi que les conditions de protection des données personnelles.
+Vos données personnelles sont traitées par RIMOWA en sa qualité de responsable afin de traiter et de préparer votre commande RIMOWA. Pour en savoir plus sur la façon dont nous protégeons vos données personnelles et vos informations de paiement, veuillez lire notre politique de protection des données.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

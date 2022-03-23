@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Iphone12 - Complained and returned product</name>
+    <style>none</style>
+    <subject>Following your return of **PRODUCT NAME**</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+Thank you for your valuable feedback on our bestselling RIMOWA Iridescent Groove iPhone Case. We’ve listened and taken your comments to heart, and have reissued the product taking into consideration all your feedback.
+
+
+We know that you have returned your item and would therefore like to inform you about  a new and improved version of the iPhone 12 Pro &amp; Pro Max case.
+
+Should you wish to place a new order, please don’t hesitate to reach out – we’ll be happy to arrange this for you.
+
+Our best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

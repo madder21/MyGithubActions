@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC V - Azure &amp; Flamingo</name>
+    <style>none</style>
+    <subject>Découvrez nos nouvelles couleurs Azure &amp; Flamingo !</subject>
+    <textOnly>Chère madame / Cher monsieur {!Contact.LastName},
+
+***POUR LES CLIENTS CHINOIS SEULEMENT
+Pour célébrer l&#39;année du Tigre, je suis ravi(e) de vous partager les prochaines nouveautés de notre gamme Essential. Deux nouvelles couleurs s&#39;ajoutent à la collection : Flamingo et Azur. Vous retrouverez les déclinaisons de nos bagages, sacs et accessoires inspirées par les paysages de Tanzanie, la vie sauvage et les eaux vives.
+
+OU
+
+***POUR LA CHINE ET MACAO SEULEMENT
+Pour le Nouvel An, une édition limitée de notre Tote Bag dans le coloris Flamingo sera disponible exclusivement à Macao et en Chine.
+
+
+Je serai ravi(e) de vous partager plus d&#39;informations sur ce nouveau lancement.
+Je me tiens à votre entière disposition si vous souhaitez des informations supplémentaires,
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still Drop II</name>
+    <style>none</style>
+    <subject>Nové přírůstky v naší kolekci tašek Never Still</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+doufám, že Vy a Vaši blízcí jsou v pořádku.
+
+Rád/a bych touto cestou představil/a tři nové designy, které nám obohatí naší stávající Never Still kolekci měkkých tašek a batohů. Jedná se o Messenger tašku, Briefcase aktovku a ploché pouzdro Flat Pouch. Myslím si, že především &quot;typ modelu&quot; by byl perfektním doplňkem právě pro Vás.
+
+Kolekce bude zveřejněna 6. 5. a já Vám jsem plně k dispozici v případě jakýchkoli dotazů.
+
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

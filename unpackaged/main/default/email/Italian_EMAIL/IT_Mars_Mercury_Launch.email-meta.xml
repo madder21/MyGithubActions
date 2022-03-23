@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Mars &amp; Mercury - Launch</name>
+    <style>none</style>
+    <subject>Scopra i nostri nuovi colori Mars e Mercury</subject>
+    <textOnly>Gentile Signor/ Signora {!Contact.LastName},
+
+Ho il piacere di condividere con lei il lancio della collezione RIMOWA Original Mars Orange &amp; Mercury Grey. Questi nuovi colori sono stati ispirati da mete lontane e dalla voglia di esplorare nuovi confini.
+
+Completi le sue nuove valigie Mars &amp; Mercury con un&#39;edizione speciale del set di stickers RIMOWA creato per il lancio della collezione e disponibile per un tempo limitato.
+
+Non esiti a contattarmi se avesse necessitá: saró felice di condividere con lei ulteriori informazioni in merito a questo speciale lancio.
+
+Cordialmente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

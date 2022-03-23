@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Dior x RIMOWA Outreach</name>
+    <style>none</style>
+    <subject>DIOR x RIMOWA a selection just for you.</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I hope you’re enjoying this summery weather,
+
+I wanted to share with you that we received a limited restock of our exclusive DIOR x RIMOWA collaboration.
+
+I especially thought this selection will be great pieces for you.
+
+Extending a courtesy heads-up to make sure you don’t miss on this last opportunity !
+I am happy to assist you should you need more details on this collection/ the(se) products,
+
+Best,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

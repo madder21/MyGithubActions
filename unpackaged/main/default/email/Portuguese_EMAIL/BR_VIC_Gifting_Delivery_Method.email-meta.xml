@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Presente VIC - Forma de entrega / retirada</name>
+    <style>none</style>
+    <subject>Sobre o seu presente da RIMOWA</subject>
+    <textOnly>Prezado/a {!Contact.LastName},
+
+Fico feliz em saber! Será uma excelente adição para a sua coleção.
+
+Confirmo que estamos com o seu presente ** pronto na loja {Store}. Ficaremos felizes em recebê-lo (a) quando for melhor para você, apenas nos avise a data e horário de sua preferência.**
+
+** pronto para ser enviado. Por favor, poderia confirmar o seu endereço? ‘Address line 1 / Address line 2, ‘Zipcode, City}**.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Bestellung versendet</name>
+    <style>none</style>
+    <subject>Ihre RIMOWA-Bestellung wurde versendet</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+ich freue mich Ihnen mitzuteilen, dass ihr RIMOWA ***Model*** sich auf dem Weg zu Ihnen behfindet und innerhalb der nächsten X Arbeitstage bei Ihnen eintreffen sollte.
+
+
+*** Im Anhang finden Sie Ihre Rechnung mit den Details Ihrer Bestellung. / Die Rechnung mit den Details Ihrer Bestellung wurde dem Paket beigelegt.***
+
+Für weitere Informationen stehe ich Ihnen gerne zu Verfügung.
+
+Mit herzlichen Grüßen
+
+
+{!User.Name} 
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

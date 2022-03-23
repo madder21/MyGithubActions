@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Personal Collection</name>
+    <style>none</style>
+    <subject>Venez découvrir la collection complète des Personal RIMOWA</subject>
+    <textOnly>Chère madame/ cher monsieur {!Contact.LastName},
+
+Dans la continuité du lancement de notre collection de sacs en bandoulière en polycarbonate, je suis ravi(e) de vous annoncer que nous avons agrandi la collection avec une gamme de pochettes.
+
+La pochette, le sac en bandoulière et la pochette à main en aluminium poursuivent la mise à l&#39;honneur de notre savoir-faire historique et l&#39;innovation RIMOWA.
+
+J&#39;ai pensé que vous pourriez être particulièrement intéressé(e) par cette pièce iconique ***NOM DU PRODUIT*** que nous avons créé alliant fonctionnalité et design.
+
+Qu&#39;en pensez-vous ?
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

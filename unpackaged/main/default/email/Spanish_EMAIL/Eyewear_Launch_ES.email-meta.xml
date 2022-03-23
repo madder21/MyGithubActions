@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Eyewear Launch</name>
+    <style>none</style>
+    <subject>Viaje a través de una nueva lente con RIMOWA Eyewear</subject>
+    <textOnly>Estimado/a Sr/a {Contact.Last Name},
+​
+Estoy encantado de informarle de que hemos lanzado nuestra primera colección RIMOWA Eyewear.​Nos alegra presentarle esta nueva generación de accesorios de viaje.
+
+Nuestras gafas de sol BRIDGE y RIM le ofrecen un innovador y ligero diseño para disfrutar de sus viajes desde una nueva óptica.
+
+Se ha creado pensando en su comodidad y con los mejores materiales. La colección es el complemento ideal para sus accesorios de viaje y resulta maravillosa como regalo.
+
+¿Desea que le envíe más información sobre la colección?
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

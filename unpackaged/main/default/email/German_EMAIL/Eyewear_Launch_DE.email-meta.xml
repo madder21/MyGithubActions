@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Eyewear</name>
+    <style>none</style>
+    <subject>RIMOWA Eyewear Reisen durch eine neue linse</subject>
+    <textOnly>Liebe/r {!Contact.Salutation} {!Contact.LastName},
+
+ich freue mich sehr Ihnen mitteilen zu können, dass wir am 09.07.2020 unsere allererste RIMOWA-Brillenkollektion herausgebracht haben.
+Unsere BRIDGE- und RIM Modelle werden aus feinsten Materialien hergestellt, Sie verfügen über ein innovatives Design sowie ein federleichtes Gestell, um Ihnen einen angenehmen Tragekomfort zu bieten.
+
+Mit diesem tollen Reisegadgets erleben Sie Ihren nächsten Urlaub aus einer ganz neuen Perspektive.
+
+Gerne stehen ich Ihnen für weitere Produktinformationen zur Verfügung.
+
+Wir freuen uns von Ihnen zu hören!
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

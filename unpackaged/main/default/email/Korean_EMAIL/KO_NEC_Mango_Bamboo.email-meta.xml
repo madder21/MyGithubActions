@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC 뱀부 &amp; 망고</name>
+    <style>none</style>
+    <subject>리모와 에센셜의 뱀부 &amp; 망고 컬러를 소개합니다</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+여름을 맞이하여 전개되는 리모와 뱀부 &amp; 망고 캡슐 컬렉션을 소개합니다.
+
+태국의 활기 넘치는 수상 시장에서 영감을 받은 이번 컬렉션은 신선하고 상큼한 과일의 이국적인 파스텔 컬러를 표현하고 있습니다.
+
+특히, 이번 컬렉션은 리모와 에센셜 폴리카보네이트 수트케이스, 퍼스널 크로스바디 백 및 다양한 액세서리로 다채롭게 구성되어 있어 조화로운 여름 스타일을 연출할 수 있습니다.
+
+제품에 대한 자세한 정보가 필요하시거나 예약을 원하시면 언제든 편하게 연락 주세요.
+
+감사합니다.
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

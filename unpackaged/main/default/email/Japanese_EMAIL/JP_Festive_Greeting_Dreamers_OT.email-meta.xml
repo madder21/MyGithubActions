@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>年末ご挨拶(休眠顧客向け)</name>
+    <style>none</style>
+    <subject>RIMOWA〇〇店より</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日は年末のご挨拶を申しあげたく、ご連絡いたしました。
+
+2020年は全世界で普段とは異なった1年となったこととお思いますが、{!Contact.LastName}様におかれましてはいかがでしたでしょうか。
+
+来年も引き続き、{!Contact.LastName}様のお役に立てるよう、より一層の努力をしてまいりますので、何かお困りの際はお気軽にご連絡ください。
+
+向寒の折から、お体を大切に、どうぞ良いお年をお迎えください。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

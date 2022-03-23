@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Repair cost approved NOI</name>
+    <style>none</style>
+    <subject>您认可的维修报价</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+感谢您的确认，我们将以 ***[date]*** 提供给您的预估费用
+***[Cost]*** 继续维修您的 RIMOWA ***[Model]***。
+
+我们的客户服务专员将开始处理您的请求，您可在 ***[Date]***
+取回您的旅行箱。
+
+一旦修理完毕，我将立即通知您。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Festive greetings - Opt2 NOI</name>
+    <style>none</style>
+    <subject>Festive Greetings</subject>
+    <textOnly>Cher(e) {!Contact.LastName},
+
+De la part des équipes RIMOWA au grand complet, tous nos meilleurs voeux pour ces fêtes de fin d&#39;année.
+Que votre nouvelle année soit placée sous le signe du bonheur, de la santé et des voyages.
+
+Cordiales salutations,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

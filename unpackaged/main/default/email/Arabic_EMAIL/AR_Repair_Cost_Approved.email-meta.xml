@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الموافقة على تكلفة الإصلاح</name>
+    <style>none</style>
+    <subject>الموافقة على عرض أسعار الإصلاح</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+تسرنا موافقتك على عرض أسعار الإصلاح بتاريخ ***[date]***وتكلفة ***[cost]***.
+
+سوف يبدأ خبرائنا الآن في إصلاح منتج RIMOWA من طراز ***[Model]***.
+
+يسرنا اطلاعك على آخر التطورات،
+
+نتمنى لك يومًا سعيدًا،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

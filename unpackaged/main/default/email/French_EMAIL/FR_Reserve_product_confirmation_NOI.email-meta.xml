@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Confirmation de Réservation</name>
+    <style>none</style>
+    <subject>Confirmation de votre produit réservé</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Merci d’avoir visité notre boutique {!User.Base_Store_Code__c}.
+Ce fut un plaisir de vous y accueillir.
+
+Je vous confirme que le modèle RIMOWA ***[Model]*** de la collection ***[Model]*** a bien été mis de côté pour vous jusqu’au ***[date]***.
+
+N&#39;hésitez pas à me contacter quand vous souhaiterez passer en boutique le chercher afin que je puisse vous y accueillir personnellement.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

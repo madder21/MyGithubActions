@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SOFT BAGS - Official Launch</name>
+    <style>none</style>
+    <subject>RIMOWA Never Still 袋款系列上新</subject>
+    <textOnly>亲爱的 {!Contact.LastName}先生／女士，
+
+踏入新一年，RIMOWA 重新思考出行模式和旅行的未來发展，因此特別推出 RIMOWA Never Still 包袋系列。
+
+从时尚的背包和实用的手提包，到有型的斜挎包。全新的多功能包袋系列为日常通勤和出门旅行提供了一种全新的方案，完美应对不同的使用场景。
+
+我们相信这个独特系列将会令您眼前一亮。
+
+如欲了解更多，欢迎随时与我联系。
+
+此致， 
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

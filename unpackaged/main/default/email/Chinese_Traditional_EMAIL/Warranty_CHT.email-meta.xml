@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_保養註冊 NOI</name>
+    <style>none</style>
+    <subject>激活您的保養</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+希望您喜歡 RIMOWA ***[Model]***。
+
+您已擁有 RIMOWA 一段時間，提醒您可在 RIMOWA.com
+線上註冊您的行李箱，以享有我們的 5 年保養。
+
+如要註冊您的行李箱，只要連結至您的賬戶，並按一下「註冊我的 RIMOWA」。
+
+如您需要任何協助，請隨時通知我們。
+
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

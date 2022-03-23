@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Repair cost quote request approval NOI</name>
+    <style>none</style>
+    <subject>Your repair quote is ready</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I am pleased to confirm your RIMOWA ***[Model]***has been inspected by our experts.
+
+To proceed to your repair ***[Repairpiece]***, our technicians estimate a cost of ***[Cost]***. Attached please find our detailed quote.
+
+Would you like to move forward with your request?
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

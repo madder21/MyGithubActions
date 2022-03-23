@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Dubai GL Store Closure</name>
+    <style>none</style>
+    <subject>Rimowa Dubai stores network update</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Your RIMOWA store in Dubai Mall Galerie Lafayette is now permanently closed.
+We will continue to operate from our main store in the Dubai Mall and I will be delighted to welcome and serve you with the same dedication from this other location.
+Find below the store address:
+Rimowa The Dubai Mall
+Fashion Avenue – Ground Floor – Unit GF038
+Tel: 045847391
+
+Would you be interested in visiting us at the store?
+**It would be great opportunity for me to show you some new products that I think would greatly interest you. **
+
+I thank you for being part of our history in our Dubai Mall Galerie Lafayette store and look forward to assisting you,
+
+Regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

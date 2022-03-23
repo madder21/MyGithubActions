@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Repair ready pick up started NOI</name>
+    <style>none</style>
+    <subject>Your repair is ready</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Your RIMOWA ***[Model]*** repair is now complete!
+
+I am happy to confirm we have received your suitcase and it&#39;s now ready for pick-up.
+
+Feel free to let us know when would be the best time for you to collect your suitcase at {!User.Base_Store_Code__c} or if you prefer to have the case shipped to you complimentary.
+
+I kindly remind you that your suitcase must be picked up within 30 days. Should the pick-up not take place within the next 30 days following this notice, your suitcase may be stored and charges may apply and be invoiced to you.
+
+Please don&#39;t hesitate to reach out to me in the case you should not be able to pick up your case in time, I will be delighted to find another solution for you.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

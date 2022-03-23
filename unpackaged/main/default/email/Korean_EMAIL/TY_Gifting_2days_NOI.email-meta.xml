@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>선물 구매 고객 감사 - 1일 후 NOI</name>
+    <style>none</style>
+    <subject>RIMOWA에 방문해 주셔서 감사합니다!</subject>
+    <textOnly>{!Contact.FirstName} {!Contact.LastName} 고객님 안녕하세요.
+
+저희 RIMOWA [매장명]에서 만나뵙게 되어 영광이었습니다.
+
+[특별한 경우]를 다시 한번 축하 드려요!
+[선물 받는 사람]님도 고객님의 [모델명] 선물을 마음에 들어하셨으면 좋겠습니다.
+
+도움 필요하시면 언제든지 편하게 연락 주세요.
+감사합니다.
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

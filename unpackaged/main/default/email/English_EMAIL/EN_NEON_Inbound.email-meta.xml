@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEON - Inbound</name>
+    <style>none</style>
+    <subject>Following your inquiry about Neon collection</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+Thank you for your interest in the launch of our limited edition ***product Neon Lime-Neon Pink/collection NEON***.
+
+This contemporary take on the Essential Collection will be exclusively available on RIMOWA.com starting July 12th in limited quantities.
+
+***Should you wish to be the first informed when the product is in stock you can subscribed to be notified by clicking here.
+
+OR
+
+Should you be interested in this unique piece, you can place your order by clicking here. ***
+
+I remain at your entire disposal should you need any assistance or further information about this collection.
+
+Kind regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

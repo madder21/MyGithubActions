@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>RIMOWA - Umhängetasche für SIE und IHN</subject>
+    <textOnly>Liebe/r Herr/Frau {!Contact.LastName},
+
+Sie haben vielleicht in der Presse davon gehört oder unseren E-Newsletter erhalten - unsere brandneue RIMOWA Personal ist da!
+
+Diese schöne Unisex-Umhängetasche ist in 4 Farben erhältlich und trägt Ihre alltäglichen Dinge.
+
+Sie kann mit dem abnehmbaren Lederriemen oder einfach als Clutch getragen werden.
+Je nach Anlass und Farbe kann sie Ihren persönlichen Stil sicher noch weiter unterstreichen.
+
+Ich freue mich Ihnen heute mitteilen zu können, dass die RIMOWA Personal ab sofort von Ihnen reserviert werden kann.
+
+Wünschen Sie weitere Informationen zu diesem Produkt? Dann freue ich mich darauf von Ihnen zu hören.
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

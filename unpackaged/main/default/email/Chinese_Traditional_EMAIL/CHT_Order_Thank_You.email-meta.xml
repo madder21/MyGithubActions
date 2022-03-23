@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - Order - Thank You</name>
+    <style>none</style>
+    <subject>感謝你選擇 RIMOWA</subject>
+    <textOnly>親愛的 {!Contact.LastName},
+
+感謝您選擇 RIMOWA。
+
+我相信您購買的 RIMOWA **Model** 會成為您旅程的忠實夥伴。
+
+如果您需要幫助設置行李箱密碼，歡迎您預約到{!User.Base_Store_Code__c}店，或者遙距協助您完成設置。
+
+我們祝愿您今後的旅程一切順利。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

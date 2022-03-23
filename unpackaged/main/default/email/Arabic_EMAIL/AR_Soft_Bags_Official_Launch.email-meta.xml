@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SOFT BAGS - الافتتاح الرسمي</name>
+    <style>none</style>
+    <subject>RIMOWA Never Still bag collection :متاح الان</subject>
+    <textOnly>عزيزي السيد / السيدة {!Contact.LastName} ،
+
+مع دخولنا العام الجديد ، نعيد التفكير في RIMOWA في التنقل ومستقبل السفر من خلال مجموعتنا الأولى من الحقائب الناعمة ، مجموعة RIMOWA Never Still.
+
+من حقائب الظهر العصرية وحقائب اليد العملية إلى عطلات نهاية الأسبوع الأنيقة ، توفر هذه المجموعة الجديدة من أساسيات التنقل حلاً معاصرًا وعمليًا وأنيقًا للتنقل اليومي في المدن الحضارية و أماكن العمل و ما غيرها.
+
+اعتقدت أن هذا الإطلاق الفريد سيكون ممتعًا بشكل خاص لك.
+إذا كنت تريد المزيد من المعلومات ، سأظل تحت تصرفك.
+
+تحياتي الحارة، 
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Thank You New Client 2d NOI</name>
+    <style>none</style>
+    <subject>Merci de votre visite !</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+J&#39;ai été ravi(e) de vous accueillir et de vous conseiller au sein de notre boutique RIMOWA. Je vous félicite pour le choix du modèle RIMOWA ***[Model]*** de la collection ***[Model]***. Je vous souhaite un très agréable voyage à ***[traveldestination]*** et espère vous recevoir à nouveau prochainement en boutique!
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

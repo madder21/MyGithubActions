@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Festive Greeting - Dreamers/OT 2022</name>
+    <style>none</style>
+    <subject>Meilleurs vœux de la part de RIMOWA</subject>
+    <textOnly>Chère madame / Cher monsieur {!Contact.LastName},
+
+Toute l&#39;équipe de Rimowa se joint à moi pour vous souhaiter à vous et à vos proches de très belles fêtes de fin d&#39;année.
+
+Nous espérons que 2022 vous apportera bonheur, santé et prospérité !
+
+
+Très belle année 2022 !
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>تقديم الشكر لعميل قديم بعد يومين</name>
+    <style>none</style>
+    <subject>شكرًا لك على زيارتنا!</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+لقد تشرفنا برؤيتك مرة أخرى، سيكون منتج RIMOWA من طراز ***[Model]*** الذي اخترته
+
+إضافةً رائعةً لمجموعتك. نتمنى لك قضاء وقت ممتع في ***[traveldestination]***،
+
+نتمنى لك سفرًا آمنًا،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

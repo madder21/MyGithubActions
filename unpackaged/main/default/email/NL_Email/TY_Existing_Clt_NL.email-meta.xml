@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Thank You Existing Client 2d NOI</name>
+    <style>none</style>
+    <subject>Bedankt voor uw bezoek  !</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Het was een genoegen om u gisteren weer ontmoet te hebben in onze winkel.
+
+Fijn om te horen dat de ***[model]*** heeft voldaan aan uw verwachtingen tijdens uw meest recente reis {!User.Base_Store_Code__c}.
+
+Het RIMOWA ***[Model]*** dat u heeft aangeschaft zal een geweldige aanvulling zijn op uw collectie.
+
+Ik hoop dat u een fijne tijd heeft in ***[reisbestemming]***,
+
+Goede reis,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

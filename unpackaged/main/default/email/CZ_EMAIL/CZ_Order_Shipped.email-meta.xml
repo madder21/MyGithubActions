@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Objednávka odeslána</name>
+    <style>none</style>
+    <subject>Vaše Rimowa objednávka je na cestě</subject>
+    <textOnly>Vážený pane / paní {!Contact.LastName},
+
+S potěšením vás informuji, že váš model RIMOWA ** je na cestě a měl by být dodán v X až X pracovních dnech.
+
+*** V příloze najdete svou fakturu včetně všech údajů o vaší objednávce / Vaše faktura včetně všech údajů o Vašich objednávkách byla odeslána s Vaší zásilkou RIMOWA. ***
+
+Pokud budete mít jakékoli dotazy ohledně zásilky Vaší objednávky, prosím neváhejte se na mě obrátit.
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VisibilityBasedOnField__c</fullName>
+    <externalId>false</externalId>
+    <label>Visibility Based On Field</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Local_Main_CA__c</fullName>
+                <default>false</default>
+                <label>Local_Main_CA__c</label>
+            </value>
+            <value>
+                <fullName>Last_Transaction_SA__pc</fullName>
+                <default>false</default>
+                <label>Last_Transaction_SA__pc</label>
+            </value>
+            <value>
+                <fullName>ClientAdvisor__pc</fullName>
+                <default>false</default>
+                <label>ClientAdvisor__pc</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

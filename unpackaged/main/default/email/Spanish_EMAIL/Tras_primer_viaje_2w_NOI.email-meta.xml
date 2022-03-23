@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Tras primer viaje 2w NOI</name>
+    <style>none</style>
+    <subject>Revisión tras su primer viaje</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Gracias por su visita a RIMOWA {!User.Base_Store_Code__c}, fue un placer ayudarle a encontrar la maleta que buscaba. Espero que su nueva RIMOWA ***[Model]*** haya sido la mejor compañera durante su viaje a ***[traveldestination]***.
+
+Si necesita cualquier cosa, quedo a su disposición.
+
+Buen viaje,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

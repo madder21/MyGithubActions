@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Twist Check-in L zahájení</name>
+    <style>none</style>
+    <subject>Představení nového RIMOWA Original Twist</subject>
+    <textOnly>Vážený/á pane/paní {!Contact.LastName},
+
+s potěšením Vám představujeme nejnovější přírůstek do kolekce
+RIMOWA Original Twist, ve velikosti Check in L.
+
+Tento nejnovější model je navržen tak, aby poskytoval dostatek prostoru vhodného na středně dlouhé cestování, trvající až 10 dní.
+
+Zkombinujte nové odbavovací zavazadlo s Vaším kufrem RIMOWA Original Cabin Twist, a Vaše cestovní sada bude kompletní.
+
+Pokud byste chtěl/a získat více podrobností o tomto výrobku, neváhejte se s námi spojit.
+
+Budu se těšit a přeji pěkný den,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

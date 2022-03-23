@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Personal 系列上新</name>
+    <style>none</style>
+    <subject>邀您探索最新Personal产品系列</subject>
+    <textOnly>亲爱的{!Contact.LastName}先生/女士：
+ 
+非常高兴想和您分享，继聚碳酸酯的 Personal 斜挎包上市后，RIMOWA Personal 系列又推出更多精彩设计，包括一系列简单实用的配件！
+ 
+铝镁合金材质的手拿包，Personal斜挎包和竖版斜挎包，生产过程中结合了传统的精湛工艺与严谨的现代科技。
+
+我想您应该会对 ** 产品名字** 感兴趣，因为这一独特的产品兼具实用性与设计感。
+ 
+您有兴趣了解更多吗？
+ 
+此致
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

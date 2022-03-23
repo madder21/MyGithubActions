@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>FR - Order - Failure Cancellation</name>
+    <style>none</style>
+    <subject>Votre commande RIMOWA est annulée</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Je ne suis malheureusement pas en mesure de vous confirmer votre commande. **raison de l&#39;annulation**. Celle-ci a donc dû être annulée et nous n&#39;avons pas procédé à son réglement.
+
+Je me tiens à votre disposition pour vous assister à nouveau si vous le souhaitez le recommander / Je me permettrai de vous recontacter dès que le **produit** sera à nouveau disponible.
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

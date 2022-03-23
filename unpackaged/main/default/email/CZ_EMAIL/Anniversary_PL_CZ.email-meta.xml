@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>První výročí - lokál</name>
+    <style>none</style>
+    <subject>Šťastné první výročí</subject>
+    <textOnly>&#39;Vážený/á pane/paní XY,
+
+Šťastné první výročí s Vaším RIMOWA zavazadlem!
+Doufám, že &quot;typ kufru&quot; Vám je stále skvělým společníkem na cestách.
+
+Aby bylo zavazadlo připraveno na Vaše další cesty, rád/a bych Vás pozvala do butiku, kde můžeme zdarma provést kontrolu kufru, vyčistit kolečka nebo kufr naleštit.
+V případě Vašeho zájmu mi dejte, prosím, vědět a domluvíme se na termínu.
+
+Budu se těšit a přeji pěkný den.
+S pozdravem,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

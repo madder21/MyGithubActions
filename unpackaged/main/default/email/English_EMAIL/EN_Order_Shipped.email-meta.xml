@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN - Order shipped</name>
+    <style>none</style>
+    <subject>Your Rimowa order is on the way</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I am pleased to inform you that your RIMOWA **Model** is on its way and should be delivered in X to X business days. 
+
+***Attached, please find your invoice including all the details of your order/Your invoice including all the details of your orders has been sent with your RIMOWA parcel. ***
+
+I remain at your disposal should you have any question on your order shipment.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

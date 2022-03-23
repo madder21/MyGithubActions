@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Bestätigung</name>
+    <style>none</style>
+    <subject>Ihre RIMOWA Bestellung wurde aufgegeben</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+Ich freue mich Ihnen die Bestellung ***des Produkts*** bestätigen zu können. Ich bin mir sicher, dass Ihr neuer ***Produkt** auf Ihren zukünftigen Reisen ein guter Begleiter sein wird.
+
+Lassen Sie mich gerne wissen, wann Sie Ihren Koffer abholen möchten, oder ob Sie es bevorzugen den Koffer kostenfrei nach Hause geliefert zu bekommen.
+
+Für weitere Informationen stehe ich Ihnen gerne zu Verfügung.
+
+Mit herzlichen Grüßen
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

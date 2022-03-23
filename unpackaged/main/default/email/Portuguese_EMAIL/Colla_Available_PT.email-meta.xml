@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>PT - Collaboration Available</name>
+    <style>none</style>
+    <subject>Ótima notícia! A espera terminou</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Tenho ótimas notícias! Acabamos de receber a sua ***[modelo]*** e
+ela está reservada em seu nome por 48h.
+
+Qual seria o melhor dia para vir nos visitar?
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

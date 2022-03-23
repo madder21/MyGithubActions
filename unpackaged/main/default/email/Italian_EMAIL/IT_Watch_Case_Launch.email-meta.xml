@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Watch Case Launch</name>
+    <style>none</style>
+    <subject>Presentazione della cassa dell&#39;orologio RIMOWA</subject>
+    <textOnly>Gentile Signora / Gentile Signore {!Contact.LastName},
+
+Desideravo contattarla personalmente per informarla sul lancio di un prodotto davvero incredibile e unico, il primo nel suo genere, la custodia Watch Case di RIMOWA.
+
+Questa originale custodia per orologi in edizione limitata è creata per proteggere gli orologi da polso più pregiati diventando così l&#39;ultimo accessorio di lusso.
+
+Con il suo esterno in alluminio ondulato e l&#39;interno imbottito in microfibra, la Watch Case di RIMOWA custodisce e protegge accuratamente fino a tre orologi.
+
+Ho pensato particolarmente a Lei per questo prodotto davvero esclusivo. Sono sicuro che proteggerà perfettamente i suoi orologi più preziosi o che potrebbe essere il regalo perfetto per i suoi cari.
+
+Desidera avere maggiori informazioni su questo eccezionale capolavoro?
+
+Con i migliori saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

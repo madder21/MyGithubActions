@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>MO – Wynn Store Opening</name>
+    <style>none</style>
+    <subject>RIMOWA celebrates a new store opening in Wynn Palace with an exclusive product launch</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I hope you are doing well!
+
+I am pleased to let you know that we have a new RIMOWA store in Wynn Palace. To celebrate its opening,  the latest Never Still bag designs will be exclusively available there from July 30 - August 11. In addition, you can enjoy a two-day early access to the limited-edition Essential Neon suitcases, which will be available at the Wynn store from Jul 30 – 31 before their official launch.
+
+## I would like to take this opportunity to inform you that I will be working at RIMOWA Wynn Palace from now on. Thank you for shopping with me in XXX Store, and I would be happy to connect you with my colleagues at XXX store should you need anything more. If you are interested in the new collection, I would be delighted to assist you with a product reservation or an appointment at RIMOWA Wynn Palace. You&#39;ll find its address below:
+
+Shop 25, Wynn Palace, Avenida da Nave Desportiva, Cotai, Macau
+
+I look forward to seeing you soon,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

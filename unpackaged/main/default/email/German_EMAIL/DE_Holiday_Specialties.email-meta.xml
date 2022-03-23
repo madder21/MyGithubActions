@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Feiertagsspecial</name>
+    <style>none</style>
+    <subject>Entdecken Sie unsere limitierten Editionen für die Feiertage</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Ich freue mich, unsere limitierten Stücke für die Weihnachtszeit zu teilen.
+
+***
+Hergestellt mit RIMOWAs legendärem Know-How, werden diese Stücke für die kommenden Jahre geschätzt.
+Sowohl das RIMOWA One Bottle Case als auch das Watch Case bestehen aus unserem eloxierten, gerillten Aluminium, sodass Ihre edlen Spirituosen und Uhren unterwegs geschützt sind.
+
+ODER
+
+Das RIMOWA One Bottle Case wurde für praktisch jede Flasche entwickelt und ist das ultimative Stück für Kenner.
+Aus eloxiertem, gerilltem Aluminium gefertigt, verfügt das One Bottle Case in Silber über hochglänzende Aluminiumecken sowie einen schwarzen Ledergriff und -anhänger. Im Inneren kontrastiert ein luxuriöses Interieur in Schwarz mit dem silbern glänzenden Äußeren.
+
+ODER
+
+Als Schutzhülle für die wertvollsten Armbanduhren entwickelt, ist dieses Stück in limitierter Auflage das ultimative Luxus-Accessoire.
+Mit seiner geriffelten Aluminium-Außenseite und der mikrofasergepolsterten Innenseite bewahrt und schützt das RIMOWA Uhrenetui bis zu drei Zeitmesser sorgfältig.
+****
+
+Ich helfe Ihnen gerne, wenn Sie weitere Informationen wünschen.
+
+Mit besten Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

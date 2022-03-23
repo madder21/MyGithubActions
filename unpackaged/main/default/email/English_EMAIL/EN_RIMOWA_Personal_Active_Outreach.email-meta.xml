@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>Take your RIMOWA everywhere with you with the Personal</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+You might have heard about it in the press or received our e-newsletter, but I still wanted to personally reach out to you about our brand new RIMOWA Personal.
+
+Available in 4 colours, this beautiful unisex crossbody clutch bag is designed to carry your everyday essentials and can be worn with the removable leather body strap or simply carried as a clutch. I believe it could be a nice complement to ***your style/collection***.
+
+Soon to be become an iconic piece, I am delighted to let you know that is now available for reservation.
+
+Would you like to receive more details about this product?
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

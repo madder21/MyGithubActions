@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ソフトバック - 予約</name>
+    <style>none</style>
+    <subject>間もなく販売開始　RIMOWAソフトバック</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日はRIMOWAより間もなく販売開始されるソフトバックのご紹介をさせていただきたく、ご連絡いたしました。
+こちらの新しいソフトバック コレクションは3サイズのバックパック、スタイリッシュなトートバッグ、また小旅行にもお持ちいただけるウィークエンダーをご用意しております。
+機能的であるだけでなく、どのシーンにもお持ちいただけるデザインとなっております。
+
+14日(木)から販売開始いたしますが、特別に事前の予約も受付ております。製品の写真などもお送りできますので、お気軽にお問合せくださいませ。
+
+他にも何かご不明な点等ございましたら、私までご連絡ください。
+
+{!Contact.LastName}様からのご連絡、心よりお待ちしております。
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

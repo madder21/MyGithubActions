@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Moncler_Registration collaboration</name>
+    <style>none</style>
+    <subject>Your registration to MONCLER &amp; RIMOWA collaboration</subject>
+    <textOnly>亲爱的{!Contact.LastName}：
+
+感谢您对Moncler RIMOWA &quot;Reflection&quot;的喜爱.
+很高兴通知您，您已在等候列表上，将于第一时间接收到这款独特产品的信息。
+
+我将与您保持联系，并在 ***[date]*** 之前为您带来更多信息。
+
+
+祝一切顺心！
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

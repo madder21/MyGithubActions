@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Faktura za opravu</name>
+    <style>none</style>
+    <subject>Faktura za opravu</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+ještě jednou děkujeme za předání Vašeho kufru &quot;typ kufru&quot; k opravě do rukou našich specialistů.
+
+V příloze zasílám kopii účtu za opravu, která by měla být uhrazena nejpozději do &quot;datum&quot;.
+
+V případě jakýchkoliv dotazů či nejasností mne prosím kdykoli kontaktujte.
+
+Přeji Vám i nadále příjemné cestování s našimi kufry Rimowa.
+
+S pozdravem,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

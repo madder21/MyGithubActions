@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CNY  - M&amp;M Launch (CHT / CHS/EN)</name>
+    <style>none</style>
+    <subject>欣賞農曆新年獨家精品</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+為慶祝吉祥牛年，我特別為您介紹最新推出的 RIMOWA Original Mars 火星橙色及 Mercury 水星灰色系列，這兩款全新色調喚起我們對遙遠目的地的幻想，以及勇於突破界限的冒險精神。
+
+於新年期間，香港、澳門及中國內地專門店亦會獨家呈獻限量版旅行配飾，例如採用 Mars 亮橙色的 RIMOWA Personal 硬殼斜揹袋。
+
+如果您有任何需要，歡迎隨時與我聯繫。
+
+謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

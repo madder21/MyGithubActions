@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>AR - Order - Thank You</name>
+    <style>none</style>
+    <subject>Thank you for your trust</subject>
+    <textOnly>عزيزي السيد / السيدة {!Contact.LastName} ،
+
+شكرًا لك على ثقتك في RIMOWA.
+
+أنا على ثقة من أن RIMOWA **Model** سوف يخدمك جيدًا بصفتك رفيقًا مخلصًا للسفر.
+
+إذا احتجت إلى مساعدة لتهيئة قفل RIMOWA ، يسعدني أن أرحب بك في {!User.Base_Store_Code__c} عند الموعد أو مساعدتك عن بُعد.
+
+نتمنى لك كل التوفيق في رحلاتك المستقبلية.
+
+تحياتي الحارة،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

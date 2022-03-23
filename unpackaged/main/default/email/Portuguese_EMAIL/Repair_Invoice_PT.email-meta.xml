@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Sua Nota Fiscal de reparo</name>
+    <style>none</style>
+    <subject>Sua Nota Fiscal de reparo</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Agradecemos por ter reparado a sua***[Modelo]*** com os nossos
+especialistas do Client Care.
+
+Segue em anexo a nota fiscal referente a este reparo.
+
+Desejamos viagens maravilhosas com a sua RIMOWA.
+
+Caso tenha alguma dúvida, não hesite em me contatar.
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

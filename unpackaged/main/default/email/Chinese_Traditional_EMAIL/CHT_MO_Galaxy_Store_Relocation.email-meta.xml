@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>MO – (TC) Galaxy Store Relocation</name>
+    <style>none</style>
+    <subject>澳門銀河RIMOWA專門店新址</subject>
+    <textOnly>親愛的{!Contact.LastName}：
+
+希望近來您一切都好！
+
+謹此通知您RIMOWA銀河專門店已遷往以下新地址：
+
+澳門路氹城「澳門銀河™」綜合渡假城「時尚匯」1樓1037 &amp;1039號舖
+
+新店設有顧客服務中心，由駐店技術人員提供快捷的維修服務。
+
+如欲預訂產品或預約服務時段，歡迎隨時透過我的電話／電郵與我聯絡。
+
+期待很快見到您。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

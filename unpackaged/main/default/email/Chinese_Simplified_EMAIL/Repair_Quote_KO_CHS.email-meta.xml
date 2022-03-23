@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Repair cost rejected NOI</name>
+    <style>none</style>
+    <subject>确认拒绝维修报价</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+感谢您向我们告知您不希望继续维修。我希望了解您不采用我们服务的具体原因。
+
+同时，我将竭诚为您安排您未修理 RIMOWA ***[Model]*** 的退还。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

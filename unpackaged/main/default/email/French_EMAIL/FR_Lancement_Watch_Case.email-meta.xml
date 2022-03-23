@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lancement Watch Case</name>
+    <style>none</style>
+    <subject>Découvrez notre boîtier de montre RIMOWA</subject>
+    <textOnly>Cher/Chère Monsieur/Madame {!Contact.LastName},
+
+Je voulais vous informer personnellement du lancement d&#39;un produit très prometteur et unique, le premier de son genre, le Boîtier de montre RIMOWA.
+
+Cette pièce d&#39;horlogerie unique en édition limitée est conçue comme un boîtier de protection pour les montres-bracelets les plus précieuses, ce qui en fait l&#39;accessoire de luxe ultime.
+
+Grâce à son extérieur en aluminium rainuré et à son intérieur rembourré en microfibre, le Boîtier de montre RIMOWA permet de ranger et de protéger avec soin jusqu&#39;à trois montres.
+
+J&#39;ai pensé à vous tout spécialement pour ce produit très exclusif. Je suis sûr qu&#39;il protégera parfaitement vos montres les plus précieuses ou qu&#39;il pourrait constituer le cadeau idéal pour vos proches.
+
+Souhaiteriez-vous en connaitre d&#39;avantage sur cette pièce d&#39;horlogerie exceptionnelle?
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

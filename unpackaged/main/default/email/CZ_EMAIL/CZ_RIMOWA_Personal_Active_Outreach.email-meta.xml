@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>Vezměte si svůj RIMOWA kamkoli s sebou s Personalem</subject>
+    <textOnly>Dobrý den, pane/paní {!Contact.LastName},
+
+Možná jste o tom už četli v tisku nebo našem e-newsletteru, ale dovoluji si Vás oslovit osobně ohledně našeho zbrusu nového produktu RIMOWA Personal.
+
+Toto unisex crossbody je k dispozici ve čtyřech barvách a je navrženo tak, aby se do něj vešly vaše každodenní nezbytnosti. Můžete jej nosit s odnímatelným koženým řemínkem nebo jednoduše jako clutch. Věřím, že vhodně doplní *** vašeho stylu/kolekce***.
+
+Tento kousek, který se brzy stane legendárním, si můžete nyní zarezervovat.
+
+Chcete-li získat další informace o tomto produktu, neváhejte se na nás obrátit.
+
+S pozdravem
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

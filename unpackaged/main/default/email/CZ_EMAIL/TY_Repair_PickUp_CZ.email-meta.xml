@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Poděkování po vyzvednutí kufru</name>
+    <style>none</style>
+    <subject>Děkujeme za důvěru</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+pevně věřím, že Váš právě opravený kufr bude i nadála věrným společníkem na Vaši nadcházejících cestách.
+
+Přejeme mnoho nových zážitků!
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

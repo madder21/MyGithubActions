@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Breve Lançamento de uma Colaboração</name>
+    <style>none</style>
+    <subject>A espera está quase no fim</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+É um prazer compartilhar mais informações sobre a Colaboração ***[Colaboração]*** !
+
+Nós teremos diferentes modelos, como por exemplo ***[Modelo]***.
+Enviarei mais detalhes na minha próxima mensagem.
+
+Esta Colaboração será lançada no dia ***[data]*** com quantidades limitadas.
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

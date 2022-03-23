@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS Parte IV</name>
+    <style>none</style>
+    <subject>Nuovi articoli della nostra collezione Never Still</subject>
+    <textOnly>Gentile Signor/Signora {!Contact.LastName},
+
+La sto contattando in quanto desidero condividere con Lei le utime novitá riguardanti la nostra collezione Never Still.
+
+****
+Caratterizzata da materiali di prima qualitá e dal design minimalista, la linea di accessori si arricchisce con cinque nuovi articoli: un porta-telefono, un porta-carte, un porta-passaporto, un porta-monete ed un porta-chiavi.
+
+OR
+
+Essendo Lei giá in possesso **Nome prodotto**, ho pensato che questo pratico ed elegante **Nome prodotto NS IV** made in Italy, sia un ottimo accessorio da aggiungere alla sua collezione Never Still.
+
+****
+
+Non esiti a contattarmi qualora fosse interessato/a a ricevere maggiori informazioni a riguardo.
+
+Cordiali Saluti
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

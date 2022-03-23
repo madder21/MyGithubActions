@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OneTimer__c</fullName>
+    <externalId>false</externalId>
+    <label>Frequency</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Repeater</fullName>
+                <default>false</default>
+                <label>Repeater</label>
+            </value>
+            <value>
+                <fullName>MULTI_REPEATER</fullName>
+                <default>false</default>
+                <label>Multi Repeater</label>
+            </value>
+            <value>
+                <fullName>ONE_TIMER</fullName>
+                <default>false</default>
+                <label>One Timer</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

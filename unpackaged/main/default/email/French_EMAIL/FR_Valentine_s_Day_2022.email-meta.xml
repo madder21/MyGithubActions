@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Saint-Valentin 2022</name>
+    <style>none</style>
+    <subject>Joyeuse Saint-Valentin !</subject>
+    <textOnly>Cher Monsieur/ Chère Madame {!Contact.LastName},
+
+***
+
+Je vous souhaite une très belle Saint-Valentin au nom de toute la Maison RIMOWA.
+
+***
+
+Je serai ravi(e) de vous permettre de rendre ce moment encore plus mémorable grâce à une sélection de pièces RIMOWA, pour vous gâter ou gâter vos proches.
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

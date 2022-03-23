@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>一般的な製品のお問い合わせ</name>
+    <style>none</style>
+    <subject>**製品名**に関するお問い合わせに続いて</subject>
+    <textOnly>{!ContactLastName}様、 
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+この度は新製品に関する発売にご興味をお寄せいただきありがとうございます。
+
+製品の発売に関する詳細がわかり次第、私からご連絡させていただきます。
+
+他にも何かご不明な点などがございましたら、いつでもお問い合わせください。
+
+どうぞよろしくお願いいたします。
+
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

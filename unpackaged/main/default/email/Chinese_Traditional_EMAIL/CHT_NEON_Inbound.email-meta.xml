@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEON - Inbound</name>
+    <style>none</style>
+    <subject>跟進有關 Neon 系列的查詢</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+感謝您對我們推出的限量版產品 ***NEON 系列／螢光粉色和螢光青檸綠色***感興趣。
+
+這款 Essential 系列的全新色調將從 7 月 12 日起在 RIMOWA.com 上獨家限量販售。
+
+***如果您希望在產品到貨時第一時間收到通知，您可以點擊此處訂閱通訊。
+
+或者
+
+如果您對這個獨特的產品感興趣的話，可以點擊此處訂購***
+
+如果您需要任何協助或更多有關本系列的資訊，請隨時與我們聯絡。
+
+謹致問候
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

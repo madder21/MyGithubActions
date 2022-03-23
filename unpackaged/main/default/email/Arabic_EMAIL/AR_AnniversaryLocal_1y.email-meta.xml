@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الذكرى السنوية لشراء العميل المحلي بعد 1 عام</name>
+    <style>none</style>
+    <subject>نتمنى لك ذكرى سنوية أولى سعيدة!</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+نتمنى لك ذكرى سنوية أولى سعيدة مع RIMOWA من طراز ***[Model]***!
+
+نأمل أن يكون منتجنا رفيقًا جيدًا لك في رحلاتك.
+
+استعدادًا لرحلاتك القادمة، تسرنا دعوتك لتشريفنا لفحص منتجك وتنظيفه مجانًا، يرجى إخبارنا إذا كنت ترغب في ترتيب موعد.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

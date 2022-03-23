@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Repair delay NOI</name>
+    <style>none</style>
+    <subject>Reparatie vereist meer onderhoud</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Ik hoop dat het goed gaat met u.
+
+Het client care team heeft ons laten weten dat het herstel van
+uw koffer meer tijd vereist. De reparatie zal afgerond zijn op ***[datum]***.
+
+Ik hoor graag of u tijdelijk gebruik wenst te maken van een leenkoffer.
+Wij zullen contact met u opnemen indien hier sprake van is.
+Zodra uw koffer gerepareerd is zullen wij een ophaal-en bezorgservice inplannen.
+
+Bedankt voor uw geduld en begrip.
+
+Met vriendelijke groet,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

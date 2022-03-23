@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ホリデーアイテム - ご案内 - JP</name>
+    <style>none</style>
+    <subject>ホリデーアイテムのご提案</subject>
+    <textOnly>{!Contact.LastName}様
+
+RIMOWA〇〇店の〇〇でございます。
+ホリデーシーズンが近づいてまいりました。
+{!Contact.LastName}様はいかがお過ごしでしょうか?
+
+RIMOWA ではギフトにぴったりな製品から、お客様ご自身へのご褒美にも最適なアイテムを多数ご用意しております。
+
+お時間ございましたら、ぜひこの機会に弊店にお越しくださいませ。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

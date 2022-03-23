@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>リモート：キャンセルのお知らせ</name>
+    <style>none</style>
+    <subject>RIMOWAより、ご注文キャンセルのお知らせ</subject>
+    <textOnly>{!Contact.LastName}様
+
+残念ながら、ご注文いただきました**Product**のお支払いを確認することができませんでした。ご利用いただきましたクレジットカード会社へご連絡いただき、詳細の確認をお願い申し上げます。
+
+ご質問、ご不明な点がございましたら、お気軽にお問い合わせください。
+
+何卒宜しくお願い致します。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

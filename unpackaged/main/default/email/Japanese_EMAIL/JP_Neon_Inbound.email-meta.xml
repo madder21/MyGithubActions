@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>オンライン限定：Neon</name>
+    <style>none</style>
+    <subject>オンライン限定製品販売のお知らせ: Neonコレクション</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+この度RIMOWAでは、Neonコレクションをオンライン限定にて販売いたします。
+
+Essentialコレクションに現代の空気を吹き込んだこの新製品は、7月12日よりRIMOWA.com(オンラインショップ)に限定し、数量限定にてお求めいただけます。
+
+なお製品の入荷時に、通知をご希望の際には、こちら***をクリックして登録を行うことで通知を受信できます。
+
+その他何かご不明な点等ございましたら、どうぞお気軽にお問い合わせください。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

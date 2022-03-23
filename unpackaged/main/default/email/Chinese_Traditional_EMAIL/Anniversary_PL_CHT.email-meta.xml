@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_周年紀念的購買（本地） （一年） NOI</name>
+    <style>none</style>
+    <subject>快樂的一週年！</subject>
+    <textOnly>親愛的{!Contact.LastName}：
+
+您的 RIMOWA ***[行李箱Model]*** 已購買滿一週年！
+
+我們希望該行李箱成為您旅途的好夥伴。 
+
+為了準備您的下一趟旅程，我們邀請您前來 RIMOWA {!User.Base_Store_Code__c} 體驗免費的行李箱檢查和保養服務。
+
+如果您有興趣，我們將很高興為您安排。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

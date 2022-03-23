@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Checkin 6m NOI</name>
+    <style>none</style>
+    <subject>Checking in after your first travels</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you&#39;re well!
+
+As your RIMOWA ***[Model]*** has already been on a few trips with you, we would love to invite you to RIMOWA {!User.Base_Store_Code__c} for a complimentary check-up and polishing.
+
+If you&#39;re interested, I would be happy to organise this for you.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

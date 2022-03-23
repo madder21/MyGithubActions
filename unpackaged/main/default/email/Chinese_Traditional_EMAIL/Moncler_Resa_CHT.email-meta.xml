@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - Moncler RIMOWA - 預訂</name>
+    <style>none</style>
+    <subject>Moncler RIMOWA &quot;Reflection&quot; 限量預訂現已開放</subject>
+    <textOnly>親愛的{!Contact.LastName}：
+
+我們很高興通知你 RIMOWA 與 Moncler 攜手合作的“ Reflection”
+行李箱即將推出，現可接受預訂。
+
+我們遵從你過往對此次合作所表示的興趣，為你預留了貨品。
+
+如欲查詢更多產品詳情或有意預訂，請與我們聯絡。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

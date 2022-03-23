@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>購買から6カ月_JP</name>
+    <style>none</style>
+    <subject>製品の状態はいかがでしょうか</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+いつもRIMOWAをご利用いただき、誠にありがとうございます。○○店の○○でございます。
+
+前回製品をお求めくださいましてから半年が経過いたしましたので、メンテナンスのご案内をさせていただきます。
+
+RIMOWAでは、お客様のスーツケースのメンテナンスも行っております。
+ポリッシングのサービスだけではなく、グリスアップサービス、ネジやビス、そして車輪の点検確認も行っております。
+お時間ございます際に、是非店舗にお立ちよりいただければと思います。
+※一部お預かりでの対応となる可能性がございますので、あらかじめご了承ください。
+
+ご連絡お待ちしております。
+どうぞよろしくお愿い致します。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

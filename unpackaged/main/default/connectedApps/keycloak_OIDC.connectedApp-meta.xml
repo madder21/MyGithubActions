@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>s.stantis-ext@lvmh.fr</contactEmail>
+    <description>An OpenID Connect application for Keycloak to authenticate against</description>
+    <iconUrl>https://login.salesforce.com/logos/Custom/Keys_Grey/icon.svg</iconUrl>
+    <label>keycloak OIDC</label>
+    <logoUrl>https://avatars1.githubusercontent.com/u/4921466?s=280&amp;v=4</logoUrl>
+    <oauthConfig>
+        <callbackUrl>https://keycloak.prd.clienteling.lvmhda.com/auth/realms/rimowa/broker/salesforce_auth/endpoint
+https://rimowa.lightning.force.com/services/authcallback/keycloak_oidc</callbackUrl>
+        <consumerKey>3MVG9fTLmJ60pJ5KTOKDKvUl1bJa1eoEkEc8aQViRP89GxNpReh1NebDix2UphfuyIAP1wFddOQsStZY35IM.</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <scopes>Basic</scopes>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>Full</scopes>
+        <scopes>Chatter</scopes>
+        <scopes>CustomApplications</scopes>
+        <scopes>RefreshToken</scopes>
+        <scopes>OpenID</scopes>
+        <scopes>CustomPermissions</scopes>
+        <scopes>Wave</scopes>
+        <scopes>Eclair</scopes>
+        <scopes>Pardot</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lançamento Compact Sleeve</name>
+    <style>none</style>
+    <subject>Viaje com facilidade e leveza com  RIMOWA Compact Sleeve</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Tenho o prazer em apresentar nossa nova mala da Compact Sleeve.
+
+Este modelo inédito foi inspirado em nossas antigas malas business, com design e recursos aprimorados, esta peça é fácil de usar e projetada para todos os tipos de viagens.
+
+Compact Sleeve é compacta, elegante, possui alça telescópica com múltiplos estágios e um interior versátil, uma opção perfeita para viagens curtas e deslocamentos diário.
+
+Caso deseje receber mais informações sobre este produto, por favor, não hesite em nos contatar.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

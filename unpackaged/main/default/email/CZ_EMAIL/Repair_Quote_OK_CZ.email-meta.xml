@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Zpoplatněná oprava schválena</name>
+    <style>none</style>
+    <subject>Schválená částka za opravu kufru</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+děkuji za odsouhlasení částky za opravu Vašeho kufru,
+kterou naši experti již brzy zprocesují.
+
+Jakmile bude oprava hotová, dám Vám neprodleně vědět.
+
+S přáním pěkného dne,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

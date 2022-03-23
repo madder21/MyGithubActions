@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>WeChat Client</label>
+    <protected>false</protected>
+    <values>
+        <field>FieldsMappingJson__c</field>
+        <value xsi:type="xsd:string">[
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;birthday&quot;,
+    &quot;SFFieldPath&quot;: &quot;Birthday__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;SFLabel&quot;: &quot;Birthday&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;birthyear&quot;,
+    &quot;SFFieldPath&quot;: &quot;Birthyear__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;SFLabel&quot;: &quot;Birthyear&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;country_code&quot;,
+    &quot;SFFieldPath&quot;: &quot;countryCode&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;email&quot;,
+    &quot;SFFieldPath&quot;: &quot;PersonEmail&quot;,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;SFLabel&quot;: &quot;Email&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;first_name&quot;,
+    &quot;SFFieldPath&quot;: &quot;FirstName&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;SFLabel&quot;: &quot;First Name&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;last_name&quot;,
+    &quot;SFFieldPath&quot;: &quot;LastName&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;SFLabel&quot;: &quot;Last Name&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;mobile&quot;,
+    &quot;SFFieldPath&quot;: &quot;mobile&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;interest&quot;,
+    &quot;SFFieldPath&quot;: &quot;What_are_you_interested_in__c&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;SFLabel&quot;: &quot;What are you interested in&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;phoneConsent&quot;,
+    &quot;SFFieldPath&quot;: &quot;OptinCalling__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;SFLabel&quot;: &quot;Optin Phone&quot;,
+    &quot;FieldType&quot;: &quot;Boolean&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;emailConsent&quot;,
+    &quot;SFFieldPath&quot;: &quot;OptinEmailing__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;SFLabel&quot;: &quot;Optin Email&quot;,
+    &quot;FieldType&quot;: &quot;Boolean&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;appsConsent&quot;,
+    &quot;SFFieldPath&quot;: &quot;OptinInstantMessaging__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;SFLabel&quot;: &quot;Optin Instant Messaging&quot;,
+    &quot;FieldType&quot;: &quot;Boolean&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;postConsent&quot;,
+    &quot;SFFieldPath&quot;: &quot;OptinMailing__pc&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;SFLabel&quot;: &quot;Optin Post&quot;,
+    &quot;FieldType&quot;: &quot;Boolean&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;civility&quot;,
+    &quot;SFFieldPath&quot;: &quot;Salutation&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: true,
+    &quot;SFLabel&quot;: &quot;Salutation&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;storeCode&quot;,
+    &quot;SFFieldPath&quot;: &quot;storeCode&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: true,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;Id&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;id&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;SFLabel&quot;: &quot;Record ID&quot;,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;ClientListMember&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;ClientListMember&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;Wrapper_Field_Name&quot;: &quot;birthmonth&quot;,
+    &quot;SFFieldPath&quot;: &quot;Birthmonth__pc&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;SFLabel&quot;: &quot;Birthmonth&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;SecondAlphabetLastname__pc&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;globalLastname&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;SFLabel&quot;: &quot;Second Alphabet Lastname&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;SecondAlphabetFirstname__pc&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;globalFirstname&quot;,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;SFLabel&quot;: &quot;Second Alphabet Firstname&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m079E0000000O9mQAE&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;WeChat__pc&quot;,
+    &quot;SFLabel&quot;: &quot;WeChat&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;WeChatId&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m081w00000006xxAAA&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;Gender__pc&quot;,
+    &quot;SFLabel&quot;: &quot;Gender&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;gender&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m081w00000006xxAAA&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: true,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;Other_sources_ID__c&quot;,
+    &quot;SFLabel&quot;: &quot;Other sources ID&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;customerId&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m081w00000006xxAAA&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;UnionId__pc&quot;,
+    &quot;SFLabel&quot;: &quot;UnionId&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;union_id&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;WeChat_Client&quot;,
+      &quot;Id&quot;: &quot;m081w00000006xxAAA&quot;,
+      &quot;Label&quot;: &quot;WeChat Client&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: true,
+    &quot;Send_to_Clienteling_App&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;WeChat_Client&quot;
+  }
+]</value>
+    </values>
+    <values>
+        <field>Notes__c</field>
+        <value xsi:nil="true" />
+    </values>
+    <values>
+        <field>ObjectName__c</field>
+        <value xsi:type="xsd:string">Account</value>
+    </values>
+    <values>
+        <field>QueryConditionJson__c</field>
+        <value xsi:nil="true" />
+    </values>
+    <values>
+        <field>QueryCondition__c</field>
+        <value xsi:nil="true" />
+    </values>
+</CustomMetadata>

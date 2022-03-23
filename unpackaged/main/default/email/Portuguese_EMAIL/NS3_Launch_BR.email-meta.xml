@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS3 - Launch - BR</name>
+    <style>none</style>
+    <subject>Nossas últimas bolsas Never Still estão agora disponíveis</subject>
+    <textOnly>Prezado Sr. /Sra. {!Contact.LastName},
+
+Espero que o seu ** Never Still Purchased Product** esteja atendendo às suas expectativas!
+
+Estamos lançando uma nova seleção de bolsas Never Still e achei que você poderia se interessar em completar sua coleção.
+
+Grande o suficiente para todos os itens essenciais do dia a dia, a **NS 3 Product recommendation** será a companhia perfeita para complementar seu visual de verão, além de ser uma parceria perfeita na volta aos trabalhos.
+
+O que você acha?
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

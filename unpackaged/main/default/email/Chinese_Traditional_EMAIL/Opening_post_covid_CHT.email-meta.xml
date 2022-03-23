@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Others;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_ 店鋪開業_Covid</name>
+    <style>none</style>
+    <subject>我們開門啦！</subject>
+    <textOnly>尊敬的X,
+
+
+最重要的是，我希望您、XXX和您的親人都平安健康。
+
+我很高興知會您，我們的精品店現在已重新開業了。
+您的健康是我們的頭等大事，我們已在店內採取所有必要的措施以確保您的安全。
+
+您可以隨時撥打我的私人電話或發送郵件給我，
+我會很高興回答您的任何問題，或者幫助您預訂產品或進行預約。
+
+我期待很快見到您，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

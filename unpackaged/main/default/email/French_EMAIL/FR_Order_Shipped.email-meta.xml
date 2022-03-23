@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>FR - Order - Shipped</name>
+    <style>none</style>
+    <subject>Votre RIMOWA est en cours de livraison</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+J&#39;ai le plaisir de vous informer que votre RIMOWA **Produit** est en cours de livraison. Vous devriez le recevoir d&#39;ici XXXXX.
+
+
+Vous trouverez ci-joint votre facture ainsi que les détails de votre livraison.
+
+Je me tiens à votre disposition pour tout renseignement complémentaire.
+
+Bien à vous,
+
+
+{!User.Name} 
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

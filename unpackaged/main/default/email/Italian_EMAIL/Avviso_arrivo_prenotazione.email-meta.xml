@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Avviso arrivo prenotazione</name>
+    <style>none</style>
+    <subject>Ottime notizie! L’attesa è finita</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+ottime notizie! Abbiamo ricevuto una nuova consegna e il suo modello ***[model]*** la sta aspettando!
+L’ho già messo da parte per Lei. Quando pensa di venire a farci visita?
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

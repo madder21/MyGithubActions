@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>時計ケースの発売</name>
+    <style>none</style>
+    <subject>リモワウォッチケースのご紹介</subject>
+    <textOnly>{!Contact.LastName}様、
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日は、RIMOWAウォッチケースの発売をお知らせしたく、ご連絡差しあげました。
+
+今回発売される限定版タイムピースは、貴重な腕時計の保護ケースとしてデザインされた、希少なアイテムです。
+
+外装はアルミニウム製グルーブデザインで、内装にはクッション製のあるマイクロファイバー、 そして最大3本を保護および保管することができます。
+
+お手持ちの高価な時計を大切に保護していただいたり、大切な方への素敵な贈り物に最適な品です。
+
+もし何かご質問などございましたら、私までご連絡ください。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

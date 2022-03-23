@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>오리지널 문</name>
+    <style>none</style>
+    <subject>리모와 오리지널 캐빈 문과 함께 신비로운 여행을 떠나 보세요</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+2021 홀리데이 시즌을 시작하는 11월 10일, 리모와의 아이코닉한 오리지널 컬렉션에 새로운 한정판이 출시됩니다.
+이번에 선보이는 오리지널 캐빈 문(Moon)은 순환하는 생명의 상징인 달에서 영감을 받아, 알루미늄 스킨 위에 달의 표면을 섬세하게 재현했습니다. 레드와 화이트의 디테일은 우주비행사의 수트에 대한 오마쥬를 표현합니다.
+
+전 세계 단 750개의 한정 수량만 제작되어 소장가치가 높은 이 케이스와 고객님의 리모와 **고객 보유 제품명** 제품으로 컬렉션의 완성도를 높여 보는 것은 어떠신가요.
+
+제품에 대해 더 많은 정보를 원하시면 언제든지 문의해 주세요.
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

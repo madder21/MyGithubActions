@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Thank You(既存客)_JP</name>
+    <style>none</style>
+    <subject>ご来店ありがとうございました。</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+先日はご来店いただき、誠にありがとうございました。
+ご案内いたしました〇〇と申します。
+
+お求めくださいました製品のお使い心地はいかがでしょうか?またご使用の感想などお聞かせいただければと思います。
+
+今後も何かご不明な点等ございましたら、私までお気軽にお問い合わせくださいませ。
+
+それでは、どうぞお気をつけて行ってらっしゃいませ！
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

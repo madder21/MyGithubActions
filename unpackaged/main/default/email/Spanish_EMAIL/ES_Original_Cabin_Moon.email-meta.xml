@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Cabin Moon</name>
+    <style>none</style>
+    <subject>Próximamente: RIMOWA Original Cabin Moon</subject>
+    <textOnly>Estimado/a Sr/Sra {!Contact.LastName},
+
+Con motivo del estreno de la temporada de Navidad, es un placer compartir con usted el lanzamietno de una edición limitada de nuestra icónica Original Cabin el 10 de Noviembre.
+La Original Cabin Moon continúa la odisea intergaláctica de RIMOWA con su patrón de inscripción que imita la superficie de la luna mientras que sus detalles en rojo y blanco hacen homenaje a los trajes espaciales de los astronautas.
+
+Con tan sólo 750 piezas disponibles, este producto es perfecto para coleccionistas y conocedores de la marca.
+
+
+Pensé que sería perfecta para **incorporación a su colección/ producto para usted**.
+
+Estaría interesado/a en hacer una reserva?
+
+Saludos Cordiales,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

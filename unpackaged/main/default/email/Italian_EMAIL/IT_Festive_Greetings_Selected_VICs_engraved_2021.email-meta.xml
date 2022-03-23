@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Buone Feste - VICs - incisione 2021</name>
+    <style>none</style>
+    <subject>Grazie per la sua fiducia</subject>
+    <textOnly>Gentile Sig/Sig.ra {!Contact.LastName},
+
+Spero stia bene *parte personalizzata*
+Per continuare a viaggiare con stile e celebrare il nuovo anno abbaimo pensato di regalarle un name tag personalizzato con l’incisione a caldo delle sue iniziali.
+Saremmo felici di consegnarglielo direttamente di persona non appena avrà l’occasione di visitare il nostro store. *quali inizlali le piacerebbe incidere?*
+
+Colgo inoltre l&#39;occasione per ringraziarla a nome di tutta RIMOWA della sua fedelta’ nei nostri confronti. E’ sempre un piacere offrirle il nostro supporto.
+
+Resto in attesa di un suo gentile riscontro.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

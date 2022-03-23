@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Remoteセールス　製品発送ご連絡</name>
+    <style>none</style>
+    <subject>RIMOWAより　製品発送完了のご連絡</subject>
+    <textOnly>{!Contact.LastName}様
+
+RIMOWAをご愛顧いただきありがとうございます。
+
+ご注文いただきました 製品を発送いたしました。
+{!Contact.LastName}様のお近くで末永くご愛顧いただければ幸いです。
+
+スーツケースのロックの設定など、ご不明点ございましたら、お気軽にお問い合わせください。
+
+お客様の旅が、素敵なものになりますように。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

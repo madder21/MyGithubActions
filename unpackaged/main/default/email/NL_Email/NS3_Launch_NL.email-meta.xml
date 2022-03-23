@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS3 - Launch - NL</name>
+    <style>none</style>
+    <subject>Onze nieuwste Never Still-tassen zijn nu verkrijgbaar</subject>
+    <textOnly>Beste heer / mevrouw {!Contact.LastName},
+
+Ik hoop dat u tevreden bent over uw **Never Still Product Purchased**!
+
+We brengen een nieuw assortiment Never Still-tassen in de handel en ik dacht dat u uw collectie misschien wel wilde aanvullen.
+
+De **NS 3 Product recommendation** is groot genoeg voor alle dagelijkse benodigdheden en ideaal om uw zomerse look af te ronden, maar ook als perfecte back-to-business partner.
+
+Wat vindt u ervan?
+
+Met vriendelijke groeten,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Collaboration coming soon Moncler</name>
+    <style>none</style>
+    <subject>The wait is almost over</subject>
+    <textOnly>亲爱的{!Contact.LastName}：
+
+我很开心与您分享关于 Moncler &amp; RIMOWA &quot;Reflection&quot; 的更多信息!
+更多的信息详见我的下封讯息。 这些产品将于 ***[date]***开售， 会很快售罄.。
+
+祝一切顺心！
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>تأكيد الإصلاح</name>
+    <style>none</style>
+    <subject>مهمة إصلاح منتجك تحت رعايتنا</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+نشكرك لثقتك في إصلاح منتج RIMOWA من طراز ***[CollectionModel]***لدينا.
+
+لقد تم فحص منتج RIMOWA الخاص بك بعناية بواسطة خبرائنا المختصين وتقدر تكلفة الإصلاح بمبلغ قدره ***[cost]***، هل ترغب في متابعة إصلاح المنتج والموافقة على هذه التكلفة؟
+
+مع أطيب التحيات،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>FR_New Essential Colours Inbound</name>
+    <style>none</style>
+    <subject>Suite à votre demande d&#39;informations sur nos nouvelles couleurs.</subject>
+    <textOnly>Cher Monsieur xxx, Chère Madame xxx,
+
+Je vous remercie de votre intérêt pour le lancement de nos nouvelles couleurs de valises en polycarbonate et plus spécifiquement l’Essential ***Desert Rose / Cactus.***
+
+Le format cabine sera/est exclusivement disponible sur RIMOWA.com pour un pré lancement dès le 20 juillet dans des quantités limitées.
+
+Voici le lien direct pour passer votre commande :
+
+Le lancement mondial de la collection complète est prévu pour cet automne.
+Je reste à votre entière disposition pour vous assister dans cette commande.
+
+A bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

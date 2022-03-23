@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>RIMOWA Personal：個性設計 時尚隨行</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+您可能已看到相關的傳媒報導或電子通訊，但我也想親自為您介紹全新的 RIMOWA Personal 中性硬殼斜揹袋。
+
+這款精緻的中性硬殼斜揹袋備有四種色調，方便收納隨身物品，既可配搭活動皮革肩帶，也可拆下肩帶用作手提包，相信能完美配襯***您的時尚風格／收藏系列***。
+
+這款硬殼斜揹袋勢必成為時尚新經典，現在您更可以率先預訂。
+
+如欲了解產品詳情，歡迎與我聯絡。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Proceso de reparación empezado NOI</name>
+    <style>none</style>
+    <subject>Confirmación de que su reparación está siendo realizada</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Su RIMOWA ***[Model]*** está ahora en manos de nuestro equipo de Asistencia al cliente y está siendo reparada.
+
+Puedo confirmar que recibirá su RIMOWA antes del ***[Date]*** . Le informaré tan pronto esté disponible.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

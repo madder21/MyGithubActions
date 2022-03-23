@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Repair cost quote approval reminder NOI</name>
+    <style>none</style>
+    <subject>Le devis de réparation attend votre approbation</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Avez-vous eu l’occasion de prendre connaissance du devis effectué par notre expert concernant la réparation de ***[Repair]*** sur votre modèle RIMOWA ***[Model]*** de la collection ***[Model]*** ? Je vous remercie de bien vouloir nous confirmer si vous souhaitez l&#39;envoyer en réparation.
+
+Je reste à votre disposition au cas où vous auriez besoin de plus amples informations.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Confirmação de reparo NOI</name>
+    <style>none</style>
+    <subject>Seu reparo está sob nossos cuidados</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Agradecemos a sua visita ontem na loja {!User.Base_Store_Code__c}.
+
+Informo que estamos cuidando da sua ***[Modelo]*** e ela deverá ser reparada até o dia ***[data]***.
+
+Eu o (a) manterei informado (a) durante este processo.
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

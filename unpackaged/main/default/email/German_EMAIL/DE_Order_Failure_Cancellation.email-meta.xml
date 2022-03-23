@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>DE - Order - Failure Cancellation</name>
+    <style>none</style>
+    <subject>Ihre RIMOWA-Bestellung wurde storniert</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+es tut mir Leid, Ihnen mitzuteilen, dass Ihre Bestellung Ihres ***Produkts*** aufgrund ***Grund*** nicht möglich ist.
+Aufgrund dessen wurde Ihre Bestellung storniert und Ihre Zahlung nicht verarbeitet.
+
+Ich helfe Ihnen gerne, sollten Sie die Bestellung erneut aufgeben wollen. / Ich werden Sie kontaktieren, sobald das gewünschte Produkt wieder vorrätig ist. / Sollte die Bestellung dringend sein, helfe ich Ihnen gerne, eine Online - Bestellung durchzuführen, um Ihr gewünschtes Produkt rechtzeitig zu erhalten.
+
+Bei Fragen bin ich gerne für Sie erreichbar.
+
+Mit herzlichen Grüßen
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

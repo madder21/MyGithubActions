@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>Leve sua RIMOWA para todos os lugares com a Personal</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Talvez você já tenha ouvido falar a respeito na mídia ou recebeu nossa newsletter mas, mesmo assim, estou entrando em contato pessoalmente para falar sobre a nossa mais nova RIMOWA Personal.
+
+Disponível em 4 cores, essa linda clutch unissex com alça transversal foi projetada para você transportar seus itens essenciais no dia a dia. Ela pode ser usada com a alça de couro removível ou simplesmente como uma clutch. Acredito que ela será um lindo complemento para ***your style/collection***.
+
+É com prazer que informo que esta peça, que em breve se tornará um ícone, está disponível para reserva.
+
+Você gostaria de receber mais informações sobre este produto?
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

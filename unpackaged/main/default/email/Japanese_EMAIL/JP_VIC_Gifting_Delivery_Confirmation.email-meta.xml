@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>VICギフトのお客様(店頭ご来店Ver.)</name>
+    <style>none</style>
+    <subject>RIMOWAより〇〇様に大切なご案内</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+お忙しいところお返事いただき、ありがとうございます。
+ご来店いただけるとのこと、非常に嬉しいです。
+店頭にてお待ちしております。
+
+何かご不明な点等ございましたら、私までご連絡くださいませ。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Moon限量版</name>
+    <style>none</style>
+    <subject>Original Moon限量版即将发布</subject>
+    <textOnly>尊敬的 {!Contact.LastName} 先生/女士：
+
+为了开启度假季，我很高兴在11月10日与大家分享我们标志性的Original Moon限量版的发布。
+Original Moon延续了RIMOWA的星际奇幻旅程，标志性沟槽箱壳化身月球表面，遥相呼应红白边饰细节，配色别致，致敬宇航员航天服。
+
+仅生产带有编号的750个行李箱，是鉴赏家的完美收藏品。
+我认为它是**完美得可以加入您收藏系列的产品**。
+
+您有兴趣预订吗？
+
+此致
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

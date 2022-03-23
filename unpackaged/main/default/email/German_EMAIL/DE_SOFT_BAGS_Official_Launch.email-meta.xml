@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SOFT BAGS - Official Launch</name>
+    <style>none</style>
+    <subject>Neu bei RIMOWA: Never Still Taschenkollektion</subject>
+    <textOnly>Lieber Herr / Liebe Frau {!Contact.LastName},
+
+Zum Start ins neue Jahr geben wir bei RIMOWA Mobilität und der Zukunft des Reisens einen neuen Namen: Never Still - unsere erste Kollektion aus Taschen und Rucksäcken. Unsere neuen Never Still Produkte sind ab sofort bei uns im Store verfügbar.
+
+Von modernen Rucksäcken und praktischen Taschen bis hin zu stylischen Weekendern bietet diese neuartige Kollektion von Mobilitäts-Essentials eine zeitgemäße, funktionale und elegante Lösung für den täglichen Stadtverkehr, Ihr Business und vieles mehr.
+
+Sollten Sie weitere Informationen wünschen, stehe ich Ihnen gerne zur Verfügung.
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

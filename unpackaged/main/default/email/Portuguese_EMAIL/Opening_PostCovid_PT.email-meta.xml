@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Abertura pós COVID</name>
+    <style>none</style>
+    <subject>Nossas portas estão abertas!</subject>
+    <textOnly>Prezada Sra. {!Contact.LastName},
+
+Antes de mais nada, espero que você e seus entes queridos estejam bem.
+
+Tenho o prazer de informar que a nossa loja reabriu.
+Sua saúde é nossa prioridade, portanto, tomamos todas as medidas necessárias para garantir a sua segurança.
+
+Permaneço a sua disposição por telefone ou e-mail para responder qualquer dúvida que possa ter.
+
+Espero vê-lo (a) em breve,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

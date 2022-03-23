@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still III - Launch - ES</name>
+    <style>none</style>
+    <subject>Nuestras últimas bolsas Never Still ya están disponibles</subject>
+    <textOnly>Estimado Sr. / Sra. {!Contact.LastName},
+¡Espero que su **Never Still Product Purchased/Mango or Cactus Suitcase** cumpla sus expectativas!
+
+Estamos lanzando una nueva selección de bolsos Never Still y pensé que podría interesarle completar su colección.
+
+Lo suficientemente grande para todos los imprescindibles del día a día, el **NS 3 Product recommendation** será un aliado perfecto para completar su look de verano, así como un compañero perfecto para la vuelta al trabajo.
+
+¿Qué le parece?
+Saludos cordiales,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>HK Pacific Place store closure</name>
+    <style>none</style>
+    <subject>Looking forward to welcoming you at RIMOWA ***STORE NAME***</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+**Happy Chinese New Year!**
+
+Thank you for shopping with RIMOWA Pacific Place **YEAR**.
+
+Please kindly note that the Pacific Place store will close permanently on February 14.
+
+I would be glad to invite you to the RIMOWA store at ***STORE NAME*** instead, where I am now based.
+
+The address is XXXXXX
+
+I look forward to seeing you.
+
+Kind Regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

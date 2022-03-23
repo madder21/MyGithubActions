@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Generic Porduct Inquiries</name>
+    <style>none</style>
+    <subject>Po dotazu na ** Product Name **</subject>
+    <textOnly>Vážený pane/paní {!Contact.LastName},
+
+Děkujeme za Váš zájem o uvedení našeho nového produktu **Název produktu** na trh.
+
+Rádi vás zařadíme na náš sezmam rezervací a budete tak mít jistotu, že vám neuteče možnost získat tento překrásný kousek.
+
+**Název produktu** bude k dispozici pro předobjednávku od **Datum uvedení produktu**.
+
+Chcete se mezitím seznámit s podrobnostmi o tomto produktu?
+
+Máte zájem o rezervaci, nebo zaslání dalších informací o produktu?
+
+V případě, že budete potřebovat pomoc, Vám jsem k dispozici.
+
+S pozdravem
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

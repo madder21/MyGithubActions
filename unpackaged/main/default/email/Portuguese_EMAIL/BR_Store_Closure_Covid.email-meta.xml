@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Fechamento da Loja devido ao COVID</name>
+    <style>none</style>
+    <subject>Pré-Venda Exclusiva: Nossas novas cores da coleção Essential: Desert Rose &amp; Cactus</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Espero que você e sua família estejam bem.
+
+Desde o começo desta crise, o bem-estar dos nossos viajantes globais, colegas de trabalho e clientes tem sido a nossa prioridade máxima.
+
+Para garantir a segurança coletiva, nós decidimos fechar temporiariamente a nossa loja RIMOWA Store in Melbourne.
+
+Durante este período, eu permaneço a sua disposição no telefone e e-mail da minha assinatura para responder quaisquer dúvidas ou ajudá-lo (a) com o seu pedido e organizar a entrega.
+
+Ficarei no aguardo para recebê-lo (a) de volta em nossa loja em breve.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

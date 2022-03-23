@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Fermeture Boutique - Covid</name>
+    <style>none</style>
+    <subject>RIMOWA à vos côtés</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Nous espérons que vous et vos proches vous portez bien.
+
+En cette période particulière et suite aux nouvelles dispositions sanitaires, notre boutique {!User.Base_Store_Code__c} sera fermée.
+
+Néanmoins, nous restons entièrement mobilisés pour continuer à vous assurer nos services à distance.
+
+Vous pouvez, ainsi, si vous le souhaitez, être conseillé à distance ainsi que passer commande tout en étant livré en toute sécurité grâce à notre partenaire **Les Galeries Lafayette/le Bon Marché/ le Printemps Haussmann / le Printemps Louvre** qui maintient également un niveau d’activité.
+
+Prenez soin de vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

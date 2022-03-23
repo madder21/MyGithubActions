@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Réouverture post covid_FR</name>
+    <style>none</style>
+    <subject>Notre boutique ***Store_Label*** rouvre ses portes !</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+J&#39;espère que vous et vos proches vous portez bien.
+
+Je suis heureuse de vous informer que notre boutique
+est à présent réouverte.
+
+Votre santé étant notre priorité, nous avons pris toutes les
+mesures nécessaires dans notre boutique pour assurer votre sécurité.
+
+Je reste à votre disposition et me ferais un plaisir de répondre à toutes vos questions ou à prendre rendez-vous.
+
+J&#39;espère vous revoir bientôt,
+
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

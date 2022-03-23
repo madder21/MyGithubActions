@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الموافقة على طلب عرض أسعار تكلفة الإصلاح</name>
+    <style>none</style>
+    <subject>عرض أسعار الإصلاح جاهز</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+هل اتيحت لك الفرصة للاطلاع على تقدير التكلفة الذي قدمه خبرائنا بتاريخ ***[Date]*** الخاص بإصلاح منتج RIMOWA من طراز ***[CollectionModel]*** ***[Repair]***؟
+
+يرجى إخبارنا إذا كنت ترغب في متابعة الإصلاح بحد أقصى يوم ***[date]***.
+
+مع أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

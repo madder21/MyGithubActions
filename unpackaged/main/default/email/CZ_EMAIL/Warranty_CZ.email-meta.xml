@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Registrace záruky</name>
+    <style>none</style>
+    <subject>Online registrace kufru</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+doufám, že je Vám náš kufr &quot;typ kufru&quot; při cestování skvělým společníkem.
+
+Pokud jste ještě kufr neregistroval/a online k získání 5-ti leté záruky, stále máte možnost navštívit naši webovou stránku Rimowa.com kliknutím na &quot;registrovat mojí Rimowu&quot; vytvoříte účet, pod který můžete Vaše zavazadlo/a registrovat.
+
+Pokud bych Vám s tímto mohl/a jakkoli pomoc, neváhejte se na mne kdykoli obrátit.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

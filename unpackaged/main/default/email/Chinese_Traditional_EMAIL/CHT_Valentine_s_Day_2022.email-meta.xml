@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Valentine&#39;s Day 2022 (TC)</name>
+    <style>none</style>
+    <subject>為您獻上精選情人節甜蜜禮品</subject>
+    <textOnly>親愛的 {!Contact.LastName}先生／女士：
+
+您好！
+
+情人節即將來到，若想以我們悉心挑選的最新設計和精品，向摯愛送上難忘的浪漫驚喜，歡迎隨時與我聯絡。
+
+XXX 謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

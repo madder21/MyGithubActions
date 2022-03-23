@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Order bevestigen</name>
+    <style>none</style>
+    <subject>Rond uw RIMOWA bestelling af</subject>
+    <textOnly>Beste Hr/ Mevr {!Contact.LastName}
+
+Bedankt dat uw heeft gekozen voor RIMOWA.
+
+Klik op de onderstaande link om uw betaling voort te zetten en bevestig uw bestelling van **product**
+
+** Link**
+
+Ik sta graag tot uw beschikking mocht u hulp nodig hebben bij de betaling.
+Mocht u uw toestemming voor het ontvangen van marketingactiviteiten zoals besproken willen intrekken, neem dan in dit verband contact op met ons.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+Door uw bestelling te verwerken, gaat u akkoord met RIMOWA’s algemene voorwaarden. Uw persoonsgegevens worden verwerkt door RIMOWA in hoedanigheid van gegevensbeheerder, om de reparatie van uw koffer te verwerken. Raadpleeg ons privacybeleid voor meer informatie over de verwerking van uw persoonlijke gegevens en uw rechten.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

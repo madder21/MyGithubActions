@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>트위스트 캐빈 블랙</name>
+    <style>none</style>
+    <subject>새로운 컬러의 오리지널 트위스트를 만나보세요</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+리모와 오리지널 트위스트 컬렉션에 블랙 색상의 새로운 디자인이 출시되었습니다.
+
+비즈니스와 여행 모두에 적합하도록 맞춤 제작된 이 새로운 모델은 리모와의 아이코닉한 알루미늄에 세련된 블랙 컬러 포인트와 우아한 가죽으로 액센트를 주었습니다.
+
+오리지널 트위스트 블랙은 많은 고객에게 사랑 받고 있는 리모와 클래식 컬렉션에 대한 현대적이고 새로운 해석입니다.
+
+제품에 대해 추가 정보가 필요하시면 언제든지 연락주시기 바랍니다.
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

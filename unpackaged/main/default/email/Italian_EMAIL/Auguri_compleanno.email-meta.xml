@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Auguri compleanno</name>
+    <style>none</style>
+    <subject>Dal team RIMOWA</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+Tutti noi di RIMOWA le porgiamo i nostri migliori auguri di buon compleanno.
+Speriamo che questo nuovo anno le porti tanta felicità, salute e piacevoli viaggi.
+
+Sinceri auguri,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

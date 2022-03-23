@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN - Order thank you</name>
+    <style>none</style>
+    <subject>Thank you for your trust</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for trusting RIMOWA. 
+
+I trust your  RIMOWA **Model** will  serve well as your loyal travel companion. 
+
+Should you need help to configure your RIMOWA padlock, I would love to welcome you in {!User.Base_Store_Code__c} upon appointment or assist you remotely.
+
+We wish you all the best on your future journeys.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

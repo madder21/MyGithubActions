@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MediaQuality__c</fullName>
+    <externalId>false</externalId>
+    <label>Media Quality</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CORRECT</fullName>
+                <default>false</default>
+                <label>CORRECT</label>
+            </value>
+            <value>
+                <fullName>INCORRECT</fullName>
+                <default>false</default>
+                <label>INCORRECT</label>
+            </value>
+            <value>
+                <fullName>DOUBTFUL</fullName>
+                <default>false</default>
+                <label>DOUBTFUL</label>
+            </value>
+            <value>
+                <fullName>CONTENTIOUS</fullName>
+                <default>false</default>
+                <label>CONTENTIOUS</label>
+            </value>
+            <value>
+                <fullName>UNDEFINED</fullName>
+                <default>false</default>
+                <label>UNDEFINED</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

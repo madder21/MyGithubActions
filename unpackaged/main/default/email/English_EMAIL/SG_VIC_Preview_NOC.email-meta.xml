@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SG VIC Preview - NOC</name>
+    <style>none</style>
+    <subject>You are cordially invited to the exclusive preview of the latest RIMOWA Mars and Mercury collection</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you’re doing well.
+
+I’m pleased to invite you to an exclusive preview of the Mars and Mercury collection at our RIMOWA {Store name} store.
+
+As our valued guest, you’ll have first access to preview and pre-order the latest collection. Additionally, we are pleased to offer a complimentary Year of the Ox personalization service in-store in celebration of the Lunar New Year.
+
+To ensure your health and safety, we are offering 1-on-1 appointments from Jan 25th to Feb 3rd. Should you need more details or wish to book your appointment, I would be happy to assist you.
+
+Looking forward to hearing from you!
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

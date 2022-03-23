@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Thank You - Gifting</name>
+    <style>none</style>
+    <subject>Thank you for trusting RIMOWA.</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you enjoy this exclusive peek into our RIMOWA history and archives.
+
+And, as always, thank you for your continued support and loyalty.
+
+Wishing you and your loved ones our warmest season’s greetings.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

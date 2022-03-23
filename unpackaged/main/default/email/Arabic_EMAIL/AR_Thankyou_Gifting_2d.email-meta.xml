@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>تقديم الشكر على الإهداء بعد يومين</name>
+    <style>none</style>
+    <subject>شكرًا لك على زيارتنا!</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+لقد تشرفنا برؤيتك بالأمس.
+
+نود أن نهنئك مرة أخرى على ***[specialoccasion]***، نحن نثق أن ***[personbeinggifted]*** سيقدر قيمة هدية ***[Model]*** التي اخترتها له.
+
+يرجى إبلاغنا إذا احتجت لمزيد من المساعدة.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

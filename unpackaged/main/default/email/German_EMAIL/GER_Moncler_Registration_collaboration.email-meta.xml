@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Moncler_Registration collaboration</name>
+    <style>none</style>
+    <subject>Your registration to MONCLER &amp; RIMOWA collaboration</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+vielen Dank für Ihr Interesse an Moncler RIMOWA &quot;Reflection&quot;.
+Ich freue mich, Ihnen bestätigen zu können, dass Sie auf der Warteliste stehen und eine der ersten Personen sein werden, die von dieser einzigartigen Einführung erfahren!
+
+Ich werde mich bis zum 10. Juni mit weiteren Informationen bei Ihnen melden.
+
+Mit freundlichen Grüßen,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

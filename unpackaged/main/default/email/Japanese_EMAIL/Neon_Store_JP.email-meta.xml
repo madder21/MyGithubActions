@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Neonコレクション - 店舗お客様用</name>
+    <style>none</style>
+    <subject>店舗販売開始のお知らせ：Neonコレクション</subject>
+    <textOnly>{!Contact.LastName}〇〇様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+オンラインでの先行販売以来、多くのお客様より店頭販売のご要望をいただいておりましたNeonコレクションですが、この度数量限定にて弊店でも販売開始することとなりました。鮮やかな2色で展開される限定商品 RIMOWA Essential Neonは、マットブラックのジッパー、ハンドル、内部構造と透明な外観が作り出すコントラストが特徴です。内部に使用されているメッシュ製ディバイダーがスーツケースの透明性を引き立てます。
+
+製品は下記URLよりご覧いただけます。
+https://bit.ly/3zcKtCd　
+
+もしご興味をお持ちいただけるようであれば、店舗にて製品の取り置きなどをさせていただきます。ぜひお手に取ってご覧いただければと思います。
+
+その他何かご不明な点等ございましたら、どうぞお気軽にお問い合わせください。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

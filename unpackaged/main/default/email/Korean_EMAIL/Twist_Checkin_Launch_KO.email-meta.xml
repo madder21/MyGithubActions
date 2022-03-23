@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>트위스트 체크-인 L 출시</name>
+    <style>none</style>
+    <subject>리모와 오리지널 트위스트의 새로운 사이즈를 소개합니다.</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+리모와 오리지널 트위스트 컬렉션에 새롭게 추가된 &#39;오리지널 트위스트 체크-인 L &#39;의 출시를 기쁜 마음으로 소개 드립니다!
+
+이번 신제품은 최대 10일 정도의 일정까지 소화할 수 있도록 설계되어, 중장기 여행에 이상적인 수트케이스입니다.
+
+리모와 오리지널 트위스트 캐빈에 수하물용 사이즈의 러기지를 더해서 트래블 세트를 완성해 보세요.
+
+제품에 대해 더 자세히 알고 싶으시면 언제든지 문의해 주세요.
+
+감사합니다.
+
+{!User.Name} 드림
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>리모와 x 카오스 예약</name>
+    <style>none</style>
+    <subject>리모와 x 카오스 콜라보레이션 출시 안내</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+런던 기반의 럭셔리 액세서리 및 라이프스타일 브랜드인 &#39;카오스&#39;와의 콜라보레이션을 기쁜 마음으로 소개합니다.
+
+이번 한정판 컬렉션은 리모와 에센셜 수트케이스의 상징적인 그루브 패턴을 대담하게 재조명하고 있습니다. 또한 유쾌하고 장난기 넘치는 최신 여행용 액세서리도 함께 선보입니다.
+
+컬렉션 공식 출시는 6월 3일이며, 사전 예약을 원하시는 경우 기꺼이 도와드리겠습니다.
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

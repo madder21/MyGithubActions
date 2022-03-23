@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Festive Greetings - Selected VICs</name>
+    <style>none</style>
+    <subject>RIMOWA would like to thank you for your loyalty.</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you are doing well ***PERSONALISED PART – HOLIDAY GREETING / FAMILY CHECK***
+
+On behalf of all of us at RIMOWA, I&#39;d like to personally thank you for your continued loyalty and support – it’s always a pleasure assisting you.
+
+To show our appreciation, we’d like to gift you a special RIMOWA collector&#39;s edition book. Published this past month, RIMOWA: An Archive, Since 1898 compiles over a century of the products, stories, and personalities that have helped shape RIMOWA into the brand it is today.
+
+I&#39;d love to gift it to you in person should you be available to visit us in [STORE].
+Look forward to hearing from you.
+
+Sincerely,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

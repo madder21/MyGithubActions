@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Checkin 2m NOI</name>
+    <style>none</style>
+    <subject>Suite à vos voyages.</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Suite à votre visite dans notre boutique RIMOWA {!User.Base_Store_Code__c} le ***[purchasedate]***, je souhaite m&#39;assurer que votre modèle RIMOWA ***[Model]*** répond à vos attentes.
+
+Je serais ravi de répondre à toutes vos questions.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

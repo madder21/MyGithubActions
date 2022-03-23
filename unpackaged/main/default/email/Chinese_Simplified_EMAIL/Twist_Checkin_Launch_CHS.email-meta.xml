@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Twist Check-in L Launch</name>
+    <style>none</style>
+    <subject>介绍新的 Original Check-in L Twist</subject>
+    <textOnly>亲爱的{!Contact.LastName}：
+
+非常荣幸为您介绍 RIMOWA Original Twist collection – the Original Check-In L Twist 最新产品。
+
+该新品为长达 10 日的旅行设计了充裕空间，是中长途旅行的理想伴侣。
+
+出行时同时携带这款新款托运行李和您的 RIMOWA Original Cabin Twist，
+可让出行无忧。
+
+如果您想要收到关于该产品的更多详情，请随时与我们联系。
+
+此致,
+
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

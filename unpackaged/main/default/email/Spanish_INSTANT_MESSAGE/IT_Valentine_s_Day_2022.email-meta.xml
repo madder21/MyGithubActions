@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Valentine&#39;s Day 2022</name>
+    <style>none</style>
+    <subject>Buon San Valentino!</subject>
+    <textOnly>Gentile Sig./Sig.ra {!Contact.LastName},
+
+Tutto il Team RIMOWA le augura un buon San Valentino. Scopra come rendere questo giorno ancor piu’ memorabile con la nostra accurata selezione di prodotti per lei ed i suoi cari.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

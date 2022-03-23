@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>구매 후 첫 번째 여행- 2주 후 NOI</name>
+    <style>none</style>
+    <subject>RIMOWA와 함께 즐거운 여행 되셨나요?</subject>
+    <textOnly>{!Contact.FirstName} {!Contact.LastName} 고객님 안녕하세요.
+
+RIMOWA [모델명]과 함께 즐거운 여행 다녀오셨나요?
+
+앞으로도 RIMOWA가 고객님의 믿음직한 여행 동반자가 되기를 바라겠습니다.
+더 필요한 게 있으시면 언제든지 문의해 주세요.
+
+감사합니다.
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

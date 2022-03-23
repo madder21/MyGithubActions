@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC アズール＆フラミンゴ - JP</name>
+    <style>none</style>
+    <subject>エッセンシャルシリーズに新色が登場。</subject>
+    <textOnly>{!Contact.LastName}様
+
+RIMOWA〇〇店の〇〇でございます。
+
+本日はエッセンシャル(ポリカーボネート製)製品に新色が登場いたしました。
+新
+アフリカ・タンザニアの美しい自然からインスピレーションを受けた、こちらのシリーズは、フラミンゴ(みずみずしい赤みがかったトーン)とアズール(身に着けやすいブルー)でそれぞれ販売されます。
+スーツケースだけでなく、一緒に販売開始されるバッグや小物類も必見です。
+
+製品の写真や詳しい内容にご興味ございましたら、お気軽に私までお問い合わせくださいませ。
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Chaos x RIMOWA Rezervace</name>
+    <style>none</style>
+    <subject>Již brzy: Chaos x RIMOWA</subject>
+    <textOnly>Vážený / á pane / ní {!Contact.LastName},
+
+Jsem nadšená/ý, že Vám mohu představit naši exkluzivní spolupráci s ikonickou londýnskou značkou Chaos.
+
+Tato limitovaná kolekce nabízí odvážnou přeměnu ikonických drážek kufru RIMOWA kolekce Essential a také zcela novou řadu hravých cestovních doplňků.
+
+Kolekce bude oficiálně spuštěna 3. června. Pokud byste měl/a zájem o vytvoření rezervace, prosím neváhejte se na mě obrátit.
+
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

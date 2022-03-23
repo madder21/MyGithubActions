@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Zpožděná oprava</name>
+    <style>none</style>
+    <subject>Oprava bude trvat dýl</subject>
+    <textOnly>Vážený/á pane/ paní XY,
+
+ráda bych Vás informovala, že oprava Vašeho zavazadla bude prodloužena a měla by být hotova &quot;datum&quot;.
+
+Než bude kufr opraven, rád/a bych Vám nabídl/a jeden z našich kufrů, určeným k půjčení.
+
+V opačném případě se ozveme ihned, jakmile bude kufr opraven a domluvíme se na vyzvednutí nebo doručení přímo k Vám domů.
+
+Děkujeme za pochopení.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

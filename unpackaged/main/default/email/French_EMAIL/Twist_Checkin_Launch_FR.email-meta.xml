@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lancement Twist Check-in L</name>
+    <style>none</style>
+    <subject>Découvrez la nouvelle RIMOWA Original Check-in L Twist.</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Je suis très heureux(se) de vous présenter le nouveau membre de la famille RIMOWA Original Twist collection – l&#39;Original Check-In L Twist.
+
+Conçue pour des voyages allant jusqu&#39;à 10 jours, elle est le compagnon idéal pour un voyage de moyenne durée.
+
+Couplez la nouvelle valise Twist Check-in L à votre Original Cabin Twist pour compléter votre collection.
+
+Je reste à votre disposition, si vous souhaitez recevoir plus d&#39;informations sur ce nouveau produit,
+
+A bientôt,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

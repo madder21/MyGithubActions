@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>コラボレーション製品(入荷)</name>
+    <style>none</style>
+    <subject>RIMOWA コラボレーション製品について　最新情報</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+***[Collaboration]*** についての最新情報をお伝えいたします。
+
+現時点で、こちらの製品は下記のような仕様として発売される見込みです。
+※詳細導入※
+
+販売開始前より多くの反響をいただいております製品です。
+発売後すぐに売れ切れてしまうこともございますので、あらかじめご了承ください。
+
+何かお気に召す製品などございましたら、私までお問い合わせください。
+在庫等確認させていただきます。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

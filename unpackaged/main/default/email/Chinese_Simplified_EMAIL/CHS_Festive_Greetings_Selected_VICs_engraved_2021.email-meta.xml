@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>2021年节日礼遇 （金属行李牌，部分VIC）</name>
+    <style>none</style>
+    <subject>感谢您一直以来对RIMOWA的支持</subject>
+    <textOnly>亲爱的{!Contact.LastName}先生/女士：
+
+您好！***自定义节日祝福——节日祝福／问候家人***
+
+为了迎接新年新篇章，我们想要为您送上特别新年礼遇-RIMOWA金属行李牌。您可在上面定制您的名字，以陪伴您未来旅程。诚邀您亲临 [精品店名字]，让我们为您献上这份特别礼遇。**请问您想刻的名字是？**
+
+谨代表RIMOWA感谢您一直以来的支持和信赖，很高兴能为您服务。
+
+期待您的回复。
+
+XXX 此致
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

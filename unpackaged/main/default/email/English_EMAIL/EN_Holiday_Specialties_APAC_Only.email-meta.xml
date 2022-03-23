@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Holiday Specialties - APAC Only</name>
+    <style>none</style>
+    <subject>Discover our limited-edition gift for the Holidays</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I am happy to share our limited-edition pieces for the Holiday season.
+
+Designed to hold virtually any bottle, the RIMOWA One Bottle Case is the ultimate piece for connoisseurs.
+Made from anodised grooved aluminium, the One Bottle Case in silver features high-gloss aluminium corners and a black leather handle and tag. Inside, a luxurious interior in black contrasts with the gleaming silver exterior.
+
+I’d be happy to help if you would like more information.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

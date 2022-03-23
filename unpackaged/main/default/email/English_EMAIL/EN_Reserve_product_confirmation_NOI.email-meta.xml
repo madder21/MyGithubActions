@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Reserve product confirmation NOI</name>
+    <style>none</style>
+    <subject>Confirmation your reserved product</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for visiting us at {!User.Base_Store_Code__c} yesterday. It was a pleasure meeting you!
+
+I confirm your RIMOWA ***[Model]***has been reserved until ***[date]***.
+
+Please let us know for when you would like to arrange a pick up.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

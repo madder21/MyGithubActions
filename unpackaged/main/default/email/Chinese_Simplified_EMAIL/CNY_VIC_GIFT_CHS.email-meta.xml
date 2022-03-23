@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>新春VIC礼遇</name>
+    <style>none</style>
+    <subject>送给忠实会员的新春特别礼遇</subject>
+    <textOnly>亲爱的{!Contact.LastName}先生／女士：
+
+您好！***自定义节日祝福——节日祝福／问候家人***
+
+为与您共迎虎年，我特别为您准备了一份特色新春礼盒。
+
+期待您有空至[具体精品店名称]，我将亲手为您献上。
+
+我谨代表RIMOWA团队，感谢您一直以来的支持和信赖，也很荣幸能一直为您服务。
+
+热切期待您的回复。
+此致
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

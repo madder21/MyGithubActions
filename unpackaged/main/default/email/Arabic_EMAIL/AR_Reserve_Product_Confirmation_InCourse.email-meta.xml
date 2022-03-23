@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>تأكيد حجز المنتج</name>
+    <style>none</style>
+    <subject>تأكيد حجز المنتج</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+نشكرك على زيارتك لنا بالأمس.
+
+نود التأكيد على إجراء عملية الصيانة لمنتج RIMOWA من طراز ***[Model]*** والانتهاء من إصلاحه في ***[date]***.
+
+سوف نوافيك بآخر التحديثات،
+
+مع أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

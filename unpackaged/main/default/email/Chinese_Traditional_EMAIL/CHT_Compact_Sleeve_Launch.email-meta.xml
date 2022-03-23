@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Compact Sleeve - Launch</name>
+    <style>none</style>
+    <subject>RIMOWA 呈現歷來最靈活實用的行李箱</subject>
+    <textOnly>親愛的 {!Contact.LastName}先生／女士，
+
+我想與您分享一款您可能會感興趣的最新獨家設計——RIMOWA Compact Sleeve。
+
+這款全新的行李箱不僅以強化的功能重新演繹大受歡迎的設計，而且是一款適用於各種旅行的通勤商務行李箱。
+
+從時尚而小巧緊湊的設計、無段式伸縮拉桿到多用途的內裝設計，Sleeve Compact 是商務和休閒旅行的理想之選。
+
+相信它會是您****PRODUCT****的完美搭配
+——您想了解更多產品相關資訊嗎？
+
+謹致問候
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

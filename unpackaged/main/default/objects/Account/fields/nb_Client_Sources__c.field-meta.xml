@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>nb_Client_Sources__c</fullName>
+    <description>Calculate the number of client source records associated to this client Recourd</description>
+    <externalId>false</externalId>
+    <label># Client Sources</label>
+    <summaryForeignKey>ClientSource__c.Client__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Bestätigung der Produktreservierung NOI</name>
+    <style>none</style>
+    <subject>Bestätigung Ihrer Produktreservierung</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+vielen Dank für Ihren Besuch im RIMOWA Store {!User.Base_Store_Code__c}. Es war ein Vergnügen, Sie kennenzulernen!
+
+Ich bestätige hiermit, dass Ihr RIMOWA ***[Model]*** bis zum ***[date]*** reserviert ist. 
+
+Bitte lassen Sie uns wissen, sollte eine Abholung innerhalb dieser Zeit für Sie nicht möglich sein.
+
+Mit freundlichen Grüßen
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

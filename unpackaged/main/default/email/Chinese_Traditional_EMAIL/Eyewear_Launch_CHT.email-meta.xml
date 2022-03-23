@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Eyewear Launch Traditional</name>
+    <style>none</style>
+    <subject>使用 RIMOWA Eyewear 穿越新鏡頭</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+很高興通知您，我們推出了品牌有史以來的第一個眼鏡系列 RIMOWA Eyewear。我們很高興為您介紹這款新一代旅行必備聖品。
+
+我們的 BRIDGE 和 RIM 款式墨鏡擁有創新的設計和超輕量的框架，讓您用全新的墨鏡感受旅行。
+
+採用高品質材料精心打造，盡享完美舒適度，既是您旅行套組的完美補充，也是一份精美的禮物。
+
+需要提供您更多有關眼鏡系列的詳細資訊嗎？
+
+此致,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

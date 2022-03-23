@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>FR - Reconnect - Generic</name>
+    <style>none</style>
+    <subject>Votre conseiller de vente personnel</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Permettez-moi de me présenter : Je suis votre nouveau/nouvelle conseiller(ère) de vente. Je me permets de vous contacter de la part de {!Account.ClientAdvisor__pc} {!Account.MainStore__pc}.
+
+Votre RIMOWA ***Model*** vous accompagne depuis quelques mois maintenant. J&#39;espère qu&#39;elle a été un compagnon digne de confiance lors de vos déplacements.
+
+Pour vous remercier de votre fidélité , je souhaiterais vous offrir ***un contrôle gratuit de votre valise /la personnalisation de votre porte-adresse *** dans notre boutique {!Account.Local_Main_Store__c}.
+
+Si vous êtes intéressé(e), je serais heureux(-euse) de vous accueillir personnellement en boutique.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

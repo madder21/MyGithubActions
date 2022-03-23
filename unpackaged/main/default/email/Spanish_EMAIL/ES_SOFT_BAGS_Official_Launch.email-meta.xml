@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SOFT BAGS - Official Launch</name>
+    <style>none</style>
+    <subject>Ahora disponible: colección de bolsas RIMOWA Never Still</subject>
+    <textOnly>Estimado Sr. / Sra. {!Contact.LastName},
+
+Al entrar en el nuevo año, en RIMOWA estamos reconsiderando la movilidad y el futuro de los viajes con nuestra primera gama de bolsos blandos, la colección RIMOWA Never Still.
+
+Desde mochilas contemporáneas y prácticos bolsos hasta elegantes bolsos de fin de semana, esta novedosa colección de elementos esenciales de movilidad proporciona una solución contemporánea, funcional y elegante para los desplazamientos urbanos diarios, los negocios y viajes.
+
+Pensé que este lanzamiento único sería particularmente interesante para usted.
+Si desea más información, quedo a su disposición.
+
+Cordiales saludos
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

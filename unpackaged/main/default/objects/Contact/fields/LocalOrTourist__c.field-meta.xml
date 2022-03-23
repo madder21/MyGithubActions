@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LocalOrTourist__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(TEXT(Country__c) == &quot;&quot;, &quot;Unknown&quot;, IF(TEXT(Country__c) = TEXT(MainStore__r.Country__c) , &quot;Local&quot;, &quot;Tourist&quot;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>the status of the client in relation to the attached store</inlineHelpText>
+    <label>Local or Tourist ?</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

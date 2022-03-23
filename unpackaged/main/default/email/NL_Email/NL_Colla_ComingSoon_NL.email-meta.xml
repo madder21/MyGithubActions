@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Samenwerking binnenkort beschikbaar</name>
+    <style>none</style>
+    <subject>Het wachten is bijna voorbij</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Ik verheug me erop u te kunnen informeren over ***[Samenwerking]*** !
+
+Verschillende modellen komen binnenkort beschikbaar, zoals ***[Model]***.
+Meer informatie volgt in mijn volgende bericht.
+
+Deze modellen zullen gelanceerd worden op ***[datum]*** en zijn naar verwachting snel uitverkocht.
+
+In welk model bent u geinteresseerd?
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

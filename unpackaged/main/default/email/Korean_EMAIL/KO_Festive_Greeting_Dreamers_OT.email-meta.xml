@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>홀리데이 그리팅 - 드리머 / 원타이머</name>
+    <style>none</style>
+    <subject>All the best from RIMOWA</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+고객님의 따뜻한 연말연시를 바라는 리모와 모든 임직원의 마음을 전합니다.
+
+올 한해는 예측하지 못한 여러 도전이 있었지만, 새로운 20201년에는 고객님께 행복과 건강, 번영이 가득하기를 기원합니다.
+
+리모와는 새로운 해에 멋진 모험이 곧 다시 시작되리라 믿습니다.
+새해 복 많이 받으세요!
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

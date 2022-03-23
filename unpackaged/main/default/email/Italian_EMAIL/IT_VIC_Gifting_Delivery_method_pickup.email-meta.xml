@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>IT - VIC Gifting - Delivery method/pickup</name>
+    <style>none</style>
+    <subject>Sul tuo regalo da RIMOWA</subject>
+    <textOnly>Gentile Signor/Signora {!Contact.LastName},
+
+é un piacere sapere del suo interesse. Sará sicuramente n&#39;interessante aggiunta alla sua collezione.
+
+Posso confermarle che **avremo il suo regalo pronto in boutique. Siamo lieti di accoglierla in base alla sua disponibilitá, ci faccia solo sapere il giorno e l&#39;orario a lei piú consono**.
+
+**il suo regalo é pronto per essere spedito. Cortesemente puó confermarci il suo indirizzo? [Indirizzo]. **
+
+Cordialmente
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

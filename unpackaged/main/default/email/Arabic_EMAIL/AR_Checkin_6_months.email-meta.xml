@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecylce;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الفحص بعد 6 أشهر</name>
+    <style>none</style>
+    <subject>فحص ما بعد أول رحلات سفر</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+نتمنى أن تكون بخير!
+
+لقد كان منتج RIMOWA من طراز ***[Model]*** برفقتك في بعض السفريات لذا نود أن ندعوك لتشريفنا في متجر RIMOWA‏ {!User.Base_Store_Code__c} لفحص منتجك وتنظيفه مجانًا.
+
+إذا كنتَ مهتمًا بذلك، سوف يسرنا تنظيم هذا الأمر.
+
+مع أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

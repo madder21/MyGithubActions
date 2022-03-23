@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_感謝尚未購買的客戶 （兩日內） NOI</name>
+    <style>none</style>
+    <subject>感謝您的光臨！</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+感謝您昨天蒞臨 {!User.Base_Store_Code__c}。
+很高興見到您！
+
+如同所承諾的，我們附上彼此討論的 RIMOWA ***[行李箱Model]*** 詳細資料。
+它將是***[原因]***的完美選擇。
+
+如您想要預定該行李箱或需要其他資訊，
+我們將隨時為您服務。
+
+敬祝一路平安！
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

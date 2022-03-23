@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Objednávka k potvrzení</name>
+    <style>none</style>
+    <subject>Dokončete svoji RIMOWA objednávku</subject>
+    <textOnly>Vážený pane / paní {!Contact.LastName},
+
+Děkujeme, že jste si vybrali RIMOWA.
+
+Kliknutím na odkaz níže pokračujte v platbě a potvrďte objednávku ** produktu **.
+
+**Odkaz**
+
+Jsem Vám k dispozici, pokud budete potřebovat pomoc při provádění platby.
+***
+Pokud byste chtěli změnit svůj souhlas s přijímáním marketingových aktivit vyjádřených během našeho rozhovoru, prosím neváhejte mě v tomto ohledu kontaktovat.
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+Zpracováním objednávky souhlasíte s obchodními podmínkami společnosti RIMOWA.
+https://www.rimowa.com/cz/en/terms-conditions/terms.html
+
+Vaše osobní údaje zpracovává společnost RIMOWA jakožto správce údajů za účelem organizace zpracování vašeho zavazadla. Další informace o zpracování vašich osobních údajů a vašich právech najdete v našich zásadách ochrany osobních údajů.
+https://www.rimowa.com/cz/en/Data_protection.html</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Watch Case Launch</name>
+    <style>none</style>
+    <subject>Introducing Rimowa Watch Case</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I wanted to personally reach out to inform you about the launch of a very exciting and unique product, the first of its kind, the RIMOWA Watch Case.
+
+This unique limited-edition timepiece is created as a protective case for the most prized wristwatches making it the ultimate luxury accessory.
+
+With its grooved aluminium exterior and microfiber cushioned interior, the RIMOWA Watch Case carefully stores and protects up to three timepieces.
+
+I especially thought of you for this very exclusive product. I am sure that it will perfectly protect your most precious watches or could be the perfect gift for the loved ones.
+
+Would you like to know more about this exceptional timepiece?
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

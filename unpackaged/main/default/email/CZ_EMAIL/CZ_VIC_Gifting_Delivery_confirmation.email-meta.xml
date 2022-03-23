@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CZ - VIC Gifting - Delivery confirmation</name>
+    <style>none</style>
+    <subject>*** Váš dárek je na cestě / Váš dárek je připraven k vyzvednutí ***</subject>
+    <textOnly>Vážený/á pane/paní {!Contact.LastName},
+
+Perfektní!
+
+Těšíme se, až Vás v obchodě budeme moci ** datum návštěvy ** přivítat. Osobně tu budu, abych Vás přivítal/a, /Bohužel tento den v obchodě nebudu, nicméně můj kolega/yně XXX Vám rád/a pomůže.
+
+** kniha odeslána **,
+
+Doufám, že se bavíte při procházení naší více jak stoleté historie RIMOWA.
+
+Přeji krásný den.
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

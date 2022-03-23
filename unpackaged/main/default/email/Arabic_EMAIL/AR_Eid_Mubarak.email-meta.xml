@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>عيد مبارك من AR</name>
+    <style>none</style>
+    <subject>عيد مبارك من  RIMOWA</subject>
+    <textOnly>{!Contact.LastName} ***عزيزي السيد***  ***عزيزتي السيدة***
+
+نتمنى لكم ولعائلاتكم جميعاً من ريموا عيد مبارك.
+نرجو أن تكون هذه المناسبة مليئة بالفرح والسعادة.
+
+أفضل ما لدينا من تمنيات
+
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

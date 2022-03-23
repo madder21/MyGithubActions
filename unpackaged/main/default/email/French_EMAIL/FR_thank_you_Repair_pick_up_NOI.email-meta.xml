@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>thank you Repair pick up NOI</name>
+    <style>none</style>
+    <subject>Merci pour votre confiance</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Merci d’être passé en boutique hier.
+
+J’espère que vous êtes satisfait de la réparation effectuée sur votre modèle RIMOWA ***[Model]*** de la collection ***[Model]***.
+
+Je vous souhaite de nombreux autres voyages en compagnie de votre RIMOWA.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

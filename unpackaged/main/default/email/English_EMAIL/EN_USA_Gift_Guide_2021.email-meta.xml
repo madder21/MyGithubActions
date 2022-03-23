@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN USA Gift Guide 2021</name>
+    <style>none</style>
+    <subject>Discover our gift&#39;s selection for these Holidays</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+As the holiday season approaches, I wanted to share a gift guide with you for inspiration. From iconic grooved aluminium suitcases, to portable designs intended for daily use, each resilient piece promises to accompany your loved one on a lifetime of travels.
+
+Wishing you all the joys of the holiday season and many moments of meaningful travel in the year ahead.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

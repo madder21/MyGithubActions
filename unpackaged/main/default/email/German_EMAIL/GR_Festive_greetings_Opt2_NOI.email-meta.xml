@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Festive greetings - Opt2 NOI</name>
+    <style>none</style>
+    <subject>Festive Greetings</subject>
+    <textOnly>Sehr geehrte/r {!Contact.LastName},
+
+Wir alle von RIMOWA senden Ihnen die herzlichsten Grüße zu den Feiertagen.
+Möge Ihr neues Jahr mit Glück, guter Gesundheit und Reisen erfüllt sein.
+
+Herzlichste Grüße,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

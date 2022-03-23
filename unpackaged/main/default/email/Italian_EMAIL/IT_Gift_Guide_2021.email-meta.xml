@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Guida ai regali</name>
+    <style>none</style>
+    <subject>Scopra la nostra selezione di articoli regalo per queste vacanze</subject>
+    <textOnly>Gentile Signor/Signora {!Contact.LastName},
+
+Con l&#39;avvicinarsi delle festivitá natalizie, desideravo condividere con lei una guida che l&#39;aiuterá a trovare la giusta ispirazione per il regalo perfetto.
+
+Dalle iconiche valigie in alluminio, alla nostra nuova linea NEVER STILL pensata per l&#39;utilizzo quotidiano, ogni nostro prodotto promette di accompagnare al meglio i nostri clienti durante i loro viaggi.
+
+Le auguriamo di passare delle felici e spensierate vacanze e di vivere momenti indimenticabili durante i suoi futuri viaggi.
+
+
+Cordialmente
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

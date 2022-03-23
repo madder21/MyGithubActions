@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Repair invoice NOI</name>
+    <style>none</style>
+    <subject>您的維修發票結算</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+感谢您信赖我们的客户关怀专家维修您的 RIMOWA ***[Model]***。
+
+请查收附件中的维修发票。我们恳请您在 ***[date]*** 前支付此发票。
+
+我们预祝您使用 RIMOWA 享受未来的旅行。如果您需要任何帮助，请随时联系我。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - VIC Gifting - Delivery method/pickup</name>
+    <style>none</style>
+    <subject>RIMOWA 給你送上的聖誕禮物</subject>
+    <textOnly>親愛的 {!Contact.LastName}先生／女士，
+
+很高興您喜歡這本特刊，相信它會令你的書籍收藏更豐富！
+
+我們已確認可以在***Store***為您準備好您的禮物。***請告訴我們方便您的日期和時間以作準備。***
+
+我們已確認可以***把特刊發送給您。請確認一下以下的地址 ‘地址行1 /地址行2，‘郵政編碼，城市}***。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

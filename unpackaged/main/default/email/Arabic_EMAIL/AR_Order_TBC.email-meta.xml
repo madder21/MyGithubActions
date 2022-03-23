@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>AR - Order - To be Confirmed</name>
+    <style>none</style>
+    <subject>Finalise your RIMOWA Order</subject>
+    <textOnly>عزيزي السيد / السيدة {!Contact.LastName} ،
+
+شكرًا لاختيارك RIMOWA.
+
+يرجى الضغط على الرابط أسفله لمتابعة الدفع وتأكيد طلبك لـ ** Product **.
+
+**Link**
+
+سأظل تحت تصرفك إذا احتجت إلى مساعدة لمتابعة الدفع ،
+
+تحياتي الحارة،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+من خلال معالجة طلبك ، فإنك توافق على شروط وأحكام RIMOWA.
+تتم معالجة بياناتك الشخصية بواسطة RIMOWA بصفتها وحدة تحكم في البيانات ، لتنظيم عملية إصلاح حقيبتك. لمزيد من المعلومات حول معالجة بياناتك الشخصية وحقوقك ، يرجى الاطلاع على سياسة الخصوصية الخاصة بنا.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

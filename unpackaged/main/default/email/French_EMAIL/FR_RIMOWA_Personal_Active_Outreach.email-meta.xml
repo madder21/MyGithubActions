@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>Votre RIMOWA pour tous les jours : Le RIMOWA Personal!</subject>
+    <textOnly>Cher/Chère Monsieur/Madame {!Contact.LastName},
+
+Je suis très heureux(se) de vous partager l&#39;annonce de lancement d&#39;un nouvel article très original dans notre collection : le RIMOWA Personal.
+
+Le RIMOWA Personal est une pochette bandouillère, en format de mini valise, qui permet de ranger et transporter tous les essentiels du quotidien. En polycarbonate, il se décline en plusieurs coloris : noir, blanc, rose désert ou kaki. Il peut être porté avec sa bandouillère en cuir amovible, autour de la taille, ou à la main comme une pochette.
+
+Je vous invite à me recontacter si vous souhaitez plus d&#39;informations sur cette pochette, qui est destiné à devenir un modèle emblématique de nos collections.
+
+A bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SOFT BAGS - Officiële lancering</name>
+    <style>none</style>
+    <subject>Nu verkrijgbaar: RIMOWA Never Still bag collectie</subject>
+    <textOnly>Beste Hr/Mevr {!Contact.LastName},
+
+Nu we het nieuwe jaar ingaan, kijken we bij RIMOWA met aandacht naar mobiliteit en de toekomst van reizen met ons allereerste assortiment soft bags, de RIMOWA Never Still-collectie.
+
+Van moderne rugzakken en praktische tassen tot stijlvolle weekendtassen, deze nieuwe collectie essentiële mobiliteitsartikelen bieden een eigentijdse, functionele en elegante oplossing voor het dagelijkse woon-werkverkeer in de stad, zakelijk gebruik en daarbuiten.
+
+Ik sta graag tot uw beschikking mocht u meer informatie willen ontvangen over de producten of als ik u kan assisteren bij een reservering van een product.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

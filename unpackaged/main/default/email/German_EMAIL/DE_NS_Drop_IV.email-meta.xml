@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS 4 Erscheinung</name>
+    <style>none</style>
+    <subject>Neue Erweiterungen zu unserer Never Still Kollektion</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Ich wollte mit Ihnen die neueste Erweiterung der Never Still-Kollektion teilen.
+
+****
+Die neue Kollektion kleiner Lederwaren mit hochwertigen Materialien und minimalistischem Design umfasst eine Handytasche, ein Kartenetui, ein Reisepassetui, ein Mini-Etui und einen Schlüsselband-Schlüsselanhänger.
+
+ODER
+
+Da Sie bereits einen **eigenen Produktnamen** besitzen, dachte ich, dass dieser praktische und stilvolle **NS IV Produktname** aus Italien eine perfekte Ergänzung für Ihre Sammlung wäre.
+****
+
+Ich helfe Ihnen gerne, wenn Sie weitere Informationen wünschen.
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

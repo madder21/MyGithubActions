@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Holiday Specialties</name>
+    <style>none</style>
+    <subject>Discover limited-edition gifts for the Holidays</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I am happy to share our limited-edition pieces for the Holiday season.
+
+***
+Crafted with RIMOWA&#39;s legendary savoir-faire, these pieces will be treasured for years to come.
+The RIMOWA One Bottle Case and Watch Case are both made from our anodised grooved aluminium, meaning your fine spirits and watches can be protected on the move.
+
+OR
+
+Designed to hold virtually any bottle, the RIMOWA One Bottle Case is the ultimate piece for connoisseurs.
+Made from anodised grooved aluminium, the One Bottle Case in silver features high-gloss aluminium corners and a black leather handle and tag. Inside, a luxurious interior in black contrasts with the gleaming silver exterior.
+
+OR
+
+Created as a protective case for the most prized wristwatches, this limited-edition piece is the ultimate luxury accessory.
+With its grooved aluminium exterior and microfiber cushioned interior, the RIMOWA Watch Case carefully stores and protects up to three timepieces.
+****
+
+I’d be happy to help if you would like more information.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

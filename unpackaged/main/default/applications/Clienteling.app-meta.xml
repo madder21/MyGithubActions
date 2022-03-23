@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>AccountRecordPage</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+        <pageOrSobjectType>Account</pageOrSobjectType>
+    </actionOverrides>
+    <brand>
+        <headerColor>#004784</headerColor>
+        <logo>Rimowa_Monogram</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>true</shouldOverrideOrgTheme>
+    </brand>
+    <description>Clienteling App for Rimowa</description>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <label>Clienteling</label>
+    <navType>Standard</navType>
+    <tabs>standard-home</tabs>
+    <tabs>standard-Account</tabs>
+    <tabs>Transaction__c</tabs>
+    <tabs>standard-Product2</tabs>
+    <tabs>Store__c</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Event</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>ClientList__c</tabs>
+    <tabs>standard-Task</tabs>
+    <tabs>Log__c</tabs>
+    <tabs>WishlistItem__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Clienteling_UtilityBar</utilityBar>
+</CustomApplication>

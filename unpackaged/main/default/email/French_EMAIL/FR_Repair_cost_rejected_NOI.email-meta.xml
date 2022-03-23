@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Rejet du devis de réparation</name>
+    <style>none</style>
+    <subject>Confirmation d&#39;annulation de votre réparation.</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Nous avons bien noté votre souhait d&#39;annuler la demande
+de réparation de votre baggage.
+
+Nous tenons votre bagage à disposition et vous accueillerons
+dans notre boutique de {xxx} avec plaisir pour vous le remettre.
+
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

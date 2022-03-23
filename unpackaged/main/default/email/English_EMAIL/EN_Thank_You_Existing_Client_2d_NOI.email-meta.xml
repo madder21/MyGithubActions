@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Thank You Existing Client 2d NOI</name>
+    <style>none</style>
+    <subject>Thank you for visiting us !</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+It was lovely seeing you again in our store yesterday. I am delighted to hear the ***[model]*** was a great companion during your recent trip to {!User.Base_Store_Code__c}. The RIMOWA ***[Model]*** you chose will be a great addition to your collection.
+
+I hope you have a lovely time in ***[traveldestination]***,
+
+Safe travels,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

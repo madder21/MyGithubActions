@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Post 1st trip 2w NOI</name>
+    <style>none</style>
+    <subject>Inchecken na uw eerste reis</subject>
+    <textOnly>Hallo {!Contact.LastName},
+
+Bedankt voor uw bezoek aan RIMOWA {!User.Base_Store_Code__c} – Het was mij een genoegen om u te mogen adviseren.
+
+Ik hoop dat uw nieuwe RIMOWA ***[Model]*** een trouwe
+metgezel is geweest op uw reis naar ***[reisbestemming]***.
+
+Mocht u nog vragen hebben dan hoor ik dat graag.
+
+Goede reis,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

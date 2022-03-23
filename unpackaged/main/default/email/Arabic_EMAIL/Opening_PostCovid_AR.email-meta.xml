@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>افتتاح المتجر_Covid</name>
+    <style>none</style>
+    <subject>أبوابنا مفتوحة.</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+الأكثر أهميةً، كما أتمنى، أن تكون أنت، XXX وأحبائك على ما يرام.
+
+&gt;يسعدني إبلاغك بإعادة افتتاح متجرنا الآن. ولأن صحتك أولوية بالنسبة لنا، فقد اتخذنا جميع التدابير اللازمة في متجرنا لضمان سلامتك.
+
+&gt;سأبقى تحت تصرفك على خطي الشخصي/ بريدي الإلكتروني وتُسعدني الإجابة عن أي أسئلة قد تكون لديك أو مساعدتك في حجز المنتج أو تحديد موعد.
+
+&gt;أتطلع إلى رؤيتك قريبًا،
+
+&gt;لور
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Collaboration available</name>
+    <style>none</style>
+    <subject>Great news ! The wait is over</subject>
+    <textOnly>尊敬的{!Contact.LastName},
+
+好消息! 我们收到了新的补货, 您预订的 ***[model]***正在等着您！
+我已经为您留货, 请问您何时方便来店取货?
+
+此致,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

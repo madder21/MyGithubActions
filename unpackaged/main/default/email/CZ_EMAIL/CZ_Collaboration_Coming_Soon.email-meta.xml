@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Nová kolaborace brzy v obchodech</name>
+    <style>none</style>
+    <subject>Čekání je téměř u konce</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+Ráda bych Vás seznámil/a s detaily ohledně naší nové &quot;&quot;spolupráce&quot;&quot; kolekce.
+
+V této kolekci představujeme několik různých modelů jako ***model*** jehož detaily Vám zasíláme níže. Tato kolekce bude dostupná od ***datum***.
+
+Pokud Vás jakýkoliv model zaujal, dejte mi, prosím, obratem vědět.
+
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

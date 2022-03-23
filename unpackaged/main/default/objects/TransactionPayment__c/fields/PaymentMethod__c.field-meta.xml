@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PaymentMethod__c</fullName>
+    <externalId>false</externalId>
+    <label>Payment Method</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>CC_MASTER</fullName>
+                <default>false</default>
+                <label>Master</label>
+            </value>
+            <value>
+                <fullName>CC_VISA</fullName>
+                <default>false</default>
+                <label>Visa</label>
+            </value>
+            <value>
+                <fullName>C_PAYPAL</fullName>
+                <default>false</default>
+                <label>Paypal</label>
+            </value>
+            <value>
+                <fullName>CC_AMEX</fullName>
+                <default>false</default>
+                <label>Amex</label>
+            </value>
+            <value>
+                <fullName>AEC</fullName>
+                <default>false</default>
+                <label>American Express CZK</label>
+            </value>
+            <value>
+                <fullName>AEE</fullName>
+                <default>false</default>
+                <label>American Express EUR</label>
+            </value>
+            <value>
+                <fullName>AEG</fullName>
+                <default>false</default>
+                <label>American Express GPB</label>
+            </value>
+            <value>
+                <fullName>AEH</fullName>
+                <default>false</default>
+                <label>American Express HKD</label>
+            </value>
+            <value>
+                <fullName>AEK</fullName>
+                <default>false</default>
+                <label>American Express KRW</label>
+            </value>
+            <value>
+                <fullName>AEM</fullName>
+                <default>false</default>
+                <label>American Express MOP</label>
+            </value>
+            <value>
+                <fullName>AER</fullName>
+                <default>false</default>
+                <label>American Express RMB</label>
+            </value>
+            <value>
+                <fullName>AEU</fullName>
+                <default>false</default>
+                <label>American Express AED</label>
+            </value>
+            <value>
+                <fullName>APH</fullName>
+                <default>false</default>
+                <label>Alipay HKD</label>
+            </value>
+            <value>
+                <fullName>APK</fullName>
+                <default>false</default>
+                <label>Alipay KRW</label>
+            </value>
+            <value>
+                <fullName>APM</fullName>
+                <default>false</default>
+                <label>Alipay MOP</label>
+            </value>
+            <value>
+                <fullName>APR</fullName>
+                <default>false</default>
+                <label>Alipay RMB</label>
+            </value>
+            <value>
+                <fullName>APU</fullName>
+                <default>false</default>
+                <label>Alipay AED</label>
+            </value>
+            <value>
+                <fullName>ARC</fullName>
+                <default>false</default>
+                <label>Paid Deposit CZK</label>
+            </value>
+            <value>
+                <fullName>ARE</fullName>
+                <default>false</default>
+                <label>paid deposits EUR</label>
+            </value>
+            <value>
+                <fullName>ARG</fullName>
+                <default>false</default>
+                <label>paid Deposit GPB</label>
+            </value>
+            <value>
+                <fullName>ARH</fullName>
+                <default>false</default>
+                <label>Paid Deposit HKD</label>
+            </value>
+            <value>
+                <fullName>ARK</fullName>
+                <default>false</default>
+                <label>Paid Deposit KRW</label>
+            </value>
+            <value>
+                <fullName>ARM</fullName>
+                <default>false</default>
+                <label>Paid Deposit MOP</label>
+            </value>
+            <value>
+                <fullName>ARR</fullName>
+                <default>false</default>
+                <label>Paid Deposit RMB</label>
+            </value>
+            <value>
+                <fullName>ARU</fullName>
+                <default>false</default>
+                <label>Paid deposit AED</label>
+            </value>
+            <value>
+                <fullName>AVC</fullName>
+                <default>false</default>
+                <label>issued CZK</label>
+            </value>
+            <value>
+                <fullName>AVE</fullName>
+                <default>false</default>
+                <label>issued EUR</label>
+            </value>
+            <value>
+                <fullName>AVG</fullName>
+                <default>false</default>
+                <label>issued GPB</label>
+            </value>
+            <value>
+                <fullName>AVR</fullName>
+                <default>false</default>
+                <label>input EUR</label>
+            </value>
+            <value>
+                <fullName>BCK</fullName>
+                <default>false</default>
+                <label>BC Card KRW</label>
+            </value>
+            <value>
+                <fullName>BCU</fullName>
+                <default>false</default>
+                <label>Beam Card AED</label>
+            </value>
+            <value>
+                <fullName>BOC</fullName>
+                <default>false</default>
+                <label>Purchase Voucher CZK</label>
+            </value>
+            <value>
+                <fullName>BOG</fullName>
+                <default>false</default>
+                <label>Purchase Voucher GPB</label>
+            </value>
+            <value>
+                <fullName>BON</fullName>
+                <default>false</default>
+                <label>Purchase Voucher EUR</label>
+            </value>
+            <value>
+                <fullName>BOU</fullName>
+                <default>false</default>
+                <label>Purchase Voucher AED</label>
+            </value>
+            <value>
+                <fullName>BOZ</fullName>
+                <default>false</default>
+                <label>Purchase Voucher CZK 2</label>
+            </value>
+            <value>
+                <fullName>BTM</fullName>
+                <default>false</default>
+                <label>BTM Card MOP</label>
+            </value>
+            <value>
+                <fullName>CAD</fullName>
+                <default>false</default>
+                <label>CA Cash</label>
+            </value>
+            <value>
+                <fullName>CBC</fullName>
+                <default>false</default>
+                <label>Bank Card CZK</label>
+            </value>
+            <value>
+                <fullName>CBD</fullName>
+                <default>false</default>
+                <label>Credit Card Standalone</label>
+            </value>
+            <value>
+                <fullName>CBE</fullName>
+                <default>false</default>
+                <label>Bank Card EUR</label>
+            </value>
+            <value>
+                <fullName>CBG</fullName>
+                <default>false</default>
+                <label>Bank Card GPB</label>
+            </value>
+            <value>
+                <fullName>CBK</fullName>
+                <default>false</default>
+                <label>Bank Card / Debit Card KRW</label>
+            </value>
+            <value>
+                <fullName>CBU</fullName>
+                <default>false</default>
+                <label>Bank Card AED</label>
+            </value>
+            <value>
+                <fullName>CBZ</fullName>
+                <default>false</default>
+                <label>Bank Card Standalone CZK</label>
+            </value>
+            <value>
+                <fullName>CCH</fullName>
+                <default>false</default>
+                <label>Cash Coupon HKD</label>
+            </value>
+            <value>
+                <fullName>CCK</fullName>
+                <default>false</default>
+                <label>Cash Coupon KRW</label>
+            </value>
+            <value>
+                <fullName>CCM</fullName>
+                <default>false</default>
+                <label>Cash Coupon MOP</label>
+            </value>
+            <value>
+                <fullName>CCR</fullName>
+                <default>false</default>
+                <label>Cash Coupon RMB</label>
+            </value>
+            <value>
+                <fullName>CCU</fullName>
+                <default>false</default>
+                <label>Cash coupon AED</label>
+            </value>
+            <value>
+                <fullName>CDC</fullName>
+                <default>false</default>
+                <label>CA Debit Card</label>
+            </value>
+            <value>
+                <fullName>CDE</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy EUR</label>
+            </value>
+            <value>
+                <fullName>CDG</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy GPB</label>
+            </value>
+            <value>
+                <fullName>CDH</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy HKD</label>
+            </value>
+            <value>
+                <fullName>CDK</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy</label>
+            </value>
+            <value>
+                <fullName>CDM</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy MOP</label>
+            </value>
+            <value>
+                <fullName>CDR</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy RMB</label>
+            </value>
+            <value>
+                <fullName>CDU</fullName>
+                <default>false</default>
+                <label>Cashier Discrepancy AED</label>
+            </value>
+            <value>
+                <fullName>CEP</fullName>
+                <default>false</default>
+                <label>CA Deposit</label>
+            </value>
+            <value>
+                <fullName>CFT</fullName>
+                <default>false</default>
+                <label>CA Gift Voucher</label>
+            </value>
+            <value>
+                <fullName>CHD</fullName>
+                <default>false</default>
+                <label>CA Check</label>
+            </value>
+            <value>
+                <fullName>CIH</fullName>
+                <default>false</default>
+                <label>Credit Note Issued HKD</label>
+            </value>
+            <value>
+                <fullName>CIK</fullName>
+                <default>false</default>
+                <label>Credit Note Issued KRW</label>
+            </value>
+            <value>
+                <fullName>CIM</fullName>
+                <default>false</default>
+                <label>Credit Note Issued MOP</label>
+            </value>
+            <value>
+                <fullName>CIR</fullName>
+                <default>false</default>
+                <label>Credit Note Issued RMB</label>
+            </value>
+            <value>
+                <fullName>CIU</fullName>
+                <default>false</default>
+                <label>Credit Note Issued AED</label>
+            </value>
+            <value>
+                <fullName>CQC</fullName>
+                <default>false</default>
+                <label>Check CZK</label>
+            </value>
+            <value>
+                <fullName>CQE</fullName>
+                <default>false</default>
+                <label>Check EUR</label>
+            </value>
+            <value>
+                <fullName>CQG</fullName>
+                <default>false</default>
+                <label>check GPB</label>
+            </value>
+            <value>
+                <fullName>CQH</fullName>
+                <default>false</default>
+                <label>Check HKD</label>
+            </value>
+            <value>
+                <fullName>CQK</fullName>
+                <default>false</default>
+                <label>Check KRW</label>
+            </value>
+            <value>
+                <fullName>CQM</fullName>
+                <default>false</default>
+                <label>Check MOP</label>
+            </value>
+            <value>
+                <fullName>CQR</fullName>
+                <default>false</default>
+                <label>Check RMB</label>
+            </value>
+            <value>
+                <fullName>CQU</fullName>
+                <default>false</default>
+                <label>Check AED</label>
+            </value>
+            <value>
+                <fullName>CRH</fullName>
+                <default>false</default>
+                <label>Credit Note Received HKD</label>
+            </value>
+            <value>
+                <fullName>CRK</fullName>
+                <default>false</default>
+                <label>Credit note Received KRW</label>
+            </value>
+            <value>
+                <fullName>CRM</fullName>
+                <default>false</default>
+                <label>Credit Note Rceived MOP</label>
+            </value>
+            <value>
+                <fullName>CRR</fullName>
+                <default>false</default>
+                <label>Credit Note Received RMB</label>
+            </value>
+            <value>
+                <fullName>CRU</fullName>
+                <default>false</default>
+                <label>Credit note Received AED</label>
+            </value>
+            <value>
+                <fullName>MasterCard</fullName>
+                <default>false</default>
+                <label>MasterCard</label>
+            </value>
+            <value>
+                <fullName>C_CC</fullName>
+                <default>false</default>
+                <label>Credit Card 2</label>
+            </value>
+            <value>
+                <fullName>C_CC_AMEX</fullName>
+                <default>false</default>
+                <label>Amex 2</label>
+            </value>
+            <value>
+                <fullName>C_CC_MASTER</fullName>
+                <default>false</default>
+                <label>Master 2</label>
+            </value>
+            <value>
+                <fullName>C_ CC_VISA</fullName>
+                <default>false</default>
+                <label>Visa 2</label>
+            </value>
+            <value>
+                <fullName>CC</fullName>
+                <default>false</default>
+                <label>Credit Card</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

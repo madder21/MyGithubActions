@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Thank You New Client 2d NOI</name>
+    <style>none</style>
+    <subject>感谢您访问我们 ！</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+感谢您昨天光顾 RIMOWA {!User.Base_Store_Code__c}。
+见到您很高兴！我也很高兴有机会向您介绍品牌设计和技术。
+
+我们希望您对***[colour]***色的 RIMOWA ***[Model]*** 感到满意。
+它对于您的 ***[traveldestination]*** 是理想的选择。
+
+期待您再次光顾。
+
+祝您旅途平安！
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

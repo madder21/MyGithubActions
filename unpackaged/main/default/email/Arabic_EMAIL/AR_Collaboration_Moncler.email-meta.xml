@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>الاشتراك قريبًا_Moncler</name>
+    <style>none</style>
+    <subject>لقد انتهت فترة الانتظار</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+يسعدنا أن نخبرك بمزيد من المعلومات المتعلقة بالاشتراك Moncler &amp; RIMOWA &quot;Reflection&quot; !
+
+يمكنك الاطلاع على مزيد من التفاصيل في الرسالة التالية، سوف يتم إطلاق هذه الطرازات في ***[date]*** وسوف تنفذ سريعًا.
+
+مع أطيب التحيات،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

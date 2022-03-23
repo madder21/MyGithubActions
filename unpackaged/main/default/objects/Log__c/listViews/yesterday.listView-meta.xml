@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>yesterday</fullName>
+    <columns>NAME</columns>
+    <columns>CREATEDBY_USER</columns>
+    <columns>Service_Name__c</columns>
+    <columns>Method__c</columns>
+    <columns>Has_Error__c</columns>
+    <columns>Duration__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATED_DATE</field>
+        <operation>equals</operation>
+        <value>YESTERDAY</value>
+    </filters>
+    <filters>
+        <field>Has_Error__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>yesterday</label>
+</ListView>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC Mango&amp;Bamboo</name>
+    <style>none</style>
+    <subject>Discover Mango &amp; Bamboo, our new essentials colors</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I am excited to introduce you to the Essential Collection’s newest pastel colours: Bamboo &amp; Mango.
+
+Inspired by the tropical products of Thailand’s famed floating markets, the collection features a soft, refined green and a vibrant shade of orange.
+
+**These seasonal hues are available in three suitcase sizes, as well as in our beloved Personal Cross-body Clutch bag.**
+Knowing your taste, I thought that the **MANGO/BAMBOO PRODUCT ** might be the perfect summer piece to add to your collection.
+
+Should you need more details on the products or help making a product reservation, don&#39;t hesitate to let me know.
+
+Kind regards,
+
+{!User.Name} 
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

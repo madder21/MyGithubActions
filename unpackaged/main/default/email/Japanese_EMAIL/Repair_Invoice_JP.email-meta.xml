@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>お修理(フォローアップ)</name>
+    <style>none</style>
+    <subject>製品のお使い心地はいかがでしょうか</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+先日は、お修理製品のお引取り、ありがとうございました。
+
+お修理後の製品のお使い心地はいかがでしょうか。
+
+今後も{!Contact.LastName} 様のお近くで、
+末永くお楽しみいただけることを願っております。
+
+また何か私でお力になれることがございましたら、お気軽にご連絡ください。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

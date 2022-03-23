@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Reparatur durchgeführt, Abholung begonnen NOI</name>
+    <style>none</style>
+    <subject>Ihre Reparatur wurde durchgeführt</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+die Reparatur Ihres RIMOWA ***[Model]*** wurde durchgeführt!
+
+Ich freue mich, Ihnen mitteilen zu können, dass  Ihr Koffer nun im RIMOWA Store {!User.Base_Store_Code__c} zur Abholung bereit steht. 
+
+Wir bitten um Verständnis, dass Ihr Koffer innerhalb von 30 Tagen abgeholt werden muss, da ansonsten Kosten für die Lagerung anfallen könnten.
+
+Bitte teilen Sie uns mit, sollte eine Abholung innerhalb dieses Zeitraums für Sie nicht möglich sein.
+ 
+Mit freundlichen Grüßen
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

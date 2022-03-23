@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Zpoplatněná oprava - čekáme na klientovo potvrzení</name>
+    <style>none</style>
+    <subject>Připomenutí za stanovenou částku za opravu</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+rád/a bych si s Vámi ověřil/a, že souhlasíte se stanovenou částkou za opravu Vašeho zavazadla?
+
+V případě souhlasu by byla oprava zprocesována v nejbližších dnech.
+
+Prosím, potvrďte obratem, abychom mohli započít s procesem opravy.
+
+Předem děkuji a přeji hezký den,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

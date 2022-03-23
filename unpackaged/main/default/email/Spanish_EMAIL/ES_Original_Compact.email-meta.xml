@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Compact</name>
+    <style>none</style>
+    <subject>Ahora disponible: RIMOWA Original Compact</subject>
+    <textOnly>Estimado/a Sr/Sra. {!Contact.LastName},
+
+Es un placer comunicarle que una nueva edición de nuestra Original compact en aluminio ya está disponible.
+
+Esta preciada maleta tiene un diseño funcional, fácilmente convertible en maletín o maleta de mano que se ajusta a la mayoría de compartimentos de equipaje.
+
+Es por esto que la convierte en una compañera de viaje ideal que se adapta fácilmente a su estilo de vida, perfecta para el trabajo o viajes cortos.
+
+Estoy convencido de que puede ser una estupenda opción para usted ¿Estaría interesado en recibir más información?
+
+Saludos cordiales,
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS Drop IV - CHT</name>
+    <style>none</style>
+    <subject>Never Still系列全新款式</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+我希望向您介紹Never Still系列的最新款式。
+
+****
+全新的小型皮具包括電話袋、卡片套、護照套、迷你小袋和鎖匙扣頸繩，全部均採用頂級的優質物料製造，設計簡約時尚。
+
+OR
+
+由於您已擁有**Owned Product Name **，相信您也會喜歡於意大利製造、實用時尚的**NS IV Product Name**。
+****
+
+如欲了解產品詳情，歡迎與我聯絡。
+
+XXX 謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

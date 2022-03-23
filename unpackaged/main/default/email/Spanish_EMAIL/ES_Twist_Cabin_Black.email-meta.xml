@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>lanzamiento Twist Cabin Black</name>
+    <style>none</style>
+    <subject>Original Twist esta ahora disponilble en negro</subject>
+    <textOnly>Estimado Sr/Sra {!Contact.LastName},
+
+Viendo el gran exito de nuestra colección Original Twist, nos complace informarle del nuevo lanzamiento en color negro.
+
+Hecho a medida tanto para negocios como para viaje, este modelo da un toque sofisticado con un diseño de piel muy elegante en nuestro iconico aluminio.
+
+Como cliente de lacolección Twist, quiero peronalmente informarle de este nuevo lanzamiento.
+
+¿Desearía más información sobre este producto?
+
+Cordiales saludos
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

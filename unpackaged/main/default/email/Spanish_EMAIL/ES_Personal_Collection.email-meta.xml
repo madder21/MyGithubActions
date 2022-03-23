@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Personal Collection</name>
+    <style>none</style>
+    <subject>Descubre nuestros nuevos bolsos de bandolera</subject>
+    <textOnly>Estimado/a Sr/Sra {!Contact.LastName},
+
+Tras el lanzamiento de nuestro icónico bolso de bandolera &quot;Personal&quot; en policarbonato, es un placer anunciarle que estamos ampliando la colección Personal con nuevos diseños.
+
+Hecho de nuestro material insignia de aluminio acanalado, el minibolso con bandolera, el bolso de mano y el bolso de bandolera RIMOWA &quot;Personal&quot; hace honor a nuestro largo linaje de innovación de producto, artesanía y destreza industrial.
+
+Diseñado para el día a día, el **Product Name** sería una buena adquisición para su maravillosa colección, un increíble artículo para usted.
+
+¿Le gustaría conocer más?
+
+Saludos cordiales.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

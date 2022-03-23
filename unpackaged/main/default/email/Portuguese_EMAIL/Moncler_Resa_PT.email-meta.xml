@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Cadastro para Colaborações</name>
+    <style>none</style>
+    <subject>Seu cadastro para a Colaboração MONCLER e RIMOWA</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Agradecemos o seu interesse na Colaboração ***[Colaboração]***.
+É um prazer confirmar que o seu nome está na lista de espera para ser informado (a) sobre este lançamento!
+
+Entrarei em contato até o dia ***[data]*** para lhe fornecer mais informações.
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

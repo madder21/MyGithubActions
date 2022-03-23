@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Coste de reparación rechazado NOI</name>
+    <style>none</style>
+    <subject>Rechazado su presupuesto de reparación</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Gracias por hacernos saber que no desea proceder con la reparación. Me gustaría saber más sobre los motivos por los que ha rechazado nuestro servicio.
+
+Mientras tanto, me gustaría organizar el retorno de su RIMOWA ***[Model]*** sin reparar.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

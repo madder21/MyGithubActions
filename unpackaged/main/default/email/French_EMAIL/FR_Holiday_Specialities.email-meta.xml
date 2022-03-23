@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Holiday Specialities</name>
+    <style>none</style>
+    <subject>Découvrez une série limitée de cadeau pour les fêtes de fin d&#39;année</subject>
+    <textOnly>Chère madame / Cher monsieur {!Contact.LastName},
+
+Je suis ravi(e) de partager avec vous notre édition limitée de cadeaux pour ces fêtes de fin d&#39;année.
+
+***
+Développées grâce à notre savoir-faire RIMOWA légendaire, ces pièces vous seront précieuses pour de nombreuses années.
+
+OU
+
+Développée pour contenir tout format de bouteille, notre boîte à bouteille est la pièce ultime pour les connaisseurs et passionnés.
+Cette boîte à bouteille reprend le design iconique de la Maison RIMOWA avec ses rainures en aluminium argenté, ces coins en aluminium brillant, sa poignée et son porte-adresse en cuir noir contrastant avec son extérieur étincellant.
+
+OU
+
+Développée pour protéger vos montres les plus précieuses, cette édition limitée est l&#39;accessoire luxueux ultime !
+Avec ces iconiques rainures en aluminium et son intérieur protecteur en microfibre, la boîte à montres RIMOWA protège jusqu&#39;à trois pièces horlogères.
+****
+
+Je me tiens à votre entière disposition si vous souhaitez des informations supplémentaires,
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

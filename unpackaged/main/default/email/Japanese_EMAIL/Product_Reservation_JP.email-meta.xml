@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>お取り置き</name>
+    <style>none</style>
+    <subject>RIMOWAでのお取り置き</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+先日は、RIMOWA{!User.Base_Store_Code__c} にご来店いただき、
+誠にありがとうございました。
+
+
+ご来店の際にご予約いただきました製品は、
+〇月〇日まで店頭にてお取り置きいたします。
+
+次回のご来店などのご都合をお聞かせいただけますと幸いです。
+また何かご不明な点がございましたら、私までお問い合わせください。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

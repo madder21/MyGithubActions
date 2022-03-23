@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Compact</name>
+    <style>none</style>
+    <subject>Nu verkrijgbaar: RIMOWA Original Compact</subject>
+    <textOnly>Beste heer / mevrouw {!Contact.LastName},
+
+Graag informeer ik u dat de nieuwste editie van onze Original Compact in Aluminium nu verkrijgbaar is.
+
+Deze merkfavoriet heeft een zeer functioneel ontwerp en kan van een aktetas op wieltjes veranderd worden in een compacte handbagagekoffer die in de meeste bagagevakken past.
+
+Deze veelzijdigheid maakt hem tot de ideale metgezel voor het dagelijkse woon-werkverkeer en korte uitstapjes.
+
+Ik denk dat dit een geweldig artikel voor u zou kunnen zijn. Wilt u meer informatie over de Original Compact?
+
+Met vriendelijke groeten,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

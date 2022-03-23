@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Agradecimento Cliente Existente - 2 dias NOI</name>
+    <style>none</style>
+    <subject>Agradecimento Cliente Existente - 2 dias NOI</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Foi um prazer revê-lo (a) em nossa loja ontem.
+Fiquei feliz em saber que a ***[modelo]*** foi uma ótima companheira de viagem.
+
+A mala RIMOWA ***[Modelo]*** que escolheu será uma excelente adição para a sua coleção.
+
+Espero que aproveite ***[destino da viagem]***,
+
+Boa viagem,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

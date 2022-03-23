@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Compact</name>
+    <style>none</style>
+    <subject>Nyní k dostání: RIMOWA Original</subject>
+    <textOnly>Vážený / á pane / ní {!Contact.LastName},
+
+Chtěl/a bych Vás informovat, že je nyní k dispozici nejnovější vydání našeho Original Compact v hliníkové verzi.
+
+Tento oblíbený model má vysoce funkční design a může být přeměněn z kufříku na kolečkách na kompaktní příruční zavazadlo, které se vejde do většiny zavazadlových prostorů.
+
+Díky této všestrannosti je ideálním společníkem pro každodenní dojíždění a krátké výlety.
+
+Myslím si, že by pro Vás mohl být skvělou volbou. Chcete se dozvědět více?
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

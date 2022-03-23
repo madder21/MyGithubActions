@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Soft Bags - Reservierung</name>
+    <style>none</style>
+    <subject>Neu bei RIMOWA: Never Still Taschenkollektion</subject>
+    <textOnly>Lieber Herr / Liebe Frau {!Contact.LastName},
+
+ich hoffe Sie hatten schöne Feiertage.
+
+Zum Start ins neue Jahr geben wir bei RIMOWA Mobilität und der Zukunft des Reisens einen neuen Namen: Never Still - unsere erste Kollektion aus Taschen und Rucksäcken. Unsere neuen Never Still Produkte sind ab sofort bei uns im Store verfügbar.
+
+Anbei finden Sie das RIMOWA Never Still Lookbook mit allen Details zu dieser Produktneuheit - lassen Sie sich inspirieren!
+Geben Sie mir gerne Bescheid, wenn ich eine Resevierung vornehemen darf.
+
+Für weitere Fragen oder Anliegen stehe ich Ihnen gerne jederzeit zur Verfügung.
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

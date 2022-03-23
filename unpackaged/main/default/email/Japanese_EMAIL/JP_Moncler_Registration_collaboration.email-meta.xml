@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>RIMOWA MONCLERニュースレターご登録</name>
+    <style>none</style>
+    <subject>RIMOWAのコラボ商品について</subject>
+    <textOnly>{!Contact.LastName}様、
+
+***[Collaboration]***にご登録いただきありがとうございます。Moncler RIMOWA「リフレクション」の最新情報などをご案内いたします。
+
+コラボレーションの詳細につきましては、***[date]*** 頃にご連絡させていただきます。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

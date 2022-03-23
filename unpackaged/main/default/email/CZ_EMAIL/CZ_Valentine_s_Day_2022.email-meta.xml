@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Krásného Valentýna!</name>
+    <style>none</style>
+    <subject>Krásného Valentýna!</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+za celý Rimowa tým Vám přejeme krásný den sv. Valentýna.
+
+Pokud byste potřeboval/a poradit, jak udělat tento den ještě více pro Vaše milé nezapomenutelný, neváhejte se na nás obrátit.
+
+S přátelským pozdravem, XY
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

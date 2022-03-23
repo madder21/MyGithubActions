@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Muttertag</name>
+    <style>none</style>
+    <subject>Alles Gute zum Muttertag!</subject>
+    <textOnly>Liebe {!Contact.Salutation} {!Contact.LastName},
+
+wir von RIMOWA wünschen Ihnen alles Gute zum Muttertag und hoffen Sie können diesen besonderen Tag mit Ihren Liebsten verbringen.
+
+Nur das Beste
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

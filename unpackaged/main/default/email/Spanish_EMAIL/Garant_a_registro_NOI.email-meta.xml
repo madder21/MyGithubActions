@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Garantía registro NOI</name>
+    <style>none</style>
+    <subject>Para activar su garantía</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Espero que esté disfrutando de su RIMOWA ***[Model]***.
+
+Como ya ha podido disfrutar de su RIMOWA durante un tiempo, me gustaría recordarle que debe registrar su maleta en RIMOWA.com para poder disfrutar de nuestros 5 años de garantía.
+
+Para registrar su maleta, solo debe conectarse a su cuenta y hacer clic en &#39;&#39;Registrar Mi RIMOWA&#39;&#39;.
+
+Si necesita ayuda, no dude en ponerse en contacto conmigo.
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

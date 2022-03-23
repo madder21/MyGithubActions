@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Birthday NOI</name>
+    <style>none</style>
+    <subject>De l&#39;équipe RIMOWA...</subject>
+    <textOnly>Cher/Chère {!Contact.LastName},
+
+Toute l’équipe de RIMOWA vous souhaite un très joyeux anniversaire !
+Nous espérons que de beaux voyages vous attendent cette année avec votre RIMOWA
+
+Nos vœux sincères,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

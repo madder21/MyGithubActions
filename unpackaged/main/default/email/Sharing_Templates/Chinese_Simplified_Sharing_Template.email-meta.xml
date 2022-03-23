@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>CHS Sharing Template</name>
+    <style>none</style>
+    <subject>向您呈献 {!Product.Name}</subject>
+    <textOnly>亲爱的 {!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName}
+
+承蒙您对 {!Product.Name} 的兴趣，我很高兴与您分享更多详细信息。
+
+您可在 {!Product.Collection} 系列的 {!Product.Color} 中找到该商品的以下图片。
+它是适合您 {Next_Traveldate} 的一件可爱单品。
+
+此外，这件单品在 {Product_Color} 中也有提供；如果您希望我把详细信息发送给您，敬请告知。
+祝好！
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

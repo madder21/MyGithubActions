@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>تسجيل الضمان</name>
+    <style>none</style>
+    <subject>لتفعيل الضمان</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+نأمل أن تكون استمتعت بمنتج RIMOWA من طراز ***[CollectionModel]***في سفرياتك الأخيرة.
+
+إذا كنت لم تسجل حقيبتك عبر الإنترنت حتى الآن للحصول على ضمان لمدة 5 أعوام، لا تزال الفرصة متاحة أمامك للتسجيل عبر الموقع الإلكتروني التالي RIMOWA.com من خلال ربط حسابك والنقر فوق أيقونة &quot;تسجيل حقيبتي&quot; (Register My RIMOWA).
+
+إذا كنت بحاجة إلى المساعدة يرجى التواصل معنا وسوف نتشرف بمساعدتك.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_第一個行程後2周 NOI</name>
+    <style>none</style>
+    <subject>你的第一个行程后跟进</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+感謝您蒞臨 RIMOWA {!User.Base_Store_Code__c}，
+我們很高興能夠協助您找到合適的行李箱。
+
+希望您全新的 RIMOWA ***[行李箱Model]*** 能夠成為 ***[旅行目的地]***
+之旅的好夥伴。
+
+如您需要其他協助，我們將隨時為您服務。
+
+敬祝旅途愉快！
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

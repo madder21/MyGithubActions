@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Dia Das Mães</name>
+    <style>none</style>
+    <subject>Feliz Dia das Mães</subject>
+    <textOnly>Prezada Sra. {!Contact.LastName},
+
+Feliz Dia das Mães!
+
+Visite a nossa loja com a sua tag de bagagem
+RIMOWA e ganhe uma personalização de cortesia.
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

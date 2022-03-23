@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lançamento Coleção de Óculos RIMOWA</name>
+    <style>none</style>
+    <subject>Lançamento Coleção de Óculos RIMOWA</subject>
+    <textOnly>Prezado(a) Sr./Sra. {!Contact.LastName},
+
+É com muita satisfação que informamos que acabamos de lançar a nossa primeira coleção de óculos RIMOWA. Temos o prazer de lhe apresentar esta nova geração de acessórios de viagem.
+
+Os nossos óculos de sol BRIDGE e RIM apresentam um design inovador e uma construção super leve, para que aprecie as suas viagens com um novo olhar.
+
+Trabalhada levando o seu conforto em consideração e feita com os melhores materiais, a coleção é o complemento perfeito para seu conjunto de viagem, e é maravilhosa para ser dada de presente.
+
+Podemos lhe enviar mais informações sobre esta coleção?
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

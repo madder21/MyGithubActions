@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Pedido Remoto - Agradecimento</name>
+    <style>none</style>
+    <subject>Agradecemos pela sua confiança</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Agradecemos pela sua confiança na RIMOWA.
+
+Tenho certeza de que a sua RIMOWA **Model** será uma fiel companheira de viagem.
+
+Caso necessite de ajuda para configurar o seu cadeado RIMOWA, fico à disposição para agendarmos um horário para eu ajudá-lo (a) pessoalmente na loja {!User.Base_Store_Code__c} ou também para ajudá-lo (a) remotamente.
+
+Desejamos ótimas viagens!
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

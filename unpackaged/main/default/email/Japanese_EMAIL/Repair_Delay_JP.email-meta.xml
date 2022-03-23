@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>お修理(遅延)</name>
+    <style>none</style>
+    <subject>お修理に時間を要しております</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+いつもお世話になっております。
+○○店の○○でごさいます。
+
+お預かりしております製品ですが、※遅延理由入力※により、
+お客様の修理に若干の遅れが生じており、完了予定は〇月〇日にです。
+
+ご迷惑をおかけし、大変申し訳ございません。
+お修理完了次第ご連絡させていただきます。
+
+何卒ご理解いただけますよう、どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

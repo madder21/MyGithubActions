@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الاشتراك متاح</name>
+    <style>none</style>
+    <subject>أخبار رائعة ! لقد انتهت فترة الانتظار</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+أخبار رائعة ! لقد وصلت المجموعة الجديدة وطراز ***[model]*** في انتظارك! لقد احتفظنا به من أجلك، متى ستتفضل بزيارتنا؟
+
+مع أطيب التحيات،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

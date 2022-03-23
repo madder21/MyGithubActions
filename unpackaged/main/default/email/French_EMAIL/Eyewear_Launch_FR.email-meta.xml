@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Eyewear Launch</name>
+    <style>none</style>
+    <subject>Un nouveau regard sur le voyage avec RIMOWA Eyewear</subject>
+    <textOnly>Cher / Chère xxx,
+
+Je suis ravie de vous présenter une nouvelle gamme de produit RIMOWA pour vous accompagner pendant vos vacances cet été: notre nouvelle collection de solaires.
+
+Nous sommes heureux de vous présenter cette nouvelle génération d&#39;accessoires de voyage.
+
+Nos lunettes de soleil BRIDGE et RIM présentent un design innovant et une structure poids plume pour un nouveau regard sur le voyage.
+
+Je serai ravie de vous partager plus de détails sur cette collection si cela vous intéresse.
+
+A bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

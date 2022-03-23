@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ES_New Essential Colours Inbound</name>
+    <style>none</style>
+    <subject>Tras su consulta sobre nuestros nuevos colores.</subject>
+    <textOnly>Estimado/a Sr/a xxx,
+
+Gracias por su interés en el lanzamiento de nuestros nuevos colores ***Desert Rose/Cactus*** de la colección Essential en policarbonato.
+
+El modelo de cabina está disponible exclusivamente en RIMOWA.com de manera anticipada a partir del 20 de Julio, con unidades limitadas.
+
+Si lo desea, lo puede adquirir siguiendo este link:
+
+La colección completa se lanzará a nivel mundial este otoño.
+Quedo a su disposición para cualquier consulta que tenga.
+
+Atentamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>بدء عملية الإصلاح</name>
+    <style>none</style>
+    <subject>التأكيد على بدء إصلاح المنتج</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+لقد بدأ فريق رعاية العملاء في إصلاح منتج RIMOWA من طراز ***[CollectionModel]***.
+
+ونود أن نأكد عليك أننا سوف نستلم منتج RIMOWA الخاص بك في ***[Date]***، وسوف نخبرك بمجرد وصوله. مع أطيب التحيات،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

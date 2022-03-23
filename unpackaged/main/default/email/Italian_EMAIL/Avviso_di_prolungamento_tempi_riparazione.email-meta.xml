@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Avviso di prolungamento tempi riparazione</name>
+    <style>none</style>
+    <subject>La sua riparazione richiede più tempo</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+spero che stia bene.
+
+Il nostro servizio clienti ci ha informato che ha bisogno di più tempo per terminare il servizio. Le assicuriamo che faremo in modo di concludere la riparazione entro il ***[date]***.
+
+Nel frattempo potremmo offrirle la possibilità di utilizzare una valigia a noleggio. Ci faccia sapere se questa offerta le interessa. In caso contrario, la contatteremo per organizzare il ritiro o la consegna al termine della riparazione.
+
+Grazie per la pazienza e la comprensione.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

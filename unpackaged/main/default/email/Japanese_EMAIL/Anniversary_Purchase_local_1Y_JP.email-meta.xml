@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>購買から1年後(ローカル)_JP</name>
+    <style>none</style>
+    <subject>製品の状態はいかがでしょうか</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+いつもお世話になっております。
+〇〇店の〇〇でございます。
+
+前回{!Contact.LastName} 様に、製品をお求めいただてから、
+1年が経過いたしました。
+
+その後、使い心地などはいかがでしょうか。
+
+また次のご旅行に向けて、メンテナンスなどもお受けできますので、
+お気軽にご相談ください。
+
+その他何かご不明な点等ございましたら、
+いつでも私にお気軽にお問い合わせください。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

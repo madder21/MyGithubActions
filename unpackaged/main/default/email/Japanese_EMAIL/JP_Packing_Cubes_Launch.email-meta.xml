@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>パッキングキューブ紹介</name>
+    <style>none</style>
+    <subject>新作　パッキングキューブのご紹介</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日は、{!Contact.LastName}様に最適な、新作のパッキングキューブ コレクションをご案内させていただきたく、ご連絡いたしました。
+
+パッキングキューブは、荷物をすっきりと整理することでスペースを最大化し、梱包の効率化と収納の最適化を目的としたデザインです。
+撥水加工を施した、弾力性のあるリサイクル素材を使用し、荷物の種類とお好みに合わせ、数種類のカラーとサイズをご用意しています。
+
+商品の詳細につきましてご質問がおありになりましたら、ぜひお気軽にお問い合わせください。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Compact</name>
+    <style>none</style>
+    <subject>Now available: RIMOWA Original Compact</subject>
+    <textOnly>Dear Mr./Mrs. {!Contact.LastName},
+
+I wanted to let you know that the latest edition of our Original Compact in Aluminium is now available.
+
+This brand favourite has a highly functional design and can be transformed from a wheeled briefcase into a compact carry-on suitcase that fits in most luggage compartments.
+
+This versatility makes it the ideal companion for daily commuting and short trips.
+
+I think this could be a great piece for you. Would you like to hear more about it?
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

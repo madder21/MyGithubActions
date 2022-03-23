@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Ringraziamenti per il primo acquisto 2 giorni</name>
+    <style>none</style>
+    <subject>Grazie della visita!</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+la ringrazio della sua visita al nostro negozio RIMOWA {!User.Base_Store_Code__c} di ieri. È stato un piacere conoscerla! Sono stato felice di presentarle il nostro marchio e di mostrarle le nostre collezioni.
+
+Sono certo che il modello RIMOWA ***[Model]*** in ***[colour]***,Le sarà molto utile e prezioso durante i suoi futuri viaggi.
+
+Augurandomi di rivederla presto nel nostro negozio,
+
+Cordiali saluti
+
+Buon viaggio!
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

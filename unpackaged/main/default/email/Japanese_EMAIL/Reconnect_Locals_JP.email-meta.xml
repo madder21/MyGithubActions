@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Reconnect Campaign - 海外購入者</name>
+    <style>none</style>
+    <subject>RIMOWA  JAPAN〇〇店 〇〇より</subject>
+    <textOnly>{!Contact.LastName}様、
+
+日頃よりRIMOWAをご愛顧いただき、誠にありがとうございます。
+RIMOWA 〇〇店の〇〇と申します。
+
+本日はRIMOWAで行っているスーツケースのメンテナンスサービスをご紹介したくご連絡いたしました。
+
+RIMOWAでは製品を安心して長くご愛用いただくため、ホイールクリーニング、ネジ・リベット締め、内装修理などのメンテナンスサービスを行っております。
+また専門的な修理が必要な場合も、ご対応させていただきます。
+
+現在お使いいただいている製品に関しまして、何かご不明な点や相談等ございましたら、お気軽にお問い合わせください。
+
+​引き続きよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

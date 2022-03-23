@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>注文確定のお知らせ</name>
+    <style>none</style>
+    <subject>RIMOWAより、ご注文完了のお知らせ</subject>
+    <textOnly>{!Contact.LastName}様
+
+**Product**のご注文を確認できましたので、お知らせいたします。ご注文いただきました製品が、お客様の旅をより素敵なものにできることと存じます。
+
+{!User.Base_Store_Code__c} で製品を受け取る場合は、ご都合の良いお日にちをお知らせください。また、無料配送も行っております。
+
+ご質問、ご不明な点がございましたら、 お気軽にお問い合わせください。
+
+何卒宜しくお願い致します。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

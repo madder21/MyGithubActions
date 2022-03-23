@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Po výletu - vítejte zpátky</name>
+    <style>none</style>
+    <subject>Servis po výletu</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+doufám, že se Vám dobře daří.
+
+Pevně věřím, že naše Rimowa kufry s Vámi již procestovali
+pár míst, a proto bych Vás ráda pozvala do prodejny,
+kde můžeme kufr zdarma prohlédnout, vyčistit kolečka nebo naleštit.
+
+Pokud byste měl/a zájem, neváhejte mne kontaktovat,
+abychom domluvili termín.
+
+S pozdravem,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

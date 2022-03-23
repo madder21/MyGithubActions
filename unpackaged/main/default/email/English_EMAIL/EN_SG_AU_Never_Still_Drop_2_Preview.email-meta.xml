@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>SG &amp; AU – Never Still Drop 2 Preview</name>
+    <style>none</style>
+    <subject>SG &amp; AU – Never Still Drop 2 Preview</subject>
+    <textOnly>Dear Mr./Mrs. {!Contact.LastName},
+
+Thank you for letting us know you cannot attend the Mother’s Day event.
+
+During the event, we will showcase three new designs that are joining our Never Still bag collection: the Messenger Bag, the Briefcase, and the Flat Pouch.
+
+The collection launches on May 6th. However, I would like to invite you to an exclusive preview with 1-on-1 appointments from Apr 24th to May 5th. If you need more details, or would like to book your appointment, I would be happy to assist.
+
+Look forward to hearing from you!
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

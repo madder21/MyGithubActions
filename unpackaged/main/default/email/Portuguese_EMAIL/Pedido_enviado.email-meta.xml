@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Pedido enviado</name>
+    <style>none</style>
+    <subject>Seu pedido RIMOWA está a caminho</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Gostaria de informar que a sua RIMOWA **Model** está a caminho e deverá ser entregue entre X e X dias úteis.
+
+***Por favor, veja em anexo a sua nota fiscal incluindo todos os detalhes do seu pedido. Você também receberá uma via física com o produto.***
+
+Caso tenha qualquer dúvida sobre o envio do seu pedido, fico à disposição.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

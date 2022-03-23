@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Registro de garantia</name>
+    <style>none</style>
+    <subject>Para ativar a sua garantia</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Espero que esteja gostando da sua RIMOWA ***[Modelo]***.
+
+Como possui a sua RIMOWA há algum tempo, gostaria de lembrá-lo (a) de registrar a sua mala online no site RIMOWA.com para usufruir da nossa garantia de 5 anos.
+
+Para cadastrar a sua mala, simplesmente entre em sua conta e clique em &#39;Register My RIMOWA&#39;.
+
+Caso necessite de ajuda, estou à disposição.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

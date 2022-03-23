@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>店舗オープニングCovid</name>
+    <style>none</style>
+    <subject>営業再開のお知らせ</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+はじめに、新型コロナウイルス感染症に罹患された皆さま、
+及び関係者の皆さまに謹んでお見舞い申し上げます。
+
+また、感染拡大防止や治療などに日々ご尽力されている保健機関、
+医療従事者の皆様に深く敬意を表し、感謝申し上げます。
+
+本日は、ストアの営業再開につきましてご案内させていただきたく、
+ご連絡差し上げました。
+
+RIMOWAでは、引き続き徹底した店内衛生管理と、
+感染防止に最大限の対策を講じ、安心してお買い物をしていただけるよう努めてまいります。
+
+商品やご来店のご予約、またご不明な点等がございましたら、お電話またはメールにてお気軽にお問い合わせくださいませ。
+
+***XXX様とXXX***様の大切な方々の安全と健康を心よりお祈り申し上げます。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

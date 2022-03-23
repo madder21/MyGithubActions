@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>AR - Reconnect - ECOM</name>
+    <style>none</style>
+    <subject>مستشار عميل RIMOWA الشخصي الخاص بك</subject>
+    <textOnly>عزيزي السيد/السيدة {!Contact.LastName}،
+
+لقد أصبحت RIMOWA **Model** رفيقًا لك لبضعة أشهر، ونأمل أن تكون جديرة بالثقة طوال رحلاتك.
+
+بالنيابة عن فريق RIMOWA، أود تقديم نفسي كالعميل المستشار المحلي الشخصي الخاص بك. يسعدني مساعدتك بأي شكل من الأشكال والبقاء تحت تصرفك.
+
+لتحضير رحلاتك المستقبلية، أود الترحيب بك في {Account.Local_Main_Store__c!} لتقديم **فحص مجاني لحقيبتك/ ختم سريع لبطاقة أمتعتك**.
+
+إذا كنت مهتمًا ، فسيسعدني تنظيم زيارتك في المتجر ،
+
+تحياتي الحارة،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

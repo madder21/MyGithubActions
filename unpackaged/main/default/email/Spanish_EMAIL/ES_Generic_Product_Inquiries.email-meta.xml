@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Generic Product Inquiries</name>
+    <style>none</style>
+    <subject>Después de su consulta sobre ** Product Name **</subject>
+    <textOnly>Estimado/a {!Contact.LastName},
+
+Gracias por su interés en el lanzamiento de nuestro nuevo **Product Name**.
+
+Me complacería asegurarme de que no pierde la oportunidad de conseguir esta bonita pieza añadiéndola a su lista de reserva.
+
+El **Product Name** estará disponible para pedidos por adelantado desde el **Product Release Date**.
+
+Mientras tanto, ¿podría enviarme más detalles del producto?
+
+¿Le interesaría hacer una reserva, o quiere que le envíe más detalles sobre el producto?
+
+Estoy a su completa disposición si necesita cualquier ayuda,
+
+Sinceramente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Repair cost quote request approval NOI</name>
+    <style>none</style>
+    <subject>你的維修報價已準備就緒</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+我很高兴向您确认，您的 RIMOWA ***[Model]*** 已经过我们专家的检查。
+
+要维修 ***[Torepair]***，我们技师预计费用将为 ***[Cost]***。请在附件中查看我们详细的报价。
+
+您希望继续处理您的请求吗？
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

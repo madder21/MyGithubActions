@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Check-In 2m NOI</name>
+    <style>none</style>
+    <subject>Bereits verreist?</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+ich wollte mich im Anschluss an Ihren Besuch bei RIMOWA {!User.Base_Store_Code__c} am ***[purchasedate]*** erkundigen, wie es Ihnen mit Ihrem RIMOWA ***[Model]*** ergeht?
+
+Ich hoffe Sie hatten eine schöne Reise nach ***[traveldestination]*** und Ihre Erwartungen an den Koffer wurden erfüllt.
+
+Für etwaige Fragen stehe ich Ihnen selbstverständlich jederzeit zur Verfügung.
+
+Herzliche Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

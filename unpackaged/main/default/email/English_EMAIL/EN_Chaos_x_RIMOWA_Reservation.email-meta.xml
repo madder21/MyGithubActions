@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Chaos x RIMOWA Reservation</name>
+    <style>none</style>
+    <subject>Coming soon: Chaos x RIMOWA</subject>
+    <textOnly>Dear Mr./Mrs. {!Contact.LastName},
+
+I&#39;m excited to introduce our exclusive collaboration with Chaos, an iconic London-based brand.
+
+This limited-edition collection boldly reimagines the iconic grooves of the RIMOWA Essential suitcase, as well as a brand new series of playful travel accessories.
+
+The collection will officially launch on June 3rd, If you&#39;d like to make a reservation, I would be happy to help.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

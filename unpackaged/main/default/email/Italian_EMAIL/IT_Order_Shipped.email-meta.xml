@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>IT - Order - Shipped</name>
+    <style>none</style>
+    <subject>Il tuo ordine Rimowa è in arrivo</subject>
+    <textOnly>Gentilissimo/a Sig./Sig.ra {!Contact.LastName},
+
+Sono lieta di informarla che la sua RIMOWA **Model** è stata spedita e dovrebbe riceverla in X -X giorni lavorativi.
+
+
+In allegatò troverà la sua ricevuta con tutti i dettagli del suo ordine/Può trovare la sua ricevuta con tutti I dettagli dell’acquisto all’interno della sua valigia.
+
+Resto a disposizione per qualsiasi altra informazione dovesse servirle.
+
+Cordiali Saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

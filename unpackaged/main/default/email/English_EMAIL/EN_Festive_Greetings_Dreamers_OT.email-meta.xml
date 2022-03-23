@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Festive Greeting - Dreamers/OT</name>
+    <style>none</style>
+    <subject>All the best from RIMOWA</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+From all of us at RIMOWA, we wish you and your loved ones our warmest season’s greetings.
+
+While this year has witnessed unprecedented challenges, we hope 2021 brings you happiness, good health, and prosperity.
+
+We’re certain that new adventures are right around the corner. Happy New Year!
+
+Our best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

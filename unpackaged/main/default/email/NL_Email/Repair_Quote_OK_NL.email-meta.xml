@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Repair cost approved NOI</name>
+    <style>none</style>
+    <subject>Bevestiging van goedkeuring reparatie offerte</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Bedankt voor uw offerte bevestiging met betrekking tot de reparatie
+van uw RIMOWA ***[Model]*** welke is verzonden op ***[datum]***.
+
+De reparatie van uw RIMOWA ***[Model]*** zal door onze specialisten
+in gang worden gezet en zal gereed zijn op ***[Datum]***.
+
+Zodra de koffer gereed is, neem ik contact met u op.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

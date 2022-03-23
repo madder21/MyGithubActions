@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>استفسارات عامة عن المنتج</name>
+    <style>none</style>
+    <subject>متابعة استفسارك حول ** Product Name **</subject>
+    <textOnly>عزيزي السيد / السيدة {!Contact.LastName}،
+
+شكرًا جزيلًا على اهتمامك بإطلاق منتج **Product Name** الجديد.
+
+يُسعدني التأكد من اغتنامكم هذه الفرصة الرائعة للحصول على هذه القطعة الجميلة وذلك بإضافتكم لقائمة حجوزاتنا.
+
+سيتوفر **Product Name** للطلب المُسبق اعتبارًا من **Product Release Date**.
+
+كما يسعدني في الوقت نفسه أن أرسل إليكم مزيداً من المعلومات والتفاصيل حول هذا المنتج إذا أردتم ذلك.
+
+هل أنت مهتم بالحجز أم تريد أن نرسل لك المزيد من التفاصيل حول المنتج؟
+
+تسرنا مساعدتك في أي وقت،
+
+مع أطيب التمنيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

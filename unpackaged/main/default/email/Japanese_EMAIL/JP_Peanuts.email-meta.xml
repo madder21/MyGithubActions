@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>阪急限定_PEANUTS紹介用</name>
+    <style>none</style>
+    <subject>阪急百貨店限定ステッカーのご案内</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+いつもお世話になっております。
+
+RIMOWA阪急〇〇店の○○でございます。
+
+暑い日が続いておりますが、〇〇様にはお変わりなくお過ごしのことと存じます
+
+本日は8月11日(水)より販売開始されます、阪急百貨店(梅田店・阪急メンズ大阪)限定のステッカーについてご案内したく、連絡差しあげました。
+
+今回の限定ステッカーはPEANUTS(スヌーピー)とのコラボレーションとなっており、お求めいただけるのは前述の通り阪急百貨店のみでございます。
+
+普段のRIMOWAステッカーとは異なるかわいらしさを持つこちらの限定ステッカーは、ご自身のスーツケースに貼っていただくにも、また大切な方へのプレゼントにも最適なアイテムです。
+
+PEANUTS ×RIMOWA ステッカー5枚セット（6,600円）阪急限定　1000セットでございます。
+
+なくなり次第販売終了となりますの、ご興味ございましたら私までご連絡くださいませ。
+
+在庫や予約の確認等させていただきます。
+
+製品は阪急百貨店のECサイトからもご覧いただけます。
+
+https://web.hh-online.jp/fashion/goods/index.html?ggcd=EP18W001　
+
+販売店舗：阪急梅田本店/阪急メンズ大阪/阪急ECサイトのみとなります。
+
+RIMOWA.COMでの販売はございませんのでご注意ください。
+
+何かご不明な点等ございましたら、私までご連絡ください。
+
+厳しい暑さが続いておりますので、お体ご自愛下さい。
+
+阪急〇〇店　〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

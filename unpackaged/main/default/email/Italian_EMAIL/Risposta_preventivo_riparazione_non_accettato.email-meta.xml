@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Risposta preventivo riparazione non accettato</name>
+    <style>none</style>
+    <subject>Conferma che la riparazione è stata annullata</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+La ringrazio per averci informato che non intende effettuare la riparazione. Mi farebbe piacere conoscere il motivo per il quale ha preferito non utilizzare il nostro servizio.
+
+Nel frattempo provvederò alla restituzione del suo modello RIMOWA ***[Model]***.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

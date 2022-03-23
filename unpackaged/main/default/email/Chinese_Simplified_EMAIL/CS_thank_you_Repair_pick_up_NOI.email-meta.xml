@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Thank you Repair pick up NOI</name>
+    <style>none</style>
+    <subject>感谢您对我们的信任</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+感谢您昨天到访。
+
+我希望您对您 RIMOWA ***[Model]*** 的维修感到满意。
+
+我们预祝您使用 RIMOWA 享受更多的旅行。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

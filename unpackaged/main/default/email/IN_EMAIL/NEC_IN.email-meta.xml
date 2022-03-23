@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Pemesanan di muka NEC</name>
+    <style>none</style>
+    <subject>Warna baru kami sekarang tersedia untuk pemesanan di permukaan awal</subject>
+    <textOnly>Yang Terhormat Bapak/Ibu {!Contact.LastName},
+
+Saya berharap Anda dalam kondisi baik,
+Dengan senang hati saya perkenalkan kepada Anda warna baru kami : Mawar Gurun dan Kaktus Hijau.
+
+Warna ini tersedia secara eksklusif untuk pemesanan dipermukaan dengan Koleksi Penting dan kassing iPhone.
+
+Menurut saya, terutama ***Mawar Gurun*** ***Kaktus Hijau*** akan melengkapi dengan sempurna ***previous-product*** Anda.
+
+Saya siap membantu jika Anda membutuhkan perincian lebih lanjut tentang produk ini atau jika saya dapat membantu dengan reservasi produk yang Anda inginkan.
+
+Hormat Saya,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

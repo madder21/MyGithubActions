@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Repair cost quote approval reminder NOI</name>
+    <style>none</style>
+    <subject>Reparatie offerte wacht op uw goedkeuring</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+Bent u reeds in de gelegenheid geweest om de offerte in te
+zien die verstuurd is door onze specialist op ***[Datum]***
+voor de reparatie van uw RIMOWA ***[Model]***?
+
+Graag horen we van u of u akkoord gaat met deze reparatie voor ***[datum]***.
+
+Ik sta graag tot uw beschikking mocht u meer informatie willen ontvangen.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN_Covid Store Closure</name>
+    <style>none</style>
+    <subject>Our store will be temporarily closed.</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+Most importantly, I hope you and your loved ones are well.
+
+Since the beginning of this crisis, the well-being of our global network of travellers, teammates and customers has been our top priority.
+
+To ensure our collective safety and align with our government&#39;s guidelines, our RIMOWA store {!User.Base_Store_Code__c} will be closed until further notice.
+
+In the meantime, I remain at your disposal on this ***phone/email*** and be delighted to answer any questions you may have or assist you with an order as well as arrange for your product delivery.
+
+I am looking forward to welcoming you back to our store soon.
+
+Kind Regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

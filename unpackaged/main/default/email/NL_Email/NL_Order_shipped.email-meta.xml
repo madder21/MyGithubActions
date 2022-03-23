@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Order - shipped</name>
+    <style>none</style>
+    <subject>Uw RIMOWA bestelling is onderweg</subject>
+    <textOnly>Beste Hr/ Mevr {!Contact.LastName}.
+
+Het is me een genoegen om u te informeren dat uw RIMOWA **Model** is verzonden en zal worden bezorgd in X tot X werkdagen.
+
+***Bijgevoegd treft u de factuur aan inclusief alle gegevens van uw bestelling / Uw factuur inclusief alle gegevens van uw bestelling worden meegezonden met uw RIMOWA pakket. ***
+
+Ik sta graag tot uw beschikking mocht u nog vragen hebben over uw bestelling.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

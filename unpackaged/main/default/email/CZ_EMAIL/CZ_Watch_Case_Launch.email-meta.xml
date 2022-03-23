@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Watch Case Launch</name>
+    <style>none</style>
+    <subject>Představujeme pouzdro na hodinky RIMOWA</subject>
+    <textOnly>Vážený pane/paní {!Contact.LastName},
+
+dovoluji si na Vás osobně oslovit s informací o uvedení velmi zajímavého a jedinečného produktu na trh. Jedná se o pouzdro na hodinky RIMOWA , které je prvním svého druhu.
+
+Tento jedinečný nadčasový kousek z limitované edice vznikl jako ochranné pouzdro pro prvotřídní náramkové hodinky, což z něj činí dokonalý luxusní doplněk.
+
+Do pouzdra na hodinky RIMOWA s vroubkovým hliníkovým povrchem a polstrovaným vnitřkem z mikrovlákna můžete uložit až troje hodinky.
+
+Tento exkluzivní produkt dokonale ochrání vaše nejcennější hodinky nebo se může stát perfektním dárkem pro Vaše blízké.
+
+Chcete se dozvědět více o tomto výjimečném produktu?
+
+S pozdravem
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

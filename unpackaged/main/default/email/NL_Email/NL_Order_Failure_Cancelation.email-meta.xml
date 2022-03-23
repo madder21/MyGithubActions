@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Order - Failure Cancelation</name>
+    <style>none</style>
+    <subject>Uw RIMOWA bestelling is geannuleerd</subject>
+    <textOnly>Beste Hr/ Mevr {!Contact.LastName}.
+
+Het was helaas niet mogelijk om uw bestelling van **Product** te bevestigen vanwege **Reden van annuleren bestelling**.
+Daarom is uw bestelling geannuleerd en is uw betaling niet verwerkt.
+
+Ik sta graag tot uw beschikking mocht u deze bestelling opnieuw willen plaatsen?/ Ik neem contact met u op zodra het product weer beschikbaar is/ Als dze bestelling urgent is, dan kan ik u assisteren om de bestelling online te plaatsen en te garanderen dat deze op tijd zal worden bezorgd.
+
+Mocht u behoefte heben aan meer informatie of hulp bij uw bestelling dan hoor ik graag van u.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

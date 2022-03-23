@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Client moment;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>TEST_Garantieregistrierung NOI</name>
+    <style>none</style>
+    <subject>Um Ihre Garantie zu aktivieren</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+ich hoffe, Ihr RIMOWA ***[Model]*** ist Ihnen bislang immer treu gewesen.
+
+Da Ihr RIMOWA Sie schon seit einiger Zeit auf Ihren Reisen begleitet, möchte ich Sie daran erinnern, Ihren Koffer online auf RIMOWA.com zu registrieren, um sich für unsere fünfjährige Garantie zu qualifizieren.
+
+Um Ihr Gepäck zu registrieren, müssen Sie sich einfach nur einloggen und auf „Meinen RIMOWA registrieren“ klicken.
+
+Wenn Sie Hilfe benötigen, stehe ich Ihnen sehr gern jederzeit zur Verfügung.
+
+Herzliche Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

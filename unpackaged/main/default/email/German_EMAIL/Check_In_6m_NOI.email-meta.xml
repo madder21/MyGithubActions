@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Check-In 6m NOI</name>
+    <style>none</style>
+    <subject>Erste Erfahrungen mit Ihrem neuen RIMOWA</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+ich hoffe, es geht Ihnen gut!
+
+Da Ihr RIMOWA ***[Model]*** Sie bereits einige Monate begleitet, wollte ich mich erkundigen, wie es Ihnen damit auf den ersten Reisen ergangen ist. Sollten noch Fragen zu Ihrem Koffer aufgetaucht sein, zögern Sie nicht mich zu kontaktieren. Gerne können Sie auch jederzeit im Store vorbeikommen um Ihren Koffer überprüfen und aufpolieren zu lassen.
+
+
+Herzliche Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

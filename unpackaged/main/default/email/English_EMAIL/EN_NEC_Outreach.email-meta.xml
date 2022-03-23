@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN_New Essential Colours Outreach</name>
+    <style>none</style>
+    <subject>Exclusive pre-launch : Our new essential colours Desert Rose &amp; Cactus</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName}, I hope you are well.
+
+I am happy to introduce you our new Essential colors : Desert Rose and Cactus inspired by desert of Mojave, and its wide landscape. This exclusive preview is only available in cabin size with limited quantities on RIMOWA.com.
+
+Should you be interested in this colorful seasonal suitcase, here is a direct link to place your order :
+
+The worldwide launch of the full collection will take place this autumn.
+
+I am looking forward to hear your thoughts on this new launch !
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

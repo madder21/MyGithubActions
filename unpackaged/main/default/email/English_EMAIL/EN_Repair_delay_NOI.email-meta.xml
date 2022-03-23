@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Repair delay NOI</name>
+    <style>none</style>
+    <subject>Your repair need more care</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you&#39;re well.
+
+Our client care team has informed us that they will require more time to service your case. The new completion date could be as early as ***[date]***.
+
+Please let us know if you would like us to arrange a loaner suitace for you in the meantime. Otherwise, we will reach back to you to organise a pick-up or delivery once complete.
+
+Thank you for your patience and understanding.
+
+Best,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

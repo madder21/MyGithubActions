@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CZ - Reconnect - Locals</name>
+    <style>none</style>
+    <subject>RIMOWA je Vám blíž.</subject>
+    <textOnly>Vážený/á pane/paní {!Contact.LastName},
+
+RIMOWA je Vám blíž.
+
+Jménem {!Account.ClientAdvisor__pc} {!Account.MainStore__pc} bych se Vám rád představil jako Váš osobní klientský poradce v okolí.
+
+***Model*** RIMOWA Vám už několik měsíců dělá na cestách společnost a my doufáme, že jste se zavazadlem spokojení.
+
+Rádi bychom Vám poděkovali za věrnost a připravili Vás na další cesty, a proto Vám v {!Account.Local_Main_Store__c} chceme nabídnout doplňkovou ** kontrolu Vašeho zavazadla / připevnění jmenovky na zavazadlo horkou ražbou**.
+
+Pokud Vás nabídka zaujala, rád s Vámi naplánuji návštěvu v prodejně.
+
+Budu se těšit a přeji pěkný den,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

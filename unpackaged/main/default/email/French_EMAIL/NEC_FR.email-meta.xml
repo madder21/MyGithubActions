@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>New Essential Colours</name>
+    <style>none</style>
+    <subject>Nos nouvelles couleurs sont désormais disponibles</subject>
+    <textOnly>Cher / Chère X,
+J&#39;espère que vous, ***XXX*** et vos proches vous portez bien.​
+
+Je suis très heureuse de vous présenter nos nouvelles couleurs : Desert Rose et Cactus Green.  ​Ces couleurs sont disponibles avec notre Collection Essential ainsi que pour nos coques iPhone.
+
+Je pense que ***Desert Rose*** ***Cactus Green*** s&#39;associerait parfaitement avec votre **ancien-produit**.​
+
+Je reste à votre disposition sur ma ligne/email personnel et me ferai un plaisir de répondre à toutes vos questions ou de vous aider à réserver des produits ou à prendre rendez-vous.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

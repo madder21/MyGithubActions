@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Notify_On_Error</fullName>
+        <ccEmails>samic@balink.net</ccEmails>
+        <ccEmails>benjamina@balink.net</ccEmails>
+        <ccEmails>jonathanc@balink.net</ccEmails>
+        <ccEmails>raphaelb@balink.net</ccEmails>
+        <ccEmails>yankelb@balink.net</ccEmails>
+        <description>Notify On Error</description>
+        <protected>false</protected>
+        <senderType>CurrentUser</senderType>
+        <template>unfiled$public/Log_Error_Notification</template>
+    </alerts>
+    <rules>
+        <fullName>Error log</fullName>
+        <actions>
+            <name>Notify_On_Error</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Log__c.Has_Error__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Log__c.Error_Message__c</field>
+            <operation>notEqual</operation>
+            <value>Client not found</value>
+        </criteriaItems>
+        <triggerType>onCreateOnly</triggerType>
+    </rules>
+</Workflow>

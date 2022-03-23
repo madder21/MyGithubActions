@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>購買後2カ月_JP</name>
+    <style>none</style>
+    <subject>製品のお使い心地はいかがでしょうか?</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+いつもお世話になっております。
+〇〇店の〇〇でございます。
+
+先日ご来店いただきました際に、
+お求めいただきました製品のお使い心地はいかがでしょうか?
+
+キーロック・メンテナンス等、何かご不明な点がございましたら、
+私までお気軽にお問い合わせください。
+
+またその際、{!Contact.LastName} 様の旅の思い出など、
+お聞かせいただけますと幸いです。
+
+今後ともどうぞよろしくお願いします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

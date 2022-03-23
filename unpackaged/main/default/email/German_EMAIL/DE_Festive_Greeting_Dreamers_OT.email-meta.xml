@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Template Frohe Weihnachten - One-Timer</name>
+    <style>none</style>
+    <subject>RIMOWA wünscht Frohe Weihnachten</subject>
+    <textOnly>Liebe/r Herr/Frau {!Contact.LastName},
+
+das gesamte RIMOWA Team wünscht Ihnen ein frohes und gesundes Weihnachtsfest im Kreise Ihrer Liebsten.
+
+Während dieses Jahr einige Herausforderungen mit sich gebracht hat, wünschen wir Ihnen für das kommende Jahr 2021 viel Freude, Gesundheit und viele glückliche Stunden.
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

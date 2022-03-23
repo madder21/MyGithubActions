@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS  - Repair process started NOI</name>
+    <style>none</style>
+    <subject>确认你的修为被处理</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+您的 RIMOWA ***[Model]*** 现已转交我们的客户服务团队，正在处理中。
+
+我确认我们将于 ***[Date]*** 前收到您的 RIMOWA。
+一旦我们收到您的旅行箱，我们将立即告知您。
+
+此致，
+
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Aniversário de 1 ano de uma compra de turista NOI</name>
+    <style>none</style>
+    <subject>Feliz Aniversário de 1 Ano!</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+A sua RIMOWA ***[Modelo]*** está comemorando o seu primeiro aniversário!
+
+Esperamos que ela esteja sendo uma companheira confiável durante as suas viagens.
+
+Caso esteja planejando nos visitar novamente este ano, será um prazer recebê-lo (a) na loja {!User.Base_Store_Code__c} para uma limpeza cortesia em sua mala.
+
+Caso tenha interesse, fico à disposição para agendar este serviço.
+
+Atenciosamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

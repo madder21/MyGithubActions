@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>VIC Geschen- Lieferart/ Abholung 2021</name>
+    <style>none</style>
+    <subject>Bezüglich Ihres Geschenks von RIMOWA</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Wunderbar zu hören! Es wird eine schöne Ergänzung zu Ihrer Sammlung sein.
+
+Ich bestätige, dass wir Ihr Geschenk am ** im {Store} für Sie bereithalten können. Wir freuen uns, Sie nach Belieben begrüßen zu dürfen, teilen Sie uns einfach mit, welches Datum und welche Uhrzeit Sie bevorzugen.**
+
+**bereit zum Versand an Sie. Könnten Sie mir bitte Ihre Adresse bestätigen? ‘Adresszeile 1 / Adresszeile 2, ‘PLZ, Ort}**.
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

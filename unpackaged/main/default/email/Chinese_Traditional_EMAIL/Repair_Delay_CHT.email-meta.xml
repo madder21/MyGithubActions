@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_維修延遲 NOI</name>
+    <style>none</style>
+    <subject>你的修為更需要關懷</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+您好。
+
+從客戶服務團隊得知，由於 ***[原因]*** 的緣故，
+您的行李箱維修稍微延遲，我們最快將於 ***[日期]*** 收到行李箱。
+
+如果與此同時您需要替代行李箱，請通知我們進行安排。
+我們收到行李箱後，會立刻聯絡您安排領取。
+
+感謝您的諒解。
+
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

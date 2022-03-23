@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Oversea 行李牌烫印服务模板</name>
+    <style>none</style>
+    <subject>xxx</subject>
+    <textOnly>亲爱的 {Client name}先生; 女士,
+
+日默瓦希望来到您的身边。
+
+作为今后您在中国的专属顾问，
+我想要代表{!Account.ClientAdvisor__pc} {!Account.MainStore__pc}.介绍下自己。
+
+您的RIMOWA ***[Model]*** 已经伴随您一段时间了，
+相信它是您旅程中非常值得信赖的伙伴。
+
+为了感谢您对我们的支持，我们非常开心地想邀请您至店体验行李牌个性化烫印的专属服务，继续下一次更精彩的旅行。看是否需要我给您发送一些样品作为参考？
+
+致敬,
+
+签名
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

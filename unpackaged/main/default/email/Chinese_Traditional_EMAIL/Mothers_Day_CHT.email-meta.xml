@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_母親節快樂</name>
+    <style>none</style>
+    <subject>母親節快樂</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+母親節快樂！
+
+携带RIMOWA行李牌親臨本店享用個人化服務。
+
+
+致此，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

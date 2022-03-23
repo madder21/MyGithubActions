@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Collezione Personal</name>
+    <style>none</style>
+    <subject>Scopra l&#39;intera collezione Personal di RIMOWA</subject>
+    <textOnly>Gentile Signor/Signora {!Contact.LastName},
+
+Dopo il lancio della nostra iconica borsa Cross-body Personal, sono entusiasta/o di annunciarle che RIMOWA ha esteso la collezione Personal per includere un set di pratiche clutches.                                                                                                             
+
+Caratterizzata dall&#39;alluminio scanalato,  la Sling Clutch, la Hand Clutch e la Cross Body onorano la lunga tradizione di prodotti innovativi, di artigianato e conoscenza industriale. 
+
+Disegnata per far fronte alle esigenze quotidiane, la **Nome Prodotto** sarebbe un&#39;ottima aggiunta alla sua collezione/ un magnifico primo pezzo per lei. 
+
+Vuole sapere di piú a tal proposito?
+
+Cordiali saluti, 
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

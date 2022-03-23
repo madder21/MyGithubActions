@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still Drop II</name>
+    <style>none</style>
+    <subject>Nieuwe toevoegingen op onze Never Still bag collection</subject>
+    <textOnly>Beste heer / mevrouw {! Contact.LastName},
+
+Ik hoop dat het goed gaat met u en uw dierbaren.
+
+Ik ben verheugd om u te kunnen mededelen dat er drie nieuwe ontwerpen zijn toegevoegd aan onze Never Still bag collection: de Messenger Bag, de Briefcase en de Flat Pouch. Ik ben van mening dat de stijlvolle *** Messenger Bag / Briefcase / Flat Pouch *** de volmaakte dagelijkse metgezel zou kunnen zijn voor u.
+
+De collectie zal op 6 mei worden gelanceerd. Ik sta graag tot uw beschikking mocht u meer informatie willen ontvangen over de producten.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

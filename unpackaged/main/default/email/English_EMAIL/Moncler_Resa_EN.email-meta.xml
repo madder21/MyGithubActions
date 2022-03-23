@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Moncler RIMOWA - Reservation</name>
+    <style>none</style>
+    <subject>Moncler RIMOWA &quot;Reflection&quot; the wait is over!</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Great news!
+I am delighted to inform you the wait is finally over!
+Our Moncler RIMOWA &quot;Reflection&quot; collaboration will be released soon and is now available for reservation.
+
+Following your request to be notified, I am happy to let you know that I have initially reserved you one of these exclusive pieces.
+
+Are you still interested in adding this beautiful piece to your collection?
+
+Let me know should you wish me to send over more details about this unique product,
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

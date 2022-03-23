@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Festive greetings - Opt1 NOI</name>
+    <style>none</style>
+    <subject>Festive greetings</subject>
+    <textOnly>Dear **Mr./Mrs.** {!Contact.LastName},
+
+Wishing you and your family seasons greeting and a happy start to the new year. I hope you have enjoyed your vacations to ***[traveldestination]***.
+
+I look forward to seeing you again soon.
+
+Sincerely,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

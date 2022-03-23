@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الإهداء VIC -طريقة  التوصيل/الإستلام 2021</name>
+    <style>none</style>
+    <subject>معلومات حوال هديتك من ريموا</subject>
+    <textOnly>االسيد / السيدة {! Contact.LastName} ،
+
+من الرائع سماع ذلك! ستكون إضافة جميلة لمجموعتك.
+
+أؤكد أنه يمكننا الحصول على هديتك ** جاهزة لك في {STORE}. يسعدنا أن نرحب بك في أي وقت يناسبك ، فقط أخبرنا بالتاريخ والوقت اللذين تفضلهما. **
+
+** جاهز لإرساله إليك. هل يمكنك التفضل بتأكيد عنوانك لي؟ &quot;سطر العنوان 1 / سطر العنوان 2 ،&quot; الرمز البريدي ، المدينة} **.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

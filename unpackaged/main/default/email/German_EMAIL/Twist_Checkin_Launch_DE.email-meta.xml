@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Twist Check-in L Produkteinführung</name>
+    <style>none</style>
+    <subject>Der neue RIMOWA Original Twist.</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+Ich freue mich sehr, Ihnen die neueste Ergänzung der RIMOWA Original Twist-Kollektion vorstellen zu können – den Original Twist in der Größe Check-In L..
+
+Dieser Neuzugang bietet Platz für bis zu 10 Reisetage und ist der ideale Begleiter für eine mittellange Reise.
+
+Kombinieren Sie diesen neuen Check-In Koffer mit Ihrem RIMOWA Original Cabin Twist und vervollständigen Sie so Ihr Reiseset.
+
+Wenn Sie weitere Informationen zu diesem neuen Produkt oder eine unverbindliche Reservierung wünschen, kontaktieren Sie mich gerne jederzeit.
+
+Herzliche Grüße,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

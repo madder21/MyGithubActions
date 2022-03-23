@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>San Valentín 2022</name>
+    <style>none</style>
+    <subject>Felíz día de San Valentín</subject>
+    <textOnly>Estimado/a {!Contact.LastName}
+
+De parte de todo el equipo de RIMOWA le deseamos un feliz día de San Valentín. Descubra cómo hacerlo aún más especial con una cuidada selección de diseños para usted y sus seres queridos.
+
+Un saludo.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

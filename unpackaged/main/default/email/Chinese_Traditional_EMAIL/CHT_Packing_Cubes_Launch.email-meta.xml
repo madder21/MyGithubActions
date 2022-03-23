@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - Packing Cubes - Launch</name>
+    <style>none</style>
+    <subject>探索全新 RIMOWA Packing Cubes</subject>
+    <textOnly>親愛的 {!Contact.LastName} 先生/女士，
+
+我很高興知會您我們已推出 Packing Cube（旅行衣物壓縮收納包） 系列，以完美搭配您的 RIMOWA 行李箱 {Model}。
+
+此全新系列務求提高收納空間，可簡化您的旅行體驗，優化您的行李內飾。產品採用彈力疏水再生材質精心製作而成，有多種顏色和尺寸可選，專為搭配您的行李箱而設。
+
+如有欲了解更多，歡迎隨時與我聯繫。
+
+謹致問候，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

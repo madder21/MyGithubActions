@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Nuevos colores Essential V - Azur y Flamingo</name>
+    <style>none</style>
+    <subject>Descubra nuestros nuevos colores Essential, Azur y Flamingo</subject>
+    <textOnly>Estimado/a Sr/Sra {!Contact.LastName},
+
+
+*** Solo para clientes Chinos
+En celebración del año del Tigre,
+***
+Es un placer compartir con usted el lanzamiento de nuestros últimos colores Essential, Flamingo y Azure.
+Inspirados en el espectáculo de la famosa vida salvaje y vívidas aguas de Tanzania, esta nueva colección de maletas, bolsos y accesorios incita a viajar.
+
+*** Solo para China continental y Macao
+Para el Nuevo Año Lunar, Una edición limitada del tote en Flamingo estará disponible exclusivamente en Macao y China continental.
+***
+
+Sería un placer para mí poder compartir con usted más sobre este emocionante lanzamiento.
+No dude en contactar conmigo en caso de querer conocer más detalles sobre estos increíbles productos.
+
+Saludos cordiales,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

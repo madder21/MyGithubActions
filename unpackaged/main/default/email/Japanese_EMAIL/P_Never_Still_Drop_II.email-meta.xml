@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Soft Bags - Drop II</name>
+    <style>none</style>
+    <subject>最新ソフトバッグシリーズのご紹介</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+大人気のNever Stillソフトバッグ コレクションに、新たにメッセンジャーバッグ、ブリーフケース、そしてフラットポーチの3つのモデルが加わりました。
+機能的であるだけでなく、どのシーンにもお持ちいただけるデザインとなっております。
+
+製品の写真などもお送りできますので、お気軽にお問い合わせください。
+他にも何かご不明な点等ございましたら、私までご連絡ください。
+
+引き続きどうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

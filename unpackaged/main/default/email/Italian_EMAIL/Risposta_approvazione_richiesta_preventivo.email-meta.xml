@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Risposta approvazione richiesta preventivo</name>
+    <style>none</style>
+    <subject>Preventivo approvato</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+La ringrazio per aver confermato la riparazione del suo modello RIMOWA ***[Model]*** al costo di ***[cost]*** comunicatole in data ***[date]***.
+
+I nostri esperti del servizio clienti inizieranno ora la riparazione e il ritiro potrà essere effettuato dal ***[Date]***.
+
+Non mancherò di informarla non appena il suo modello sarà pronto.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

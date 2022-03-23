@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ES - Reconnect - ECOM</name>
+    <style>none</style>
+    <subject>Your personal and local RIMOWA client advisor</subject>
+    <textOnly>Estimado/a Sr/a xxx,
+
+Su ***Model***RIMOWA ya le ha acompañado unos meses y esperamos que le haya resultado de confianza durante sus viajes.
+
+En representación del equipo de RIMOWA, quisiera presentarme como su asesor de clientes personal. Estaré encantado de ayudarle de cualquier forma para lo cual quedo a su disposición.
+
+Para preparar sus futuros viajes, me gustaría darle la bienvenida en {!Account.Local_Main_Store__c} para ofrecerle una **revisión gratuita de su maleta/termograbado del etiquetado de su equipaje **.
+
+Si está interesado, me gustaría organizar su visita en la tienda.
+
+Atentamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

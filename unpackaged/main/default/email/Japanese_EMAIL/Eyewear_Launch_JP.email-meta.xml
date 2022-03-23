@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Eyewear Launch</name>
+    <style>none</style>
+    <subject>RIMOWA Eyewear 新たなレンズで新しい世界へ</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+本日は RIMOWA 初のアイウェアコレクションをご紹介させていただきたく、ご連絡差し上げました。
+
+今回発売いたしました2種類のサングラス、「ブリッジ コレクション」と「リム コレクション」は、イノベーティブなデザインと超軽量構造が特徴です。
+
+最高級の素材を使用し、快適さを重視してデザインされたコレクションは、旅のアンサンブルに、また最高の贈り物としても最適です。
+
+何かご不明な点や、さらに詳しくお知りになりたい際には、私までお気軽にご連絡ください。
+引き続きどうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

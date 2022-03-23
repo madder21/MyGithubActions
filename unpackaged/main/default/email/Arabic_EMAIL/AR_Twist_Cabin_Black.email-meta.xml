@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>كابن تويست سوداء</name>
+    <style>none</style>
+    <subject>اوريجنال تويست كابن موجودة الأن بتفاصيل سوداء</subject>
+    <textOnly>االسيد / السيدة {! Contact.LastName} ،
+
+
+نظرا لنجاح مجموعة &quot;اوريجنال تويست&quot; فنحن سعداء بإطلاق حقيبة بتفصيلة سوداء جديدة.
+
+فهي ليست مخصصة للسفر فقط ولكن للعمل ايضا، كما تتميز الحقيبة المصنعة من الالومنيوم بتفاصيل من الجلد الاسود الفخم.
+
+&quot;أود ان أوضح لكم ان هذه الاطلالة الجديدة مستوحاة من مجموعة الكلاسيك الفخمة وتعتبر أيضا إضافة رائعة إلى مجموعة الاوريجينال&quot; يقول مالك مجموعة التويست.
+
+هل تريدون معرفة المزيد عن هذا المنتج؟
+
+تحياتي،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

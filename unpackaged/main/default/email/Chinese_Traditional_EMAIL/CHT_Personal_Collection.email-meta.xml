@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Personal Collection - CHT</name>
+    <style>none</style>
+    <subject>欣賞 RIMOWA Personal完整系列</subject>
+    <textOnly>親愛的{!Contact.LastName}先生/女士：
+ 
+繼推出以聚碳酸酯打造的 Personal Cross-body 硬殼斜揹袋後，RIMOWA Personal 系列推出更多精彩新設計，包括一系列實用方便的配件！
+ 
+鋁鎂合金製造的 Sling Clutch 肩袋，Hand Clutch 手拿包以及 Cross-body 斜揹袋，頌揚了 RIMOWA 的傳統精湛工藝與專業技術智慧。
+
+我認爲您會對 ** Product Name** 感興趣，這一風格出衆的產品兼具實用性與設計感。
+ 
+您有興趣了解產品詳情嗎？
+ 
+XXX 謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

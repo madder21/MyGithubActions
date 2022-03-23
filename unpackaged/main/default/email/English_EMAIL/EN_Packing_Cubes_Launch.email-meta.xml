@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN - Packing Cubes - Launch</name>
+    <style>none</style>
+    <subject>Discover Rimowa Packing Cubes</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I am pleased to let you know that we have launched our first-ever Packing Cube collection that would pair perfectly with your RIMOWA **Model**.
+
+This new range of organisational products is geared at simplifying your travelling experience and optimising your luggage interior by conveniently maximising packing space. Crafted out of resilient, water-repellent, and recycled materials, the collection is available in several colours and sizes designed to match your luggage.
+
+I&#39;m happy to share more details with you. Would you like to learn more about the collection?
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>PT - Eid Mubarak</name>
+    <style>none</style>
+    <subject>Eid Mubarak da RIMOWA</subject>
+    <textOnly>Prezado (a) **Sr. / Sra.** {!Contact.LastName},
+
+Todos nós da RIMOWA desejamos a você e sua família um abençoado Eid Mubarak.
+
+Que esta celebração seja repleta de muitas alegrias.
+
+Atenciosamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

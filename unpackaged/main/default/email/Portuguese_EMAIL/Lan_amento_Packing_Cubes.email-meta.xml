@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lançamento Packing Cubes</name>
+    <style>none</style>
+    <subject>Conheça os Packing Cubes Rimowa</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+É um prazer informar que lançamos a nossa primeira coleção de Packing Cubes, a qual vai combinar perfeitamente com a sua RIMOWA **Model**.
+
+Esta nova gama de produtos para organização foi feita para simplificar a sua experiência de viagem e otimizar o interior da sua mala, maximizando convenientemente o seu espaço de armazenagem. Produzida com materiais resistentes, recicláveis e resistentes à água, esta coleção está disponível em diversas cores e tamanhos, desenvolvidos para combinar com a sua mala.
+
+Você gostaria de saber mais detalhes sobre esta coleção?
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>MediaStatus__c</fullName>
+    <externalId>false</externalId>
+    <label>Media Status</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>DQ_TO_BE_DONE</fullName>
+                <default>false</default>
+                <label>DQ_TO_BE_DONE</label>
+            </value>
+            <value>
+                <fullName>DQ_IN_PROGRESS</fullName>
+                <default>false</default>
+                <label>DQ_IN_PROGRESS</label>
+            </value>
+            <value>
+                <fullName>DQ_DONE</fullName>
+                <default>false</default>
+                <label>DQ_DONE</label>
+            </value>
+            <value>
+                <fullName>NO_DQ_CHECK</fullName>
+                <default>false</default>
+                <label>NO_DQ_CHECK</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

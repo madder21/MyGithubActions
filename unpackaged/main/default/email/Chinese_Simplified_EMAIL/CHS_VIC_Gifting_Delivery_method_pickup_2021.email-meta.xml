@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>2021VIC礼遇-寄送/到店领取</name>
+    <style>none</style>
+    <subject>关于您的RIMOWA礼遇</subject>
+    <textOnly>亲爱的{!Contact.LastName}先生/女士：
+
+感谢您的回复！它定能令您的RIMOWA系列锦上添花。
+
+我们确认为您准备的礼遇 XXX 已送达精品店待您领取，可否告知您方便领取的日期及时间，以便我们早做安排？
+
+**礼物已准备好，请您提供邮寄地址，以便安排寄送？**
+
+XXX 此致
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

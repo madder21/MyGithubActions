@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Oversea 行李箱检查与保养模板</name>
+    <style>none</style>
+    <subject>xxx</subject>
+    <textOnly>亲爱的 {!Contact.LastName}先生; 女士,
+
+日默瓦希望来到您的身边。
+
+作为今后您在中国的专属顾问，我想要代表
+{!Account.Local_Main_CA__c} {!Account.Local_Main_Store__c} 介绍下自己。
+
+您的RIMOWA ***[Model]*** 已经伴随您一段时间了，相信它是您旅程中非常值得信赖的伙伴。
+
+为了更好迎接下一次的精彩旅途，非常乐意邀请您来RIMOWA {!User.Base_Store_Code__c} 进行一次免费的检测与保养服务。
+
+如果对此感兴趣，可联系我为您安排服务！
+
+致敬,
+
+签名
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

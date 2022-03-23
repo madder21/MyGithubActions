@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC Mango &amp; Bamboo</name>
+    <style>none</style>
+    <subject>Essential全新色彩系列： 青竹绿和香芒橙</subject>
+    <textOnly>亲爱的 {!Contact.LastName} 先生/女士：
+
+很高兴向您介绍 Essential 全新色彩系列：青竹绿和 香芒橙。已正式发售。
+
+色彩灵感源自著名的泰国水上市场，才有了这柔美雅致的青竹绿色和明亮阳光的香芒橙色。
+
+这两款季节限定配色将会有三种行李箱尺寸，以及深受大家喜爱的 Personal 青竹绿色斜挎手拿包。
+根据您的喜好，我相信 **香芒橙/青竹绿 ** 会是非常适合您的夏日单品。
+
+如果您想要了解更多产品信息或者需要预定，欢迎随时联系我。
+
+谨致问候，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

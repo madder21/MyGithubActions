@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>AR Sharing Template</name>
+    <style>none</style>
+    <subject>{!Product.Name} نقدم لكم</subject>
+    <textOnly>مرحبًا السيد/السيدة {!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName},
+
+
+بعد اهتمامك بـ {!Product.Name}، يسعدني إطلاعك على مزيد من التفاصيل.
+
+ستجد أدناه صور المنتج الخاص بك، في {!Product.Color} ، من المجموعة {!Product.Collection}.
+
+إنه قطعة جميلة لـ {Next_Travel}.
+
+الإضافة لذلك، هذه القطعة متوفرة أيضًا في {Product_Color}؛ مع الرجاء إخباري إذا كنت ترغب مني إرسال التفاصيل.
+
+
+أتطلع إلى رؤيتك قريبًا،
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

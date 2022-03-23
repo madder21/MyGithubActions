@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>مجموعة نيفر ستيل 4</name>
+    <style>none</style>
+    <subject>إضافات جديدة إلى مجموعة حقائب نيفر ستيل</subject>
+    <textOnly>االسيد / السيدة {! Contact.LastName} ،
+
+
+نود إطلاعك بالإضافات الجديدة لمجموعة حقائب نيفر ستيل.
+
+****
+تتميز هذه الإضافة بمواد جلدية عالية الجودة ذات تصميم راقي، و تحتوي على: حقيبة هاتف، حامل للبطاقات، حامل لجواز سفر، حقيبة صغيرة و حلقة المفاتيح.
+
+أو
+
+علما أنك تمتلك **اسم المنتوج**، نعتقد أن **اسم منتوج نيفر ستيل 4** الإطالية العملية و الأنيقة ستكون إضافة مثالية لمجموعتك.
+
+نحن سعداء بمساعدتك إذا أردت معرفة المزيد.
+
+تحياتي،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+
+،</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

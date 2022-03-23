@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Revisión 2m NOI</name>
+    <style>none</style>
+    <subject>Revisión después de su viaje.</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Tras su visita a RIMOWA {!User.Base_Store_Code__c} el ***[purchasedate]***, quería cercionarme de que su ***[Model]*** ha cumplido con todas sus expectativas durante sus viajes a ***[traveldestination]***.
+
+Si tiene cualquier duda, estaré encantado de atenderle.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

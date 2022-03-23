@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Repair delay NOI</name>
+    <style>none</style>
+    <subject>你的修为更需要关怀</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+希望您一切都好！
+
+抱歉，由于***[reason]***，您的维修已被延迟，最早将于 ***[date]*** 送还给我们。
+
+一旦我们收到您的旅行箱，我将与您联系以安排领取事宜。
+
+感谢您的理解。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

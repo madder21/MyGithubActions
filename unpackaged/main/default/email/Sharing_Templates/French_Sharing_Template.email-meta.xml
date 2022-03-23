@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>FR Sharing Template</name>
+    <style>none</style>
+    <subject>Découvrez notre {!Product.Name}</subject>
+    <textOnly>Cher/Chère {!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName},
+
+Suite à votre intérêt pour notre {!Product.Name}, j&#39;ai le plaisir de vous partager quelques informations complémentaires.
+
+Veuillez trouver ci-dessous quelques photos du produit couleur {!Product.Color}. C&#39;est une jolie pièce pour votre {Next_Travel/date}.
+
+Ce modèle est également disponible en couleur {Product_Color}.
+
+Je reste à votre disposition sur ma ligne/email personnel et me ferai un plaisir de répondre à toutes vos questions.
+
+Cordialement,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

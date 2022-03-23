@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>コラボ到着</name>
+    <style>none</style>
+    <subject>商品をお取り置きいたしました</subject>
+    <textOnly>{!Contact.LastName} 様、
+
+当店にて ***[model]*** が入荷し、在庫を確保することができました。
+
+{!Contact.LastName}様の分をお取り置きさせていただきましたので、
+ご来店をお待ち申し上げております。
+
+ご来店いただける日程がわかりましたら、
+ご連絡いただけると幸いです。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWAのツイストシリーズに新サイズのご紹介</name>
+    <style>none</style>
+    <subject>RIMOWAのツイストシリーズに新サイズ登場</subject>
+    <textOnly>{!Contact.LastName}様、
+
+本日はRIMOWAのツイストシリーズに登場した新サイズをご案内させていただきたく、連絡いたしました。
+
+10日程の日間までのご旅行に対応できるデザインは、1週間程度のご旅行に最適です。
+
+新しいチェックイン用ラゲージと 既存のキャビンサイズを組み合わせれば、
+旅の準備は完璧。.
+
+さらに詳しい情報をご希望の方は、どうぞお気軽にお問い合わせください。
+
+どうぞよろしくお願いいたします。
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

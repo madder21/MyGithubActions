@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Retraso en reparación NOI</name>
+    <style>none</style>
+    <subject>Su reparación necesita más tiempo</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Espero que todo vaya bien.
+
+Nuestro equipo de Asistencia al cliente nos ha informado de que su reparación requiere algo más de tiempo. La nueva fecha de finalización podría ser antes del ***[date]***.
+
+Póngase en contacto con nosotros si necesita una maleta de sustitución durante este periodo. En caso de que no sea necesario, podemos concretar una fecha de recogida o de envío una vez se haya completado.
+
+Gracias por su paciencia y compresión.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

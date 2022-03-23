@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>DDC_Store</label>
+    <protected>false</protected>
+    <values>
+        <field>FieldsMappingJson__c</field>
+        <value xsi:type="xsd:string">[
+  {
+    &quot;SFFieldPath&quot;: &quot;Country__c&quot;,
+    &quot;SFLabel&quot;: &quot;Country&quot;,
+    &quot;FieldType&quot;: &quot;Picklist&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;geo.addressCountry&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;DDC_Store&quot;,
+      &quot;Id&quot;: &quot;m079E0000000OALQA2&quot;,
+      &quot;Label&quot;: &quot;DDC_Store&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: true,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;DDC_Store&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;Name&quot;,
+    &quot;SFLabel&quot;: &quot;Store Name&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;name&quot;,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;DDC_Store&quot;,
+      &quot;Id&quot;: &quot;m079E0000000OALQA2&quot;,
+      &quot;Label&quot;: &quot;DDC_Store&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: false,
+    &quot;Send_to_Clienteling_App&quot;: true,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase&quot;: {},
+    &quot;UseCaseName&quot;: &quot;DDC_Store&quot;
+  },
+  {
+    &quot;SFFieldPath&quot;: &quot;SourceStoreId__c&quot;,
+    &quot;Wrapper_Field_Name&quot;: &quot;identifier&quot;,
+    &quot;Send_to_Clienteling_App&quot;: true,
+    &quot;Is_InnerSelect&quot;: false,
+    &quot;SFLabel&quot;: &quot;Source Store Code&quot;,
+    &quot;FieldType&quot;: &quot;String&quot;,
+    &quot;UseCase&quot;: {
+      &quot;DeveloperName&quot;: &quot;DDC_Store&quot;,
+      &quot;Id&quot;: &quot;m079E0000000OALQA2&quot;,
+      &quot;Label&quot;: &quot;DDC_Store&quot;
+    },
+    &quot;IsCurrency&quot;: false,
+    &quot;Save_to_SF&quot;: false,
+    &quot;GetPicklistLabel&quot;: false,
+    &quot;InnerSelect_UseCase_DeveloperName&quot;: &quot;&quot;,
+    &quot;UseCaseName&quot;: &quot;DDC_Store&quot;
+  }
+]</value>
+    </values>
+    <values>
+        <field>Notes__c</field>
+        <value xsi:nil="true" />
+    </values>
+    <values>
+        <field>ObjectName__c</field>
+        <value xsi:type="xsd:string">Store__c</value>
+    </values>
+    <values>
+        <field>QueryConditionJson__c</field>
+        <value xsi:nil="true" />
+    </values>
+    <values>
+        <field>QueryCondition__c</field>
+        <value xsi:type="xsd:string">Country__c != null</value>
+    </values>
+</CustomMetadata>

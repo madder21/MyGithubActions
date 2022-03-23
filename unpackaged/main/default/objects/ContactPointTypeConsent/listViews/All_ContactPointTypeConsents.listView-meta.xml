@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All_ContactPointTypeConsents</fullName>
+    <columns>AccountId__c</columns>
+    <columns>Name</columns>
+    <columns>Party</columns>
+    <columns>ContactPointType</columns>
+    <columns>DataUsePurpose</columns>
+    <columns>PrivacyConsentStatus</columns>
+    <columns>EffectiveFrom</columns>
+    <columns>EffectiveTo</columns>
+    <columns>LastModifiedDate</columns>
+    <columns>LastModifiedBy</columns>
+    <columns>CaptureDate</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PrivacyConsentStatus</field>
+        <operation>equals</operation>
+        <value>3</value>
+    </filters>
+    <label>All Contact Point Type Consents</label>
+</ListView>

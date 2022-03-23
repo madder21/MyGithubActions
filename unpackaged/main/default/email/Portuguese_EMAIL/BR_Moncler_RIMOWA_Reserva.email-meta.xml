@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Moncler RIMOWA - Reserva</name>
+    <style>none</style>
+    <subject>Moncler RIMOWA &quot;Reflection&quot; - A espera acabou!</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Tenho ótimas notícias!
+
+É com prazer que informo que a espera finalmente acabou!
+
+Nossa colaboração Moncler RIMOWA &quot;Reflection&quot; será lançada em breve e agora está disponível para reserva.
+
+Conforme nos solicitou, gostaria de informar que reservei uma dessas peças exclusivas em seu nome.
+
+Você ainda tem interesse em adicionar este lindo item a sua coleção?
+
+Por favor, me avise caso queira mais informações sobre este produto único.
+
+Atenciosamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

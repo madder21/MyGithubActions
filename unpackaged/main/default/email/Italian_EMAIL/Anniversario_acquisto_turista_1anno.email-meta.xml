@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecyle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Anniversario acquisto turista 1anno</name>
+    <style>none</style>
+    <subject>Buon primo anniversario!</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+il suo modello RIMOWA ***[Model]*** festeggia un anno di utilizzo!
+
+Speriamo che si sia rivelato un compagno fidato durante i suoi viaggi.
+
+Se ha in programma di vistarci anche quest’anno, saremo lieti di invitarla presso il negozio RIMOWA {!User.Base_Store_Code__c}, offrendole un servizio di controllo e lucidatura gratuito in preparazione dei suoi viaggi futuri.
+
+Qualora le facesse piacere accettare il nostro invito, non esiti a contattarmi per fissare un appuntamento.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Warranty registration NOI</name>
+    <style>none</style>
+    <subject>要激活您的保修</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+我希望您正在享受您的 RIMOWA ***[Model]***。
+
+鉴于您拥有 RIMOWA 已有一段时间了，我特此提醒您在 RIMOWA.com 上在线注册您的旅行箱，以获得 5 年期的保修。
+
+要注册您的旅行箱，只需关联您的账户，并点击“注册我的 RIMOWA”。
+
+如果您需要任何协助，请随时联系我。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

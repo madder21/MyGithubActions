@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Revisione bagaglio 2mesi</name>
+    <style>none</style>
+    <subject>Prima revisione bagaglio</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+a seguito della sua visita nel negozio RIMOWA {!User.Base_Store_Code__c} del ***[purchasedate]***, vorrei assicurarmi che il modello ***[Model]*** abbia soddisfatto le sue aspettative durante i suoi viaggi a ***[traveldestination]***.
+
+Rimango a sua disposizione per ogni eventuale domanda.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

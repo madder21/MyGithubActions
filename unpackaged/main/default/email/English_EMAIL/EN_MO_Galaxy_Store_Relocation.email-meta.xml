@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>MO – Galaxy Store Relocation</name>
+    <style>none</style>
+    <subject>Discover the new location of the RIMOWA Galaxy store</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I hope you are doing well!
+
+I am pleased to let you know that our boutique has relocated to the address below:
+
+1037 &amp; 1039, 1/F, The Promenade, Galaxy Macau™, Cotai, Macau
+
+The new store includes an in-store client care centre, with a technician on-hand to provide quick repairs.
+
+I remain at your disposal on my personal line/email and would be delighted to assist you with a product reservation or an appointment.
+
+I look forward to seeing you soon,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

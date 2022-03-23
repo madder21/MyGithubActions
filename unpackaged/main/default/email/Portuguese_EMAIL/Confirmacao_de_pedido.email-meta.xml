@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Confirmação de Pedido</name>
+    <style>none</style>
+    <subject>O seu pedido RIMOWA foi recebido</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+Gostaria de confirmar o seu pedido da **Product**.
+
+Tenho certeza de que esta linda peça será sua fiel companheira de viagem.
+
+Por favor, me avise qual será o melhor dia para retirar a sua mala na loja {!User.Base_Store_Code__c}.
+
+Caso necessite de mais informações, permaneço à disposição.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

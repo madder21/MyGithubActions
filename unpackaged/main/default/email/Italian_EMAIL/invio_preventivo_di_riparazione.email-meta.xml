@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>invio preventivo di riparazione</name>
+    <style>none</style>
+    <subject>Il preventivo per la riparazione è pronto</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+ho il piacere di informarla che i nostri esperti hanno controllato il suo modello RIMOWA ***[Model]***.
+
+Per effettuare la riparazione del ***[Repairpiece]***, i nostri tecnici stimano un costo di ***[Cost]***. In allegato troverà il preventivo dettagliato.
+
+Desidera confermare la riparazione?
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>En - Festive Card - MT/VICs</name>
+    <style>none</style>
+    <subject>All the best from RIMOWA</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you are doing well ***PERSONALISED PART – HOLIDAY GREETING / FAMILY CHECK***
+
+On behalf of RIMOWA, I&#39;d like to thank you for your continued loyalty and support – it’s always a pleasure assisting you.
+
+May this new year be filled with happiness, good health, and prosperity.
+
+Our best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

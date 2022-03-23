@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>VIC Gifting - Ready for pick up  2021</name>
+    <style>none</style>
+    <subject>***Your Gift is on its way/Your Gift is ready for pick-up***</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+Perfect!
+
+Looking forward to receiving you in-store on **visit date**. I will personally be here to welcome you. / Unfortunately, I will not be at the store on this day, however, my colleague XXX will be happy to assist you.
+
+**tag sent**,
+
+I hope you enjoy your next journeys with this unique travel tag.
+
+Have a lovely day.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

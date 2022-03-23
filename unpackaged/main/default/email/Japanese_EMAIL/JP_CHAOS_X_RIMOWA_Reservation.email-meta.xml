@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHAOS X RIMOWA - Reservation</name>
+    <style>none</style>
+    <subject>最新コラボレーション製品のご紹介</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+RIMOWA x CHAOSのコラボレーションより、ロンドン発アクセサリーブランドのパーソナリティが反映された大胆なグラフィックのスーツケースや遊び心にあふれたアクセサリーの限定コレクションが登場いたします。
+
+もしご興味ございましたら私までご連絡くださいませ。
+引き続きよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

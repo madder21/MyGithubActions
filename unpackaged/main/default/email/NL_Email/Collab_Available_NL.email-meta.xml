@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Samenwerking beschikbaar</name>
+    <style>none</style>
+    <subject>Geweldig nieuws ! Het wachten is voorbij</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Geweldig nieuws! We hebben een nieuwe levering binnen,
+en uw ***[model]*** wacht op u!
+
+Ik heb het voor u apart gelegd, wanneer bent u in
+de gelegenheid om ons te bezoeken?
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

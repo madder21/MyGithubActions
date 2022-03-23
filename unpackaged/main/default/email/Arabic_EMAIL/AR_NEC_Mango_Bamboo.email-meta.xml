@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC Mango &amp; Bamboo</name>
+    <style>none</style>
+    <subject>اكتشف Mango &amp; Bamboo ، ألواننا الأساسية الجديدة</subject>
+    <textOnly>السيد / السيدة {!Contact.LastName} ،
+
+يسعدني أن أقدم لكم أحدث ألوان الباستيل من مجموعة Essential Collection: Bamboo &amp; Mango.
+تتميز هذه المجموعة المستوحاة من المنتجات الاستوائية التي تُعرض في الأسواق العائمة الشهيرة في تايلاند بلونها الأخضر الناعم والأنيق وبظلال اللون البرتقالي النابض بالحيوية.
+
+
+**تتوفر هذه التدرجات اللونية الموسمية في ثلاثة أحجام من حقائب السفر، كما تتوفر أيضًا في حقيبة اليد كلاتش الشخصية المزودة بحزام طويل كروس بودي المحببة إلينا.**
+ولأني أعرف ذوقك فقد اعتقدت أن منتج **MANGO/BAMBOO ** قد يكون القطعة الصيفية المثالية لتُضاف إلى مجموعتك.
+
+إذا كنت بحاجة إلى مزيد من التفاصيل حول هذه المنتجات أو تحتاج إلى مساعدة في حجز إحدى هذه المنتجات، فلا تتردد في إخباري والتواصل معي.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN - Reconnect - Generic</name>
+    <style>none</style>
+    <subject>Your personal and local RIMOWA client advisor</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I would like to introduce myself as your personal local client advisor, on behalf of {!Account.ClientAdvisor__pc} {!Account.MainStore__pc}.
+
+Your RIMOWA **MODEL** has now been a companion for awhile now and we hope it has been trustworthy throughout your travels. 
+
+As a token of our appreciation for your loyalty and to help prepare for your future journeys,  I would love to welcome you to our {!Account.Local_Main_Store__c} for a complimentary **check-up of your suitcase / hot-stamping of your luggage tag **. 
+
+Should you be interested, I would be happy to organise your visit in-store.  
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

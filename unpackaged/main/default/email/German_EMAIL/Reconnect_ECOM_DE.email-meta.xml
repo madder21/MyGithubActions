@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>DE - Reconnect Campaign - ECOM</name>
+    <style>none</style>
+    <subject>Ihr persönlicher RIMOWA-Kundenberater</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+Ihr RIMOWA {Model} begleitet Sie nun seit einigen Monaten und wir hoffen, dass dieser Ihnen bisher zuverlässlich zur Seite gestanden hat.
+
+Im Namen des RIMOWA-Teams möchte ich mich als Ihr persönlicher Kundenbetreuer vorstellen. 
+
+Gerne dürfen Sie mich jederzeit kontaktieren, wenn ich Ihnen bei weiteren Anliegen oder einer Frage behilflich sein kann.
+  
+Ich freue mich von Ihnen zu hören!
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

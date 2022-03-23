@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT_確認保留產品 NOI</name>
+    <style>none</style>
+    <subject>確認您的保留產品</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+感謝您昨天蒞臨 {!User.Base_Store_Code__c}。
+很高興見到您！
+
+我們會保留您的 RIMOWA ***[行李箱Model]*** 至 ***[日期]***。
+
+請通知我們您何时方便前来領取。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

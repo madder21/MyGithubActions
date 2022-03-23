@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Thank you Repair pick up NOI</name>
+    <style>none</style>
+    <subject>Bedankt voor uw vertrouwen</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Beadnkt voor uw bezoek gisteren!
+
+Ik vertrouw erop dat uw ***[Model]*** na de meest recente
+onderhoudsbeurt weer dienst zal doen als uw trouwe reisgenoot
+op de aankomende reizen.
+
+Wij wensen u nog veel reisplezier toe met uw RIMOWA.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

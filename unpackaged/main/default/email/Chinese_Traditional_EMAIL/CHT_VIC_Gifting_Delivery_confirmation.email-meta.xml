@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - VIC Gifting - Delivery confirmation</name>
+    <style>none</style>
+    <subject>***您的禮物已寄出 / 您的禮物已預備好！***</subject>
+    <textOnly>親愛的 {!Contact.LastName}先生／女士，
+
+太好了！
+
+期待在***到店日期***見到您。***我將親自在這裡歡迎您。 /很可惜我今天不會在店舖裡，但是我的同事XXX很樂意為您提供服務。***
+
+**已發送圖書**，
+
+希望您喜歡RIMOWA這本頌揚逾百年的旅遊歷史紀念特刊。書內收錄了大量從未發佈的精彩圖片，重點介紹經典作品，並附有精美照片、插圖及品牌珍藏的昔日佳作。
+
+祝您有個愉快的一天。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

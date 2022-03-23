@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ES - Festive Greetings - Selected VICs</name>
+    <style>none</style>
+    <subject>RIMOWA quiere agradecerle su fidelidad.</subject>
+    <textOnly>Estimado/a {!Contact.LastName},
+
+Espero que todo le esté yendo bien***PERSONALISED PART – HOLIDAY GREETING / FAMILY CHECK***
+
+De parte de todo el equipo de RIMOWA, Me gustaría personalmetne darle las gracias por su lealtad y su apoyo, es un placer poder ayudarle.
+
+Para mostrarle nuestro aprecio, nos gustaría regalarle un libro de edición de coleccionista de RIMOWA. Publicado el mes pasado, RIMOWA: An Archive, Desde 1898 recopila más de un siglo de productos, historias y personalidades que han contribuído a que RIMOWA sea la marca que es hoy en día.
+
+Me gustaría regalarle una copia en persona en caso de que esté disponible para visitarnos en [STORE].
+Quedo a la espera de tener noticias suyas.
+
+Saludos cordiales,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

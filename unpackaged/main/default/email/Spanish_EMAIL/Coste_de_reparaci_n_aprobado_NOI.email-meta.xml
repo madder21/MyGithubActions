@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Coste de reparación aprobado NOI</name>
+    <style>none</style>
+    <subject>Aprobado su presupuesto de reparación</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Gracias por confirmar que desea proceder con la reparación de su RIMOWA ***[Model]*** por un coste estimado de ***[cost]***, ofrecido el día ***[date]***.
+
+Nuestros expertos de Asistencia al cliente están ahora procesando su solicitud, y estará lista para recoger antes del ***[Date]***.
+
+Le informaré tan pronto como esté lista.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

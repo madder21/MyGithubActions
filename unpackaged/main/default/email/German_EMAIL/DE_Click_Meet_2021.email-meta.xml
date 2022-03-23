@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Others,</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Click &amp; Meet 2021</name>
+    <style>none</style>
+    <subject>Wir sind wieder für Sie da!</subject>
+    <textOnly>Lieber Herr / Frau {!Contact.LastName},
+
+entsprechend der neuen Vorgaben im Zusammenhang mit der Corona-Pandemie dürfen wir Sie endlich wieder eingeschränkt bei uns willkommen heißen!
+
+Hierzu können wir gerne einen persönlichen Termin für Ihre Anliegen vereinbaren. Zur Terminabsprache kontaktieren Sie mich gerne per E-Mail, Telefon oder Whatsapp.
+
+Wir freuen uns auf Ihren Besuch!
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

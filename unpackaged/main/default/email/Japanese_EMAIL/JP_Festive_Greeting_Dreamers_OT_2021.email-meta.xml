@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ホリデー - ご挨拶 Dreamer/OT- JP</name>
+    <style>none</style>
+    <subject>年末のご挨拶</subject>
+    <textOnly>{!Contact.LastName}様
+
+RIMOWA〇〇店の〇〇でございます。
+早いもので本年も残すところ、あとわずかとなりました。
+本年もRIMOWAをご愛顧いただき、誠にありがとうございました。
+
+2022年が{!Contact.LastName}様にとって、より良い一年となることをお祈りいたします。
+
+時節柄、ご多忙のことと存じます。
+くれぐれも体調などお崩しになられぬようお気をつけくださいませ。
+
+来年もどうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

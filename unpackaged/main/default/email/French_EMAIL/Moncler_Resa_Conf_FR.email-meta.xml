@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Moncler RIMOWA - Reservation Confirmation</name>
+    <style>none</style>
+    <subject>Confirmation de réservation - Moncler RIMOWA</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+Nous avons mis de côté pour vous un modèle de cette collaboration.
+
+***Pourriez-vous nous indiquer votre date de passage en boutique afin de vous accueilllir personnellement? / Pourriez-vous nous indiquer à quelle adresse vous souhaitez être livré(e)?***
+
+A bientôt, .
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

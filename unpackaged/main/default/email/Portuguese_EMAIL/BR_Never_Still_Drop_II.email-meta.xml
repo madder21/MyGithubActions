@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still Drop II</name>
+    <style>none</style>
+    <subject>Novidades em nossa linha Never Still</subject>
+    <textOnly>Prezado (a) {!Contact.LastName},
+
+Espero que o Sr (a) e sua família se encontrem bem.
+
+Tenho o prazer de informar que acabamos de lançar três novos modelos Never Still: A bolsa Messenger, a nova Briefcase e nosso porta notebook.
+
+Acredito que *** a messenger / briefcase / porta notebbok *** seria a companheira perfeita para você.
+
+** Esta coleção será lançada no dia 7 de maio. Caso deseje, me encontro à disposição para atendê-lo. **
+
+Atenciosamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

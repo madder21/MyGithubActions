@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>التوعية النشطة - Personal</name>
+    <style>none</style>
+    <subject>خذ RIMOWA الخاص بك في كل مكان مع Personal</subject>
+    <textOnly>مرحبًا {!Contact.LastName}،
+
+ربما تكون سمعت عن علامتنا التجارية الجديدة RIMOWA Personal في الصحافة أو تلقيت رسالتنا الإخبارية الإلكترونية، ولكنني ما زلت أرغب في التواصل معك بشأنها شخصيًا.
+
+توفر حقيبة كلاتش للجنسين الجميلة بأربعة ألوان، وهي مصممة لوضع أغراضك اليومية بها ويمكن ارتداؤها باستخدام حزام جسم جلدي يمكن إزالته أو حملها كحقيبة يد بكل سهولة. أعتقد أنها ستكون مُكمِلاً لطيفًا ***لإطلالتك/لمجموعتك***.
+
+بعد أن أصبحت قطعة فنية مميزة، يسعدني أن أخبرك أنها متاحة الآن للحجز.
+
+هل ترغب في معرفة المزيد من التفاصيل حول هذا المنتج؟
+
+مع أطيب التمنيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

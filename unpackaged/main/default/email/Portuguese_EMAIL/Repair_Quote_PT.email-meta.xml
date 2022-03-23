@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Solicitação de aprovação de orçamento de reparo NOI</name>
+    <style>none</style>
+    <subject>Sua cotação de reparo está pronta</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+É um prazer informar que a sua RIMOWA ***[Modelo]*** foi
+inspecionada pelos nossos especialistas.
+
+Para proceder com o reparo da (o) ***[peça a ser reparada]***,
+os nossos técnicos estimam um custo de ***[Custo]***.
+
+Por favor, veja em anexo a nossa cotação detalhada.
+
+Gostaria de seguir com o seu reparo?
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

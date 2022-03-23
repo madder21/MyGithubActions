@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Ucapan Terima Kasih</name>
+    <style>none</style>
+    <subject>Terima kasih telah mengunjungi kami!</subject>
+    <textOnly>Yang Terhormat Bapak/Ibu {!Contact.LastName},
+
+Terima kasih atas kunjungan Anda ke RIMOWA {!User.Base_Store_Code__c} kemarin. Senang bertemu Anda!
+
+Dengan senang hati saya memperkenalkan merek dan memandu Anda
+melalui koleksinya.
+
+Saya percaya RIMOWA Anda ***[Model]*** dalam warna ***[colour]*** akan melayani Anda dengan baik di perjalanan yang akan datang dan selanjutnya.
+
+Saya menantikan kehadiran Anda kembali ke toko kami .
+
+Semoga selalu menikmati perjalanan anda,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

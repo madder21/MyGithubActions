@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Repair invoice NOI</name>
+    <style>none</style>
+    <subject>Betaling reparatie factuur</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Bedankt voor het laten repareren van uw RIMOWA ***[Model]***
+door één van onze Client Care specialisten.
+
+Bijgevoegd treft u de factuur aan voor de reparatie van uw koffer.
+Wij verzoeken u vriendelijk het openstaande bedrag te voldoen voor de vervaldatum van ***[datum]***.
+
+Ik wens u veel plezier toe op de aankomende reizen met uw RIMOWA.
+Mocht u nog vragen hebben dan hoor ik dat graag.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

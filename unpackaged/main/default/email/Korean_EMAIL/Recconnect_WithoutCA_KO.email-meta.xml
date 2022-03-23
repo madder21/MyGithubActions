@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reconnect;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>리커넥트 캠페인 - 담당 CA가 없는 고객</name>
+    <style>none</style>
+    <subject>고객님의 전담 리모와 클라이언트 어드바이저입니다.</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님,
+
+고객님께서 리모와를 더 편리하게 이용하실 수 있도록, 앞으로 전담하여 고객님을 지원해 드릴 {!Account.Local_Main_Store__c}의 {!Account.Local_Main_CA__c} 어드바이저입니다.
+구매하신 제품에 대한 서비스나 필요하신 부분은 제가 계속해서 관리해 드리겠습니다.
+
+고객님께서 구매하신 **제품명** 제품이 지난 여행에서 믿음직한 여행 동반자가 되어 드렸기를 바랍니다.
+
+고객님의 사랑과 관심에 보답하는 마음으로, 사용하고 계신 리모와 수트케이스의 무료 점검 서비스를 제공해 드리고자 합니다.
+
+잠시 멈춘 지금, 리모와와 함께 지난 여행을 추억하며 다시 떠날 여행을 미리 준비해 보는 것은 어떠신가요?
+
+제품이나 서비스에 대해 궁금하신 점이 있으시면 언제든 저에게 연락해 주세요.
+
+감사합니다.
+
+
+{!User.Name}드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

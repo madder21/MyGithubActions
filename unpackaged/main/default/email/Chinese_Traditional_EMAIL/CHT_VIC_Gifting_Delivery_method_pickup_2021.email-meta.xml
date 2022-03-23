@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>VIC Gifting - Delivery method/pickup - TC</name>
+    <style>none</style>
+    <subject>關於您的 RIMOWA 禮物</subject>
+    <textOnly>親愛的{!Contact.LastName}先生/女士：
+
+謝謝您的回覆！它定能令您的RIMOWA系列錦上添花。
+
+我們為您準備的禮物**已送到[專門店]待您領取，請告知您方便的日期及時間，以便我們早作安排。**
+
+**已備妥，請您提供郵寄地址，以便安排送貨。&#39;地址第一行／地址第二行，郵政編號，城市}**
+
+XXX 謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

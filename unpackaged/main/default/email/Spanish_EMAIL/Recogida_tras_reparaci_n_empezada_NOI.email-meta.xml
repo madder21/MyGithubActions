@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Recogida tras reparación empezada NOI</name>
+    <style>none</style>
+    <subject>Su reparación está lista</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+La reparación de su RIMOWA ***[Model]*** está lista.
+
+Me alegra informarle de que hemos recibido su maleta y está lista para ser recogida.
+
+Póngase en contacto con nosotros para informarnos de cuándo podrá recoger su maleta en {!User.Base_Store_Code__c} o si prefiere que se la enviemos de forma gratuita.
+
+Le informo de que su maleta debe recogerse antes de 30 días. En caso de que no recoja su maleta transcurridos los 30 días tras el aviso, su maleta será almacenada y se aplicarán gastos que correrán a su cargo.
+
+No dude en ponerse en contacto conmigo en caso de que no pueda recoger su maleta a tiempo, estaré encantado de encontrar una solución.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

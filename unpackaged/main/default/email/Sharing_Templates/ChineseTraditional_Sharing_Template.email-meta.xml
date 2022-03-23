@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>CHT Sharing Template</name>
+    <style>none</style>
+    <subject>介紹我們的 {!Product.Name}</subject>
+    <textOnly>親愛的{!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName}：
+
+了解到您對 {!Product.Name} 很感興趣，我很高興與您分享更多詳細信息。
+
+以下附上您心儀的 {!Product.Collection} 系列的 {!Product.Color} 的商品圖片。 它是適合您 {Next_Traveldate} 的一件可愛單品。
+
+此外，這件單品還有 {Product_Color} ；如果您希望了解更多諮詢，歡迎隨時與我聯繫。
+
+
+祝好！
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

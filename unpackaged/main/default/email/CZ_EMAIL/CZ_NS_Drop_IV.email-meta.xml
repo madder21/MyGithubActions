@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS Drop IV - CZ</name>
+    <style>none</style>
+    <subject>Novinky v kolekci &#39;Never Still&#39;</subject>
+    <textOnly>Vážená paní / Vážený pane {!Contact.LastName},
+
+k naší úspěšné kolekci batohů a tašek NeverStill se právě přidává i pět elegantních drobností, které najdou každodenní využití.
+
+Jsme rádi, že Vám můžeme představit minimalistickou taštičku na telefon, pouzdro na karty nebo pas, šňůrku na klíče nebo malou taštičku třeba na balzám na rty.
+
+Myslím, že tyto nové produkty &quot;NeverStill Drop 4&quot; pro Vás můžou být zajímavé a perfektně doladí vaší kolekci s produktem &quot;model&quot;.
+
+Pokud budete mít nějaké dotazy, jsem pro Vás k dispozici.
+
+S přáním pěkného dne,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

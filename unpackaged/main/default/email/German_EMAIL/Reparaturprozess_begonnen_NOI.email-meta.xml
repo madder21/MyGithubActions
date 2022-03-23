@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Reparaturprozess begonnen NOI</name>
+    <style>none</style>
+    <subject>Ihrer Reparatur wird bearbeitet</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+Ihr RIMOWA ***[Model]*** wurde aufgrund des Schadens zu unserem Service nach ***[Servicecenter]*** verschickt und befindet sich nun in den Händen unserer Spezialisten. Die Reparatur wird voraussichtlich bis zum ***[Date]*** abgeschlossen sein.
+
+Sobald wir Ihren Koffer wieder bei uns im Store haben, melden wir uns bei Ihnen.
+
+Mit freundlichen Grüßen,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

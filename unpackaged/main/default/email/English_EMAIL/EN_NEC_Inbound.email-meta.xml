@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN_New Essential Colours Inbound</name>
+    <style>none</style>
+    <subject>Following your inquiry about our new colours.</subject>
+    <textOnly>Dear Mrs xxx / Mr xxx,
+
+Thank you for your interest in the launch of our new Essential colours in polycarbonate ***Desert Rose/Cactus***.
+
+The cabin size is exclusively available on RIMOWA.com for a pre-launch starting July 20th in limited quantities.
+
+Please find below the direct link to place your order:
+
+The worldwide launch of the complete collection will take place this autumn.
+I remain at your disposal should you need any assistance in your order.
+
+Kind regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

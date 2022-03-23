@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NS Drop IV</name>
+    <style>none</style>
+    <subject>Découvrez les nouveautés de la collection Never Still</subject>
+    <textOnly>Chère madame/ cher monsieur {!Contact.LastName},
+
+J&#39;ai le plaisir de vous annoncer les nouvelles arrivées dans la collection Never Still.
+
+***
+En cuir Italien et au style minimaliste, la collection Never Still accueille un étui pour passeport, un porte-cartes, une mini pochette ronde et rectangulaire, un étui pour téléphone et un porte-clés en tour de cou.
+
+OU
+
+Possédant un **owned Product Name**, j&#39;ai pensé que ce **NS Drop IV Product Name** fait à partir de cuir Italien, serait un parfait ajout à votre collection.
+***
+
+Je reste à votre entière disposition pour toute assistance ou information complémentaire sur cette collection.
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

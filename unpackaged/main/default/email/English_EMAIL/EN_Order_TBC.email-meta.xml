@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN - Order to be confirmed</name>
+    <style>none</style>
+    <subject>Finalise your RIMOWA Order</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for choosing RIMOWA.
+
+Please click on the link below to proceed with your payment and confirm your order of **Product**.
+
+**Link**
+
+I remain at your disposal should you need assistance to proceed with your payment.
+
+***
+Should you wish to withdraw your consent to receive marketing activities as expressed during our conversation, please contact me in this regard.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+By processing your order, you agree with RIMOWA’s Terms &amp; Conditions.
+Your personal data is processed by RIMOWA in its capacity as data controller, to organize the processing of your order. For more information on the processing of your personal data and on your rights, please see our Privacy Policy.</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrderBy__c</fullName>
+    <externalId>false</externalId>
+    <label>Order By</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>totalTurnover</fullName>
+                <default>false</default>
+                <label>Total Amount Of Client Purchase</label>
+            </value>
+            <value>
+                <fullName>lastPurchaseDate</fullName>
+                <default>false</default>
+                <label>Last Purchase Date</label>
+            </value>
+            <value>
+                <fullName>firstName</fullName>
+                <default>false</default>
+                <label>First Name</label>
+            </value>
+            <value>
+                <fullName>lastName</fullName>
+                <default>false</default>
+                <label>Last Name</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>JP Sharing Template</name>
+    <style>none</style>
+    <subject>{!Product.Name} の紹介</subject>
+    <textOnly>{!Contact.Salutation} {!Contact.FirstName} {!Contact.LastName} 様、
+{!Product.Name}に関心をお寄せいただきありがとうございます。
+詳細をお知らせさせていただきます。
+
+以下のアイテムの写真は、コレクション{!Product.Collection}
+の{!Product.Color}にあります。
+お客様の{Next_TravelDate}に最適の作品です。
+
+この作品は{Product_Color}でも入手できます。
+詳細を送ってほしいのであればお知らせください。
+
+
+敬具
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

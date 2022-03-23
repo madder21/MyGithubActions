@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Zaslání info o kufru</name>
+    <style>none</style>
+    <subject>Děkujeme za Vaši návštěvu</subject>
+    <textOnly>&#39;Vážený / á XY,
+
+děkuji za Vaši včerejšímu návštěvu - bylo
+mi potěšením Vás poznat.
+
+V další zprávě Vám zasílám veškeré detaily a
+užitečné informace k modelu *XY*, o který jste měl/a zájem.
+
+Dejte mi vědět, pokud byste měl/a jakékoli jiné dotazy.
+
+S přáním pěkného dne,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

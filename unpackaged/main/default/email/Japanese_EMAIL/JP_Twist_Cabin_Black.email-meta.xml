@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Twist Black - 発売開始 - JP</name>
+    <style>none</style>
+    <subject>Original Twistシリーズに新色が登場</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+この度RIMOWAではブランドを象徴するOriginal Twistスーツケースコレクションからビジネス・普段使いにピッタリのブラックカラーを発売いたします。
+Originalスーツケースにワンアクセントを加えたTwistシリーズはレッド・ブルー・ブラウンで展開されており、大変人気なシリーズでございます。
+
+本日はこちらの発売をいち早くお知らせしたく、{!Contact.LastName}様にご連絡させていただきました。
+
+もし製品の写真やその他情報をご希望でしたら、お気軽に私までご連絡ください。
+
+引き続きどうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

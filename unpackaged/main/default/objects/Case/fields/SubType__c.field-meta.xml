@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SubType__c</fullName>
+    <externalId>false</externalId>
+    <label>Sub-Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Type</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Advertising Material</fullName>
+                <default>false</default>
+                <label>Advertising Material</label>
+            </value>
+            <value>
+                <fullName>Billing</fullName>
+                <default>false</default>
+                <label>Billing</label>
+            </value>
+            <value>
+                <fullName>Certificates</fullName>
+                <default>false</default>
+                <label>Certificates</label>
+            </value>
+            <value>
+                <fullName>Clienteling</fullName>
+                <default>false</default>
+                <label>Clienteling</label>
+            </value>
+            <value>
+                <fullName>Corporate</fullName>
+                <default>false</default>
+                <label>Corporate</label>
+            </value>
+            <value>
+                <fullName>Delivery</fullName>
+                <default>false</default>
+                <label>Delivery</label>
+            </value>
+            <value>
+                <fullName>Delivery Issue</fullName>
+                <default>false</default>
+                <label>Delivery Issue</label>
+            </value>
+            <value>
+                <fullName>E-Reservation</fullName>
+                <default>false</default>
+                <label>E-Reservation</label>
+            </value>
+            <value>
+                <fullName>Events</fullName>
+                <default>false</default>
+                <label>Events</label>
+            </value>
+            <value>
+                <fullName>Exchange</fullName>
+                <default>false</default>
+                <label>Exchange</label>
+            </value>
+            <value>
+                <fullName>External stakeholders</fullName>
+                <default>false</default>
+                <label>External stakeholders</label>
+            </value>
+            <value>
+                <fullName>Fraud</fullName>
+                <default>false</default>
+                <label>Fraud</label>
+            </value>
+            <value>
+                <fullName>GDPR</fullName>
+                <default>false</default>
+                <label>GDPR</label>
+            </value>
+            <value>
+                <fullName>Order cancellation</fullName>
+                <default>false</default>
+                <label>Order cancellation</label>
+            </value>
+            <value>
+                <fullName>Order follow-up</fullName>
+                <default>false</default>
+                <label>Order follow-up</label>
+            </value>
+            <value>
+                <fullName>Order modification</fullName>
+                <default>false</default>
+                <label>Order modification</label>
+            </value>
+            <value>
+                <fullName>Order on behalf</fullName>
+                <default>false</default>
+                <label>Order on behalf</label>
+            </value>
+            <value>
+                <fullName>Payment</fullName>
+                <default>false</default>
+                <label>Payment</label>
+            </value>
+            <value>
+                <fullName>Points of sale</fullName>
+                <default>false</default>
+                <label>Points of sale</label>
+            </value>
+            <value>
+                <fullName>Price information</fullName>
+                <default>false</default>
+                <label>Price information</label>
+            </value>
+            <value>
+                <fullName>Product information</fullName>
+                <default>false</default>
+                <label>Product information</label>
+            </value>
+            <value>
+                <fullName>Refund</fullName>
+                <default>false</default>
+                <label>Refund</label>
+            </value>
+            <value>
+                <fullName>Repair_services</fullName>
+                <default>false</default>
+                <label>Repair &amp; services</label>
+            </value>
+            <value>
+                <fullName>Reservation</fullName>
+                <default>false</default>
+                <label>Reservation</label>
+            </value>
+            <value>
+                <fullName>Return</fullName>
+                <default>false</default>
+                <label>Return</label>
+            </value>
+            <value>
+                <fullName>Short shipment</fullName>
+                <default>false</default>
+                <label>Short shipment</label>
+            </value>
+            <value>
+                <fullName>Social responsibility</fullName>
+                <default>false</default>
+                <label>Social responsibility</label>
+            </value>
+            <value>
+                <fullName>Stock Availability</fullName>
+                <default>false</default>
+                <label>Stock Availability</label>
+            </value>
+            <value>
+                <fullName>Terms_Conditions</fullName>
+                <default>false</default>
+                <label>Terms &amp; Conditions</label>
+            </value>
+            <value>
+                <fullName>Web assistance</fullName>
+                <default>false</default>
+                <label>Web assistance</label>
+            </value>
+            <value>
+                <fullName>05. Complaints</fullName>
+                <default>false</default>
+                <label>05. Complaints</label>
+            </value>
+            <value>
+                <fullName>06. Complaints</fullName>
+                <default>false</default>
+                <label>06. Complaints</label>
+            </value>
+            <value>
+                <fullName>02. Complaints</fullName>
+                <default>false</default>
+                <label>02. Complaints</label>
+            </value>
+            <value>
+                <fullName>10. Complaints</fullName>
+                <default>false</default>
+                <label>10. Complaints</label>
+            </value>
+            <value>
+                <fullName>08. Complaints</fullName>
+                <default>false</default>
+                <label>08. Complaints</label>
+            </value>
+            <value>
+                <fullName>09. Complaints</fullName>
+                <default>false</default>
+                <label>09. Complaints</label>
+            </value>
+            <value>
+                <fullName>01. Corporate</fullName>
+                <default>false</default>
+                <label>01. Corporate</label>
+            </value>
+            <value>
+                <fullName>02. Events</fullName>
+                <default>false</default>
+                <label>02. Events</label>
+            </value>
+            <value>
+                <fullName>03. Regulation</fullName>
+                <default>false</default>
+                <label>03. Regulation</label>
+            </value>
+            <value>
+                <fullName>04. News_Documentation</fullName>
+                <default>false</default>
+                <label>04. News &amp; Documentation</label>
+            </value>
+            <value>
+                <fullName>05. Boutiques</fullName>
+                <default>false</default>
+                <label>05. Boutiques</label>
+            </value>
+            <value>
+                <fullName>08. Recruitment</fullName>
+                <default>false</default>
+                <label>08. Recruitment</label>
+            </value>
+            <value>
+                <fullName>03. Terms_Conditions</fullName>
+                <default>false</default>
+                <label>03. Terms&amp;Conditions</label>
+            </value>
+            <value>
+                <fullName>06. Partners</fullName>
+                <default>false</default>
+                <label>06. Partners</label>
+            </value>
+            <value>
+                <fullName>07. Media</fullName>
+                <default>false</default>
+                <label>07. Media</label>
+            </value>
+            <value>
+                <fullName>04. Reservation</fullName>
+                <default>false</default>
+                <label>04. Reservation</label>
+            </value>
+            <value>
+                <fullName>13. Right to be forgotten</fullName>
+                <default>false</default>
+                <label>13. Right to be forgotten</label>
+            </value>
+            <value>
+                <fullName>12. Data portability</fullName>
+                <default>false</default>
+                <label>12. Data portability</label>
+            </value>
+            <value>
+                <fullName>11. Data modification</fullName>
+                <default>false</default>
+                <label>11. Data modification</label>
+            </value>
+            <value>
+                <fullName>10. Clienteling</fullName>
+                <default>false</default>
+                <label>10. Clienteling</label>
+            </value>
+            <value>
+                <fullName>01. Price</fullName>
+                <default>false</default>
+                <label>01. Price</label>
+            </value>
+            <value>
+                <fullName>02. Product</fullName>
+                <default>false</default>
+                <label>02. Product</label>
+            </value>
+            <value>
+                <fullName>03. Stock</fullName>
+                <default>false</default>
+                <label>03. Stock</label>
+            </value>
+            <value>
+                <fullName>04. Stock</fullName>
+                <default>false</default>
+                <label>04. Stock</label>
+            </value>
+            <value>
+                <fullName>05. Reservation</fullName>
+                <default>false</default>
+                <label>05. Reservation</label>
+            </value>
+            <value>
+                <fullName>01. Billing</fullName>
+                <default>false</default>
+                <label>01. Billing</label>
+            </value>
+            <value>
+                <fullName>01. Web assistance</fullName>
+                <default>false</default>
+                <label>01. Web assistance</label>
+            </value>
+            <value>
+                <fullName>02. Order on behalf</fullName>
+                <default>false</default>
+                <label>02. Order on behalf</label>
+            </value>
+            <value>
+                <fullName>03. Delivery options</fullName>
+                <default>false</default>
+                <label>03. Delivery options</label>
+            </value>
+            <value>
+                <fullName>04. Payment information</fullName>
+                <default>false</default>
+                <label>04. Payment information</label>
+            </value>
+            <value>
+                <fullName>05. Billing</fullName>
+                <default>false</default>
+                <label>05. Billing</label>
+            </value>
+            <value>
+                <fullName>06. Modification</fullName>
+                <default>false</default>
+                <label>06. Modification</label>
+            </value>
+            <value>
+                <fullName>07. Cancellation</fullName>
+                <default>false</default>
+                <label>07. Cancellation</label>
+            </value>
+            <value>
+                <fullName>08. Delivery follow-up</fullName>
+                <default>false</default>
+                <label>08. Delivery follow-up</label>
+            </value>
+            <value>
+                <fullName>09. Technical issues</fullName>
+                <default>false</default>
+                <label>09. Technical issues</label>
+            </value>
+            <value>
+                <fullName>01. Exchange</fullName>
+                <default>false</default>
+                <label>01. Exchange</label>
+            </value>
+            <value>
+                <fullName>01. Payment</fullName>
+                <default>false</default>
+                <label>01. Payment</label>
+            </value>
+            <value>
+                <fullName>02. Fraud</fullName>
+                <default>false</default>
+                <label>02. Fraud</label>
+            </value>
+            <value>
+                <fullName>03. Short shipment</fullName>
+                <default>false</default>
+                <label>03. Short shipment</label>
+            </value>
+            <value>
+                <fullName>04. Delivery</fullName>
+                <default>false</default>
+                <label>04. Delivery</label>
+            </value>
+            <value>
+                <fullName>05. Return</fullName>
+                <default>false</default>
+                <label>05. Return</label>
+            </value>
+            <value>
+                <fullName>06. Refund</fullName>
+                <default>false</default>
+                <label>06. Refund</label>
+            </value>
+            <value>
+                <fullName>02. Return</fullName>
+                <default>false</default>
+                <label>02. Return</label>
+            </value>
+            <value>
+                <fullName>03. Refund</fullName>
+                <default>false</default>
+                <label>03. Refund</label>
+            </value>
+            <value>
+                <fullName>04. Care</fullName>
+                <default>false</default>
+                <label>04. Care</label>
+            </value>
+            <value>
+                <fullName>05. Repair_Services</fullName>
+                <default>false</default>
+                <label>05. Repair&amp;Services</label>
+            </value>
+            <value>
+                <fullName>06. Certificates</fullName>
+                <default>false</default>
+                <label>06. Certificates</label>
+            </value>
+            <value>
+                <fullName>07. Quality issue</fullName>
+                <default>false</default>
+                <label>07. Quality issue</label>
+            </value>
+            <value>
+                <fullName>08. Delivery issue</fullName>
+                <default>false</default>
+                <label>08. Delivery issue</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>Delivery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>Fraud</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Refund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Return</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>Short shipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>01. Payment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>02. Fraud</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>03. Short shipment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>04. Delivery</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>05. Return</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Back-Office</controllingFieldValue>
+            <valueName>06. Refund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Advertising Material</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Clienteling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Corporate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Events</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>External stakeholders</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>GDPR</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Points of sale</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>Social responsibility</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>09. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>01. Corporate</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>02. Events</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>03. Regulation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>04. News_Documentation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>05. Boutiques</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>08. Recruitment</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>06. Partners</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>07. Media</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>13. Right to be forgotten</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>12. Data portability</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>11. Data modification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>General Info</controllingFieldValue>
+            <valueName>10. Clienteling</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>Price information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>Product information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <valueName>Reservation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>Stock Availability</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>Terms_Conditions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <valueName>05. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <valueName>04. Reservation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>01. Price</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>02. Product</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <valueName>03. Stock</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-sale Retail</controllingFieldValue>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>05. Reservation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>E-Reservation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>06. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>03. Terms_Conditions</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Pre-Sale Ecom</controllingFieldValue>
+            <valueName>04. Stock</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale Retail</controllingFieldValue>
+            <valueName>02. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale Retail</controllingFieldValue>
+            <valueName>01. Billing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>Order cancellation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>Order follow-up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>Order modification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>Order on behalf</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>Web assistance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>10. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>01. Web assistance</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>02. Order on behalf</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>03. Delivery options</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>04. Payment information</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>05. Billing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>06. Modification</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>07. Cancellation</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>08. Delivery follow-up</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Sale E-Commerce</controllingFieldValue>
+            <valueName>09. Technical issues</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Billing</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Certificates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Exchange</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Repair_services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <valueName>08. Complaints</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <valueName>01. Exchange</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>02. Return</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>03. Refund</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>04. Care</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>05. Repair_Services</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>06. Certificates</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale Retail</controllingFieldValue>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>07. Quality issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>Delivery Issue</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>After-Sale E-Commerce</controllingFieldValue>
+            <valueName>08. Delivery issue</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

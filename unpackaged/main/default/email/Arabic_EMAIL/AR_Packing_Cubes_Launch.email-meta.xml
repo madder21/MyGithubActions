@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>إطلاق مكعبات التخزين</name>
+    <style>none</style>
+    <subject>إكتشف مكعبات التخزين RIMOWA</subject>
+    <textOnly>السيد {!Contact.LastName} العزيز
+
+ليسعدني إخبارك أننا أطلقنا مجموعتنا الأولى على الإطلاق من Packing Cube والتي ستقترن بشكل مثالي مع RIMOWA **Model** الخاص بك.
+
+تهدف هذه المجموعة الجديدة من المنتجات التنظيمية إلى تبسيط تجربة سفر ك وتحسين التصميم الداخلي لأمتعتك من خلال زيادة مساحة التعبئة بشكل مريح. صُنعت المجموعة من مواد مرنة وطاردة للماء ومعاد تدويرها، وهي متوفرة بعدة ألوان وأحجام مصممة لتناسب أمتعتك.
+
+يسعدني مشاركة المزيد من التفاصيل معك. هل ترغب في معرفة المزيد عن المجموعة؟
+
+مع أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

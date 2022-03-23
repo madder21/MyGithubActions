@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Birthday NOI</name>
+    <style>none</style>
+    <subject>从RIMOWA团队...</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+我谨代表 RIMOWA 的所有员工祝您生日快乐。
+
+希望您在新的一年中平安喜乐，旅程顺利。
+
+诚挚祝福。
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

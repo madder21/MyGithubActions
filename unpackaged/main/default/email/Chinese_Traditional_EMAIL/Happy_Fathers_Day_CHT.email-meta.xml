@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Happy Fathers Day_CHT</name>
+    <style>none</style>
+    <subject>父親節快樂</subject>
+    <textOnly>親愛的{!Contact.LastName},
+
+父親節快樂！
+
+携带行李牌親臨本店享用個人化服務。
+
+為父親訂做一份個人化的禮物。
+
+致此，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

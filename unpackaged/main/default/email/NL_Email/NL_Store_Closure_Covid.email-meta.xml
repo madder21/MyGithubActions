@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Other;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Covid Winkel sluiting</name>
+    <style>none</style>
+    <subject>Exclusive pre-launch: Onze nieuwe Essential kleuren Desert Rose &amp; Cactus</subject>
+    <textOnly>Beste Hr/Mevr {!Contact.LastName},
+
+Ik hoop dat het goed gaat met u en uw dierbaren.
+
+Sinds het begin van deze crisis is het welzijn van ons wereldwijde netwerk van reizigers, teamgenoten en klanten onze topprioriteit.
+
+Om onze collectieve veiligheid te waarborgen en in overeenstemming te zijn met de richtlijnen van onze overheid, is onze RIMOWA {Store Code} tot nader order gesloten.
+
+In de tussentijd sta ik graag tot uw beschikking via *** telefoon / e-mail *** om al uw vragen te beantwoorden of als ik u kan assisteren bij een bestelling, evenals om de levering van uw product te regelen.
+
+Ik kijk ernaar uit om u terug te zien in onze winkel.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

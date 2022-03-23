@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Invito registrazione garanzia</name>
+    <style>none</style>
+    <subject>Per attivare la sua garanzia</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+spero che sia soddisfatto dell’acquisto del suo modello RIMOWA ***[Model]***.
+
+Poiché è un po’ di tempo ormai che utilizza il suo modello RIMOWA, desidero ricordarle che registrandosi su RIMOWA.com potrà beneficiare della nostra garanzia di 5 anni.
+
+Per registrare la sua valigia, si connetta al suo account e clicchi su “Registra la mia RIMOWA”.
+
+Se ha bisogno di assistenza, non esiti a contattarmi.
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

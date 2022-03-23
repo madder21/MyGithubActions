@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>수리 완료 안내 NOI</name>
+    <style>none</style>
+    <subject>RIMOWA 제품 수리가 완료되었습니다.</subject>
+    <textOnly>{!Contact.LastName} {!Contact.FirstName} 고객님 안녕하세요.
+
+RIMOWA [모델명]의 수리가 완료되었습니다.
+편한 시간에 RIMOWA [매장명]으로 방문해 주세요.
+
+원하시면 자택으로 무료 배송 해드리겠습니다.
+30일 이내로 방문해 주셔야 하며, 기간 내에 수령하시지 않을
+경우 별도의 보관 비용이 청구될 수 있습니다.
+
+기간 내에 수령하실 수 없는 경우, 연락 주시면 가능한 다른 방안을
+제안 드리도록 하겠습니다.
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

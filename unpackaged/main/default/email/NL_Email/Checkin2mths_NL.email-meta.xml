@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Checkin 2m NOI</name>
+    <style>none</style>
+    <subject>Inchecken na uw reis.</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.Achternaam},
+
+Na uw bezoek aan onze winkel in RIMOWA {!User.Base_Store_Code__c} op ***[aankoopdatum]***, wil ik bij u informeren of uw ***[Model]*** heeft voldaan aan al uw verwachtingen tijdens uw reizen naar ***[reisbestemming(en)]***.
+
+Mocht u nog vragen hebben dan hoor ik dat graag.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

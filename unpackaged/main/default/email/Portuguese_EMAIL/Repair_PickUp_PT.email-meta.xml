@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Conserto pronto para retirada NOI</name>
+    <style>none</style>
+    <subject>O seu reparo foi finalizado</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+O reparo da sua RIMOWA ***[Modelo]*** foi finalizado!
+
+É um prazer informar que recebemos a sua mala e que ela está pronta para ser retirada.
+
+Por favor, nos informe qual seria a melhor data para retirá-la na loja {!User.Base_Store_Code__c}.
+
+Note que a sua mala precisa ser retirada dentro dos próximos 30 dias.
+Caso a retirada não ocorra nos 30 dias após este aviso, a sua mala poderá ser
+armazenada e os custos aplicáveis faturados em seu nome.
+
+Atenciosamente,
+
+{!User.Name}
+{!User.Base_Store_Code__c}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

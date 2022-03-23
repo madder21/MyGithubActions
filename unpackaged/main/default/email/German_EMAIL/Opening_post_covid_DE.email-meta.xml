@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Others;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Opening post covid_DE</name>
+    <style>none</style>
+    <subject>Wir sind wieder für Sie da!</subject>
+    <textOnly>Lieber {!Contact.LastName},
+
+vor allem hoffe ich, dass es Ihnen, XXX und Ihren Lieben gut geht.
+
+Ich freue mich, Ihnen mitteilen zu können, dass unsere Boutique jetzt wieder geöffnet hat.
+Da Ihre Gesundheit bei uns Vorrang hat, haben wir in unserer Boutique alle notwendigen Maßnahmen ergriffen, um Ihre Sicherheit zu gewährleisten.
+
+Ich stehe Ihnen weiterhin über meine persönliche Leitung/E-Mail zur Verfügung und beantworte gerne alle Fragen oder helfe Ihnen bei der Produktreservierung oder einem Termin.
+
+Ich freue mich auf ein baldiges Wiedersehen,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

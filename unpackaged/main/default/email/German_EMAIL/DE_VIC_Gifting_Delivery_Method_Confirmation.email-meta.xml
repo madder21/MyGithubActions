@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Geschenk Follow-Up</name>
+    <style>none</style>
+    <subject>RIMOWA - Dankeschön</subject>
+    <textOnly>Liebe/r Herr/Frau {!Contact.LastName},
+
+wir hoffen Ihnen hat der exklusive Einblick in unsere RIMOWA-Geschichte gefallen.
+
+Wir wünschen Ihnen und Ihren Lieben frohe Weihnachtsfest und ein gutes und gesundes neues Jahr!
+
+Herzliche Grüße
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

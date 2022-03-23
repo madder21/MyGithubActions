@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personalご紹介</name>
+    <style>none</style>
+    <subject>RIMOWA パーソナルのご紹介</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日は{!ContactLastName}様に、新しく発売されるRIMOWA　Personalをご紹介したく、ご連絡いたしました。
+
+4色展開の美しいユニセックスなクロスボディ・クラッチバッグなら、日常必需品を持ち歩けます。
+取り外し可能なレザーボディストラップでショルダーバックとして使用したり、シンプルにクラッチバッグとしてもお使いいただけます。
+既にお求めいただいているRIMOWA製品とコーディネートするに最適なアイテムになること間違いなしです。
+
+何かご不明な点等ございましたら、私までご連絡くださいませ。
+製品のご予約も受け付けております。
+
+よろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

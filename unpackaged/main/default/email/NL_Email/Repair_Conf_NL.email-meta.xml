@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Repair confirmation NOI</name>
+    <style>none</style>
+    <subject>Bevestiging van uw reparatie</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Bedankt voor uw bezoek aan onze {!User.Base_Store_Code__c} gisteren.
+
+Hierbij bevestig ik dat we zorg zullen dragen voor uw
+RIMOWA ***[Model]***, deze zal hersteld zijn op ***[datum]***.
+
+Ik houd u op de hoogte gedurende het proces.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

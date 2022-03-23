@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Anniversary purchase local 1y NOI</name>
+    <style>none</style>
+    <subject>快乐的一周年！</subject>
+    <textOnly>尊敬的{!Contact.LastName}，
+
+您的 RIMOWA ***[Model]*** 已经购买满一周年！
+
+我们希望它已成为您旅行中的可靠伴侣。
+
+为了帮助您为未来的旅行做好准备，我们诚邀您前来 RIMOWA {!User.Base_Store_Code__c} 获得体验免费检查和抛光保养服务。
+
+如果您对此感兴趣，我将很乐意为您安排。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

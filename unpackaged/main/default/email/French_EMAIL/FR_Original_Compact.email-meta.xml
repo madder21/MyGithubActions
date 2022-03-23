@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Original Compact</name>
+    <style>none</style>
+    <subject>Maintenant disponible: RIMOWA Original Compact</subject>
+    <textOnly>Cher Monsieur/ Chère Madame {!Contact.LastName},
+
+Je souhaitais vous informer que la dernière édition de notre Original Compact en aluminium est désormais disponible.
+
+Ce modèle de référence de la marque est très fonctionnel et modulable : transformez la mallette à roulettes en porte-documents compact pouvant être rangé dans la plupart des valises.
+
+Sa polyvalence en fait le compagnon idéal pour le quotidien comme pour les déplacements de courte durée.
+
+Je pense que ce modèle vous plairait. Souhaitez-vous en savoir plus ?
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

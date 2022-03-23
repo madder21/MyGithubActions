@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Jubiläum des Kauf von Tourist 1y NOI</name>
+    <style>none</style>
+    <subject>Alles Gute zum einjährigen Jubiläum!</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+Ihr RIMOWA ***[Model]*** feiert sein einjähriges Jubiläum!
+
+Wir hoffen, er konnte Sie bereits auf vielen schönen Reisen begleiten.
+
+Gerne würden wir Sie zu einer kostenfreien Überprüfung Ihres Koffers in einem unserer Stores einladen.
+
+Wenn Sie daran interessiert sind, melden Sie sich gerne jederzeit bei uns. Wir organisieren Ihnen gerne einen Service-Termin in einem Store Ihrer Wahl.
+
+Herzliche Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

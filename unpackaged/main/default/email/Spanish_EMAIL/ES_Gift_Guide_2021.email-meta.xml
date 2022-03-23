@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Guía de regalos</name>
+    <style>none</style>
+    <subject>Descubre nuestra selección de regalos para estas Fiestas.</subject>
+    <textOnly>Estimado/a Sr/Sra {!Contact.LastName},
+
+Con la llegada de la temporada de Navidad, quería compartir con usted una serie de regalos que le pueden servir de inspiración. Desde nuestra icónica maleta de aluminio acanalado a diseños portables ideados para uso diario, cada pieza promete acompañar a sus seres queridos de por vida.
+
+Le deseo toda la felicidad durante estas Fiestas y que el año próximo venga acompañado de viajes memorables.
+
+Saludos cordiales,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

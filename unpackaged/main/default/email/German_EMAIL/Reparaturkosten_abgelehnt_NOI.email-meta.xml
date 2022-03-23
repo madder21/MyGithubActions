@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Reparaturkosten abgelehnt NOI</name>
+    <style>none</style>
+    <subject>Reparatur storniert</subject>
+    <textOnly>Liebe/r {!Contact.LastName},
+
+vielen Dank für Ihre Rückmeldung, dass Sie mit der Reparatur nicht fortfahren möchten. Gerne stehen wir Ihnen für weitere Fragen zu Ihrer Reparatur jederzeit zur Verfügung.
+
+Sie können Ihren Koffer jederzeit wieder abholen. Alternativ können wir Ihnen den Koffer auch gerne zusenden bzw. falls Sie ihn nicht mehr möchten, auch kostenfrei entsorgen. Lassen Sie uns gerne wissen welche dieser Optionen Sie wahrnehmen möchten. 
+
+Mit freundlichen Grüßen,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

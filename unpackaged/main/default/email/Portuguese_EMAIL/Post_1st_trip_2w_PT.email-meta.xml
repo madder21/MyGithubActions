@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Após a 1st viagem - 2 semanas NOI</name>
+    <style>none</style>
+    <subject>Acompanhamento após a sua primeira viagem</subject>
+    <textOnly>Olá {!Contact.LastName},
+
+Agradecemos a sua visita à loja RIMOWA {!User.Base_Store_Code__c}
+
+Foi um prazer ajudá-lo (a) a encontrar a mala perfeita.
+Espero que a sua nova RIMOWA ***[Modelo]*** tenha sido uma ótima companhia durante a sua viagem para ***[destino da viagem]***.
+
+Caso necessite de mais alguma coisa, permaneço a sua disposição.
+
+Boas viagens,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

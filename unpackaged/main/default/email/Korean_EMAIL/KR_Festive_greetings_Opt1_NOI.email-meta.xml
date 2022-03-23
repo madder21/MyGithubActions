@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Festive greetings - Opt1 NOI</name>
+    <style>none</style>
+    <subject>Festive greetings</subject>
+    <textOnly>안녕하세요. {!Contact.LastName} 님,
+
+새해 복 많이 받으시기를 바라며 고객님과 고객님의 가정에 희망이 가득한 한 해가 되기를 기원합니다. ***[traveldestination]***에서 즐거운 여행 하셨기를 바랍니다.
+
+조만간 다시 인사드리겠습니다.
+
+감사합니다.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

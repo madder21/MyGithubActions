@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Fête des Pères</name>
+    <style>none</style>
+    <subject>Joyeuse Fête des Pères</subject>
+    <textOnly>Cher / Chère X,
+
+De la part de l’équipe RIMOWA, nous vous souhaitons une très joyeuse fête des pères.
+
+Nous espérons vous revoir bientôt dans notre boutique du XXXXX, où nous serions ravis de vous aider à choisir le parfait cadeau pour cette occasion.
+
+Nous pouvons vous offrir un service de personnalisation de votre tag RIMOWA à vos initiales.
+
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

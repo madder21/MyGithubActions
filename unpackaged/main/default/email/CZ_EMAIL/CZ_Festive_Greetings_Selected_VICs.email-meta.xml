@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CZ - Festive Greetings - Selected VICs</name>
+    <style>none</style>
+    <subject>RIMOWA by vám chtěla poděkovat za vaši věrnost.</subject>
+    <textOnly>Vážený/á pane/paní {!Contact.LastName},
+
+Pevně věřím, že se máte dobře. *** Personalizovaná část zprávy – vánoční přání / dotázání se na rodinu***
+
+Jménem společnosti RIMOWA bych Vám rád osobně poděkoval/a za Vaši loajalitu – je mi vždy potěšením Vás přivítat v našem obchodě.
+
+Rádi bych Vám projevili naši vděčnost dárkem, a sice naší novou knihou RIMOWA ve sběratelské edici. RIMOWA: An Archive, Since 1898 byla publikována minulý měsíc a ukazuje více než století produktů, příběhů a osobností, které pomohly formovat RIMOWA do dnešní značky.
+
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

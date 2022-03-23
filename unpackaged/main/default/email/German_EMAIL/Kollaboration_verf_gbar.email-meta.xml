@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Kollaboration verfügbar</name>
+    <style>none</style>
+    <subject>Großartige Neuigkeiten! Das Warten hat ein Ende</subject>
+    <textOnly>Liebe/r {!Contact.Salutation} {!Contact.LastName},
+
+großartige Neuigkeiten! Wir haben die Lieferung der Kollaboration erhalten und Ihr ***[model]*** wartet auf Sie! 
+Ich habe Ihnen das gewünschte Modell reserviert. Bitte teilen Sie mir mit, wann für Sie, ein Besuch bei uns im Store, möglich ist.
+
+Herzliche Grüße
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

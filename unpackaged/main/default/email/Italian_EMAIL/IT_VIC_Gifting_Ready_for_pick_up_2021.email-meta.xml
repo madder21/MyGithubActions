@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>VIC Gift - pronto per il ritiro 2021</name>
+    <style>none</style>
+    <subject>Il suo regalo e&#39; in arrivo/ pronto per essere ritirato</subject>
+    <textOnly>Gentile Sig/Sig.ra {!Contact.LastName},
+
+Perfetto!
+
+Saremo lieti di accorglierla presso il nostro store il *data visita*.
+Saro’ personalmente qui a darle il benvenuto. / Sfortunatamente, non saro’ presente quel giorno, tuttavia il mio collega *xx* sara’ lieto di assisterla.
+Spero che possa trascorrere al meglio i suoi prossimi viaggi con questo unico Travel tag.
+
+Augurandole una buona giornata,
+
+Cordiali Saluti.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

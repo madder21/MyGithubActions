@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Watch Case Launch</name>
+    <style>none</style>
+    <subject>率先預覽限量版 RIMOWA Watch Case</subject>
+    <textOnly>親愛的 {!Contact.LastName} 先生/女士，
+
+我想親自通知您我們推出了全新獨一無二的 RIMOWA Watch Case，這是品牌第一款極之奢華的旅遊配飾，注入了品牌的悠久歷史並以精湛工藝打造而成。
+
+錶盒的外觀帶有品牌標誌性的溝槽式設計，超細纖維的內部軟墊方便放進任何行李箱或旅行袋，並可收納三枚不同類型的腕錶。
+
+我特別為您介紹這款獨家產品，希望它能充份保護您珍貴的手錶，確保您在出行期間或在家中展示心愛腕錶時，也能妥善保護腕錶和錶面。
+
+如欲了解更多，歡迎隨時與我聯繫。
+
+此致，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

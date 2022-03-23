@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Valentinstag 2022</name>
+    <style>none</style>
+    <subject>Fröhlichen Valentinstag!</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Kontakt.Nachname},
+
+***
+wir von RIMOWA wünschen Ihnen einen schönen Valentinstag.
+***
+
+Entdecken Sie, wie Sie den Valentinstag mit einer ausgewählten Auswahl an Designs für Sie und Ihre Liebsten noch unvergesslicher machen können.
+
+Alles Gute,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

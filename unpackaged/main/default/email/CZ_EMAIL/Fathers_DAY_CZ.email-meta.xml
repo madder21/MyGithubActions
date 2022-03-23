@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CZ - Father&#39;s Day</name>
+    <style>none</style>
+    <subject>Den Otců</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+vše nejlepší ke Dni otců od celého týmu Rimowa!
+K tomuto speciálnímu dnu se neváhejte zastavit v našem obchodě pro jedinečný dárek pro tatínka.
+
+Navštivte náš obchod s Vaší Rimowa koženou visačkou a my na ní zdarma horkou ražbou vylisujeme iniciály.
+
+S pozdravem,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

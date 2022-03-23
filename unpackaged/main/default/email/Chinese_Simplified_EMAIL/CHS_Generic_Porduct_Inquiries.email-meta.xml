@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Generic Porduct Inquiries</name>
+    <style>none</style>
+    <subject>在您询问有关 ** Product Name **之后</subject>
+    <textOnly>尊敬的 {!Contact.LastName} 女士/先生：
+
+感谢您对我们新发布的 **Product Name** 表示兴趣。
+
+我很高兴将您添加到我们的预约列表中，确保您不会错过获得这件精美产品的机会。
+
+**Product Name** 将于 **Product Release Date** 起接受预订。
+
+同时，您希望我发送有关此产品的更多详细信息吗？
+
+您是否有兴趣预订，或希望我给您发送更多关于该产品的详细信息？
+
+若您需要帮助，我随时愿意效劳。
+
+谨致问候，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

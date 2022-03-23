@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - Order - To be confirmed</name>
+    <style>none</style>
+    <subject>確認你的 RIMOWA 訂單</subject>
+    <textOnly>親愛的 {!Contact.LastName},
+
+感謝您選擇 RIMOWA。
+
+請點擊下面的鏈接確認*Product*的訂單並繼續您的付款流程。
+
+**Link**
+
+如果您需要協助完成付款，歡迎隨時與我聯繫。
+
+***
+如果您想撤回同意接受我們市場推廣材料，您亦可以隨時聯繫我們。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com
+
+通過處理您的訂單，代表您同意 RIMOWA 的條款及細則。
+RIMOWA 會記錄您的個人資料。如果您想進一步了解關於您個人資料和權利，您可以查閱我們的隱私條例。</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>HK Landmark In-store animation NS 3 - EN</name>
+    <style>none</style>
+    <subject>Celebrate RIMOWA&#39;s new global campaign - Never Still</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I hope you’re well.
+
+I would like to invite you to explore the revolution of purposeful travel together with RIMOWA as seen in our latest campaign featuring our four Global Icons.
+
+An interactive installation on a poem written by legendary multidisciplinary artist Patti Smith will be featured exclusively for this event.
+
+The event will be held at RIMOWA Landmark Store on October 7th, from 3 - 7 pm.  Will you be available to attend?
+
+I remain at your disposal should you need more details.
+
+Looking forward to hearing from you!
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

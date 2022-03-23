@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Mars &amp; Mercury - Launch</name>
+    <style>none</style>
+    <subject>اكتشف ألواننا الجديدة المريخ وعطارد.</subject>
+    <textOnly>عزيزي السيد / السيدة {!Contact.LastName} ،
+
+يسعدني أن أشارككم أحدث إصداراتنا - مجموعات RIMOWA Original Mars Orange &amp; Mercury Gray. يأسر هذان اللونان الجديدان الخيال المستوحى من الوجهات البعيدة وروح الاستكشاف التي تدفع الحدود.
+
+استكمل حقائبك الجديدة من Mars &amp; Mercury بإصدار خاص من مجموعة ملصقات RIMOWA المصممة للإطلاق والمتاحة لفترة محدودة.
+
+يسعدني مشاركة المزيد حول هذا الإطلاق الخاص معك. لا تتردد في التواصل إذا احتجت إلى أي شيء آخر.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

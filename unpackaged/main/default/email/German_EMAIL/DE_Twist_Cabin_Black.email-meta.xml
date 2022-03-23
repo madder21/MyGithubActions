@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Twist Cabin Black</name>
+    <style>none</style>
+    <subject>Original Twist Cabin ist jetzt in schwarz verfügbar.</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Nach dem Erfolg unserer Original Twist-Kollektion freue ich mich, Ihnen mitteilen zu können, dass wir ein neues Modell in Schwarz auf den Markt gebracht haben.
+
+Maßgeschneidert für Business und Reisen, wird dieses neue Modell mit edlem schwarzem Design und elegantem Leder von unserem ikonischen Aluminium akzentuiert.
+
+**Als Besitzer eines Twist Check-in-L möchte ich Sie persönlich zu dieser neuen Markteinführung beraten./Inspiriert von der Original Collection ist der Twist in Black eine neue Version unseres geliebten Klassikers.**
+
+Hätten Sie Interesse an diesem Produkt?
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

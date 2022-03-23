@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Others;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHS - Opening post covid</name>
+    <style>none</style>
+    <subject>我们开门了！</subject>
+    <textOnly>亲爱的 {!Contact.LastName}，
+
+首先，我希望您和家人都身体健康。
+
+在此我很高兴地告诉您，现在我们的精品店重新开业了。
+保证您的健康是我们的重中之重，因此我们在精品店里采取了各种必要措施，以保障您的安全。
+
+如果您有任何疑问，或需要帮助预订产品或进行预约，欢迎随时拨打电话或发邮件联系我。
+
+期待再次见到您，
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

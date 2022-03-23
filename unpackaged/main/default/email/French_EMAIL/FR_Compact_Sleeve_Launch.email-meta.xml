@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Compact Sleeve - Launch</name>
+    <style>none</style>
+    <subject>Voyagez léger avec la RIMOWA Compact Sleeve</subject>
+    <textOnly>Cher Monsieur/ Chère Madame {!Contact.LastName},
+
+Je souhaitais partager avec vous l&#39;un de nos derniers modèles exclusifs qui pourrait vous intéresser, la Rimowa Compact Sleeve.
+
+Cette toute nouvelle valise revisite l&#39;un de nos produits les plus populaires avec des fonctionnalités étendues et à un design amélioré pour une valise adaptée à tous les types de déplacements.
+
+De par son design compact et élégant, sa poignée télescopique sans niveaux et son intérieur polyvalent, la Sleeve Compact est la valise parfaite pour les affaires comme pour les loisirs.
+
+Je pense qu&#39;il constitue un excellent complément à votre ****PRODUCT/BUSINESS TRIPS**** - vous voulez en savoir plus ?
+
+Cordialement,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

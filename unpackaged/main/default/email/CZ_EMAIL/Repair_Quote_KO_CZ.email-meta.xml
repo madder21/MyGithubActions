@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Zpoplatněná oprava odmítnuta</name>
+    <style>none</style>
+    <subject>Odmítnutá zpoplatněná oprava</subject>
+    <textOnly>Vážený/á pane/paní XY,
+
+děkuji za Vaši zprávu, v jejíž návaznosti oprava Vašeho kufru nebude tedy zprocesována.
+
+Ráda bych Vás poprosil/a o vyjádření, z jakého důvodu si nepřejete v opravě Vašeho zavazadla pokračovat.
+
+Pokud bych Vám mohl/a pomoci jakkoli jinak, neváhejte se na mne kdykoli obrátit.
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

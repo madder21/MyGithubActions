@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Colaboración próximamente_MONCLER</name>
+    <style>none</style>
+    <subject>La espera está a punto de acabar</subject>
+    <textOnly>Hola, {!Contact.LastName}:
+
+Me satisface compartir más información con usted sobre Moncler RIMOWA &quot;Reflection&quot;.
+
+Dispondrá de más información en mi siguiente mensaje. Estas piezas se lanzarán el [date], y se agotarán rápido.
+
+Atentamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

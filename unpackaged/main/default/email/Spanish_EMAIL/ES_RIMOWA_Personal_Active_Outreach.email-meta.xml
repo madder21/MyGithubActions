@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Personal - Active Outreach</name>
+    <style>none</style>
+    <subject>Lleve su RIMOWA a todas partes con el Personal</subject>
+    <textOnly>Estimado/a Sr./Sra. {!Contact.LastName},
+
+Puede que lo haya leído en la prensa o haya recibido nuestro boletín electrónico, de todas formas quería informarle personalmente de nuestro novísimo RIMOWA Personal.
+
+Disponible en 4 colores, este bonito bolso unisex cruzado está pensado para llevar sus objetos cotidianos imprescindibles y se puede llevar con la cinta de cuero retirable o simplemente como un bolso. Creo que sería un bonito complemento para ***su estilo/colección***.
+
+Seguro que pronto será una pieza icónica y me alegra comunicarle que ya se puede reservar por adelantado.
+
+¿Le gustaría recibir más información sobre este producto?
+
+Sinceramente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

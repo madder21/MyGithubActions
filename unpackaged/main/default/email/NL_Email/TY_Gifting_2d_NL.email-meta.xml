@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client lifecycle;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NL - Thank You Gifting 2d NOI</name>
+    <style>none</style>
+    <subject>Bedankt voor uw bezoek !</subject>
+    <textOnly>Beste Hr./Mevr. {!Contact.LastName},
+
+Fijn om u gisteren te ontmoeten in RIMOWA {!User.Base_Store_Code__c} .
+
+Hierbij wil ik u nogmaals feliciteren met ***[speciale gelegenheid]***.
+Ik ben ervan overtuigd dat de ***[Model]*** die u heeft aangeschaft zeer gewaardeerd zal worden door ***[persoon die cadeau ontvangt]***
+
+Mocht u nog vragen hebben dan hoor ik dat graag.
+
+Met vriendelijke groet,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

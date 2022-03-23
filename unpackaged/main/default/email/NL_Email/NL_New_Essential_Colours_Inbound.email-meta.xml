@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Inkomende Nieuwe Essential Kleuren</name>
+    <style>none</style>
+    <subject>Uw aanvraag voor onze nieuwe kleuren</subject>
+    <textOnly>Beste Mevr xxx / Hr xxx,
+
+Bedankt voor uw interesse in de lancering van onze nieuwe Essential kleuren in polycarbonaat, Desert Rose/ Cactus
+Het cabin formaat is/zal exclusief verkrijgbaar zijn op RIMOWA.com voor een pre-launch vanaf 20 Juli in een gelimiteerde oplage.
+
+Hieronder treft u een directe link aan om uw bestelling te plaatsen:
+----
+
+De wereldwijde lancering van de volledige collectie vindt dit najaar plaats.
+Mocht u behoefte hebben aan meer informatie of hulp bij uw bestelling dan hoor ik dat graag.
+
+Met vriendelijke groet,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

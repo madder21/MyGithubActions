@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>父の日のお知らせ</name>
+    <style>none</style>
+    <subject>RIMOWAより 父の日のギフト</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもRIMOWAをご利用いただき、誠にありがとうございます。
+〇〇店の○○でございます。
+
+父の日が近づいてまいりましたが、ギフトの準備などはお済でしょうか?
+RIMOWAでは様々なカラーからお選びいただける、スーツケース用のネームタグを用意しております。
+一部店舗ではホットスタンピングのサービスも行っており、パーソナライズも可能です。
+お近くにお越しの際はぜひ店舗にもご来店ください。
+
+{!Contact.LastName}様にお会いできることを楽しみにしております。
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

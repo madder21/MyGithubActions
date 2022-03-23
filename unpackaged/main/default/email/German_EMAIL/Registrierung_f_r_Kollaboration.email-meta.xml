@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Registrierung für Kollaboration</name>
+    <style>none</style>
+    <subject>Ihre Registrierung für die RIMOWA-Kollaboration</subject>
+    <textOnly>Liebe/r {!Contact.Salutation} {!Contact.LastName},
+
+vielen Dank für Ihr Interesse an ***[Collaboration]***. 
+Ich freue mich, Ihnen bestätigen zu können, dass Sie auf der Warteliste stehen und eine der ersten Personen sein werden, die von dieser einzigartigen Einführung erfahren! 
+
+Ich werde mich mit weiteren Informationen bei Ihnen melden, sobald es Neuigkeiten und weitere Details gibt. 
+
+Herzliche Grüße
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

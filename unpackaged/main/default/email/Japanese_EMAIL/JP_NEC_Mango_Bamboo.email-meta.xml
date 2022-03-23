@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC Mango&amp;Bamboo</name>
+    <style>none</style>
+    <subject>マンゴーとバンブー、新しいエッセンシャルカラーを発見</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+この度RIMOWAエッセンシャルシリーズ(ポリカーボネート製)に新色が登場いたしました。
+タイの水上マーケットにインスピレーションを得たこちらの新色は、発色の良いマンゴーカラーと柔らかな印象のバンブーカラーです。
+スーツケースは3つのサイズ、そしてクロスボディバッグのPersonalも同時に発売されます。
+
+{!Contact.LastName}様のテイストにぴったりなアイテムかと思います。
+是非一度店頭にてご覧いただければ幸いです。
+
+何かご不明な点がございましたら、私までご連絡ください。
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

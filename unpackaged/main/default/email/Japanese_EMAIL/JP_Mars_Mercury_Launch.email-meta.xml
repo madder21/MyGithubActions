@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Mars &amp; Mercury - Launch</name>
+    <style>none</style>
+    <subject>私たちの新しい色の火星と水星を発見してください。</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日はRIMOWAオリジナル シリーズにて販売開始される、マーズ オレンジ＆マーキュリー グレーの新色をご紹介させていただきます。
+こちらの魅力的な2つの新色は、遥か彼方の世界、そして新世界を探求する冒険心からインスピレーションを得ています。
+
+別世界からインスピレーションを得た限定コレクションを是非この機会にご覧ください。
+
+製品の詳細など、何かご不明な点等ございましたら、私までお気軽にご連絡くださいませ。
+
+どうぞよろしくお願いいたします。
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

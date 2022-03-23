@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Alum Personal - 発売開始 - JP</name>
+    <style>none</style>
+    <subject>アルミニウム製Personal　クロスボディーバッグ販売開始</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日は新たにアルミニウム素材で販売されることになったPersonal クロスボディーバッグをご紹介したく、ご連絡させていただきました。
+こちらの製品はポリカーボネートでも販売されており、大変人気のあるシリーズでございます。
+小さながらもRIMOWAのノウハウやクラフツマンシップが詰まった逸品です。
+弊社スーツケースとのコーディネートにもぴったりです。
+
+もしご興味いただけるようでしたら、写真などもお送りできますので、遠慮なくお問い合わせくださいませ。
+
+引き続きよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

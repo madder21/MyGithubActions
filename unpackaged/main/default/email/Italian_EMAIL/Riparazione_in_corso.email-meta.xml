@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Repair;</description>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Riparazione in corso</name>
+    <style>none</style>
+    <subject>Conferma che la riparazione è in corso</subject>
+    <textOnly>Gentile {!Contact.LastName},
+
+il suo modello RIMOWA ***[Model]*** è nelle mani del nostro servizio clienti che sta effettuando la riparazione.
+
+Le confermo che riceverà il suo modello RIMOWA entro il ***[Date]***. La informerò non appena ci verrà restituito.
+
+Cordiali saluti,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

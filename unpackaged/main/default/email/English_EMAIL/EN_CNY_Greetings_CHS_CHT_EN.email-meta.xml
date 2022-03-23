@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CNY Greetings (EN)</name>
+    <style>none</style>
+    <subject>All the best from RIMOWA</subject>
+    <textOnly>Dear Mr. / Mrs {!Contact.LastName},
+
+From all of us at RIMOWA, we wish you and your loved ones a Happy Lunar New Year.
+
+We hope the year of the Tiger brings you happiness, good health, and prosperity.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

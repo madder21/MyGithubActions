@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Remote Sales;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>FR - Order - Confirmation</name>
+    <style>none</style>
+    <subject>Votre commande RIMOWA est confirmée</subject>
+    <textOnly>Cher Monsieur {!Contact.LastName}, Chère Madame {!Contact.LastName},
+
+J&#39;ai le plaisir de vous confirmer que votre commande de **Produit** est finalisée. J&#39;espère qu&#39;il sera un compagnon digne de confiance lors de vos prochains déplacements.
+
+Je vous invite à me recontacter afin de convenir d&#39;un rendez-vous à {!User.Base_Store_Code__c} afin de vous remettre votre **produit**, ou bien à m&#39;indiquer si vous souhaitez que nous vous l&#39;expédions.
+
+Je me tiens à votre disposition pour tout renseignement complémentaire.
+
+A très bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

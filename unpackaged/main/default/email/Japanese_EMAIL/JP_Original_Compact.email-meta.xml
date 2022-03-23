@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>オリジナルコンパクト_JP</name>
+    <style>none</style>
+    <subject>待望のコンパクトシリーズに新作登場</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+本日は弊社で新たに発売されたオリジナル コンパクト シルバーをご紹介したくご連絡差し上げました。
+
+非常に機能的でコンパクトなこちらの製品は、スーツケースからブリーフケースとしてもご使用いただけ、日常使いだけでなく、近距離の出張やご旅行にもぴったりなアイテムです。
+
+製品のお写真やサイズなど、何かご不明な点がございましたら、私までご連絡ください。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+{!User.Name} 
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

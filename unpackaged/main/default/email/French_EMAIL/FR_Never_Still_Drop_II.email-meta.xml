@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Never Still Drop II</name>
+    <style>none</style>
+    <subject>Nouvelles arrivées dans notre collection Never Still</subject>
+    <textOnly>Cher/Chère Monsieur/Madame {!Contact.LastName},
+
+J’espère avant toute chose que vous et vos proches vous portez au mieux malgré la période troublée que nous traversons.
+
+J’ai le plaisir de vous annoncer que notre collection de sacs Never Still s’enrichit de trois nouveaux modèles, compagnons de voyages fonctionnels et élégants, pour vous accompagner au quotidien.
+[au choix un ou plusieurs, à adapter selon si vous proposez une ou les trois pièces]
+- le porte-documents de voyage
+- le sac Messenger bandoulière
+- la pochette (pour ordinateur)
+
+Le porte-documents de voyage
+Grâce à son compartiment spécialement conçu pour protéger votre ordinateur portable, le porte-documents Rimowa Never Still est le compagnon idéal, de la salle de réunion au salon d’affaires.
+
+Le sac Messenger bandoulière
+Doté d’une bandoulière ajustable et d’un compartiment zippé, le sac Messenger Never Still Rimowa vous accompagne au quotidien et vous permet de garder vos essentiels à portée de main.
+
+La pochette (pour ordinateur)
+Avec son design sobre et élégant, la pochette Never Still Rimowa protège votre ordinateur, se glisse à la poignée de votre valise ou se transforme en accessoire de mode lors de vos soirées ou événements.
+
+Si vous souhaitez de plus amples informations sur cette nouvelle collection, ou réserver une de ces pièces, je reste bien entendu à votre entière disposition.
+
+A bientôt,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
