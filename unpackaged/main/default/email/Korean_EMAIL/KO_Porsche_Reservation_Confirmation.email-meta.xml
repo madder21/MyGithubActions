@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>포르쉐 예약 완료</name>
+    <style>none</style>
+    <subject>예약이 완료되었습니다.</subject>
+    <textOnly>안녕하세요 {!Contact.LastName} {!Contact.FirstName} 고객님, 
+
+요청하신 제품이 고객님 앞으로 예약되었습니다. 
+이번 작품이 고객님의 컬렉션을 더욱 아름답게 완성해 드리기를 기대합니다. 
+
+제품이 도착하면 바로 연락 드리겠습니다. 
+제 도움이 필요하시면 언제든지 말씀해 주세요.
+
+감사합니다.
+
+
+{!User.Name} 드림
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

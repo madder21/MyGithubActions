@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche kolaborace</name>
+    <style>none</style>
+    <subject>RIMOWA x Porsche limitoaná kolekce pro sběratele</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+ráda bych se s Vámi podělila, že jsme nedávno oznámili novou spolupráci se značkou PORSCHE, která bude zahájena 21. dubna.
+
+Dvě legendární německé značky RIMOWA X Porsche, tak společně vytvořili design ikonického kousku, a to příručního kufříku &quot;Pepita&quot;.
+Jedná se o velmi limitovaný produkt, kdy bude vyrobeno pouze 911 kousků pro celý svět.
+
+Jako náš VIP klient / Jelikož vím, že Vás zajímají limitované produkty / jste fanouškem Porsche .. jsem Vás chtěla s touto speciální kolekcí oslovit a v případě Vašeho zájmu ráda zašlu další podrobnosti.
+
+Přeji zatím hezký den.
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

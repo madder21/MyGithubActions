@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ポルシェ発売日お知らせ_JP</name>
+    <style>none</style>
+    <subject>RIMOWA×ポルシェ 限定コレクターズケースに関してのご案内</subject>
+    <textOnly>{!Contact.LastName}様
+
+RIMOWA〇〇店の〇〇でございます。
+
+この度はRIMOWA×ポルシェ 限定コレクターズケースのお問い合わせ、誠にありがとうございました。
+
+製品の正式な発売日は4月21日でございます。
+現在のところ、予約などは受け付けておりませんが、新しい情報が入り次第すぐにご連絡させていただきます。
+何かご不明な点がございましたら私までご連絡くださいませ。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

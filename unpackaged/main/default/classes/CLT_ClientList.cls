@@ -42,14 +42,11 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
                 List<Account> clientsToAdd = getClientToAdd(dynamicClients.values(), allClientIds);
                 allClientIds.addAll(clientIds);
                 clients.addAll((List<Object>)CLT_Utils_Mapping.getStandardWrapperListFromObjectList('Account', 'Client', clientsToAdd));
-				clientsListWrapper.add(new ClientListWrapper(clientList,clientIds));
+                
+                clientsListWrapper.add(new ClientListWrapper(clientList, clientIds));
             }
-			
-            //display the client list only if it has cliegetClientsQuery
-        }
-        
-        //List<Id> relatedClientsIds = new List<Id>();
-        //for()
+        }  
+
         Map<String, Object> result = new Map<String, Object>();
         result.put('clientLists', clientsListWrapper);
         result.put('clients', clients);
@@ -70,11 +67,12 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
     }
 
     List<ClientList__c> getClientLists(String clientListId, Boolean isManager, String storeCode){
-        string query = 'SELECT Id, OwnerId, Owner.FirstName, CreatedDate, Type__c, Owner.LastName, Description__c, Position__c,Name, ClientListQuery__c, InMyStore__c, ' +
-                                'IsDarkText__c, OrderBy__c, Ascendant__c, DisplayType__c, VisibilityBasedOnField__c, SpecificFieldDisplay__c, SpecificFieldDisplayLabel__c, ' + 
-                                '(SELECT Description__c, Title__c,  Name FROM Client_List_Translations__r ' +
-                                'WHERE  Language__c = \'' + UserInfo.getLanguage() +'\' LIMIT 1)' +
-                        ' FROM ClientList__c WHERE Id != \'\' AND (Stores__c includes (\'' + storeCode + '\') OR Stores__c = \'\')';
+        string query = 'SELECT Id,OwnerId,Owner.FirstName,CreatedDate,Type__c,Owner.LastName,Description__c,Position__c,Name,ClientListQuery__c,InMyStore__c,StaticList__c,' +
+                                'IsDarkText__c,OrderBy__c,Ascendant__c,DisplayType__c,VisibilityBasedOnField__c,SpecificFieldDisplay__c,SpecificFieldDisplayLabel__c, ' + 
+                                '(SELECT Description__c,Title__c,Name FROM Client_List_Translations__r' +
+                                ' WHERE Language__c = \'' + UserInfo.getLanguage() +'\' LIMIT 1)' +
+                        ' FROM ClientList__c ' +
+            			' WHERE Id != \'\' AND (Stores__c includes (\'' + storeCode + '\') OR Stores__c = \'\')';
         
         if(clientListId != null){
             query += ' AND Id = \'' + clientListId + '\'';
@@ -96,6 +94,7 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
         public Decimal position {get;set;}
         public String ownerId {get;set;}
         public String type {get;set;}
+        public Boolean isStaticList {get; set;}
         public Boolean isDarkText {get;set;}
         public Boolean ascendant {get;set;}
         public String orderBy {get;set;}
@@ -112,6 +111,7 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
 
         ClientListWrapper(ClientList__c clientList){
             this.id = clientList.Id;
+            this.isStaticList = clientList.StaticList__c;
             this.isDarkText = clientList.IsDarkText__c;
             this.orderBy = clientList.OrderBy__c;
             this.ascendant = clientList.Ascendant__c;

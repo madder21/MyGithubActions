@@ -127,27 +127,23 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
 
     public static List<Task> upsertMultipleCATasks(List<Object> items, List<String> caIds, String userStoreId) {
         List<Map<String, Object>> mapTasks = CLT_Utils_Mapping.getMapObjectsByWrapperItems('Task', 'Task', items);
-        
         List<Task> tasksToUpsert = new List<Task>();
-
         for(String caId : caIds) {
             List<Task> tasks = (List<Task>) JSON.deserialize(JSON.serialize(mapTasks), List<Task>.class);
             for(Task task : tasks) {
                 if(String.isNotEmpty(userStoreId)){
                     task.Store__c = userStoreId;
                 }
-
+                
                 if (task.ActivityDate == null) {
                     task.ActivityDate = null;
                 }
-
+                
                 task.OwnerId = caId;
                 tasksToUpsert.add(task);
             }
         }
-
         upsert tasksToUpsert; 
-
         return tasksToUpsert;  
     }
 

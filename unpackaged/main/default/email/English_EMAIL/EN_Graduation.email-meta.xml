@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Graduation</name>
+    <style>none</style>
+    <subject>Congratulations on your graduation !</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+At RIMOWA, we are glad to accompany you in every journey you undertake.
+
+Congratulations on your graduation ! I would be happy to welcome you back at the boutique and to discuss any travel plans you might have for the upcoming summer period.
+
+Best regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

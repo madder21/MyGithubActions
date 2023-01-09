@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Aurora</name>
+    <style>none</style>
+    <subject>Disocver the RIMOWA Original Cabin Aurora Borealis</subject>
+    <textOnly>Vážená paní / Vážený pane {!Contact.LastName},
+
+rád/a bych se s Vámi podělila o nadcházející novinku RIMOWA Original Cabin Aurora Borealis.
+
+Vytvořena jako pocta ohromujícímu přírodnímu fenoménu polární záře, RIMOWA Original Cabin Aurora Borealis má zářivý vzor na černém hliníku v pozadí. Zavazadlo bylo navrženo pro vytvoření zajímavého vizuálního efektu, který se při bližším pohledu jeví jako hvězdy na obloze, díky tomu je ideálním společníkem pro milovníky mody a přírodou nadšené cestovatele.
+
+Pokud Vás tato nabídka zaujala, rád/a se s Vámi podělím o další informace.
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

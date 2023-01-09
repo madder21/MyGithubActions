@@ -56,21 +56,39 @@ public class CLT_KPI implements clt_retailInterface{
 
 	private List<Object> getSegmentation(Map<String, Object> clientsBySegmentation, Map<String, Object> turnoverBySegmentation, Map<String, Object> contactedBySegmentation) {
 
+		Map<String, Integer> concernedClusters = getConcernedClusters();
+
 		Map<String, Map<String,Object>> segmentation = new Map<String, Map<String, Object>>();
 
 		Set<String> picklistLabels = getPicklistLabels('Account', 'LightCurrentCluster__pc');
 		picklistLabels.addAll(new Set<String>{'others', 'total'});
 
 		for (String label : picklistLabels){
-			Map<String, Object> segmentObj = getSegmentObj(clientsBySegmentation, turnoverBySegmentation, contactedBySegmentation,label);
-			segmentation.put(label, segmentObj);
+			if(concernedClusters.containsKey(label)) {
+				Map<String, Object> segmentObj = getSegmentObj(clientsBySegmentation, turnoverBySegmentation, contactedBySegmentation, label, concernedClusters.get(label));
+				segmentation.put(label, segmentObj);
+			}
 		}
 
 		return convertToList(segmentation);
 
 	}
 
-	private Map<String, Object> getSegmentObj(Map<String, Object> clientsBySegmentation, Map<String, Object> turnoverBySegmentation, Map<String, Object> contactedBySegmentation, String segmentName) {
+	private Map<String, Integer> getConcernedClusters() {
+		return new Map<String, Integer> {
+			'VIC' => 1,
+			'Collab'  => 2,
+			'Multi-timer' => 3,
+			'Experimenter' => 4,
+			'One Timer' => 5,
+			'Dreamer' => 6,
+			'Owner' => 7,
+			'Inactive Client' => 9,
+			'Prospect' => 10
+		};
+	}
+
+	private Map<String, Object> getSegmentObj(Map<String, Object> clientsBySegmentation, Map<String, Object> turnoverBySegmentation, Map<String, Object> contactedBySegmentation, String segmentName, Integer position) {
 
 		Decimal clientsCount = (Decimal)clientsBySegmentation.get(segmentName);
 
@@ -88,7 +106,8 @@ public class CLT_KPI implements clt_retailInterface{
 		'contactedPercentage' => contactedPercentage,
 		'turnoverCurr' => turnoverCurr,
 		'turnoverPrev' => turnoverPrev,
-		'turnoverPercentage' =>turnoverPercentage
+		'turnoverPercentage' =>turnoverPercentage,
+		'position' => position
 		};
 		return segmentObj;
 	}

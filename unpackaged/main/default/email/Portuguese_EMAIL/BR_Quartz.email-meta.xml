@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Quartz_BR</name>
+    <style>none</style>
+    <subject>Descubra a nova cor da linha Original: Quartz</subject>
+    <textOnly>Prezado Sr./Sra. [!Contact.LastName},
+
+Estamos empolgados em compartilhar com você nossa nova coleção: Quartz.
+
+A linha Original, que é a assinatura dos produtos RIMOWA, ganhou um sofisticado tom de rosa inspirado no Quartzo, uma preciosa e poderosa pedra que possui propriedades potentes.
+
+Ficaria feliz em te mandar mais detalhes, caso esteja interessado (a).
+
+Tenha um ótimo dia pela frente.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

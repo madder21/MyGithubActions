@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche Product Inquiries (TC)</name>
+    <style>none</style>
+    <subject>感謝您對全新特別版感興趣</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+感謝您對 RIMOWA x 保時捷限量收藏版感興趣。
+
+特別版將於4月21日正式發售。我已將您加入等候名單，您將會率先收到這個獨家聯乘的最新消息！
+
+XX
+謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

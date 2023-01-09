@@ -12,17 +12,47 @@ public with sharing class DDC_Customers_WS implements BL_Rest_Router_Factory.Dis
             throw new DDCException('User does not have permission to create Account');
         }
 
-        List<Object> items = new List<Object> { bodyMap };
-        List<Account> accounts = upsertCustomers(items);
+        Client_Consent__c consent = createCustomerConsent(bodyMap);
 
         Map<String, String> ret = new Map<String,String> {
-            'id' => accounts[0].Id
+            'id' => consent.Id
         };
         return ret;
     }
 
-
     @testVisible
+    private Client_Consent__c createCustomerConsent(Map<String,Object> item) {
+        String signatureSvgStr = (String) item.get('signatureData');
+        if (String.isEmpty(signatureSvgStr)) {
+            throw new DDCException('Missing Signature');
+        }
+
+        String firstName = (String) item.get('firstName');
+        String lastName = (String) item.get('lastName');
+        Client_Consent__c consent = new Client_Consent__c(
+            Client_Name__c = firstName + ' ' + lastName,
+            Client_UID__c = (String) item.get('CustomerId')
+        );
+        insert consent;
+        
+        ContentVersion conVer = new ContentVersion();
+        conVer.ContentLocation = 'S'; // S specify this document is in SF, use E for external files
+        conVer.PathOnClient = 'signature.svg'; // The files name, extension is very important here which will help the file in preview.
+        conVer.Title = 'Signature '; // Display name of the files
+        conVer.VersionData = EncodingUtil.base64Decode(signatureSvgStr); // converting your binary string to Blob
+        insert conVer;
+
+        conVer = [SELECT ContentDocumentId FROM ContentVersion WHERE Id = :conVer.Id];
+        ContentDocumentLink cdl = new ContentDocumentLink();
+        cdl.ContentDocumentId = conVer.ContentDocumentId;
+        cdl.LinkedEntityId = consent.Id;
+        cdl.ShareType = 'I'; 
+        insert cdl;
+
+        return consent;
+    }
+
+    /*@testVisible
     private List<Account> upsertCustomers(List<Object> items) {
 
         BL_EasyQuery query = new BL_EasyQuery().useCase('DDC Client');
@@ -88,8 +118,7 @@ public with sharing class DDC_Customers_WS implements BL_Rest_Router_Factory.Dis
                 accountObj.put('ClientAdvisor__pc', usersIdsMap.get(userCode));
             }
         }
-
-    }
+    }*/
 
     /*
      * Creates ClientAddress records for items
@@ -97,7 +126,7 @@ public with sharing class DDC_Customers_WS implements BL_Rest_Router_Factory.Dis
      * ClientAddress has lookup to Account
      * items and accounts contains wrapper objects and Sobjects respectively.
      * accounts should already have SF Id.
-     */
+     *
     private void createAddressRecords(List<Object> items, List<Account> accounts) {
         BL_EasyQuery addressQuery = new BL_EasyQuery().useCase('DDC ClientAddress');
 
@@ -121,7 +150,6 @@ public with sharing class DDC_Customers_WS implements BL_Rest_Router_Factory.Dis
     }
 
     private void createSignatures(List<Object> items, List<Account> accounts) {
-        List<Attachment> attachments = new List<Attachment>();
         Map<Id,String> signaturesMap = new Map<Id,String>();
         for (Integer i=0; i<items.size(); i++) {
             Map<String,Object> itemMap = (Map<String,Object>) items[i];
@@ -187,6 +215,6 @@ public with sharing class DDC_Customers_WS implements BL_Rest_Router_Factory.Dis
             valuesMap.put(key, sobj.get(valueField));
         }
         return valuesMap;
-    }
+    }*/
 
 }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
+        <application>B2C_Commerce_Integration</application>
+        <default>false</default>
+        <visible>false</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
         <application>Clienteling</application>
         <default>false</default>
         <visible>false</visible>
@@ -27,91 +32,6 @@
     </applicationVisibilities>
     <applicationVisibilities>
         <application>Sales_Operations</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__AllTabSet</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__AppLauncher</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Chatter</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Community</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__LightningBolt</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__LightningInstrumentation</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__LightningSales</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__LightningSalesConsole</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__LightningService</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Marketing</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__OnlineSales</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Optimizer</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Platform</application>
-        <default>true</default>
-        <visible>true</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Sales</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__SalesforceCMS</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__Service</application>
-        <default>false</default>
-        <visible>false</visible>
-    </applicationVisibilities>
-    <applicationVisibilities>
-        <application>standard__ServiceConsole</application>
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
@@ -2098,6 +2018,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
+        <recordType>Account.B2CBusinessAccount</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
         <recordType>Account.BusinessAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>
@@ -2119,7 +2043,34 @@
         <layout>AsyncOperationLog-Async Operation Log Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AuthorizationForm-Authorization Form Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AuthorizationFormConsent-Authorization Form Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_CRMSync_Setting__mdt-B2C CRM Sync Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_CRM_Sync_Default_Configuration__mdt-B2C CRM Sync Default Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_Contact_Integration_History__c-B2C Contact Integration History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_CustomerList__c-B2C CustomerList Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_Instance__c-B2C Instance Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_Integration_Field_Mappings__mdt-B2C Integration Field Mapping Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_Schema_Test__c-B2C Schema Test Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>B2C_Site__c-B2C Site Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>BL_App_Setting__mdt-BL App Setting Layout</layout>
@@ -2147,6 +2098,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CLT_FieldsMapping__mdt-CLT FieldsMapping Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CLT_List_Order__mdt-CLT List Order Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>CLT_Picklist__mdt-CLT Picklist Layout</layout>
@@ -2212,6 +2166,9 @@
         <layout>ClientSource__c-Contact Source Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Client_Consent__c-Client Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Client_List_Translation__c-Client List Translation Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2233,10 +2190,22 @@
         <layout>Color__c-Color Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CommSubscription-Communication Subscription Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscriptionChannelType-Communication Subscription Channel Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CommSubscriptionConsent-Communication Subscription Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ContactPointAddress-Contact Point Address Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ContactPointConsent-Contact Point Consent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ContactPointEmail-Contact Point Email Layout</layout>
@@ -2269,6 +2238,15 @@
         <layout>DDC_Config__mdt-DDC Config Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>DataUseLegalBasis-Data Use Legal Basis Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DataUsePurpose-Data Use Purpose Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DelegatedAccount-External Managed Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Dependency_injection_class__mdt-Dependency injection class Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2281,10 +2259,19 @@
         <layout>EmailMessage-Email Message Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>EngagementChannelType-Engagement Channel Type Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Event-Event Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FeedItem-Feed Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FlowOrchestrationInstance-Orchestration Run Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>GCP_KPI__c-GCP KPI Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Global-Global Layout</layout>
@@ -2379,6 +2366,12 @@
         <layout>Product2-Product Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Product_Inventory__c-Product Inventory Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Product_Localization__c-Product Localization Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Product_Translation__c-Product Translation Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2416,6 +2409,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ReturnOrderLineItem-Return Order Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Scorecard-Scorecard Layout</layout>
@@ -2484,6 +2480,9 @@
         <layout>WebCartAdjustmentBasis-Cart Adjustment Basis Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>WebCartAdjustmentGroup-Cart Adjustment Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>WebStore-Store Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2507,6 +2506,11 @@
     <layoutAssignments>
         <layout>wechat_sa_client__c-WeChat SA Client Layout</layout>
     </layoutAssignments>
+    <recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Account.B2CBusinessAccount</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Account.BusinessAccount</recordType>
@@ -2541,6 +2545,26 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Accessory_type_Translation__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>B2C_Admin</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>B2C_Contact_Integration_History__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>B2C_CustomerList__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>B2C_Instance__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>B2C_Site__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -2588,6 +2612,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Client_Consent__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Collection_Translation__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -2604,7 +2632,15 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>GCP_KPI__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Log__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Product_Localization__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

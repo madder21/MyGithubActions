@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Eid_Gifitng_2022</name>
+    <style>none</style>
+    <subject>عيد مبارك من RIMOWA</subject>
+    <textOnly>االسيد / السيدة {! Contact.LastName} ،
+
+تود RIMOWA أن تتمنى لكم عيد مبارك ، وفي هذه المناسبة السعيدة ، أردت أن أشارككم دليل هدايا للإلهام. من حقائب الألمنيوم المحززة إلى التصميمات المحمولة المخصصة للاستخدام اليومي، تعد كل قطعة بمرافقة من تحب في رحلات السفر التي تدوم طوال العمر.
+
+أتمنى لكم كل النعم في عيد الفطر والعديد من مغامرات السفر في العام المقبل.
+
+تحياتي الحرة،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

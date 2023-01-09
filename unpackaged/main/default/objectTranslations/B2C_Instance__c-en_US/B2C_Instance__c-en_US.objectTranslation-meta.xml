@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>B2C Instance</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>B2C Instances</value>
+    </caseValues>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <layouts>
+        <layout>B2C Instance Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Activate B2C CustomerLists --></label>
+        <name>Activate_B2C_CustomerLists</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Activate B2C Sites --></label>
+        <name>Activate_B2C_Sites</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Configure Instance Integration --></label>
+        <name>Assign_Named_Credential_Instance</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Deactivate B2C CustomerLists --></label>
+        <name>Deactivate_B2C_CustomerLists</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Deactivate B2C Sites --></label>
+        <name>Deactivate_B2C_Sites</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Seed CustomerLists and Sites --></label>
+        <name>Seed_CustomerLists_and_Sites</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Update Site Counts --></label>
+        <name>Update_Site_Counts</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Please ensure that the API Url field is prefixed with &apos;https://&apos; --></errorMessage>
+        <name>Ensure_API_Url_has_Prefix</name>
+    </validationRules>
+</CustomObjectTranslation>

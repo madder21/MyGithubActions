@@ -6,11 +6,13 @@ private class Batch_ClientBirthday_Test {
         acc.FirstName = 'Client';
         acc.LastName = 'Test';
         acc.PersonBirthdate = Date.today().adddays(3);
-        acc.LightCurrentCluster__pc = 'VIC_L';
+        acc.LightCurrentCluster__pc = 'VIC';
         insert acc;
 
         Test.startTest();
-        Database.executeBatch(new Batch_ClientBirthday());
+        Batch_ClientBirthday schedBatch = new Batch_ClientBirthday();
+        String sch = '0 0 23 * * ?'; 
+        system.schedule('Test Territory Check', sch, schedBatch);
         Test.stopTest();
     }
 }

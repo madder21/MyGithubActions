@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche Launch</name>
+    <style>none</style>
+    <subject>RIMOWA x Porsche Limitierte Edition Sammlerkoffer</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+Ich freue mich, Ihnen mitteilen zu können, dass wir kürzlich die Zusammenarbeit zwischen RIMOWA und Porsche angekündigt haben, die am 21. April startet.
+
+Als zwei legendäre deutsche Marken, die zusammenarbeiten, um ein ikonisches Stück zu schaffen, freue ich mich, mit Ihnen das Debüt des RIMOWA x Porsche Pepita Koffers zu teilen – mit nur 911 Stück weltweit.
+
+Als wertvoller Kunde von RIMOWA / Als Autosammler / Als Porsche-Fan wollte ich Sie fragen, ob dieses Produkt in limitierter Auflage für Sie interessant wäre?
+Gerne schicke ich bei Interesse weitere Details zu.
+
+Ich wünsche einen schönen Tag!
+
+Mit besten Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

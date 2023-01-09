@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC  6 - Lavande &amp; Citron</name>
+    <style>none</style>
+    <subject>Nové pastelové barvy v kolekci Essential!</subject>
+    <textOnly>Vážená paní / Vážený pane {!Contact.LastName},
+
+rád/a bych Vám představil/a naše nové pastelové barvy v kolekci Essential!
+
+Barvy v odstínech Lavande a Citron jsou inspirovány opojnými památkami a vůněmi léta a najdete je v nejen na našich zavazadlech, ale také na dalších doplňcích.
+
+Jemný odstín fialové a zářivá žlutá tak zachytí čistou esenci letošní sezóny.
+
+Pokud by Vás zajímalo více podrobností, neváhejte se na mne obrátit.
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

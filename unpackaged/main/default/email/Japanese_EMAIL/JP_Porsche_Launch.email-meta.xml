@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ポルシェ販売開始_JP</name>
+    <style>none</style>
+    <subject>RIMOWA×ポルシェ 限定コレクターズケース</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+この度RIMOWAでは4月21日(木)にRIMOWA×ポルシェのコラボレーション ハンドキャリーケースを発売することとなりました。
+ドイツを代表する2つのブランドによって作られたこちらのハンドキャリーケースは、世界限定911個の販売でございます。
+
+もしご興味ございましたら、ぜひ詳細をお送りさせていただければと思います。
+何かご不明な点がございましたら、お気軽に私までご連絡くださいませ。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

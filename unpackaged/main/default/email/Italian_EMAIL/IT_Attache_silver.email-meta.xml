@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Attaché Silver</name>
+    <style>none</style>
+    <subject>Riscopri il nostro design iconico: Attaché Silver</subject>
+    <textOnly>Gentile signor/signora {!Contact.LastName},
+
+Siamo lieti di annunciare il nuovo lancio di uno dei modelli più iconici di Rimowa: Attaché Silver in alluminio.  
+ 
+
+Uno dei punti fermi dell&#39;azienda dal 1960, il leggendario modello RIMOWA Attaché è stato rivisitato per la nuova generazione di viaggiatori e non solo. Realizzato a Colonia, Rimowa Attaché in argento unisce la sensibilità vintage con un design minimalista offrendo interni lussuosi per le necessità d&#39;oggi! 
+
+
+Non esiti a contattarmi qualora avesse bisogno di ulteriori dettagli a riguardo. 
+
+Cordiali saluti, 
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

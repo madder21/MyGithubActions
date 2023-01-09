@@ -15,14 +15,14 @@
     <columns>StoreId__c</columns>
     <filterScope>Everything</filterScope>
     <filters>
-        <field>TransactionDate__c</field>
-        <operation>greaterThan</operation>
-        <value>10/13/2021</value>
+        <field>Vendor__c</field>
+        <operation>contains</operation>
+        <value>nishino</value>
     </filters>
     <filters>
         <field>Store__c</field>
         <operation>contains</operation>
-        <value>SHOP</value>
+        <value>OMOTESANDO</value>
     </filters>
     <label>All</label>
 </ListView>

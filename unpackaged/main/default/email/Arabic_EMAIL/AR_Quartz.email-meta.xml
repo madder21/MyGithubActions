@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Quartz_AR</name>
+    <style>none</style>
+    <subject>إكتشف مجموعة Original بلون Quartz الوردي الجديد</subject>
+    <textOnly>السيد/السيدة {!Contact.LastName}،
+
+يسعدني أن أشارك الإصدار القادم، مجموعة Quartz الجديدة.
+
+أعيد تصميم حقيبة Original بظلال ناعمة من Quartz المستوحى من اللون الوردي ، وهو حجر كريم ثمين معروف بخصائصه العلاجية.
+
+يسعدني مشاركة المزيد حول الإصدار معك إذا كنت مهتمًا.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

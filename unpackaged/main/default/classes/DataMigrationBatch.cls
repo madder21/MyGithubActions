@@ -2,19 +2,19 @@ global class DataMigrationBatch implements Database.Batchable<sObject> {
     
     Private Boolean isFirstRun;
     Private DateTime lastBatchExecutionDateTime;
-    Private DateTime maxDate;
     
-    public DataMigrationBatch(Boolean isFirstRun, DateTime lastBatchExecutionDateTime, DateTime maxDate){
+    public DataMigrationBatch(Boolean isFirstRun, DateTime lastBatchExecutionDateTime){
         this.isFirstRun = isFirstRun;
         this.lastBatchExecutionDateTime = lastBatchExecutionDateTime;
-        this.maxDate = maxDate;
     }
     
     global Database.QueryLocator start(Database.BatchableContext BC) {
-        return Database.getQueryLocator(DataMigrationHelper.buildDataMigrationBatchQuery(isFirstRun, lastBatchExecutionDateTime,maxDate));
+        return Database.getQueryLocator(DataMigrationHelper.buildDataMigrationBatchQuery(isFirstRun, lastBatchExecutionDateTime));
+        
     }
     global void execute(Database.BatchableContext BC, List<Account> accountList) {
-        DataMigrationHelper.migrateConsents(accountList);
+        //DataMigrationHelper.migrateConsents(accountList);
+        ConsentManagementHelper.migrateConsentGlobalMethod(accountList,null,true);
     }    
     global void finish(Database.BatchableContext bc){
     }    

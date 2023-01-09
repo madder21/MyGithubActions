@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Quartz_EN</name>
+    <style>none</style>
+    <subject>Discover our Original collection is a new Quartz pink colour</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I&#39;m excited to share the upcoming launch of our new collection, Quartz.
+
+The maison signature Original suitcase is reimagined in a soft shade of pink inspired Quartz, a precious gemstone known for its powerful healing properties.
+
+I&#39;d be happy to share more about the launch with you if you are interested in.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

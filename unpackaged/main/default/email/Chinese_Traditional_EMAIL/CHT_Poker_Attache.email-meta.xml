@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Poker Attache</name>
+    <style>none</style>
+    <subject>探索 RIMOWA Poker Attache</subject>
+    <textOnly>親愛的 {!Contact.LastName} 先生/夫人，
+
+我很高興與大家分享即將發布的 RIMOWA Poker Attaché。 RIMOWA Poker Attaché 專為紙牌愛好者而設計，在時尚的鋁質隨員內提供了一套高級撲克套裝。 這件作品向 RIMOWA 標誌性手提箱的極簡和柔和設計致敬，配備符合人體工程學的手柄，便於攜帶。
+
+如果您有興趣，我很樂意與您分享更多信息。
+
+謹啟
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Aurora</name>
+    <style>none</style>
+    <subject>Scopri la RIMOWA Original Cabin Aurora Borealis</subject>
+    <textOnly>Gentile Sig./Sig.ra {!Contact.LastName},
+
+Sono entusiasta di condividere con lei l&#39;imminente lancio della nuova RIMOWA Original Cabin Aurora Borealis.
+
+Creata in omaggio allo straordinario fenomeno naturale dell&#39;aurora boreale, la RIMOWA Original Cabin Aurora Borealis presenta un motivo vibrante sullo sfondo dell&#39;alluminio nero. La valigia è stata progettata per creare anche interessanti punti focali visivi in tutto, che appaiono come stelle nel cielo ad uno sguardo più attento, rendendolo il compagno ideale per il viaggiatore alla moda e amante dalla natura.
+
+Sarei lieto di condividere ulteriori informazioni con lei qualora fosse interessato.
+
+Cordiali saluti.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

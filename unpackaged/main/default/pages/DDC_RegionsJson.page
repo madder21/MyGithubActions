@@ -1,0 +1,8 @@
+<!-- Returns JSON of countries labels in the language set as param -->
+<!-- is used by DDC_Countries_WS -->
+<apex:page controller="DDC_RegionsJsonCtrl" language="{!$CurrentPage.parameters.lang}" 
+    contentType="Application/JSON">
+
+{!countriesJson}
+
+</apex:page>

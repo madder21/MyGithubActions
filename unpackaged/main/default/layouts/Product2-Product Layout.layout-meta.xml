@@ -35,6 +35,22 @@
                 <behavior>Edit</behavior>
                 <field>SegmentationCategory__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isSerialized__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>COO__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>hsCode__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>HsCodeDescription__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -219,7 +235,7 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Description Information</label>
-        <layoutColumns/>
+        <layoutColumns />
         <style>OneColumn</style>
     </layoutSections>
     <layoutSections>
@@ -258,9 +274,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <platformActionList>
@@ -281,6 +297,10 @@
             <sortOrder>2</sortOrder>
         </platformActionListItems>
     </platformActionList>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Product_Localization__c.ProductId__c</relatedList>
+    </relatedLists>
     <relatedLists>
         <relatedList>RelatedStandardPriceList</relatedList>
     </relatedLists>
@@ -307,6 +327,10 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Product_Inventory__c.ProductId__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

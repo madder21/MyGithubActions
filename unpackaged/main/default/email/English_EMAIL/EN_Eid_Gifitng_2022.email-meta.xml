@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Eid_Gifitng_2022</name>
+    <style>none</style>
+    <subject>Eid Mubarak from RIMOWA</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+RIMOWA would like to wish you Eid Mubarak, and in this joyous occasion, I wanted to share a gift guide with you for inspiration. From iconic grooved aluminum suitcases to portable designs intended for daily use, each resilient piece promises to accompany your loved one on a lifetime of travels.
+
+Wishing you all the blessings of Eid Al Fitr and many meaningful travel adventures in the year ahead.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

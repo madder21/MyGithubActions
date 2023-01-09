@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Golden Week - Macao OC</name>
+    <style>none</style>
+    <subject>Invitation to RIMOWA Summer End Party</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+To celebrate the warmth of the season, we are delighted to invite you to join our Summer End Party with RIMOWA Personal in Lavande. Join us to experience the true scent and colour of the French Provence with exclusive privileges at RIMOWA One Central.
+
+Date: October 1st – 5th , 2022
+
+Time: 10:30 AM - 10:00 PM
+
+Should you be interested in joining the party, I would be more than happy to reserve your booking.
+
+We look forward to welcoming you at our boutique!
+
+Kind regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

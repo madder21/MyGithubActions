@@ -603,7 +603,6 @@ public with sharing class BL_EasyQuery {
      * this.useCase('Client')
      */
     public BL_EasyQuery useCase(String useCaseLabel) {
-        System.debug('use cse-->>'+useCaseLabel);
         this.useCaseLabel = useCaseLabel;
 
         if(useCaseLabel != null && !String.isEmpty(useCaseLabel)) {
@@ -891,7 +890,6 @@ public with sharing class BL_EasyQuery {
     }
 
     public List<SObject> convertWrapperToSObject( List<Object> wrapperItems) {
-        System.debug('items wrap-->>'+wrapperItems);
         List<SObject> sObjects = new List<SObject>();
 
         for(Object wrapperItem : wrapperItems) {
@@ -908,7 +906,6 @@ public with sharing class BL_EasyQuery {
             SObject sObj = BL_ObjectDescriber.createSObject(mapObject, this.useCase.ObjectName);
             sObjects.add(sObj);
         }
-        System.debug('sobj -->>'+sObjects);
         return sObjects;
     }
 

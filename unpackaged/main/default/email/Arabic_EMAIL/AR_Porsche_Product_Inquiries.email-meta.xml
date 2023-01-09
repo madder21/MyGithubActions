@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>الإستفسار عن منتج Porsche</name>
+    <style>none</style>
+    <subject>شكراً لاهتمامك</subject>
+    <textOnly>السيد/السيدة {!Contact.LastName}،
+
+شكراً لاهتمامك بمنتجنا الجديد Porsche x RIMOWA.
+
+تاريخ الإصدار الرسمي هو 21 أبريل ويسعدني أن أؤكد أنك على قائمة الانتظار لتكون أول من يعلم بهذا التعاون المميز!
+
+أفضل التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

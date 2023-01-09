@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>حجز Porsche</name>
+    <style>none</style>
+    <subject>انتهى وقت الإنتظار</subject>
+    <textOnly>السيد/السيدة {!Contact.LastName}،
+
+يسعدني أن أبلغكم أن الانتظار انتهى أخيرًا!
+تتعاون علامتان تجاريتان ألمانيتان لتقديم أفضل ما في العالمين: RIMOWA x Porsche يتم إطلاقها قريبًا وهي متاحة الآن للحجز.
+
+يسعدني أن أخبرك أنه تم حجز إحدى هذه القطع الحصرية لك.
+هل ما زلت مهتمًا بإضافة حقيبة Pepita إلى مجموعتك؟
+
+يرجى إعلامي إذا كنت ترغب في إرسال المزيد من التفاصيل حول هذا المنتج الفريد.
+
+أفضل التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>MY Gardens Opening</name>
+    <style>none</style>
+    <subject>We’ve opened our doors at a new location!</subject>
+    <textOnly>Dear Mr/Ms {!Contact.LastName},
+
+We are pleased to announce the opening of our new RIMOWA store in The Gardens Mall.
+
+To prepare for travels ahead, we have relocated our current store to a new location to serve your needs better.
+
+Discover the new RIMOWA store and our latest collections at Lot F-223A/225A Level 1, The Gardens Mall, Mid Valley City, Lingkaran Syed Putra, 59200 Kuala Lumpur, Malaysia.
+
+We hope to see you soon!
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

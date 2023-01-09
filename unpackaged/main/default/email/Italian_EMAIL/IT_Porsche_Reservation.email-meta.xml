@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Prenotazione Porsche</name>
+    <style>none</style>
+    <subject>L&#39;attesa e&#39; finita!</subject>
+    <textOnly>Gentile Sig./Sig.ra {!Contact.LastName},
+
+Sono lieto di informarla che l&#39;attesa è finalmente finita!
+
+Due iconici marchi tedeschi collaborano per creare il meglio da entrambe le parole: RIMOWA x Porsche uscirà presto ed è ora disponibile per la prenotazione.
+
+Sono felice di dirle che uno di questi pezzi esclusivi è stato riservato per lei.
+E’ ancora interessato/a ad aggiungere questa Hand-Carry Case Pepita alla sua collezione?
+
+Non esiti a contattarmi qualora avesse bisogno di ulteriori dettagli a riguardo.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -166,6 +166,7 @@ public  class BL_WS_Log {
             BL_UTILS.logError(e.getStackTraceString() + ' ' + e.getMessage());
         }
     }
+
     @TestVisible
     private static void asyncInsertPersistemtLog() {
         try {
@@ -187,7 +188,7 @@ public  class BL_WS_Log {
         insert BL_Log.toSObject(log);
     }
 
-    //Close Log Session and populate all relevant fields before inserting the new log recordy
+    //Close Log Session and populate all relevant fields before inserting the new log record
     @TestVisible
     private static void closePersistentLog() {
         RestResponse response = RestContext.response;

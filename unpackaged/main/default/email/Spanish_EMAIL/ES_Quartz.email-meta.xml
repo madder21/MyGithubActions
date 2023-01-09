@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>false</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Cuarzo</name>
+    <style>none</style>
+    <subject>Descubre nuestra colección Original en el nuevo color Rosa Cuarzo</subject>
+    <textOnly>Estimado/a Sr/Sra, {!Contact.LastName},
+
+Es un placer compartir con usted el próximo lanzamiento de nuestra nueva colección, Cuarzo.
+
+La emblemática maleta de la marca, Original, se reinventa en un tono suave Rosa Cuarzo, una piedra preciosa conocida por sus poderosas propiedades curativas.
+
+Estaré encantado/a de poder compartir más información sobre el lanzamiento con usted en caso de estar interesado/a.
+
+Saludos cordiales.
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>[DE Only] RE-CRAFTED &quot;Buy Back&quot; TY</name>
+    <style>none</style>
+    <subject>Thank you for taking part in RIMOWA RE-CRAFTED.​</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for taking part in RIMOWA RE-CRAFTED.
+
+Taking part of the RE-CRAFTED entitles you to a gift voucher for ***Voucher_amount*** on a minimum purchase of **Minimum_purchaseamount**, to be redeemed in an eligible stores.
+
+By trusting RE-CRAFTED, you are able to give to your pre-owned RIMOWA ***MODEL*** a new lease of life.
+
+Thank you for being part of this circular model – which focuses on reusing, repairing, and recycling suitcases – helps build a more sustainable world.
+
+We wish all the best for your future journeys.
+
+Kind regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -12,16 +12,9 @@
     <columns>Country__pc</columns>
     <columns>Nationality__pc</columns>
     <columns>ClientAdvisorId__pc</columns>
+    <columns>ClientAdvisor__pc</columns>
+    <columns>VIP__pc</columns>
+    <columns>Targeted_Customers__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>CREATEDBY_USER.ALIAS</field>
-        <operation>notEqual</operation>
-        <value>rcuint</value>
-    </filters>
-    <filters>
-        <field>Country__pc</field>
-        <operation>equals</operation>
-        <value>FRA</value>
-    </filters>
     <label>All Clients</label>
 </ListView>

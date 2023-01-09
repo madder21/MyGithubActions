@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>[DE ONLY] RE-CRAFTED - Active Outreach</name>
+    <style>none</style>
+    <subject>Nehmen Sie an RIMOWA RE-CRAFTED teil</subject>
+    <textOnly>Guten Tag {!Contact.LastName},
+
+gerne informiere ich Sie über unser neues RIMOWA RE-CRAFTED Programm.
+
+Ab sofort können Sie Ihren geliebten RIMOWA Aluminiumkoffer unabhängig vom Alter oder Zustand im Zuge von RIMOWA RE-CRAFTED recyclen oder aufbereiten lassen.
+
+Mit Ihrer Teilnahme an RIMOWA RE-CRAFTED und dem hierauf liegenden Fokus der Reparatur, des Recyclings sowie der Wiederverwendung helfen Sie dabei, eine nachhaltigere Welt zu bilden.
+
+Gerne übersende ich Ihnen weitere Informationen über dieses spannende Programm.
+
+Beste Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

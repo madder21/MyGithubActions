@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Attache 銀色</name>
+    <style>none</style>
+    <subject>重新體驗我們的標誌性設計：Attaché 銀色</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+我們很高興地宣布重新推出 RIMOWA 最具標誌性的設計之一： Attaché 銀色。
+
+自 1960 年代以來一直是公司的主打產品，傳奇的 RIMOWA Attaché 已為新一代商務旅客等人重新審視。
+RIMOWA Attaché 在科隆製作，將復古與簡約設計結合，提供適合當今的豪華內裡需求！
+
+如欲了解更多的產品詳情，歡迎隨時與我聯絡。
+
+
+XX
+謹啟
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

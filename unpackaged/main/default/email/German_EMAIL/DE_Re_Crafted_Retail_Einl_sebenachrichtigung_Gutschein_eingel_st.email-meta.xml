@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RE-CRAFTED Retail Einlösebenachrichtigung (Gutschein eingelöst)</name>
+    <style>none</style>
+    <subject>Vielen Dank für Ihre Teilnahme an RIMOWA RE-CRAFTED.</subject>
+    <textOnly>Sehr geehrter Herr / Sehr geehrte Frau {!Contact.LastName},
+
+Sie haben an RIMOWA RE-CRAFTED teilgenommen, indem Sie Ihrem bisherigen RIMOWA ***MODEL*** ein neues Leben geschenkt haben.
+
+Vielen Dank, dass Sie dabei helfen, eine nachhaltigere Welt zu schaffen.
+
+Wir wünschen Ihnen alles Gute für Ihre nächsten Reisen und freuen uns auf weitere Abenteuer mit Ihnen.
+
+Beste Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
