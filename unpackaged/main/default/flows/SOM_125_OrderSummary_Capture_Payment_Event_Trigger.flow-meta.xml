@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <interviewLabel>SOM 125 OrderSummary - Capture Payment Event Trigger {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM 125 OrderSummary - Capture Payment Event Trigger</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Publish_OrderSummary_Capture_Payment_Event</name>
+        <label>Publish OrderSummary Capture Payment Event</label>
+        <locationX>588</locationX>
+        <locationY>368</locationY>
+        <inputAssignments>
+            <field>OrderSummaryId__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>UpdateOSCaptureEvent__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>460</locationX>
+        <locationY>11</locationY>
+        <connector>
+            <targetReference>Publish_OrderSummary_Capture_Payment_Event</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Validated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CaptureStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>To capture</stringValue>
+            </value>
+        </filters>
+        <object>OrderSummary</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

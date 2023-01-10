@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Current__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(  Unresolved_PEs__c &gt;= 1 , &quot;🟠 Insufficient Stock&quot; &amp; BR(), &quot;&quot;)
+&amp;
+IF(  ISPICKVAL( Type , &quot;Delivery Charge&quot;) , &quot;&quot; , TEXT(QuantityFulfilled) &amp; &quot; / &quot; &amp; TEXT(QuantityOrdered) &amp; &quot; fulfilled&quot;
+&amp;
+IF(
+QuantityCanceled = 0 ,
+&quot;&quot; , BR() &amp; &quot;(&quot; &amp; TEXT(QuantityCanceled) &amp; &quot; cancelled)&quot; )
+
+&amp;
+IF(
+OR( QuantityReturnInitiated  = 0 , QuantityReturned = QuantityReturnInitiated   ),
+&quot;&quot; , BR() &amp; &quot;⚙️ (&quot; &amp; TEXT(QuantityReturnInitiated-QuantityReturned) &amp; &quot; return initiated)&quot; )
+
+
+&amp;
+IF(
+QuantityReturned = 0 ,
+&quot;&quot; , BR() &amp; &quot;(&quot; &amp; TEXT(QuantityReturned) &amp; &quot; returned)&quot; )
+&amp;
+IF(
+ QuantityReshipped  = 0 ,
+&quot;&quot; , BR() &amp; &quot;(&quot; &amp; TEXT(QuantityReshipped) &amp; &quot; reshipped)&quot; )
+
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Current</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

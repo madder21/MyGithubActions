@@ -1,0 +1,110 @@
+<template>
+    <div class="slds-is-relative">
+        <template if:true={isLoading}>
+            <div class="spinnerContStyle">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+            </div>
+        </template>
+        <template if:true={customData}>
+            <div>
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        aria-labelledby="element-with-table-label other-element-with-table-label">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Sku origin">SKU</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="SKU remplacement">Description</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Quantity Received</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Location">Serial Numbers</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Description">Condition</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="ATS">Follow-Up</div>
+                                </th>
+                                
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={customData} for:item="item">
+                                <tr class="slds-hint-parent" key={item.Id}>
+                                    <td>
+                                        <div >{item.Sku__c}</div>
+                                    </td>
+                                    <td>
+                                        <div >{item.Description}</div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <lightning-slider access-key={item.Id} name="quantityRecieved" value={item.QuantityReceived}
+                                                max={item.QuantityExpected} min="0" onchange={handleQuantityRecievedChange}>
+                                            </lightning-slider>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            <div if:true={item.OrderItemSummary.isSerialized__c}>
+                                                <lightning-input access-key={item.Id} type="text" field-name="SerialNumber"
+                                                    value={item.SerialNumber__c} variant="label-hidden" 
+                                                    onchange={handleSerialNumberChange}></lightning-input>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        
+                                        <lightning-combobox access-key={item.Id} name="condition"
+                                            value={item.ConditionId__c} placeholder="Select Condition"
+                                            options={conditionPicklist} onchange={handleConditionChange} class="picklistStyle">
+                                        </lightning-combobox>
+                                    </td>
+                                    <td>
+                                        <lightning-combobox access-key={item.Id} name="FollowUp"
+                                        value={item.RepaymentMethod} placeholder="Select FollowUp"
+                                        options={followUpPicklist} onchange={handleFollowUpChange} class="picklistStyle">
+                                    </lightning-combobox>
+                                    </td>
+                                    
+                                </tr>
+                                
+                            </template>
+
+                        </tbody>
+                    </table>
+            </div>
+            
+        </template>
+        <div>
+            <div class="slds-p-around_medium lgc-bg">
+                Serial Numbers Format - 17 characters separated by semicolon
+                <lightning-helptext content="Example : 12345678912345678;98765432198765432"></lightning-helptext>
+            </div>
+                
+        </div>
+        <div class="emptySpace">
+        </div>
+        <div>
+            <!--<div class="previousButtonStyle">
+                <lightning-button  variant="brand-outline"  label="Previous" name="previousButton"  onclick={handlePreviousButton}></lightning-button>
+            </div>-->
+            <div class="nextButtonStyle">
+                <lightning-button  variant="brand"  label="Next"  name="nextButton"  onclick={handleNextButton}></lightning-button>
+            </div>
+            
+        </div>
+        
+    
+    </div>
+
+
+
+
+
+</template>

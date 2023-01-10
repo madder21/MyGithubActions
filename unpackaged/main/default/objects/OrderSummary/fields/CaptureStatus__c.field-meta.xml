@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CaptureStatus__c</fullName>
+    <externalId>false</externalId>
+    <label>Capture Status</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>To capture</fullName>
+                <default>false</default>
+                <label>To capture</label>
+            </value>
+            <value>
+                <fullName>Capture Error</fullName>
+                <default>false</default>
+                <label>Capture Error</label>
+            </value>
+            <value>
+                <fullName>Not Applicable</fullName>
+                <default>false</default>
+                <label>Not Applicable</label>
+            </value>
+            <value>
+                <fullName>Captured</fullName>
+                <default>false</default>
+                <label>Captured</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

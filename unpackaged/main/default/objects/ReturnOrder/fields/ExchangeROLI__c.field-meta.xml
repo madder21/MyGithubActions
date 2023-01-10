@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ExchangeROLI__c</fullName>
+    <externalId>false</externalId>
+    <label>Exchange ROLI</label>
+    <summaryFilterItems>
+        <field>ReturnOrderLineItem.RepaymentMethod</field>
+        <operation>equals</operation>
+        <value>Exchange</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>ReturnOrderLineItem.FollowUpProcessed__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>ReturnOrderLineItem.QuantityReceived</field>
+        <operation>greaterThan</operation>
+        <value>0</value>
+    </summaryFilterItems>
+    <summaryForeignKey>ReturnOrderLineItem.ReturnOrderId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

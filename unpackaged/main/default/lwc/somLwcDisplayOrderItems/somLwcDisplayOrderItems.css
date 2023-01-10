@@ -1,0 +1,145 @@
+.closeicon{
+    --sds-c-icon-color-foreground:black;
+}
+:host {
+    --sds-c-slider-track-color-background: #808080;
+    --sds-c-slider-thumb-color-foreground: black;
+    
+
+}
+.spinnerContStyle{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+}
+
+.nextButtonStyle {
+   text-align: right;
+  }
+.previousButtonStyle {
+    text-align: left;
+    position: absolute;
+}
+
+.AddProductStyle {
+    text-align: right;
+    padding-right: 0.3rem;
+    padding-top: 0.4rem;
+}
+
+.emptySpace {
+    
+    padding-top: 1rem;
+    position: relative;
+    border-bottom-color: #dbd6d6;
+    border-width: thin;
+    border-bottom-style: double;
+    margin-bottom: 2%;
+}
+.iconRemove {
+   
+    --slds-c-icon-color-foreground : #ffffff;
+    --slds-c-button-color-background : #c23934;
+    /*background-color : #c23934;
+     --slds-c-icon-color-background : #c23934;
+    --sds-c-icon-color-foreground:black;*/
+}
+.centredButt{
+   
+    border-left: 1px solid #d8d4d4;
+    border-right: 1px solid #d8d4d4;
+
+}
+.btnAdd{
+    
+    --slds-c-button-radius-border : 144px;
+    height: 26px;
+    width: 26px;
+    padding-right: 10px;
+}
+.btnLess{
+    /*border-radius: 144px;
+    background: #d8d4d4;
+    width: 27px;
+    height: 26px;
+    border:none;
+    border-radius: var(--slds-c-button-radius-border, );*/
+    --slds-c-button-radius-border : 144px;
+    --slds-c-button-height: 16px;
+    --slds-c-button-sizing-width: 26px;
+    height: 16px;
+    margin-left: 10px;
+}
+.indexcss{
+    margin: 10px;
+}
+.spanStyle{
+    font-size: 18px;
+    line-height: 0;
+}
+.picklistStyle{
+    padding-bottom: 1rem;
+}
+
+.productSelect{
+    width: 250px;
+}
+
+.totalLinesStyle{
+    width:20%;
+    margin-left: 480px;
+    margin-top: 20px;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.CurrencyWithInput{
+    display: flex;
+    align-items: baseline;
+    width: 100%;
+    margin-right: 26px;
+    margin-left: 10px;
+    height: 33px;
+    
+}
+
+.sliderQt{
+    width:160px;
+    margin-left:10px;
+}
+
+.productDiv{
+    width: 100%;
+    margin-right: 150px;
+}
+
+.infoStyle{
+    font-style: oblique;
+    font-size: 13px;
+}
+
+.class1{
+    background-color:#5c5c5c;
+    
+}
+
+.class2{
+    background-color:white;
+    
+}
+
+.class3{
+    color: white;
+}
+
+.class4{
+    color: black;
+}
+
+.labelColor:checked > label{
+    color:#ffffff;
+}

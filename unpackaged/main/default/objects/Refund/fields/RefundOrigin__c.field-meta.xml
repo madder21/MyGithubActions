@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RefundOrigin__c</fullName>
+    <externalId>false</externalId>
+    <label>Refund Origin</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Partial Cancelation</fullName>
+                <default>false</default>
+                <label>Partial Cancelation</label>
+            </value>
+            <value>
+                <fullName>Full Cancelation</fullName>
+                <default>false</default>
+                <label>Full Cancelation</label>
+            </value>
+            <value>
+                <fullName>Return</fullName>
+                <default>false</default>
+                <label>Return</label>
+            </value>
+            <value>
+                <fullName>Appeasement</fullName>
+                <default>false</default>
+                <label>Appeasement</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
