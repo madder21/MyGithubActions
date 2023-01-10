@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche Produktanfrage</name>
+    <style>none</style>
+    <subject>Danke für Ihr Interesse!</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+vielen Dank für Ihr Interesse an der Zusammenarbeit zwischen RIMOWA und Porsche.
+
+Die offizielle Markteinführung ist am 21. April und ich freue mich, Ihnen bestätigen zu können, dass Sie auf der Warteliste stehen, um die ersten zu sein, die von dieser kultigen Zusammenarbeit wissen!
+
+Beste Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

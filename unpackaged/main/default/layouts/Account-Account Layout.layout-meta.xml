@@ -345,6 +345,51 @@
         <fields>NAME</fields>
         <relatedList>TransactionItem__c.Client__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>EffectiveFromDate</fields>
+        <fields>EffectiveToDate</fields>
+        <fields>ConsentCapturedSource</fields>
+        <relatedList>CommSubscriptionConsents</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Party</fields>
+        <fields>ContactPointType</fields>
+        <fields>DataUsePurpose</fields>
+        <fields>PrivacyConsentStatus</fields>
+        <fields>EffectiveFrom</fields>
+        <fields>EffectiveTo</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <relatedList>ContactPointTypeConsent.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>ContactPoint</fields>
+        <fields>DataUsePurpose</fields>
+        <fields>PrivacyConsentStatus</fields>
+        <fields>EffectiveFrom</fields>
+        <fields>EffectiveTo</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <relatedList>ContactPointConsent.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>EmailAddress</fields>
+        <fields>ActiveFromDate</fields>
+        <fields>ActiveToDate</fields>
+        <fields>IsPrimary</fields>
+        <relatedList>ContactPointEmails</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>EmailAddress</fields>
+        <fields>ActiveFromDate</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <fields>Parent</fields>
+        <relatedList>ContactPointEmail.AccountId__c</relatedList>
+    </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

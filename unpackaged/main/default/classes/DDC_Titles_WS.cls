@@ -18,9 +18,11 @@ public with sharing class DDC_Titles_WS implements BL_Rest_Router_Factory.Dispat
         for (BL_ObjectDescriber.Option option : options) {
             if (returnAllValues || configValues.contains(option.value)) {
                 option.label = labelPrefix + option.label.toLowerCase().removeEnd('.');
+                option.sortByValue = true;
                 returnOptions.add(option);
             }
         }
+        returnOptions.sort();
         return returnOptions;
     }
 

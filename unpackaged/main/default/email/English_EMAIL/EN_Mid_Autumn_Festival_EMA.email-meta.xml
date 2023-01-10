@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>EN Mid-Autumn Festival</name>
+    <style>none</style>
+    <subject>Mid-Autumn Festival Neon light Decoration Workshop</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+I am thrilled to invite you to celebrate the Chinese Mid-Autumn Festival with an exclusive Neon Light Decoration Workshop at your (STORE) on (DATE).  
+
+You would also be able to preview our latest Silver Attaché collection during this time. 
+ 
+Should you be interested in the workshop, I would be more than happy to reserve your booking.
+
+We look forward to welcoming you at our boutique! 
+
+Kind regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

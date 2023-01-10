@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC  6 - Lavande &amp; Citron</name>
+    <style>none</style>
+    <subject>Découvrez Lavande &amp; Citron, nos nouvelles couleurs Essential</subject>
+    <textOnly>Chère madame/Cher monsieur {!Contact.LastName},
+
+J’ai le plaisir de vous présenter les nouvelles déclinaisons estivales de notre collection Essential : Citron et Lavande !
+
+Inspirées des couleurs de la Provence, les vastes étendues violette et leur parfum envoutant relevé par l’arôme et l’acidité douce du citron, la collection se compose d’un jaune et d’un violet pastels, idéals pour vous rappeler l’essence même d’un bel été ensoleillé et éphémère (comme notre collection!).
+
+Ces couleurs saisonnières habillent trois tailles de nos valises (Cabin, Check-in L et Trunk Plus) ainsi que nos sacs Tote en tailles moyenne et grande.
+
+Ces éditions limitées seront disponibles dans notre boutique de […]
+
+Je reste bien entendu à votre disposition pour vous les faire découvrir.
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

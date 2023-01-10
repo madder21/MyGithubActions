@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Richieste di informazioni sui prodotti Porsche</name>
+    <style>none</style>
+    <subject>Grazie per il suo interesse!</subject>
+    <textOnly>Gentile Sig./Sig.ra (Contact. Last name),
+
+
+Grazie per l&#39;interesse dimostrato per la collaborazione RIMOWA x Porsche.
+
+
+La data di lancio ufficiale è il 21 aprile e sono lieto di confermarle che e’ in lista d&#39;attesa per essere tra i primi a conoscere questa iconica collaborazione!
+
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

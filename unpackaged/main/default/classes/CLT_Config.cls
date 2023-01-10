@@ -8,7 +8,7 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
     }
 
     public Object retrieveGet(Map<String, String> params){  
-        return new ConfigWrapper(getPicklists(params), getMappings(), getActiveSOQL(), getClientNotes(), getEmailTemplatesFields(), getSAs(), getGlobalSAs(), getUserInfos());
+        return new ConfigWrapper(getPicklists(params), getMappings(), getActiveSOQL(), getClientNotes(), getEmailTemplatesFields(), getSAs(), getGlobalSAs(), getUserInfos(), getCallOutreachReasons(), getListOrder());
     }
 
     public List<CLT_UtilsPicklist.PicklistWrapper> getPicklists(Map<String, String> params){
@@ -120,8 +120,42 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
         return storeCodes;
     }
 
+    public List<callOutreachReasonsWrapper> getCallOutreachReasons(){
+        List<callOutreachReasonsWrapper> callOutreachReasons = new List<callOutreachReasonsWrapper>();
+        String lang = UserInfo.getLanguage();
+        Set<String> categoryMdtFields = Schema.SObjectType.CLT_EmailTemplateCategory__mdt.fields.getMap().keySet();
+        if(!categoryMdtFields.contains(lang.toLowerCase() + '_category__c')) {
+            lang = 'en_US';
+        }
 
+        String categoriesQuery = 'SELECT ' + (lang != 'en_US' ? lang + '_category__c,' : '') + 'en_US_category__c,Id,Position__c FROM CLT_EmailTemplateCategory__mdt WHERE IsCallOutreach__c = TRUE';
 
+        Utils.addCustomHeader('QUERY', categoriesQuery, RestContext.request);
+
+        for(CLT_EmailTemplateCategory__mdt etc : Database.query(categoriesQuery)) {
+            String reason = etc.get(lang + '_category__c') != null ? (String)etc.get(lang + '_category__c') : (String)etc.get('en_US_category__c');
+            callOutreachReasons.add(new callOutreachReasonsWrapper(reason, etc.Id, (Integer)etc.Position__c));
+        }
+        return callOutreachReasons;
+    }
+
+    public class callOutreachReasonsWrapper {
+        public String label {get; set;}
+        public String id {get; set;}
+        public Integer position {get; set;}
+
+        //Constructor
+        public callOutreachReasonsWrapper(String label, String id, Integer position) {
+            this.label = label;
+            this.id = id;
+            this.position = position;
+        }
+
+    }
+
+    public  List<Map<String, Object>> getListOrder(){  
+        return CLT_Utils_Mapping.getStandardWrapperList('CLT_List_Order__mdt', 'CLT_List_Order__mdt', 'FROM CLT_List_Order__mdt WHERE SectionName__c = \'Tasks Group\'');
+    }
 
     public class ConfigWrapper{
         public List<CLT_UtilsPicklist.PicklistWrapper> picklists {get; set;}
@@ -132,9 +166,11 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
         public List<Map<String, Object>> SAs {get;set;}
         public List<Map<String, Object>> globalSAs {get;set;}
         public Map<String, Object> userInfos {get;set;}
+        public List<callOutreachReasonsWrapper> callOutreachReasons {get; set;}
+        public List<Map<String, Object>> listsOrder {get;set;}
 
         //Constructor
-        public ConfigWrapper(list<CLT_UtilsPicklist.PicklistWrapper> picklists, List<Map<String, Object>> mappings, List<Map<String,String>> queries, List<Map<String, Object>> clientNotes, List<Map<String,String>> emailTemplatesFields, List<Map<String, Object>> SAs,  List<Map<String, Object>> globalSAs, Map<String,object> userInfos){
+        public ConfigWrapper(list<CLT_UtilsPicklist.PicklistWrapper> picklists, List<Map<String, Object>> mappings, List<Map<String,String>> queries, List<Map<String, Object>> clientNotes, List<Map<String,String>> emailTemplatesFields, List<Map<String, Object>> SAs,  List<Map<String, Object>> globalSAs, Map<String,object> userInfos, List<callOutreachReasonsWrapper> callOutreachReasons, List<Map<String, Object>> listsOrder){
             this.picklists = picklists;
             this.mappings = mappings;
             this.queries = queries;
@@ -143,6 +179,8 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
             this.SAs = SAs;
             this.globalSAs =globalSAs;
             this.userInfos = userInfos;
+            this.callOutreachReasons = callOutreachReasons;
+            this.listsOrder = listsOrder;
         }
     } 
 }

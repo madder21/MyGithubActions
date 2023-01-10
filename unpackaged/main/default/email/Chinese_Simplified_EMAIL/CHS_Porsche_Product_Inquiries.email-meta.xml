@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Porsche产品咨询</name>
+    <style>none</style>
+    <subject>感谢您的关注</subject>
+    <textOnly>亲爱的 {!Contact.LastName},
+
+感谢你对我们的 Rimowa x Porsche 行李箱感兴趣。
+
+该款产品的官方上市时间是4月21日，很高兴通知您将是我们优选预定的客人，我将会第一时间通知您这款标志性合作款的相关产品资讯。
+
+此致，
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Lançamento Lavande &amp; Citron</name>
+    <style>none</style>
+    <subject>Lavande &amp; Citron: descubra as novas cores da linha Essential!</subject>
+    <textOnly>Prezado Sr./Sra. [!Contact.LastName},
+
+Estamos empolgados em compartilhar com você nossas novas cores da linha Essential: Lavande e Citron.
+
+Inspirada pelos sentimentos gerados pelo verão, essa coleção contempla nossas malas, bolsas e acessórios em um tom leve de roxo e um vibrante amarelo, feito especialmente para capturar a pura essência da estação.
+
+Ficaria feliz em te mandar mais detalhes, caso esteja interessado (a).
+
+Tenha um ótimo dia pela frente.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

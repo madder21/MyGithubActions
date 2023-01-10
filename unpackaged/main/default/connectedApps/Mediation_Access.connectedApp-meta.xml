@@ -6,13 +6,7 @@
     <oauthConfig>
         <callbackUrl>https://is.rimowa.clienteling.lvmhda.com/commonauth</callbackUrl>
         <certificate>MIIFWTCCA0GgAwIBAgIUZ8nvlJbBf2BSu63/TcjoW3C8fGIwDQYJKoZIhvcNAQELBQAwPDELMAkGA1UEBhMCRlIxDDAKBgNVBAgMA0lkRjEOMAwGA1UEBwwFUGFyaXMxDzANBgNVBAoMBlJpbW93YTAeFw0yMTA2MTYxNDM1MDBaFw0yMjA2MTYxNDM1MDBaMDwxCzAJBgNVBAYTAkZSMQwwCgYDVQQIDANJZEYxDjAMBgNVBAcMBVBhcmlzMQ8wDQYDVQQKDAZSaW1vd2EwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDHLjXJesw/S7FXHctKTR9gw/8AixcsaL857sNu5nBPzpuw9QkRSvij/+8Up6PX9cgA5p4nrr+VHa9eBkwLggIaV8DxkWJtz0jzjKIMskRX/XEoAiPpsO6armSUUnFqh59xrZNehPpkiZv5ruEPDBhJkogHjF2TP23UBmwAiDgU9jfky4X1Y2LgM1Bfs1ecjBHmd7M3I7IN6sRcJ56WzX6l/OpPkIuv6snvKCXNNVoeRkfvSI8YhW7cLTSCo4cz/gKrK16zku0A4qSJqw4ip5TJ4Dj3b6S/PCt31vsMMW2T3JYP8TRkj40IcF8FTr2icEcCiCErkh1DxB2Pj9t79+0OuRjeR5ZYr2T/c+ik4GzEckk61nFYRVl34dR4Cgf3XCkNU7zK7t7UBwj2xqD1WDYczsvBnnYdbZythE4hYTMx2pXZBTy2ovf9yLkvO6LUsKlavbbXX4CIVxuXX2CYhfgN77Q6ZDKGQZwFvokkYqdi5ZGUc0uesHr4HheH3LMNwiqYIfq9BxbwZwMU0RJd1r+DrDi79ib/i6f2IDnLToNLtksGsZq0yNcS7MMF6QcvYJw5uE0DLSIRSsaRiXNKMblJjEP0wTXAzPZbW60cEgOImC10/Oy9xMLevw2UZxRrRcMVKAl22s0Xjg+XoK1IzBHZahh5mlTviYY9j2UsC1g60wIDAQABo1MwUTAdBgNVHQ4EFgQUU53cIjX+kfOdwFBM74TUbEBrjoEwHwYDVR0jBBgwFoAUU53cIjX+kfOdwFBM74TUbEBrjoEwDwYDVR0TAQH/BAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAgEAhQNCucADHqe3EdXbyvffjwhst7s3N/hoxAKVIUurJomalBVLFxobKyn+Z/2mK5F1AI7WOihFQFNeK7DP4lx5tGyS5cLvKxH/zg2jjpc/cNiKw4CQcsz2K4DDi72+7MvFIQX03xC9epQymzg4e8425imFdenMP3esgk7LuchctmXnb68HhIS2jVlDS2YQm+77Brm/kBZwWFd1S3ksSVSZranX/7BvVdxtdJEwThlGVpTKXytND83+U5ZLEd+3sMlER6eVu7yInR/EkxZd0XgJiosQHLuKgzsILj1o/kbW7HAWYM9iqDJ+5nRQrjkfMINxgv/Ff6e1ggwbyRYHeThKikFlKcYZ/n29hB1s6lhJ4c3+eJDw0fX4B9wAOdKZRYmGffdUyXcKW+lyDHHwNVDAdMDZvXskgFtN27pdmJ0OfJA2CwEN6qzf+2CsCsn2NNMucdGrLUffZmNXqAD3ZoAWr88+spV3Bt7AxAX6HAfA4JLVRJwdiSWe6Vh8Ik173ZfrAYpxE22n+S1wymp6vaVCzgHaqSS6SDEJCMCAJCEZyXIaXEdO2NoTesNQWbbXQC2aFJeCK4xlmyxrkn6js/K+LuyJl5pldO2YNdfZYwqCONITHHG8Uq3sOgWBurSE1PAO3/kl661FOUo9MkWKsTbsFW2VeUoglvxBXHwbSStaDZs=</certificate>
-        <consumerKey>3MVG9fTLmJ60pJ5KTOKDKvUl1bKmWZIOmn0N.I3LKJECEZiBs6cPn7Zl9Gccc88B4zpMvqlqmBlbx0jGMwrnC</consumerKey>
-        <idTokenConfig>
-            <idTokenIncludeAttributes>true</idTokenIncludeAttributes>
-            <idTokenIncludeCustomPerms>false</idTokenIncludeCustomPerms>
-            <idTokenIncludeStandardClaims>true</idTokenIncludeStandardClaims>
-            <idTokenValidity>30</idTokenValidity>
-        </idTokenConfig>
+        
         <isAdminApproved>true</isAdminApproved>
         <isConsumerSecretOptional>false</isConsumerSecretOptional>
         <isIntrospectAllTokens>false</isIntrospectAllTokens>
@@ -20,6 +14,7 @@
         <scopes>Basic</scopes>
         <scopes>Api</scopes>
         <scopes>Web</scopes>
+        <scopes>Full</scopes>
         <scopes>RefreshToken</scopes>
         <scopes>OpenID</scopes>
     </oauthConfig>
@@ -28,4 +23,6 @@
         <refreshTokenPolicy>infinite</refreshTokenPolicy>
     </oauthPolicy>
     <permissionSetName>Mediation Access</permissionSetName>
+    <profileName>System Administrator</profileName>
+    <profileName>Store User</profileName>
 </ConnectedApp>

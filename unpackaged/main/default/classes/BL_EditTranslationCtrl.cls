@@ -88,16 +88,31 @@ public with sharing class BL_EditTranslationCtrl {
      *  after:
      *      "some.key": "Value with merge {newParam} text"
      */
-    public static void replaceTextsInTranslations(String target, Map<String,String> keysMap, Set<String> restriceToKeys) {
+    public static void replaceTextsInTranslations(String target, Map<String,String> keysMap, Set<String> restrictToKeys) {
         List<Translation> translations = getTranslations(target);
         List<ContentVersion> contentVersions = new List<ContentVersion>();
         for (Translation translation : translations) {
-            translation.replaceTexts(keysMap, restriceToKeys);
+            translation.replaceTexts(keysMap, restrictToKeys);
             if (translation.isDirty) {
                 contentVersions.add(translation.contentVersion);
             }
         }
         update contentVersions;
+    }
+
+    public static void compareLabels(String target, Map<String,String> keysMap) {
+        List<Translation> translations = getTranslations(target);
+        for (Translation translation : translations) {
+            Map<String,String> labelsMap = translation.getLabelsMap();
+            for (String key1 : keysMap.keySet()) {
+                String key2 = keysMap.get(key1);
+                if (labelsMap.get(key1) != labelsMap.get(key2)) {
+                    System.debug('Difference in ' + translation.record.Language__c + ':\n' + 
+                    key1 + ': ' + labelsMap.get(key1) + '\n' + 
+                    key2 + ': ' + labelsMap.get(key2) + '\n');
+                }
+            }
+        }
     }
 
     @AuraEnabled
@@ -328,7 +343,7 @@ public with sharing class BL_EditTranslationCtrl {
          * Replaces any text within values with replacement
          * Is useful to change vars like "{firstName}"
          */
-        public void replaceTexts(Map<String,String> textsMap, Set<String> restriceToKeys) {
+        public void replaceTexts(Map<String,String> textsMap, Set<String> restrictToKeys) {
             Map<String,String> labelsMap = getLabelsMap();
             if (labelsMap == null) {
                 return;
@@ -336,7 +351,7 @@ public with sharing class BL_EditTranslationCtrl {
 
             Boolean hasChanged = false;
             for (String key : labelsMap.keySet()) {
-                if (restriceToKeys.isEmpty() || restriceToKeys.contains(key)) {
+                if (restrictToKeys.isEmpty() || restrictToKeys.contains(key)) {
                     String oldLabel = labelsMap.get(key);
                     String newLabel = oldLabel;
                     for (String target : textsMap.keySet()) {

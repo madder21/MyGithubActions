@@ -11,12 +11,12 @@ global class DataMigrationSchedule implements Schedulable {
       
        // regular run 
        if(job.PreviousFireTime!=null){
-           DataMigrationBatch batch = new DataMigrationBatch(false,job.PreviousFireTime,null);
+           DataMigrationBatch batch = new DataMigrationBatch(false,job.PreviousFireTime);
            Database.executeBatch(batch);
            
        }else{
            
-           DataMigrationBatch batch = new DataMigrationBatch(true,null,null);
+           DataMigrationBatch batch = new DataMigrationBatch(true,null);
            Database.executeBatch(batch);
        }
        

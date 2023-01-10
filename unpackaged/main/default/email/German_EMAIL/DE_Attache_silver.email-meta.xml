@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Attaché Silver</name>
+    <style>none</style>
+    <subject>Wiederentdecken Sie unser ikonisches Design</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Kontakt.Nachname},
+
+wir freuen uns, Ihnen die Wiedereinführung eines der kultigsten Designs von RIMOWA ankündigen zu können: den Aluminium-Attaché Silver.
+ 
+Der legendäre RIMOWA Attaché, der seit den 1960er Jahren ein fester Bestandteil des Unternehmens ist, wurde für eine neue Generation von Geschäftsreisenden und viele andere wiederbelebt. 
+Der in Köln gefertigte RIMOWA Attaché verbindet Vintage-Sensibilität mit minimalistischem Design und bietet ein luxuriöses Interieur, das an die Bedürfnisse von heute angepasst ist!
+
+Ich würde mich freuen, mehr über die Markteinführung mit Ihnen zu teilen, wenn Sie daran interessiert sind.
+
+Mit freundlichen Grüßen,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

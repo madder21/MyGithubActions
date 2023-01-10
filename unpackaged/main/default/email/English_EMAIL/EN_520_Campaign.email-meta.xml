@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA Exclusive Stickers Set</name>
+    <style>none</style>
+    <subject>Love is all around you.</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Love is all around you.
+To celebrate love in all forms with your family and friends, RIMOWA unveils an exclusive set of stickers.
+
+Visit our stores to discover the limited-edition designs.
+
+Best regards,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

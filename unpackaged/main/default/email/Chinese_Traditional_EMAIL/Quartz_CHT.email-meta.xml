@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Quartz_CHT</name>
+    <style>none</style>
+    <subject>探索全新 Original 系列色調：Quartz Pink 礦石粉紅</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+RIMOWA即將推出全新 Quartz Pink 礦石粉紅的 Original 系列。
+全新版本的 Original 行李箱披上從礦石取材的迷人粉紅色。礦石是一種珍貴的寶石，據說擁有強大的療癒力量，因此往往被形容為「宇宙的晶石」。
+
+如欲了解更多全新色調的產品詳情，歡迎隨時與我聯絡。
+
+XX
+謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

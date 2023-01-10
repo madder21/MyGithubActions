@@ -48,7 +48,12 @@ private with sharing class DDC_Customers_WS_Test {
         String customerId = (String) resultObj.get('id');
         System.assert(String.isNotEmpty(customerId), 'No customer id in response.');
 
-        List<Account> customers = [SELECT Id, FirstName, LastName, Salutation, Title__pc, 
+        List<Client_Consent__c> consents = [SELECT Id, Client_Name__c,
+            (SELECT Id, ContentDocumentId FROM ContentDocumentLinks)
+            FROM Client_Consent__c WHERE Id = :customerId];
+        System.assert(!consents.isEmpty(), 'Customer consent has not been created!');
+        System.assertEquals('John Smith', consents[0].Client_Name__c);
+        /*List<Account> customers = [SELECT Id, FirstName, LastName, Salutation, Title__pc, 
             Birthday__pc, Birthmonth__pc, Birthyear__pc, Nationality__pc,
             EReceipt__pc, PersonEmail, Phone, Phone2__pc, 
             OptinCalling__pc, OptinEmailing__pc, OptinInstantMessaging__pc, OptinMailing__pc,
@@ -92,14 +97,14 @@ private with sharing class DDC_Customers_WS_Test {
         System.assertEquals('20 apt.', address.Address2__c);
         System.assertEquals('Jerusalem', address.City__c);
         System.assertEquals('IL', address.Country__c);
-        System.assertEquals('34534', address.PostalCode__c);
+        System.assertEquals('34534', address.PostalCode__c);*/
 
-        System.assert(customer.ContentDocumentLinks != null);
-        System.assert(!customer.ContentDocumentLinks.isEmpty(), 'No attachment');
-        String contentDocumentId = customer.ContentDocumentLinks[0].contentDocumentId;
+        System.assert(consents[0].ContentDocumentLinks != null);
+        System.assert(!consents[0].ContentDocumentLinks.isEmpty(), 'No attachment');
+        String contentDocumentId = consents[0].ContentDocumentLinks[0].contentDocumentId;
         List<ContentVersion> contentVersions = [SELECT VersionData FROM ContentVersion
             WHERE ContentDocumentId = :contentDocumentId];
-        String content = contentVersions[0].VersionData.toString();
+        String content = EncodingUtil.base64Encode(contentVersions[0].VersionData);
         System.assertEquals('test', content);
     }
 

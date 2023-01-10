@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Synchronized_SFMC2__c</fullName>
+    <description>Champ de synchronisation pour le Back in stock</description>
+    <externalId>false</externalId>
+    <formula>IF(OR(BackInStock__c,AND(ContactableByEmail__c == TRUE,OR(MailingCountry=&#39;Malaysia&#39;,MailingCountry=&#39;United Kingdom&#39;,
+MailingCountry=&#39;United Kingdom&#39;,MailingCountry=&#39;United States&#39;,MailingCountry=&#39;Japan&#39;,
+MailingCountry=&#39;Singapore&#39;,MailingCountry=&#39;Germany&#39;,
+MailingCountry=&#39;France&#39;,MailingCountry=&#39;Italy&#39;,
+MailingCountry=&#39;Hong Kong&#39;,MailingCountry=&#39;Canada&#39;,
+MailingCountry=&#39;Macao&#39;,MailingCountry=&#39;Australia&#39;,
+MailingCountry=&#39;Brazil&#39;,MailingCountry=&#39;Mexico&#39;,
+MailingCountry=&#39;Andorra&#39;,MailingCountry=&#39;Austria&#39;,
+MailingCountry=&#39;Belgium&#39;,MailingCountry=&#39;Croatia&#39;,
+MailingCountry=&#39;Cyprus&#39;,MailingCountry=&#39;Czech Republic&#39;,
+MailingCountry=&#39;Denmark&#39;,MailingCountry=&#39;Estonia&#39;,
+MailingCountry=&#39;Finland&#39;,MailingCountry=&#39;Greece&#39;,
+MailingCountry=&#39;Hungary&#39;,MailingCountry=&#39;Ireland&#39;,
+MailingCountry=&#39;Latvia&#39;,MailingCountry=&#39;Liechtenstein&#39;,
+MailingCountry=&#39;Lithuania&#39;,MailingCountry=&#39;Luxembourg&#39;,
+MailingCountry=&#39;Malta&#39;,MailingCountry=&#39;Monaco&#39;,
+MailingCountry=&#39;Netherlands&#39;,MailingCountry=&#39;Norway&#39;,
+MailingCountry=&#39;Poland&#39;,MailingCountry=&#39;Portugal&#39;,
+MailingCountry=&#39;Romania&#39;,MailingCountry=&#39;Slovenia&#39;,
+MailingCountry=&#39;Spain&#39;,MailingCountry=&#39;Sweden&#39;,
+MailingCountry=&#39;Switzerland&#39;,MailingCountry=&#39;Korea Republic of&#39;,MailingCountry=&#39;United Arab Emirates&#39;))) , true , false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Synchronized_SFMC2</label>
+    <type>Checkbox</type>
+</CustomField>

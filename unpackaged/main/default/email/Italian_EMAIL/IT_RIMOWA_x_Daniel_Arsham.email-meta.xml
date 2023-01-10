@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Daniel Arsham</name>
+    <style>none</style>
+    <subject>RIMOWA x Daniel Arsham</subject>
+    <textOnly>Gentile signor/signora {!Contact.LastName},
+
+Siamo lieti di annunciare l&#39;imminente lancio dell&#39;ultima collaborazione RIMOWA x Daniel Arsham.
+
+Presentato come un pezzo da collezione, RIMOWA x Daniel Arsham Eroded Turntable in valigia Pilot, propone un giradischi fuso a mano, realizzato in gesso e vetro frantumato all&#39;interno della valigia Pilot, caratterizzata dalle iconiche scanalature di RIMOWA.
+
+Non esiti a contattarmi qualora avesse bisogno di ulteriori dettagli a riguardo.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

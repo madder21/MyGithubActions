@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC  6 - Lavande &amp; Citron</name>
+    <style>none</style>
+    <subject>Entdecke Lavendel &amp; Zitrone, unsere neuen Essential Farben</subject>
+    <textOnly>Sehr geehrter Herr/Frau {!Contact.LastName},
+
+ich freue mich, Ihnen die bevorstehende Einführung unserer neuen Essential-Farben mitteilen zu können: Lavande und Citron.
+
+Inspiriert von den berauschenden Anblicken und Düften des Sommers, bietet die Kollektion Koffer und Accessoires in sanftem Lila und leuchtendem Gelb, die die pure Essenz der Saison einfangen sollen.
+
+Ich würde mich freuen, Ihnen mehr über die Markteinführung zu erzählen, wenn Sie daran interessiert sind.
+
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

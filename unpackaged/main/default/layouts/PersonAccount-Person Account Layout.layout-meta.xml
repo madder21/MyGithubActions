@@ -70,8 +70,16 @@
                 <behavior>Readonly</behavior>
                 <field>nb_Client_Sources__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Re_Crafted_Seller__pc</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>FullAccount__pc</field>
+            </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
+        <layoutColumns />
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -571,9 +579,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <layoutSections>
@@ -778,6 +786,44 @@
         <fields>WarrantyType__c</fields>
         <fields>UCRInternalId__c</fields>
         <relatedList>ClientProduct__c.Client__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>EffectiveFromDate</fields>
+        <fields>EffectiveToDate</fields>
+        <fields>ConsentCapturedSource</fields>
+        <relatedList>CommSubscriptionConsents</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>ContactPoint</fields>
+        <fields>DataUsePurpose</fields>
+        <fields>PrivacyConsentStatus</fields>
+        <fields>EffectiveFrom</fields>
+        <fields>EffectiveTo</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <relatedList>ContactPointConsent.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>EmailAddress</fields>
+        <fields>ActiveFromDate</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <fields>Parent</fields>
+        <relatedList>ContactPointEmail.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Party</fields>
+        <fields>ContactPointType</fields>
+        <fields>DataUsePurpose</fields>
+        <fields>PrivacyConsentStatus</fields>
+        <fields>EffectiveFrom</fields>
+        <fields>EffectiveTo</fields>
+        <fields>LastModifiedDate</fields>
+        <fields>LastModifiedBy</fields>
+        <relatedList>ContactPointTypeConsent.AccountId__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>

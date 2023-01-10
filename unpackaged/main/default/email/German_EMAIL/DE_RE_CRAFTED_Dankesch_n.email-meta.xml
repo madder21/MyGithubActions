@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Client moment - Thank You;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RE-CRAFTED &quot;Dankeschön&quot;</name>
+    <style>none</style>
+    <subject>Vielen Dank für Ihre Teilnahme an RIMOWA RE-CRAFTED.</subject>
+    <textOnly>Sehr geehrter Herr / Sehr geehrte Frau {!Contact.LastName},
+
+vielen Dank für Ihre Teilnahme an RIMOWA RE-CRAFTED.
+
+Durch Ihre Teilnahme an unserem RE-CRAFTED Programm steht Ihnen ein Gutschein in Höhe von ***Voucher_amount*** für einen Einkauf ab mindestens **Minimum_purchaseamount** zur Verfügung. Dieser Gutschein kann in ausgewählten Stores eingelöst werden.
+
+Durch Ihr Vertrauen in RE-CRAFTED schenken Sie Ihrem bisherigen RIMOWA ***MODEL*** ein neues Leben.
+
+Vielen Dank für Ihre Teilnahme an diesem Kreislaufmodell, welches durch seinen Fokus auf Wiederverwendung, Reparatur und Recycling des Koffers dabei hilft, eine nachhaltigere Welt zu schaffen.
+
+Wir wünschen Ihnen alles Gute für Ihre nächsten Reisen.
+
+Beste Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

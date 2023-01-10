@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>حقيبة لعبة البوكر</name>
+    <style>none</style>
+    <subject>اكتشف RIMOWA Poker Attaché</subject>
+    <textOnly>لسيد/السيدة {!Contact.LastName}،
+
+يسعدني أن أشارككم الإصدار القادم من RIMOWA Poker Attaché.
+
+تم إنشاء RIMOWA Poker Attaché مع وضع عشاق اللعبة في الاعتبار، تقدم RIMOWA Poker Attaché مجموعة بوكر متميزة مضمنة داخل حقيبة ألومنيوم أنيقة. تشيد هذه القطعة بالتصميم البسيط والحواف الدائرية لحقائب RIMOWA الشهيرة ، والتي تتميز بمقبض مريح يسمح بحملها بسهولة.
+
+يسعدني مشاركة المزيد من المعلومات معك إذا كنت مهتمًا.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

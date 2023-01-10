@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Attaché Silver</name>
+    <style>none</style>
+    <subject>アイコニックアタッシュ シルバーが新たなデザインで登場</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日はRIMOWAの最もアイコニックなアルミニウム素材でできた、新しいアタッシュ シルバーをご紹介したくご連絡いたしました。
+
+1960年代の定番製品であるRIMOWAアタッシュは、新たな世代のビジネストラベラーの為に再構築されました。
+ケルンで制作され、今日のニーズに合わせたミニマリスト且つラグジュアリーな製品となっております。
+
+もしご興味ございましたら、写真などの詳細を送らせていただきますので、お気軽にお問い合わせくださいませ。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

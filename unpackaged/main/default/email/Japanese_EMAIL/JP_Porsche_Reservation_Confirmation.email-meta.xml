@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>ポルシェ予約確認_JP</name>
+    <style>none</style>
+    <subject>お問い合わせありがとうございます。</subject>
+    <textOnly>{!Contact.LastName}様
+
+Rimowa xPorscheCollaborationにご関心をお寄せいただきありがとうございます。
+
+お客様のご予約を確認いたしました。
+こちらの製品がお客様の素晴らしいコレクションの一部になることを願っております。
+
+製品の出荷などに関しては、再度ご連絡いたします。
+何かご不明な点がございましたら私までお気軽にご連絡ください。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

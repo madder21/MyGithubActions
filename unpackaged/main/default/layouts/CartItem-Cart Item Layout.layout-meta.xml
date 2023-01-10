@@ -71,6 +71,30 @@
                 <field>TotalPriceAfterAllAdjustments</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>TotalPromoAdjustmentAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>TotalPromoAdjustmentTaxAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ItemizedAdjustmentAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>DistributedAdjustmentAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ItemizedAdjustmentTaxAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>DistributedAdjustmentTaxAmount</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>TotalLineAmount</field>
             </layoutItems>
@@ -98,6 +122,34 @@
                 <behavior>Required</behavior>
                 <field>UnitAdjustmentAmount</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>TotalLineNetAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>TotalLineGrossAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>TotalPriceTaxAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>NetUnitPrice</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>GrossUnitPrice</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>NetAdjustmentAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>GrossAdjustmentAmount</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -105,9 +157,18 @@
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
-        <layoutColumns/>
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
+    <miniLayout>
+        <fields>TotalLineNetAmount</fields>
+        <fields>TotalLineGrossAmount</fields>
+        <fields>TotalPriceTaxAmount</fields>
+        <fields>NetUnitPrice</fields>
+        <fields>GrossUnitPrice</fields>
+        <fields>NetAdjustmentAmount</fields>
+        <fields>GrossAdjustmentAmount</fields>
+    </miniLayout>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

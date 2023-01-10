@@ -11,6 +11,7 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
     public Object retrieveGet(Map<String, String> params){
         String listType = params.get('listType');
         String productId = params.get('productId');
+        Boolean isNewVersion = params.containsKey('isNewVersion') ? Boolean.valueOf(params.get('isNewVersion')) : false;
 
         if(params.get('productId') != null) {
             User user = [SELECT Id, StoreCode__c FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
@@ -31,6 +32,9 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         list<map<string, object>> catalogProducts = getCatalogProducts();
         result.put('catalogProducts', catalogProducts);
         result.put('catalogColors', getCatalogColors());
+        if(isNewVersion) {
+            result.put('productTranslations', getProductTranslations());
+        }
         system.debug('result: ' + result);
         return result;
     }
@@ -41,6 +45,10 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
     
     public list<map<string, object>> getCatalogColors(){    
         return CLT_Utils_Mapping.getStandardWrapperList('Color__c', 'Color', 'FROM Color__c');
+    }
+
+    public list<map<string, object>> getProductTranslations(){    
+        return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation', 'FROM Product_Translation__c');
     }
 
     public List<Map<String, Object>> getRelatedProducts(String userId, String storeCode, String productId){ 

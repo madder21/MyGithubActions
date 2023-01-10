@@ -1,0 +1,112 @@
+/*
+----------------------------------------------------------------------
+-- - Name              :  Batch_BackInStock_Test
+-- - Author            :  Mohamed Amine El Mandour
+-- - Description       :  Test Class for Batch_BackInStock
+-- Maintenance History :    
+--
+-- Date                 Name                        Version          Remarks
+-- -----------          -----------                 --------         ----------------------
+-- 17-03-2022           Mohamed Amine El Mandour    1.0              Initial version
+-- 14-05-2022           Bader Eddine Elkhal         2.0              updated version
+---------------------------------------------------------------------------------------
+*/
+@isTest
+private class Batch_BackInStock_Test {
+    
+    private static List<CommSubscriptionConsent> comSub = new List<CommSubscriptionConsent>();
+    private static Map<String, Product_Inventory__c> productInventories = new Map<String, Product_Inventory__c>();
+    private static Set<String> skutest = new Set<String>();
+    
+    //Private static 
+    	@testSetup
+    	private static void setupData(){
+        //create a Product_Inventory__c and CommSubscriptionConsent
+        Product_Inventory__c productInventorie = new Product_Inventory__c();
+        CommSubscriptionConsent comSubConsent = new CommSubscriptionConsent();
+        CommSubscriptionConsent comSubConsent2 = new CommSubscriptionConsent();
+        
+        productInventorie.sku__c = 'sku1';
+        productInventorie.Warehouse__c = 'warhouse__c';
+        productInventorie.ATS__c = 1;
+        productInventorie.UK_product_inventory__c = '50500999_rimowa-inventory-eu';
+        
+        insert productInventorie;
+        
+        Account account = new Account(Name = 'accountN1');
+        insert account;
+        
+        Individual individual = new Individual();
+        individual.LastName='individual Test';
+        individual.FirstName = 'firstName';
+        insert individual;
+        
+        ContactPointEmail contactPointEmail = new ContactPointEmail(AccountId__c = account.Id,ParentId = individual.Id,EmailAddress = 'addressEmail@mail.com');
+        insert contactPointEmail;
+        
+        CommSubscription commSub = new CommSubscription(Name = 'newCommSub');
+        insert commSub;
+        
+        EngagementChannelType engChannelType = new EngagementChannelType(Name = 'engChannelType');
+        insert engChannelType;
+        
+        CommSubscriptionChannelType comSubChannelType = new CommSubscriptionChannelType(AccountId__c = account.Id,Name = 'comSubChType',CommunicationSubscriptionId = commSub.Id,EngagementChannelTypeId = engChannelType.Id);
+        insert comSubChannelType;
+        
+        comSubConsent.sku__c = 'sku1';
+        comSubConsent.Name = 'BackInStock';
+        comSubConsent.EffectiveFromDate = Date.valueOf('2022-02-22');
+        comSubConsent.ContactPointId = contactPointEmail.Id;
+        comSubConsent.CommSubscriptionChannelTypeId = comSubChannelType.Id;
+        comSubConsent.Warehouse__c = 'warhouse__c';
+        Batch_BackInStock_Test.comSub.add(comSubConsent);
+
+        comSubConsent2.sku__c = 'sku1';
+        comSubConsent2.Name = 'BackInStock';
+        comSubConsent2.EffectiveFromDate = Date.valueOf('2022-02-21');
+        comSubConsent2.ContactPointId = contactPointEmail.Id;
+        comSubConsent2.CommSubscriptionChannelTypeId = comSubChannelType.Id;
+        comSubConsent2.Warehouse__c = 'warhouse__c';
+        Batch_BackInStock_Test.comSub.add(comSubConsent2);
+            
+        insert Batch_BackInStock_Test.comSub;
+        
+		SFMCAPISetting__c sfmcAPISetting = SFMCAPISetting__c.getOrgDefaults();
+        sfmcAPISetting.BackInStockAutomationObjectId__c = '2d83649e-3c68-41de-9f4d-62e6af4f1bc7';
+        sfmcAPISetting.LastSentEventId__c = 1;
+            
+        insert sfmcAPISetting; 
+        
+        Batch_BackInStock_Test.skutest.add('testSku');
+
+    }
+    
+    @isTest  static void testBackInStock(){
+        
+        Product_Inventory__c productInventory = [SELECT sku__c, Warehouse__c, ATS__c 
+                                                        FROM Product_Inventory__c 
+                                                        WHERE ATS__c > 0 limit 1];
+        Batch_BackInStock_Test.productInventories.put(productInventory.sku__c, productInventory); 
+        List<CommSubscriptionConsent> commSuub= [SELECT sku__c, Warehouse__c
+            FROM CommSubscriptionConsent  
+            WHERE Name = 'BackInStock' AND EffectiveToDate = null AND sku__c IN:Batch_BackInStock_Test.productInventories.keyset()];
+        
+        System.debug('size of comm Sub: ' +  commSuub.size());
+        
+        Test.startTest();
+        
+        Batch_BackInStock batch = new Batch_BackInStock();
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        batch.start(null);
+        batch.execute(null,commSuub);
+        batch.execute(null);
+        batch.finish(null);
+        
+        Test.stopTest();
+        
+     	System.assertEquals(productInventory.sku__c, commSuub[0].sku__c);
+       }
+   
+   
+	
+}

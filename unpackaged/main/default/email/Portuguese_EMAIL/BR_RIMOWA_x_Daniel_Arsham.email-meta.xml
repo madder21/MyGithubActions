@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Daniel Arsham</name>
+    <style>none</style>
+    <subject>RIMOWA x Daniel Arsham</subject>
+    <textOnly>Prezado Sr/Sra {!Contact.LastName},
+
+Estou animado para compartilhar o próximo lançamento da mais recente colaboração entre RIMOWA x Daniel Arsham.
+
+Apresentado como uma peça de colecionador, o toca-discos Erodido RIMOWA x Daniel Arsham em Pilot Case apresenta um toca-discos fundido à mão feito de gesso e vidro triturado dentro da icônica Pilot Case, que é fabricada com o alumínio frisado exclusivo da RIMOWA.
+
+E ficarei feliz em compartilhar mais informações com você se estiver interessado.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

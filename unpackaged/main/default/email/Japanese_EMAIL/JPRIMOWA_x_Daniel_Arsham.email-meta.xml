@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Daniel Arsham_JP</name>
+    <style>none</style>
+    <subject>リモワとダニエル・アーシャムが2度目のコラボレーションを発表</subject>
+    <textOnly>{!Contact.LastName}様
+
+いつもお世話になっております。
+RIMOWA〇〇店の〇〇でございます。
+
+本日はRIMOWAとDaniel Arsham(ダニエル・アーシャム)の特別なコラボレーション製品をご紹介したくご連絡差し上げました。
+
+2度目のコラボレーションとなる今回のアイテムは、RIMOWAの象徴的なPilotケースに内蔵されたターンテーブルの彫刻です。「イローデット ターンテーブル」と名付けられた本作品は、アーシャムの「Future Relic」シリーズの他作品と同じく、未来のディストピア世界から発掘された日用品をイメージしており、石膏と砕いたガラスから作られています。
+
+日本ではアジア限定500個のブラックケース販売いたします。
+日本にも限られた数しか入荷しない為、もしご興味ございましたら、予約可否・在庫状況などを確認いたしますので、お気軽にお問い合わせくださいませ。
+
+どうぞよろしくお願いいたします。
+
+RIMOWA〇〇店
+〇〇
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

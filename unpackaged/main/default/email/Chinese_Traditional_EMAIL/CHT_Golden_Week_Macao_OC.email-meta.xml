@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>CHT - Golden Week - Macao OC</name>
+    <style>none</style>
+    <subject>誠邀您參與RIMOWA 夏日派對</subject>
+    <textOnly>親愛的 {!Contact.LastName} 先生/女士,
+
+親愛的xx先生/女士，
+
+RIMOWA 誠邀您親臨壹號廣塲旗艦店參與夏日派對,  一覽以法國普羅旺斯的迷人風景和香氣為靈感的RIMOWA 薰衣草色Personal系列及專享獨家禮遇，一同捉緊夏日尾巴！
+
+日期：2022 年 10 月 1 日至 5 日
+
+時間：上午 10:30 -  晚上10:00
+
+歡迎預約到訪，我們期待與您一同締造精彩難忘的回憶！
+
+謹啟
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

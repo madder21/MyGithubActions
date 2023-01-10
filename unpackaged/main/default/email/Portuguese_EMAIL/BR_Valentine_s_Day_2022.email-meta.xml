@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Valentine&#39;s Day 2022</name>
+    <style>none</style>
+    <subject>Feliz dia dos Namorados!</subject>
+    <textOnly>Prezado (a) Sr. / Sra. {!Contact.LastName},
+
+O time da RIMOWA gostaria de te desejar um Feliz dia dos Namorados!
+
+Para este dia, descubra nossa coleção e torne esse dia ainda mais memorável para você e para quem você ama!
+
+Caso eu possa te auxiliar com algo mais, permaceço à disposição.
+
+Atenciosamente,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

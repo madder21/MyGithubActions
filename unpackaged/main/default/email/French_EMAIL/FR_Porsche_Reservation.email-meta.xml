@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche attente terminée</name>
+    <style>none</style>
+    <subject>L&#39;attente est terminée !</subject>
+    <textOnly>Cher Monsieur/ Chère Madame {!Contact.LastName},
+
+Je suis ravi/e de vous annoncer que l&#39;attente est terminée !
+Deux Maisons allemandes iconiques ont collaboré pour créer le meilleur de leurs deux mondes : RIMOWA x Porsche sera révélée très prochainement et est déjà disponible en réservation.
+
+Je suis très content/e de partager avec vous qu&#39;une pièce exclusive de cette collaboration a été mise de côté pour vous. Souhaitez-vous toujours ajouter ce nouveau bagage porté main Pepita à votre collection ?
+
+Je reste à votre disposition si vous souhaitez plus d&#39;infomation sur cette nouvelle pièce.
+
+Bien à vous,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

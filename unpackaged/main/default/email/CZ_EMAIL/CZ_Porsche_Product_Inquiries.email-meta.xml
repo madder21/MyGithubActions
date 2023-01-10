@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche dotazy</name>
+    <style>none</style>
+    <subject>Děkujeme za Váš zájem!</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+děkujeme za zájem o naši novou spolupráci s RIMOWA X Porsche.
+
+Oficiální spuštění prodeje je 21. dubna, ale potvrzuji zapsání na rezervační list a v momentě spuštění, budete obratem kontaktován/a.
+
+S přátelským pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

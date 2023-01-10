@@ -104,9 +104,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
@@ -147,6 +147,15 @@
         <fields>Amount</fields>
         <fields>Description</fields>
         <relatedList>ReturnOrderItemAdjustments</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Shipment</fields>
+        <fields>Name</fields>
+        <fields>TrackingNumber</fields>
+        <fields>TrackingUrl</fields>
+        <fields>ExpectedDeliveryDate</fields>
+        <fields>Quantity</fields>
+        <relatedList>ShipmentItems</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>

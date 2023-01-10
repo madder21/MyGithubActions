@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Quartz - LM Store Event (TC)</name>
+    <style>none</style>
+    <subject>參與獨家經典擲彩虹玩樂體驗</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+RIMOWA 推出全新Original 色調 Quartz Pink 礦石粉紅。
+
+為慶祝全新色調登場，我們誠邀您親臨置地廣塲專門店參與獨家經典擲彩虹玩樂體驗及享用特製的飲品及曲奇。
+
+如欲了解更多詳情，歡迎隨時與我聯絡。
+
+XX
+謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

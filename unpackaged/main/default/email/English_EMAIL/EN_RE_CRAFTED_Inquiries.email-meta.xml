@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>[DE Only] RE-CRAFTED Inquiries</name>
+    <style>none</style>
+    <subject>Following your inquiry about the RE-CRAFTED programm</subject>
+    <textOnly>Dear Mr./Ms. {!Contact.LastName},
+
+Thank you for your interest in the RIMOWA RE-CRAFTED program.
+
+To participate, simply drop off your RIMOWA aluminium suitcases at select stores across Germany. In return, we will give you a 250€ gift voucher to use towards your next purchase.
+
+If you would like more details on this exciting new initiative, I invite you to visit our website.
+
+Best,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

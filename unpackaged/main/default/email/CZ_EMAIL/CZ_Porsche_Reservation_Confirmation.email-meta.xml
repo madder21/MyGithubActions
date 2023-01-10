@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche Reservation Confirmation</name>
+    <style>none</style>
+    <subject>Vaše rezervace je potvrzena</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+Děkujeme za potvrzení vašeho zájmu o naši spolupráci Rimowa x Porsche.
+
+Potvrzuji, že váš RIMOWA ***[Model]*** byl rezervován.
+Jsem si jist, že tento kousek bude krásným doplňkem vaší sbírky.
+
+Brzy se vám ozvu, abychom zajistili ***vyzvednutí/doručení*** vašich zavazadel.
+Mezitím jsem vám k dispozici, pokud byste něco potřebovali.
+
+Nejlepší,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

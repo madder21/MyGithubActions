@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Reservation;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Porsche Reservation Confirmation</name>
+    <style>none</style>
+    <subject>Conferma  prenotazione</subject>
+    <textOnly>Gentile Sig./Sig.ra {!Contact.LastName},
+
+Grazie per aver confermato il suo interesse per la nostra collaborazione Rimowa x Porsche.
+Confermo che la sua RIMOWA ***[Modello]*** è stata prenotata.
+Sono sicuro che questo articolo sarà un’ottima aggiunta alla sua collezione.
+
+La contatterò al più presto per organizzare il ***ritiro/consegna*** del suo bagaglio.
+Rimango a completa disposizione qualora avesse bisogno di ulteriori chiarimenti.
+
+Cordiali saluti,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

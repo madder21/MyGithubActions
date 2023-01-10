@@ -7,7 +7,7 @@ global class Batch_ClientBirthday implements Database.Batchable<sObject>, Schedu
     Integer dat3Month;
 
     public Batch_ClientBirthday() {
-        lcc = new List<String> {'Active_Prospect_L','Dreamer_L','One_Timer_L', 'Multi_Timer_L', 'VIC_L','Dormant_Prospects_L','Dormant_Client_L'};
+        lcc = new List<String> {'VIC', 'Multi-timer', 'One Timer', 'Collab', 'Experimenter'};
         dat3 = date.today().adddays(3);
         dat3Day = dat3.day();
         dat3Month = dat3.month();

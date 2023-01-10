@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Attaché Silver</name>
+    <style>none</style>
+    <subject>Redescubra nosso design icônico: Attaché Silver</subject>
+    <textOnly>Prezado Sr/Sra {!Contact.LastName},
+
+Temos o prazer de anunciar o relançamento de um dos designs mais icônicos da RIMOWA: Attaché Silver.
+ 
+Um ícone da empresa desde 1960, a lendária RIMOWA Attaché foi revisitada para uma nova geração de viajantes de negócios e muito mais.
+Produzida em Köln, a RIMOWA Attaché combina sensibilidade vintage com design minimalista e oferece um interior luxuoso adaptado às necessidades de hoje!
+
+Ficarei feliz em compartilhar mais sobre o lançamento com você, se você estiver interessado.
+
+Atenciosamente,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RE-CRAFTED Anfrage</name>
+    <style>none</style>
+    <subject>Ihre Anfrage zum RE-CRAFTED Programm</subject>
+    <textOnly>Sehr geehrter Herr / Sehr geehrte Frau {!Contact.LastName},
+
+vielen Dank für Ihr Interesse an RIMOWA RE-CRAFTED.
+
+Um an diesem Programm teilzunehmen, können Sie Ihren RIMOWA Aluminiumkoffer ganz einfach bei ausgewählten RIMOWA Stores in Deutschland abgeben. Im Gegenzug erhalten Sie einen Gutschein in Höhe von 250 €, welchen Sie bei Ihrem nächsten Einkauf einlösen können.
+
+Weitere Informationen zu diesem spannenden neuen Programm finden Sie auf unserer Website.
+
+Beste Grüße,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

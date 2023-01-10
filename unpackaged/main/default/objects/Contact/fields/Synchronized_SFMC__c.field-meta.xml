@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Synchronized_SFMC__c</fullName>
     <externalId>false</externalId>
-    <formula>IF(AND(ContactableByEmail__c == TRUE,OR(MailingCountry=&#39;United Kingdom&#39;,   
+    <formula>IF(AND(ContactableByEmail__c == TRUE,OR(MailingCountry=&#39;Malaysia&#39;,MailingCountry=&#39;United Kingdom&#39;,   
 			MailingCountry=&#39;United Kingdom&#39;,MailingCountry=&#39;United States&#39;,MailingCountry=&#39;Japan&#39;,
 				MailingCountry=&#39;Singapore&#39;,MailingCountry=&#39;Germany&#39;,
 				MailingCountry=&#39;France&#39;,MailingCountry=&#39;Italy&#39;,
@@ -24,6 +24,5 @@
 				MailingCountry=&#39;Spain&#39;,MailingCountry=&#39;Sweden&#39;,
 	MailingCountry=&#39;Switzerland&#39;,MailingCountry=&#39;Korea Republic of&#39;,MailingCountry=&#39;United Arab Emirates&#39;)) , true , false)</formula>
     <label>Synchronized SFMC</label>
-    <trackHistory>false</trackHistory>
     <type>Checkbox</type>
 </CustomField>

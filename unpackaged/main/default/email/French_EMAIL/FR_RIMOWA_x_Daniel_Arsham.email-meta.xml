@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Daniel Arsham</name>
+    <style>none</style>
+    <subject>RIMOWA x Daniel Arsham</subject>
+    <textOnly>Chère madame/ cher monsieur {!Contact.LastName},
+
+Je suis ravi(e) de vous annoncer le lancement de notre dernière collaboration RIMOWA x Daniel Arsham.
+
+Présentée comme une pièce d&#39;archive, la valise Pilot RIMOWA x Daniel Arsham Eroded Turntable comprend à l&#39;intérieur une platine moulée à la main en plâtre et verre pilé. L&#39;emblématique Pilot Case est quant à elle fabriquée à partir de l&#39;aluminium rainuré signature de RIMOWA.
+
+Je serai ravi(e) d&#39;échanger sur cette nouveauté avec vous si vous le souhaitiez.
+
+Bien à vous,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

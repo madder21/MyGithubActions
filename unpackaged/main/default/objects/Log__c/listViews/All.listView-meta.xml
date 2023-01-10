@@ -10,5 +10,10 @@
     <columns>Request__c</columns>
     <columns>Response__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>CREATEDBY_USER</field>
+        <operation>contains</operation>
+        <value>david</value>
+    </filters>
     <label>All</label>
 </ListView>

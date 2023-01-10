@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Poker Attache</name>
+    <style>none</style>
+    <subject>Disocver the RIMOWA Poker Attaché</subject>
+    <textOnly>Vážený pane / Vážená paní {!Contact.LastName},
+
+ráda bych Vám dala vědět, že budeme mít brzy v nabídce další novinku, RIMOWA Poker Attaché. Rimowa Poker Attaché byla vytvořena s ohledem na milovníky karetních her a rovněž také ukrývá prémiovou pokerovou sadu.
+
+Kufřík je samozřejmě v minimalistickém designu s jemně zaoblenými rohy a s ergonomickou rukojetí pro pohodlné přenášení.
+
+Pokud by Vás zajímalo více detailů, neváhejte se na mne kdykoli obrátit.
+
+S pozdravem,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

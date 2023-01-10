@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Daniel Arsham</name>
+    <style>none</style>
+    <subject>RIMOWA x Daniel Arsham</subject>
+    <textOnly>السيد/السيدة {!Contact.LastName}،
+
+يسعدني أن أشارككم الإطلاق القادم لأحدث تعاون بين RIMOWA و Daniel Arsham.
+
+يتم تقديم RIMOWA x Daniel Arsham Eroded Turntable في حقيبة Pilot كقطعة أرشيفية، ويتميز بقرص دوار مصبوب يدويًا مصنوع من الجص والزجاج المكسر داخل حقيبة Pilot الأيقونية ، المصنوع من الألومنيوم المحفور المميز من RIMOWA.
+
+، وسيسعدني مشاركة المزيد من المعلومات معك إذا كنت مهتمًا.
+
+أطيب التحيات،
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

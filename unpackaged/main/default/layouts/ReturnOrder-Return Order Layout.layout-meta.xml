@@ -108,9 +108,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
@@ -152,6 +152,16 @@
         <fields>Severity</fields>
         <fields>CreatedDate</fields>
         <relatedList>ProcessExceptions</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>TrackingNumber</fields>
+        <fields>TrackingUrl</fields>
+        <fields>Provider</fields>
+        <fields>Status</fields>
+        <fields>ExpectedDeliveryDate</fields>
+        <fields>TotalItemsQuantity</fields>
+        <relatedList>Shipment</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>

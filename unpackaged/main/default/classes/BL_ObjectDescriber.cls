@@ -356,13 +356,22 @@ public with sharing class BL_ObjectDescriber {
     /*
      * Inner class for picklist option
      */
-    public class Option {
+    public class Option implements Comparable {
         public String value;
         public String label;
+        public Boolean sortByValue;
 
         public Option(Schema.PicklistEntry ple) {
             this.value = ple.getValue();
             this.label = ple.getLabel();
+        }
+
+        public Integer compareTo(Object other) {
+            Option otherOption = (Option) other;
+            if (sortByValue == true) {
+                return value.compareTo(otherOption.value);
+            }
+            return label.compareTo(otherOption.label);
         }
     }
     

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>Aurora</name>
+    <style>none</style>
+    <subject>Entdecke den RIMOWA Original Cabin Aurora Borealis</subject>
+    <textOnly>Sehr geehrter Herr/Frau{!Contact.LastName}，
+
+ich freue mich, Ihnen die bevorstehende Veröffentlichung des RIMOWA Original Cabin Aurora Borealis mitteilen zu können.
+
+Der RIMOWA Original Cabin Aurora Borealis ist eine Hommage an das atemberaubende Naturphänomen der Nordlichter und zeigt ein lebendiges Muster vor dem Hintergrund von schwarzem Aluminium. Das Gehäuse wurde außerdem so gestaltet, dass es interessante visuelle Akzente setzt, die bei näherem Hinsehen wie Sterne am Himmel erscheinen. Das macht ihn zum idealen Begleiter für den modischen und naturverbundenen Reisenden.
+
+Wenn Sie Interesse haben, gebe ich Ihnen gerne weitere Informationen.
+
+Mit freundlichen Grüßen,
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

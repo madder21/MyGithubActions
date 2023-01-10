@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 11-17-2021
+ * @last modified by  : BADER EDDINE ELKHAL
+**/
 @isTest
 private class DataMigrationBatchTest {
     public static boolean isTrue = false;
@@ -6,7 +13,7 @@ private class DataMigrationBatchTest {
         List<Account> accounts = new List<Account>();
         List<Individual> individuals  = new List<Individual>();
         List<ContactPointEmail> contactPointEmails = new List<ContactPointEmail>();
-        //insert 5 individuals
+        //insert 5 individualS
         for(Integer i=1;i<=10;i++){
             Individual individual = new Individual();
             individual.LastName='individual'+i;
@@ -24,22 +31,22 @@ private class DataMigrationBatchTest {
             if(i<=5){
                 account.PersonIndividualId=individuals.get(i-1).Id;
                 account.LastUpdateOptinEmailing__pc=System.now().addDays(-i);
-                account.OptinEmailing__pc=true;
+            	account.OptinEmailing__pc=true;
                 
             }
             else if (i>5 && i<=10){
                 account.PersonIndividualId=individuals.get(i-1).Id;
                 account.LastUpdateOptinEmailing__pc=System.now();
-                account.OptinEmailing__pc=false;
+            	account.OptinEmailing__pc=false;
             }
             else if(i>15){
                 account.LastUpdateOptinEmailing__pc=System.now().addDays(-i);
-                account.OptinEmailing__pc=true;
+            	account.OptinEmailing__pc=true;
                 
             }
             else{
-                account.LastUpdateOptinEmailing__pc=System.now();
-                account.OptinEmailing__pc=false;
+             	account.LastUpdateOptinEmailing__pc=System.now();
+            	account.OptinEmailing__pc=false;
             }
             accounts.add(account);
             
@@ -112,79 +119,79 @@ private class DataMigrationBatchTest {
         
     }
     @isTest static void testFirstRun() {
-        /*DataMigrationBatchTest.setup();
+        DataMigrationBatchTest.setup();
         DataMigrationBatchTest.isTrue= true;
         ContactPointTypeConsent cons1 = [SELECT Id, AccountId__c, EffectiveFrom, EffectiveTo, ContactPointType 
-                                                                    FROM ContactPointTypeConsent 
-                                                                    WHERE Name = :'EmailConsent1' LIMIT 1];
+                                                                 	FROM ContactPointTypeConsent 
+                                                                 	WHERE Name = :'EmailConsent1' LIMIT 1];
         System.debug('Id cons before'+cons1.Id);
         Id idacc= cons1.AccountId__c;
         Account account = [SELECT Id,LastUpdateOptinEmailing__pc, OptinEmailing__pc, PersonIndividualId, LastName, PersonEmail
                           FROM Account
                           WHERE Id = :idacc];
         
-        System.debug('Id account before'+account.Id +' ' + cons1.AccountId__c);*/
+        System.debug('Id account before'+account.Id +' ' + cons1.AccountId__c);
         Test.startTest();
-        //DataMigrationBatch b = new DataMigrationBatch(true,null);
-        //Id add = Database.executeBatch(b);
+        DataMigrationBatch b = new DataMigrationBatch(true,null);
+		Id add = Database.executeBatch(b);
         Test.stopTest();
-        /*List<ContactPointTypeConsent> listConsPoints = [SELECT Id, AccountId__c, EffectiveFrom, EffectiveTo, ContactPointType 
-                                                                    FROM ContactPointTypeConsent 
-                                                                    WHERE AccountId__c = :idacc];
+        List<ContactPointTypeConsent> listConsPoints = [SELECT Id, AccountId__c, EffectiveFrom, EffectiveTo, ContactPointType 
+                                                                 	FROM ContactPointTypeConsent 
+                                                                 	WHERE AccountId__c = :idacc];
 
         System.debug('listConsPoints size '+listConsPoints.size());
         System.assertEquals(2, listConsPoints.size());
         for(ContactPointTypeConsent consp : listConsPoints){
             if(consp.Id == cons1.Id){
                 System.debug(account.LastUpdateOptinEmailing__pc+' AND '+consp.EffectiveTo);
-                System.assertEquals(account.LastUpdateOptinEmailing__pc, consp.EffectiveTo);
+        		System.assertEquals(account.LastUpdateOptinEmailing__pc, consp.EffectiveTo);
             }
         }
         
         
         System.debug(account.LastUpdateOptinEmailing__pc+' AND '+listConsPoints.get(1).EffectiveFrom);
-        System.assertEquals(account.LastUpdateOptinEmailing__pc, listConsPoints.get(1).EffectiveFrom);*/
+        System.assertEquals(account.LastUpdateOptinEmailing__pc, listConsPoints.get(1).EffectiveFrom);
     }  
     @isTest static void testScondRun() {
         //DataMigrationBatchTest.setup();
-        /*if(DataMigrationBatchTest.isTrue==false){
+        if(DataMigrationBatchTest.isTrue==false){
             DataMigrationBatchTest.setup();
-        }*/
+        }
        
         Test.startTest();
-        //DataMigrationBatch bat = new DataMigrationBatch(false,null);
-        //Id idbatch = Database.executeBatch(bat);
+        DataMigrationBatch bat = new DataMigrationBatch(false,null);
+		Id idbatch = Database.executeBatch(bat);
         Test.stopTest();
-        /*List<ContactPointTypeConsent> listConsPoints2 = [SELECT Id, AccountId__c, PrivacyConsentStatus, EffectiveFrom, EffectiveTo, ContactPointType 
-                                                                    FROM ContactPointTypeConsent 
-                                                                    WHERE PrivacyConsentStatus = 'OptOut'];
+        List<ContactPointTypeConsent> listConsPoints2 = [SELECT Id, AccountId__c, PrivacyConsentStatus, EffectiveFrom, EffectiveTo, ContactPointType 
+                                                                 	FROM ContactPointTypeConsent 
+                                                                 	WHERE PrivacyConsentStatus = 'OptOut'];
         
-        ContactPointTypeConsent consTst = [SELECT Id, AccountId__c, PrivacyConsentStatus, EffectiveFrom, EffectiveTo, ContactPointType 
-                                                                    FROM ContactPointTypeConsent 
-                                                                    WHERE Name = :'EmailConsent3' LIMIT 1];
+		ContactPointTypeConsent consTst = [SELECT Id, AccountId__c, PrivacyConsentStatus, EffectiveFrom, EffectiveTo, ContactPointType 
+                                                                 	FROM ContactPointTypeConsent 
+                                                                 	WHERE Name = :'EmailConsent3' LIMIT 1];
         
         System.assertEquals(consTst.PrivacyConsentStatus, 'OptOut');
         System.debug('new list size '+listConsPoints2.size());
-        System.assertEquals(false, listConsPoints2.isEmpty());*/
+        System.assertEquals(false, listConsPoints2.isEmpty());
         
         
     }
     @isTest static void testRegularRun() {
         //DataMigrationBatchTest.setup();
-        /*if(DataMigrationBatchTest.isTrue==false){
+        if(DataMigrationBatchTest.isTrue==false){
             DataMigrationBatchTest.setup();
         }
        
-        DateTime dt = System.now().addDays(-7);*/
+        DateTime dt = System.now().addDays(-7);
         Test.startTest();
-        //DataMigrationBatch batchReg = new DataMigrationBatch(false,dt);
-        //Id idB = Database.executeBatch(batchReg);
+        DataMigrationBatch batchReg = new DataMigrationBatch(false,dt);
+		Id idB = Database.executeBatch(batchReg);
         Test.stopTest();
         
-        /*List<ContactPointConsent> listpoinytCons = [SELECT Id, Name FROM ContactPointConsent 
+        List<ContactPointConsent> listpoinytCons = [SELECT Id, Name FROM ContactPointConsent 
                                                     WHERE Name = 'Newsletter-Subscription' AND PrivacyConsentStatus = 'OptIn'];
         
-        System.assertEquals(false, listpoinytCons.isEmpty());*/
+        System.assertEquals(false, listpoinytCons.isEmpty());
         
         
     }

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Commercial;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>RIMOWA x Daniel Arsham</name>
+    <style>none</style>
+    <subject>RIMOWA x Daniel Arsham</subject>
+    <textOnly>Dear Mr/Mrs {!Contact.LastName},
+
+I&#39;m excited to share the upcoming launch of the latest RIMOWA x Daniel Arsham collaboration.
+
+Presented as an archival piece, the RIMOWA x Daniel Arsham Eroded Turntable in Pilot Case features a hand-cast turntable made from plaster and crushed glass inside the iconic Pilot Case, which is crafted from RIMOWA&#39;s signature grooved aluminium.
+
+I&#39;d be happy to share more information with you if you are interested.
+
+Kind regards,
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

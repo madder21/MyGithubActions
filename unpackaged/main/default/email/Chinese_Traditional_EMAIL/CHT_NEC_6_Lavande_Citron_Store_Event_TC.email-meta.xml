@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <description>Event;</description>
+    <encodingKey>UTF-8</encodingKey>
+    <name>NEC 6 - Lavande &amp; Citron Store Event (TC)</name>
+    <style>none</style>
+    <subject>矚目呈獻全新Lavande薰衣草色和Citron檸檬黃色Essential系列</subject>
+    <textOnly>親愛的{!Contact.LastName}先生／女士：
+
+RIMOWA即將推出全新Lavande薰衣草色和Citron檸檬黃色Essential行李箱。
+
+為慶祝全新色調登場，我們誠邀您參加5月26日於利園RIMOWA專門店舉行的獨家香薰工作坊。
+
+如您有興趣參加，歡迎與我聯絡，我將會為您預留名額。
+
+XX
+謹啟
+
+
+{!User.Name}
+RIMOWA
+{!User.Base_Store_Code__c}
+Tel:{!User.Mobile}
+RIMOWA.com</textOnly>
+    <type>custom</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>
