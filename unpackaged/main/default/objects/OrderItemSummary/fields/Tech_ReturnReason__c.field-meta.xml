@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_ReturnReason__c</fullName>
+    <externalId>false</externalId>
+    <label>Tech_ReturnReason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>RE01</fullName>
+                <default>false</default>
+                <label>Item is too big</label>
+            </value>
+            <value>
+                <fullName>RE02</fullName>
+                <default>false</default>
+                <label>Item is too small</label>
+            </value>
+            <value>
+                <fullName>RE03</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>RE04</fullName>
+                <default>false</default>
+                <label>Not the correct colour</label>
+            </value>
+            <value>
+                <fullName>RE05</fullName>
+                <default>false</default>
+                <label>Not the correct material</label>
+            </value>
+            <value>
+                <fullName>RE06</fullName>
+                <default>false</default>
+                <label>This item doesn&apos;t suit me</label>
+            </value>
+            <value>
+                <fullName>RE07</fullName>
+                <default>false</default>
+                <label>I have changed my mind</label>
+            </value>
+            <value>
+                <fullName>RE08</fullName>
+                <default>false</default>
+                <label>Delivery time was too long</label>
+            </value>
+            <value>
+                <fullName>RE09</fullName>
+                <default>false</default>
+                <label>Item is defective</label>
+            </value>
+            <value>
+                <fullName>RE10</fullName>
+                <default>false</default>
+                <label>Unknown</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CheckShipmentStatusBeforeUpdate</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED( IsDelivered__c ) &amp;&amp;
+( NOT(ISPICKVAL(  Status ,&apos;Shipped&apos;)) )</errorConditionFormula>
+    <errorMessage>You cannot update shipment because It&apos;s not shipped!</errorMessage>
+</ValidationRule>

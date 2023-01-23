@@ -1,0 +1,14 @@
+<apex:page controller="SOM_DownloadInvoiceDocumentController">
+    <apex:outputPanel rendered="{!errorMessage == null}">
+        <iframe id="invoiceFrame" src="data:application/pdf;base64,{!invoiceData}"></iframe>
+        <script>
+            document.getElementById('invoiceFrame').height = window.innerHeight;
+            document.getElementById('invoiceFrame').width  = window.innerWidth;
+        </script>
+    </apex:outputPanel>
+    <div style="text-align: center;">
+        <apex:outputPanel style="font-weight: bold;font-size:1.6em;color:red;" rendered="{!errorMessage != null}">
+            <apex:outputText value="{!errorMessage}"/>
+        </apex:outputPanel>
+    </div>
+</apex:page>

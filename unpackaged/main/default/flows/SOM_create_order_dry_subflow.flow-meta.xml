@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <assignments>
+        <name>set_status_Submitted</name>
+        <label>set status Submitted</label>
+        <locationX>572</locationX>
+        <locationY>318</locationY>
+        <assignmentItems>
+            <assignToReference>R_RO_Input.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Submitted</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>set_status</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>check_return_order_status</name>
+        <label>check return order status</label>
+        <locationX>167</locationX>
+        <locationY>231</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>status_draft</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>R_RO_Input.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Draft</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>create_return_order_rdy</targetReference>
+            </connector>
+            <label>status draft</label>
+        </rules>
+    </decisions>
+    <interviewLabel>SOM create order dry subflow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM create order dry subflow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>create_return_order_rdy</name>
+        <label>create return order rdy</label>
+        <locationX>423</locationX>
+        <locationY>318</locationY>
+        <connector>
+            <targetReference>set_status_Submitted</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>ReturnOrderId__c</field>
+            <value>
+                <elementReference>R_RO_Input.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ReturnOrderRdy__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordUpdates>
+        <name>set_status</name>
+        <label>set status</label>
+        <locationX>719</locationX>
+        <locationY>318</locationY>
+        <inputReference>R_RO_Input</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>check_return_order_status</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>R_RO_Input</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ReturnOrder</objectType>
+    </variables>
+</Flow>

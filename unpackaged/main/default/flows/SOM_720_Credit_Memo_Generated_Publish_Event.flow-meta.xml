@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <interviewLabel>SOM 720 - Credit Memo Generated Publish Event {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM 720 - Credit Memo Generated Publish Event</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Publish_Event_Credit_Memo_Note_Generated</name>
+        <label>Publish Event Credit Memo Note Generated</label>
+        <locationX>670</locationX>
+        <locationY>433</locationY>
+        <connector>
+            <targetReference>Update_Credit_Memo_To_Posted</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>InvoiceId__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>InvoiceRdyForAZB__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordUpdates>
+        <name>Update_Credit_Memo_To_Posted</name>
+        <label>Update Credit Memo To Posted</label>
+        <locationX>670</locationX>
+        <locationY>606</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>PDFGenerationStatus__c</field>
+            <value>
+                <stringValue>Posted To BLOB Storage</stringValue>
+            </value>
+        </inputAssignments>
+        <object>CreditMemo</object>
+    </recordUpdates>
+    <start>
+        <locationX>543</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Publish_Event_Credit_Memo_Note_Generated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>PDFGenerationStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Generated</stringValue>
+            </value>
+        </filters>
+        <object>CreditMemo</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

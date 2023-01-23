@@ -1,0 +1,63 @@
+<template>
+
+    <lightning-record-edit-form>
+
+        <div class="justifyingContent">
+            <label class="shippingLabel">Billing Address</label>
+            <div class="slds-size_2-of-3">
+                <lightning-input value={osBillingStreet} onchange={handleBillStreet} label="Address"> </lightning-input>
+                <lightning-input value={osBillingPostalCode} onchange={handleBillPostalCode} label="Zip"> </lightning-input>
+                <lightning-input value={osBillingCity} onchange={handleBillCity} label="City"> </lightning-input>
+                <lightning-input value={osBillingState} onchange={handleBillState} label="BillingState"> </lightning-input>
+                <lightning-input value={osBillingCountry} onchange={handleBillCountry} label="Country"> </lightning-input>
+            </div>
+        </div>
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-3">
+                <p style="font-weight: bold; margin-left: 6px;">Billing Info</p>
+            </div>
+            <div class="slds-col slds-size_2-of-3">
+                <lightning-input disabled variant="label-stacked" value={osEmailAddress} label="Email Address"> </lightning-input>
+                <lightning-input variant="label-stacked" class="checks" value={osPhoneNumber} label="Phone Number" onchange={handleBillPhone} pattern="^(\+|[0-9])[0-9 \-\(\)\.]{7,32}$" message-when-pattern-mismatch="Please enter a valid phone number"> </lightning-input>
+                <lightning-input variant="label-stacked" value={osFirstName} label="Billing Contact First Name" onchange={handleBillFirstName}></lightning-input>
+                <lightning-input variant="label-stacked" value={osLastName} label="Billing Contact Last Name" onchange={handleBillLastName}> </lightning-input>
+            </div>
+        </div>
+
+       
+
+        <div class="slds-grid">
+            <div class="slds-col slds-size_1-of-3">
+                <p style="font-weight: bold; margin-left: 6px; margin-top:8px;">Shipping Info</p>          
+            </div>
+            <div class="slds-col slds-size_2-of-3">
+                <div class="justifyingSelect">
+                    <label class="odmLabel">Order Delivery Method</label>
+                    <select class="slds-select slds-size_2-of-3" style="padding-left:8px; width: 98%; margin-left: 4px" onchange={selectionODM}>
+                        <option value={selectedODM.Id}>{selectedODM.Name}</option>
+                        <template for:each={odms} for:item="odm">
+                            <option key={odm.Id} value={odm.Id}>{odm.Name}</option>
+                        </template>
+                    </select>
+                </div>
+                <lightning-input variant="label-stacked" value={odgDescription} onchange={handleShipDescription} label="Description"> </lightning-input>
+                <lightning-input variant="label-stacked" class="checks" type="email" value={odgEmailAddress} onchange={handleShipEmail} label="Email Address" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$" message-when-pattern-mismatch="Please enter a valid email address"> </lightning-input>
+                <lightning-input variant="label-stacked" class="checks" value={odgPhoneNumber} onchange={handleShipPhone} label="Phone Number" pattern="^(\+|[0-9])[0-9 \-\(\)\.]{7,32}$" message-when-pattern-mismatch="Please enter a valid phone number"> </lightning-input>
+                <lightning-input variant="label-stacked" value={odgName} onchange={handleShipName} label="Name"> </lightning-input>
+            </div>
+        </div>
+        <div class="justifyingContent">
+            <label class="shippingLabel">Shipping Address</label>
+            <div class="slds-size_2-of-3">
+                <lightning-input value={odgShippingStreet} onchange={handleShipStreet} label="Address"> </lightning-input>
+                <lightning-input value={odgShippingPostalCode} onchange={handleShipPostalCode} label="Zip"> </lightning-input>
+                <lightning-input value={odgShippingCity} onchange={handleShipCity} label="City"> </lightning-input>
+                <lightning-input value={odgDeliverToState} onchange={handleDeliverToState} label="DeliverToState"> </lightning-input>
+                <lightning-input value={odgShippingCountry} disabled label="Country"> </lightning-input>
+            </div>
+        </div>
+        <div class="styleNext">
+         <lightning-button label="Next" onclick={handleGoNext} variant="brand"></lightning-button>
+    </div>
+</lightning-record-edit-form>
+</template>

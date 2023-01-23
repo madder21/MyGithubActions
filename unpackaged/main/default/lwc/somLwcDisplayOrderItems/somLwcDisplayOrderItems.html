@@ -1,0 +1,199 @@
+<template>
+    <div class="slds-is-relative">
+        <template if:true={isLoading}>
+            <div class="spinnerContStyle">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+            </div>
+        </template>
+        <div if:false={customData}>
+            <div class="slds-align_absolute-center" style="height:5rem">No Data exists</div>
+        </div>
+        <div if:true={isFromReturn} >
+            <div class="infoStyle slds-p-around_medium" >
+                * The Lines Total of the return order with exchange follow up is {roTotal} {currencyIso}.
+            </div>     
+        </div>
+        <template if:true={customData}>
+                <lightning-record-edit-form object-api-name='OrderItem' >
+                    <div style="overflow-x:auto">
+                    <table class="slds-table slds-table_cell-buffer"
+                        aria-labelledby="element-with-table-label other-element-with-table-label" style="width:100%">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col" if:true={isFromReturn}>
+                                    <div class="slds-truncate" title="Sku origin">SKU origin</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="SKU remplacement">{skuReplacementLabel}</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Quantity</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Unit Price with taxes</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Tax Type</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Unit Tax Value</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Line Total</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Location">Location</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Description">Description</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="ATO">ATO</div>
+                                </th>
+                                <th class="" scope="col" if:false={isFromReturn}>
+                                    <div class="slds-truncate" title="DeleteAction">Action</div>
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={customDataDisplay} for:item="item">
+                                <tr class="slds-hint-parent" key={item.sku}>
+                                    <td if:true={isFromReturn}>
+                                        <div >{item.sku}</div>
+                                    </td>
+                                    <td>
+                                        <div >
+                                            <div class="productDiv">
+                                                <lightning-input-field class="productSelect" access-key={item.sku} field-name="Product2Id"
+                                                    value={item.productId} variant="label-hidden"
+                                                    onchange={handleProdctChange}></lightning-input-field>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="centredButt" if:false={isFromReturn}>
+                                            <lightning-button-icon icon-name="utility:dash" access-key={item.sku} class="btnLess" onclick={decrementQuantity}>
+                                                <!-- <span class="spanStyle">-</span> -->
+                                            </lightning-button-icon>
+                                            <span class="indexcss">{item.quantity}</span>
+                                            <lightning-button-icon icon-name="utility:add" access-key={item.sku} class="btnAdd" onclick={incrementQuantity}>
+                                                <!--<span class="spanStyle">+</span>-->
+                                            </lightning-button-icon>
+                                        </div>
+        
+                                        <div if:true={isFromReturn} class="sliderQt">
+                                            <lightning-slider access-key={item.sku} name="quantity" value={item.quantity}
+                                                max={item.originalQuantity} min="0" onchange={handleQuantityChange}>
+                                            </lightning-slider>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <span style="color:red; margin-right: 3% ;">*</span>
+                                            <lightning-input variant="label-hidden" style="width:100px" type="number" step=".01" access-key={item.sku}  value={item.unitPrice} onchange={handleUnitPrice} required> </lightning-input>
+                                            <span style="margin-left: 2% ;">{currencyIso}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <fieldset class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                              <div class="slds-radio_button-group">
+                                                    <span class="slds-button slds-radio_button">
+                                                        <input class="button1"  type="radio" name={item.sku} id={item.amountId} value={item.amountId} onclick={handleClickType} checked={item.taxType}/>
+                                                        <label class="slds-radio_button__label" for={item.amountId}>
+                                                          <span class="slds-radio_faux">Amount</span>
+                                                        </label>
+                                                      </span>
+                                              
+                                                    <span class="slds-button slds-radio_button">
+                                                        <input class="button2" type="radio" name={item.sku} id={item.percentId} value={item.percentId} onclick={handleClickType}/>
+                                                        <label class="slds-radio_button__label" for={item.percentId}>
+                                                          <span class="slds-radio_faux">Percent</span>
+                                                        </label>
+                                                      </span>
+                                                
+                                              </div>
+                                            </div>
+                                          </fieldset>
+                                    </td>
+                                    <td>
+                                        <template if:true={item.taxType}>
+                                            <div class="CurrencyWithInput">
+                                                <span style="color:red; margin-right: 3% ;">*</span>
+                                                <lightning-input variant="label-hidden" style="width:100px" type="number" step=".01" access-key={item.sku} value={item.taxValue} onchange={handleTaxValue} required> </lightning-input>
+                                                <span style="margin-left: 2% ;">{currencyIso}</span>
+                                            </div>
+                                        </template>
+                                        <template if:false={item.taxType}>
+                                            <div class="CurrencyWithInput">
+                                                <span style="color:red; margin-right: 3% ;">*</span>
+                                                <lightning-input variant="label-hidden" type="number" style="width:100px" access-key={item.sku} value={item.taxRate} formatter="percent-fixed" step="0.01" onchange={handleTaxValue} required></lightning-input>
+                                                <span if:true={item.taxType} style="margin-left: 2% ;">{currencyIso}</span>
+                                            </div>
+                                        </template>
+                                    </td>
+                     
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <lightning-input variant="label-hidden" style="width:100px" type="number" access-key={item.sku} value={item.lineTotal} disabled> </lightning-input>
+                                            <span style="margin-left: 2% ;">{currencyIso}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        
+                                        <lightning-combobox access-key={item.sku} name="locationVal"
+                                            value={item.location} placeholder="Select Location"
+                                            options={locationPicklist} onchange={handleLocationChange} class="picklistStyle">
+                                        </lightning-combobox>
+                                    </td>
+                                    <td>
+                                        <div >{item.description}</div>
+                                    </td>
+                                    <td>
+                                        <div >{item.ats}</div>
+                                    </td>
+                                    <td if:false={isFromReturn}>
+                                        <div>
+                                            <lightning-button-icon accesskey={item.sku} icon-name="utility:delete" alternative-text="Delete" title="Delete"  name="removeItem"  onclick={handleRemoveItem} class="iconRemove" ></lightning-button-icon>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </template>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                </lightning-record-edit-form>
+         
+                
+        </template>
+        <div class="totalLinesStyle">
+            <lightning-input variant="label-stacked" label="Lines Total" type="number" value={totalLines} disabled> </lightning-input>
+            <span style="margin-left: 2% ; ">{currencyIso}</span>
+        </div> 
+        <div class="AddProductStyle" if:false={isFromReturn}>
+            <lightning-button variant="success"   label="Add Product"  name="NewProduct"  onclick={handleAddProduct} class="slds-button_stretch"></lightning-button>
+        </div>
+            <div class="emptySpace">
+        </div>
+        <div>
+            <div class="previousButtonStyle">
+                <lightning-button  variant="brand-outline"  label="Previous" name="previousButton"  onclick={handlePreviousButton}></lightning-button>
+            </div>
+            <div class="nextButtonStyle">
+                <lightning-button  variant="brand" disabled={displayNextButton} label="Create Order"  name="nextButton"  onclick={handleNextButton}></lightning-button>
+            </div>
+            
+        </div>
+        
+    
+    </div>
+
+
+
+
+
+</template>

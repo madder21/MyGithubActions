@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>LineTotalFormula__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(CONTAINS(TEXT(TotalLineAmount +  TotalLineTaxAmount), &quot;.&quot;),SUBSTITUTE(TEXT(TotalLineAmount +  TotalLineTaxAmount) , &quot;.&quot;, &quot;,&quot;), TEXT(TotalLineAmount +  TotalLineTaxAmount)+&quot;,00&quot;) +
+&quot; &quot; + TEXT( CurrencyIsoCode )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Line Total Formula</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

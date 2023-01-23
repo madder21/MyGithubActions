@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>ExchangeCreation</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" type="String" label="OS Id" description="Id of the OS"/>
+            <property name="osObj" label="output Order" type="@salesforce/schema/Order" role="outputOnly"/>
+            <property name="odgObj" label="output ODG" type="@salesforce/schema/OrderDeliveryGroup" role="outputOnly"/>
+            <property name="selectedODM" label="output ODM" type="@salesforce/schema/OrderDeliveryMethod" role="outputOnly"/>
+            <property name="prevOSObj" label="output prev Order" type="@salesforce/schema/Order"/>
+            <property name="prevODGObj" label="output prev ODG" type="@salesforce/schema/OrderDeliveryGroup"/>
+            <property name="prevselectedODM" label="output prev ODM" type="@salesforce/schema/OrderDeliveryMethod"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

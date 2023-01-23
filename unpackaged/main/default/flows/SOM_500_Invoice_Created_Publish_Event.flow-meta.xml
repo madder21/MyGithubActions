@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>54.0</apiVersion>
+    <interviewLabel>SOM 500 - Invoice Created : Publish Event {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM 500 - Invoice Created : Publish Event</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Publish_InvoiceRdyForAZB_Event</name>
+        <label>Publish InvoiceRdyForAZB Event</label>
+        <locationX>591</locationX>
+        <locationY>427</locationY>
+        <connector>
+            <targetReference>Update_Invoice</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>InvoiceId__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>InvoiceRdyForAZB__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordUpdates>
+        <name>Update_Invoice</name>
+        <label>Update Invoice</label>
+        <locationX>593</locationX>
+        <locationY>584</locationY>
+        <inputAssignments>
+            <field>PDFGenerationStatus__c</field>
+            <value>
+                <stringValue>Posted To BLOB Storage</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Publish_InvoiceRdyForAZB_Event</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>PDFGenerationStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Generated</stringValue>
+            </value>
+        </filters>
+        <object>Invoice</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
