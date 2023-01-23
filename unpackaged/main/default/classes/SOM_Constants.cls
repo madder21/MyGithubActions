@@ -22,7 +22,9 @@ global with sharing class SOM_Constants {
     public static final String RETURN_ORDER_STATUS_CREATED   = 'Created';
     public static final String RETURN_ORDER_STATUS_RECEIVED  = 'Received';
     public static final String RETURN_ORDER_STATUS_SUBMITTED = 'Submitted';
+    public static final String RETURN_ORDER_STATUS_CLOSED    = 'Closed';
     public static final String RETURN_ORDER_LIFE_CYCLE_TYPE  = 'MANAGED';
+    public static final String RETURN_ORDER_LIFE_CYCLE_UNMANAGED  = 'UNMANAGED';
 
     public static final String FULFILLMENT_ORDER_ALLOCATED                 = 'Allocated';
     public static final String FULFILLMENT_ORDER_CREATED                   = 'Created';
@@ -93,7 +95,8 @@ global with sharing class SOM_Constants {
     public static final String STORE = 'Store';
     public static final String EXTERNAL_MODE = 'External';
     public static final String PROCESSED = 'Processed';
-
+	public static final String NEW_PE = 'New';
+    public static final String PAYMENT = 'Payment';
 
     //OCI_Static_Labels
     public static final String FILE_TYPE = 'application/json';
@@ -123,4 +126,7 @@ global with sharing class SOM_Constants {
     public static final String INVOICE_SOBJECT_TYPE_NAME     = 'Invoice';
     public static final String CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME     = 'CorrectiveInvoice__c';
 
+    public static final String SALES_CHANNEL_CEGID = 'CEGID';
+    public static final String SALES_CHANNEL_MANUAL = 'Manual Order';
+    public static final String SALES_CHANNEL_RIMOWA = 'Rimowa';
 }

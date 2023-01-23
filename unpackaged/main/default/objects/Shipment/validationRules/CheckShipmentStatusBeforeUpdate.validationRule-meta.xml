@@ -3,6 +3,6 @@
     <fullName>CheckShipmentStatusBeforeUpdate</fullName>
     <active>true</active>
     <errorConditionFormula>ISCHANGED( IsDelivered__c ) &amp;&amp;
-( NOT(ISPICKVAL(  Status ,&#39;Shipped&#39;)) )</errorConditionFormula>
-    <errorMessage>You cannot update shipment because It&#39;s not shipped!</errorMessage>
+( NOT(ISPICKVAL(  Status ,&apos;Shipped&apos;)) )</errorConditionFormula>
+    <errorMessage>You cannot update shipment because It&apos;s not shipped!</errorMessage>
 </ValidationRule>

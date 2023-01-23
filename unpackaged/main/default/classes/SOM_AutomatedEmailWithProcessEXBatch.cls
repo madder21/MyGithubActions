@@ -18,6 +18,7 @@ global class SOM_AutomatedEmailWithProcessEXBatch  Implements Schedulable{
     }
     @future(callout=true)
     public static void DoExport() {
+        List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=:SOM_Constants.NEW_PE and Category=:SOM_Constants.PAYMENT];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
                                     DeveloperName = 'New_SOM_Process_Exception_Report_h7t'];
         String reportId = (String)reportList.get(0).get('Id');
@@ -35,6 +36,7 @@ global class SOM_AutomatedEmailWithProcessEXBatch  Implements Schedulable{
         String[] toAddresses = new list<string>();
         toAddresses.addAll((Label.EmailsPE).split(';'));
         message.setToAddresses( toAddresses );
+        if (!ProcessExceptionRecords.isEmpty())
         Messaging.sendEmail( new Messaging.SingleEmailMessage[] { message } );
     }    
     

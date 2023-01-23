@@ -34,7 +34,7 @@ global with sharing class SOM_ClosingOrderSummaryAction {
 
 
 
-        List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId, quantityAvailabletofulfill FROM OrderItemSummary WHERE Status =: 'Ordered' AND quantityAvailabletofulfill > 0 AND OrderSummaryId IN: osIds];
+        List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId, quantityAvailabletofulfill FROM OrderItemSummary WHERE Status =: 'Ordered' AND Type != 'Delivery Charge' AND quantityAvailabletofulfill > 0 AND OrderSummaryId IN: osIds];
         System.debug('ois ::::: ' + ois);
 
         Map<Id, Integer> orderedItems = new Map<Id, Integer>();

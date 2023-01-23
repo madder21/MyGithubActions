@@ -9,6 +9,7 @@
 		<members>PAD</members>
 		<members>ReturnOrderLineItemTriggerHandler</members>
         <members>SOM_AdaptReservations</members>
+        <members>SOM_AdaptReservations_Test</members>
         <members>SOM_AutomatedEmailWithProcessEXBatch</members>  
 		<members>SOM_Batch_CustomerTokenDeletion</members>
 		<members>SOM_ClosingFulfillmentOrderAction</members>
@@ -57,6 +58,8 @@
 		<members>WS_SOM_CreateReturnOrderEndpoint</members>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
 		<members>WS_SOM_Create_StoreToWebOrderTest</members>
+        <members>WS_SOM_CreateEfulOrders</members>
+        <members>WS_SOM_CreateEfulOrders_Test</members>
         <members>SOM_ADV_ReservationTest</members>
         <members>SOM_Batch_CustomerTokenDeletionTest</members>
         <members>SOM_ClosingFulfillmentOrderAction_Test</members>
@@ -167,6 +170,7 @@
         <members>Order.BillingContactFirstName__c</members>
         <members>Order.BillingContactLastName__c</members>
         <members>Order.DeliverySignature__c</members>
+        <members>Order.Invoices__c</members>
         <members>Order.OriginalOrder__c</members>
         <members>Order.OriginalReturnOrder__c</members>
         <members>Order.StoreOriginName__c</members>
@@ -245,6 +249,7 @@
         <members>OrderSummary.CreateFulfillmentOrderImmediatly__c</members>
         <members>OrderSummary.DeliverySignature__c</members>
         <members>OrderSummary.FO_Capture_Error__c</members>
+        <members>OrderSummary.Invoices__c</members>
         <members>OrderSummary.On_Hold__c</members>
         <members>OrderSummary.OriginalOrderSummary__c</members>
         <members>OrderSummary.OriginalReturnOrder__c</members>
@@ -557,6 +562,7 @@
 		<members>FulfillmentOrder.Create_shipment</members>
 		<members>Invoice.CreateCorrectiveInvoice</members>
 		<members>OrderSummary.Cancel_Order</members>
+        <members>OrderSummary.Invoices_for_Blob_Storage</members>
 		<members>OrderSummary.Create_Refund</members>
 		<members>OrderSummary.Hold</members>  
         <members>OrderSummary.Manual_capture_update</members> <!-- RSO UAT Sprint 8 V1 -->

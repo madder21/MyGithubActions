@@ -27,9 +27,16 @@
             <operator>equals</operator>
             <value>New</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>ProcessException$Category</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>Payment</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>SOM - Process Exception Report</name>
+    <name>SOM - Capture Process Exception Report</name>
     <params>
         <name>co</name>
         <value>1</value>

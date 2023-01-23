@@ -10,14 +10,14 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
-            <property label="country Code" name="countryCode" type="String" role="inputOnly" required="true"/>
-            <property label="is From Return" name="isFromReturn" type="Boolean" role="inputOnly" required="true"/>
-            <property label="returnOrder Id" name="returnOrderId" type="String" role="inputOnly"/>
-            <property label="orderSummary Id" name="orderSummaryId" type="String" role="inputOnly"/>
-            <property label="priceBook Id" name="priceBookId" type="String" role="inputOnly" required="true"/>
-            <property label="currency Code" name="currencyCode" type="String" role="inputOnly" required="true"/>
-            <property label="Output LineItems" name="OutputLineItems" type="apex://SOM_Wr_DisplayLineItem[]" role="outputOnly"/>
-            <property label="Input Lines" name="InputLineItems" type="apex://SOM_Wr_DisplayLineItem[]"/>
+            <property label ="country Code" name="countryCode" type="String" role="inputOnly" required="true"/>
+            <property label ="is From Return" name="isFromReturn" type="Boolean" role="inputOnly" required="true"/>
+            <property label ="returnOrder Id" name="returnOrderId" type="String" role="inputOnly" />
+            <property label ="orderSummary Id" name="orderSummaryId" type="String" role="inputOnly" />
+            <property label ="priceBook Id" name="priceBookId" type="String" role="inputOnly" required="true"/>
+            <property label ="currency Code" name="currencyCode" type="String" role="inputOnly" required="true"/>
+            <property  label ="Output LineItems" name="OutputLineItems"  type="apex://SOM_Wr_DisplayLineItem[]" role="outputOnly"/>
+            <property  label ="Input Lines" name="InputLineItems"  type="apex://SOM_Wr_DisplayLineItem[]"/>
         </targetConfig>
-    </targetConfigs>
+ </targetConfigs>
 </LightningComponentBundle>

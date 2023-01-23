@@ -114,6 +114,8 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<Id> invoiceIds  = new List<Id>();
         Map<String,String> mapInvCI = new Map<String,String>();
         Map<String,String> mapInvCIids = new Map<String,String>();
+        
+        String InvoiceDocumentMulesoftEndpoint = [SELECT MasterLabel, Value__c, Template__c FROM SOM_Invoice_Setting__mdt WHERE Template__c = :'URL'].Value__c;
 
         for(Id recId : recordIds){
             if(recId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME){
@@ -169,7 +171,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTemplateContent.invoiceCurrency  = fullOrder.Invoice.CurrencyIsoCode;
             invoiceTemplateContent.invoiceNumber    = mapInvCI.containsKey(fullOrder.Invoice.InvoiceNumber__c) ? mapInvCI.get(fullOrder.Invoice.InvoiceNumber__c) : fullOrder.Invoice.InvoiceNumber__c;
             //invoiceTemplateContent.invoiceURL       = System.Label.Invoice_Url_Prefix +'/'+ (mapInvCI.containsKey(fullOrder.Invoice.InvoiceNumber__c) ? mapInvCI.get(fullOrder.Invoice.InvoiceNumber__c) : fullOrder.Invoice.InvoiceNumber__c);
-			invoiceTemplateContent.invoiceURL       = mapInvCI.containsKey(fullOrder.Invoice.InvoiceNumber__c) ? ('/apex/SOM_InvoiceDownloadContent?invoiceId={!'+mapInvCIids.get(fullOrder.Invoice.InvoiceNumber__c)+'}') : ('/apex/SOM_InvoiceDownloadContent?invoiceId={!'+fullOrder.Invoice.Id+'}') ;
+			invoiceTemplateContent.invoiceURL       = mapInvCI.containsKey(fullOrder.Invoice.InvoiceNumber__c) ? (InvoiceDocumentMulesoftEndpoint+'/'+mapInvCIids.get(fullOrder.Invoice.InvoiceNumber__c)) : (InvoiceDocumentMulesoftEndpoint+'/'+fullOrder.Invoice.Id) ;
             
             TransactionalEmail__c invoiceTransactionalEmail = new TransactionalEmail__c();
             invoiceTransactionalEmail.Template__c     = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE;
@@ -195,14 +197,14 @@ public without sharing class SOM_TransactionalEmailHandler {
     public static List<TransactionalEmail__c> generateOrderTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
-                    BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode, 
+                    BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                     BillingCity, BillingCountry, TotalAmount, TotalTaxAmount, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,
-                    (SELECT Id,StockKeepingUnit,Name,LineNumber, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
+                    (SELECT Id,StockKeepingUnit,Name,LineNumber, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
                         FROM OrderItemSummaries ORDER BY LineNumber ASC),
                     (SELECT Id,DeliverToCountry, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
                         FROM OrderDeliveryGroupSummaries)
                     FROM OrderSummary WHERE Id IN :recordIds];
-        
+        //List<Schema.Location> StoreLocation = [Select Id from Location where LocationType =: SOM_Constants.STORE ];
         for (OrderSummary orderSumm : orderSummaries) {
             SOM_OrderConfirmationTemplateContent orderTemplateContent = new SOM_OrderConfirmationTemplateContent();
             orderTemplateContent.billingCity      = orderSumm.BillingCity;
@@ -223,6 +225,15 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderTemplateContent.tax              = orderSumm.TotalTaxAmount.setScale(2);
             orderTemplateContent.total            = orderSumm.GrandTotalAmount;
             orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
+            
+            if(orderSumm.SalesChannel.SalesChannelName == 'CEGID'){
+                orderTemplateContent.orderType		  = 'StoreToWeb';
+            }else if(orderSumm.SalesChannel.SalesChannelName == 'Rimowa') {
+                if( orderSumm.tech_os_store_shipping_method__c > 0)
+                	orderTemplateContent.orderType		  = 'C&C';
+                else if ( orderSumm.tech_os_store_shipping_method__c == 0)
+                    orderTemplateContent.orderType		  = 'Ecom';
+            }
 
             if(!orderSumm.OrderDeliveryGroupSummaries?.isEmpty()){
                 orderTemplateContent.deliveryCity    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCity;
@@ -251,6 +262,17 @@ public without sharing class SOM_TransactionalEmailHandler {
                     lineItem.amount          = orderItemSumm.TotalLineAmount;
                     lineItem.quantity        = orderItemSumm.Quantity;
                     lineItem.preorderMessage = orderItemSumm.PreOrder_message__c;
+                    //lineItem.isCC 			 = orderItemSumm.Tech_IsCC__c;
+                    
+                	/*Schema.Location location = (Schema.Location) orderItemSumm.ReservedAtLocation;
+                    System.debug('Location' +  location );
+                    if(location.LocationType == SOM_Constants.STORE ) {
+                    lineItem.isCC = true;
+                    }
+                    else{
+                    lineItem.isCC = false;
+                    }*/
+                    
                     orderTemplateContent.items.add(lineItem);
 
                 } 
@@ -270,7 +292,7 @@ public without sharing class SOM_TransactionalEmailHandler {
 
     public static List<TransactionalEmail__c> generateReturnReceptionTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,
+        List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber, OrderSummary.BillingContactFirstName__c,OrderSummary.BillingContactLastName__c,OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,
                     (SELECT Id,Product2.StockKeepingUnit, QuantityReceived, TotalAmount, Description, CurrencyIsoCode 
                         FROM ReturnOrderLineItems)
                     FROM ReturnOrder WHERE Id IN :recordIds];
@@ -280,7 +302,9 @@ public without sharing class SOM_TransactionalEmailHandler {
             returnTemplateContent.returnOrderNumber = retOrder.ReturnOrderNumber;
             returnTemplateContent.orderNumber       = retOrder.OrderSummary.OrderNumber;
             returnTemplateContent.channel           = retOrder.OrderSummary.SalesChannel.SalesChannelName;
-
+            returnTemplateContent.billingFirstName           = retOrder.OrderSummary.BillingContactFirstName__c;
+            returnTemplateContent.billingLastName           = retOrder.OrderSummary.BillingContactLastName__c;
+            
             if(!retOrder.ReturnOrderLineItems?.isEmpty()){
                 for(ReturnOrderLineItem returnLineItem : retOrder.ReturnOrderLineItems){
                     Return_Line_Item lineItem = new Return_Line_Item();
@@ -358,13 +382,15 @@ public without sharing class SOM_TransactionalEmailHandler {
 
     public static List<TransactionalEmail__c> generateReturnOrderCreationTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<ReturnOrder> returnOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName,
+        List<ReturnOrder> returnOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName,OrderSummary.BillingContactLastName__c,OrderSummary.BillingContactFirstName__c,
                     OrderSummaryId,AccountId,OrderSummary.Account.PersonEmail FROM ReturnOrder WHERE Id IN :recordIds];
         
         for (ReturnOrder retOrder : returnOrders) {
             SOM_ReturnOrderCreatedTemplateContent returnCreationTemplateContent = new SOM_ReturnOrderCreatedTemplateContent();
             returnCreationTemplateContent.orderNumber       = retOrder.OrderSummary.OrderNumber;
             returnCreationTemplateContent.channel           = retOrder.OrderSummary.SalesChannel.SalesChannelName;
+            returnCreationTemplateContent.FirstName         = retOrder.OrderSummary.BillingContactFirstName__c;
+            returnCreationTemplateContent.LastName          = retOrder.OrderSummary.BillingContactLastName__c;
 
             TransactionalEmail__c returnCreationTransactionalEmail = new TransactionalEmail__c();
             returnCreationTransactionalEmail.Template__c     = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED;
@@ -597,6 +623,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         public String deliveryCity;
         public String deliveryCountry;
         public String deliveryState;
+        public String orderType;
         public Decimal subtotal;
         public Decimal tax;
         public Decimal total;
@@ -613,13 +640,16 @@ public without sharing class SOM_TransactionalEmailHandler {
         public Decimal amount;
         public String description;
         public Boolean isPreorder;
+        //public Boolean isCC;
         public String preorderMessage;
     }
 
     public class SOM_ReturnRecievedTemplateContent{
         public String orderNumber;	
         public String channel;	
-        public String returnOrderNumber;	
+        public String returnOrderNumber;
+        public String billingFirstName;
+        public String billingLastName;
         public List<Return_Line_Item> items;
         public SOM_ReturnRecievedTemplateContent(){
             this.items = new List<Return_Line_Item>();
@@ -666,6 +696,8 @@ public without sharing class SOM_TransactionalEmailHandler {
     public class SOM_ReturnOrderCreatedTemplateContent{
         public String orderNumber;	
         public String channel;	
+        public String FirstName;	
+        public String LastName;	
     }
 
     public class SOM_RefundValidationTemplateContent{

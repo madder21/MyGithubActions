@@ -9,8 +9,9 @@
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
             <property name="recordId" type="String" label="ReturnOrder Id" role="inputOnly"/>
-            <property name="listOutputLine" label="Output Lines" type="@salesforce/schema/ReturnOrderLineItem[]" role="outputOnly"/>
+            <property name="listOutputLine" label="Output Lines" type="@salesforce/schema/ReturnOrderLineItem[]" role="outputOnly" />
             <property name="listOutputDataWithDetails" label="OutputData With Details" type="@salesforce/schema/ReturnOrderLineItem[]"/>
+
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

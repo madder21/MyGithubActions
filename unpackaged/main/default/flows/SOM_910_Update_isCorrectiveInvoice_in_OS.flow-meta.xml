@@ -9,12 +9,19 @@
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes1</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Partially fulfilled</stringValue>
                 </rightValue>
             </conditions>
             <connector>
