@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to break the SFCC transaction from Platform Integration User (unable to call OCI) to Automated Process User.
+This Platform Event is caught by an Apex Trigger.
+The Apex Trigger launches from SOM 201 that orchestrates FO creation.</description>
+    <eventType>HighVolume</eventType>
+    <label>Start Fulfillment Process</label>
+    <pluralLabel>Start Fulfillment Processes</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>
