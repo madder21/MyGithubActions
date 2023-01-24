@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CommunicationLocale__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF (NOT(ISBLANK (TEXT(Language__c))),TEXT( Language__c),
+IF (NOT(ISBLANK(WebsiteLanguage__c)),WebsiteLanguage__c,&apos;Empty&apos;))
++&apos;_&apos;+ 
+IF (NOT(ISBLANK (TEXT(Country__c))),TEXT( Country__c),
+IF (NOT(ISBLANK(WebsiteCountry__c)),WebsiteCountry__c,&apos;Empty&apos;))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Communication Locale</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
