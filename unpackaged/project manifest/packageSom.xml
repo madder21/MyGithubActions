@@ -107,6 +107,8 @@
         <name>CompactLayout</name>
     </types>
     <types>
+        <members>Account.cegidCustomerId__c</members>
+        <members>Contact.CommunicationLocale__c</members>
         <members>AlternativePaymentMethod.RI_PaymentMethodId__c</members>
         <members>CardPaymentMethod.RI_PaymentMethodId__c</members>
         <members>ClosedReturn__e.RefundId__c</members>
@@ -156,11 +158,13 @@
         <members>InvoiceDocumentSettings__c.Password__c</members>
         <members>InvoiceDocumentSettings__c.Username__c</members>
         <members>InvoiceRdyForAZB__e.InvoiceId__c</members>
+        <members>Location.cegidSalesPersonId__c</members>
         <members>Location.CustomCountry__c</members>
         <members>Location.ConvertSkuTo10d__c</members>      
         <members>Location.WmsFoFileDestination__c</members> 
         <members>Location.WmsFoFileNamePrefix__c</members> 
-        <members>Location.WmsFilePath__c</members>          
+        <members>Location.WmsFilePath__c</members> 
+        <members>Location.V3_warehouse_code__c</members>         
         <members>LocationGroup.CustomCountry__c</members>
         <members>NewCreditMemoWithoutReturn__e.CreditMemoId__c</members>
         <members>NewFullCancelForCegid__e.OrderSummaryNumber__c</members>
@@ -186,6 +190,15 @@
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_firstName__c</members>
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_lastName__c</members>
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_phone__c</members>
+        <members>OrderDeliveryGroup.DeliverToAddress</members>
+        <members>OrderDeliveryGroup.DeliveryInstructions</members>
+        <members>OrderDeliveryGroup.Description</members>
+        <members>OrderDeliveryGroup.DesiredDeliveryDate</members>
+        <members>OrderDeliveryGroup.EmailAddress</members>
+        <members>OrderDeliveryGroup.GiftMessage</members>
+        <members>OrderDeliveryGroup.GrandTotalAmount</members>
+        <members>OrderDeliveryGroup.IsGift</members>
+        <members>OrderDeliveryGroup.PromisedDeliveryDate</members>
         <members>OrderDeliveryGroup.RI_TAX_ID__c</members>
         <members>OrderDeliveryGroup.STORE_OPENING_FR__c</members>
         <members>OrderDeliveryGroup.STORE_OPENING_MO__c</members>
@@ -194,6 +207,14 @@
         <members>OrderDeliveryGroup.STORE_OPENING_TH__c</members>
         <members>OrderDeliveryGroup.STORE_OPENING_TU__c</members>
         <members>OrderDeliveryGroup.STORE_OPENING_WE__c</members>
+        <members>OrderDeliveryGroup.TotalAdjustmentAmount</members>
+        <members>OrderDeliveryGroup.TotalAdjustmentAmtWithTax</members>
+        <members>OrderDeliveryGroup.TotalAdjustmentTaxAmount</members>
+        <members>OrderDeliveryGroup.TotalAmount</members>
+        <members>OrderDeliveryGroup.TotalLineAmount</members>
+        <members>OrderDeliveryGroup.TotalLineAmtWithTax</members>
+        <members>OrderDeliveryGroup.TotalLineTaxAmount</members>
+        <members>OrderDeliveryGroup.TotalTaxAmount</members>
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_cegidWarehouseId__c</members>
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_idStore__c</members>
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_isStore__c</members>
@@ -210,13 +231,18 @@
         <members>OrderDeliveryGroupSummary.STORE_OPENING_TH__c</members>
         <members>OrderDeliveryGroupSummary.STORE_OPENING_TU__c</members>
         <members>OrderDeliveryGroupSummary.STORE_OPENING_WE__c</members>
+        <members>OrderDeliveryMethod.Carrier</members>
+        <members>OrderDeliveryMethod.ClassOfService</members>
         <members>OrderDeliveryMethod.Country__c</members>
+        <members>OrderDeliveryMethod.Description</members>
         <members>OrderDeliveryMethod.Delivery_Type__c</members>
         <members>OrderDeliveryMethod.isHomeDelivery__c</members>
         <members>OrderDeliveryMethod.isStorePickup__c</members>
+        <members>OrderDeliveryMethod.ReferenceNumber</members>
         <members>OrderItem.COO__c</members>
         <members>OrderItem.CPID__c</members>
         <members>OrderItem.DeliveryStartDate__c</members>
+        <members>OrderItem.Exchanged_from_ROLI__c</members>
         <members>OrderItem.IsPreOrder__c</members>
         <members>OrderItem.PreOrder_message__c</members>
         <members>OrderItem.PreparationOperations__c</members>
@@ -225,9 +251,22 @@
         <members>OrderItem.isSerialized__c</members>
         <members>OrderItem.parentCPID__c</members>
         <members>OrderItem.preparationFlags__c</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentAmountScope</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentBasisReferenceId</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentCauseId</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentSource</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentType</members>
+        <members>OrderItemAdjustmentLineItem.AdjustmentValue</members>
+        <members>OrderItemAdjustmentLineItem.Description</members>
+        <members>OrderItemAdjustmentLineItem.OrderAdjustmentGroupId</members>
+        <members>OrderItemAdjustmentLineItem.Priority</members>
+        <members>OrderItemAdjustmentLineItem.TotalAmtWithTax</members>
+        <members>OrderItemAdjustmentLineItem.TotalTaxAmount</members>
         <members>OrderItemSummary.COO__c</members>
         <members>OrderItemSummary.CPID__c</members>
+        <members>OrderItemSummary.Current__c</members>
         <members>OrderItemSummary.DeliveryStartDate__c</members>
+        <members>OrderItemSummary.Exchanged_from_ROLI__c</members>
         <members>OrderItemSummary.IsPreOrder__c</members>
         <members>OrderItemSummary.PreOrder_message__c</members>
         <members>OrderItemSummary.PreparationOperations__c</members>
@@ -236,12 +275,15 @@
         <members>OrderItemSummary.Tech_ReturnReason__c</members>
         <members>OrderItemSummary.Tech_ReturnedQuantity__c</members>
         <members>OrderItemSummary.hsCodeDescription__c</members>
+        <members>OrderItemSummary.Unresolved_PEs__c</members>
+        <members>OrderItemTaxLineItem.Description</members>
+        <members>OrderItemTaxLineItem.OrderItemAdjustmentLineItemId</members>
+        <members>OrderItemTaxLineItem.Rate</members>
         <members>OrderItemSummary.hsCode__c</members>
         <members>OrderItemSummary.isSerialized__c</members>
         <members>OrderItemSummary.LineTotalFormula__c</members>
         <members>OrderItemSummary.parentCPID__c</members>
         <members>OrderItemSummary.preparationFlags__c</members>
-        <members>OrderItemSummary.Current__c</members>
         <members>OrderSummary.BillingContactFirstName__c</members>
         <members>OrderSummary.BillingContactLastName__c</members>
         <members>OrderSummary.CaptureStatus__c</members>
@@ -265,8 +307,20 @@
         <members>OrderSummary.reconciliationId__c</members>
         <members>OrderSummary.tech_os_store_shipping_method__c</members>
         <members>OrderSummary.tech_PE_Fulfillment_Count__c</members>
+        <members>OrderSummary.Tech_OrderItemSummaries_Count__c</members>
         <members>OrderSummary.latestExpectedDeliveryDate__c</members>
         <members>Order_Ready_For_Capture__e.Fulfillment_Order_Id__c</members>
+        <members>OrderAdjustmentGroup.AdjustmentBasisReferenceId</members>
+        <members>OrderAdjustmentGroup.AdjustmentCauseId</members>
+        <members>OrderAdjustmentGroup.AdjustmentSource</members>
+        <members>OrderAdjustmentGroup.AdjustmentType</members>
+        <members>OrderAdjustmentGroup.AdjustmentValue</members>
+        <members>OrderAdjustmentGroup.Description</members>
+        <members>OrderAdjustmentGroup.GrandTotalAmount</members>
+        <members>OrderAdjustmentGroup.Priority</members>
+        <members>OrderAdjustmentGroup.RelatedAdjustmentGroupId</members>
+        <members>OrderAdjustmentGroup.TotalAmount</members>
+        <members>OrderAdjustmentGroup.TotalTaxAmount</members>
         <members>PartialCancelation__e.RefundId__c</members>
         <members>Payment.reconciliationId__c</members>
         <members>PaymentAuthorization.CustomerTokenDeletionStatus__c</members>
@@ -296,19 +350,33 @@
         <members>ReturnOrderLineItem.GrossUnitPriceFormula__c</members>
         <members>ReturnOrderLineItem.SerialNumber__c</members>
         <members>ReturnOrderLineItem.Sku__c</members>
+        <members>ReturnOrderLineItem.TotalWithTaxFormula__c</members>
         <members>RimowaCapturePayment__c.Token__c</members>
         <members>SOM_Invoice_Setting__mdt.Template__c</members>
         <members>SOM_Invoice_Setting__mdt.Value__c</members>
         <members>Sales_Channel_Mapping__mdt.ChannelId__c</members>
         <members>Sales_Channel_Mapping__mdt.Zone__c</members>
         <members>Shipment.Carrier__c</members>
+        <members>Shipment.CegidInvoiceNumber__c</members>
         <members>Shipment.DispatchDate__c</members>
+        <members>Shipment.DeliveredToId</members>
+        <members>Shipment.Description</members>
+        <members>Shipment.FulfillmentOrderId</members>
         <members>Shipment.IsDelivered__c</members>
+        <members>Shipment.ReturnOrderId</members>
         <members>Shipment.ShippingService__c</members>
+        <members>Shipment.ShipToAddress</members>
+        <members>Shipment.Status</members>
+        <members>Shipment.TrackingNumber</members>
+        <members>Shipment.TrackingUrl</members>
+        <members>Shipment.Provider</members>
         <members>Shipment.WMSShipmentId__c</members>
+        <members>ShipmentItem.FulfillmentOrderLineItemId</members>
+        <members>ShipmentItem.OrderItemSummaryId</members>
         <members>ShipmentItem.LocationExternalReference__c</members>
         <members>ShipmentItem.SerialNumber__c</members>
         <members>ShipmentItem.StockKeepingUnit__c</members>
+        <members>ShipmentItem.ReturnOrderLineItemId</members>
         <members>Start_Fulfillment_Process__e.OrderSummaryId__c</members>
         <members>TransactionalEmail__c.Client__c</members>
         <members>TransactionalEmail__c.EmailContent__c</members>
@@ -565,7 +633,7 @@
         <members>OrderSummary.Invoices_for_Blob_Storage</members>
 		<members>OrderSummary.Create_Refund</members>
 		<members>OrderSummary.Hold</members>  
-        <members>OrderSummary.Manual_capture_update</members> <!-- RSO UAT Sprint 8 V1 -->
+        <members>OrderSummary.Manual_capture_update</members>
 		<members>OrderSummary.New_manual_order</members>
 		<members>OrderSummary.Reship</members>
 		<members>OrderSummary.Retry_Allocation</members>
