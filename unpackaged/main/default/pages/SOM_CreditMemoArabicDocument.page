@@ -1,0 +1,166 @@
+<apex:page renderAs="pdf" controller="SOM_CreditMemoDocumentController">
+    <apex:stylesheet value="{!URLFOR($Resource.SOMInvoiceDocumentStyle, 'invoiceDocument.css')}"/>
+    <!-- footer -->
+    <div id="footer_content">
+        <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:20px;" url="{!URLFOR($Resource.InvoiceLogos, 'Logos/Monogram/Rimowa-Monogram.png')}" width="35" height="45" alt="RIMOWA"/>
+        <!-- <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_REGISTER']}"/>&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_COURT']}"/>&#44;&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_MANAGING_DIRECTOR']}"/>&nbsp;&#45;&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID']}"/>  -->
+    </div>
+    <!-- header -->
+        <div id="header"> 
+            <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:auto;margin-top:70px;" url="{!URLFOR($Resource.InvoiceLogos, 'Logos/RIMOWA/RIMOWA.jpg')}" width="200" height="60" alt="RIMOWA"/>
+            <!-- <div class="spacer">&nbsp;</div>
+            <div class="logo_header"></div> -->
+        </div>
+        <div style="height: 4px;"></div>
+            <table class="head" >
+                <tr>
+                    <!-- Company Information-->
+                    <td style="width: 50% ;text-transform: uppercase;">
+                        <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/header.PNG')}" width="100%" height="100%" style="padding-left:50%;margin-top:-3px" alt="RIMOWA"/>
+                    </td>
+                    <td style="width: 50% ;text-transform: uppercase;">
+                        <apex:outputText value="{!creditMemoConfigs['PDF_PHONE']}"/><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Phone.PNG')}" width="10%" height="10%" style="margin-top:-2px" alt="RIMOWA"/><br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_MAIL']}"/><br/>
+                        RIMOWA.COM | @RIMOWA<br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID_COUNTRY']}"/>
+                    </td>
+                </tr>
+            </table>
+            <div style="margin-left: 6%">
+                <h3> TAX CREDIT NOTE &nbsp; <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TaxCreditNote.PNG')}" width="25%" height="25%" style="margin-top:-4px" alt="RIMOWA"/></h3>
+
+            </div>
+
+    <div class="content">
+        <table class="billing_contact_importer">
+            <tr>
+                <!-- Billing contact information -->
+                <td style="width: 50%; vertical-align: top;">
+                    BILLING CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="25%" height="15%" style="margin-top:-2px" alt="RIMOWA"/>
+                    <br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
+                </td>
+                <td style="width: 50%; vertical-align: top;">
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TITLE']}"/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_3']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_4']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TAX_NO_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(creditMemoConfigs['IMPORTER_TAX_NO_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TAX_NO_VALUE']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['EORI_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(creditMemoConfigs['EORI_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!creditMemoConfigs['EORI_VALUE']}"/><br/>
+                </td>
+            </tr>
+        </table>
+        <div class="spacer">&nbsp;</div>
+        <table class="metadata_delivery_contact">
+            <tr>
+                <!-- Invoice information -->
+                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                    <span class="fett">CREDIT NOTE NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditNoteNo.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoNumber}"/></span><br/>
+                    INVOICE NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
+                    CREDIT NOTE DATE &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditMemoDate.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
+                    ORDER NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
+                </td>
+                <!-- Delivery contact information -->
+                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                    DELIVERY CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/DeliveryContact.PNG')}" width="26%" height="25%" style="margin-top:-3px" alt="RIMOWA"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
+                </td>
+            </tr>
+        </table>
+        <div class="spacer">&nbsp;</div>
+        <table class="articles">
+            <!-- Invoice line items-->
+            <thead>
+                <tr>
+                    <th width="50px">ITEM DESCRIPTION&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemDesc.PNG')}" width="25%" height="25%" style="margin-top:-2px" alt="RIMOWA"/></th>
+                    <th width="20px"><apex:outputText value="{!quantityColumnName}"/> <apex:image rendered="{!IF(len(quantityColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Quantity.PNG')}" width="33%" height="33%" style= "display: block;margin-top:-2px" alt="RIMOWA"/></th>
+                    <th width="27px">NET AMOUNT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/NetAmount.PNG')}" width="46%" height="46%" style="display:block; margin-top:-3px" alt="RIMOWA"/></th>
+                    <th width="27px" class="align-right">VAT AMOUNT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></th>
+                    <th width="27px" class="align-right">TOTAL <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Total.PNG')}" width="80%" height="80%" style="margin-left: 74%;display:block; margin-top:-3px; " alt="RIMOWA"/></th>
+                </tr>
+                <tr>
+                    <th width="70px" colspan="2">ITEM NO. &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemNo.PNG')}" width="16%" height="16%" style="margin-top:-2px" alt="RIMOWA"/></th>
+                    <th width="27px" class="align-right">&nbsp;</th>
+                    <th width="27px" class="align-right">&nbsp;</th>
+                    <th width="27px">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th colspan="5"><apex:outputText value="{!serialNumberColumnName}"/>&nbsp;<apex:image rendered="{!IF(len(serialNumberColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/SerialNumber.PNG')}" width="13%" height="13%" style= "margin-top:-3px" alt="RIMOWA"/> </th>
+                </tr>
+                <tr>
+                    <th colspan="5" class="border_bottom">HS CODE &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/HSCode.PNG')}" width="13%" height="13%" style="margin-top:-2px" alt="RIMOWA"/></th>
+                </tr>
+
+            </thead>
+            <tbody style="line-height:15px; padding-top 3px;">
+                <!-- loop invoice line items-->
+                <apex:repeat value="{!creditMemoDocument.lineItems}" var="lineItem">
+                    <tr style="padding-top: 5px;">
+                        <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
+                        <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                        <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.serialNumber}"/>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCode) > 0, TRUE, FALSE)}"  value=" {!lineItem.hsCode},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCodeDescription) > 0, TRUE, FALSE)}" value="{!lineItem.hsCodeDescription},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.coo) > 0, TRUE, FALSE)}" value="COO: {!lineItem.coo}"/>&nbsp;
+                        </td>
+                    </tr>
+
+                </apex:repeat>
+                <!-- end loop-->
+            </tbody>
+        </table>
+        <table class="sum" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td width="100%" class="border_top" style="padding-top:2px;">SUBTOTAL (NET) &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Subtotal.PNG')}" width="32%" height="32%" style="margin-top:-4px" alt="RIMOWA"/>:</td>
+                    <td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+                <!-- loop over vat rate -->
+
+            <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
+                <tr>
+                    <td width="100%" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/>:</td>
+                    <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+            </apex:repeat>
+                <!-- end loop-->
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr> 
+                <tr>
+                    <td class="border_top" width="100%" style="padding-top:2px;">TOTAL INCL. TAX &nbsp; <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TotalWithTax.PNG')}" width="35%" height="35%" style="margin-top:-3px" alt="RIMOWA"/>:</td>
+                    <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+            </tbody>  
+        </table>
+        <div class="footer_text"> 
+            <span style="text-transform: uppercase;">
+                PAYMENT METHOD <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PaidMethod.PNG')}" width="5%" height="5%" style="margin-top:-2px" alt="RIMOWA"/> : <apex:outputText value="{!creditMemoDocument.paymentType}"/>.
+            </span><br/>
+        </div>
+    </div>
+</apex:page>

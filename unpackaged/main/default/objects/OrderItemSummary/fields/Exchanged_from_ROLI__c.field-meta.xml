@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Exchanged_from_ROLI__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <inlineHelpText>If this Order Item Summary is the result of an &quot;Exchange Order&quot; after a Return Order : indicates the original ROLI (Return Order Line Item)</inlineHelpText>
+    <label>Exchanged from ROLI</label>
+    <referenceTo>ReturnOrderLineItem</referenceTo>
+    <relationshipLabel>Exchanged Order Product Summaries</relationshipLabel>
+    <relationshipName>Order_Product_Summaries</relationshipName>
+    <required>false</required>
+    <type>Lookup</type>
+</CustomField>

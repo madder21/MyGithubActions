@@ -27,6 +27,10 @@
                 <field>ProcessingMode</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RefundMethod__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>TotalApplied</field>
             </layoutItems>
@@ -37,6 +41,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Date</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RefundedItems__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RefundOrigin__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ValidationDate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -197,13 +213,55 @@
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
-        <detailHeading>false</detailHeading>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
         <editHeading>false</editHeading>
+        <label>Custom Links</label>
+        <layoutColumns />
+        <layoutColumns />
         <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+        <platformActionListItems>
+            <actionName>Edit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Refund.ValidateRefund</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
+        </platformActionListItems>
+    </platformActionList>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Payment</fields>
+        <fields>Amount</fields>
+        <fields>Type</fields>
+        <fields>Date</fields>
+        <relatedList>RefundLinesPayment</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>CreditMemoNumber</fields>
+        <fields>BillingAccount</fields>
+        <fields>Status</fields>
+        <fields>TotalAmount</fields>
+        <fields>TotalChargeAmount</fields>
+        <fields>TotalAdjustmentAmount</fields>
+        <fields>TotalTaxAmount</fields>
+        <fields>CreditDate</fields>
+        <relatedList>CreditMemo.Refund__c</relatedList>
+    </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h6N0000016myD</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

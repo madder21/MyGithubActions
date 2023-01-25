@@ -1,0 +1,269 @@
+global with sharing class SOM_InvoiceDocumentController {
+    
+    public static final String   CONCAT_CHARACTER = ',';
+    public Map<String, String>   invoiceConfigs { get; set; }
+    public InvoiceDocument       invoiceDoc { get; set;}
+    public Map<String,String>    invoiceTaxLineItems {get; set; }
+    public Map<String,String>    countryMap {get;set;}
+    public String                correctiveInvoiceHeaderMessage {get; set; }
+
+    public SOM_InvoiceDocumentController() {
+        System.debug('start++');
+        this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
+        this.setInvoiceDocumentConfigs();
+        this.setInvoiceData(); 
+    }
+
+    public void setInvoiceDocumentConfigs(){
+        this.invoiceConfigs = new Map<String,String>();
+        String templateCode = ApexPages.currentPage().getParameters().get('template');
+        List<SOM_Invoice_Setting__mdt> invoiceSettings = [SELECT MasterLabel, Value__c, Template__c FROM SOM_Invoice_Setting__mdt WHERE Template__c = :templateCode OR Template__c = :'CoreModel'];
+        for (SOM_Invoice_Setting__mdt invoiceSetting : invoiceSettings) {
+            if(!invoiceConfigs.containsKey(invoiceSetting.MasterLabel) || invoiceSetting.Template__c != 'CoreModel'){
+                if (invoiceSetting.Value__c == null) {
+                    invoiceConfigs.put(invoiceSetting.MasterLabel, '');
+                } else {
+                    invoiceConfigs.put(invoiceSetting.MasterLabel, invoiceSetting.Value__c);
+                }
+            }
+        }
+    }
+
+    public void setInvoiceData(){
+        InvoiceDocument invDoc        = new InvoiceDocument();
+        InvoiceContact invCtr         = new InvoiceContact();
+        CorrectiveInvoice__c cInvoice = null;
+        Id invoiceId = ApexPages.currentPage().getParameters().get('invoiceId');
+        Boolean isCorrectiveInvoice = invoiceId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME;
+        if(isCorrectiveInvoice){
+            cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
+            System.debug('test invoice ++'+cInvoice);
+            Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
+            String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
+            this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
+            invoiceId = originalInvoice.Id;        
+        }
+        
+        List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
+        FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
+        OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
+        List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
+        invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.CreatedDate.year(), cInvoice.CreatedDate.month(), cInvoice.CreatedDate.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.InvoiceDate.year(), fulfillmentOrder.get(0).Invoice.InvoiceDate.month(), fulfillmentOrder.get(0).Invoice.InvoiceDate.day()).format('yyyy-MM-dd');
+        invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
+        
+        if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
+            //invoice info
+            invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
+           //invDoc.taxTotal       = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalTaxAmount);
+            invDoc.totalWithTax   = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax);
+            invDoc.netSubTotal    = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount);
+            invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
+            //Invoice lines
+            if (invoiceLines != null && !invoiceLines.isEmpty()) {
+                invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder));
+                this.invoiceTaxLineItems = new Map<String, String>();
+                this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines);
+
+            }
+            invDoc.paymentType     = this.getPaymentMethod(fulfillmentOrder.get(0));
+            invDoc.billingContact  = this.getBillingContact(fulfillmentOrder.get(0));
+            invDoc.deliveryContact = this.getDeliveryContact(fulfillmentOrder.get(0));
+            invDoc.trackingNumbers = this.getTrackingNumbers(FulfillmentOrder);
+        } else {
+            System.debug('FulfillmentOrder is empty, InvoiceId: ' + invoiceId);
+        }
+
+        this.invoiceDoc = invDoc;
+    }
+
+    public String getTotalFormatted(Decimal taxTotal){
+        if (taxTotal == null) return '0,00';
+        if (taxTotal.scale() > 2) {
+            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
+        }
+
+        return formatDecimalNumber(taxTotal);
+    }
+
+    public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
+        //construct shipment ids
+        List<Id> shipmentIds = new List<Id>();
+        for (FulfillmentOrder fulOrder:fulfillmentOrders) {
+            List<Shipment> shipments = fulOrder.FulfillmentOrderShipments;
+            if (shipments != null) {
+                for (Shipment ship:shipments) {
+                    shipmentIds.add(ship.Id);
+                }
+            }
+        }
+
+        //construct serial numbers map
+        Map<Id, List<String>> serialNumbersMap = new Map<Id, List<String>>();
+        List<ShipmentItem> shipmentItems = [SELECT Id, OrderItemSummaryId, SerialNumber__c FROM ShipmentItem WHERE ShipmentId IN :shipmentIds];
+        for (ShipmentItem shipItem:shipmentItems) {
+            List<String> serialNumbers = serialNumbersMap.get(shipItem.OrderItemSummaryId);
+            if (serialNumbers == null) {
+                serialNumbers = new List<String>();
+            }
+            if(shipItem.SerialNumber__c != null) {
+                serialNumbers.add(shipItem.SerialNumber__c);
+            }
+            serialNumbersMap.put(shipItem.OrderItemSummaryId, serialNumbers);
+        }
+
+        return serialNumbersMap;
+    }
+
+    public String getTrackingNumbers(List<FulfillmentOrder> fulfillmentOrders){
+        //shipment tracking numbers ==> One Invoice for all FOs
+        Set<String> settrackingNumbers = new Set<String>();
+        for (FulfillmentOrder fulOrder:fulfillmentOrders) {
+            List<Shipment> shipments = fulOrder.FulfillmentOrderShipments;
+            if (shipments != null) {
+                for (Shipment ship:shipments) {
+                    settrackingNumbers.add(ship.TrackingNumber);
+                }
+            }
+        }
+      
+        return String.join(new List<String>(settrackingNumbers), CONCAT_CHARACTER);
+    }
+
+    public InvoiceContact getDeliveryContact(FulfillmentOrder fulfillmentOrder){
+        InvoiceContact delivContact = new InvoiceContact();
+        delivContact.name    = fulfillmentOrder.FulfilledToName;
+        delivContact.city    = fulfillmentOrder.FulfilledToCity;
+        delivContact.zipCode = fulfillmentOrder.FulfilledToPostalCode;
+        delivContact.address = fulfillmentOrder.FulfilledToStreet;
+        delivContact.state   = fulfillmentOrder.FulfilledToState;
+        delivContact.country = countryMap.containsKey(fulfillmentOrder.FulfilledToCountry) ? countryMap.get(fulfillmentOrder.FulfilledToCountry) : fulfillmentOrder.FulfilledToCountry;
+       
+        return delivContact;
+    }
+
+    public InvoiceContact getBillingContact(FulfillmentOrder fulfillmentOrder){
+        InvoiceContact billContact = new InvoiceContact();
+        billContact.name    = fulfillmentOrder.OrderSummary.BillingContactFirstName__c + ' ' + fulfillmentOrder.OrderSummary.BillingContactLastName__c;
+        billContact.city    = fulfillmentOrder.OrderSummary.BillingCity;
+        billContact.zipCode = fulfillmentOrder.OrderSummary.BillingPostalCode;
+        billContact.address = fulfillmentOrder.OrderSummary.BillingStreet;
+        billContact.state   = fulfillmentOrder.OrderSummary.BillingState;
+        billContact.country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
+
+        return billContact;
+    }
+
+    public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap){
+        List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
+        Integer counter = 1;
+        for(InvoiceLine invoiceLine:invoiceLines) {
+            if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
+                InvoiceLineItem lineItem = new InvoiceLineItem();
+                lineItem.itemDescription = invoiceLine.Product2.Description;
+                lineItem.quantity        = invoiceLine.Quantity;
+                lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice);
+                lineItem.vat             = getTotalFormatted(invoiceLine.ChargeTaxAmount);
+                lineItem.grossAmount     = getTotalFormatted(invoiceLine.GrossUnitPrice);
+                lineItem.total           = getTotalFormatted(invoiceLine.ChargeAmountWithTax);
+                if (invoiceLine.ReferenceEntityItem instanceOf OrderItemSummary) {
+                    OrderItemSummary orderItem = invoiceLine.ReferenceEntityItem;
+                    lineItem.hsCode            = orderItem.hsCode__c;
+                    lineItem.hsCodeDescription = orderItem.hsCodeDescription__c;
+                    lineItem.coo               = orderItem.COO__c;
+                    List<String> serialNumbers = serialNumbersMap.get(orderItem.Id);
+                    if (serialNumbers != null) {
+                        lineItem.serialNumber = String.join(serialNumbers, CONCAT_CHARACTER);
+                    }
+                }
+                lineItem.itemNumber = counter;
+
+                lineItems.add(lineItem);
+                counter++;
+            }
+        }
+
+        return lineItems;
+    }
+
+    public String getPaymentMethod(FulfillmentOrder fulfillmentOrder){
+        //Get order payment summary
+        List<OrderPaymentSummary> paymentSummary = [SELECT Type, PaymentMethodId, PaymentMethod.ImplementorType FROM OrderPaymentSummary WHERE OrderSummaryId = :fulfillmentOrder.OrderSummaryId];
+        if (paymentSummary != null && !paymentSummary.isEmpty()) {
+            if (paymentSummary.get(0).PaymentMethod.ImplementorType.equalsIgnoreCase(SOM_Constants.CARD_PAYMENT_METHOD)) {
+                CardPaymentMethod cardPaymentMethod = [SELECT CardCategory FROM CardPaymentMethod WHERE Id = :paymentSummary.get(0).PaymentMethodId];
+                return cardPaymentMethod.CardCategory;
+            } else {
+                return paymentSummary.get(0).Type;
+            }
+        }
+
+        return '';
+    }
+
+    public Map<String,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
+        Map<Decimal, Decimal> invoiceTaxes       = new Map<Decimal, Decimal>();
+        Map<String, String> invoiceTaxesSorted = new Map<String, String>();
+
+        for (InvoiceLine lineItem:lineItems) {
+            if (lineItem.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_TAX)) {
+                if (invoiceTaxes.containsKey(lineItem.TaxRate)) {
+                    invoiceTaxes.put(lineItem.TaxRate,invoiceTaxes.get(lineItem.TaxRate)+lineItem.TaxAmount);
+                } else {
+                    invoiceTaxes.put(lineItem.TaxRate, lineItem.TaxAmount);
+                }
+               
+            }
+        }
+
+        List<Decimal> sortedTaxes = new List<Decimal>();
+        sortedTaxes.addAll(invoiceTaxes.keySet());
+        sortedTaxes.sort();
+        for(Decimal dec: sortedTaxes){
+            invoiceTaxesSorted.put(formatDecimalNumber(dec),formatDecimalNumber(invoiceTaxes.get(dec)));
+        }
+    
+        return invoiceTaxesSorted;
+    }
+
+    public String formatDecimalNumber(Decimal price){
+        return String.valueOf(price).replace('.', ',');
+    }
+
+    global with sharing class InvoiceDocument{
+        public String                documentNumber {get; set;} //Invoice: DocumentNumber
+        public String                invoiceDate {get; set;} //Invoice : InvoiceDate
+        public String                orderNumber {get; set;} //OrderSummary : OrderNumber
+        public String                currencyCode {get; set;} //FO : currency
+        public InvoiceContact        billingContact {get; set;}
+        public InvoiceContact        deliveryContact {get; set;}
+        public String                trackingNumbers {get; set;}
+        public List<InvoiceLineItem> lineItems {get; set;}
+        public String                netSubTotal {get; set;}
+        public String                totalWithTax {get; set;}
+        public String                paymentType {get; set;}
+    }
+
+    global with sharing class InvoiceContact{
+        public String name {get; set;}
+        public String company {get; set;} //mapping of the field??
+        public String zipCode {get; set;}
+        public String city {get; set;}
+        public String address {get; set;}
+        public String state {get; set;}
+        public String country {get; set;}
+    }
+
+    global with sharing class InvoiceLineItem{
+        public String  itemDescription {get; set;} //Product2 : description
+        public Integer itemNumber {get; set;}//
+        public String  serialNumber {get; set;} //serialnumber on shipping object
+        public String  hsCode {get; set;} //custom field orderItemSummary
+        public String  hsCodeDescription {get; set;}
+        public String  coo {get; set;}
+        public Decimal quantity {get; set;} //InvoiceLine : Quantity
+        public String  netAmount {get; set;} //InvoiceLine : UnitPrice
+        public String  vat {get; set;} //InvoiceLine: ChargeTaxAmount
+        public String  grossAmount {get; set;} //invoiceLine : TotalAmountWithTax /Quantity
+        public String  total {get; set;} //invoiceLine : TotalAmountWithTax
+    }
+}

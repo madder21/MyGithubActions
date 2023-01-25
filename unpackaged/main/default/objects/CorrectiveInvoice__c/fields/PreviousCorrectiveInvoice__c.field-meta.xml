@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PreviousCorrectiveInvoice__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Previous Corrective Invoice</label>
+    <referenceTo>CorrectiveInvoice__c</referenceTo>
+    <relationshipLabel>Corrective Invoices</relationshipLabel>
+    <relationshipName>Corrective_Invoices</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

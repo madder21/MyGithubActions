@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Delivery_Type__c</fullName>
+    <description>IF YOU UPDATE THE PICKLIST VALUES : remember to also update the related formula fields isHomeDelivery__c and isStorePickup__c</description>
+    <externalId>false</externalId>
+    <label>Delivery Type</label>
+    <required>true</required>
+    <trackHistory>false</trackHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Home Delivery</fullName>
+                <default>true</default>
+                <label>Home Delivery</label>
+            </value>
+            <value>
+                <fullName>Store Pickup</fullName>
+                <default>false</default>
+                <label>Store Pickup</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

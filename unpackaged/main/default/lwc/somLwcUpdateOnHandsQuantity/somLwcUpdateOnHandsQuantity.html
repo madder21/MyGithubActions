@@ -1,0 +1,77 @@
+<template>
+
+    <!-- spinner start -->
+    <template if:true={isLoading}>
+        <div class="spinnerContStyle">
+            <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+        </div>
+    </template>
+    <!-- spinner end -->
+
+    <div class="slds-grid slds-wrap">
+
+        <div class="slds-size_1-of-4"></div>
+        <div class="slds-size_2-of-4" style="border:rgb(206, 203, 203) 2px solid; padding:1%">
+            <div class="headerInfo"> Select a Location, enter a SKU and a new On Hand quantity to update the stock.    </div>
+            <div>
+                <lightning-input class="validate" variant="label-stacked" label="SKU" style="width:100%" type="text" placeholder= "Enter SKU ... " value={skuText} onchange={handleSKU} required> </lightning-input>
+            </div>
+            <div>
+                <lightning-combobox class="validate" style="width:100%" variant="label-stacked" label="Location" name="locationVal" value={selectedLocation}
+                        placeholder="Select Location" options={locationPicklist}
+                        onchange={handleLocation} required>
+                </lightning-combobox>
+            </div>
+            <div>
+                <lightning-input variant="label-stacked" label="Current On Hand Quantity" style="width:100%" type="number" value={oldOnHands} disabled> </lightning-input>
+            </div>
+            <div>
+                <lightning-input class="validate" variant="label-stacked" label="New On Hand Quantity" style="width:100%" type="number" placeholder= "Enter the new quantity ... " value={newOnHands} onchange={handleNewOnHands} required> </lightning-input>
+            </div>
+            <div class="nextButtonStyle">
+                <lightning-button variant="brand" disabled={displayNextButton} label="Update On Hand quantity"  name="nextButton"  onclick={handleNextButton}></lightning-button>
+            </div>
+        </div>
+        <div class="slds-size_1-of-4"></div>
+    </div>
+
+     <!-- modal start -->      
+     <template if:true={isShowModal}>
+
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+
+        <!-- modal header start -->
+        <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+                <lightning-icon icon-name="utility:close"
+                alternative-text="close"
+                variant="inverse"
+                size="small" ></lightning-icon>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Are you sure?</h2>
+        </header>
+        <template if:true={isLoadingModal}>
+            <div class="spinnerModalContStyle">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+            </div>
+        </template>
+        <!-- modal body start -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <p class="StyleConfirmMsg">Do you confirm the update of the quantity?</p>
+        </div>
+    
+        <!-- modal footer start-->
+        <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+            <button class="slds-button  slds-button_brand" onclick={updateOCI}>Confirm</button>
+    
+        </footer>
+    
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!-- modal end -->
+</template>
