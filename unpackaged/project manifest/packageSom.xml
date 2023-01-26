@@ -80,6 +80,7 @@
         <members>SOM_Manual_RO_Reception_Controller_Test</members>
         <members>SOM_OrderSummaryCancelationHandler_Test</members>
         <members>SOM_OrderSummaryCapturePaymentActionTest</members>
+        <members>WS_SOM_OrderSummary_CapturePaymentAction</members>
         <members>SOM_SerialNumbersValidation_Test</members>
         <members>SOM_ShipmentPerFoliAction_Test</members>
         <members>SOM_StartFulfillmentProcessTest</members>
@@ -107,6 +108,9 @@
     <types>
         <members>CreditMemo.CreditMemoCompactLayout</members>
         <members>Invoice.Invoice_Compact_Layout</members>
+        <members>Shipment.ShipmentCL</members>
+        <members>OrderSummary.OrderSummaryCL</members>
+        <members>OrderDeliveryGroupSummary.ODS_CL</members>
         <name>CompactLayout</name>
     </types>
     <types>
@@ -476,6 +480,7 @@
         <members>Return_Order_Record_Page</members>
         <members>Shipment_Record_Page</members>
         <members>Transactional_Email_Record_Page</members>
+        <members>Transactional_Email_Record_Page1</members>
         <members>Home_Page_Default</members>
         <name>FlexiPage</name>
     </types>
@@ -682,9 +687,16 @@
         <members>Order_summary_with_payment</members>                               <!--RSO UAT SPRINT 5 V2-->
         <members>Oder_Pay_Sum</members>                                             <!--RSO UAT SPRINT 5 V2--> 
         <members>Order_Payment_Summary_with_refunds</members>                       <!--RSO UAT SPRINT 5 V2--> 
-        <members>Return_Orders</members>                                            <!--RSO UAT SPRINT 5 V2-->
+        <members>Order_summary_with_invoices</members>
+        <members>Fulfillment_Order</members>
+        <members>Return_Orders</members>  
+        <members>Shipments</members>                                        <!--RSO UAT SPRINT 5 V2-->
         <members>SOM_PE_ReportType</members> <!--RSO UAT SPRINT 8 V2 -->
         <name>ReportType</name>
+    </types>
+    <types>
+        <members>SOMInvoiceDocumentStyle</members>
+        <name>StaticResource</name>
     </types>
 	<version>54.0</version>
 </Package>
