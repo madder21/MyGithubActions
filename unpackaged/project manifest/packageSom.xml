@@ -55,11 +55,13 @@
 		<members>SOM_testDataFactory</members>
 		<members>ShipmentItemTriggerHandler</members>
 		<members>WS_SOM_CapturePaymentAction</members>
+        <members>WS_SOM_OrderSummary_CapturePaymentAction</members>
 		<members>WS_SOM_CreateReturnOrderEndpoint</members>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
 		<members>WS_SOM_Create_StoreToWebOrderTest</members>
         <members>WS_SOM_CreateEfulOrders</members>
         <members>WS_SOM_CreateEfulOrders_Test</members>
+        <members>SOM_ADV_Reservation</members>
         <members>SOM_ADV_ReservationTest</members>
         <members>SOM_Batch_CustomerTokenDeletionTest</members>
         <members>SOM_ClosingFulfillmentOrderAction_Test</members>
@@ -82,6 +84,7 @@
         <members>SOM_ShipmentPerFoliAction_Test</members>
         <members>SOM_StartFulfillmentProcessTest</members>
         <members>SOM_TransactionalEmailHandler_Test</members>
+        <members>SOM_TranslateReservation</members>
         <members>SOM_TranslateReservationTest</members>
         <members>SOM_TranslateShipment_Test</members>
         <members>SOM_Utils_Test</members>
@@ -549,6 +552,7 @@
 		<members>SOM_Resend_Transactional_Email</members>
 		<members>SOM_Single_Fulfillment_Order_Cancelation</members>
 		<members>SOM_Stock_FutureStockCleaning</members>
+        <members>SOM_SERVICE_100_GetAvailability_Orchestration</members>
         <members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members> <!-- RSO UAT SPRINT 8 V2 -->
         <members>SOM_SERVICE_120_GetAvailability_Call_OCI</members> <!-- RSO UAT Sprint 8 V1 -->
         <members>SOM_SERVICE_130_GetAvailability_Manage_Results</members> <!--RSO CS100 - UAT SPRINT 3 V1-->
@@ -571,10 +575,10 @@
     <types>
 		<members>CybersourceService</members>
 		<members>Gateway_Provide_Named_Credential</members>
-        <members>InvoiceDocumentMulesoftEndpoint</members>       <!-- RSO UAT SPRINT 6 V1-->
 		<members>InvoiceAuthNamedCredential</members>
 		<members>InvoiceDocumentNamedCredential</members>
 		<members>Payment_Capture_Service</members>
+        <members>InvoiceDocumentMulesoftEndpoint</members> <!-- RSO UAT SPRINT 6 V1-->
 		<name>NamedCredential</name>
 	</types>
     <types>
