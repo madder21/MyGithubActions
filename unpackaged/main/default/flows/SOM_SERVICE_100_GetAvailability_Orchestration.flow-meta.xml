@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <assignments>
+        <name>Generate_C_Reservations</name>
+        <label>Generate C_Reservations</label>
+        <locationX>1013</locationX>
+        <locationY>294</locationY>
+        <assignmentItems>
+            <assignToReference>C_Reservations</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SOM_SERVICE_110_FO_IR.C_Reservations</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Incoming_Variable</name>
+        <label>Incoming Variable</label>
+        <locationX>555</locationX>
+        <locationY>294</locationY>
+        <defaultConnectorLabel>Other</defaultConnectorLabel>
+        <rules>
+            <name>Fulfillment_Order_Input_Rep</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>C_FulfillmentOrderInputRepresentation</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SOM_SERVICE_110_FO_IR</targetReference>
+            </connector>
+            <label>Fulfillment Order Input Rep</label>
+        </rules>
+    </decisions>
+    <description>Transforms multiple input types into C_Reservations</description>
+    <interviewLabel>SOM SERVICE 100 - GetAvailability Orchestration {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM SERVICE 100 - GetAvailability Mapping</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>437</locationX>
+        <locationY>148</locationY>
+        <connector>
+            <targetReference>Incoming_Variable</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>SOM_SERVICE_110_FO_IR</name>
+        <label>SOM SERVICE 110 FO_IR</label>
+        <locationX>827</locationX>
+        <locationY>294</locationY>
+        <connector>
+            <targetReference>Generate_C_Reservations</targetReference>
+        </connector>
+        <flowName>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</flowName>
+        <inputAssignments>
+            <name>C_FulfillmentOrderInputRepresentation</name>
+            <value>
+                <elementReference>C_FulfillmentOrderInputRepresentation</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <variables>
+        <name>C_FulfillmentOrderInputRepresentation</name>
+        <apexClass>ConnectApi__FulfillmentOrderInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Reservations</name>
+        <apexClass>SOM_ADV_Reservation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>
