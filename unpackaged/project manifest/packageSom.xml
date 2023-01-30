@@ -375,6 +375,10 @@
         <members>CountryMapping__mdt.CountryLabel__c</members>
         <members>CountryMapping__mdt.CoutryISOcode__c</members>
         <members>CountryMapping__mdt.LanguageISOcode__c</members>
+        <members>Cybersource_Config__mdt.deliveryCountry__c</members>
+        <members>Cybersource_Config__mdt.key__c</members>
+        <members>Cybersource_Config__mdt.merchantId__c</members>
+        <members>Cybersource_Config__mdt.url__c</members>
         <members>Shipment.Carrier__c</members>
         <members>Shipment.CegidInvoiceNumber__c</members>
         <members>Shipment.DispatchDate__c</members>
@@ -427,23 +431,32 @@
 		<members>SOM_Invoice_Setting.IMPORTER_VALUE_LINE_2_CoreModel</members>
 		<members>SOM_Invoice_Setting.IMPORTER_VALUE_LINE_3_CoreModel</members>
 		<members>SOM_Invoice_Setting.IMPORTER_VALUE_LINE_4_CoreModel</members>
+        <members>SOM_Invoice_Setting.Invoice_Document_Mulesoft_Endpoint</members>
 		<members>SOM_Invoice_Setting.PDF_ADDRESS_1_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_ADDRESS_2_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_COMPANY_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_COUNTRY_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_LABEL_COURT_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_LABEL_REGISTER_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_MAIL_AE</members>
 		<members>SOM_Invoice_Setting.PDF_MAIL_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_MAIL_SERVICE_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_MAIL_SERVICE_AE</members>
 		<members>SOM_Invoice_Setting.PDF_MANAGING_DIRECTOR_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_PHONE_AE</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_PHONE_SERVICE_AE</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_SERVICE_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_REGISTER_CITY_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_REGISTER_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_TAX_INFORMATION_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_VAT_ID_CoreModel</members>
 		<members>SOM_Invoice_Setting.TERM_OF_DELIVERY_VALUE_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_VAT_ID_COUNTRY_CoreModel</members>
+        <members>SOM_Invoice_Setting.PDF_VAT_ID_COUNTRY_AE</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_GB</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_UK</members>
+        <members>Sales_Channel_Mapping.Sales_Channel_AE</members>
 		<name>CustomMetadata</name>
 	</types>
     <types>
@@ -468,6 +481,7 @@
 		<members>RimowaCapturePayment__c</members>
 		<members>SOM_Invoice_Setting__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
+        <members>Cybersource_Config__mdt</members>
         <members>CountryMapping__mdt</members>
 		<members>TransactionalEmail__c</members>
 		<members>UpdateOSCaptureEvent__e</members>
