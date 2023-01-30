@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OrderType__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(OrderSummary__r.SalesChannel.SalesChannelName = &quot;CEGID&quot;, &quot;StoreToWeb&quot;,  
+				IF(AND(OrderSummary__r.SalesChannel.SalesChannelName = &quot;Rimowa&quot;,OrderSummary__r.tech_os_store_shipping_method__c &gt; 0), &quot;C&amp;C&quot;,
+							IF(AND(OrderSummary__r.SalesChannel.SalesChannelName = &quot;Rimowa&quot;,OrderSummary__r.tech_os_store_shipping_method__c = 0), &quot;Ecom&quot;,&quot;error&quot;) ) )</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Order Type</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

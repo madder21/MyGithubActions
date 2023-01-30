@@ -1197,7 +1197,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Location.LocationLevel</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1267,12 +1267,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Order.ActivatedById</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Order.ActivatedDate</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1297,7 +1297,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Order.ContractEndDate</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1342,7 +1342,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Order.TotalAmount</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1364,6 +1364,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Order.passedFraudScreening__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderDeliveryGroup.CLICKCOLLECT_StoreName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1444,6 +1449,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>OrderDeliveryGroup.STORE_OPENING_WE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderDeliveryGroupSummary.CLICKCOLLECT_StoreName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1777,12 +1787,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>OrderSummary.SalesChannelName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>OrderSummary.StandardProductsCount__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1797,7 +1807,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>OrderSummary.Tech_OrderItemSummaries_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1837,7 +1847,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>OrderSummary.tech_os_store_shipping_method__c</field>
         <readable>true</readable>
     </fieldPermissions>

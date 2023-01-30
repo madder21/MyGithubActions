@@ -45,10 +45,6 @@
                 <field>DueDate</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Status</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Description</field>
             </layoutItems>
@@ -146,10 +142,11 @@
     </platformActionList>
     <relatedLists>
         <fields>Name</fields>
-        <fields>Product2</fields>
         <fields>LineAmount</fields>
         <fields>Quantity</fields>
         <fields>UnitPrice</fields>
+        <fields>InvoiceLineStartDate</fields>
+        <fields>InvoiceLineEndDate</fields>
         <fields>Type</fields>
         <relatedList>InvoiceLineList</relatedList>
     </relatedLists>

@@ -78,7 +78,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             shipmentConfirmationTemplateContent.orderNumber        = ship.FulfillmentOrder.OrderSummary.OrderNumber;
             shipmentConfirmationTemplateContent.deliveryStreet     = ship.ShipToStreet;
             shipmentConfirmationTemplateContent.deliveryCity       = ship.ShipToCity;
-            shipmentConfirmationTemplateContent.deliveryCountry    = ship.ShipToCountry;
+            shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.ShipToCountry);
             shipmentConfirmationTemplateContent.deliveryName       = ship.shipToName;
             shipmentConfirmationTemplateContent.deliveryPostalCode = ship.ShipToPostalCode;
             shipmentConfirmationTemplateContent.deliveryState      = ship.ShipToState;
@@ -158,14 +158,14 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTemplateContent.billingLastName  = fullOrder.OrderSummary.BillingContactLastName__c;
             invoiceTemplateContent.billingCity      = fullOrder.OrderSummary.BillingCity;
             invoiceTemplateContent.billingState     = fullOrder.OrderSummary.BillingState;
-            invoiceTemplateContent.billingCountry   = fullOrder.OrderSummary.BillingCountry;
+            invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.BillingCountry);
             invoiceTemplateContent.billingStreet    = fullOrder.OrderSummary.BillingStreet;
             invoiceTemplateContent.billingZipcode   = fullOrder.OrderSummary.BillingPostalCode;
             invoiceTemplateContent.deliveryName     = fullOrder.FulfilledToName;
             invoiceTemplateContent.deliveryCity     = fullOrder.FulfilledToCity;
             invoiceTemplateContent.deliveryState    = fullOrder.FulfilledToState;
             invoiceTemplateContent.deliveryZipcode  = fullOrder.FulfilledToPostalCode;
-            invoiceTemplateContent.deliveryCountry  = fullOrder.FulfilledToCountry;
+            invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.FulfilledToCountry);
             invoiceTemplateContent.deliveryStreet   = fullOrder.FulfilledToStreet;
             invoiceTemplateContent.invoiceAmount    = fullOrder.Invoice.TotalAmountWithTax;
             invoiceTemplateContent.invoiceCurrency  = fullOrder.Invoice.CurrencyIsoCode;
@@ -201,14 +201,14 @@ public without sharing class SOM_TransactionalEmailHandler {
                     BillingCity, BillingCountry, TotalAmount, TotalTaxAmount, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,
                     (SELECT Id,StockKeepingUnit,Name,LineNumber, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
                         FROM OrderItemSummaries ORDER BY LineNumber ASC),
-                    (SELECT Id,DeliverToCountry, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
+                    (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
                         FROM OrderDeliveryGroupSummaries)
                     FROM OrderSummary WHERE Id IN :recordIds];
         //List<Schema.Location> StoreLocation = [Select Id from Location where LocationType =: SOM_Constants.STORE ];
         for (OrderSummary orderSumm : orderSummaries) {
             SOM_OrderConfirmationTemplateContent orderTemplateContent = new SOM_OrderConfirmationTemplateContent();
             orderTemplateContent.billingCity      = orderSumm.BillingCity;
-            orderTemplateContent.billingCountry   = orderSumm.BillingCountry;
+            orderTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.BillingCountry);
             orderTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
             orderTemplateContent.billingLastName  = orderSumm.BillingContactLastName__c;
             orderTemplateContent.billingStreet    = orderSumm.BillingStreet;
@@ -226,18 +226,18 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderTemplateContent.total            = orderSumm.GrandTotalAmount;
             orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
             
-            if(orderSumm.SalesChannel.SalesChannelName == 'CEGID'){
+            /*if(orderSumm.SalesChannel.SalesChannelName == 'CEGID'){
                 orderTemplateContent.orderType		  = 'StoreToWeb';
             }else if(orderSumm.SalesChannel.SalesChannelName == 'Rimowa') {
                 if( orderSumm.tech_os_store_shipping_method__c > 0)
                 	orderTemplateContent.orderType		  = 'C&C';
                 else if ( orderSumm.tech_os_store_shipping_method__c == 0)
                     orderTemplateContent.orderType		  = 'Ecom';
-            }
+            }*/
 
             if(!orderSumm.OrderDeliveryGroupSummaries?.isEmpty()){
                 orderTemplateContent.deliveryCity    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCity;
-                orderTemplateContent.deliveryCountry = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
+                orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 orderTemplateContent.deliveryName    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
                 orderTemplateContent.deliveryStreet  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 orderTemplateContent.deliveryZipcode = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -247,6 +247,13 @@ public without sharing class SOM_TransactionalEmailHandler {
                 else{
                 orderTemplateContent.deliveryState   = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToState;
                 }
+                
+                if(orderSumm.SalesChannel.SalesChannelName == 'Rimowa' && orderSumm.tech_os_store_shipping_method__c > 0){
+                    orderTemplateContent.PickupStoreName = orderSumm.OrderDeliveryGroupSummaries[0].CLICKCOLLECT_StoreName__c ;
+                    //orderTemplateContent.PickupStoreName = 'orderSumm.OrderDeliveryGroupSummaries[0].CLICKCOLLECT_StoreName__c' ;
+                }/*else{
+                	orderTemplateContent.PickupStoreName = '';
+                }*/
                 
             }
             orderTemplateContent.items = new List<Order_Item>();
@@ -335,7 +342,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                     BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                     BillingCity, BillingCountry, AccountId,Account.PersonEmail,
-                    (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
+                    (SELECT Id, DeliverToCountry, DeliverToCity, CLICKCOLLECT_StoreName__c, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
                      FROM OrderDeliveryGroupSummaries), (SELECT Id, FulfilledFromLocation.Name FROM FulfillmentOrders)
                     FROM OrderSummary WHERE Id IN :recordIds];
 
@@ -354,6 +361,8 @@ public without sharing class SOM_TransactionalEmailHandler {
                 adress.name       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToName;
                 adress.street     = orderSum.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 adress.postalCode = orderSum.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
+                adress.PickupStoreName = orderSum.OrderDeliveryGroupSummaries[0].CLICKCOLLECT_StoreName__c ;
+                
                 orderReadyForPickupTemplateContent.pickupAddress = adress;
                 sched.storeOpMO   = orderSum.OrderDeliveryGroupSummaries[0].STORE_OPENING_MO__c;
                 sched.storeOpTU   = orderSum.OrderDeliveryGroupSummaries[0].STORE_OPENING_TU__c;
@@ -440,7 +449,7 @@ public without sharing class SOM_TransactionalEmailHandler {
                 continue;
             }
             refundValidationTemplateContent.billingCity      = orderSumm.BillingCity;
-            refundValidationTemplateContent.billingCountry   = orderSumm.BillingCountry;
+            refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.BillingCountry);
             refundValidationTemplateContent.billingStreet    = orderSumm.BillingStreet;
             refundValidationTemplateContent.billingZipcode   = orderSumm.BillingPostalCode;
             refundValidationTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
@@ -452,7 +461,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             refundValidationTemplateContent.refundAmount     = creditNote.Refund__r.Amount;
             refundValidationTemplateContent.refundCurrency   = creditNote.Refund__r.CurrencyIsoCode;
             refundValidationTemplateContent.deliveryCity     = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCity;
-            refundValidationTemplateContent.deliveryCountry  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
+            refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
             refundValidationTemplateContent.deliveryName     = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
             refundValidationTemplateContent.deliveryStreet   = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
             refundValidationTemplateContent.deliveryZipcode  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -510,12 +519,12 @@ public without sharing class SOM_TransactionalEmailHandler {
             refundWithoutCreditMemoEmail.billingFirstName = orderSum.BillingContactFirstName__c;
             refundWithoutCreditMemoEmail.billingLastName  = orderSum.BillingContactLastName__c;
             refundWithoutCreditMemoEmail.billingCity      = orderSum.BillingCity;
-            refundWithoutCreditMemoEmail.billingCountry   = orderSum.BillingCountry;
+            refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.BillingCountry);
             refundWithoutCreditMemoEmail.billingStreet    = orderSum.BillingStreet;
             refundWithoutCreditMemoEmail.billingState     = orderSum.BillingState;
             refundWithoutCreditMemoEmail.billingZipcode   = orderSum.BillingPostalCode;
             refundWithoutCreditMemoEmail.deliveryCity     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCity;
-            refundWithoutCreditMemoEmail.deliveryCountry  = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry;
+            refundWithoutCreditMemoEmail.deliveryCountry  = generateCountryMappingLabel(orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
             refundWithoutCreditMemoEmail.deliveryName     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToName;
             refundWithoutCreditMemoEmail.deliveryState    = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToState;
             refundWithoutCreditMemoEmail.deliveryStreet   = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToStreet;
@@ -547,6 +556,11 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
 
         return transactionalEmails;
+    } 
+    
+    public static String generateCountryMappingLabel(String CountryIsoCode) {
+        String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE CoutryISOcode__c = :CountryIsoCode].CountryLabel__c;
+        return CountryMappingLabel ;
     } 
 
     public class SOM_GenerateTransactionalEmailInput{
@@ -623,7 +637,8 @@ public without sharing class SOM_TransactionalEmailHandler {
         public String deliveryCity;
         public String deliveryCountry;
         public String deliveryState;
-        public String orderType;
+        public String PickupStoreName;
+        //public String orderType;
         public Decimal subtotal;
         public Decimal tax;
         public Decimal total;
@@ -681,6 +696,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         public String name;
         public String street;
         public String postalCode;
+        public String PickupStoreName;
     }
 
     public class PickupSchedule{

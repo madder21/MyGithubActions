@@ -54,10 +54,6 @@
                 <field>ReturnedById</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Status</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ContactId</field>
             </layoutItems>
@@ -158,6 +154,11 @@
             <actionType>QuickAction</actionType>
             <sortOrder>2</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Submit</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>3</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <quickActionList>
         <quickActionListItems>
@@ -196,7 +197,6 @@
     </relatedLists>
     <relatedLists>
         <fields>Name</fields>
-        <fields>CreditMemoNumber</fields>
         <fields>BillingAccount</fields>
         <fields>Status</fields>
         <fields>TotalAmount</fields>
