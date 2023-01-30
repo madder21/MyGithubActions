@@ -95,8 +95,7 @@ global with sharing class SOM_Constants {
     public static final String STORE = 'Store';
     public static final String EXTERNAL_MODE = 'External';
     public static final String PROCESSED = 'Processed';
-	public static final String NEW_PE = 'New';
-    public static final String PAYMENT = 'Payment';
+
 
     //OCI_Static_Labels
     public static final String FILE_TYPE = 'application/json';

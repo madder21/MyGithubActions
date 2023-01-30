@@ -1,0 +1,134 @@
+<template>
+    <div class="slds-is-relative">
+        <template if:true={isLoading}>
+            <div class="spinnerContStyle">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+            </div>
+        </template> 
+        <div if:false={customOutputData}>
+            <div class="slds-align_absolute-center" style="height:5rem">No Data exists</div>
+        </div>
+       
+        <template if:true={customOutputData}> 
+                <!-- <lightning-record-edit-form object-api-name='OrderItemSummary' > -->
+                    <div style="overflow-x:auto">
+                    <table class="slds-table slds-table_cell-buffer"
+                        aria-labelledby="element-with-table-label other-element-with-table-label" style="width:100%">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Sku">SKU </div>
+                                </th>
+                                <th class="" scope="col" >
+                                    <div class="slds-truncate" title="Name">Name </div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Discount Type</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Discount Type Value</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Quantity">Discount Value</div>
+                                </th>
+                                <th class="" scope="col" >
+                                    <div class="slds-truncate" title="Name">Reason </div>
+                                </th>
+                                <th class="" scope="col" >
+                                    <div class="slds-truncate" title="Discount Note">Discount Note </div>
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={customOutputData} for:item="item">
+                                <tr class="slds-hint-parent" key={item.sku}>
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <lightning-input variant="label-hidden" style="width:100px" type="number" access-key={item.sku} value={item.sku} disabled> </lightning-input>
+                                            <span style="margin-left: 0% ;"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <lightning-input variant="label-hidden" style="width:250px"  access-key={item.sku} value={item.description} disabled> </lightning-input>
+                                            <span style="margin-left: 0% ;"></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <fieldset class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                              <div class="slds-radio_button-group">
+                                                    <span class="slds-button slds-radio_button">
+                                                        <input class="button1"  type="radio" name={item.sku} id={item.amountId} value={item.amountId} onclick={handleClickType} checked={item.taxType}/>
+                                                        <label class="slds-radio_button__label" for={item.amountId}>
+                                                          <span class="slds-radio_faux">Amount</span>
+                                                        </label>
+                                                      </span>
+                                              
+                                                    <span class="slds-button slds-radio_button">
+                                                        <input class="button2" type="radio" name={item.sku} id={item.percentId} value={item.percentId} onclick={handleClickType}/>
+                                                        <label class="slds-radio_button__label" for={item.percentId}>
+                                                          <span class="slds-radio_faux">Percent</span>
+                                                        </label>
+                                                      </span>
+                                                
+                                              </div>
+                                            </div>
+                                          </fieldset>
+                                    </td> 
+                                    <td>
+                                        <template if:true={item.taxType}>
+                                            <div class="CurrencyWithInput">
+                                                <span style="color:red; margin-right: 3% ;">*</span>
+                                                <lightning-input variant="label-hidden" style="width:100px" type="number" step=".01" access-key={item.sku} class= "DiscountValue" value={item.taxValue} onchange={handleTaxValue} required> </lightning-input>
+                                                <span style="margin-left: 2% ;">{currencyIso}</span>
+                                                <!-- <br><div>The number is too high.</div> -->
+                                            </div>
+                                        </template>
+                                        <template if:false={item.taxType}>
+                                            <div class="CurrencyWithInput">
+                                                <span style="color:red; margin-right: 3% ;">*</span>
+                                                <lightning-input variant="label-hidden" type="number" style="width:100px" access-key={item.sku} class="DiscountValue" value={item.taxRate} formatter="percent-fixed" step="0.01" onchange={handleTaxValue} required></lightning-input>
+                                                <span if:true={item.taxType} style="margin-left: 2% ;">{currencyIso}</span>
+                                            </div>
+                                        </template>
+                                    </td>
+                      
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <lightning-input variant="label-hidden" style="width:100px" type="number" access-key={item.sku} value={item.lineTotal} class="DiscountValue11" disabled> </lightning-input>
+                                            <span style="margin-left: 2% ;">{currencyIso}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <lightning-combobox access-key={item.sku} name="Reason"
+                                        value={item.reason} placeholder="Select Reason"
+                                        options={ReturnReasonPicklist} onchange={handleReturnReasonChange} class="picklistStyle" required>
+                                    </lightning-combobox>
+                                    </td>
+                                    <td>
+                                        <div class="CurrencyWithInput">
+                                            <lightning-input variant="label-hidden" style="width:100px" access-key={item.sku} value={item.discountNote} onchange={handleDiscountNoteChange}> </lightning-input>
+                                            <span style="margin-left: 2% ;"></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </template>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <!-- </lightning-record-edit-form> -->
+         
+                
+        </template>
+        
+    
+    </div>
+
+
+
+</template>
