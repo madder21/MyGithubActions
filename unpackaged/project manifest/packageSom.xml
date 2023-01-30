@@ -8,7 +8,7 @@
         <members>GatewayProviderCODAdapterClass</members>
 		<members>PAD</members>
 		<members>ReturnOrderLineItemTriggerHandler</members>
-        <members>runtime_commerce_oms__FulfillItem</members>
+        <!--<members>runtime_commerce_oms__FulfillItem</members>-->
         <members>SOM_AdaptReservations</members>
         <members>SOM_AdaptReservations_Test</members>
         <members>SOM_AutomatedEmailWithProcessEXBatch</members>  
@@ -33,6 +33,8 @@
 		<members>SOM_LWC_DisplayOrderItems_Controller</members>
 		<members>SOM_LWC_ExchangeOrderController</members>
         <members>SOM_LWC_Update_OnHands_Controller</members>
+        <members>somLwcProductChangesSelection_Controller</members>
+        <members>somLwcProductChangesSelectionC_Test</members>
 		<members>SOM_Manual_RO_Reception_Controller</members>
 		<members>SOM_OCI_InventoryRecord</members>
 		<members>SOM_OCI_LocationAvailability</members>
@@ -62,6 +64,8 @@
 		<members>WS_SOM_Create_StoreToWebOrderTest</members>
         <members>WS_SOM_CreateEfulOrders</members>
         <members>WS_SOM_CreateEfulOrders_Test</members>
+        <members>WS_SOM_CreateEfulReturnOrders</members>
+        <members>WS_SOM_CreateEfulReturnOrders_Test</members>
         <members>SOM_ADV_Reservation</members>
         <members>SOM_ADV_ReservationTest</members>
         <members>SOM_Batch_CustomerTokenDeletionTest</members>
@@ -198,6 +202,7 @@
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_firstName__c</members>
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_lastName__c</members>
         <members>OrderDeliveryGroup.CLICKCOLLECT_pickup_phone__c</members>
+        <members>OrderDeliveryGroup.CLICKCOLLECT_StoreName__c</members>
         <members>OrderDeliveryGroup.DeliverToAddress</members>
         <members>OrderDeliveryGroup.DeliveryInstructions</members>
         <members>OrderDeliveryGroup.Description</members>
@@ -231,6 +236,7 @@
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_pickup_firstName__c</members>
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_pickup_lastName__c</members>
         <members>OrderDeliveryGroupSummary.CLICKCOLLECT_pickup_phone__c</members>
+        <members>OrderDeliveryGroupSummary.CLICKCOLLECT_StoreName__c</members>
         <members>OrderDeliveryGroupSummary.RI_TAX_ID__c</members>
         <members>OrderDeliveryGroupSummary.STORE_OPENING_FR__c</members>
         <members>OrderDeliveryGroupSummary.STORE_OPENING_MO__c</members>
@@ -311,6 +317,7 @@
         <members>OrderSummary.captureAtShipment__c</members>
         <members>OrderSummary.cegidDepositId__c</members>
         <members>OrderSummary.cegidOrderId__c</members>
+        <members>OrderSummary.cegidCustomerId__c</members>
         <members>OrderSummary.passedFraudScreening__c</members>
         <members>OrderSummary.reconciliationId__c</members>
         <members>OrderSummary.tech_os_store_shipping_method__c</members>
@@ -364,6 +371,9 @@
         <members>SOM_Invoice_Setting__mdt.Value__c</members>
         <members>Sales_Channel_Mapping__mdt.ChannelId__c</members>
         <members>Sales_Channel_Mapping__mdt.Zone__c</members>
+        <members>CountryMapping__mdt.CountryLabel__c</members>
+        <members>CountryMapping__mdt.CoutryISOcode__c</members>
+        <members>CountryMapping__mdt.LanguageISOcode__c</members>
         <members>Shipment.Carrier__c</members>
         <members>Shipment.CegidInvoiceNumber__c</members>
         <members>Shipment.DispatchDate__c</members>
@@ -391,6 +401,7 @@
         <members>TransactionalEmail__c.OrderSummary__c</members>
         <members>TransactionalEmail__c.Status__c</members>
         <members>TransactionalEmail__c.Template__c</members>
+        <members>TransactionalEmail__c.OrderType__c</members>
         <members>UpdateOSCaptureEvent__e.OrderSummaryId__c</members>
         <members>User.ByPassTriggers__c</members>
         <name>CustomField</name>
@@ -456,6 +467,7 @@
 		<members>RimowaCapturePayment__c</members>
 		<members>SOM_Invoice_Setting__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
+        <members>CountryMapping__mdt</members>
 		<members>TransactionalEmail__c</members>
 		<members>UpdateOSCaptureEvent__e</members>
 		<name>CustomObject</name>
@@ -571,7 +583,8 @@
 		<members>somLwcDisplayOrderItems</members>
 		<members>som_ExchangeOrderCreation_Component</members>
 		<members>som_ManualReturnReception</members>
-        <members>somLwcUpdateOnHandsQuantity</members> <!--RSO UAT SPRINT 7 V1-->
+        <members>somLwcUpdateOnHandsQuantity</members>
+        <members>somLwcProductChangesSelection</members>
 		<name>LightningComponentBundle</name>
 	</types>
     <types>
@@ -616,6 +629,7 @@
         <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
         <members>Shipment-Shipment Layout</members>
         <members>ShipmentItem-Shipment Item Layout</members>
+        <members>Payment-Payment Layout</members>
         <members>TransactionalEmail__c-Transactional Email Layout</members>
         <members>ProcessException-Process Exception Layout</members> <!--RSO Sprint 12 V1-->
         <name>Layout</name>

@@ -426,6 +426,10 @@
                 <elementReference>Get_OSLI_s_SKU.OrderSummaryId</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S20_Reservation.locationId</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
         <connector>
             <targetReference>Location_Type</targetReference>
         </connector>

@@ -51,10 +51,6 @@
                 <field>passedFraudScreening__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>CaptureStatus__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>StoreOrigin__c</field>
             </layoutItems>
@@ -93,6 +89,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>latestExpectedDeliveryDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>cegidCustomerId__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -253,6 +253,16 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
+            <actionName>OrderSummary.Retry_Capture</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>4</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>FeedItem.TextPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>OrderSummary.Create_Refund</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>0</sortOrder>
@@ -271,16 +281,6 @@
             <actionName>OrderSummary.Cancel_Order</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>3</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>OrderSummary.Retry_Capture</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>4</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.TextPost</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>5</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>

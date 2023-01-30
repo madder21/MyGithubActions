@@ -73,7 +73,6 @@ global with sharing class WS_SOM_CreateEfulOrders {
             Map<String, Account> accountsMap = new Map<String, Account>();
             List<Account> accountsToCreate = new List<Account>();
             List<Account> accounts = [SELECT Id, Name, FirstName, LastName, personEmail FROM Account WHERE Name IN: accountNames AND personEmail IN: accountEmails];
-            System.debug('accounts'+accounts);
             if(!accounts.isEmpty() && accounts != null){
                 for(Account acc : accounts){
                     accountsMap.put(acc.Name.toUppercase() + ' ' + acc.personEmail.toUppercase(), acc);
@@ -86,9 +85,6 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     accountsToCreate.add(accountToCreate);
                 }
             }
-            System.debug('accountsMap'+accountsMap);
-            
-            System.debug('accountsToCreate'+accountsToCreate);
             insert accountsToCreate;
     
             List<Account> allAccounts = new List<Account>();
@@ -100,9 +96,6 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     accountsMap.put(newAcc.FirstName.toUppercase() + ' ' + newAcc.LastName.toUppercase() + ' ' + newAcc.personEmail.toUppercase(), newAcc);
                 }
             }
-            
-            System.debug('accountsMap'+accountsMap);
-
             //Check Accounts Existance -- end
     
             //order
