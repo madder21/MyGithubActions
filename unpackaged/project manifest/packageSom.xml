@@ -172,11 +172,12 @@
         <members>InvoiceDocumentSettings__c.Username__c</members>
         <members>InvoiceRdyForAZB__e.InvoiceId__c</members>
         <members>Location.cegidSalesPersonId__c</members>
+        <members>Location.cegidStoreCode__c</members> 
         <members>Location.CustomCountry__c</members>
         <members>Location.ConvertSkuTo10d__c</members>      
         <members>Location.WmsFoFileDestination__c</members> 
         <members>Location.WmsFoFileNamePrefix__c</members> 
-        <members>Location.WmsFilePath__c</members> 
+        <members>Location.WmsFilePath__c</members>
         <members>Location.V3_warehouse_code__c</members>         
         <members>LocationGroup.CustomCountry__c</members>
         <members>NewCreditMemoWithoutReturn__e.CreditMemoId__c</members>
@@ -254,6 +255,7 @@
         <members>OrderDeliveryMethod.isHomeDelivery__c</members>
         <members>OrderDeliveryMethod.isStorePickup__c</members>
         <members>OrderDeliveryMethod.ReferenceNumber</members>
+        <members>OrderDeliveryMethod.wmsCode__c</members>
         <members>OrderItem.COO__c</members>
         <members>OrderItem.CPID__c</members>
         <members>OrderItem.DeliveryStartDate__c</members>
@@ -731,5 +733,9 @@
         <members>InvoiceRessources</members>
         <name>StaticResource</name>
     </types>
+    <types>
+        <members>*</members>
+        <name>Profile</name>
+       </types>
 	<version>54.0</version>
 </Package>

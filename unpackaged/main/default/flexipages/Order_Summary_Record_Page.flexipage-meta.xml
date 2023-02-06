@@ -182,7 +182,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Capture</value>
                             <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                                <booleanFilter>(1 OR 2) AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.CaptureStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -203,7 +203,7 @@
                         <valueListItems>
                             <value>OrderSummary.Manual_capture_update</value>
                             <visibilityRule>
-                                <booleanFilter>1 OR 2 OR 3</booleanFilter>
+                                <booleanFilter>(1 OR 2) AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.CaptureStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
