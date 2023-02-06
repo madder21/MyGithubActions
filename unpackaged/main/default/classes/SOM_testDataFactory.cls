@@ -492,6 +492,149 @@ public class SOM_testDataFactory {
         
        
     }
+
+
+    public static List<OrderSummary> createSTWOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
+        List<Id> listIds = new List<Id>();
+        List<Order> listOfOrderToCreate = new List<Order>();
+        List<Product2> listProducts = new List<Product2>();
+        List<PricebookEntry> listPriceEntries = new List<PricebookEntry>();
+        List<Schema.Location> listLocations = new List<Schema.Location>();
+        List<Schema.Address> listAddress = new List<Schema.Address>();
+        Map<Id, PaymentGroup> listPaymentGrpsByOrderId = new  Map<Id, PaymentGroup>();
+        Map<Id, CardPaymentMethod> listCardPayMethodbyOrderId = new  Map<Id, CardPaymentMethod>();
+        Map<Id, OrderDeliveryMethod> listOrderDlvryMthdByOrderId = new Map<Id, OrderDeliveryMethod>();
+        Map<Id, PaymentAuthorization> listPaymentAuthByOrderId = new Map<Id, PaymentAuthorization>();
+        Map<Id, OrderDeliveryGroup> listOrderDlvryGrpByOrderId = new Map<Id, OrderDeliveryGroup>();
+        List<OrderItem> listOrderItemsByOrderId = new  List<OrderItem>();
+
+        //Create Account
+        Account account = createAccount('test2.user@rimowa.com');
+        System.debug('==Account is :'+account);
+        //Create products
+        //Order Product 
+        Product2 product = createProduct('produit 1', '10012002', 'sku10004',true);
+        listProducts.add(product);
+        //Shipping Product 
+        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10005',false);
+        listProducts.add(product2);
+        //Order Product 
+        Product2 product3 = createProduct('produit 3', '10013003', 'sku10006',false);
+        listProducts.add(product3);
+        insert listProducts;
+        //Get getStandardPricebookId
+        Id pricebookId = Test.getStandardPricebookId();
+        //Create PriceBookEntries
+        PricebookEntry priceentry = createPricebookEntry(79.2, listProducts[0].Id, pricebookId);
+        listPriceEntries.add(priceentry);
+        PricebookEntry priceentry2 = createPricebookEntry(0, listProducts[1].Id, pricebookId);
+        listPriceEntries.add(priceentry2);
+        PricebookEntry priceentry3 = createPricebookEntry(255.2, listProducts[2].Id, pricebookId);
+        listPriceEntries.add(priceentry3);
+        insert listPriceEntries;
+        //Create SalesChannel
+        SalesChannel saleschannel = createSaleschannel('CEGID','CEGID');
+        insert saleschannel;
+        //Create Locations
+        Schema.Location location1 = createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
+        listLocations.add(location1);
+        Schema.Location location2 = createLocation('AE01','inventory_1010501', false, 'Store');
+        listLocations.add(location2);
+        insert listLocations;
+        //Create Addresses
+        Schema.Address address1 = createAddress(listLocations[0].Id,'Home', SOM_Constants.WAREHOUSE);
+        listAddress.add(address1);
+        Schema.Address address2 = createAddress(listLocations[1].Id,'Shipping', SOM_Constants.STORE);
+        listAddress.add(address2);
+        insert listAddress;
+        System.debug('************ listAddress is :'+listAddress);
+        listLocations[0].VisitorAddressId = listAddress[0].Id;
+        listLocations[1].VisitorAddressId = listAddress[1].Id;
+        update listLocations;
+        //Create Orderes
+        for(Integer i=1; i<=numberOfOrderToCreate; i++){
+            Order order = createOrder(account.Id,'Order101'+i,saleschannel.Id,'Order101'+i ,pricebookId, true, false);
+            listOfOrderToCreate.add(order);
+        }
+        insert listOfOrderToCreate;
+
+        for(Order createdOrder : listOfOrderToCreate){
+            //Create PaymentGroup
+            PaymentGroup paymentgrp = createPaymentGroup(createdOrder.Id);
+            listPaymentGrpsByOrderId.put(createdOrder.Id, paymentgrp);
+            //Create CardPaymentMethod
+            CardPaymentMethod cardPayMethod = createCardPaymentMethod(account.Id, 'CreditCard', 'Visa');
+            listCardPayMethodbyOrderId.put(createdOrder.Id, cardPayMethod);
+            //Create OrderDeliveryMethod
+            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standard_AE',listProducts[1].Id,'standard_AE');
+            listOrderDlvryMthdByOrderId.put(createdOrder.Id, oDeliveryMethod);
+        }
+        insert listPaymentGrpsByOrderId.values();
+        insert listCardPayMethodbyOrderId.values();
+        insert listOrderDlvryMthdByOrderId.values();
+        Id locationId = isPickUpOrder ? listLocations[1].Id : listLocations[0].Id;
+        //prepare flags for products
+        List<Boolean> listProductFlags;
+        if(typeOfOrders == OrderType.STANDARD){
+            listProductFlags = new List<Boolean>{false, false};
+        }
+        if(typeOfOrders == OrderType.MIXTE){
+            listProductFlags = new List<Boolean>{true, false};
+        }
+        if(typeOfOrders == OrderType.PREORDER){
+            listProductFlags = new List<Boolean>{true, true};
+        }
+        for(Order createdOrder : listOfOrderToCreate){
+            
+            PaymentAuthorization paymentAuth = createPaymentAuthorization(account.Id, 1000, listPaymentGrpsByOrderId.get(createdOrder.Id).Id, listCardPayMethodbyOrderId.get(createdOrder.Id).Id, 'DFEB7B92BF462697E053AF598E0A4E9C');
+            listPaymentAuthByOrderId.put(createdOrder.Id, paymentAuth);
+            OrderDeliveryGroup oDG = createOrderDeliveryGroup(createdOrder.Id,listOrderDlvryMthdByOrderId.get(createdOrder.Id).Id);
+            listOrderDlvryGrpByOrderId.put(createdOrder.Id, oDG);
+        }
+        insert listPaymentAuthByOrderId.values();
+        insert listOrderDlvryGrpByOrderId.values();
+
+        for(Order createdOrder : listOfOrderToCreate){
+            OrderItem orderItem1 = createOrderItem(listProducts[0].Id, createdOrder.Id, 1, 79.2,79.2, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.ORDER_PRODUCT, listPriceEntries[0].Id, locationId, true,listProductFlags[0],listProductFlags[0]? System.now().addDays(30):null);
+            listOrderItemsByOrderId.add(orderItem1);
+            OrderItem orderItem2 = createOrderItem(listProducts[1].Id, createdOrder.Id, 1, 0, 0, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.DELIVERY_CHARGE, listPriceEntries[1].Id, locationId, false,false,null);
+            listOrderItemsByOrderId.add(orderItem2);
+            OrderItem orderItem3 = createOrderItem(listProducts[2].Id, createdOrder.Id, 2, 255.2, 255.2, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.ORDER_PRODUCT,listPriceEntries[2].Id, locationId, false,listProductFlags[1],listProductFlags[0]? System.now().addDays(30):null);
+            listOrderItemsByOrderId.add(orderItem3);
+            
+            //Change Order Status
+            createdOrder.Status = SOM_Constants.ACTIVATED; 
+        }
+    
+        insert listOrderItemsByOrderId;
+        List<OrderItemTaxLineItem> ListeOITLI = new List<OrderItemTaxLineItem>(); 
+        OrderItemTaxLineItem OITLI1 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[0].Id);
+        ListeOITLI.add(OITLI1);
+        OrderItemTaxLineItem OITLI2 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[1].Id);
+        ListeOITLI.add(OITLI2);
+        OrderItemTaxLineItem OITLI3 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[2].Id);
+        ListeOITLI.add(OITLI3);
+        insert ListeOITLI;
+
+        //Activate Orders
+        update listOfOrderToCreate;
+        System.debug('*** ordeeeeeeeeeeeeeers : ' + listOfOrderToCreate);
+        System.debug('**** list orders size : ' + listOfOrderToCreate);
+        List<OrderSummary> orderSummaries = getListOrderSummaryByOrder(listOfOrderToCreate);
+        Set<Id> osIds = (new Map<Id,OrderSummary>(orderSummaries)).keySet();
+
+        for(OrderSummary os : orderSummaries){
+            System.debug('****** os status :: '+ os.Status);
+            System.debug('****** os CreateFulfillmentOrderImmediatly__c :: '+ os.CreateFulfillmentOrderImmediatly__c);
+            System.debug('****** os On_Hold__c :: '+ os.On_Hold__c);
+            System.debug('****** os CaptureStatus__c :: '+ os.CaptureStatus__c);
+        }
+        System.debug('****** getListOrderSummaryByOrder :: '+ orderSummaries);
+        System.debug('****** size of getListOrderSummaryByOrder :: '+ orderSummaries.size());
+        return orderSummaries;    
+       
+    }
+    
     public static List<OrderSummary> createOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
         List<Id> listIds = new List<Id>();
         List<Order> listOfOrderToCreate = new List<Order>();
@@ -1026,8 +1169,8 @@ public class SOM_testDataFactory {
     **/
     public static ReturnOrder createReturnOrder(OrderSummary os){
         List<OrderItemSummary> listOrderItemSummForReturn = [SELECT Id, OrderSummaryId, Type, Product2Id , Quantity, QuantityAllocated, QuantityAvailableToFulfill, QuantityAvailableToReturn, QuantityFulfilled, QuantityShipped, QuantityReturned
-                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' 
-                                                                AND OrderSummaryId = : os.Id order by LineNumber];
+                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' AND QuantityAvailableToReturn != 0
+                                                                AND OrderSummaryId = : os.Id];
 
         System.debug('listOrderItemSummForReturn ::::::::::::'  + listOrderItemSummForReturn);
                                                        

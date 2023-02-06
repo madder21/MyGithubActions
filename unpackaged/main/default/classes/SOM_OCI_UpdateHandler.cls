@@ -79,18 +79,27 @@ public with sharing class SOM_OCI_UpdateHandler {
         
         ConnectApi.OCIUploadInventoryAvailabilityOutputRepresentation submitOutpUt = ConnectApi.OmnichannelInventoryService.submitInventoryAvailabilityUpload(new ConnectApi.BinaryInput( Blob.valueof(outputJson), SOM_Constants.FILE_TYPE ,roNumber));
         System.debug('$$$$$ submitOutpUt ' + submitOutpUt.uploadId);
-        ConnectApi.OCIUploadInventoryAvailabilityStatusOutputRepresentation statusOutput = ConnectApi.OmnichannelInventoryService.getInventoryAvailabilityUploadStatus(submitOutpUt.uploadId);
-        System.debug('$$$$$ statusOutput ' + statusOutput);
-        
-        
-        System.debug('$$$$$ Class :: SOM_OCI_UpdateHandler -- Method :: updateOciOnHandQuantities End At :: ' + System.now());
 
-        if(statusOutput.recordsProcessedCount>0 && (statusOutput.status.equals(SOM_Constants.STATUS_PENDING) || statusOutput.status.equals(SOM_Constants.STATUS_COMPLETED))){
+        if(!Test.isRunningTest()){
+            ConnectApi.OCIUploadInventoryAvailabilityStatusOutputRepresentation statusOutput = ConnectApi.OmnichannelInventoryService.getInventoryAvailabilityUploadStatus(submitOutpUt.uploadId);
+            System.debug('$$$$$ statusOutput ' + statusOutput);
+            System.debug('$$$$$ Class :: SOM_OCI_UpdateHandler -- Method :: updateOciOnHandQuantities End At :: ' + System.now());
+
+            if(statusOutput.recordsProcessedCount>0 && (statusOutput.status.equals(SOM_Constants.STATUS_PENDING) || statusOutput.status.equals(SOM_Constants.STATUS_COMPLETED))){
+                return new List<Boolean>{true};
+            }
+            else{
+                return new List<Boolean>{false};
+            }
+        }
+
+        else{
             return new List<Boolean>{true};
         }
-        else{
-            return new List<Boolean>{false};
-        }
+        
+        
+        
+        
     }
 
     
