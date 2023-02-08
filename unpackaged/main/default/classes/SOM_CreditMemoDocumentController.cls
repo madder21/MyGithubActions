@@ -38,7 +38,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c, 
                                        BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                        (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
-                                        TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c END FROM CreditMemoLines) FROM CreditMemo WHERE Id = :creditMemoId];
+                                        TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
         if (creditMemo != null && !creditMemo.isEmpty()) {
             if (creditMemo.get(0).ReferenceEntity instanceOf OrderSummary) {
                 OrderSummary ordSummary = (OrderSummary) creditMemo.get(0).ReferenceEntity;
@@ -141,8 +141,27 @@ global with sharing class SOM_CreditMemoDocumentController {
                         counter++;
                     }
             }
+            List<CreditMemoLineItem> lineItems2 = new List<CreditMemoLineItem>();
+            //Adjust lineItems Order
+            Integer i =lineItems.size(), j =1,k=1 ;
+            for(j= i-1 ; j>=0 && i>0 ; i--){
+                System.debug('la valeur de i : '+i+'la valeur de j : '+j);
+                lineItems2.add(lineItems[i-1]);
+                System.debug('lineItems[j]'+lineItems[i-1]);
+            }
+            //Adjust itemNumber
+            
+            for(CreditMemoLineItem Line : lineItems2){
+                Line.itemNumber = k;
+                k++;
+            }
+            
             //set credit memo line items
-            creditMemoDoc.lineItems = lineItems;
+            System.debug('lineItems2.size bf'+lineItems2.size());
+            System.debug('lineItems.size bf'+lineItems);
+            //lineItems.sort();
+            System.debug('lineItems2.sort af'+lineItems2);
+            creditMemoDoc.lineItems = lineItems2;
             this.creditMemoTaxLineItems = new Map<String, String>();
             //set credit memo line taxes
             this.creditMemoTaxLineItems = getCreditMemoTaxLineItems(creditMemo.get(0), creditMemoProductType);
@@ -150,6 +169,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         }
         
     }
+    
     
     public String getCreditMemoProductType(CreditMemo creditMemo){
         if (creditMemo.Refund__r.RefundOrigin__c == SOM_Constants.REFUND_ORIGIN_APPEASEMENT )
@@ -190,31 +210,31 @@ global with sharing class SOM_CreditMemoDocumentController {
         for (CreditMemoLine lineItem:creditMemo.CreditMemoLines) {
             //if (lineItem.Type.equalsIgnoreCase(creditMemoProductType)) {
             if (lineItem.Type.equalsIgnoreCase(creditMemoProductType) || ( creditMemo.ReturnOrder__r.Tech_ShippingFeeRefund__c == true && lineItem.Type == SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
-                    Decimal taxRate = 0;
-                    System.debug('********IF Num 1 ************'+lineItem);
-                    if (creditMemoProductType.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) || lineItem.Type == SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) {
-                        System.debug('********IF Num 2 ************'+lineItem);
-                        for(CreditMemoLine creditMemoLineCharge:creditMemo.CreditMemoLines) {
-                            if (lineItem.RelatedLineId == creditMemoLineCharge.Id && creditMemoLineCharge.ReferenceEntityItem instanceOf OrderItemSummary) {
-                                System.debug('********IF Num 3 ************'+lineItem);
-                                OrderItemSummary orderItem = (OrderItemSummary)creditMemoLineCharge.ReferenceEntityItem;
-                                taxRate = orderItem.TaxRate__c;
-                                break;
-                            }
+                Decimal taxRate = 0;
+                System.debug('********IF Num 1 ************'+lineItem);
+                if (creditMemoProductType.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) || lineItem.Type == SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) {
+                    System.debug('********IF Num 2 ************'+lineItem);
+                    for(CreditMemoLine creditMemoLineCharge:creditMemo.CreditMemoLines) {
+                        if (lineItem.RelatedLineId == creditMemoLineCharge.Id && creditMemoLineCharge.ReferenceEntityItem instanceOf OrderItemSummary) {
+                            System.debug('********IF Num 3 ************'+lineItem);
+                            OrderItemSummary orderItem = (OrderItemSummary)creditMemoLineCharge.ReferenceEntityItem;
+                            taxRate = orderItem.TaxRate__c;
+                            break;
                         }
-                    } else if (lineItem.ReferenceEntityItem instanceOf OrderItemSummary) {
-                        OrderItemSummary orderItem = (OrderItemSummary)lineItem.ReferenceEntityItem;
-                        taxRate = orderItem.TaxRate__c;
                     }
-                    
-                    Decimal taxAmount = lineItem.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) ? lineItem.AdjustmentTaxAmount : lineItem.ChargeTaxAmount;
-                    if (creditMemoTaxes.containsKey(taxRate)) {
-                        creditMemoTaxes.put(taxRate, creditMemoTaxes.get(taxRate)+taxAmount);
-                    } else {
-                        creditMemoTaxes.put(taxRate, taxAmount);
-                    }
-                    
+                } else if (lineItem.ReferenceEntityItem instanceOf OrderItemSummary) {
+                    OrderItemSummary orderItem = (OrderItemSummary)lineItem.ReferenceEntityItem;
+                    taxRate = orderItem.TaxRate__c;
                 }
+                
+                Decimal taxAmount = lineItem.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) ? lineItem.AdjustmentTaxAmount : lineItem.ChargeTaxAmount;
+                if (creditMemoTaxes.containsKey(taxRate)) {
+                    creditMemoTaxes.put(taxRate, creditMemoTaxes.get(taxRate)+taxAmount);
+                } else {
+                    creditMemoTaxes.put(taxRate, taxAmount);
+                }
+                
+            }
         }
         List<Decimal> sortedTaxes = new List<Decimal>();
         System.debug('creditMemoTaxes'+creditMemoTaxes);
