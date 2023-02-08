@@ -33,6 +33,10 @@
                 <field>ReturnOrderId</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrderItemTaxLineItemSummaryId</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Amount</field>
             </layoutItems>
@@ -47,8 +51,6 @@
         <customLabel>false</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
-        <layoutColumns />
-        <layoutColumns />
         <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>

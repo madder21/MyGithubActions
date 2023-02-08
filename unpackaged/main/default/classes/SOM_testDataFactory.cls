@@ -301,7 +301,6 @@ public class SOM_testDataFactory {
             shipementToInsert.TrackingNumber = 'TrcNbr'+ String.valueOf(foToShip.Id);
             shipementToInsert.Carrier__c = 'ClsTestCarrier';
             shipementToInsert.ShippingService__c = 'ClsTestShippingService';
-            shipementToInsert.ShipToCountry = 'AE';
             if(foToShip.type.equalsIgnoreCase('Store')){
                 shipementToInsert.ShipToCity = foToShip.FulfilledFromLocation?.VisitorAddress.City;
                 shipementToInsert.ShipToStreet = foToShip.FulfilledFromLocation?.VisitorAddress.Street;
@@ -493,7 +492,9 @@ public class SOM_testDataFactory {
         
        
     }
-    public static List<OrderSummary> createOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
+
+
+    public static List<OrderSummary> createSTWOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
         List<Id> listIds = new List<Id>();
         List<Order> listOfOrderToCreate = new List<Order>();
         List<Product2> listProducts = new List<Product2>();
@@ -508,17 +509,17 @@ public class SOM_testDataFactory {
         List<OrderItem> listOrderItemsByOrderId = new  List<OrderItem>();
 
         //Create Account
-        Account account = createAccount('test.user@rimowa.com');
+        Account account = createAccount('test2.user@rimowa.com');
         System.debug('==Account is :'+account);
         //Create products
         //Order Product 
-        Product2 product = createProduct('produit 1', '10012002', 'sku10001',true);
+        Product2 product = createProduct('produit 1', '10012002', 'sku10004',true);
         listProducts.add(product);
         //Shipping Product 
-        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10002',false);
+        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10005',false);
         listProducts.add(product2);
         //Order Product 
-        Product2 product3 = createProduct('produit 3', '10013003', 'sku10003',false);
+        Product2 product3 = createProduct('produit 3', '10013003', 'sku10006',false);
         listProducts.add(product3);
         insert listProducts;
         //Get getStandardPricebookId
@@ -532,7 +533,7 @@ public class SOM_testDataFactory {
         listPriceEntries.add(priceentry3);
         insert listPriceEntries;
         //Create SalesChannel
-        SalesChannel saleschannel = createSaleschannel('Rimowa','SOM');
+        SalesChannel saleschannel = createSaleschannel('CEGID','CEGID');
         insert saleschannel;
         //Create Locations
         Schema.Location location1 = createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
@@ -633,9 +634,8 @@ public class SOM_testDataFactory {
         return orderSummaries;    
        
     }
-
-
-    public static List<OrderSummary> createSTWOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
+    
+    public static List<OrderSummary> createOrderSummaryBulk(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
         List<Id> listIds = new List<Id>();
         List<Order> listOfOrderToCreate = new List<Order>();
         List<Product2> listProducts = new List<Product2>();
@@ -650,17 +650,17 @@ public class SOM_testDataFactory {
         List<OrderItem> listOrderItemsByOrderId = new  List<OrderItem>();
 
         //Create Account
-        Account account = createAccount('test2.user@rimowa.com');
+        Account account = createAccount('test.user@rimowa.com');
         System.debug('==Account is :'+account);
         //Create products
         //Order Product 
-        Product2 product = createProduct('produit 1', '10012002', 'sku10004',true);
+        Product2 product = createProduct('produit 1', '10012002', 'sku10001',true);
         listProducts.add(product);
         //Shipping Product 
-        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10005',false);
+        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10002',false);
         listProducts.add(product2);
         //Order Product 
-        Product2 product3 = createProduct('produit 3', '10013003', 'sku10006',false);
+        Product2 product3 = createProduct('produit 3', '10013003', 'sku10003',false);
         listProducts.add(product3);
         insert listProducts;
         //Get getStandardPricebookId
@@ -674,7 +674,7 @@ public class SOM_testDataFactory {
         listPriceEntries.add(priceentry3);
         insert listPriceEntries;
         //Create SalesChannel
-        SalesChannel saleschannel = createSaleschannel('CEGID','CEGID');
+        SalesChannel saleschannel = createSaleschannel('Rimowa','SOM');
         insert saleschannel;
         //Create Locations
         Schema.Location location1 = createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
@@ -1169,8 +1169,8 @@ public class SOM_testDataFactory {
     **/
     public static ReturnOrder createReturnOrder(OrderSummary os){
         List<OrderItemSummary> listOrderItemSummForReturn = [SELECT Id, OrderSummaryId, Type, Product2Id , Quantity, QuantityAllocated, QuantityAvailableToFulfill, QuantityAvailableToReturn, QuantityFulfilled, QuantityShipped, QuantityReturned
-                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' 
-                                                                AND OrderSummaryId = : os.Id order by LineNumber];
+                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' AND QuantityAvailableToReturn != 0
+                                                                AND OrderSummaryId = : os.Id];
 
         System.debug('listOrderItemSummForReturn ::::::::::::'  + listOrderItemSummForReturn);
                                                        

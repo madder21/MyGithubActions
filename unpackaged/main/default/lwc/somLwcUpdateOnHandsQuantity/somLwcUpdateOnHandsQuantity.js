@@ -103,7 +103,7 @@ export default class SomLwcUpdateOnHandsQuantity extends LightningElement {
             return;
         }
 
-        if(!this.validSkusList.includes(this.skuText)){
+        if(!this.validSkusList.includes(this.skuText) && this.skuText.length < 13){
             this.oldOnHands = '';
             return;
         }
@@ -149,7 +149,7 @@ export default class SomLwcUpdateOnHandsQuantity extends LightningElement {
             return;
         }
 
-        if(!this.validSkusList.includes(this.skuText)){
+        if(!this.validSkusList.includes(this.skuText) && this.skuText.length < 13){
             this.oldOnHands = '';
             return;
         }
@@ -203,7 +203,7 @@ export default class SomLwcUpdateOnHandsQuantity extends LightningElement {
     }
 
     handleNextButton(){
-        if(!this.validSkusList.includes(this.skuText)){
+        if(!this.validSkusList.includes(this.skuText) && this.skuText.length < 13){
             this.showToast('Invalid SKU', 'You entered a product SKU that does not exist.','Warning');
             return;
         }

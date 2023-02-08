@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ListView xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>all_order_payment_summaries</fullName>
+    <columns>Name</columns>
+    <columns>FullName</columns>
+    <columns>OrderSummary</columns>
+    <columns>BalanceAmount</columns>
+    <columns>AuthorizationAmount</columns>
+    <columns>CapturedAmount</columns>
+    <columns>RefundedAmount</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Name</field>
+        <operation>contains</operation>
+        <value>KLARNA</value>
+    </filters>
     <label>All Order Payment Summaries</label>
 </ListView>

@@ -47,7 +47,7 @@
     <recordDeletes>
         <name>Delete_Future_Stocks</name>
         <label>Delete Future Stocks</label>
-        <locationX>452</locationX>
+        <locationX>454</locationX>
         <locationY>564</locationY>
         <inputReference>Get_Future_Stocks_Before_Today</inputReference>
     </recordDeletes>
@@ -69,7 +69,7 @@
             </value>
         </filters>
         <filters>
-            <field>ManuallyManage__c</field>
+            <field>manualStock__c</field>
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>false</booleanValue>
