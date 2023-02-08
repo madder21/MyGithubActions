@@ -232,6 +232,7 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     orderItem.Description     = orderProduct.description;
                     orderItem.LineNumber      = orderProduct.lineNumber;
                     orderItem.UnitPrice       = (orderProduct.amount - orderProduct.orderProductTax.vat) / orderProduct.quantity; //unit price without tax
+                    orderItem.GrossUnitPrice  = orderProduct.amount / orderProduct.quantity;
                     if (locationsMap.get(orderProduct.locationExternalReference) != null) orderItem.ReservedAtLocationId = (Id)locationsMap.get(orderProduct.locationExternalReference).get('Id');
                     PricebookEntry sourcePriceBookEntry = pricebookEntriesMap.get(efulOrder.currencyCode + '_' + orderProduct.productSKU);
                     if (sourcePriceBookEntry == null) {
