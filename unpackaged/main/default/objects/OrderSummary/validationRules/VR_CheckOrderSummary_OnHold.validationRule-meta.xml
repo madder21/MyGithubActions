@@ -2,6 +2,6 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>VR_CheckOrderSummary_OnHold</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(ISCHANGED(On_Hold__c),On_Hold__c = TRUE, AND( ISPICKVAL(Status, &apos;Fulfilled&apos;), ISPICKVAL(Status, &apos;Partially Fulfilled&apos;), ISPICKVAL(Status, &apos;Canceled&apos;)))</errorConditionFormula>
+    <errorConditionFormula>AND(ISCHANGED(On_Hold__c),On_Hold__c = TRUE, AND( ISPICKVAL(Status, &#39;Fulfilled&#39;), ISPICKVAL(Status, &#39;Partially Fulfilled&#39;), ISPICKVAL(Status, &#39;Canceled&#39;)))</errorConditionFormula>
     <errorMessage>You cannot put the Order Summary on hold.</errorMessage>
 </ValidationRule>
