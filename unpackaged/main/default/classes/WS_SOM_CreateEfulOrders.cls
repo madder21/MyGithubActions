@@ -171,42 +171,6 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     continue;
                 }
                 
-                //Create Order
-                Order order                       = new Order();
-                order.Status                      = SOM_Constants.ORDER_DRAFT_STATUS;
-                order.Pricebook2Id                = pricebooks.get(0).Id;
-                System.debug('accountsMap' + accountsMap);
-                order.AccountId                   = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
-                order.OrderReferenceNumber        = efulOrder.orderSummaryNumber;
-                order.OrderedDate                 = SOM_DateTimeHelper.convertISO8601ToDateTime(efulOrder.orderedDate);
-                order.CurrencyIsoCode             = efulOrder.currencyCode;
-                order.SalesChannelId              = salesChannelsMap.get(efulOrder.salesChannelNumber).Id;
-                order.invoices__c                 = efulOrder.invoices;
-                order.Name                        = efulOrder.billing.firstName + ' ' + efulOrder.billing.lastName;
-                order.BillingContactFirstName__c  = efulOrder.billing.firstName;
-                order.BillingContactLastName__c   = efulOrder.billing.lastName;
-                order.BillingCity                 = efulOrder.billing.city;
-                order.BillingCountry              = efulOrder.billing.country;
-                order.BillingState                = efulOrder.billing.state;
-                order.BillingPostalCode           = efulOrder.billing.postalCode;
-                order.BillingStreet               = efulOrder.billing.street;
-                order.BillingPhoneNumber          = efulOrder.billing.phone;
-                order.BillingEmailAddress         = efulOrder.billing.email;
-                order.EffectiveDate               = Date.today();
-
-                //Create OrderDeliveryGroup
-                OrderDeliveryGroup odg    = new OrderDeliveryGroup();
-                odg.EmailAddress          = efulOrder.delivery.email;
-                odg.DeliverToCity         = efulOrder.delivery.city;
-                odg.DeliverToCountry      = efulOrder.delivery.country;
-                odg.DeliverToName         = efulOrder.delivery.firstName + ' ' + efulOrder.delivery.lastName;
-                odg.DeliverToPostalCode   = efulOrder.delivery.postalCode;
-                odg.DeliverToState        = efulOrder.delivery.state;
-                odg.DeliverToStreet       = efulOrder.delivery.street;
-                odg.PhoneNumber           = efulOrder.delivery.phone;
-                odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get(efulOrder.orderDeliveryMethodName).Id;
-                orderDeliveryGroupToPersistMap.put(i, odg);
-
                 //Create order Items
                 Map<Integer, OrderItem> orderItemsMap               = new Map<Integer, OrderItem>();
                 Map<Integer, OrderItemTaxLineItem> orderItemsTaxMap = new Map<Integer, OrderItemTaxLineItem>();
@@ -232,6 +196,7 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     orderItem.Description     = orderProduct.description;
                     orderItem.LineNumber      = orderProduct.lineNumber;
                     orderItem.UnitPrice       = (orderProduct.amount - orderProduct.orderProductTax.vat) / orderProduct.quantity; //unit price without tax
+                    orderItem.GrossUnitPrice  = orderProduct.amount / orderProduct.quantity;
                     if (locationsMap.get(orderProduct.locationExternalReference) != null) orderItem.ReservedAtLocationId = (Id)locationsMap.get(orderProduct.locationExternalReference).get('Id');
                     PricebookEntry sourcePriceBookEntry = pricebookEntriesMap.get(efulOrder.currencyCode + '_' + orderProduct.productSKU);
                     if (sourcePriceBookEntry == null) {
@@ -254,43 +219,77 @@ global with sharing class WS_SOM_CreateEfulOrders {
                     orderItemTax.Amount               = orderProduct.orderProductTax.vat;
                     orderItemTax.Rate                 = orderProduct.orderProductTax.vatRate;
                     orderItemTax.TaxEffectiveDate     = Date.today();
-                    orderItemsTaxMap.put(j, orderItemTax);
-                    
+                    orderItemsTaxMap.put(j, orderItemTax);    
                 }
+ 
                 if(isKO == false){
+
                     orderItemsToPersistMap.put(i, orderItemsMap);
                     orderItemsTaxToPersistMap.put(i, orderItemsTaxMap);
+
+                    //Create Order
+                    Order order                       = new Order();
+                    order.Status                      = SOM_Constants.ORDER_DRAFT_STATUS;
+                    order.Pricebook2Id                = pricebooks.get(0).Id;
+                    order.AccountId                   = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
+                    order.OrderReferenceNumber        = efulOrder.orderSummaryNumber;
+                    order.OrderedDate                 = SOM_DateTimeHelper.convertISO8601ToDateTime(efulOrder.orderedDate);
+                    order.CurrencyIsoCode             = efulOrder.currencyCode;
+                    order.SalesChannelId              = salesChannelsMap.get(efulOrder.salesChannelNumber).Id;
+                    order.invoices__c                 = efulOrder.invoices;
+                    order.Name                        = efulOrder.billing.firstName + ' ' + efulOrder.billing.lastName;
+                    order.BillingContactFirstName__c  = efulOrder.billing.firstName;
+                    order.BillingContactLastName__c   = efulOrder.billing.lastName;
+                    order.BillingCity                 = efulOrder.billing.city;
+                    order.BillingCountry              = efulOrder.billing.country;
+                    order.BillingState                = efulOrder.billing.state;
+                    order.BillingPostalCode           = efulOrder.billing.postalCode;
+                    order.BillingStreet               = efulOrder.billing.street;
+                    order.BillingPhoneNumber          = efulOrder.billing.phone;
+                    order.BillingEmailAddress         = efulOrder.billing.email;
+                    order.EffectiveDate               = Date.today();
                     ordersToPersistMap.put(i, order);
+
+                    //Create OrderDeliveryGroup
+                    OrderDeliveryGroup odg    = new OrderDeliveryGroup();
+                    odg.EmailAddress          = efulOrder.delivery.email;
+                    odg.DeliverToCity         = efulOrder.delivery.city;
+                    odg.DeliverToCountry      = efulOrder.delivery.country;
+                    odg.DeliverToName         = efulOrder.delivery.firstName + ' ' + efulOrder.delivery.lastName;
+                    odg.DeliverToPostalCode   = efulOrder.delivery.postalCode;
+                    odg.DeliverToState        = efulOrder.delivery.state;
+                    odg.DeliverToStreet       = efulOrder.delivery.street;
+                    odg.PhoneNumber           = efulOrder.delivery.phone;
+                    odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get(efulOrder.orderDeliveryMethodName).Id;
+                    orderDeliveryGroupToPersistMap.put(i, odg);
+
+                    //Create AlternativePaymentMethod
+                    AlternativePaymentMethod apm = new AlternativePaymentMethod();
+                    apm.AccountId                = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
+                    apm.Status                   = SOM_Constants.PAYMENT_METHOD_STATUS_ACTIVE;
+                    apm.ProcessingMode           = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
+                    apm.NickName                 = PAYMENT_METHOD_NICKNAME_UNMANAGED;
+                    paymentMethodsToPersistMap.put(i, apm);
+
+                    //Create PaymentGroup
+                    PaymentGroup paymentGroup    = new PaymentGroup();
+                    paymentGroup.CurrencyIsoCode = efulOrder.currencyCode;
+                    paymentGroupsToPersistMap.put(i, paymentGroup);
+
+                    //Create Payment
+                    Decimal amount = 0;
+                    for (OrderProduct orderProduct:efulOrder.orderProducts) {
+                        amount += orderProduct.amount;
+                    }
+                    Payment py         = new Payment();
+                    py.AccountId       = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
+                    py.Amount          = amount;
+                    py.CurrencyIsoCode = efulOrder.currencyCode;
+                    py.Status          = SOM_Constants.PAYMENT_STATUS_PROCESSED;
+                    py.ProcessingMode  = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
+                    py.Type            = SOM_Constants.PAYMENT_TYPE_CAPTURE;
+                    paymentsToPersistMap.put(i, py);
                 }
-
-                //Create AlternativePaymentMethod
-                AlternativePaymentMethod apm = new AlternativePaymentMethod();
-                apm.AccountId                = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
-                apm.Status                   = SOM_Constants.PAYMENT_METHOD_STATUS_ACTIVE;
-                apm.ProcessingMode           = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
-                apm.NickName                 = PAYMENT_METHOD_NICKNAME_UNMANAGED;
-                paymentMethodsToPersistMap.put(i, apm);
-
-                //Create PaymentGroup
-                PaymentGroup paymentGroup    = new PaymentGroup();
-                paymentGroup.CurrencyIsoCode = efulOrder.currencyCode;
-                paymentGroupsToPersistMap.put(i, paymentGroup);
-
-                //Create Payment
-                Decimal amount = 0;
-                for (OrderProduct orderProduct:efulOrder.orderProducts) {
-                    amount += orderProduct.amount;
-                }
-                Payment py         = new Payment();
-                py.AccountId       = accountsMap.get(efulOrder.billing.firstName.toUppercase() + ' ' + efulOrder.billing.lastName.toUppercase() + ' ' + efulOrder.billing.email.toUppercase()).Id;
-                py.Amount          = amount;
-                py.CurrencyIsoCode = efulOrder.currencyCode;
-                py.Status          = SOM_Constants.PAYMENT_STATUS_PROCESSED;
-                py.ProcessingMode  = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
-                py.Type            = SOM_Constants.PAYMENT_TYPE_CAPTURE;
-                paymentsToPersistMap.put(i, py);
-
-
             }
 
             //persist orders
