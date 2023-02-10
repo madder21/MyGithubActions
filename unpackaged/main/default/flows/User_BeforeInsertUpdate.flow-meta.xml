@@ -100,7 +100,7 @@
             <label>Is Activated</label>
         </rules>
     </decisions>
-    <description>With handling of SSO Suffix from custom metadata type</description>
+    <description>With handling of SSO Suffix from custom metadata type (better handling of metadata type)</description>
     <formulas>
         <name>RecordIsNew</name>
         <dataType>Boolean</dataType>
@@ -141,10 +141,10 @@
             <field>MasterLabel</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>SSO INTEGRATE</stringValue>
+                <stringValue>SSO Instance Own Suffix</stringValue>
             </value>
         </filters>
-        <object>SSO_Environment_Suffix_For_Federation__mdt</object>
+        <object>SSO_Setup_Constant__mdt</object>
         <outputAssignments>
             <assignToReference>SSOsuffix</assignToReference>
             <field>DeveloperName</field>
