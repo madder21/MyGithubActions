@@ -18,7 +18,7 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
 
         List<Wr_PicklistValue> listPicklistValues = new List<Wr_PicklistValue>();
         List<Schema.Location> listLocation = [SELECT Id, Name, CustomCountry__c, LocationType, ExternalReference 
-                                                FROM Location  ORDER BY Name ASC
+                                                FROM Location  ORDER BY Name DESC
                                             ];
         if(listLocation?.isEmpty()){
             return listPicklistValues;
