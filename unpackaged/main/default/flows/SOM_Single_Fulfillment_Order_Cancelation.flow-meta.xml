@@ -28,8 +28,8 @@
     <actionCalls>
         <name>Cancel_OIS</name>
         <label>Cancel OIS</label>
-        <locationX>2724</locationX>
-        <locationY>411</locationY>
+        <locationX>2887</locationX>
+        <locationY>253</locationY>
         <actionName>cancelOrderItemSummariesSubmit</actionName>
         <actionType>cancelOrderItemSummariesSubmit</actionType>
         <connector>
@@ -53,12 +53,12 @@
     <actionCalls>
         <name>Close_Fulfillment_Order</name>
         <label>Close Fulfillment Order</label>
-        <locationX>2721</locationX>
-        <locationY>567</locationY>
+        <locationX>2720</locationX>
+        <locationY>603</locationY>
         <actionName>SOM_ClosingFulfillmentOrderAction</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Cancel_OIS</targetReference>
+            <targetReference>Is_Reship</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -93,8 +93,8 @@
     <actionCalls>
         <name>Close_OS</name>
         <label>Close OS</label>
-        <locationX>2728</locationX>
-        <locationY>257</locationY>
+        <locationX>2709</locationX>
+        <locationY>253</locationY>
         <actionName>SOM_ClosingOrderSummaryAction</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -152,8 +152,8 @@
     <actionCalls>
         <name>OCI_Release_Reservation</name>
         <label>OCI Release Reservation</label>
-        <locationX>2507</locationX>
-        <locationY>256</locationY>
+        <locationX>2531</locationX>
+        <locationY>253</locationY>
         <actionName>ociReleaseReservation</actionName>
         <actionType>ociReleaseReservation</actionType>
         <connector>
@@ -999,6 +999,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Reship</name>
+        <label>Is Reship?</label>
+        <locationX>2712</locationX>
+        <locationY>412</locationY>
+        <defaultConnector>
+            <targetReference>Cancel_OIS</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes12</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Fulfillment_Order.IsReship</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Close_OS</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Number_of_Selected_Items_Equal_to_Count_of_All_FOLIs</name>
         <label>Number of Selected Items Equal to Count of All FOLIs</label>
         <locationX>2248</locationX>
@@ -1048,6 +1073,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>Formula_QuantityToCancel_Preview</name>
         <dataType>String</dataType>
@@ -1326,6 +1352,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumberPreview</name>
@@ -1352,6 +1379,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FulfillmentLineItemPreviewDt</name>
@@ -1482,6 +1510,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ConfirmeChanges</name>
@@ -1537,6 +1566,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_FOLISelection</name>
@@ -1563,6 +1593,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FO_Line_Item_Datatable</name>
@@ -1697,6 +1728,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_Text</name>
