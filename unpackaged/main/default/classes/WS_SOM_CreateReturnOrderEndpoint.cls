@@ -445,6 +445,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                 OrderSummary orderSum, 
                                                 Schema.Location loc,
                                                 List<String> returnOrderReturnOriginValues){
+
+        if (orderSum.SalesChannel.ExternalChannelNumber == SOM_Constants.SALES_CHANNEL_CEGID || orderSum.tech_os_store_shipping_method__c != 0)
+            return 'This order does not allow return.';                                            
         if (req.items == null || req.items.isEmpty())
             return 'Return order items are empty.';
         if (orderSum == null)
@@ -493,7 +496,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     private static Map<String, OrderSummary> getOrderSummaryMap(List<String> orderNumbers){
         Map<String,OrderSummary> orderSummaryMap = new Map<String, OrderSummary>();
         if (orderNumbers.size() > 0) {
-            List<OrderSummary> orderSummaryResult = [SELECT Id, AccountId, OrderNumber FROM OrderSummary WHERE OrderNumber IN :orderNumbers];
+            List<OrderSummary> orderSummaryResult = [SELECT Id, AccountId, OrderNumber, SalesChannel.ExternalChannelNumber, tech_os_store_shipping_method__c FROM OrderSummary WHERE OrderNumber IN :orderNumbers];
             if (orderSummaryResult != null) {
                 for (OrderSummary ordSummary:orderSummaryResult) {
                     orderSummaryMap.put(ordSummary.OrderNumber, ordSummary);
