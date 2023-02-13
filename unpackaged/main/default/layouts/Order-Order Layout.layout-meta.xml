@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <excludeButtons>Edit</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>false</customLabel>
@@ -78,6 +79,18 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>latestExpectedDeliveryDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Invoices__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>language__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isOrderOnBehalf__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -159,6 +172,9 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+    </platformActionList>
     <relatedLists>
         <fields>Product2</fields>
         <fields>ProductCode</fields>
