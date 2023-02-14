@@ -439,7 +439,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             returnCreationTransactionalEmail.Client__c       = retOrder.AccountId;
             returnCreationTransactionalEmail.EmailContent__c = JSON.serializePretty(returnCreationTemplateContent, true);
             returnCreationTransactionalEmail.Email__c        = retOrder.OrderSummary.Account.PersonEmail;
-            returnCreationTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry;
+            returnCreationTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry ;
 
             returnTransactionalEmailsList.add(returnCreationTransactionalEmail);
         }
