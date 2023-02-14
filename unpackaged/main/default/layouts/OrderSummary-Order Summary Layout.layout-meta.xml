@@ -39,6 +39,10 @@
                 <field>captureAtShipment__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CaptureStatus__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>DeliverySignature__c</field>
             </layoutItems>
@@ -189,10 +193,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>TotalAmount</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>CaptureStatus__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
