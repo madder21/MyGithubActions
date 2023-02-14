@@ -81,6 +81,7 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
         outputJson = outputJson + JSON.serialize(fileHeader) + '\n';
         SOM_OCI_InventoryRecord inventoryRecords = new SOM_OCI_InventoryRecord();
 
+
         inventoryRecords.sku = skuEntry;
         inventoryRecords.onHand = newOnHands;
         inventoryRecords.effectiveDate = invRecord.effectiveDate;
@@ -94,7 +95,7 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
                                     WHERE sku__c =: skuEntry 
                                     AND Location__r.ExternalReference =: locationEntry]){
 
-            if(futureStock != null ){
+            if(futureStock != null && futureStock.Quantity__c>0){
                 future = new SOM_OCI_InventoryRecord.Wr_Future_Stock();
                 future.expectedDate = futureStock.Date_of_Release__c;
                 future.quantity = futureStock.Quantity__c;
@@ -103,10 +104,11 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
             }
                                 
         }
+        
 
         inventoryRecords.recordId = generateUUID();
         outputJson = outputJson + JSON.serialize(inventoryRecords) + '\n';
-        System.debug('$$$$$ outputJson 2222 : ' + outputJson);
+        System.debug('$$$$$ outputJson : ' + outputJson);
 
         
         ConnectApi.OCIUploadInventoryAvailabilityOutputRepresentation submitOutpUt = ConnectApi.OmnichannelInventoryService.submitInventoryAvailabilityUpload(new ConnectApi.BinaryInput( Blob.valueof(outputJson), SOM_Constants.FILE_TYPE ,'fileUpdateOnHands.json'));
