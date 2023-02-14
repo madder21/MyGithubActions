@@ -115,7 +115,7 @@
             <name>returnItemsOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>55.0</apiVersion>
     <assignments>
         <name>Assign_And_Stack_CML</name>
         <label>Assign And Stack CML</label>
@@ -718,7 +718,6 @@
         </rules>
     </decisions>
     <description>Launch new credit Memo for Cegid event</description>
-    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -1857,7 +1856,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>List_of_Items_To_refund_Section2</name>
@@ -1916,7 +1914,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
