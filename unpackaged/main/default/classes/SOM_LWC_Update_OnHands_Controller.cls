@@ -105,7 +105,6 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
                                 
         }
         
-        system.debug('RSO inventoryRecords -- ' + inventoryRecords);
 
         inventoryRecords.recordId = generateUUID();
         outputJson = outputJson + JSON.serialize(inventoryRecords) + '\n';
