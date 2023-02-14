@@ -6,6 +6,8 @@
  * @last modified by  : BADER EDDINE ELKHAL
  * @last modified on  : 24-01-2023
  * @last modified by  : Paul Louis MONY
+ * @last modified on  : 30-01-2023
+ * @last modified by  : Ulrich NDONG NGOMO
  * @last modification : indentation, cleansing and commenting; add a method for migrationJob newsletter handling
 **/
 
