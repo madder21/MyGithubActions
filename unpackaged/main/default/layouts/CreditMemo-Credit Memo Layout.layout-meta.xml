@@ -41,11 +41,7 @@
                 <field>CreditDate</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Status</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>PDFGenerationStatus__c</field>
             </layoutItems>
             <layoutItems>
@@ -165,6 +161,7 @@
         <fields>Name</fields>
         <fields>Type</fields>
         <fields>RelatedLine</fields>
+        <fields>LineAmount</fields>
         <relatedList>CreditMemoLines</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

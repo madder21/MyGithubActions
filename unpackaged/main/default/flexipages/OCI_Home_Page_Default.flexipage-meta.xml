@@ -7,29 +7,83 @@
                 <identifier>ias_inventoryLookup</identifier>
             </componentInstance>
         </itemInstances>
-        <mode>Replace</mode>
         <name>InventoryLookupContent</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>runtime_commerce_oci:locationManagement</componentName>
-                <identifier>ias_locationManagement</identifier>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>richTextValue</name>
+                    <value>&lt;p class=&quot;ql-indent-4&quot;&gt;&lt;strong style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt; You don&#39;t have enough permissions to access this tab.&lt;/strong&gt;&lt;/p&gt;</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText2</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SOM Read only</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <mode>Replace</mode>
+        <itemInstances>
+            <componentInstance>
+                <componentName>runtime_commerce_oci:locationManagement</componentName>
+                <identifier>ias_locationManagement</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SOM Read only</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
         <name>LocationManagementContent</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentName>somLwcUpdateOnHandsQuantity</componentName>
-                <identifier>c_somLwcUpdateOnHandsQuantity</identifier>
+                <componentInstanceProperties>
+                    <name>decorate</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>richTextValue</name>
+                    <value>&lt;p class=&quot;ql-indent-8&quot;&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;You don&#39;t have enough permissions to access this tab.&lt;/strong&gt;&lt;/p&gt;</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:richText</componentName>
+                <identifier>flexipage_richText</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>SOM Read only</rightValue>
+                    </criteria>
+                </visibilityRule>
             </componentInstance>
         </itemInstances>
-        <name>Facet-692be435-4630-4479-8ee6-8ae6d8515ec3</name>
+        <itemInstances>
+            <componentInstance>
+                <componentName>somLwcUpdateOnHandsQuantity</componentName>
+                <identifier>c_somLwcUpdateOnHandsQuantity</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>SOM Read only</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-9ef44d7d-5aba-4a01-ac19-426a7c1692e5</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
@@ -69,7 +123,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>body</name>
-                    <value>Facet-692be435-4630-4479-8ee6-8ae6d8515ec3</value>
+                    <value>Facet-9ef44d7d-5aba-4a01-ac19-426a7c1692e5</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>title</name>
@@ -79,7 +133,6 @@
                 <identifier>flexipage_tab</identifier>
             </componentInstance>
         </itemInstances>
-        <mode>Replace</mode>
         <name>maintabs</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -94,14 +147,12 @@
                 <identifier>flexipage_maintabset</identifier>
             </componentInstance>
         </itemInstances>
-        <mode>Replace</mode>
         <name>main</name>
         <type>Region</type>
     </flexiPageRegions>
     <masterLabel>OCI Home Page Default</masterLabel>
-    <parentFlexiPage>runtime_commerce_oci__invDesktopHome</parentFlexiPage>
     <template>
-        <name>runtime_commerce_oci:homeTemplateOneRegion</name>
+        <name>Full_Screen_Home_Page</name>
     </template>
     <type>HomePage</type>
 </FlexiPage>

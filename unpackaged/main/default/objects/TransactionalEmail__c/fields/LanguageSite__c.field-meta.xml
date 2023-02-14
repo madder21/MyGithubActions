@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>hsCodeDescription__c</fullName>
+    <fullName>LanguageSite__c</fullName>
     <externalId>false</externalId>
-    <label>HsCode Description</label>
-    <length>255</length>
+    <formula>OrderSummary__r.language__c</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Language Site</label>
     <required>false</required>
     <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>

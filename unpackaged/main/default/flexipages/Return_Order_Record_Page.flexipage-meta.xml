@@ -8,21 +8,34 @@
                     <valueList>
                         <valueListItems>
                             <value>Edit</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>CONTAINS</operator>
+                                    <rightValue>System Administrator</rightValue>
+                                </criteria>
+                            </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ReturnOrder.Manual_Reception</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Submitted</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM Read only</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ReturnOrder.Create_Refund</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -43,12 +56,17 @@
                                     <operator>GE</operator>
                                     <rightValue>1</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM Read only</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ReturnOrder.ReshipItems</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ProcessReship__c}</leftValue>
                                     <operator>GT</operator>
@@ -59,12 +77,17 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>Received</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM Read only</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ReturnOrder.New_exchange_order</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.ExchangeROLI__c}</leftValue>
                                     <operator>GE</operator>
@@ -75,12 +98,17 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>Received</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM Read only</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>ReturnOrder.Close_Return_Order</value>
                             <visibilityRule>
-                                <booleanFilter>1 OR 2</booleanFilter>
+                                <booleanFilter>(1 OR 2 ) AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -90,6 +118,11 @@
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Received</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM Read only</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

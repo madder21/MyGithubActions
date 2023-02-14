@@ -88,11 +88,23 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>LaunchRetryAllocation__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>latestExpectedDeliveryDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>cegidCustomerId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>language__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isOrderOnBehalf__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -177,6 +189,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>TotalAmount</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>CaptureStatus__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>

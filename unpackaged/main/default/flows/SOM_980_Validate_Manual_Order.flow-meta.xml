@@ -444,6 +444,8 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <description>Launch new Credit Memo for Cegid Event</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_CMNumber</name>
         <dataType>String</dataType>
@@ -554,7 +556,7 @@
         <locationX>975</locationX>
         <locationY>1582</locationY>
         <connector>
-            <targetReference>Is_Already_Closed</targetReference>
+            <targetReference>Publish_New_Credit_memo_for_Cegid_Event</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>
@@ -563,6 +565,23 @@
             </value>
         </inputAssignments>
         <object>CreditMemoCreated__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Publish_New_Credit_memo_for_Cegid_Event</name>
+        <label>Publish New Credit memo for Cegid Event</label>
+        <locationX>975</locationX>
+        <locationY>1414</locationY>
+        <connector>
+            <targetReference>Is_Already_Closed</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CreditMemoId__c</field>
+            <value>
+                <elementReference>S_CreateCreditMemoOutputRepresentation.creditMemoId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewCreditMemoForCegid__e</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>

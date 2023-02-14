@@ -31,12 +31,12 @@
     <actionCalls>
         <name>Create_Credit_Memo</name>
         <label>Create Credit Memo</label>
-        <locationX>589</locationX>
-        <locationY>1505</locationY>
+        <locationX>566</locationX>
+        <locationY>1504</locationY>
         <actionName>createCreditMemoOrderSummary</actionName>
         <actionType>createCreditMemoOrderSummary</actionType>
         <connector>
-            <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
+            <targetReference>Get_OS</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error_Screen_0</targetReference>
@@ -62,8 +62,8 @@
     <actionCalls>
         <name>ensure_Refunds</name>
         <label>ensure Refunds</label>
-        <locationX>1728</locationX>
-        <locationY>2333</locationY>
+        <locationX>1635</locationX>
+        <locationY>2338</locationY>
         <actionName>ensureRefundsOrderSummaryAsync</actionName>
         <actionType>ensureRefundsOrderSummaryAsync</actionType>
         <connector>
@@ -373,8 +373,8 @@
     <decisions>
         <name>Any_Return_Order_to_Process</name>
         <label>Any Return Order to Process ?</label>
-        <locationX>835</locationX>
-        <locationY>399</locationY>
+        <locationX>847</locationX>
+        <locationY>410</locationY>
         <defaultConnector>
             <targetReference>No_Ro_To_Process</targetReference>
         </defaultConnector>
@@ -695,8 +695,8 @@
     <decisions>
         <name>Previous_Credit_Memo_Exists</name>
         <label>Previous Credit Memo Exists?</label>
-        <locationX>1058</locationX>
-        <locationY>1506</locationY>
+        <locationX>1209</locationX>
+        <locationY>1510</locationY>
         <defaultConnector>
             <targetReference>Update_Credit_Memo1</targetReference>
         </defaultConnector>
@@ -717,7 +717,8 @@
             <label>Exist</label>
         </rules>
     </decisions>
-    <description>cloned version from change set (with no exchange order process needed)</description>
+    <description>Launch new credit Memo for Cegid event</description>
+    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -962,12 +963,29 @@
         <object>Refund</object>
     </recordCreates>
     <recordCreates>
-        <name>Publish_Created_Credit_Memo_Event</name>
-        <label>Publish Created Credit Memo Event</label>
-        <locationX>2017</locationX>
-        <locationY>2152</locationY>
+        <name>Public_New_CM_for_Cegid</name>
+        <label>Public New CM for Cegid</label>
+        <locationX>2052</locationX>
+        <locationY>2338</locationY>
         <connector>
             <targetReference>Close_Return_Order</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CreditMemoId__c</field>
+            <value>
+                <elementReference>Get_CreditMemo_Reocord.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewCreditMemoForCegid__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Publish_Created_Credit_Memo_Event</name>
+        <label>Publish Created Credit Memo Event</label>
+        <locationX>1910</locationX>
+        <locationY>2337</locationY>
+        <connector>
+            <targetReference>Public_New_CM_for_Cegid</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>
@@ -1086,8 +1104,8 @@
     <recordLookups>
         <name>Get_CreditMemo_Reocord</name>
         <label>Get CreditMemo Reocord</label>
-        <locationX>789</locationX>
-        <locationY>1520</locationY>
+        <locationX>954</locationX>
+        <locationY>1510</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Last_Credit_Memo_Record</targetReference>
@@ -1111,8 +1129,8 @@
     <recordLookups>
         <name>Get_Last_Credit_Memo_Record</name>
         <label>Get Last Credit Memo Record</label>
-        <locationX>898</locationX>
-        <locationY>1505</locationY>
+        <locationX>1068</locationX>
+        <locationY>1508</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Previous_Credit_Memo_Exists</targetReference>
@@ -1129,6 +1147,27 @@
         <object>CreditMemo</object>
         <sortField>DocumentNumber__c</sortField>
         <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ODM</name>
+        <label>Get ODM</label>
+        <locationX>863</locationX>
+        <locationY>1501</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_CreditMemo_Reocord</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.OrderDeliveryMethodId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryMethod</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -1171,11 +1210,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>694</locationX>
-        <locationY>1446</locationY>
+        <locationX>769</locationX>
+        <locationY>1506</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_CreditMemo_Reocord</targetReference>
+            <targetReference>Get_ODM</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1189,6 +1228,7 @@
         <object>OrderDeliveryGroupSummary</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>DeliverToCountry</queriedFields>
+        <queriedFields>OrderDeliveryMethodId</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -1278,6 +1318,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_OS</name>
+        <label>Get OS</label>
+        <locationX>675</locationX>
+        <locationY>1506</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_RO_Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Product_Standard_delivery</name>
         <label>Get Product Standard delivery</label>
         <locationX>1161</locationX>
@@ -1363,7 +1424,7 @@
     <recordUpdates>
         <name>Update_Credit_Memo</name>
         <label>Update Credit Memo</label>
-        <locationX>1064</locationX>
+        <locationX>1227</locationX>
         <locationY>1750</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Lines</targetReference>
@@ -1600,8 +1661,8 @@
     <screens>
         <name>Finish_Screen</name>
         <label>Finish Screen</label>
-        <locationX>1835</locationX>
-        <locationY>2152</locationY>
+        <locationX>1789</locationX>
+        <locationY>2336</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1796,6 +1857,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>List_of_Items_To_refund_Section2</name>
@@ -1854,6 +1916,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -1971,8 +2034,8 @@
     <subflows>
         <name>Close_Return_Order</name>
         <label>Close Return Order</label>
-        <locationX>2196</locationX>
-        <locationY>2152</locationY>
+        <locationX>2199</locationX>
+        <locationY>2341</locationY>
         <flowName>SOM_830_Close_Return_Order</flowName>
         <inputAssignments>
             <name>recordId</name>

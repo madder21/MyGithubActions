@@ -34,6 +34,10 @@
                 <behavior>Edit</behavior>
                 <field>ReferenceEntityItemType</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ReturnOrderLineItem__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -56,10 +60,6 @@
                 <behavior>Readonly</behavior>
                 <field>ReturnOrderNumber__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ReturnOrderLineItem__c</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -80,14 +80,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>AdjustmentAmount</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>GrossUnitPrice</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ChargeTaxAmount</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>

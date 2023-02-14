@@ -71,15 +71,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>GrossUnitPrice</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>ChargeAmount</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ChargeTaxAmount</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -170,6 +162,9 @@
         <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+    </platformActionList>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

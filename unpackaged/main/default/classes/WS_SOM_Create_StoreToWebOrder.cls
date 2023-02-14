@@ -126,6 +126,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     orderItem.TotalLineAmount = orderProduct.amount-orderProduct.orderProductTax.vat; //Total amount without tax
                     orderItem.LineNumber      = orderProduct.lineNumber;
                     orderItem.UnitPrice       = (orderProduct.amount-orderProduct.orderProductTax.vat) / orderProduct.quantity; //unit price without tax
+                    orderItem.GrossUnitPrice  = orderProduct.amount / orderProduct.quantity;
                     orderItem.Product2Id      = sourceProduct.Id;
                     if (locationsMap.get(orderProduct.locationExternalReference) != null) orderItem.ReservedAtLocationId = (Id)locationsMap.get(orderProduct.locationExternalReference).get('Id');
                     
