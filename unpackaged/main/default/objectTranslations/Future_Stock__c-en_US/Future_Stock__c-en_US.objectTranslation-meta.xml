@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Future Stock</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Future Stocks</value>
+    </caseValues>
+    
+    
+    
+    
+    
+    
+    <layouts>
+        <layout>Future Stock Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- SKU length must be equal to 8 characters and must contain only numbers.
+Quantity must be greater than 0. --></errorMessage>
+        <name>CheckQuantityAndSKU</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- SKU must contain only numbers. --></errorMessage>
+        <name>CheckSKU</name>
+    </validationRules>
+</CustomObjectTranslation>
