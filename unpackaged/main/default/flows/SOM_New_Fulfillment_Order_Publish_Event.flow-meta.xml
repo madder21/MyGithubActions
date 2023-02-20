@@ -15,7 +15,7 @@
         <locationY>554</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Not_From_CEGID</name>
+            <name>Is_Not_From_CEGID_Is_CC</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order_Summary.SalesChannelName__c</leftValueReference>
@@ -24,12 +24,21 @@
                     <elementReference>SalesChannel_Cegid</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Type</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Store</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
             </connector>
-            <label>Is Not From CEGID</label>
+            <label>Is Not From CEGID + Is CC</label>
         </rules>
     </decisions>
+    <description>Launch Event only for CC Orders and no filter for capture</description>
+    <environments>Default</environments>
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment Order Publish Event</label>
     <processMetadataValues>
@@ -54,7 +63,7 @@
     <recordCreates>
         <name>Create_New_Order_For_Cegid_Event</name>
         <label>Create New Order For Cegid Event</label>
-        <locationX>578</locationX>
+        <locationX>638</locationX>
         <locationY>555</locationY>
         <inputAssignments>
             <field>OrderSummaryNumber__c</field>
@@ -95,24 +104,8 @@
         <connector>
             <targetReference>Get_Order_Summary</targetReference>
         </connector>
-        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>or</filterLogic>
-        <filters>
-            <field>Capture_Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Not Applicable</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Capture_Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Captured</stringValue>
-            </value>
-        </filters>
         <object>FulfillmentOrder</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
