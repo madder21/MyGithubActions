@@ -114,11 +114,14 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <type>Default</type>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Return_Order_Line_Item_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
-        <formFactor>Large</formFactor>
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
@@ -128,7 +131,6 @@
     </actionOverrides>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
-    <externalSharingModel>ControlledByParent</externalSharingModel>
     <searchLayouts>
         <customTabListAdditionalFields>LastModifiedDate</customTabListAdditionalFields>
         <customTabListAdditionalFields>LastModifiedBy</customTabListAdditionalFields>
@@ -138,6 +140,7 @@
         <customTabListAdditionalFields>SourceLocation</customTabListAdditionalFields>
         <customTabListAdditionalFields>DestinationLocation</customTabListAdditionalFields>
         <customTabListAdditionalFields>Asset</customTabListAdditionalFields>
+        <customTabListAdditionalFields>OrderItemSummary</customTabListAdditionalFields>
         <customTabListAdditionalFields>ChangeOrderItem</customTabListAdditionalFields>
         <lookupDialogsAdditionalFields>LastModifiedDate</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>LastModifiedBy</lookupDialogsAdditionalFields>
@@ -147,6 +150,7 @@
         <lookupDialogsAdditionalFields>SourceLocation</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>DestinationLocation</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>Asset</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>OrderItemSummary</lookupDialogsAdditionalFields>
         <lookupDialogsAdditionalFields>ChangeOrderItem</lookupDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>LastModifiedDate</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>LastModifiedBy</lookupPhoneDialogsAdditionalFields>
@@ -156,16 +160,15 @@
         <lookupPhoneDialogsAdditionalFields>SourceLocation</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>DestinationLocation</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>Asset</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>OrderItemSummary</lookupPhoneDialogsAdditionalFields>
         <lookupPhoneDialogsAdditionalFields>ChangeOrderItem</lookupPhoneDialogsAdditionalFields>
         <searchResultsAdditionalFields>LastModifiedDate</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>LastModifiedBy</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>ReturnOrder</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>OrderItem</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Product2</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>SourceLocation</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>DestinationLocation</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>Asset</searchResultsAdditionalFields>
-        <searchResultsAdditionalFields>ChangeOrderItem</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>OrderItemSummary</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>
