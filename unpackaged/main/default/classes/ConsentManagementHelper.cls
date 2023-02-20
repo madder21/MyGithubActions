@@ -114,23 +114,21 @@ public class ConsentManagementHelper {
                 }
             }
         }
+		//INSERT NEW INDIVUAL PLM 17/02/2023 : Ensure unicity of Indiv + CPE records by insert throught MapAccount
         if(!individualsToInsertByAccountId.isEmpty()){
+            System.debug('SECTION 1 : Insert Individual : ' + individualsToInsertByAccountId);
             insert individualsToInsertByAccountId.values();
-            for(Id aId : individualsToInsertByAccountId.keySet()){
-                accountsByIndividualId.put(individualsToInsertByAccountId.get(aId).Id, mapAccounts.get(aId));
-                //affect individual Id to Account to update it later!
-                mapAccounts.get(aId).PersonIndividualId = individualsToInsertByAccountId.get(aId).Id;
+            //update Map Account with new indiv
+            for(Id aAccountId : individualsToInsertByAccountId.keySet()){
+                Id currentIndivualID = individualsToInsertByAccountId.get(aAccountId).Id;
+                mapAccounts.get(aAccountId).PersonIndividualId = currentIndivualID;
                 toUpdateAccounts = true;
-            }
-            for(Individual aIndividual : individualsToInsertByAccountId.values()){
-                contactPointsToInsertByIndividualId.put(
-                            aIndividual.Id,
-                            new ContactPointEmail(
-                            	ActiveFromDate = isFromMigrationJob ? accountsByIndividualId.get(aIndividual.Id).LastUpdateOptinEmailing__pc.Date() : System.today(),
-                                AccountId__c=accountsByIndividualId.get(aIndividual.Id).Id,
-                                ParentId=aIndividual.Id,
-                                EmailAddress = accountsByIndividualId.get(aIndividual.Id).PersonEmail
-                            ));
+                //PUT NEW CONTACTPOINT FROM NEW INDIV
+                contactPointsToInsertByIndividualId.put(currentIndivualID,
+                                                        new ContactPointEMail(ActiveFromDate = isFromMigrationJob?  mapAccounts.get(aAccountId).LastUpdateOptinEmailing__pc.Date() : System.today(),
+                                                        AccountID__c = aAccountId,
+                                                        ParentId = currentIndivualID,
+                                                        EmailAddress = mapAccounts.get(aAccountId).PersonEmail));
             }
         }
         //Insert the list of contactPointEmails from contactPointsToInsertByIndividualId MAP
@@ -180,12 +178,15 @@ public class ConsentManagementHelper {
            lastUpdateOptinDate = isFromMigrationJob ? aAccount.LastUpdateOptinEmailing__pc : System.now();
            DateTime lastUpdateOptinEmailing = DataMigrationHelper.formatDateTime(lastUpdateOptinDate);
            Datetime effectiveFrom = null;
-           if(isFromMigrationJob){
+           Date effectiveFromDate = null;
+            if(isFromMigrationJob){
                 if(contactPointTypeConsentsByAccountId.containsKey(aAccountId)){
                     effectiveFrom = DataMigrationHelper.formatDateTime(contactPointTypeConsentsByAccountId.get(aAccountId).EffectiveFrom);
+                    effectiveFromDate = effectiveFrom.Date();
                 }
                 else{
                     effectiveFrom = null;
+                    effectiveFromDate = lastUpdateOptinEmailing.date();
                 }
            }
            //String generatedHashOptIn = null;
@@ -197,7 +198,6 @@ public class ConsentManagementHelper {
            else{
             mapConsentStatusWithAccountId.put(aAccountId,false);
            }
-           
            //if there is no ContactPointTypeConsent for this account
            //=> create ContactPointTypeConsent and ContactPointConsent and attached it to the individual already attached to the account
            if(!contactPointTypeConsentsByAccountId.containsKey(aAccountId)){
@@ -235,9 +235,10 @@ public class ConsentManagementHelper {
                             DoubleOptInHash__c = isGerman ? ConsentManagementHelper.HashMD5(aAccount.CreatedDate, aAccount.PersonContactId, aAccount.PersonEmail) : null,
                             AccountId__c = aAccountId
                            	));
-           }
+            }
             //if ContactPointTypeConsent exist for this account and effectiveFrom before lastUpdateOptinEmailing and we are in MigrationJob
-            else if((effectiveFrom < lastUpdateOptinEmailing || effectiveFrom == null) && isFromMigrationJob){
+            ////17.02.2023 PLM : Check Date Only to avoid Time comparison, which create another Contact consent if not in the exact datetime
+            else if(isFromMigrationJob && (effectiveFrom == null || effectiveFromDate < lastUpdateOptinEmailing.date())){                
                 //optin True case
                 if(aAccount.OptinEmailing__pc==true){
                     //update old one
@@ -452,9 +453,9 @@ public class ConsentManagementHelper {
                     commSubscriptionConsentToInsert.add(new CommSubscriptionConsent(
                         Name = 'Newsletter',
                         AccountId__c = aAccount.id,
-                        ContactPointId = aAccount.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(aAccount.Id).Id).Id : allContactPointsByIndividualId.get(aAccount.PersonIndividualId).Id,
-                        EffectiveFromDate = lastUpdateOptinDate.Date(),
-                        ConsentCapturedDateTime = lastUpdateOptinDate,
+                        ContactPointId = allContactPointsByIndividualId.get(aAccount.PersonIndividualId).Id,
+                        EffectiveFromDate = aAccount.LastUpdateOptinEmailing__pc.Date(),
+                        ConsentCapturedDateTime = system.now(),
                         ConsentCapturedSource = 'SFDC Migration Job',
                         Locale__c = aAccount.WebsiteLocale__pc,
                         Country__c = aAccount.WebsiteCountry__pc == 'DEU'? 'DE' : aAccount.WebsiteCountry__pc,
