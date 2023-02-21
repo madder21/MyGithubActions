@@ -602,9 +602,9 @@ public without sharing class SOM_TransactionalEmailHandler {
     } 
     
     public static String generateCountryMappingLabel(String LanguageISOcode, String CountryIso) {
-        if (LanguageISOcode == null || LanguageISOcode==''){
-            return '' ;
-        }else{
+        if (LanguageISOcode == null || LanguageISOcode == ''){
+            return [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
+        } else{
         String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
             return CountryMappingLabel ;
         }
