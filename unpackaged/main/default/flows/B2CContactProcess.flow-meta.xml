@@ -229,6 +229,13 @@
                 <elementReference>recGet_updCustomerList</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_b2cCustomerList.Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>sub_allowIntegrationHelper_Update</targetReference>
         </connector>
@@ -710,44 +717,6 @@
         </assignmentItems>
     </assignments>
     <decisions>
-        <name>Check_if_Email_Consent_is_True</name>
-        <label>Check if Email Consent is True</label>
-        <locationX>2049</locationX>
-        <locationY>3019</locationY>
-        <defaultConnectorLabel>ConsentEmail False</defaultConnectorLabel>
-        <rules>
-            <name>EmailConsent_True</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>CustomInput.EmailConsent</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>EmailConsent True</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_if_Email_Consent_is_True_dup</name>
-        <label>Check if Email Consent is True</label>
-        <locationX>1956</locationX>
-        <locationY>2553</locationY>
-        <defaultConnectorLabel>ConsentEmail False</defaultConnectorLabel>
-        <rules>
-            <name>EmailConsent_True_dup</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>CustomInput.EmailConsent</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>EmailConsent True</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
         <name>dec_CanWeResolveThisContact</name>
         <label>Was a Contact Resolved?</label>
@@ -1117,7 +1086,7 @@
         <defaultConnectorLabel>IDs Not Present</defaultConnectorLabel>
         <rules>
             <name>decOut_IdsArePresent</name>
-            <conditionLogic>(1 AND 2) or (3 AND 4) or (5)</conditionLogic>
+            <conditionLogic>(1 AND 2) or (3 AND 4) or (5) or (6 AND 7)</conditionLogic>
             <conditions>
                 <leftValueReference>var_originalContact.Id</leftValueReference>
                 <operator>WasSet</operator>
@@ -1151,6 +1120,20 @@
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Id</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1712,10 +1695,10 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>Name</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>sourceContact.B2C_CustomerList__c</elementReference>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
