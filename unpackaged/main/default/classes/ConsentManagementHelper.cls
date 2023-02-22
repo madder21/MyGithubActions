@@ -1,14 +1,19 @@
 /**
- * @description       : 
+ * @description       : Create Consents for Flow B2C and batch catch up
  * @author            : BADER EDDINE ELKHAL
  * @group             : 
  * @last modified on  : 06-08-2022
  * @last modified by  : BADER EDDINE ELKHAL
  * @last modified on  : 24-01-2023
  * @last modified by  : Paul Louis MONY
+ * @last modification : indentation, cleansing and commenting; add a method for migrationJob newsletter handling
  * @last modified on  : 30-01-2023
  * @last modified by  : Ulrich NDONG NGOMO
- * @last modification : indentation, cleansing and commenting; add a method for migrationJob newsletter handling
+ * @last modification : Update of Account when IsMigrationJob
+ * @last modified on  : 22-02-2023
+ * @last modified by  : Paul Louis MONY
+ * @last modification : Correct the multiple consent created by migration job, add the ContactPointEmail fetch for the migration job + API VERSION Upgrade to 57
+ 
 **/
 
 public class ConsentManagementHelper {
@@ -55,6 +60,7 @@ public class ConsentManagementHelper {
         List<ContactPointConsent> contactPointConsentToUpdate = New List<ContactPointConsent>();
         Map<Id, Individual> individualsToInsertByAccountId = new Map<Id, Individual>();
         Map<Id, Account> accountsByIndividualId = new Map<Id, Account>();
+        Map<Id, List<ContactPointEmail>> contactPointsByAccountId = new Map<Id, List<ContactPointEmail>> ();
         Map<Id, ContactPointEmail> contactPointsToInsertByIndividualId = new Map<Id, ContactPointEmail>();
         Map<Id, ContactPointEmail> allContactPointsByIndividualId = new Map<Id, ContactPointEmail>();
         Map<ID, ContactPointTypeConsent> contactPointTypeConsentsByAccountId = new Map<ID, ContactPointTypeConsent>();
@@ -70,6 +76,11 @@ public class ConsentManagementHelper {
         /*!START SECTION 1 ***************************************************************************************
         Management of Individual and ContactPointEmail
         */
+        //List<ContactPointEmail> cpeList = [SELECT Id, ActiveToDate, EmailAddress, AccountId__c FROM ContactPointEmail WHERE AccountId__c IN :accounts];
+        List<Account>AccountContactPointEmailList = [Select ID, (SELECT Id, ActiveToDate, EmailAddress FROM ContactPointEmails__r) FROM Account WHERE Id IN :mapAccounts.keySet()];
+        for(Account acc : AccountContactPointEmailList){
+            if(acc.ContactPointEmails__r.size()>0)contactPointsByAccountId.put(acc.Id, acc.ContactPointEmails__r);
+        }
         for(Account aAccount: accounts){
            lastUpdateOptinDate = isFromMigrationJob ? aAccount.LastUpdateOptinEmailing__pc : System.now();
            //IF there is no Individual attached to the Account
@@ -84,14 +95,14 @@ public class ConsentManagementHelper {
             }
             //If there is an Individual already attached to the account
             else{
-                //IF the account have a ContactPointEmail
-                if(!aAccount.ContactPointEmails__r.isEmpty()){
-                    for(ContactPointEmail aContactPointEmail : aAccount.ContactPointEmails__r){
+                //IF the account have a ContactPointEmail           
+                if(contactPointsByAccountId.containskey(aAccount.Id)){
+                    for(ContactPointEmail aContactPointEmail : contactPointsByAccountId.get(aAccount.Id)){
                         // Add to map <individualID,ContactPointEmail> the related ContactPointEmail 
                         //with the Indidual linked in the Account if the contactPointEmail Is Active
                         if(aContactPointEmail.ActiveToDate == null && aContactPointEmail.EmailAddress == aAccount.PersonEmail){
-                                allContactPointsByIndividualId.put(aAccount.PersonIndividualId,aContactPointEmail);
-                                break;
+                            allContactPointsByIndividualId.put(aAccount.PersonIndividualId,aContactPointEmail);
+                            break;
                         }
                     }
                     //IF the map <individualID,ContactPointEmail> doestn't contain an individual who match the ContactPointEmail 
@@ -305,21 +316,21 @@ public class ConsentManagementHelper {
         }
         //Update ContactPointTypeConsent
         if(!contactPointTypeConsentToUpdate.isEmpty()) {
-            update contactPointTypeConsentToUpdate;
+            Database.update(contactPointTypeConsentToUpdate);
         }
         //Update ContactPointConsent
         if(!contactPointConsentToUpdate.isEmpty()){
-            update contactPointConsentToUpdate;
+            Database.update(contactPointConsentToUpdate);
         }
         //Create ContactPointTypeConsent
         if(!contactPointTypeConsentToInsert.isEmpty()){
             System.debug('SECTION 2 : Insert contactPointTypeConsent : ' + contactPointTypeConsentToInsert);
-            insert contactPointTypeConsentToInsert;
+            Database.insert(contactPointTypeConsentToInsert);
         } 
         //Create ContactPointConsent
         if(!contactPointConsentToInsert.isEmpty()){
             System.debug('SECTION 2 : Insert contactPointConsent : ' + contactPointConsentToInsert);
-            insert contactPointConsentToInsert;
+            Database.insert(contactPointConsentToInsert);
         }
          /*!END  SECTION 2  ***************************************************************************************
          */
@@ -468,12 +479,12 @@ public class ConsentManagementHelper {
         //Insert CommSubscriptionConsent list
         if(!commSubscriptionConsentToInsert.isEmpty()) {
             System.debug('END : Insert commSubscriptionConsent : ' + commSubscriptionConsentToInsert);
-            insert commSubscriptionConsentToInsert;
+            Database.insert(commSubscriptionConsentToInsert);
         }
         //update account list
         if(!mapAccounts.isEmpty() && toUpdateAccounts) {
             System.debug('END : Update Account : ' + mapAccounts);
-            update mapAccounts.values();
+            Database.update(mapAccounts.values());
         }
 	}   
 }
