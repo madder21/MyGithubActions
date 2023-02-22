@@ -6,6 +6,9 @@
  * @Modifications : 
  * 2022-11-29 :  Method ConnectorBToCNewLogic() => add a return case, when contacts are found with the same email, and no B2C Customer ID or No, 
  *               return the first contact found ordered by created date  
+ * @V2.0 : Modified by Abdelkhaled SAIDI
+ * @V2.0 : date : February 17th, 2023
+ * @V2.0 : Modifications : Method ConnectorBToCNewLogic() => changing the logic of matching contacts
 */
 public inherited sharing class B2CIACustomerResolution {
 
@@ -28,64 +31,51 @@ public inherited sharing class B2CIACustomerResolution {
         Map<Id,Contact> contactsListWithIds = new  Map<Id,Contact>();
         //Query return list of contacts have the same email of entred contact
         //******2022-11-29 Add Ordering by LastModifiedDate************
-        List<Contact> matchedContactRecords = [Select Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, 
-                                               B2C_Customer_No__c, FirstName, LastName, Email, B2C_Disable_Integration__c
-                                               From Contact
-                                               Where Email != null AND Email =: contactToResolve.Email 
-                                               ORDER BY LastModifiedDate DESC];
+        //******2022-02-17 upgrade matching rules --> LastName && FirstName && (Email || Phone)************
 
+        List<Contact> matchedContactRecords = [Select Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, 
+                                        B2C_Customer_No__c, FirstName, LastName, Email, Phone, B2C_Disable_Integration__c
+                                        From Contact where
+                                        (FirstName =: contactToResolve.FirstName AND LastName =: contactToResolve.LastName) 
+                                        AND 
+                                        (((Phone != null) AND (Phone =: contactToResolve.Phone)) 
+                                        OR
+                                        ((Email != null) AND (Email =: contactToResolve.Email)))
+                                        ORDER BY CreatedDate DESC];
+        
         if(matchedContactRecords.size()==1){
-            contactListToReturn = matchedContactRecords;
             return matchedContactRecords;
         }
         else if(matchedContactRecords.size()>1){
+            //Look for contacts with B2C Ids
             for(Contact contactLine : matchedContactRecords){
                 if(contactLine.B2C_Customer_ID__c != null && contactLine.B2C_Customer_No__c != null){
                     contactsListWithIds.put(contactLine.Id,contactLine);
                     
                 }
             }
+            //IF one contact with B2C Ids is Found return it
             if(contactsListWithIds.size()==1){
-                contactListToReturn = contactsListWithIds.values();
                 return contactsListWithIds.values();
             }
+            //IF multiple contact with B2C Ids is Found return the last modified
             else if(contactsListWithIds.size()>1){
-                //delete from list the record who have lastName not equals to lastName of entered contact
-                for(Contact contactWithId : contactsListWithIds.values()){
-                    if(contactWithId.LastName != contactToResolve.LastName){
-                        contactsListWithIds.remove(contactWithId.Id);
-                    }
-                }
-                if(contactsListWithIds.size()>1){
-                    contactListToReturn = [Select Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, 
-                                           B2C_Customer_No__c, FirstName, LastName, Email, B2C_Disable_Integration__c
-                                            From Contact
-                                            Where Id IN : contactsListWithIds.keySet()
-                                            ORDER BY LastModifiedDate DESC
-                                            limit 1];
-                }
-                else if(contactsListWithIds.size()==1){
-                    contactListToReturn = contactsListWithIds.values();
-                    return contactsListWithIds.values();
-                }
-                else{
-                    contactListToReturn = new List<Contact>();
-                    return new List<Contact>();
-                }
+                    return  [Select Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, 
+                    B2C_Customer_No__c, FirstName, LastName, Email, Phone, B2C_Disable_Integration__c
+                     From Contact
+                     Where Id IN : contactsListWithIds.keySet()
+                     ORDER BY createdDate DESC
+                     limit 1];
+                    
             }
+            //No contact with B2C Ids return the first matched contact by Query
             else{
-            //******2022-11-29 If no contact with B2C_Customer_ID__c or B2C_Customer_No__c found, Return first Contact************
-                return new List<Contact>{matchedContactRecords.get(0)};
-            }
-            
-        }    
-        else{
-            contactListToReturn = new List<Contact>();
-            //return contactListToReturn;
+                    return new List<Contact>{matchedContactRecords.get(0)};
+                }
         }
-        return contactListToReturn;
-
-        
+        else{
+            return contactListToReturn;
+        }
     }
     
     
@@ -125,7 +115,7 @@ public inherited sharing class B2CIACustomerResolution {
            try {
 
                 // Add the resolution results to the output class
-                resolutionResults.contactList = findDupes(c);
+                resolutionResults.contactList = B2CIACustomerResolution.findDupes(c);
 
             } catch (System.HandledException e) {
 
@@ -146,4 +136,5 @@ public inherited sharing class B2CIACustomerResolution {
         return output;
 
     }
+    
 }

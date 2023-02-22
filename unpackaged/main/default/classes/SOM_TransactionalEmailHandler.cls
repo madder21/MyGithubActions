@@ -360,7 +360,7 @@ public without sharing class SOM_TransactionalEmailHandler {
     public static List<TransactionalEmail__c> generateOrderReadyForPickupTransactionalEmails(Set<String> recordIds) {
         
         List<TransactionalEmail__c> OrderReadyForPickupTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
+        List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                     BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                     BillingCity, BillingCountry, AccountId,Account.PersonEmail,
                     (SELECT Id, DeliverToCountry, DeliverToCity, CLICKCOLLECT_StoreName__c, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
@@ -378,7 +378,7 @@ public without sharing class SOM_TransactionalEmailHandler {
 
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
-                adress.country    = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry;
+                adress.country    = generateCountryMappingLabel(orderSum.language__c, orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 adress.name       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToName;
                 adress.street     = orderSum.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 adress.postalCode = orderSum.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -602,9 +602,9 @@ public without sharing class SOM_TransactionalEmailHandler {
     } 
     
     public static String generateCountryMappingLabel(String LanguageISOcode, String CountryIso) {
-        if (LanguageISOcode == null || LanguageISOcode==''){
-            return '' ;
-        }else{
+        if (LanguageISOcode == null || LanguageISOcode == ''){
+            return [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
+        } else{
         String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
             return CountryMappingLabel ;
         }
