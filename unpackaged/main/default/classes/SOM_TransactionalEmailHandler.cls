@@ -378,7 +378,7 @@ public without sharing class SOM_TransactionalEmailHandler {
 
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
-                adress.country    = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry;
+                adress.country    = generateCountryMappingLabel(orderSum.language__c, orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 adress.name       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToName;
                 adress.street     = orderSum.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 adress.postalCode = orderSum.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -602,9 +602,9 @@ public without sharing class SOM_TransactionalEmailHandler {
     } 
     
     public static String generateCountryMappingLabel(String LanguageISOcode, String CountryIso) {
-        if (LanguageISOcode == null || LanguageISOcode==''){
-            return '' ;
-        }else{
+        if (LanguageISOcode == null || LanguageISOcode == ''){
+            return [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
+        } else{
         String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
             return CountryMappingLabel ;
         }
