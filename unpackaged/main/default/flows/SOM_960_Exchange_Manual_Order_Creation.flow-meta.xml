@@ -464,11 +464,13 @@
             <label>RO</label>
         </rules>
     </decisions>
+    <description>2 decimal places</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_LineSubtotal</name>
         <dataType>Number</dataType>
         <expression>{!FX_UnitPriceWithoutTax} * {!L10_Loop_over_OutputLines.quantity}</expression>
-        <scale>3</scale>
+        <scale>2</scale>
     </formulas>
     <formulas>
         <name>FX_SuccessMsg</name>
@@ -490,7 +492,7 @@
         <name>FX_UnitPriceWithoutTax</name>
         <dataType>Number</dataType>
         <expression>{!L10_Loop_over_OutputLines.unitPrice} - {!L10_Loop_over_OutputLines.taxValue}</expression>
-        <scale>3</scale>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>SOM {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 960 Exchange/Manual Order Creation</label>
