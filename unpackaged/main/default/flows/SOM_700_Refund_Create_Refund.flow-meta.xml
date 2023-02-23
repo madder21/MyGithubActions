@@ -117,6 +117,22 @@
     </actionCalls>
     <apiVersion>55.0</apiVersion>
     <assignments>
+        <name>Assign_Allow_Checkbox</name>
+        <label>Assign Allow Checkbox</label>
+        <locationX>947</locationX>
+        <locationY>528</locationY>
+        <assignmentItems>
+            <assignToReference>AllowShip</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_OrderPaymentSummary</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_And_Stack_CML</name>
         <label>Assign And Stack CML</label>
         <locationX>1949</locationX>
@@ -357,8 +373,8 @@
     <assignments>
         <name>Sum_Refunds_Amount</name>
         <label>Sum Refunds Amount</label>
-        <locationX>889</locationX>
-        <locationY>753</locationY>
+        <locationX>883</locationX>
+        <locationY>1146</locationY>
         <assignmentItems>
             <assignToReference>SUM_Amount</assignToReference>
             <operator>Add</operator>
@@ -513,8 +529,8 @@
     <decisions>
         <name>Check_Amount</name>
         <label>Check Amount ?</label>
-        <locationX>1267</locationX>
-        <locationY>697</locationY>
+        <locationX>1271</locationX>
+        <locationY>672</locationY>
         <defaultConnector>
             <targetReference>Error_on_Amount_Field</targetReference>
         </defaultConnector>
@@ -693,6 +709,46 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Delivery_Charge_Null_OR_0</name>
+        <label>Delivery Charge Null OR 0</label>
+        <locationX>939</locationX>
+        <locationY>711</locationY>
+        <defaultConnector>
+            <targetReference>Get_OrderPaymentSummary</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Product_Summary</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Allow_Checkbox</targetReference>
+            </connector>
+            <label>Null</label>
+        </rules>
+        <rules>
+            <name>X0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Product_Summary.UnitPrice</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Allow_Checkbox</targetReference>
+            </connector>
+            <label>0</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Previous_Credit_Memo_Exists</name>
         <label>Previous Credit Memo Exists?</label>
         <locationX>1209</locationX>
@@ -717,7 +773,7 @@
             <label>Exist</label>
         </rules>
     </decisions>
-    <description>Launch new credit Memo for Cegid event</description>
+    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -1233,11 +1289,11 @@
     <recordLookups>
         <name>Get_Order_Product_Summary</name>
         <label>Get Order Product Summary</label>
-        <locationX>921</locationX>
-        <locationY>575</locationY>
+        <locationX>1107</locationX>
+        <locationY>667</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_OrderPaymentSummary</targetReference>
+            <targetReference>Delivery_Charge_Null_OR_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1254,13 +1310,6 @@
                 <stringValue>Delivery Charge</stringValue>
             </value>
         </filters>
-        <filters>
-            <field>UnitPrice</field>
-            <operator>EqualTo</operator>
-            <value>
-                <numberValue>0.0</numberValue>
-            </value>
-        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderItemSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1268,8 +1317,8 @@
     <recordLookups>
         <name>Get_Order_Product_Summary_0</name>
         <label>Get Order Product Summary</label>
-        <locationX>227</locationX>
-        <locationY>795</locationY>
+        <locationX>206</locationX>
+        <locationY>782</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Shipping_Item_Input</targetReference>
@@ -1296,8 +1345,8 @@
     <recordLookups>
         <name>Get_OrderPaymentSummary</name>
         <label>Get OrderPaymentSummary</label>
-        <locationX>740</locationX>
-        <locationY>693</locationY>
+        <locationX>707</locationX>
+        <locationY>689</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>List_of_Items_To_refund</targetReference>
@@ -1856,6 +1905,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>List_of_Items_To_refund_Section2</name>
@@ -1897,8 +1947,8 @@
                             </rightValue>
                         </conditions>
                         <conditions>
-                            <leftValueReference>Get_Order_Product_Summary.Id</leftValueReference>
-                            <operator>IsNull</operator>
+                            <leftValueReference>AllowShip</leftValueReference>
+                            <operator>EqualTo</operator>
                             <rightValue>
                                 <booleanValue>true</booleanValue>
                             </rightValue>
@@ -1914,6 +1964,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -2048,6 +2099,16 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>AllowShip</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>C_CreditMemoLines</name>
