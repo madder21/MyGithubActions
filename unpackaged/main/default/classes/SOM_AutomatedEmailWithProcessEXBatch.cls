@@ -1,4 +1,4 @@
-global with sharing class SOM_AutomatedEmailWithProcessEXBatch  Implements Schedulable{
+global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedulable{
     global void execute(SchedulableContext sc){
         DoExport();
     }
