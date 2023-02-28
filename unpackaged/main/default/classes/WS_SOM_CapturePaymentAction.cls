@@ -45,6 +45,15 @@ global with sharing class WS_SOM_CapturePaymentAction {
             mapPaymentAuthoriz.put(pa.PaymentGroup.SourceObjectId,pa);
         }
        }
+
+       map<string,string> mapSalesChannelMapping = new map<string,string>();
+       List<Sales_Channel_Mapping__mdt> salesChannelMapping = [SELECT Id,ChannelId__c,Zone__c FROM Sales_Channel_Mapping__mdt];
+      
+       if (salesChannelMapping != null && !salesChannelMapping.isEmpty()) { 
+            for(Sales_Channel_Mapping__mdt sc:salesChannelMapping){
+                mapSalesChannelMapping.put(sc.Zone__c,sc.ChannelId__c);
+            }
+       }    
     
         for(CapturePaymentActionRequest request:requests){   
             try {
@@ -65,11 +74,9 @@ global with sharing class WS_SOM_CapturePaymentAction {
                         amountDetails.totalAmounts    = String.valueOf(totalAmount);
                         //Create ClientReferenceInformation
                         ClientReferenceInformation clientReferenceInformation = new ClientReferenceInformation();
-                        clientReferenceInformation.code = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
-                        Sales_Channel_Mapping__mdt salesChannelMapping = [SELECT ChannelId__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c = :mapFulfillOrder.get(request.fulfillmetOrderId).FulfilledToCountry];
-                        If (salesChannelMapping != null) {
-                            clientReferenceInformation.channelId = salesChannelMapping.ChannelId__c;
-                        }
+                        clientReferenceInformation.code      = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
+                        clientReferenceInformation.channelId = mapSalesChannelMapping.get(mapFulfillOrder.get(request.fulfillmetOrderId).FulfilledToCountry);
+
                         orderInformation.amountDetails                   = amountDetails;
                         orderInformation.lineItems                       = lineItems;
                         capturePaymentRequest.clientReferenceInformation = clientReferenceInformation;
