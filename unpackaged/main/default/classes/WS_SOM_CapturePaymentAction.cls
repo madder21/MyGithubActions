@@ -51,7 +51,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
       
        if (salesChannelMapping != null && !salesChannelMapping.isEmpty()) { 
             for(Sales_Channel_Mapping__mdt sc:salesChannelMapping){
-                mapSalesChannelMapping.put(sc.Zone__c,sc.ChannelId__c);
+                mapSalesChannelMapping.put(sc.Zone__c, sc.ChannelId__c);
             }
        }    
     
