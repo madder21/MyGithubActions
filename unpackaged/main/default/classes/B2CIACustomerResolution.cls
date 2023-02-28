@@ -8,7 +8,7 @@
  *               return the first contact found ordered by created date  
  * @V2.0 : Modified by Abdelkhaled SAIDI
  * @V2.0 : date : February 17th, 2023
- * @V2.0 : Modifications : Method ConnectorBToCNewLogic() => changing the logic of matching contacts
+ * @V2.0 : Modifications : Method ConnectorBToCNewLogic() => changing the logic of matching contacts + Upgrade Version 57
 */
 public inherited sharing class B2CIACustomerResolution {
 

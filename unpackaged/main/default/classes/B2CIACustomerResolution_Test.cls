@@ -6,10 +6,10 @@
  * @description This testClass is used to exercise different customerResolution
  * scenarios driven by Contact details.
  * @V0 : B2C Eric Shcultz package
- * @V1.0 : Viseo integration by Mohamed Abdelfadel
+ * @V1.0 : Viseo integration by Mohamed Abdelfadel 
  * @V2.0 : Modified by Abdelkhaled SAIDI
  * @V2.0 : date : February 17th, 2023
- * @V2.0 : Modifications : Review of all test cases to take care of the business matching rule : FirstName+LastName+ContactInformations
+ * @V2.0 : Modifications : Review of all test cases to take care of the business matching rule : FirstName+LastName+ContactInformations + Upgrade Version 57
  */
 @IsTest
 private class B2CIACustomerResolution_Test {
@@ -43,6 +43,7 @@ private class B2CIACustomerResolution_Test {
     public static String testLastName4 = 'LastName4';
     public static String testLastName5 = 'LastName5';
     public static String testLastName6 = 'LastName6';
+    public static String testLastName7 = 'LastName7';
 
     // these variables added because the matching logic was changed 
     public static String testPhone1 = '+1 123456789';
@@ -53,6 +54,7 @@ private class B2CIACustomerResolution_Test {
     public static String testPhone6 = '+6 123456789';
     public static String testPhone7 = '+7 123456789';
     public static String testPhone8 = '+8 123456789';
+    public static String testPhone9 = '+9 123456789';
 
     public static String testFirstName1 = 'FirstName1';
     public static String testFirstName2 = 'FirstName2';
@@ -60,6 +62,7 @@ private class B2CIACustomerResolution_Test {
     public static String testFirstName4 = 'FirstName4';
     public static String testFirstName5 = 'FirstName5';
     public static String testFirstName6 = 'FirstName6';
+    public static String testFirstName7 = 'FirstName7';
 
 
     
@@ -193,6 +196,12 @@ private class B2CIACustomerResolution_Test {
             'FirstName' => testFirstName6
         });
 
+        Contact contact10 = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
+            'Phone' => testPhone9,
+            'LastName' => testLastName7,
+            'FirstName' => testFirstName7
+        });
+
 
 
         List<Contact> contactListToUpdate1 = new List<Contact>();
@@ -202,8 +211,8 @@ private class B2CIACustomerResolution_Test {
         upsert contactListToUpdate1;
 
         List<Contact> contactListToUpdate2 = new List<Contact>();
-        for (Contact aContact : [SELECT Id, Phone, FirstName, LastName FROM Contact WHERE Phone =:testPhone8]) {
-            contactListToUpdate2.add(new Contact(Id = aContact.Id, LastName =testLastName2, FirstName =testFirstName2, Phone =testPhone2));
+        for (Contact aContact : [SELECT Id, Phone, FirstName, LastName FROM Contact WHERE Phone =:testPhone9]) {
+            contactListToUpdate2.add(new Contact(Id = aContact.Id, LastName =testLastName6, FirstName =testFirstName6, Phone =testPhone8));
         }
         upsert contactListToUpdate2;
 
@@ -355,7 +364,7 @@ private class B2CIACustomerResolution_Test {
 
         // Validate the single result &
         List<Contact> conList = (List<Contact>) flowResults.get('contactResolvedList');
-        System.assert(conList.get(0).Id == [select Id From contact where Phone=:testContact.Phone][0].Id, 'Not Expected record to return');
+        System.assert(conList.get(0).Id == [select Id From contact where Phone=:testContact.Phone].Id, 'Not Expected record to return');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, testContact);
         
 
@@ -493,9 +502,9 @@ private class B2CIACustomerResolution_Test {
 
         // Define the Contact record to resolve
         testContact = new Contact(
-            Phone = testPhone2,
-            LastName = testLastName2,
-            FirstName = testFirstName2
+            Phone = testPhone8,
+            LastName = testLastName6,
+            FirstName = testFirstName6
         );
         
         Test.startTest();
