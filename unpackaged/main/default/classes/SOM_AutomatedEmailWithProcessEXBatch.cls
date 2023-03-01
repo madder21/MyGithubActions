@@ -1,18 +1,4 @@
-/*public class SOM_AutomatedEmailWithProcessEXBatch implements Database.Batchable<SObject> {
-
-public Database.QueryLocator start(Database.BatchableContext bc){
-return Database.getQueryLocator('Select ProcessExceptionNumber , Category , CreatedDate, Message, Description from ProcessException where Status = \'New\' order by category asc, CreatedDate desc');
-}
-
-public void execute(Database.BatchableContext bc, List<ProcessException > ProcessExceptionList ){
-SOM_Automated_EmailWithProcessEx.SendEmailPE(ProcessExceptionList);
-}
-
-public void finish(Database.BatchableContext bc){
-System.debug('*** Batch job completed ***');
-}
-}*/
-global class SOM_AutomatedEmailWithProcessEXBatch  Implements Schedulable{
+global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedulable{
     global void execute(SchedulableContext sc){
         DoExport();
     }
