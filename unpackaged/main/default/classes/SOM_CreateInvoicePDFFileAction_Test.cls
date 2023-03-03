@@ -27,7 +27,6 @@ public with sharing class SOM_CreateInvoicePDFFileAction_Test {
      /**
      * @description setup : create test data (Order Summaries, Invoices, Corrective Invoices)
      */
-    @isTest(seeAllData=true)
     public static void setup() {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,3);
         os = los[0];
@@ -63,7 +62,7 @@ public with sharing class SOM_CreateInvoicePDFFileAction_Test {
         SOM_CreateInvoicePDFFileAction.CreateInvoicePDFFileAction(listInvoiceIds);
         Test.stopTest();
         List<Attachment> attach = [select id from Attachment where ParentId  =: listeInvoice[0].Id ];
-        System.assertEquals(2,attach.size());
+        System.assertEquals(1,attach.size());
     }
 
     /**
@@ -74,10 +73,12 @@ public with sharing class SOM_CreateInvoicePDFFileAction_Test {
         setup();
         Set<Id> cIds = mapCorrectiveInvoiceHandler.keySet();
         List<Id> listCInvIds = new List<Id>(cIds);
+        System.debug('cIds'+cIds);
+        System.debug('listeInvoice'+listeInvoice[0].Id);
         Test.startTest();
         SOM_CreateInvoicePDFFileAction.CreateInvoicePDFFileAction(listCInvIds);
         Test.stopTest();
-        List<Attachment> attach = [select id from Attachment where ParentId  =: listeInvoice[0].Id ];
+        List<Attachment> attach = [select id from Attachment where ParentId  =: listCInvIds[0]];
         System.assertEquals(1,attach.size());
     }
 

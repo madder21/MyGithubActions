@@ -603,9 +603,13 @@ public without sharing class SOM_TransactionalEmailHandler {
     
     public static String generateCountryMappingLabel(String LanguageISOcode, String CountryIso) {
         if (LanguageISOcode == null || LanguageISOcode == ''){
-            return [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
+            List<CountryMapping__mdt> listMet = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso];
+            if(!listMet.isEmpty())
+                return listMet[0].CountryLabel__c;
+            else
+                return '';
         } else{
-        String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
+            String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
             return CountryMappingLabel ;
         }
     } 
