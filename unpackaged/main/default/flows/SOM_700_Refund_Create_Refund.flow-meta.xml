@@ -688,20 +688,6 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>Get_All_RO.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Order_Product_Summary.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Get_Order_Product_Summary_0</targetReference>
             </connector>
@@ -773,6 +759,7 @@
             <label>Exist</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -1710,8 +1697,8 @@
     <screens>
         <name>List_of_Items_To_refund</name>
         <label>List of Items To refund</label>
-        <locationX>517</locationX>
-        <locationY>693</locationY>
+        <locationX>518</locationX>
+        <locationY>692</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1886,6 +1873,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>List_of_Items_To_refund_Section2</name>
@@ -1944,6 +1932,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
