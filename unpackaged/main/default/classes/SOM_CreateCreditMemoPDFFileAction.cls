@@ -12,7 +12,11 @@ global with sharing class SOM_CreateCreditMemoPDFFileAction {
         if(odg.deliverToCountry == 'AE') page = new PageReference('/apex/SOM_CreditMemoArabicDocument');
         page.getParameters().put('creditMemoId', creditMemoRecords[0].Id);
         Attachment attachment = new Attachment();
-        attachment.Body       = page.getContent();
+        if(Test.isRunningTest()) { 
+            attachment.Body = blob.valueOf('Unit.Test');
+          } else {
+            attachment.Body = page.getContent();
+          }
         attachment.IsPrivate  = false;
         attachment.ParentId   = creditMemoRecords[0].Id;
         attachment.Name       = getFileName(creditMemoRecords[0]);
