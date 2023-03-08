@@ -788,7 +788,7 @@ public class SOM_testDataFactory {
         OrderDeliveryGroupSummary odgs = [SELECT Id,OrderSummaryId FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: orderSumm.Id];
         List<OrderItemSummary> orderItemSummries = [SELECT Id, OrderSummaryId, ReservedAtLocationId, QuantityAvailableToReturn,
                                                         Type, Product2Id, Quantity,Status
-                                                        FROM OrderItemSummary WHERE OrderSummaryId =: orderSumm.Id Order By Id Desc];
+                                                        FROM OrderItemSummary WHERE OrderSummaryId =: orderSumm.Id];
 
 
         List<ConnectApi.OrderItemSummaryInputRepresentation> ListorderItemSummariesInputRep = new List<ConnectApi.OrderItemSummaryInputRepresentation>();
@@ -861,7 +861,7 @@ public class SOM_testDataFactory {
         OrderDeliveryGroupSummary odgs = [SELECT Id,OrderSummaryId FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: orderSumm.Id];
         List<OrderItemSummary> orderItemSummries = [SELECT Id, OrderSummaryId, ReservedAtLocationId, QuantityAvailableToReturn,
                                                         Type, Product2Id, Quantity
-                                                        FROM OrderItemSummary WHERE OrderSummaryId =: orderSumm.Id Order By Id Desc];
+                                                        FROM OrderItemSummary WHERE OrderSummaryId =: orderSumm.Id];
 
 
         List<ConnectApi.OrderItemSummaryInputRepresentation> ListorderItemSummariesInputRep = new List<ConnectApi.OrderItemSummaryInputRepresentation>();
