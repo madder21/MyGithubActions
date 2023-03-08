@@ -22,8 +22,10 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         List<String> strShipIds = (List<String>)JSON.deserialize(JSON.serialize(shipIds), List<String>.class);
 
         List<Invoice> inv = [SELECT Id FROM Invoice WHERE ReferenceEntityId IN: osIds];
-
-        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContect');
+        inv[0].InvoiceNumber__c = 'invtest1';
+        update inv;
+        System.debug('inv::'+inv);
+        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId',inv[0].id);
 
@@ -32,6 +34,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
+        System.debug('res.invoiceData::' +res.invoiceData);
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
        
@@ -58,7 +61,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Map<Id,CorrectiveInvoice__c> mapCorrectiveInvoice = SOM_testDataFactory.createCorrectiveInvoices(mapinv);
         Set<Id> cmIds = mapCorrectiveInvoice.keySet();
         List<Id> creditMemoIds = new List<Id>(cmIds);
-        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContect');
+        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId',creditMemoIds[0]);
 
@@ -67,6 +70,8 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
+        System.debug('res.invoiceData c::' +res.invoiceData);
+
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
        
@@ -100,7 +105,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Set<Id> cmIds = (new Map<Id,CreditMemo>(creditMemoList)).keySet();
         List<Id> creditMemoIds = new List<Id>(cmIds);
 
-        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContect');
+        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId',creditMemoIds[0]);
 
@@ -109,6 +114,8 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
+        System.debug('res.invoiceData cm::' +res.invoiceData);
+
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
        
@@ -142,7 +149,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Set<Id> cmIds = (new Map<Id,CreditMemo>(creditMemoList)).keySet();
         List<Id> creditMemoIds = new List<Id>(cmIds);
 
-        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContect');
+        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId',creditMemoIds[0]);
 
@@ -159,7 +166,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
     @IsTest (seeAllData = true)
     global static void testDownloadNoIvoiceKO(){
         
-        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContect');
+        PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId','3tt1X00000m4KNVQAm');
 
@@ -179,7 +186,7 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
             HttpResponse res = new HttpResponse();
             res.setHeader('Content-Type', 'application/json;charset=UTF-8');
             res.setStatusCode(200);
-            res.setBody('{}');
+            res.setBody('{bodytest}');
             return res;
         }
     }
