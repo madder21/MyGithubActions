@@ -106,7 +106,8 @@ global with sharing class SOM_Constants {
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION  = 'ShipmentConfirmation';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE                = 'Invoice';
     public static final String TRANSACTIONAL_EMAIL_STATUS_TO_SEND                       = 'To send';
-
+	public static final String TRANSACTIONAL_EMAIL_STATUS_SENT                      	= 'Sent';
+    
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED          = 'OrderCreated';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED        = 'ReturnReceived';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP = 'OrderReadyForPickup';
