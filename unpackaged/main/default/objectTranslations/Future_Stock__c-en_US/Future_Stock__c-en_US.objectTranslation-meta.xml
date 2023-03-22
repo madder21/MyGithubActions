@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
     <caseValues>
         <plural>false</plural>
@@ -22,11 +22,6 @@
         </sections>
     </layouts>
     <startsWith>Consonant</startsWith>
-    <validationRules>
-        <errorMessage><!-- SKU length must be equal to 8 characters and must contain only numbers.
-Quantity must be greater than 0. --></errorMessage>
-        <name>CheckQuantityAndSKU</name>
-    </validationRules>
     <validationRules>
         <errorMessage><!-- SKU must contain only numbers. --></errorMessage>
         <name>CheckSKU</name>
