@@ -18,7 +18,7 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
 
         List<Wr_PicklistValue> listPicklistValues = new List<Wr_PicklistValue>();
         List<Schema.Location> listLocation = [SELECT Id, Name, CustomCountry__c, LocationType, ExternalReference 
-                                                FROM Location  ORDER BY Name ASC
+                                                FROM Location  ORDER BY Name DESC
                                             ];
         if(listLocation?.isEmpty()){
             return listPicklistValues;
@@ -67,9 +67,7 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
             inventoryRec.onHand           =  (Integer)inventoryRecordOutput.onHand;
             inventoryRec.effectiveDate    = inventoryRecordOutput.effectiveDate;
             inventoryRec.safetyStockCount = (Integer)inventoryRecordOutput.safetyStockCount;
-            }
-            System.debug('inveeeeeeeenttt' + inventoryRec);
-               
+            }               
         }
         catch(Exception e){
             String errorMsg = e.getMessage();
@@ -114,7 +112,6 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
                                 
         }
         
-        system.debug('RSO inventoryRecords -- ' + inventoryRecords);
 
         inventoryRecords.recordId = generateUUID();
         outputJson = outputJson + JSON.serialize(inventoryRecords) + '\n';
