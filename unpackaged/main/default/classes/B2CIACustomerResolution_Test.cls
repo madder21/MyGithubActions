@@ -5,11 +5,14 @@
  * @see B2CIACustomerResolution.resolve
  * @description This testClass is used to exercise different customerResolution
  * scenarios driven by Contact details.
- * @V0 : B2C Eric Shcultz package
- * @V1.0 : Viseo integration by Mohamed Abdelfadel 
- * @V2.0 : Modified by Abdelkhaled SAIDI
- * @V2.0 : date : February 17th, 2023
- * @V2.0 : Modifications : Review of all test cases to take care of the business matching rule : FirstName+LastName+ContactInformations + Upgrade Version 57
+ ***************************************************************************************************************************************************************** 
+ * @Version : 
+ * Version	|	Date of modication	|	Modified By		|	Related Jira Ticket		|	Description of changes			
+ * 0.0		|	?					|	Eric Shcultz 	|	.						|	.original version B2C Eric Shcultz package
+ * 1.0		|	?					|	.MA				|	.						|	.Viseo integration by Mohamed Abdelfadel
+ * 2.0		|	2023-02-17			|	.AS				|	.CI-74					|	.Devoteam : Review of all test cases to take care of the business matching rule : FirstName+LastName+ContactInformations + Upgrade Version 57
+ * 2.1		|	2023-03-20			|	.PLM			|	.CI-163					|	.Rimowa : Add a test in case of no email and no phone on the query call
+ *			|						|	.				|	.						|	.	
  */
 @IsTest
 private class B2CIACustomerResolution_Test {
@@ -526,6 +529,40 @@ private class B2CIACustomerResolution_Test {
         System.assertEquals(2, [select Id, LastName, FirstName From contact where Phone=:testContact.Phone and LastName=:testContact.LastName and FirstName=:testContact.FirstName].size(), 'Expected to return exactly 2 records');
         B2CIACustomerResolution_TestHelper.validateSingleResult(flowResults, testContact);
 
+    }
+     /** 
+     * @see B2CIACustomerResolution.findDupes
+     * @description 
+     */
+    @IsTest
+    private static void testNotResolveByMatchedFirstNameLastNameNoEmailNoPhone() {
+
+        // Initialize local variables
+        Map<String, Object> flowResults;
+        Contact testContact;
+
+        // Define the Contact record to resolve
+        testContact = new Contact(
+            LastName = testLastName6,
+            FirstName = testFirstName2
+        );
+        
+        Test.startTest();
+        //-------------------------------------------
+        // Test: Start exercising the resolutionFlow
+        //-------------------------------------------
+
+            // Execute the flow results
+            flowResults = B2CIACustomerResolution_TestHelper.executeResolutionProcess(testContact);
+
+        //-------------------------------------------
+        // Test: Finish exercising the resolutionFlow
+        //-------------------------------------------
+        Test.stopTest();
+
+        // Validate the single result & 
+        List<Contact> conList = (List<Contact>) flowResults.get('contactResolvedList');
+        System.assertEquals(true, [select Id From contact where LastName=:testContact.LastName and FirstName=:testContact.FirstName ORDER BY CreatedDate DESC LIMIT 1].isEmpty(), 'Shouldn\'t return any contact');
     }
 
     /** a completed !!
