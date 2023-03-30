@@ -12,8 +12,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         StoreToWebResponse response = new StoreToWebResponse();
         JSONGenerator generator = JSON.createGenerator(true);
         generator.writeObject(request);
-        System.debug('Received StoreToWeb Request:');
-        System.debug(generator.getAsString());
         //savepoint
         Savepoint sp = Database.setSavepoint();
         try {
@@ -148,7 +146,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     orderItemsMap.put(j, orderItem);
 
                     //create OrderItemTaxLineItem
-                    Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.UP) / 100;
+                    Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.HALF_EVEN) / 100;
                     Decimal taxDiff = Math.abs(((orderProduct.amount-orderProduct.orderProductTax.vat)*taxRateScaled) - orderProduct.orderProductTax.vat);
                     if (taxDiff > TAX_DIFF) {
                         //rise error and quite
@@ -191,20 +189,16 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
 
             //start persisting objects
             //1-persist orders
-            System.debug('---------Persist orders.');
             insert ordersToPersistMap.values();
             //2-persist orderDeliveryGroups
-            System.debug('---------Order Delivery Groups.');
             for (Integer idx:orderDeliveryGroupToPersistMap.keySet()) {
                 OrderDeliveryGroup odg = orderDeliveryGroupToPersistMap.get(idx);
                 odg.OrderId            = ordersToPersistMap.get(idx).Id;
             }
             insert orderDeliveryGroupToPersistMap.values();
             //3-persist pricebook entries
-            System.debug('---------Persist Pricebook entries.');
             insert pricebookEntriesToPersistMap.values();
             //4-persist order items
-            System.debug('---------Persist order items.');
             List<OrderItem> allOrderItems = new List<OrderItem>();
             for (Integer idx:orderItemsToPersistMap.keySet()) {
                 Map<Integer, OrderItem> orderItemsMap = orderItemsToPersistMap.get(idx);
@@ -220,7 +214,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert allOrderItems;
             //5-persist orderitemTaxLineItem
-            System.debug('---------Persist order item tax line items.');
             List<OrderItemTaxLineItem> allOrderItemsTax = new List<OrderItemTaxLineItem>();
             for (Integer idx:orderItemsTaxToPersistMap.keySet()) {
                 Map<Integer, OrderItem> orderItemsMap               = orderItemsToPersistMap.get(idx);
@@ -234,17 +227,14 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert allOrderItemsTax;
             //6-persist payment group
-            System.debug('---------Persist payment groups.');
             for (Integer idx:paymentGroupsToPersistMap.keySet()) {
                 PaymentGroup pg   = paymentGroupsToPersistMap.get(idx);
                 pg.SourceObjectId = ordersToPersistMap.get(idx).Id;
             }
             insert paymentGroupsToPersistMap.values();
             //7-persist payment methods
-            System.debug('---------Persist payment methods.');
             insert paymentMethodsToPersistMap.values();
             //8-persist payment authorization
-            System.debug('---------Persist payment authorizations.');
             for (Integer idx:paymentAuthorizationsToPersistMap.keySet()) {
                 PaymentAuthorization pa = paymentAuthorizationsToPersistMap.get(idx);
                 pa.PaymentGroupId       = paymentGroupsToPersistMap.get(idx).Id;
@@ -252,7 +242,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert paymentAuthorizationsToPersistMap.values();
             //9-persist payments
-            System.debug('---------Persist payments.');
             for (Integer idx:paymentsToPersistMap.keySet()) {
                 Payment py = paymentsToPersistMap.get(idx);
                 py.PaymentAuthorizationId = paymentAuthorizationsToPersistMap.get(idx).Id;
@@ -261,7 +250,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert paymentsToPersistMap.values();
             //10-update orders to activated
-            System.debug('---------Update orders to activated.');
             for (Integer idx:ordersToPersistMap.keySet()) {
                 Order od  = ordersToPersistMap.get(idx);
                 od.Status = SOM_Constants.ORDER_ACTIVATED_STATUS;
@@ -270,8 +258,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             response.status = 'OK';
         } catch(Exception ex) {
             Database.rollback(sp);
-            System.debug('An error is occured');
-            System.debug(ex.getMessage());
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
         }
