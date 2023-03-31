@@ -103,7 +103,6 @@ global with sharing class WS_SOM_CapturePaymentAction {
                         if (requestAsString != null) {
                             requestAsString = requestAsString.replace(SOM_Constants.AMOUNT_CURRENCY, SOM_Constants.CAPTURE_CURRENCY_ATTRIBUTE);
                         }
-                        System.debug(requestAsString);
                         //make http callout
                         Http http = new Http();
                         HttpRequest httpRequest = new HttpRequest();
@@ -112,7 +111,6 @@ global with sharing class WS_SOM_CapturePaymentAction {
                         httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
                         httpRequest.setBody(requestAsString);
                         HttpResponse httpResponse = http.send(httpRequest);
-                        System.debug(httpResponse.getBody());
                         if (httpResponse.getStatusCode() == 200) {
                             //Read http response
                             Map<String, Object> httpResponseMap = (Map<String, Object>)JSON.deserializeUntyped(httpResponse.getBody());
@@ -129,20 +127,16 @@ global with sharing class WS_SOM_CapturePaymentAction {
                             response.errorMessage = 'The status code returned was not expected: ' + httpResponse.getStatusCode() + ' ' + httpResponse.getStatus();
                         }
                     } else {
-                        System.debug('Payment Authorization is empty, FulfillmentOrderId: ' + request.fulfillmetOrderId);
                         response.isSucces     = false;
                         response.errorMessage = 'Payment Authorization is empty, FulfillmentOrderId: ' + request.fulfillmetOrderId;
                     }
                 } else {
-                    System.debug('Fulfilment Order is not valid: ' + request.fulfillmetOrderId);
                     response.isSucces     = false;
                     response.errorMessage = 'Fulfilment Order is not valid: ' + request.fulfillmetOrderId;
                 }
-            } catch(System.QueryException ex) {
-                System.debug(ex.getMessage());
-                System.debug(ex.getStackTraceString());
+            } catch(Exception e) {
                 response.isSucces     = false;
-                response.errorMessage = ex.getMessage();
+                response.errorMessage = e.getMessage();   
             }
         }
         responseWrapper.add(response);
