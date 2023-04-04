@@ -2692,6 +2692,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderItem.GrossUnitPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>OrderItem.ListPrice</field>
         <readable>true</readable>
@@ -3284,6 +3289,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ReturnOrderLineItem.DestinationLocationId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ReturnOrderLineItem.GrossUnitPriceFormula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
