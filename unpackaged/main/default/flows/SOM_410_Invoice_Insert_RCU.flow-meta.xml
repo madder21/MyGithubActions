@@ -143,6 +143,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_Transaction_Item_Serial_Number_0</name>
+        <label>Set Transaction Item Serial Number</label>
+        <locationX>1988</locationX>
+        <locationY>1089</locationY>
+        <assignmentItems>
+            <assignToReference>REC_TransactionItem.Serial_Number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Filter_Invoice_Line_With_Type_Tax</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Transaction_Item_Store</name>
         <label>Set Transaction Item Store</label>
         <locationX>2373</locationX>
@@ -399,7 +415,7 @@
         <locationX>2145</locationX>
         <locationY>1101</locationY>
         <defaultConnector>
-            <targetReference>Filter_Invoice_Line_With_Type_Tax</targetReference>
+            <targetReference>Set_Transaction_Item_Serial_Number_0</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Is Empty</defaultConnectorLabel>
         <rules>
@@ -468,6 +484,13 @@
             <label>Is Not Empty</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>ExclTaxAmount</name>
+        <dataType>Number</dataType>
+        <expression>-{!V_ExclTaxAmount}</expression>
+        <scale>2</scale>
+    </formulas>
     <formulas>
         <name>FX_Invoice_Currency</name>
         <dataType>String</dataType>
@@ -477,6 +500,12 @@
         <name>FX_TransactionId</name>
         <dataType>String</dataType>
         <expression>{!Get_Invoice.InvoiceNumber__c} + &quot;/&quot; + TEXT({!V_LineNumber})</expression>
+    </formulas>
+    <formulas>
+        <name>InclTaxAmount</name>
+        <dataType>Number</dataType>
+        <expression>-{!V_InclTaxAmount}</expression>
+        <scale>2</scale>
     </formulas>
     <interviewLabel>SOM 410 - Invoice Insert RCU {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 410 - Invoice Insert RCU</label>
@@ -786,6 +815,22 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>TransactionItem__c</objectType>
+    </variables>
+    <variables>
+        <name>V_ExclTaxAmount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>V_InclTaxAmount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
     </variables>
     <variables>
         <name>V_LineNumber</name>
