@@ -15,7 +15,7 @@
         <locationY>554</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Not_From_CEGID_Is_CC</name>
+            <name>Is_Not_From_CEGID</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order_Summary.SalesChannelName__c</leftValueReference>
@@ -24,20 +24,13 @@
                     <elementReference>SalesChannel_Cegid</elementReference>
                 </rightValue>
             </conditions>
-            <conditions>
-                <leftValueReference>$Record.Type</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Store</stringValue>
-                </rightValue>
-            </conditions>
             <connector>
                 <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
             </connector>
-            <label>Is Not From CEGID + Is CC</label>
+            <label>Is Not From CEGID</label>
         </rules>
     </decisions>
-    <description>Launch Event only for CC Orders and no filter for capture</description>
+    <description>Launch Event for Orders other than S2W</description>
     <environments>Default</environments>
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment Order Publish Event</label>
