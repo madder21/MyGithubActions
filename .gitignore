@@ -1,33 +1,71 @@
-# GitIgnore for Salesforce Projects
-# Project Settings and MetaData
-.project
-.settings/
-.metadata
-build.properties
-config
+# Org Authentication files
+server.crt
+server.key
+*auth_url.txt
+*auth_url.json
 
-# Apex Log as optional
-apex-scripts/log
+# Salesforce cache
+.sfdx/
+mdapioutput/
 
-# Eclipse specific 
-salesforce.schema
-Referenced Packages
-bin/
-tmp/
-config/
-*.tmp
-*.bak 
-local.properties
-.settings
-.loadpath
-.classpath
-*.cache
+# LWC VSCode autocomplete
+jsconfig.json
 
-# Mavensmate
-*.sublime-project
-*.sublime-settings
-*.sublime-workspace
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# Eslint cache
+.eslintcache
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# VS Code project settings
+# temp disabled to share recommended extensions but omit user-specific settings
+# .vscode/
+.vscode/settings.json
+
+#Ignore mm.log File
 mm.log
 
-# OSX-specific exclusions
-.[dD][sS]_[sS]tore
+#Ignore Sublime Project Files
+*.sublime*
+
+#Ignore MavensMate Files
+apex-scripts/*
+
+#Ignore IlluminatedCloud Files
+.idea/
+IlluminatedCloud/
+*.iml
+
+#Ignore Eclipse Project Files
+salesforce.schema
+Referenced\ Packages/*
+.project
+.settings/*
+
+#Ignore Build Files
+.tmp
+dist
+*_prod
+deploy_*
+
+#Misc
+scripts/*.key
+scripts/*.crt
+*.temp
+*.todo
