@@ -12,7 +12,6 @@ public class SOM_LWC_Update_OnHands_Controller_Test {
         Product2 product = SOM_testDataFactory.createProduct('produit 1', '10012002', 'sku10001',true);
         PricebookEntry PBEntry = SOM_testDataFactory.createPricebookEntry(1000,product.Id, pricebookId);
         Schema.Location location1 = SOM_testDataFactory.createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
-        
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
         Map<Id,FulfillmentOrder> mapFO = new Map<Id,FulfillmentOrder>();
@@ -48,7 +47,6 @@ public class SOM_LWC_Update_OnHands_Controller_Test {
         Test.startTest();
         list<SOM_LWC_Update_OnHands_Controller.Wr_PicklistValue> requestList = SOM_LWC_Update_OnHands_Controller.getLocations();
         String Value = requestList[0].value;
-   		system.debug('Location Value'+Value);
         SOM_LWC_Update_OnHands_Controller.getOnHand(Sku,Value);
         Test.stopTest();
         System.assertNotEquals(Null,SOM_LWC_Update_OnHands_Controller.getOnHand(Sku,Value));

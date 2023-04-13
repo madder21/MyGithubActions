@@ -44,27 +44,6 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <actionCalls>
-        <name>Generate_Email_For_Click_And_Collect_Invoice</name>
-        <label>Generate Email For Click And Collect Invoice</label>
-        <locationX>620</locationX>
-        <locationY>310</locationY>
-        <actionName>SOM_TransactionalEmailHandler</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>templateName</name>
-            <value>
-                <elementReference>Transactiona_Email_Template_Invoice</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
         <name>Ensure_Funds_Input_Representation_Assignement</name>
@@ -97,35 +76,10 @@
         </value>
     </constants>
     <decisions>
-        <name>Check_if_Previous_Invoice_Exist</name>
-        <label>Check if Previous Invoice Exist</label>
-        <locationX>1168</locationX>
-        <locationY>708</locationY>
-        <defaultConnector>
-            <targetReference>Update_Invoice_Custom_Fields_1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Last_Invoice_Record</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Update_Invoice_Custom_Fields_0</targetReference>
-            </connector>
-            <label>Exist</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Order_Type</name>
         <label>Order Type</label>
-        <locationX>1166</locationX>
-        <locationY>316</locationY>
+        <locationX>1352</locationX>
+        <locationY>322</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Cegid</name>
@@ -189,12 +143,13 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Last_Invoice_Record</targetReference>
+                <targetReference>Update_Invoice_Custom_Fields_0</targetReference>
             </connector>
             <label>RIMOWA/Manual + HD</label>
         </rules>
     </decisions>
-    <description>new invoice for cegid event</description>
+    <description>Fields for Report</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_First_Record_Ever_Created</name>
         <dataType>String</dataType>
@@ -292,12 +247,9 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordLookups>
         <name>Get_Last_Invoice_Record</name>
         <label>Get Last Invoice Record</label>
-        <locationX>1174</locationX>
-        <locationY>513</locationY>
+        <locationX>1163</locationX>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_if_Previous_Invoice_Exist</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>DocumentNumber__c</field>
@@ -321,7 +273,7 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <locationY>114</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_ODM</targetReference>
+            <targetReference>Update_OS_Report_Fields</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -338,7 +290,7 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordLookups>
         <name>Get_ODM</name>
         <label>Get ODM</label>
-        <locationX>1173</locationX>
+        <locationX>1360</locationX>
         <locationY>114</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -384,9 +336,6 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <label>Update Invoice Custom Fields</label>
         <locationX>799</locationX>
         <locationY>309</locationY>
-        <connector>
-            <targetReference>Generate_Email_For_Click_And_Collect_Invoice</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -419,7 +368,7 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <name>Update_Invoice_Custom_Fields_0</name>
         <label>Update Invoice Custom Fields</label>
         <locationX>1008</locationX>
-        <locationY>705</locationY>
+        <locationY>704</locationY>
         <connector>
             <targetReference>Publish_Invoice_PDF_Generation_Event</targetReference>
         </connector>
@@ -431,54 +380,6 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
                 <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
             </value>
         </filters>
-        <inputAssignments>
-            <field>DocumentNumber__c</field>
-            <value>
-                <elementReference>FX_Next_Document_Number</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>InvoiceNumber__c</field>
-            <value>
-                <elementReference>FX_Next_Document_Number</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>PDFGenerationStatus__c</field>
-            <value>
-                <stringValue>Not started</stringValue>
-            </value>
-        </inputAssignments>
-        <object>Invoice</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_Invoice_Custom_Fields_1</name>
-        <label>Update Invoice Custom Fields</label>
-        <locationX>1170</locationX>
-        <locationY>935</locationY>
-        <connector>
-            <targetReference>Publish_Invoice_PDF_Generation_Event</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>DocumentNumber__c</field>
-            <value>
-                <elementReference>FX_First_Record_Ever_Created</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>InvoiceNumber__c</field>
-            <value>
-                <elementReference>FX_First_Record_Ever_Created</elementReference>
-            </value>
-        </inputAssignments>
         <inputAssignments>
             <field>PDFGenerationStatus__c</field>
             <value>
@@ -507,6 +408,42 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
             </value>
         </inputAssignments>
         <object>Invoice</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_OS_Report_Fields</name>
+        <label>Update OS Report Fields</label>
+        <locationX>1168</locationX>
+        <locationY>113</locationY>
+        <connector>
+            <targetReference>Get_ODM</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Tech_ShippingCountry__c</field>
+            <value>
+                <elementReference>get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_ShippingState__c</field>
+            <value>
+                <elementReference>get_ODG.DeliverToState</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_VAT_Id_Customer__c</field>
+            <value>
+                <elementReference>get_ODG.RI_TAX_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
     </recordUpdates>
     <start>
         <locationX>141</locationX>
@@ -554,6 +491,13 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <value>
             <numberValue>0.0</numberValue>
         </value>
+    </variables>
+    <variables>
+        <name>CurrentInvoiceNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>EnsureFundsAsyncInput</name>

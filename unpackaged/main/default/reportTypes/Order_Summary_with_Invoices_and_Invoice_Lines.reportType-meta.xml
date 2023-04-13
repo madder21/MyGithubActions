@@ -3,12 +3,16 @@
     <baseObject>OrderSummary</baseObject>
     <category>other</category>
     <deployed>true</deployed>
-    <description>Order summary with payment</description>
+    <description>Order Summary with Invoices and Invoice Lines</description>
     <join>
-        <outerJoin>true</outerJoin>
-        <relationship>OrderPaymentSummaries</relationship>
+        <join>
+            <outerJoin>false</outerJoin>
+            <relationship>InvoiceLines</relationship>
+        </join>
+        <outerJoin>false</outerJoin>
+        <relationship>Invoices</relationship>
     </join>
-    <label>Order summary with payment</label>
+    <label>Order Summary with Invoices and Invoice Lines</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
@@ -17,11 +21,13 @@
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Order Number</displayNameOverride>
             <field>Name</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
             <field>CurrencyIsoCode</field>
             <table>OrderSummary</table>
         </columns>
@@ -107,6 +113,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Billing Country</displayNameOverride>
             <field>BillingCountry</field>
             <table>OrderSummary</table>
         </columns>
@@ -152,6 +159,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Order Status Code</displayNameOverride>
             <field>Status</field>
             <table>OrderSummary</table>
         </columns>
@@ -347,6 +355,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>SourceProcess</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Pricebook2</field>
             <table>OrderSummary</table>
         </columns>
@@ -462,12 +475,22 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>latestExpectedDeliveryDate__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Invoices__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>cegidCustomerId__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>language__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -496,108 +519,298 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Id</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
             <field>Name</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CurrencyIsoCode</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Invoice Date</displayNameOverride>
             <field>CreatedDate</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>LastModifiedDate</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>LastModifiedBy</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>FullName</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>InvoiceNumber</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingAccount</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAmount</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAmountWithTax</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalChargeAmount</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustmentAmount</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalTaxAmount</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Status</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvoiceDate</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DueDate</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillToContact</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Balance</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxLocaleType</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalCreditMemoInvApplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalCreditMemoInvUnapplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NetCreditsApplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalPaymentLineInvApplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalPaymentLineInvUnapplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>NetPaymentsApplied</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>PDFGenerationStatus__c</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvoiceNumber__c</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DocumentNumber__c</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>isCorrectiveInvoiceElligible__c</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
+        <masterLabel>Invoices</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CurrencyIsoCode</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedDate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreatedBy</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LineAmount</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Quantity</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>UnitPrice</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ChargeAmount</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxAmount</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>AdjustmentAmount</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvoiceLineStartDate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>InvoiceLineEndDate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ReferenceEntityItemType</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ReferenceEntityItemTypeCode</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RelatedLine</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Type</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>AuthorizationReversalAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>TaxName</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>AuthorizationAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>TaxCode</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CapturedAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>TaxRate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>BalanceAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>TaxEffectiveDate</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PendingAuthorizationAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <field>GrossUnitPrice</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PendingReverseAuthAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
+            <displayNameOverride>SKU</displayNameOverride>
+            <field>Product2.StockKeepingUnit</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>PendingCaptureAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>PendingRefundAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>RefundedAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>AvailableToRefundAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>AvailableToCaptureAmount</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastPaymentGatewayMessage</field>
-            <table>OrderSummary.OrderPaymentSummaries</table>
-        </columns>
-        <masterLabel>Order Payment Summaries</masterLabel>
+        <masterLabel>Invoice Lines</masterLabel>
     </sections>
 </ReportType>

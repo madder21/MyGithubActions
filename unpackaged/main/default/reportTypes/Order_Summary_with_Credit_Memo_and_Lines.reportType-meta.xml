@@ -1,88 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
     <baseObject>OrderSummary</baseObject>
-    <category>accounts</category>
-    <deployed>false</deployed>
-    <description>Order Summary with Shipping address</description>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>Order Summary with Credit Memo and Lines</description>
     <join>
+        <join>
+            <outerJoin>false</outerJoin>
+            <relationship>CreditMemoLines</relationship>
+        </join>
         <outerJoin>false</outerJoin>
-        <relationship>OrderDeliveryGroupSummaries</relationship>
+        <relationship>CreditMemos</relationship>
     </join>
-    <label>Order Summary with Shipping address</label>
+    <label>Order Summary with Credit Memo and Lines</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CurrencyIsoCode</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>OriginalOrder</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Account</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ChangeOrder</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>GrandTotalAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjDistAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjDistTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingAddress</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -92,302 +26,12 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>BillingCity</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingState</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingPostalCode</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingCountry</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingLatitude</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingLongitude</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingGeocodeAccuracy</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingEmailAddress</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BillingPhoneNumber</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TaxLocaleType</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>OrderedDate</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Status</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Description</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SalesChannel</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>PoNumber</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>PoDate</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedProductAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedDeliveryAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedFeeAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductAdjDistAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryAdjDistAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeAdjDistAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedProductTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedDeliveryTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjustedFeeTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductAdjDistTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryAdjDistTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeAdjDistTaxAmount</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>OrderLifeCycleType</field>
+            <field>BillingAddress</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>BillToContact</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ExternalReferenceIdentifier</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductAmountWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryAmountWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeAmountWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjProductAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjDeliveryAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjFeeAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalProductAdjDistAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalDeliveryAdjDistAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalFeeAdjDistAmtWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalAdjDistAmountWithTax</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>IsSuspended</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>RoutingAttempts</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>BusinessModel</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Pricebook2</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>captureAtShipment__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Tech_OrderItemSummaries_Count__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>DeliverySignature__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>passedFraudScreening__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CaptureStatus__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>StoreOrigin__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>StoreOriginName__c</field>
-            <table>OrderSummary</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SalesChannelName__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -402,7 +46,32 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>On_Hold__c</field>
+            <field>BillingEmailAddress</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingPhoneNumber</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BusinessModel</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>captureAtShipment__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CaptureStatus__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>cegidCustomerId__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -412,17 +81,33 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>ChangeOrder</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingCity</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Billing Country</displayNameOverride>
+            <field>BillingCountry</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>CountryTech__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>FO_Capture_Error__c</field>
+            <field>CreatedBy</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>RetryAllocationProcessed__c</field>
+            <field>CreatedDate</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -432,7 +117,199 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>StandardProductsCount__c</field>
+            <field>DeliverySignature__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ExternalReferenceIdentifier</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedFeeAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedFeeTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeAmountWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjFeeAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>FO_Capture_Error__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingGeocodeAccuracy</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Invoices__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Currency</displayNameOverride>
+            <field>CurrencyIsoCode</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>isOrderOnBehalf__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>language__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingLatitude</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LaunchRetryAllocation__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingLongitude</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>latestExpectedDeliveryDate__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>On_Hold__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjDistAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjDistTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjDistAmountWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderedDate</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeAdjDistAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeAdjDistTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalFeeAdjDistAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderLifeCycleType</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalProductAdjDistAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalProductAdjDistTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalProductAdjDistAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryAdjDistAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryAdjDistTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryAdjDistAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Order Number</displayNameOverride>
+            <field>Name</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OriginalOrder</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -447,32 +324,67 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>tech_os_store_shipping_method__c</field>
+            <field>passedFraudScreening__c</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>tech_PE_Fulfillment_Count__c</field>
+            <field>PoDate</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LaunchRetryAllocation__c</field>
+            <field>PoNumber</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Invoices__c</field>
+            <field>TotalAmount</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>cegidCustomerId__c</field>
+            <field>Pricebook2</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>isOrderOnBehalf__c</field>
+            <field>TotalProductAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalProductTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalProductAmountWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RetryAllocationProcessed__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RoutingAttempts</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SalesChannel</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SalesChannelName__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedDeliveryAmount</field>
             <table>OrderSummary</table>
         </columns>
         <columns>
@@ -487,7 +399,118 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalDeliveryAmountWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedDeliveryTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjDeliveryAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SourceProcess</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>StandardProductsCount__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingState</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Order Status Code</displayNameOverride>
+            <field>Status</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>StoreOrigin__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>StoreOriginName__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedProductAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjustedProductTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalAdjProductAmtWithTax</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsSuspended</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalTaxAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxLocaleType</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Tech_OrderItemSummaries_Count__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>tech_os_store_shipping_method__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>tech_PE_Fulfillment_Count__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>GrandTotalAmount</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Tech_VAT_Id_Customer__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillingPostalCode</field>
             <table>OrderSummary</table>
         </columns>
         <masterLabel>Order Summaries</masterLabel>
@@ -495,219 +518,309 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>AppType</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CurrencyIsoCode</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Balance</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>BillingAccount</field>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>BillToContact</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>CreatedBy</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>CreatedDate</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>CreationMode</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>OriginalOrderDeliveryGroup</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>CreditDate</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>OrderDeliveryMethod</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Id</field>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CreditMemoNumber</field>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>CurrencyIsoCode</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Description</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>EmailAddress</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>DocumentNumber__c</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PhoneNumber</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ExternalReference</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToName</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ExternalReferenceDataSource</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToAddress</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>LastModifiedBy</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToStreet</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>LastModifiedDate</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToCity</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>NetCreditsApplied</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToState</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>PDFGenerationStatus__c</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToPostalCode</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Refund__c</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToCountry</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ReturnOrder__c</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToLatitude</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Status</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToLongitude</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TaxLocaleType</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliverToGeocodeAccuracy</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalAdjustmentAmount</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>GiftMessage</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalAmount</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>IsGift</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalChargeAmount</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliveryInstructions</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalCreditAmountApplied</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DesiredDeliveryDate</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalCreditAmountUnapplied</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>PromisedDeliveryDate</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalTaxAmount</field>
+            <table>OrderSummary.CreditMemos</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_cegidWarehouseId__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>TotalAmountWithTax</field>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <masterLabel>Credit Memos</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>AdjustmentAmount</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_idStore__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ChargeAmount</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_isStore__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>CreatedBy</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_pickup_email__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <displayNameOverride>Credit Memo Date</displayNameOverride>
+            <field>CreatedDate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_pickup_phone__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Id</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_FR__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>CurrencyIsoCode</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_MO__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Description</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_SA__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>EndDate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_SU__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>GrossUnitPrice</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_TH__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>LastModifiedBy</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_TU__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>LastModifiedDate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>STORE_OPENING_WE__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>LineAmount</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>RI_TAX_ID__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Product2</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_pickup_civility__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>Reason__c</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_pickup_firstName__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ReferenceEntityItem</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CLICKCOLLECT_pickup_lastName__c</field>
-            <table>OrderSummary.OrderDeliveryGroupSummaries</table>
+            <field>ReferenceEntityItemType</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
         </columns>
-        <masterLabel>Order Delivery Group Summaries</masterLabel>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ReferenceEntityItemTypeCode</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>RelatedLine</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ReturnOrderLineItem__c</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ReturnOrderNumber__c</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>StartDate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxAmount</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxCode</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxEffectiveDate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxName</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TaxRate</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Type</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>SKU</displayNameOverride>
+            <field>Product2.StockKeepingUnit</field>
+            <table>OrderSummary.CreditMemos.CreditMemoLines</table>
+        </columns>
+        <masterLabel>Credit Memo Lines</masterLabel>
     </sections>
 </ReportType>
