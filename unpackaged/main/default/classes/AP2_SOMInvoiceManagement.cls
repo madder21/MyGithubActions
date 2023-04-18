@@ -135,6 +135,11 @@ public class AP2_SOMInvoiceManagement {
      */	
     public static Blob SOM_ServerConnect(String invoiceId){
         AzureSOMServer__c configSomServer = AzureSOMServer__c.getOrgDefaults();
+        Map<String, Object> headerMap = new Map<String, Object>{
+            'client_id' => configSomServer.client_id__c,
+            'client_secret' => configSomServer.client_secret__c
+        };
+        String header = JSON.serialize(headerMap);
         try{
             HttpRequest req = new HttpRequest();
             req.setEndpoint(configSomServer.url__c + invoiceId);
