@@ -459,12 +459,13 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         if (req.returnOrigin == null || !returnOrderReturnOriginValues.contains(req.returnOrigin))
             return 'Return Origin: '+req.returnOrigin+' is not valid.';
         
-        List<String> productSkus = new List<String>();
+        List<String> concatenateSkuAndConditionIdList = new List<String>();
         for (ReturnOrderItemCreateUpdate returnOrderItemCreateUpdate:req.items) {
-            if (productSkus.contains(returnOrderItemCreateUpdate.sku))
-                return 'Duplicate SKU code: '+returnOrderItemCreateUpdate.sku+' in the same Return Order.';
-            productSkus.add(returnOrderItemCreateUpdate.sku);
-        }  
+            String concatenateSkuAndConditionId = returnOrderItemCreateUpdate.sku+returnOrderItemCreateUpdate.ConditionId;
+            if (concatenateSkuAndConditionIdList.contains(concatenateSkuAndConditionId))
+                return 'Duplicate items with the same SKU code : '+returnOrderItemCreateUpdate.sku+' and ConditionId : '+returnOrderItemCreateUpdate.ConditionId+'.';
+                concatenateSkuAndConditionIdList.add(concatenateSkuAndConditionId);
+        } 
 
         return null;
     }
