@@ -3,16 +3,16 @@
  * @date March,2nd 2023
  * @Type Apex Class
  *****************************************************************************************************************************************************************
- * @description This class contains the methods to download the Invoice from SOM Azure Server, And Upload it to SFMC FTP.
- * This class need custom settings : *AzureSOMServer__c
- * 									 *SFMCAPISetting__c
+ * @description This class contains the methods to download the Invoice from SOM Azure Server by Mulesoft API, And Upload it to SFMC FTP. It also delete the Invoice after the email is sent
+ * This class need custom settings : *SFMCAPISetting__c
  ***************************************************************************************************************************************************************** 
  * @Version : 
- * Version	|	Date of modication	|	Modified By		|	Related Jira Ticket		|		Description of changes			
- * 0.0		|	2023/03/03			|	.PLM			|	.						|		.original version with method SOM_ServerConnect, SOM_AuthSMFCAccessToken and SOM_UploadInSFMCAsset						
- * 0.1		|	2023/03/08			|	.PLM			|	.						|		.Add method to find Asset ID in SFMC by querying the customer Key, Add methods to delete Asset by Asset ID.	
+ * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
+ * 0.0		|2023/03/03			|.PLM		|.					|.original version with method SOM_ServerConnect, SOM_AuthSMFCAccessToken and SOM_UploadInSFMCAsset						
+ * 0.1		|2023/03/08			|.PLM		|.					|.Add method to find Asset ID in SFMC by querying the customer Key, Add methods to delete Asset by Asset ID.	
+ * 0.2		|2023/04/18			|.PLM		|.					|.Modification of SOM_ServerConnect method to use the Name credential "Invoice Document Mulesoft Endpoint", by using the class SOM_DownloadInvoiceDocumentController
 */
-public class AP2_SOMInvoiceManagement {
+public with sharing class AP2_SOMInvoiceManagement {
 	
     /*
      * @METHOD 	: SOM_GenerateInvoicesInSFMC
@@ -39,15 +39,15 @@ public class AP2_SOMInvoiceManagement {
         Invoice invoiceToPdf = [SELECT ID,ReferenceEntityId,ReferenceEntity.Name FROM Invoice where ReferenceEntityId = :orderSummaryId LIMIT 1];
             /*STEP 2 : Download Invoices from SOM SERVER*/ 
         if(invoiceToPdf != null){
-            Blob invoiceBlob = SOM_ServerConnect(invoiceToPdf.Id);
-            if(Test.isRunningTest()){invoiceBlob = Blob.valueof('myTestBlob');}
-            if(invoiceBlob != null){
+            String invoiceDocument = SOM_ServerConnect(invoiceToPdf.Id);
+            if(Test.isRunningTest()){invoiceDocument = 'myTestBlob';}
+            if(String.isNotEmpty(invoiceDocument)){
                 /*STEP 3 : REST Auth API from SFMC*/
                 String oAUTHAccessToken = SOM_AuthSFMCAccessToken();
                 if(oAUTHAccessToken != 'Error'){
                     /*STEP 4 : Upload into SFMC Content Builder the BLOB as PDF*/
                     String fileName = 'Invoice-'+ invoiceToPdf.ReferenceEntity.Name;
-                    String customerKey = SOM_UploadInSFMCAsset(invoiceBlob, fileName, oAUTHAccessToken);
+                    String customerKey = SOM_UploadInSFMCAsset(invoiceDocument, fileName, oAUTHAccessToken);
                     if(customerKey != 'Error'){
                         /*STEP 5 : Update TransactionalEmail*/
             			updateTransactionalEmailGenerateInvoice(transacEmailId,customerKey);
@@ -83,9 +83,9 @@ public class AP2_SOMInvoiceManagement {
     @future (callout=true)
     public static void SOM_DeleteInvoiceFromSFMC(String transacEmailId, String CustomerKey){
         String oAUTHAccessToken = SOM_AuthSFMCAccessToken();
-        if(oAUTHAccessToken!=null && oAUTHAccessToken!='Error'){
+        if(String.isNotEmpty(oAUTHAccessToken) && oAUTHAccessToken!='Error'){
             String assetID = SOM_GetAssetIdByCustomerKeyInSFMC(CustomerKey,oAUTHAccessToken);
-            if(assetID!=null && assetID!='Error'){
+            if(String.isNotEmpty(assetID) && assetID!='Error'){
                 String deleteResponse = SOM_DeleteInSFMCAsset(assetID,oAUTHAccessToken);
                 System.debug('**AP2 SOM_DeleteInvoiceFromSFMC reponseDelete : ' + deleteResponse);
                 if(deleteResponse == 'OK'){
@@ -108,8 +108,7 @@ public class AP2_SOMInvoiceManagement {
     public static void updateTransactionalEmailGenerateInvoice(String transacEmailId, String customerKey){
         TransactionalEmail__c transacEmail = [SELECT ID, TECH_GenerateInvoice__c, TECH_CustomerKey__c FROM TransactionalEmail__c WHERE ID = :transacEmailId LIMIT 1];
         if(!transacEmail.TECH_GenerateInvoice__c) transacEmail.TECH_GenerateInvoice__c = true;
-        if((transacEmail.TECH_CustomerKey__c =='' || transacEmail.TECH_CustomerKey__c == null) && 
-           (customerKey!='Error' && customerKey!=null && customerKey !='')) 
+        if(String.isEmpty(transacEmail.TECH_CustomerKey__c) && customerKey!='Error' && String.isNotEmpty(customerKey)) 
             transacEmail.TECH_CustomerKey__c = customerKey;
         update transacEmail;
     }
@@ -133,29 +132,9 @@ public class AP2_SOMInvoiceManagement {
      * @PARAM 	: InvoiceID : ID of the invoice to download from Azure Server
      * @RETURN 	: Blob Invoice : Return the Invoice in a Blob Type
      */	
-    public static Blob SOM_ServerConnect(String invoiceId){
-        AzureSOMServer__c configSomServer = AzureSOMServer__c.getOrgDefaults();
-        Map<String, Object> headerMap = new Map<String, Object>{
-            'client_id' => configSomServer.client_id__c,
-            'client_secret' => configSomServer.client_secret__c
-        };
-        String header = JSON.serialize(headerMap);
-        try{
-            HttpRequest req = new HttpRequest();
-            req.setEndpoint(configSomServer.url__c + invoiceId);
-            req.setMethod('GET');
-            req.setHeader('client_id', configSomServer.client_id__c);
-            req.setHeader('client_secret', configSomServer.client_secret__c);
-            Http http = new Http();
-            HTTPResponse res = http.send(req);
-            if(res.getStatusCode()==200){
-                Blob invoice = res.getBodyAsBlob();
-                return invoice;
-            }
-        }catch(Exception e){
-            System.debug('**AP2 SOM_ServerConnect : The following exception has occurred: ' + e.getMessage());
-        }          
-        return null;
+    public static String SOM_ServerConnect(String invoiceId){
+		SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController((ID)invoiceId);
+        return res.invoiceData;
     }
     
     /*
@@ -172,20 +151,19 @@ public class AP2_SOMInvoiceManagement {
     /*
      * @METHOD 	: SOM_UploadInSFMCAsset
      * @DESC 	: Rest API POST Method to post The Invoice in Param
-     * @PARAM 	: Blob pdfFile : invoice pdf file as a Blob format
+     * @PARAM 	: String pdfFile : invoice pdf file as a String format
      * @PARAM 	: String fileName : Name of the file to be saved in Content Builder 
      * @PARAM	: String oAUTHAccessToken : Auth Token for Rest API Method
      * @RETURN 	: String customerKey : SFMC customerKey of the inserted file, can be use to attach the file to the Transactional Email
      */	
-    public static String SOM_UploadInSFMCAsset(Blob pdfFile,String fileName,String oAUTHAccessToken){
+    public static String SOM_UploadInSFMCAsset(String pdfFile,String fileName,String oAUTHAccessToken){
         String customerKey = 'Error';
-        String Base64String = EncodingUtil.base64Encode(pdfFile);
         SFMCAPISetting__c 	SFMCAPISetting = 	SFMCAPISetting__c.getOrgDefaults();        
         Map<String, Object> dataMap = new Map<String, Object>{
             	'name' => fileName,
             	'assetType'=> new Map<String, Object>{'name' => 'pdf', 'id' => 127},
             	'FileProperties' => new Map<String, Object>{'fileName' => fileName + '.pdf'},
-                'file'=> Base64String};
+                'file'=> pdfFile};
         HttpRequest request = new HttpRequest();
         try{
             request.setEndpoint(SFMCAPISetting.Rest_API_URL__c + SFMCAPISetting.Asset_Ressource__c);
@@ -226,13 +204,10 @@ public class AP2_SOMInvoiceManagement {
     public static String SOM_GetAssetIdByCustomerKeyInSFMC(String CustomerKey, String oAUTHAccessToken){
         String assetId = 'Error';
         SFMCAPISetting__c 	SFMCAPISetting = 	SFMCAPISetting__c.getOrgDefaults();       
-        Map<String, Object> dataMap = new Map<String, Object>{
-            'query' => new Map<String, Object> {
-                'property' => 'customerKey',
-                    'simpleOperator' => 'equal',
-                    'value' => CustomerKey
-                    }
-        };
+        Map<String, Object> dataMap = new Map<String, Object>{'query' => new Map<String, Object> {'property' => 'customerKey',
+                                                                                                  'simpleOperator' => 'equal',
+                                                                                                  'value' => CustomerKey}
+                                                             };
         HttpRequest request = new HttpRequest();
         try{
             request.setEndpoint(SFMCAPISetting.Rest_API_URL__c + SFMCAPISetting.Asset_Ressource__c + SFMCAPISetting.QueryPath__c);
