@@ -1,14 +1,33 @@
+/**
+ * @author Viseo SOM Project : Mohamed-Amine Anbri
+ * @date July,13rd 2022
+ * @Type Apex Class
+ *****************************************************************************************************************************************************************
+ * @description This class contains the methods to download the Invoice from SOM Azure Server for the VFpage SOM_InvoiceDownloadContent
+ * This class need the Name Credential : *InvoiceDocumentMulesoftEndpoint
+ ***************************************************************************************************************************************************************** 
+ * @Version : 
+ * Version	|	Date of modication	|	Modified By		|	Related Jira Ticket		|		Description of changes			
+ * 0.0		|	2022/07/13			|	.MAA			|	.						|		.original version						
+ * 0.1		|	2023/04/18			|	.PLM			|	.						|		.Overload of the constructor, to use the class and methods outside the controller, 
+ * 																							modification of the method getInvoiceDocumentFromAzure to pass in parameter the InvoiceID
+ *    		|	          			|	    			|	.						|		 
+*/
 public with sharing class SOM_DownloadInvoiceDocumentController {
     public String invoiceData {get; set;}
     public String errorMessage {get; set;}
     public String title;
 
     public SOM_DownloadInvoiceDocumentController() {
-          this.getInvoiceDocumentFromAzure();
+        Id invoiceId = ApexPages.currentPage().getParameters().get('invoiceId');
+        this.getInvoiceDocumentFromAzure(invoiceId);
     }
-
-    public void getInvoiceDocumentFromAzure(){
-        Id invoiceId         = ApexPages.currentPage().getParameters().get('invoiceId');
+	
+    public SOM_DownloadInvoiceDocumentController(Id invoiceId) {
+        this.getInvoiceDocumentFromAzure(invoiceId);
+    }
+    
+    public void getInvoiceDocumentFromAzure(Id invoiceId){
         String invoiceNumber = getInvoiceNumber(invoiceId);
         if (invoiceNumber != null) {
             try{
@@ -22,14 +41,10 @@ public with sharing class SOM_DownloadInvoiceDocumentController {
                     this.invoiceData = EncodingUtil.base64Encode(response.getBodyAsBlob());
                 } else {
                     this.errorMessage = title + ' document number ' + invoiceNumber + ' not found.';
-                    System.debug('Error while getting invoice content.');
                 }
             } catch(Exception ex) {
                  this.errorMessage = ex.getMessage();
             }
-        }
-        else {
-            System.debug('We cannot find the Invoice Number.');
         }
     }
 
