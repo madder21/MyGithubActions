@@ -22,9 +22,10 @@
  * 
  * ****************************************************************************************************************************************************************
  * @Version : 
- * Version	|	Date of modication	|	Modified By		|	Related Jira Ticket			|	Description of changes			
- * 0.0		|	2023/03/03			|	.PLM			|	.							|	.original version
- * 0.1		|	2023/03/08			|	.PLM			|	.							|	.add testSetup, Add Test Method for Deletion of asset, Add Test Method for Asset ID querying
+ * Version	|Date of modication	|Modified By	|Related Jira Ticket	|Description of changes			
+ * 0.0		|2023/03/03			|.PLM			|.						|.original version
+ * 0.1		|2023/03/08			|.PLM			|.						|.add testSetup, Add Test Method for Deletion of asset, Add Test Method for Asset ID querying
+ * 0.2		|2023/04/18			|.PLM			|.						|.Modification of All Assert, replace System.assertEquals by Assert Class, Modification of serverAzureConnectionSuccess() test method
 */
 @IsTest
 public with sharing class AP2_SOMInvoiceManagement_Test {
@@ -45,18 +46,26 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Map<Id, Shipment> ships = SOM_testDataFactory.createShipments(mapIDFO);
         Account accTest = new Account(personEmail = 'test@test.com',lastName = 'test');
         insert accTest;
+        List<Invoice> inv = [SELECT Id FROM Invoice WHERE ReferenceEntityId = :os.id];
+        inv[0].InvoiceNumber__c = 'invtest1';
+        update inv;
     }
     
     @IsTest (seeAllData = true)
     public static void serverAzureConnectionSuccess() {
          // Set mock callout class 
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
-        ID invoiceID = '3tt000000000000000';
+        testSetup();
+        List<Invoice> inv = [SELECT Id FROM Invoice WHERE InvoiceNumber__c = 'invtest1'];
+        Assert.areEqual(1,inv.size());
+        system.debug('***serverAzureConnectionSuccess : invoiceID : '+inv[0].Id+'***');
+        ID invoiceID = inv[0].Id ;
+        String res = '';
         Test.startTest();
-        	Blob res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
+        	res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
+        	system.debug('***serverAzureConnectionSuccess : res : '+res+'***');
         Test.stopTest();
-        System.assertNotEquals(null,res);
-        
+        Assert.isNotNull(res);
      }
     
     @isTest (seeAllData = false)
@@ -65,9 +74,9 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         ID invoiceID = '3tt000000000000000';
         Test.startTest();
-        	Blob res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
+        	String res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
         Test.stopTest();
-        System.assertEquals(null,res); 
+        Assert.isNull(res); 
      }
     
     @isTest (seeAllData = true)
@@ -77,28 +86,28 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         	String res = AP2_SOMInvoiceManagement.SOM_AuthSFMCAccessToken();
         system.debug( res);
         Test.stopTest();
-        System.assertNotEquals(null,res); //Token shouldn't be null
-        System.assertNotEquals('Error',res);//Token shoudn't return 'Error' word.
+        Assert.isNotNull(res); //Token shouldn't be null
+        Assert.areNotEqual('Error',res);//Token shoudn't return 'Error' word.
      }
     
     @isTest (seeAllData = true) 
     static void uploadSFMCSuccess() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Test.startTest();
-        Blob myTestBlob = Blob.valueof('myTestBlob');
-		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestBlob, 'invoice-123456789.pdf', 'tokkenTestBelike');        
+        String myTestInvoice = 'myTestBlob';
+		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');        
         Test.stopTest();
-        System.assertEquals('customerKeyBeLike',customerKey); 
+        Assert.areEqual('customerKeyBeLike',customerKey); 
      }
     
     @isTest (seeAllData = false)
     static void uploadSFMCError() {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Test.startTest();
-        Blob myTestBlob = Blob.valueof('myTestBlob');
-		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestBlob, 'invoice-123456789.pdf', 'tokkenTestBelike');        
+        String myTestInvoice = 'myTestBlob';
+		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');        
         Test.stopTest();
-        System.assertEquals('Error',customerKey); 
+        Assert.areEqual('Error',customerKey); 
      }
     
     @isTest (seeAllData = true)
@@ -110,7 +119,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String tokkenTest= 'tokkenTestBelike';
         myTestResponse = AP2_SOMInvoiceManagement.SOM_GetAssetIdByCustomerKeyInSFMC(customerKey, tokkenTest);        
         Test.stopTest();
-        System.assertEquals('1010',myTestResponse); 
+        Assert.areEqual('1010',myTestResponse); 
      }
     
     @isTest (seeAllData = true)
@@ -122,7 +131,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String tokkenTest= 'tokkenTestBelike'; 
         myTestResponse = AP2_SOMInvoiceManagement.SOM_DeleteInSFMCAsset(AssetTest, tokkenTest);        
         Test.stopTest();
-        System.assertEquals('OK',myTestResponse); 
+        Assert.areEqual('OK',myTestResponse); 
      }
     
     @isTest (seeAllData = false)
@@ -134,7 +143,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String tokkenTest= 'tokkenTestBelike';
         myTestResponse = AP2_SOMInvoiceManagement.SOM_GetAssetIdByCustomerKeyInSFMC(customerKey, tokkenTest);        
         Test.stopTest();
-        System.assertEquals('Error',myTestResponse); 
+        Assert.areEqual('Error',myTestResponse); 
      }
     
     @isTest (seeAllData = false)
@@ -146,7 +155,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String tokkenTest= 'tokkenTestBelike'; 
         myTestResponse = AP2_SOMInvoiceManagement.SOM_DeleteInSFMCAsset(AssetTest, tokkenTest);        
         Test.stopTest();
-        System.assertEquals('Bad request',myTestResponse); 
+        Assert.areEqual('Bad request',myTestResponse); 
      }
     
     @isTest (seeAllData = true)
@@ -170,9 +179,9 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                            AND email__c = :accTest.PersonEmail
                                            AND Client__c = :accTest.Id AND OrderSummary__c = :os.Id LIMIT 1];
         System.debug('**AP2 TEST : generateOneInvoiceInSFMCSuccess : ' + transEmail);
-        System.AssertEquals(true,transEmail.TECH_GenerateInvoice__c);
-        System.AssertNotEquals('Error',transEmail.TECH_CustomerKey__c);
-        System.AssertNotEquals(null,transEmail.TECH_CustomerKey__c);
+        Assert.isTrue(transEmail.TECH_GenerateInvoice__c);
+        Assert.areNotEqual('Error',transEmail.TECH_CustomerKey__c);
+        Assert.isNotNull(transEmail.TECH_CustomerKey__c);
     }
 	
     @isTest (seeAllData = true)
@@ -196,9 +205,9 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                          WHERE  Client__c = :accTest.Id 
                                          AND email__c = :accTest.PersonEmail 
                                          AND OrderSummary__c = :os.Id];
-		System.AssertEquals(false,trEmail.TECH_GenerateInvoice__c);        
-        System.AssertEquals(null,trEmail.TECH_CustomerKey__c);
-        System.AssertEquals(SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,trEmail.Template__c);
-        System.AssertEquals(SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_SENT,trEmail.Status__c);
+		Assert.isFalse(trEmail.TECH_GenerateInvoice__c);        
+        Assert.isNull(trEmail.TECH_CustomerKey__c);
+        Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,trEmail.Template__c);
+        Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_SENT,trEmail.Status__c);
     }
 }
