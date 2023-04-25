@@ -17,6 +17,8 @@ global class MockHttpResponseGenerator implements HttpCalloutMock {
     public MockHttpResponseGenerator(String responseXml) {
         this.responseXml = responseXml;
     }
+    public MockHttpResponseGenerator() {
+    }
     // Implement this interface method
     global HTTPResponse respond(HTTPRequest req) {
         
