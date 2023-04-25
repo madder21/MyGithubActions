@@ -1,19 +1,25 @@
 @isTest
 public with sharing class DataMigrationScheduleTest {
-
-    @isTest
-    public static void jobScheduleTest() {        
-        test.starttest();
-        DataMigrationSchedule myClass = new DataMigrationSchedule ();   
-        String chron = '0 0 11 * * ?';        
-        String cronID = system.schedule('Test Sched', chron, myClass);
-        CronTrigger job = [SELECT Id, CronJobDetail.Name, PreviousFireTime,StartTime, CreatedDate 
-                          FROM CronTrigger 
-                          WHERE Id=:cronID];
-        
-        test.stopTest();
-        System.assertEquals(job.CronJobDetail.Name, 'Test Sched');
-        System.assertEquals(job.PreviousFireTime, null);
+    //Create Data for customSetting
+    @testSetup
+    static void setupTestData() {
+        // Create a new record for the BatchLastExecutionTime__c custom setting
+        BatchLastExecutionTime__c setting = BatchLastExecutionTime__c.getOrgDefaults();
+        setting.DataMigrationLastExecutionDate__c = System.now().addDays(-1);
+        insert setting;
     }
-
+    @isTest
+    static void testScheduleExecution() {
+        // Test the scheduled batch job execution
+        DateTime thisNow = Datetime.now();
+        Test.startTest();
+        String jobId = System.schedule('Data Migration Batch', '0 0 0 * * ?', new DataMigrationSchedule());
+        Test.stopTest();
+        // Verify that the scheduled job was executed
+        List<AsyncApexJob> jobs = [SELECT Id, Status FROM AsyncApexJob];
+        Assert.areEqual('Queued', jobs[0].Status);
+        // Verify that the customsetting was updated with last execution date
+        BatchLastExecutionTime__c setting = BatchLastExecutionTime__c.getOrgDefaults();
+        Assert.areEqual(thisNow, setting.DataMigrationLastExecutionDate__c);
+    }
 }

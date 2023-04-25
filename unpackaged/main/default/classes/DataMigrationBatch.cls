@@ -17,6 +17,7 @@ global class DataMigrationBatch implements Database.Batchable<sObject>{
         this.isFirstRun = isFirstRun;
         this.lastBatchExecutionDateTime = lastBatchExecutionDateTime;
         dataMigrationQuery = DataMigrationHelper.buildDataMigrationBatchQuery(isFirstRun, lastBatchExecutionDateTime);
+        System.debug(dataMigrationQuery);
     }
     //Constructor for Custom Query
     public DataMigrationBatch(String query){
