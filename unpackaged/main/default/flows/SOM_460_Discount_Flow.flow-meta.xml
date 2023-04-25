@@ -223,6 +223,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Count_selected_elements</name>
+        <label>Count selected elements</label>
+        <locationX>1119</locationX>
+        <locationY>8</locationY>
+        <assignmentItems>
+            <assignToReference>V_Counter_selected_elements</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>selectedOrderItemSummaries</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B_Error_message_visibility</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>if_selectedOrderItemSummaries_empty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Credit_Memo_Assignment</name>
         <label>Credit Memo Assignment</label>
         <locationX>1935</locationX>
@@ -440,6 +463,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Discount_Item_Representation_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Error_message_visibility</name>
+        <label>Error message visibility</label>
+        <locationX>970</locationX>
+        <locationY>89</locationY>
+        <assignmentItems>
+            <assignToReference>B_Error_message_visibility</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Product_Selection</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -866,6 +905,31 @@
                 <targetReference>Credit_Memo_Assignment</targetReference>
             </connector>
             <label>Has Post Fulfillment</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>if_selectedOrderItemSummaries_empty</name>
+        <label>if selectedOrderItemSummaries empty</label>
+        <locationX>1110</locationX>
+        <locationY>153</locationY>
+        <defaultConnector>
+            <targetReference>Set_Stage_To_Part_2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
+        <rules>
+            <name>Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>V_Counter_selected_elements</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_message_visibility</targetReference>
+            </connector>
+            <label>Empty</label>
         </rules>
     </decisions>
     <decisions>
@@ -1658,18 +1722,33 @@
     <screens>
         <name>Product_Selection</name>
         <label>Product Selection</label>
-        <locationX>973</locationX>
-        <locationY>127</locationY>
+        <locationX>829</locationX>
+        <locationY>20</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Set_Stage_To_Part_2</targetReference>
+            <targetReference>Count_selected_elements</targetReference>
         </connector>
         <fields>
             <name>ProductSelectionHeading</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Select from these available items to discount.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Error_message_no_selection</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(231, 16, 16); font-size: 16px;&quot;&gt;Atleast one item should be selected !&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>B_Error_message_visibility</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>productSelection_Datatable</name>
@@ -1775,8 +1854,8 @@
     <screens>
         <name>Product_Selection_0</name>
         <label>Product Selection</label>
-        <locationX>774</locationX>
-        <locationY>118</locationY>
+        <locationX>674</locationX>
+        <locationY>30</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2005,8 +2084,8 @@
     <screens>
         <name>Value_Selection_0</name>
         <label>Value Selection</label>
-        <locationX>1106</locationX>
-        <locationY>80</locationY>
+        <locationX>1311</locationX>
+        <locationY>18</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2215,6 +2294,16 @@
         </value>
     </variables>
     <variables>
+        <name>B_Error_message_visibility</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
         <name>confirmationImage</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2368,6 +2457,17 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>V_Counter_selected_elements</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>V_CreatedRefundId</name>
