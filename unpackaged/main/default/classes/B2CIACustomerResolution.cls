@@ -10,6 +10,7 @@
  * 1.0		|	2022-11-29			|	.MA				|	.						|	.Viseo Method ConnectorBToCNewLogic() => add a return case, when contacts are found with the same email, and no B2C Customer ID or No, return the first contact found ordered by created date  
  * 2.0		|	2023-02-17			|	.AS				|	.CI-74					|	.Devoteam : Method ConnectorBToCNewLogic() => changing the logic of matching contacts + Upgrade Version 57
  * 2.1		|	2023-03-20			|	.PLM			|	.CI-163					|	.Rimowa : Query of ConnectorBToCNewLogic modified to remove null possibilities and remove all return case, by on return at the end of the method + add comments
+ * 2.2		|	2023-04-27			|	.PLM			|	.CI-166					|	.Modify the process to avoir vulnerability to SOQL Injection. 2 new methods : getMatchingContacts()	getNonNullableContactsQueryLocator()
  *			|						|	.				|	.						|	.	
 */
 public inherited sharing class B2CIACustomerResolution {
@@ -28,29 +29,9 @@ public inherited sharing class B2CIACustomerResolution {
         
         List<Contact> contactListToReturn = new List<Contact>();
         Map<Id,Contact> contactsListWithIds = new  Map<Id,Contact>();
-        //Query return list of contacts have the same email of entred contact
-        //******2022-11-29 Add Ordering by LastModifiedDate************
-        //******2022-02-17 upgrade matching rules --> LastName && FirstName && (Email || Phone)************
-        //******2023-03-20 upgrade query to remove null possibilities 
-		String firstNameCondition = !String.isBlank(contactToResolve.FirstName) ? ' AND firstname = \'' + contactToResolve.FirstName + '\')' : ')';
-        String emailAndPhoneCondition = '';
-        //IF EMAIL AND PHONE
-        if(!String.isBlank(contactToResolve.Email) && !String.isBlank(contactToResolve.Phone))
-           emailAndPhoneCondition = ' AND (Email = \'' + contactToResolve.Email + '\' OR Phone = \'' +  contactToResolve.Phone + '\')';
-        //ELSE IF EMAIL BUT NO PHONE
-        else if(!String.isBlank(contactToResolve.Email) && String.isBlank(contactToResolve.Phone))
-           emailAndPhoneCondition = ' AND Email = \'' + contactToResolve.Email + '\'';
-        //ELSE IF PHONE BUT NO EMAIL
-        else if(String.isBlank(contactToResolve.Email) && !String.isBlank(contactToResolve.Phone))
-           emailAndPhoneCondition = ' AND Phone = \'' +  contactToResolve.Phone + '\'';
-        else return null;//IF No Email AND NO Phone Reject the rest of the Method
         
-        String query = 'Select Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c,'+ 
-                       'B2C_Customer_No__c, FirstName, LastName, Email, Phone, B2C_Disable_Integration__c, 	B2C_Date_Last_Modified__c '+
-                       'From Contact where (LastName = \'' + contactToResolve.LastName + '\''
-            			+ firstNameCondition + emailAndPhoneCondition + ' ORDER BY CreatedDate DESC ';
-        System.debug('*** B2CIACustomerResolution.ConnectorBToCNewLogic() Query : ' + query);
-        List<Contact> matchedContactRecords = Database.query(query, AccessLevel.SYSTEM_MODE);
+        //Get the Matching records
+        List<Contact> matchedContactRecords = getMatchingContacts(contactToResolve);
         
         //Case 1 : One Contact Found => Return the found contact
         if(matchedContactRecords.size()==1) contactListToReturn = matchedContactRecords;
@@ -80,10 +61,8 @@ public inherited sharing class B2CIACustomerResolution {
             else contactListToReturn.add(matchedContactRecords.get(0));
         }
         //Case 3 : No contact Found by the Query => Return an empty list
-        else contactListToReturn = new List<Contact>();
-        
+        else contactListToReturn = new List<Contact>();        
         return contactListToReturn;
-        
     }
     
     
@@ -96,53 +75,118 @@ public inherited sharing class B2CIACustomerResolution {
      */
     @InvocableMethod(Label='B2C: Customer Resolution' Description='Finds matching contacts based on B2C matching rules')
     public static List<B2CIACustomerResolutionResult> resolve(List<Contact> contactList) {
-
         // Initialize local variables
         B2CIACustomerResolutionResult resolutionResults;
         List<B2CIACustomerResolutionResult> output;
-
         // Initialize the output variable
         output = new List<B2CIACustomerResolutionResult>();
-
         // Initialize the resolution results
         resolutionResults = new B2CIACustomerResolutionResult();
         resolutionResults.isError = false;
-
         // Was a contact found in the input parameter?
         if (contactList.size() != 1) {
-
             // If not, indicate an error occurred
             resolutionResults.isError = true;
             resolutionResults.errorMessage = 'No sourceContact provided to B2CIACustomerResolution class.  Check your input and please try again.';
-
         } else {
 
             // Otherwise, access the first contact
             Contact c = contactList[0];
-
            try {
-
                 // Add the resolution results to the output class
                 resolutionResults.contactList = B2CIACustomerResolution.findDupes(c);
-
             } catch (System.HandledException e) {
-
                 // Indicate that an error occurred
                 resolutionResults.isError = true;
-
                 // Capture the error message from the exception
                 resolutionResults.errorMessage = e.getMessage();
-
             }
-
         }
 
         // Build the output variable with the processing results
         output.add(resolutionResults);
-
         // Return the output variable
         return output;
-
     }
     
+    /**
+     * @descriptionFinds and returns a list of Contact records that match the specified Contact, based on non-null values of the
+     * LastName, FirstName, Email, and Phone fields. If neither Email nor Phone is present, returns an empty list.
+     * 
+     * @param contactToResolve The Contact record to match against.
+     * @return A list of Contact records that match the specified Contact, or an empty list if no matches are found.
+     */
+    public static List<Contact> getMatchingContacts(Contact contactToResolve) {
+    // Get a query locator for non-null contacts that match the provided fields
+    Database.QueryLocator queryLocator = getNonNullableContactsQueryLocator(contactToResolve);
+
+        if (queryLocator == null) {
+            // Return empty list if neither Email nor Phone is present
+            return new List<Contact>();
+        }
+    
+        // Iterate over matching records
+        List<Contact> matchedContactRecords = new List<Contact>();
+        Database.QueryLocatorIterator iterator = queryLocator.iterator();
+        while (iterator.hasNext()) {
+            matchedContactRecords.add((Contact)iterator.next());
+        }
+        
+        return matchedContactRecords;
+    }
+    
+    /**
+     * @description Returns a QueryLocator that retrieves non-null Contacts matching the specified criteria.
+     *
+     * @param contactToResolve A Contact Object with fields to be query in it
+     * @return A QueryLocator object containing the matching Contacts.
+     */
+	public static Database.QueryLocator getNonNullableContactsQueryLocator(Contact contactToResolve) {
+        // Create map to hold the bind variables and their values
+        Map<String, Object> bindVariables = new Map<String, Object>();
+    
+        // Create list to hold the query conditions
+        List<String> conditions = new List<String>();
+    
+        // Add conditions for non-null LastName and FirstName
+        if (String.isNotEmpty(contactToResolve.LastName)) {
+            conditions.add('LastName = :lastName');
+            bindVariables.put('lastName', String.escapeSingleQuotes(contactToResolve.LastName));
+        } else {	
+            System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() :LastName can\'t be null');
+            return null;
+        }
+    
+        if (String.isNotEmpty(contactToResolve.FirstName)) {
+            conditions.add('FirstName = :firstName');
+            bindVariables.put('firstName', String.escapeSingleQuotes(contactToResolve.FirstName));
+        }
+    
+        // Add conditions for non-null Email and Phone
+        if (String.isNotEmpty(contactToResolve.Email) && String.isNotEmpty(contactToResolve.Phone)) {
+            conditions.add('(Email = :email OR Phone = :phone)');
+            bindVariables.put('email', String.escapeSingleQuotes(contactToResolve.Email));
+            bindVariables.put('phone', String.escapeSingleQuotes(contactToResolve.Phone));
+        } else if (String.isNotEmpty(contactToResolve.Email)) {
+            // Add condition for non-null Email
+            conditions.add('Email = :email');
+            bindVariables.put('email', String.escapeSingleQuotes(contactToResolve.Email));
+        } else if (String.isNotEmpty(contactToResolve.Phone)) {
+            // Add condition for non-null Phone
+            conditions.add('Phone = :phone');
+            bindVariables.put('phone', String.escapeSingleQuotes(contactToResolve.Phone));
+        } else {
+            // Return null if neither Email nor Phone is present
+            return null;
+        }
+    
+        // Construct the SOQL query string using the conditions
+        String soqlQuery = 'SELECT Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, B2C_Customer_No__c, ' +
+                           'FirstName, LastName, Email, Phone, B2C_Disable_Integration__c, B2C_Date_Last_Modified__c ' +
+                           'FROM Contact WHERE ' + String.join(conditions, ' AND ') + ' ORDER BY CreatedDate DESC';
+    	System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() soqlQuery = ' + soqlQuery);
+        System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() bindVariables = ' + bindVariables);
+        // Use getQueryLocatorWithBinds to bind the values to the SOQL query
+        return Database.getQueryLocatorWithBinds(soqlQuery, bindVariables, AccessLevel.SYSTEM_MODE);
+	}
 }
