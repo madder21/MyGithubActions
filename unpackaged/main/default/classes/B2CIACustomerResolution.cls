@@ -117,21 +117,18 @@ public inherited sharing class B2CIACustomerResolution {
      * @return A list of Contact records that match the specified Contact, or an empty list if no matches are found.
      */
     public static List<Contact> getMatchingContacts(Contact contactToResolve) {
-    // Get a query locator for non-null contacts that match the provided fields
-    Database.QueryLocator queryLocator = getNonNullableContactsQueryLocator(contactToResolve);
-
+    	// Get a query locator for non-null contacts that match the provided fields
+    	Database.QueryLocator queryLocator = getNonNullableContactsQueryLocator(contactToResolve);
         if (queryLocator == null) {
             // Return empty list if neither Email nor Phone is present
             return new List<Contact>();
-        }
-    
+        }    
         // Iterate over matching records
         List<Contact> matchedContactRecords = new List<Contact>();
         Database.QueryLocatorIterator iterator = queryLocator.iterator();
         while (iterator.hasNext()) {
             matchedContactRecords.add((Contact)iterator.next());
-        }
-        
+        }        
         return matchedContactRecords;
     }
     
@@ -142,39 +139,30 @@ public inherited sharing class B2CIACustomerResolution {
      * @return A QueryLocator object containing the matching Contacts.
      */
 	public static Database.QueryLocator getNonNullableContactsQueryLocator(Contact contactToResolve) {
-        // Create map to hold the bind variables and their values
-        Map<String, Object> bindVariables = new Map<String, Object>();
-    
-        // Create list to hold the query conditions
+    	// Create list to hold the query conditions
         List<String> conditions = new List<String>();
     
         // Add conditions for non-null LastName and FirstName
         if (String.isNotEmpty(contactToResolve.LastName)) {
             conditions.add('LastName = :lastName');
-            bindVariables.put('lastName', String.escapeSingleQuotes(contactToResolve.LastName));
-        } else {	
+        } else {    
             System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() :LastName can\'t be null');
             return null;
         }
     
         if (String.isNotEmpty(contactToResolve.FirstName)) {
             conditions.add('FirstName = :firstName');
-            bindVariables.put('firstName', String.escapeSingleQuotes(contactToResolve.FirstName));
         }
     
         // Add conditions for non-null Email and Phone
         if (String.isNotEmpty(contactToResolve.Email) && String.isNotEmpty(contactToResolve.Phone)) {
             conditions.add('(Email = :email OR Phone = :phone)');
-            bindVariables.put('email', String.escapeSingleQuotes(contactToResolve.Email));
-            bindVariables.put('phone', String.escapeSingleQuotes(contactToResolve.Phone));
         } else if (String.isNotEmpty(contactToResolve.Email)) {
             // Add condition for non-null Email
             conditions.add('Email = :email');
-            bindVariables.put('email', String.escapeSingleQuotes(contactToResolve.Email));
         } else if (String.isNotEmpty(contactToResolve.Phone)) {
             // Add condition for non-null Phone
             conditions.add('Phone = :phone');
-            bindVariables.put('phone', String.escapeSingleQuotes(contactToResolve.Phone));
         } else {
             // Return null if neither Email nor Phone is present
             return null;
@@ -184,9 +172,14 @@ public inherited sharing class B2CIACustomerResolution {
         String soqlQuery = 'SELECT Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, B2C_Customer_No__c, ' +
                            'FirstName, LastName, Email, Phone, B2C_Disable_Integration__c, B2C_Date_Last_Modified__c ' +
                            'FROM Contact WHERE ' + String.join(conditions, ' AND ') + ' ORDER BY CreatedDate DESC';
-    	System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() soqlQuery = ' + soqlQuery);
-        System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() bindVariables = ' + bindVariables);
-        // Use getQueryLocatorWithBinds to bind the values to the SOQL query
+        System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() soqlQuery = ' + soqlQuery);
+    
+        // Create map to hold the bind variables and their values
+        Map<String, Object> bindVariables = new Map<String, Object>();
+        bindVariables.put('lastName', contactToResolve.LastName);
+        bindVariables.put('firstName', contactToResolve.FirstName);
+        bindVariables.put('email', contactToResolve.Email);
+        bindVariables.put('phone', contactToResolve.Phone);
         return Database.getQueryLocatorWithBinds(soqlQuery, bindVariables, AccessLevel.SYSTEM_MODE);
 	}
 }
