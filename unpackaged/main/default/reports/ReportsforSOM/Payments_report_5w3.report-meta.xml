@@ -18,6 +18,9 @@
     <columns>
         <field>OrderSummary$Tech_ShippingCountry__c</field>
     </columns>
+    <columns>
+        <field>OrderSummary.OrderPaymentSummaries$CardType__c</field>
+    </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
@@ -42,14 +45,14 @@
             <value>AE</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary.OrderPaymentSummaries.Payments$PaymentMethod</column>
+            <column>OrderSummary.OrderPaymentSummaries$Type</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>No Payment</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary.OrderPaymentSummaries.Payments$PaymentMethod</column>
+            <column>OrderSummary.OrderPaymentSummaries$Type</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
