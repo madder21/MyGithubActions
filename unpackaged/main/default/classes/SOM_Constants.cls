@@ -9,7 +9,14 @@ global with sharing class SOM_Constants {
     public static final String  RI_REPAYMENT_METHOD_C_KLARNA        = 'C_KLARNA';
     public static final String  RI_REPAYMENT_METHOD_C_CREDIT_CARD   = 'C_CC';
 
-
+    public static final String EXCHANGE			             		= 'Exchange';
+    public static final String FULFILLING			             	= 'Fulfilling';
+	public static final String TEMPLATE_CoreModel             		= 'CoreModel';
+    public static final String PE_NEW             					= 'New';
+    public static final String PE_PAYMENT             				= 'Payment';
+    public static final String Status_Ordered             			= 'Ordered';
+    
+    
     public static final String INVOICE_LINE_TYPE_CHARGE             = 'Charge';
     public static final String INVOICE_LINE_TYPE_TAX                = 'Tax';
     public static final String CreditMemo_LINE_TYPE_ADJUSTMENT      = 'Adjustment';
