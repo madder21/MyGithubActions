@@ -4,9 +4,10 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
     }
     @future(callout=true)
     public static void DoExport() {
-        List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status= 'New' and Category= 'Payment' ];
+        List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
                                     DeveloperName = 'New_SOM_Process_Exception_Report_h7t'];
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
         String reportId = (String)reportList.get(0).get('Id');
         String baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
         ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
@@ -16,6 +17,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
         attachment.setContentType('text/csv');
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
+        message.setOrgWideEmailAddressId(owa.id);
         String subject ='Report of Process Exceptions not resolved';
         message.setSubject(subject);
         message.setPlainTextBody(' Link to see the report : '+baseUrl+'/'+reportId);
