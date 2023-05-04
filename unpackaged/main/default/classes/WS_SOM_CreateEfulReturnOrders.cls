@@ -36,13 +36,11 @@ global with sharing class WS_SOM_CreateEfulReturnOrders {
             }
 
             //Order summary
-            List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber, (SELECT  Id, OrderSummaryId, OrderSummary.OrderNumber, Product2Id, StockKeepingUnit, GrossUnitPrice, UnitPrice, TotalTaxAmount, Quantity FROM OrderItemSummaries) FROM OrderSummary WHERE OrderNumber IN :orderSummariesNumbers];
-            System.debug('orderSummaries' + orderSummaries);
+            List<OrderSummary> orderSummaries = [SELECT Id, CurrencyIsoCode, OrderNumber, (SELECT  Id, OrderSummaryId, OrderSummary.OrderNumber, Product2Id, StockKeepingUnit, GrossUnitPrice, UnitPrice, TotalTaxAmount, Quantity FROM OrderItemSummaries) FROM OrderSummary WHERE OrderNumber IN :orderSummariesNumbers];
             if(orderSummaries != null){
                 for(OrderSummary os : orderSummaries){
                     osMap.put(os.OrderNumber, os);
                     if(os.orderItemSummaries != null){
-                        System.debug('os.orderItemSummaries' + os.orderItemSummaries);
                     Map<String, OrderItemSummary> skuOisMap = new Map<String, OrderItemSummary>();
                     for (OrderItemSummary oi : os.orderItemSummaries) {
                         skuOisMap.put(oi.StockKeepingUnit, oi);
@@ -53,7 +51,6 @@ global with sharing class WS_SOM_CreateEfulReturnOrders {
             }
         }
 
-        System.debug('orderNumberSKUItemsMap' + orderNumberSKUItemsMap);
 
             //location
             List<SObject> locations = [SELECT ID, Name FROM Location WHERE Name IN :locationNames];
@@ -110,6 +107,8 @@ global with sharing class WS_SOM_CreateEfulReturnOrders {
                 ro.Description      = efulReturnOrder.roDescription;
                 ro.ReturnDate__c    = SOM_DateTimeHelper.convertISO8601ToDateTime(efulReturnOrder.roDate);
                 ro.ReturnOrigin__c  = efulReturnOrder.roOrigin;
+                ro.CurrencyIsoCode  = osMap.get(efulReturnOrder.orderSummaryNumber).CurrencyIsoCode;
+
                 if (locationsMap.get(efulReturnOrder.roLocation) != null) ro.DestinationLocationId = locationsMap.get(efulReturnOrder.roLocation).Id;
 
                 //Construct return order line items

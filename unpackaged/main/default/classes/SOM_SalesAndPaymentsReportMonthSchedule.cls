@@ -9,6 +9,8 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
 
         DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
         String firstDay = firstDayOfLastMonth.format('MM/dd/YYYY');
+        
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
 
         DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
         String lastDay = lastDayOfLastMonth.format('MM/dd/YYYY');
@@ -124,7 +126,7 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
             String subject ='[SOM] Monthly extraction of payments and sales for ' + reportSetting.Country_List__c;
             email.setSubject(subject);
             email.setPlainTextBody('Hello,' + '\n\n' +'Find attached Sales, payments, shipments and returns reports for week starting from '+firstDay+' to '+lastDay+' for the country/countries: ' + reportSetting.Countries__c + +'\n\n' + 'Best regards.');
-           
+            email.setOrgWideEmailAddressId(owa.id);
             String[] toAddresses = new list<string>();
             toAddresses.addAll(reportSetting.Distribution_List__c.split(','));
             email.setToAddresses( toAddresses );

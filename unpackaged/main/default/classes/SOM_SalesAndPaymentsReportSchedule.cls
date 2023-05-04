@@ -10,6 +10,8 @@ public with sharing class SOM_SalesAndPaymentsReportSchedule Implements Schedula
 
         DateTime previousMondayDate = (DateTime)System.Today().addDays(-7);
         String previousMonday = previousMondayDate.format('MM/dd/YYYY');
+        
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
 
         DateTime previousSundayDate = (DateTime)System.Today().addDays(-1);
         String previousSunday = previousSundayDate.format('MM/dd/YYYY');
@@ -123,7 +125,7 @@ public with sharing class SOM_SalesAndPaymentsReportSchedule Implements Schedula
             String subject ='[SOM] Weekly extraction of payments and sales for ' + reportSetting.Country_List__c;
             email.setSubject(subject);
             email.setPlainTextBody('Hello,' + '\n\n' +'Find attached Sales, payments, shipments and returns reports for week starting from '+previousMonday+' to '+previousSunday+' for the country/countries: ' + reportSetting.Countries__c + +'\n\n' + 'Best regards.');
-           
+            email.setOrgWideEmailAddressId(owa.id);
             String[] toAddresses = new list<string>();
             toAddresses.addAll(reportSetting.Distribution_List__c.split(','));
             email.setToAddresses( toAddresses );
