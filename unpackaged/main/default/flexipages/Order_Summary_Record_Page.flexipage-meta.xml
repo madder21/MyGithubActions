@@ -205,7 +205,7 @@
                         <valueListItems>
                             <value>OrderSummary.Reship</value>
                             <visibilityRule>
-                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4</booleanFilter>
+                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -225,6 +225,11 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>SOM Read only</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.On_Hold__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
