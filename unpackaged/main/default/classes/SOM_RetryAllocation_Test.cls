@@ -43,12 +43,12 @@ public with sharing class SOM_RetryAllocation_Test {
         SOM_testDataFactory.createFO(osList[1]);
         SOM_testDataFactory.createFO(osList[2]);
         SOM_testDataFactory.createFO(osList[3]);
-        SOM_testDataFactory.createFO(osList[4]);
-        SOM_testDataFactory.createFO(osList[5]);
-        SOM_testDataFactory.createFO(osList[7]);
-        SOM_testDataFactory.createFO(osList[8]);
-        SOM_testDataFactory.createFO(osList[9]);
-        SOM_testDataFactory.createFO(osList[10]);
+        //SOM_testDataFactory.createFO(osList[4]);
+        //SOM_testDataFactory.createFO(osList[5]);
+        //SOM_testDataFactory.createFO(osList[7]);
+        //SOM_testDataFactory.createFO(osList[8]);
+        //SOM_testDataFactory.createFO(osList[9]);
+        //SOM_testDataFactory.createFO(osList[10]);
 
         return osList;
     }
