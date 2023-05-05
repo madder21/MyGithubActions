@@ -89,8 +89,8 @@
     <assignments>
         <name>Add_OCI_Single_Input_To_Coll</name>
         <label>Add OCI Single Input To Coll</label>
-        <locationX>2874</locationX>
-        <locationY>421</locationY>
+        <locationX>2980</locationX>
+        <locationY>368</locationY>
         <assignmentItems>
             <assignToReference>COL_OCICreateReservationSingleInputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -100,6 +100,38 @@
         </assignmentItems>
         <connector>
             <targetReference>Iterate_Over_Order_Item_Summaries</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_OCI_Single_Input_To_Coll_Sku_Duplicate</name>
+        <label>Add OCI Single Input To Coll Sku Duplicate</label>
+        <locationX>3109</locationX>
+        <locationY>1066</locationY>
+        <assignmentItems>
+            <assignToReference>COL_OCICreateReservationSingleInputRepresentationSkuUnique</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_OCI_Single_Input_To_Coll_Sku_Unique</name>
+        <label>Add OCI Single Input To Coll Sku Unique</label>
+        <locationX>3248</locationX>
+        <locationY>640</locationY>
+        <assignmentItems>
+            <assignToReference>COL_OCICreateReservationSingleInputRepresentationSkuUnique</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -116,6 +148,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Stack_SKU_in_stock</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Add_Total_Qty_for_Duplicate_SKU</name>
+        <label>Add Total Qty for Duplicate SKU</label>
+        <locationX>3292</locationX>
+        <locationY>1066</locationY>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>TotalQty</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_OCI_Single_Input_To_Coll_Sku_Duplicate</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -137,8 +185,8 @@
     <assignments>
         <name>Assign_PE_Description_0</name>
         <label>Assign PE Description</label>
-        <locationX>1157</locationX>
-        <locationY>1018</locationY>
+        <locationX>446</locationX>
+        <locationY>1162</locationY>
         <assignmentItems>
             <assignToReference>PEDescription</assignToReference>
             <operator>Assign</operator>
@@ -213,6 +261,87 @@
         </connector>
     </assignments>
     <assignments>
+        <name>CreatePE_REC_Assignment</name>
+        <label>Create PE REC Assignment</label>
+        <locationX>692</locationX>
+        <locationY>942</locationY>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.AttachedToId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L80_OIS_out_of_Stock.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Category</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Fulfillment</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PEDescription</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Message</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Insufficient Stock</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Priority</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Severity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>High</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatePE_REC.OrderSummaryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OrderSummaryRecord.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ok</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>ok</name>
+        <label>ok</label>
+        <locationX>957</locationX>
+        <locationY>946</locationY>
+        <assignmentItems>
+            <assignToReference>CollectionPE_ToCreate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>CreatePE_REC</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L80_OIS_out_of_Stock</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Collection_Size</name>
         <label>Set Collection Size</label>
         <locationX>1835</locationX>
@@ -258,7 +387,7 @@
             <assignToReference>REC_OCICreateReservationInputRepresentation.createRecords</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>COL_OCICreateReservationSingleInputRepresentation</elementReference>
+                <elementReference>COL_OCICreateReservationSingleInputRepresentationSkuUnique</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -275,8 +404,8 @@
     <assignments>
         <name>Set_OCI_Create_Reservation_Single_Input</name>
         <label>Set OCI Create Reservation Single Input</label>
-        <locationX>2874</locationX>
-        <locationY>232</locationY>
+        <locationX>2932</locationX>
+        <locationY>182</locationY>
         <assignmentItems>
             <assignToReference>REC_OCICreateReservationSingleInputRepresentation.quantity</assignToReference>
             <operator>Assign</operator>
@@ -296,10 +425,84 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_OCI_Create_Reservation_Single_Input_Sku_Duplicate</name>
+        <label>Set OCI Create Reservation Single Input Sku Duplicate</label>
+        <locationX>3399</locationX>
+        <locationY>892</locationY>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.locationGroupIdentifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.locationGroupIdentifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.locationIdentifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.locationIdentifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.stockKeepingUnit</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.stockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_Filter_Sku_Duplicate</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_OCI_Create_Reservation_Single_Input_Sku_Unique</name>
+        <label>Set OCI Create Reservation Single Input Sku Unique</label>
+        <locationX>3426</locationX>
+        <locationY>614</locationY>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.locationGroupIdentifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.locationGroupIdentifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.locationIdentifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.locationIdentifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>REC_OCICreateReservationSingleInputRepresentationSkuUnique.stockKeepingUnit</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.stockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_OCI_Single_Input_To_Coll_Sku_Unique</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_OCI_Location_Identifier</name>
         <label>Set OCI Location Identifier</label>
-        <locationX>3295</locationX>
-        <locationY>411</locationY>
+        <locationX>3454</locationX>
+        <locationY>295</locationY>
         <assignmentItems>
             <assignToReference>REC_OCICreateReservationSingleInputRepresentation.locationIdentifier</assignToReference>
             <operator>Assign</operator>
@@ -309,6 +512,45 @@
         </assignmentItems>
         <connector>
             <targetReference>Iterate_Over_Filtered_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_OIS_with_Skus_Exception</name>
+        <label>Set OIS with Skus Exception</label>
+        <locationX>1537</locationX>
+        <locationY>572</locationY>
+        <assignmentItems>
+            <assignToReference>OISwithSkusExceptionIDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L80_OIS_out_of_Stock_0.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L80_OIS_out_of_Stock_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_PE_AttachedToId</name>
+        <label>Set PE AttachedToId</label>
+        <locationX>1193</locationX>
+        <locationY>1078</locationY>
+        <assignmentItems>
+            <assignToReference>Size_OISwithSkusExceptionIDS</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>CollectionPE_ToCreate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Size_GET_PE</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Get_PE</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Exist_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -384,7 +626,7 @@
         <name>Set_Success_Value_False</name>
         <label>Set Success Value False</label>
         <locationX>1594</locationX>
-        <locationY>724</locationY>
+        <locationY>739</locationY>
         <assignmentItems>
             <assignToReference>IsSuccess</assignToReference>
             <operator>Assign</operator>
@@ -394,6 +636,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Get_OIS_with_Skus_Exception</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SKU_Counts</name>
+        <label>SKU Counts</label>
+        <locationX>3130</locationX>
+        <locationY>490</locationY>
+        <assignmentItems>
+            <assignToReference>TotalSKUCounts</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Filter_OCICreateReservationSingleInputRepresentation_by_SKU</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SKU_Unique</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -444,6 +702,80 @@
             <targetReference>L50_Filtered_Reservation_Output</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Total_Quantity_By_SKU</name>
+        <label>Total Quantity By SKU</label>
+        <locationX>3815</locationX>
+        <locationY>938</locationY>
+        <assignmentItems>
+            <assignToReference>TotalQty</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_Over_Filter_Sku_Duplicate.quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_Filter_Sku_Duplicate</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Total_SKU_Added</name>
+        <label>Total SKU Added</label>
+        <locationX>3643</locationX>
+        <locationY>699</locationY>
+        <assignmentItems>
+            <assignToReference>SKUAdded</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Filter_COL_SingleInputRepresentationSkuDuplicate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SKU_Exists</targetReference>
+        </connector>
+    </assignments>
+    <collectionProcessors>
+        <name>fil</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>fil</label>
+        <locationX>857</locationX>
+        <locationY>565</locationY>
+        <assignNextValueToReference>currentItem_fil_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_OIS_with_Skus_Exception</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_fil_0.Id</leftValueReference>
+            <operator>NotEqualTo</operator>
+            <rightValue>
+                <elementReference>Loop_Get_PE.AttachedToId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Get_PE</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_COL_SingleInputRepresentationSkuDuplicate</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter COL_SingleInputRepresentationSkuDuplicate</label>
+        <locationX>3539</locationX>
+        <locationY>506</locationY>
+        <assignNextValueToReference>currentItem_Filter_COL_SingleInputRepresentationSkuDuplicate</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>COL_OCICreateReservationSingleInputRepresentationSkuUnique</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_COL_SingleInputRepresentationSkuDuplicate.stockKeepingUnit</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.stockKeepingUnit</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Total_SKU_Added</targetReference>
+        </connector>
+    </collectionProcessors>
     <collectionProcessors>
         <name>Filter_Locations_By_current_Item</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
@@ -469,14 +801,14 @@
         <name>Filter_Locations_By_OIS_Location</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Locations By OIS Location</label>
-        <locationX>991</locationX>
-        <locationY>732</locationY>
-        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location</assignNextValueToReference>
+        <locationX>443</locationX>
+        <locationY>734</locationY>
+        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_0.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L80_OIS_out_of_Stock.ReservedAtLocationId</elementReference>
@@ -490,14 +822,14 @@
         <name>Filter_Locations_By_OIS_Location_Id</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Locations By OIS Location Id</label>
-        <locationX>3035</locationX>
-        <locationY>232</locationY>
-        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location</assignNextValueToReference>
+        <locationX>3136</locationX>
+        <locationY>178</locationY>
+        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_0.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>Iterate_Over_Order_Item_Summaries.ReservedAtLocationId</elementReference>
@@ -505,6 +837,27 @@
         </conditions>
         <connector>
             <targetReference>Iterate_Over_Filtered_Locations</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_OCICreateReservationSingleInputRepresentation_by_SKU</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter OCICreateReservationSingleInputRepresentation by SKU</label>
+        <locationX>2985</locationX>
+        <locationY>490</locationY>
+        <assignNextValueToReference>currentItem_Filter_OCICreateReservationSingleInputRepresentation_by_SKU</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>COL_OCICreateReservationSingleInputRepresentation</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_OCICreateReservationSingleInputRepresentation_by_SKU.stockKeepingUnit</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.stockKeepingUnit</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>SKU_Counts</targetReference>
         </connector>
     </collectionProcessors>
     <collectionProcessors>
@@ -670,24 +1023,21 @@
     <decisions>
         <name>Exist_0</name>
         <label>Exist?</label>
-        <locationX>1230</locationX>
-        <locationY>1297</locationY>
-        <defaultConnector>
-            <targetReference>Create_Process_Exception_0</targetReference>
-        </defaultConnector>
+        <locationX>1286</locationX>
+        <locationY>1186</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_PE</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>Size_GET_PE</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <elementReference>Size_OISwithSkusExceptionIDS</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>L80_OIS_out_of_Stock</targetReference>
+                <targetReference>Create_Process_Exception_0_0</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -717,6 +1067,57 @@
             <label>With Error</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>SKU_Exists</name>
+        <label>SKU Exists ?</label>
+        <locationX>3289</locationX>
+        <locationY>790</locationY>
+        <defaultConnector>
+            <targetReference>Set_OCI_Create_Reservation_Single_Input_Sku_Duplicate</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>SKU New</defaultConnectorLabel>
+        <rules>
+            <name>SKU_Added</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SKUAdded</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation</targetReference>
+            </connector>
+            <label>SKU Added</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>SKU_Unique</name>
+        <label>SKU Unique ?</label>
+        <locationX>3234</locationX>
+        <locationY>515</locationY>
+        <defaultConnector>
+            <targetReference>Set_OCI_Create_Reservation_Single_Input_Sku_Unique</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>SKU Unique</defaultConnectorLabel>
+        <rules>
+            <name>SKU_Duplicate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>TotalSKUCounts</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Filter_COL_SingleInputRepresentationSkuDuplicate</targetReference>
+            </connector>
+            <label>SKU Duplicate</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -725,10 +1126,38 @@
     <interviewLabel>SOM 210 - Order SToW Retry Allocation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 210 - Order SToW Retry Allocation</label>
     <loops>
+        <name>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation</name>
+        <label>Iterate Over COL_OCICreateReservationSingleInputRepresentation</label>
+        <locationX>2736</locationX>
+        <locationY>682</locationY>
+        <collectionReference>COL_OCICreateReservationSingleInputRepresentation</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Filter_OCICreateReservationSingleInputRepresentation_by_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Generate_Uuid_Value</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Iterate_Over_Filter_Sku_Duplicate</name>
+        <label>Iterate Over Filter Sku Duplicate</label>
+        <locationX>3623</locationX>
+        <locationY>942</locationY>
+        <collectionReference>Filter_OCICreateReservationSingleInputRepresentation_by_SKU</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Total_Quantity_By_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Add_Total_Qty_for_Duplicate_SKU</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Iterate_Over_Filtered_Locations</name>
         <label>Iterate Over Filtered Locations</label>
-        <locationX>3034</locationX>
-        <locationY>412</locationY>
+        <locationX>3192</locationX>
+        <locationY>351</locationY>
         <collectionReference>Filter_Locations_By_OIS_Location_Id</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -741,15 +1170,15 @@
     <loops>
         <name>Iterate_Over_Filtered_Locations_0</name>
         <label>Iterate Over Filtered Locations</label>
-        <locationX>992</locationX>
-        <locationY>1018</locationY>
+        <locationX>447</locationX>
+        <locationY>940</locationY>
         <collectionReference>Filter_Locations_By_OIS_Location</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Assign_PE_Description_0</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Get_PE</targetReference>
+            <targetReference>CreatePE_REC_Assignment</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -763,7 +1192,7 @@
             <targetReference>Set_OCI_Create_Reservation_Single_Input</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Generate_Uuid_Value</targetReference>
+            <targetReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -853,13 +1282,30 @@
     <loops>
         <name>L80_OIS_out_of_Stock</name>
         <label>L80 OIS out of Stock</label>
-        <locationX>1246</locationX>
-        <locationY>726</locationY>
+        <locationX>1192</locationX>
+        <locationY>744</locationY>
         <collectionReference>Get_OIS_with_Skus_Exception</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Filter_Locations_By_OIS_Location</targetReference>
         </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_PE</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>L80_OIS_out_of_Stock_0</name>
+        <label>L80 OIS out of Stock</label>
+        <locationX>1321</locationX>
+        <locationY>605</locationY>
+        <collectionReference>Get_OIS_with_Skus_Exception</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_OIS_with_Skus_Exception</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>L80_OIS_out_of_Stock</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <loops>
         <name>L90_PEs</name>
@@ -874,6 +1320,25 @@
         <noMoreValuesConnector>
             <targetReference>Update_PEs_to_Resolved</targetReference>
         </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Get_PE</name>
+        <label>Loop Get PE</label>
+        <locationX>728</locationX>
+        <locationY>605</locationY>
+        <collectionReference>Get_PE</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>fil</targetReference>
+        </nextValueConnector>
+    </loops>
+    <loops>
+        <name>Loop_PE_Assignment</name>
+        <label>Loop PE Assignment</label>
+        <locationX>879</locationX>
+        <locationY>1081</locationY>
+        <collectionReference>OISwithSkusExceptionIDS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -953,11 +1418,8 @@
     <recordCreates>
         <name>Create_Process_Exception_0</name>
         <label>Create Process Exception</label>
-        <locationX>1433</locationX>
-        <locationY>1291</locationY>
-        <connector>
-            <targetReference>L80_OIS_out_of_Stock</targetReference>
-        </connector>
+        <locationX>1441</locationX>
+        <locationY>977</locationY>
         <inputAssignments>
             <field>AttachedToId</field>
             <value>
@@ -1009,6 +1471,13 @@
         <object>ProcessException</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
+    <recordCreates>
+        <name>Create_Process_Exception_0_0</name>
+        <label>Create Process Exception</label>
+        <locationX>1463</locationX>
+        <locationY>1142</locationY>
+        <inputReference>CollectionPE_ToCreate</inputReference>
+    </recordCreates>
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
@@ -1030,11 +1499,11 @@
     <recordLookups>
         <name>Get_OIS_with_Skus_Exception</name>
         <label>Get OIS with Skus Exception</label>
-        <locationX>1436</locationX>
-        <locationY>725</locationY>
+        <locationX>1392</locationX>
+        <locationY>743</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L80_OIS_out_of_Stock</targetReference>
+            <targetReference>L80_OIS_out_of_Stock_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1130,18 +1599,18 @@
     <recordLookups>
         <name>Get_PE</name>
         <label>Get PE</label>
-        <locationX>990</locationX>
-        <locationY>1294</locationY>
+        <locationX>1195</locationX>
+        <locationY>943</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Exist_0</targetReference>
+            <targetReference>Set_PE_AttachedToId</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>AttachedToId</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>L80_OIS_out_of_Stock.Id</elementReference>
+                <elementReference>OISwithSkusExceptionIDS</elementReference>
             </value>
         </filters>
         <filters>
@@ -1167,6 +1636,8 @@
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>ProcessException</object>
+        <sortField>Id</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -1341,10 +1812,50 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>COL_OCICreateReservationSingleInputRepresentationSkuUnique</name>
+        <apexClass>ConnectApi__OCICreateReservationSingleInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>COL_OCIReleaseReservationSingleInputRepresentation</name>
         <apexClass>ConnectApi__OCIReleaseReservationSingleInputRepresentation</apexClass>
         <dataType>Apex</dataType>
         <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>CollectionPE_ToCreate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>CreatePE_REC</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_fil_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_COL_SingleInputRepresentationSkuDuplicate</name>
+        <apexClass>ConnectApi__OCICreateReservationSingleInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
@@ -1365,12 +1876,20 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_Locations_By_OIS_Location</name>
+        <name>currentItem_Filter_Locations_By_OIS_Location_0</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_OCICreateReservationSingleInputRepresentation_by_SKU</name>
+        <apexClass>ConnectApi__OCICreateReservationSingleInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>currentItem_Filter_Order_Items</name>
@@ -1397,6 +1916,29 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItemFromSourceCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection_0</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection_0_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>IsSuccess</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -1420,12 +1962,26 @@
         <scale>0</scale>
     </variables>
     <variables>
+        <name>OISwithSkusExceptionIDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>OrderSummaryRecord</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>OrderSummary</objectType>
+    </variables>
+    <variables>
+        <name>PE_AttachedToIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>PEDescription</name>
@@ -1459,6 +2015,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>REC_OCICreateReservationSingleInputRepresentationSkuUnique</name>
+        <apexClass>ConnectApi__OCICreateReservationSingleInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>REC_OCIOCICreateReservationErrorOutputRepresentation</name>
         <apexClass>ConnectApi__OCICreateReservationErrorOutputRepresentation</apexClass>
         <dataType>Apex</dataType>
@@ -1481,6 +2045,49 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Size_GET_PE</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>Size_OISwithSkusExceptionIDS</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>SKUAdded</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>TotalQty</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>TotalSKUCounts</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>UuidValue</name>
