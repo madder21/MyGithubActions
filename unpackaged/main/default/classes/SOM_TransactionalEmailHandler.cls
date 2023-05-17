@@ -449,14 +449,30 @@ public without sharing class SOM_TransactionalEmailHandler {
     public static List<TransactionalEmail__c> generateRefundValidationTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> refundValidationTransactionalEmailsList = new List<TransactionalEmail__c>();
         Set<String> orderSummaryIdsList                                     = new Set<String>();
+        Set<Id> CreditMemoIds                                                                               = new Set<Id>();
         Map<Id, OrderSummary> orderSummariesById  = new Map<Id, OrderSummary>();
+        
 
         List<CreditMemo> creditMemos = [SELECT Id, Refund__c, Refund__r.CurrencyIsoCode, Refund__r.Amount,CreditDate, CreditMemoNumber, ReferenceEntityId, CurrencyIsoCode, 
-                    (SELECT Id, TaxRate, ReturnOrderLineItem__c, Product2.StockKeepingUnit, ReturnOrderLineItem__r.QuantityReceived, 
-                    Product2.Name, ChargeTaxAmount,Product2.ImageURL__c, ChargeAmount, ChargeAmountWithTax , CurrencyIsoCode, TYPEOF ReferenceEntityItem
-                    WHEN OrderItemSummary THEN Id,TaxRate__c END
-                    FROM CreditMemoLines WHERE Type = :SOM_Constants.CREDITMEMOLINE_CHARGE_TYPE) 
-                    FROM CreditMemo WHERE Refund__c IN :recordIds];
+                                        (SELECT Id, TaxRate, RelatedLine.RelatedLine.ReferenceEntityItemId, RelatedLine.RelatedLine.Product2.ImageURL__c , RelatedLine.RelatedLine.Product2.Name, 
+                                         RelatedLine.RelatedLine.CurrencyIsoCode, RelatedLine.AdjustmentAmountWithTax, RelatedLine.AdjustmentTaxAmount, RelatedLine.AdjustmentAmount,
+                                         RelatedLine.ChargeAmountWithTax, RelatedLine.ChargeTaxAmount, RelatedLine.ChargeAmount,RelatedLine.ReturnOrderLineItem__r.QuantityReceived,
+                                         RelatedLine.RelatedLine.Product2.StockKeepingUnit, RelatedLine.RelatedLine.Name, ReturnOrderLineItem__c, Product2.StockKeepingUnit, 
+                                         ReturnOrderLineItem__r.QuantityReceived,
+                                         RelatedLine.Product2.Name,RelatedLine.Product2.ImageURL__c,RelatedLine.Product2.StockKeepingUnit,RelatedLine.CurrencyIsoCode,
+                                         Product2.Name, ChargeTaxAmount,Product2.ImageURL__c, ChargeAmount, ChargeAmountWithTax , CurrencyIsoCode, TYPEOF RelatedLine.ReferenceEntityItem
+                                         WHEN OrderItemSummary THEN Id,TaxRate__c END
+                                         FROM CreditMemoLines WHERE Type = :SOM_Constants.INVOICE_LINE_TYPE_TAX) 
+                                        FROM CreditMemo WHERE Refund__c IN :recordIds];
+        if(!creditMemos?.isEmpty()){
+            for(CreditMemo creditMemoItem : creditMemos){
+                CreditMemoIds.add(creditMemoItem.Id);
+            }
+       }
+        
+        
+        System.debug('CreditMemoIds' + CreditMemoIds);
+        
         if(creditMemos?.isEmpty()){
             return refundValidationTransactionalEmailsList;
         }
@@ -465,13 +481,14 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
         if(!orderSummaryIdsList.isEmpty()){
             for(OrderSummary orderSumm : [SELECT Id,OrderNumber, AccountId, BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
-                            BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,
-                            (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName FROM OrderDeliveryGroupSummaries), 
-                            (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status =: SOM_Constants.INVOICE_POSTED) 
-                            FROM OrderSummary WHERE Id IN : orderSummaryIdsList]){
-                orderSummariesById.put(orderSumm.Id, orderSumm);                                        
-            }
+                                          BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,
+                                          (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName FROM OrderDeliveryGroupSummaries), 
+                                          (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status =: SOM_Constants.INVOICE_POSTED) 
+                                          FROM OrderSummary WHERE Id IN : orderSummaryIdsList]){
+                                              orderSummariesById.put(orderSumm.Id, orderSumm);                                        
+                                          }
         } 
+        OrderItemSummary TaxRatee  = [Select TaxRate__c FROM OrderItemSummary  WHERE OrderSummaryId IN : orderSummaryIdsList limit 1];
         for (CreditMemo creditNote : creditMemos){
             if(!orderSummariesById.containsKey(creditNote.ReferenceEntityId)){
                 continue;
@@ -504,18 +521,38 @@ public without sharing class SOM_TransactionalEmailHandler {
             if(!creditNote.CreditMemoLines?.isEmpty()){
                 for(CreditMemoLine creditMemoLine : creditNote.CreditMemoLines){
                     SOM_RefundedItems lineItem = new SOM_RefundedItems();
-                    lineItem.name         = creditMemoLine.Product2.Name;
-                    lineItem.sku          = creditMemoLine.Product2.StockKeepingUnit;
-                    lineItem.quantity     = Integer.valueOf(creditMemoLine.ReturnOrderLineItem__r.QuantityReceived);
-                    lineItem.subtotal     = creditMemoLine.ChargeAmount?.setScale(2);
-                    lineItem.tax          = creditMemoLine.ChargeTaxAmount?.setScale(2);
-                    lineItem.total        = creditMemoLine.ChargeAmountWithTax?.setScale(2);
-                    lineItem.currencyCode = creditMemoLine.CurrencyIsoCode;
-                    lineItem.imageURL	  = creditMemoLine.Product2.ImageURL__c;
-                    if (creditMemoLine.ReferenceEntityItem instanceof OrderItemSummary) {
-                        OrderItemSummary item = (OrderItemSummary) creditMemoLine.ReferenceEntityItem;
-                        lineItem.taxRate = item.TaxRate__c;
+                   
+                    
+                    if(creditMemoLine.RelatedLine.RelatedLine != null){
+                        lineItem.name         = creditMemoLine.RelatedLine.RelatedLine.Product2.Name;
+                        lineItem.sku          = creditMemoLine.RelatedLine.RelatedLine.Product2.StockKeepingUnit;
+                        lineItem.currencyCode = creditMemoLine.RelatedLine.RelatedLine.CurrencyIsoCode;
+                        lineItem.imageURL                = creditMemoLine.RelatedLine.RelatedLine.Product2.ImageURL__c;
+                    } else{
+                        lineItem.name         = creditMemoLine.RelatedLine.Product2.Name;
+                        lineItem.sku          = creditMemoLine.RelatedLine.Product2.StockKeepingUnit;
+                        lineItem.currencyCode = creditMemoLine.RelatedLine.CurrencyIsoCode;
+                        lineItem.imageURL                = creditMemoLine.RelatedLine.Product2.ImageURL__c;
                     }
+                    
+                    
+                    
+                    lineItem.quantity     = Integer.valueOf(creditMemoLine.RelatedLine.ReturnOrderLineItem__r.QuantityReceived);
+                    if(creditMemoLine.RelatedLine.ChargeAmount != null){
+                        lineItem.subtotal     = creditMemoLine.RelatedLine.ChargeAmount?.setScale(2);
+                        lineItem.tax          = creditMemoLine.RelatedLine.ChargeTaxAmount?.setScale(2);
+                        lineItem.total        = creditMemoLine.RelatedLine.ChargeAmountWithTax?.setScale(2);
+                    }else if(creditMemoLine.RelatedLine.ChargeAmount == null){
+                        lineItem.subtotal     = creditMemoLine.RelatedLine.AdjustmentAmount?.setScale(2);
+                        lineItem.tax          = creditMemoLine.RelatedLine.AdjustmentTaxAmount?.setScale(2);
+                        lineItem.total        = creditMemoLine.RelatedLine.AdjustmentAmountWithTax?.setScale(2);
+                    } 
+                    lineItem.taxRate          =TaxRatee.TaxRate__c;
+                    
+                    /*if (creditMemoLine.RelatedLine.ReferenceEntityItem instanceof OrderItemSummary) {
+                        OrderItemSummary item = (OrderItemSummary) creditMemoLine.RelatedLine.ReferenceEntityItem;
+                        lineItem.taxRate = item.TaxRate__c;
+                    }*/
                     refundValidationTemplateContent.refundedItems.add(lineItem);
                 } 
             }
@@ -532,6 +569,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
         return refundValidationTransactionalEmailsList;
     }
+
 
     public static List<TransactionalEmail__c> generateRefundWithoutCreditMemoTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> transactionalEmails = new List<TransactionalEmail__c>();
