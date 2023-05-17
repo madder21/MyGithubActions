@@ -471,7 +471,7 @@ public without sharing class SOM_TransactionalEmailHandler {
        }
         
         
-        System.debug('CreditMemoIds' + CreditMemoIds); 
+        System.debug('CreditMemoIds' + CreditMemoIds);
         
         if(creditMemos?.isEmpty()){
             return refundValidationTransactionalEmailsList;
@@ -548,11 +548,6 @@ public without sharing class SOM_TransactionalEmailHandler {
                         lineItem.total        = creditMemoLine.RelatedLine.AdjustmentAmountWithTax?.setScale(2);
                     } 
                     lineItem.taxRate          =TaxRatee.TaxRate__c;
-                    
-                    /*if (creditMemoLine.RelatedLine.ReferenceEntityItem instanceof OrderItemSummary) {
-                        OrderItemSummary item = (OrderItemSummary) creditMemoLine.RelatedLine.ReferenceEntityItem;
-                        lineItem.taxRate = item.TaxRate__c;
-                    }*/
                     refundValidationTemplateContent.refundedItems.add(lineItem);
                 } 
             }
@@ -569,6 +564,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
         return refundValidationTransactionalEmailsList;
     }
+
 
 
     public static List<TransactionalEmail__c> generateRefundWithoutCreditMemoTransactionalEmails(Set<String> recordIds) {
