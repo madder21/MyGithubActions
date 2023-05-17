@@ -471,7 +471,7 @@ public without sharing class SOM_TransactionalEmailHandler {
        }
         
         
-        System.debug('CreditMemoIds' + CreditMemoIds);
+        System.debug('CreditMemoIds' + CreditMemoIds); 
         
         if(creditMemos?.isEmpty()){
             return refundValidationTransactionalEmailsList;
