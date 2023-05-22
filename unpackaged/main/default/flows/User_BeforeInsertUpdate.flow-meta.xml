@@ -5,7 +5,7 @@
         <name>Add_Suffix_to_Record_Email</name>
         <label>Add Suffix to Record&#39;s Email</label>
         <locationX>314</locationX>
-        <locationY>431</locationY>
+        <locationY>395</locationY>
         <assignmentItems>
             <assignToReference>EmailWithSSOSuffix</assignToReference>
             <operator>Add</operator>
@@ -28,7 +28,7 @@
         <name>isNew</name>
         <label>isNew</label>
         <locationX>314</locationX>
-        <locationY>551</locationY>
+        <locationY>503</locationY>
         <defaultConnector>
             <targetReference>UserStatus</targetReference>
         </defaultConnector>
@@ -53,7 +53,7 @@
         <name>UserStatus</name>
         <label>UserStatus</label>
         <locationX>578</locationX>
-        <locationY>671</locationY>
+        <locationY>611</locationY>
         <defaultConnectorLabel>Not Changed</defaultConnectorLabel>
         <rules>
             <name>Is_Deactivated</name>
@@ -131,7 +131,7 @@
         <name>Get_SSO_Suffix_for_Instance</name>
         <label>Get SSO Suffix for Instance</label>
         <locationX>314</locationX>
-        <locationY>311</locationY>
+        <locationY>287</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Add_Suffix_to_Record_Email</targetReference>
@@ -154,7 +154,7 @@
         <name>Deactivate_User_Clean_FederationID</name>
         <label>Deactivate User-&gt;Clean FederationID</label>
         <locationX>314</locationX>
-        <locationY>1151</locationY>
+        <locationY>1043</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>IsActive</field>
@@ -182,7 +182,7 @@
         <name>Deactivate_User_Clean_StaffCode</name>
         <label>Deactivate User-&gt;Clean StaffCode</label>
         <locationX>314</locationX>
-        <locationY>791</locationY>
+        <locationY>719</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_StoreCode</targetReference>
         </connector>
@@ -213,7 +213,7 @@
         <name>Deactivate_User_Clean_StoreCode</name>
         <label>Deactivate User-&gt;Clean StoreCode</label>
         <locationX>314</locationX>
-        <locationY>911</locationY>
+        <locationY>827</locationY>
         <connector>
             <targetReference>Deactivate_User_CleanUCRID</targetReference>
         </connector>
@@ -244,7 +244,7 @@
         <name>Deactivate_User_CleanUCRID</name>
         <label>Deactivate User-&gt;Clean UCRID</label>
         <locationX>314</locationX>
-        <locationY>1031</locationY>
+        <locationY>935</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_FederationID</targetReference>
         </connector>
@@ -275,13 +275,20 @@
         <name>Set_Fed_ID_to_Email</name>
         <label>Set Fed ID to Email</label>
         <locationX>50</locationX>
-        <locationY>671</locationY>
-        <filterLogic>and</filterLogic>
+        <locationY>611</locationY>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
-            <operator>StartsWith</operator>
+            <operator>IsNull</operator>
             <value>
-                <elementReference>$Record.Email</elementReference>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FederationIdentifier</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </filters>
         <filters>
@@ -303,13 +310,20 @@
         <name>Set_Fed_ID_to_Email_1</name>
         <label>Set Fed ID to Email</label>
         <locationX>578</locationX>
-        <locationY>791</locationY>
-        <filterLogic>and</filterLogic>
+        <locationY>719</locationY>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
-            <operator>NotEqualTo</operator>
+            <operator>IsNull</operator>
             <value>
-                <elementReference>$Record.Email</elementReference>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FederationIdentifier</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </filters>
         <filters>
