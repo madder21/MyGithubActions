@@ -44,7 +44,7 @@
             <name>outputString</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_C50_to_FulfillItems</name>
         <label>Add C50 to FulfillItems</label>
@@ -895,6 +895,7 @@
             <label>❌ OCI Error</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM_Reship Order Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 810 Reship Order Flow</label>
     <loops>
@@ -1851,6 +1852,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>TABLE_Success_OCI</name>
@@ -2201,7 +2203,7 @@
             <targetReference>Get_Order_Summary_Object</targetReference>
         </connector>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <subflows>
         <name>OCI_Reservation_SubFlow</name>
         <label>OCI Reservation SubFlow</label>
