@@ -9,10 +9,20 @@
                         <valueListItems>
                             <value>CustomButton.Invoice.Download_Invoice</value>
                             <visibilityRule>
+                                <booleanFilter>1 OR (2 AND 3)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.PDFGenerationStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Posted To BLOB Storage</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.PDFGenerationStatus__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Not Applicable</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.InvoiceNumber__c}</leftValue>
+                                    <operator>NE</operator>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -236,6 +246,10 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentInstanceProperties>
+                    <name>showLegacyActivityComposer</name>
+                    <value>false</value>
+                </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>
             </componentInstance>
