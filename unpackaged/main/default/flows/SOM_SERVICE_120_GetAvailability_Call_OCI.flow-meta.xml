@@ -38,7 +38,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_Matching_Results_to_Reservation</name>
         <label>Assign Matching Results to Reservation</label>
@@ -313,6 +313,7 @@
         </rules>
     </decisions>
     <description>UseCache = false</description>
+    <environments>Default</environments>
     <interviewLabel>SOM SERVICE 120 - GetAvailability - Call OCI {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM SERVICE 120 - GetAvailability - Call OCI</label>
     <loops>

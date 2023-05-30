@@ -53,7 +53,7 @@
             <name>previewReturnOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_Collection_of_Locations</name>
         <label>Assign Collection of Locations</label>
@@ -1047,6 +1047,7 @@
         <picklistField>ReasonForReturn</picklistField>
         <picklistObject>ReturnOrderLineItem</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>FX_ChangeItem_Reason</name>
         <dataType>String</dataType>
@@ -1790,6 +1791,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ReasonsSelectionHeading</name>
