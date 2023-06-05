@@ -77,8 +77,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                                     ((orderSummary.Status =: SOM_Constants.ORDER_SUMMARY_VALIDATED AND Status =: SOM_Constants.FULFILLMENT_ORDER_ALLOCATED) OR
                                     (orderSummary.Status =: SOM_Constants.ORDER_SUMMARY_FULFILLING AND Status =: SOM_Constants.FULFILLMENT_ORDER_FULFILLING) OR 
                                     (orderSummary.Status =: SOM_Constants.ORDER_SUMMARY_PARTIALLY_FULFILLED AND Status =: SOM_Constants.FULFILLMENT_ORDER_PARTIALLY_FULFILLED))];
-            System.debug('listfulfillmentOrder+++'+listfulfillmentOrder.size());
-            System.debug('listfulfillmentOrder+++'+listfulfillmentOrder);
             //Return Error response Data request Empty                        
             if(listfulfillmentOrder.isEmpty()){
                 // prepare response to return
@@ -114,7 +112,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     continue;
                 }
                 listfulfillmentOrderByOsId.put(fulfillmentOrder.orderSummaryId, new List<FulfillmentOrder>{ fulfillmentOrder });
-                System.debug('listfulfillmentOrderByOsId++'+listfulfillmentOrderByOsId);
                 
             }
             if(!setFoliIds.isEmpty()){
@@ -138,7 +135,16 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     responseData.put(reqLine.orderSummaryNumber, fulflOrderResponse);
                     continue;
                 }
-                System.debug('listfulfillmentOrderByOsId?.get(listOSIdByOsNumber.get(reqLine.orderSummaryNumber)).size()'+listfulfillmentOrderByOsId?.get(listOSIdByOsNumber.get(reqLine.orderSummaryNumber)).size());
+                //Handle Error too long cegidInvoiceNumber
+                if(reqLine.cegidInvoiceNumber.length() > 20){
+                    //handle Error
+                    WMS_OrderPickedinStoreResponse cegidOrdNumberResponse = new WMS_OrderPickedinStoreResponse();
+                    cegidOrdNumberResponse.isSuccess = false;
+                    cegidOrdNumberResponse.orderSummaryNumber = reqLine.orderSummaryNumber;
+                    cegidOrdNumberResponse.errorMessage = 'Invoice Number : '+reqLine.cegidInvoiceNumber+', data value too large, max length is 20';
+                    responseData.put(reqLine.orderSummaryNumber, cegidOrdNumberResponse);
+                    continue;
+                }
                 if(listfulfillmentOrderByOsId?.get(listOSIdByOsNumber.get(reqLine.orderSummaryNumber)).size() != 1){
                     //Handle Error no OrderSummary Exist with this OrderNumber
                     WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
@@ -151,7 +157,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                 }
                 //Get Current FulfillmentOrder to process from map
                 FulfillmentOrder foToProcess = listfulfillmentOrderByOsId.get(listOSIdByOsNumber.get(reqLine.orderSummaryNumber)).get(0);
-                System.debug('foToProcess+++'+foToProcess.OrderSummary.On_Hold__c);
                 if (foToProcess.OrderSummary.On_Hold__c) {
                     WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
                     fulflOrderResponse.isSuccess = false;
@@ -196,7 +201,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                 
                 for(WMS_Item item : reqLine.item){
                     fulfillmentOrderLineItem foliLine = listOfLstFOLIWithSkuBFOId?.get(listfulfillmentOrderByOrderNumber?.get(reqLine.orderSummaryNumber))?.get(item.sku);
-                    System.debug('rororo+++'+foliLine);
                     if(foliLine == null){
                         //handle error no foli exist with target sku
                         WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
@@ -209,8 +213,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                         break;
                     }
                     Integer totalExistingShipmentItems = totalExistingShipmentItemsByFoliId.containsKey(foliLine.Id) ? totalExistingShipmentItemsByFoliId.get(foliLine.Id) + item.qty : item.qty;
-                    System.debug('foliLine++'+foliLine);
-                    System.debug('totalExistingShipmentItems'+totalExistingShipmentItems);
                     if(foliLine.Quantity < totalExistingShipmentItems){
                         //handle foli Quantity less than requested quantity to ship
                         WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
@@ -242,7 +244,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                         if(shipmentItemsToInsertByOsId.containsKey(reqLine.orderSummaryNumber)) shipmentItemsToInsertByOsId.remove(reqLine.orderSummaryNumber);
                         if(shipmentsToInsertByOsNumber.containsKey(reqLine.orderSummaryNumber)) shipmentsToInsertByOsNumber.remove(reqLine.orderSummaryNumber);
                         responseData.put(reqLine.orderSummaryNumber, fulflOrderResponse);
-                        System.debug('test serial ++');
                         break;
                     }
                     if(!foliLine.OrderItemSummary.isSerialized__c && item.serialNumber !=null){
@@ -263,6 +264,17 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     if(item.serialNumber != null){
                         //Loop Over SerialNumbers
                         for(String serialNumber : item.serialNumber){
+                            if(serialNumber.length() > 20 ){
+                                //handle item's serialNumber too large
+                                WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
+                                fulflOrderResponse.isSuccess = false;
+                                fulflOrderResponse.orderSummaryNumber = reqLine.orderSummaryNumber;
+                                fulflOrderResponse.errorMessage = 'SerialNumber : '+serialNumber+' data value too large, max length is 20';
+                                if(shipmentItemsToInsertByOsId.containsKey(reqLine.orderSummaryNumber)) shipmentItemsToInsertByOsId.remove(reqLine.orderSummaryNumber);
+                                if(shipmentsToInsertByOsNumber.containsKey(reqLine.orderSummaryNumber)) shipmentsToInsertByOsNumber.remove(reqLine.orderSummaryNumber);
+                                responseData.put(reqLine.orderSummaryNumber, fulflOrderResponse);
+                                break;
+                            }
                             ShipmentItem shipmentLine = new ShipmentItem();
                             shipmentLine.Product2Id = foliLine.Product2Id;
                             shipmentLine.Quantity = 1;
@@ -297,7 +309,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
             //insert Shipment
             if(!shipmentsToInsertByOsNumber.values().isEmpty()){
                 insert shipmentsToInsertByOsNumber.values();
-                System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler shipmentsToInsertByOsNumber '+shipmentsToInsertByOsNumber);
                 //Loop over shipmentItem by OrderNumber to assign shipmentId to shipmentItem
                 for(String orderNumber : shipmentsToInsertByOsNumber.keySet()){
                     if(!shipmentItemsToInsertByOsId?.get(orderNumber)?.isEmpty() && shipmentsToInsertByOsNumber?.get(orderNumber).Id != null){
@@ -312,8 +323,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     }
                 }
                 if(!listShipmentItemLineToInsert.isEmpty()) insert listShipmentItemLineToInsert;
-                System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler listShipmentItemLineToInsert '+listShipmentItemLineToInsert);
-                System.debug('jereb2'+setFoToUpdateStatus);
                 //Update Fo And Os Status
                 List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> params = new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs>();
                 SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs param = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
@@ -323,7 +332,6 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                 param.doUpdateOSStatus = true;
                 params.add(param);
                 List<SOM_CloseFulfillmentOrderResponseWr> listFoIdResponse = SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(params);  
-                System.debug('jereb'+listFoIdResponse);
                 /*
                     Optimisation du Code
                 */
@@ -351,30 +359,25 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                 }
             }
             if(responseData.isEmpty()){
-                System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler OK Response ');
                 response.statusCode = 403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => 'Internal Error No shipment was processed'
                     
                 }));
             }
-            System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler OK Response ');
             response.statusCode = 200;
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => responseData.values()
                 
             }));
-            System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler End Try Block ');
             
         } catch (Exception exp) {
             Database.rollback(sp);
-            System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler Catch Bolck :: Error : '+ exp.getMessage());
             response.statusCode = 403;
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => 'Internal Error Please contact your Salesforce Admin'
             
             }));
-            System.debug('$$$ SOM_WS_PickedInStoreShipmentHnadler End Catch Block : ');
             
         }
     }
