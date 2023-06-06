@@ -1,6 +1,5 @@
 global with sharing class SOM_CreateInvoicePDFFileAction {
 
-    //@InvocableMethod(label='Create Invoice PDF File' description='Create Invoice PDF file for the specified Invoice Id')
     @Future(callout=true)
     global static void CreateInvoicePDFFileAction(List<Id> invoiceId){
         List<Attachment> Listattachment = new List<Attachment>();
