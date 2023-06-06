@@ -51,16 +51,19 @@ public class TNP_002_ServiceClass {
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
             //Country Code maping
             if ( accountInput.Country__pc != null && accountInput.Country__pc != ''  ){
-                CountryIso3Code = [Select Alpha_3_code__c,Alpha_2_code__c from  CountryCode__c where Alpha_2_code__c =: accountInput.Country__pc].Alpha_3_code__c ;
+                CountryIso3Code = [Select Alpha_3_code__c,Alpha_2_code__c from  CountryCode__c where Alpha_2_code__c =: accountInput.Country__pc].Alpha_3_code__c;
               System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
+                
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC id'+accountInput.SFSC_Contact_Key__pc);
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC id'+accountInput.Id);
             }
             //Mailling Country Code Mapping
             if (accountInput.PersonMailingCountry != null && accountInput.PersonMailingCountry != ''  ){
-                personMaillingCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonMailingCountry).Alpha_3_code__c; 
+                personMaillingCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonMailingCountry)!=null?CountryCode__c.getInstance(accountInput.PersonMailingCountry).Alpha_3_code__c:null; 
             }
             //Other Mailling Country 
             if (accountInput.PersonOtherCountry != null && accountInput.PersonOtherCountry != ''  ){ 
-                personOtherCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonOtherCountry).Alpha_3_code__c;
+                personOtherCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonOtherCountry)!=null?CountryCode__c.getInstance(accountInput.PersonOtherCountry).Alpha_3_code__c:null;
             }
     
             //Client Data
@@ -117,27 +120,5 @@ public class TNP_002_ServiceClass {
         
         return jsonstring;
     }
-    //Class Service with the method create JSON
-    /*  @future(callout=true) 
-public static void sendRequest  (String jsonstring){ 
-String METHOD_NAME = 'sendRequest' ;
-System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'jsonstring'+jsonstring);         
-Http http=new http();
-HttpRequest req = new HttpRequest();
-HttpResponse res = new HttpResponse();
-AccountAPI__c apiAccount = AccountAPI__c.getInstance('Account Api');
-System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'apiAccount'+apiAccount); 
-String  endPoint = apiAccount.EndPoint__c;
-String method = apiAccount.Method__c;
-req.setEndpoint(endPoint);
-req.setMethod(method);
-req.setHeader('Content-Type',apiAccount.Content_Type__c);
-req.setHeader('client_id', apiAccount.Client_Id__c);
-req.setHeader('client_secret', apiAccount.Client_secret__c);
-//req.setHeader('Accept', apiAccount.Accept__c);
-req.setBody(jsonstring);
-res = http.send(req);
-System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'result : '+res);  
-System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'result Body : '+res.getBody());
-}*/
+
 }
