@@ -1,4 +1,4 @@
-public with sharing class PAD {
+public with sharing class PAD { //Framework à utiliser
     private static PAD instance               = null;
     private static Id currentUserId           = null;
     private User currentUser                  = null;
