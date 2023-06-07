@@ -4,8 +4,8 @@
         <description>... attempt to synchronize the remaining sourceContact properties that do not exist on the target Contact record.</description>
         <name>ia_synchronizeContactProperties</name>
         <label>Synchronize Remaining Contact Properties</label>
-        <locationX>651</locationX>
-        <locationY>3048</locationY>
+        <locationX>336</locationX>
+        <locationY>4718</locationY>
         <actionName>B2CIASynchronizeContact</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -29,13 +29,13 @@
             <name>synchronizedTargetContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <description>...assign the sourceContact&#39;s B2C CustomerID to the resolved contact.</description>
         <name>asn_b2cCustomerIDToAssignedContact</name>
         <label>Assign the B2C CustomerID</label>
-        <locationX>402</locationX>
-        <locationY>749</locationY>
+        <locationX>204</locationX>
+        <locationY>842</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -51,8 +51,8 @@
         <description>...assign the sourceContact&#39;s B2C CustomerList ID to the resolved contact.</description>
         <name>asn_B2CCustomerListIDToAssignedContact</name>
         <label>Assign the B2C CustomerList ID</label>
-        <locationX>404</locationX>
-        <locationY>1318</locationY>
+        <locationX>204</locationX>
+        <locationY>1442</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -68,8 +68,8 @@
         <description>...assign the sourceContact&#39;s B2C CustomerList Object association to the resolved contact.</description>
         <name>asn_B2CCustomerListToAssignedContact</name>
         <label>Assign the B2C CustomerList</label>
-        <locationX>872</locationX>
-        <locationY>1055</locationY>
+        <locationX>204</locationX>
+        <locationY>1142</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
@@ -85,8 +85,8 @@
         <description>...assign the sourceContact&#39;s B2C Customer No to the resolved contact.</description>
         <name>asn_B2CCustomerNoToAssignedContact</name>
         <label>Assign the B2C Customer No</label>
-        <locationX>873</locationX>
-        <locationY>1584</locationY>
+        <locationX>204</locationX>
+        <locationY>1742</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -102,8 +102,8 @@
         <description>... default the audit OCAPI flag value (set to false).</description>
         <name>asn_defaultAuditOCAPIFlag</name>
         <label>Default the Audit OCAPI flag</label>
-        <locationX>406</locationX>
-        <locationY>3247</locationY>
+        <locationX>204</locationX>
+        <locationY>4934</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.Audit_OCAPI_API_Response__c</assignToReference>
             <operator>Assign</operator>
@@ -116,8 +116,8 @@
         <description>... assign the default Contact name value to the lastName of the assignedContact.</description>
         <name>asn_defaultContactName_0_0</name>
         <label>Assign the Default Contact Name</label>
-        <locationX>883</locationX>
-        <locationY>2618</locationY>
+        <locationX>204</locationX>
+        <locationY>4226</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -133,8 +133,8 @@
         <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
         <name>asn_defaultContactName_AssignmentCListCNo</name>
         <label>Set the Default Contact Name Assignment Flag</label>
-        <locationX>49</locationX>
-        <locationY>2446</locationY>
+        <locationX>50</locationX>
+        <locationY>3542</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactName</assignToReference>
             <operator>Assign</operator>
@@ -150,8 +150,8 @@
         <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
         <name>asn_defaultContactName_AssignmentEmail</name>
         <label>Set the Default Contact Name Assignment Flag</label>
-        <locationX>1236</locationX>
-        <locationY>2330</locationY>
+        <locationX>50</locationX>
+        <locationY>2750</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactName</assignToReference>
             <operator>Assign</operator>
@@ -167,8 +167,8 @@
         <description>...assign the sourceContact&#39;s emailAddress to the assigned contact.</description>
         <name>asn_EmailAddressToAssignedContact</name>
         <label>Assign the Email Address</label>
-        <locationX>404</locationX>
-        <locationY>1821</locationY>
+        <locationX>204</locationX>
+        <locationY>2042</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.Email</assignToReference>
             <operator>Assign</operator>
@@ -177,15 +177,15 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+            <targetReference>Does_the_Phone_Address_Exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>...assign the sourceContact&#39;s firstName to the resolved contact.</description>
         <name>asn_FistnameToAssignedContact</name>
         <label>Assign the FirstName</label>
-        <locationX>867</locationX>
-        <locationY>747</locationY>
+        <locationX>204</locationX>
+        <locationY>542</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -201,8 +201,8 @@
         <description>...assign the sourceContact&#39;s lastName to the resolved contact.</description>
         <name>asn_LastNameToAssignedContact</name>
         <label>Assign the LastName</label>
-        <locationX>375</locationX>
-        <locationY>254</locationY>
+        <locationX>204</locationX>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -217,8 +217,8 @@
     <assignments>
         <name>Assign_default_FirstName_to_contact</name>
         <label>Assign default FirstName to contact</label>
-        <locationX>889</locationX>
-        <locationY>3054</locationY>
+        <locationX>204</locationX>
+        <locationY>4526</locationY>
         <assignmentItems>
             <assignToReference>assignedContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -231,10 +231,27 @@
         </connector>
     </assignments>
     <assignments>
+        <description>...assign the sourceContact&#39;s emailAddress to the assigned contact.</description>
+        <name>Assign_the_Phone</name>
+        <label>Assign the Phone</label>
+        <locationX>204</locationX>
+        <locationY>2342</locationY>
+        <assignmentItems>
+            <assignToReference>assignedContact.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_the_default_FirstName</name>
         <label>Set the default FirstName</label>
-        <locationX>855</locationX>
-        <locationY>2440</locationY>
+        <locationX>50</locationX>
+        <locationY>3050</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactFirstName</assignToReference>
             <operator>Assign</operator>
@@ -249,8 +266,8 @@
     <assignments>
         <name>Set_the_default_FirstName_0</name>
         <label>Set the default FirstName</label>
-        <locationX>220</locationX>
-        <locationY>2820</locationY>
+        <locationX>50</locationX>
+        <locationY>3842</locationY>
         <assignmentItems>
             <assignToReference>var_setDefaultContactFirstName</assignToReference>
             <operator>Assign</operator>
@@ -266,8 +283,8 @@
         <description>... evaluates if the B2C Commerce CustomerList / CustomerNo were assigned -- in order to evaluate if a LastName exists on the Contact.</description>
         <name>dec_areB2CCustomerListCustomerNoAssigned</name>
         <label>ere the B2C CustomerList / CustomerNo Assigned?</label>
-        <locationX>640</locationX>
-        <locationY>2435</locationY>
+        <locationX>336</locationX>
+        <locationY>3326</locationY>
         <defaultConnector>
             <targetReference>dec_setDefaultContactName</targetReference>
         </defaultConnector>
@@ -306,8 +323,8 @@
         <description>... evaluate if the audit-responses flag has been set</description>
         <name>dec_auditB2COCAPIResponses</name>
         <label>Has Audit OCAPI Responses Been Set?</label>
-        <locationX>643</locationX>
-        <locationY>3248</locationY>
+        <locationX>336</locationX>
+        <locationY>4826</locationY>
         <defaultConnectorLabel>Set</defaultConnectorLabel>
         <rules>
             <name>Not_Set</name>
@@ -329,8 +346,8 @@
         <description>... does the B2C CustomerID exist on the sourceContact</description>
         <name>dec_b2cCustomerIDExist</name>
         <label>Does the B2C CustomerID Exist?</label>
-        <locationX>641</locationX>
-        <locationY>749</locationY>
+        <locationX>336</locationX>
+        <locationY>734</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerListExist</targetReference>
         </defaultConnector>
@@ -355,8 +372,8 @@
         <description>... does the B2C CustomerList Object association exist on the sourceContact?</description>
         <name>dec_b2cCustomerListExist</name>
         <label>Does the B2C CustomerList Association Exist?</label>
-        <locationX>642</locationX>
-        <locationY>1058</locationY>
+        <locationX>336</locationX>
+        <locationY>1034</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerListIDExist</targetReference>
         </defaultConnector>
@@ -381,8 +398,8 @@
         <description>... does the B2C CustomerListID exist on the sourceContact</description>
         <name>dec_b2cCustomerListIDExist</name>
         <label>Does the B2C CustomerListID Exist?</label>
-        <locationX>642</locationX>
-        <locationY>1320</locationY>
+        <locationX>336</locationX>
+        <locationY>1334</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerNoExist</targetReference>
         </defaultConnector>
@@ -407,8 +424,8 @@
         <description>... does the B2C CustomerNo exist on the sourceContact</description>
         <name>dec_b2cCustomerNoExist</name>
         <label>Does the B2C CustomerNo Exist?</label>
-        <locationX>643</locationX>
-        <locationY>1588</locationY>
+        <locationX>336</locationX>
+        <locationY>1634</locationY>
         <defaultConnector>
             <targetReference>dec_EmailAddressExist</targetReference>
         </defaultConnector>
@@ -433,10 +450,10 @@
         <description>... does the Email Address exist on the sourceContact</description>
         <name>dec_EmailAddressExist</name>
         <label>Does the Email Address Exist?</label>
-        <locationX>643</locationX>
-        <locationY>1827</locationY>
+        <locationX>336</locationX>
+        <locationY>1934</locationY>
         <defaultConnector>
-            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+            <targetReference>Does_the_Phone_Address_Exist</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
         <rules>
@@ -459,8 +476,8 @@
         <description>... does the firstName exist on the sourceContact</description>
         <name>dec_firstNameExists</name>
         <label>Does FirstName Exist?</label>
-        <locationX>640</locationX>
-        <locationY>499</locationY>
+        <locationX>336</locationX>
+        <locationY>434</locationY>
         <defaultConnector>
             <targetReference>dec_b2cCustomerIDExist</targetReference>
         </defaultConnector>
@@ -485,8 +502,8 @@
         <description>... does the lastName exist on the sourceContact</description>
         <name>dec_lastNameExists</name>
         <label>Does LastName Exist?</label>
-        <locationX>640</locationX>
-        <locationY>255</locationY>
+        <locationX>336</locationX>
+        <locationY>134</locationY>
         <defaultConnector>
             <targetReference>dec_firstNameExists</targetReference>
         </defaultConnector>
@@ -511,8 +528,8 @@
         <description>... evaluates if the default Contact name should be set -- based on the combination of attributes present on the assigned Contact.</description>
         <name>dec_setDefaultContactName</name>
         <label>Set the Default Contact Name?</label>
-        <locationX>632</locationX>
-        <locationY>2762</locationY>
+        <locationX>336</locationX>
+        <locationY>4118</locationY>
         <defaultConnector>
             <targetReference>Set_the_default_FirstName_decision</targetReference>
         </defaultConnector>
@@ -537,8 +554,8 @@
         <description>... evaluate if a customerList and email address were assigned -- to determine if a default Contact name should be leveraged.</description>
         <name>dec_wasB2CCustomerListEmailAssigned</name>
         <label>Were a CustomerList / Email Assigned</label>
-        <locationX>644</locationX>
-        <locationY>2139</locationY>
+        <locationX>336</locationX>
+        <locationY>2534</locationY>
         <defaultConnector>
             <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
         </defaultConnector>
@@ -577,8 +594,8 @@
         <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
         <name>dec_wasContactLastNameAssigned</name>
         <label>Was a LastName Assigned?</label>
-        <locationX>355</locationX>
-        <locationY>2440</locationY>
+        <locationX>182</locationX>
+        <locationY>3434</locationY>
         <defaultConnector>
             <targetReference>Was_FirstName_Assigned_0</targetReference>
         </defaultConnector>
@@ -603,8 +620,8 @@
         <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
         <name>dec_wasContactLastNameAssigned_Email</name>
         <label>Was a LastName Assigned?</label>
-        <locationX>1226</locationX>
-        <locationY>2153</locationY>
+        <locationX>182</locationX>
+        <locationY>2642</locationY>
         <defaultConnector>
             <targetReference>Was_FirstName_Assigned</targetReference>
         </defaultConnector>
@@ -626,10 +643,36 @@
         </rules>
     </decisions>
     <decisions>
+        <description>... does the Phone exist on the sourceContact</description>
+        <name>Does_the_Phone_Address_Exist</name>
+        <label>Does the Phone Exist?</label>
+        <locationX>336</locationX>
+        <locationY>2234</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
+        <rules>
+            <name>Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_Phone</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Set_the_default_FirstName_decision</name>
         <label>Set the default FirstName decision</label>
-        <locationX>857</locationX>
-        <locationY>2864</locationY>
+        <locationX>336</locationX>
+        <locationY>4418</locationY>
         <defaultConnector>
             <targetReference>ia_synchronizeContactProperties</targetReference>
         </defaultConnector>
@@ -653,8 +696,8 @@
     <decisions>
         <name>Was_FirstName_Assigned</name>
         <label>Was FirstName Assigned</label>
-        <locationX>892</locationX>
-        <locationY>2212</locationY>
+        <locationX>182</locationX>
+        <locationY>2942</locationY>
         <defaultConnector>
             <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
         </defaultConnector>
@@ -678,8 +721,8 @@
     <decisions>
         <name>Was_FirstName_Assigned_0</name>
         <label>Was FirstName Assigned</label>
-        <locationX>161</locationX>
-        <locationY>2655</locationY>
+        <locationX>182</locationX>
+        <locationY>3734</locationY>
         <defaultConnector>
             <targetReference>dec_setDefaultContactName</targetReference>
         </defaultConnector>
@@ -712,7 +755,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -723,8 +766,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>522</locationX>
-        <locationY>47</locationY>
+        <locationX>210</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>dec_lastNameExists</targetReference>
         </connector>
