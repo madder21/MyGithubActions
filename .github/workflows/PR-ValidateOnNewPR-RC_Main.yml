@@ -5,11 +5,12 @@ on:
     types:
       - opened
       - synchronize
+      - closed
     paths:
       - force-app/**
     branches:
-      - Release-Candidate
-      - " main"
+      - 'Release-Candidate'
+      - 'Main'
 jobs:
   automatic-pr-validation:
     runs-on: ubuntu-latest
