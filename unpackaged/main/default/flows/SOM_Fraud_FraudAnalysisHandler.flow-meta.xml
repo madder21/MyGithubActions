@@ -330,7 +330,7 @@
                 <leftValueReference>fraudReviewDecision</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>ACCEPT</stringValue>
+                    <elementReference>Fraud_Analysis_Accepted</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -476,7 +476,6 @@
             <label>Payment Group Exist</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>Fraud_Review_Decision_Not_Supported_Message</name>
         <dataType>String</dataType>
