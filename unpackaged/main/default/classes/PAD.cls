@@ -1,4 +1,4 @@
-public with sharing class PAD { //Framework à utiliser ::::/
+public with sharing class PAD { //Framework PAD THAI
     private static PAD instance               = null;
     private static Id currentUserId           = null;
     private User currentUser                  = null;
