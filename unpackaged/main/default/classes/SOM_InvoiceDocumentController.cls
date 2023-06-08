@@ -156,7 +156,6 @@ global with sharing class SOM_InvoiceDocumentController {
 
     public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap){
         List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
-        Integer counter = 1;
         for(InvoiceLine invoiceLine:invoiceLines) {
             if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
@@ -176,17 +175,18 @@ global with sharing class SOM_InvoiceDocumentController {
                     if (serialNumbers != null) {
                         lineItem.serialNumber = String.join(serialNumbers, CONCAT_CHARACTER);
                     }
-                    // populate new attribute on InvoiceLineItem
                     lineItem.lineNumber        = orderItem.LineNumber;
                 }
-                lineItem.itemNumber = counter;
-
                 lineItems.add(lineItem);
-                counter++;
             }
         }
 		//sort
 		lineItems.sort();
+        Integer counter = 1;
+        for(InvoiceLineItem single : lineItems){
+            single.itemNumber = counter;
+            counter++;
+        }
         return lineItems;
     }
 
