@@ -10,7 +10,9 @@
 		<members>SOM_SalesPaymentsReportSchedule_Test</members>
 		<members>SOM_SalesPaymentReportMonthSchedule_Test</members>  
                 <members>WS_SOM_Create_StoreToWebOrder</members>  
-		<members>SOM_InvoiceManagement</members>
+		<members>SOM_InvoiceManagement</members>  
+		<members>WS_SOM_CapturePaymentAction</members>   
+		<members>WS_SOM_OrderSummary_CapturePaymentAction</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -75,7 +77,8 @@
 	    <members>SOM_980_Validate_Manual_Order</members> 
 	    <members>SOM_New_Fulfillment_Order_Publish_Event</members>  
 	    <members>SOM_100_Create_OrderSummary_Orchestration</members> 
-	    <members>SOM_410_Invoice_Insert_RCU</members>
+	    <members>SOM_410_Invoice_Insert_RCU</members>  
+	    <members>SOM_410_Credit_Memo_Insert_RCU</members>
 	    <name>Flow</name>
 	</types>
     <types>
@@ -125,12 +128,16 @@
 	<types>
         <members>Order_Summary_with_Credit_Memo_and_Lines</members>  
 	<members>Order_Summary_with_Invoices_and_Invoice_Lines</members>   
-	<members>Order_Summary_With_Payments</members>
+	<members>Order_Summary_With_Payments</members>  
+	<members>Order_Summary_with_Shipping_address</members>  
+	<members>OS_Return_Orders</members>
         <name>ReportType</name>
     </types>
 	<types>
         <members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>  
-	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>   
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Shipments_Report_a6T</members>  
+	<members>ReportsforSOM/Return_Orders_Finance_3My</members
         <name>Report</name>
     </types>
 
