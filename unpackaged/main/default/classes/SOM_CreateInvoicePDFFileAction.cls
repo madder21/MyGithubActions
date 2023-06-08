@@ -62,9 +62,10 @@ global with sharing class SOM_CreateInvoicePDFFileAction {
 
         if(!mapCorrectiveInvoice.isEmpty()){
             for(Id inv:mapCorrectiveInvoice.keySet()){
-                Attachment attachment = new Attachment();
-                attachment.Name = getInvoiceName(mapCorrectiveInvoice.get(inv).Name, maporiginalInvoiceIds.get(inv).FulfillmentOrders.get(0).OrderSummary.OrderNumber);
-                OrderCountry    = maporiginalInvoiceIds.get(inv).FulfillmentOrders.get(0).FulfilledToCountry;
+                CorrectiveInvoice__c correctiveInvoice = mapCorrectiveInvoice.get(inv);
+                Attachment attachment = new Attachment();                
+                attachment.Name = getInvoiceName(mapCorrectiveInvoice.get(inv).Name, maporiginalInvoiceIds.get(correctiveInvoice.OriginalInvoiceId__c).FulfillmentOrders.get(0).OrderSummary.OrderNumber);
+                OrderCountry    = maporiginalInvoiceIds.get(correctiveInvoice.OriginalInvoiceId__c).FulfillmentOrders.get(0).FulfilledToCountry;
                 listCinvoices.add(new CorrectiveInvoice__c(Id = inv,PDFGenerationStatus__c = SOM_Constants.PDF_GENERATION_STATUS_GENERATED));
             
                 if(OrderCountry == 'AE') page = new PageReference('/apex/SOM_InvoiceArabicDocument');
