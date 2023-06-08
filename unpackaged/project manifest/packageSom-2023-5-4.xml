@@ -19,7 +19,13 @@
     </types>
     <types>
         <members>NewCreditMemoForCegid__e.CreditMemoId__c</members>
-	<members>NewInvoiceForCegid__e.InvoiceId__c</members>
+	<members>NewInvoiceForCegid__e.InvoiceId__c</members>   
+	<members>OrderSummary.Tech_ShippingCountry__c</members>
+	<members>OrderSummary.Tech_ShippingState__c</members>
+        <members>OrderSummary.Tech_VAT_Id_Customer__c</members>
+        <members></members>
+        <members></members>
+        <members></members>
         <name>CustomField</name>
     </types>
     <types>
@@ -52,6 +58,7 @@
 	    <members>SOM_460_Discount_Flow</members>
 	    <members>SOM_700_Refund_Create_Refund</members>
 	    <members>SOM_980_Validate_Manual_Order</members>
+	    <members>SOM_400_CreateInvoiceAndEnsureFunds</members>
 	    <name>Flow</name>
 	</types>
     <types>
@@ -97,6 +104,16 @@
     <types>
         <members>xxxxx</members>
         <name>StaticResource</name>
+    </types>
+	<types>
+        <members>Order_Summary_with_Credit_Memo_and_Lines</members>  
+	<members>Order_Summary_with_Invoices_and_Invoice_Lines</members>   
+        <name>ReportType</name>
+    </types>
+	<types>
+        <members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>   
+        <name>Report</name>
     </types>
 
 	<version>54.0</version>
