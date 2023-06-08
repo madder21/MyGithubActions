@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>XXXXX</members>
+		<members>SOM_PreOrderBatch</members>
+		<members>SOM_Scheduled_BatchPreOrder</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -17,7 +18,8 @@
         <name>CompactLayout</name>
     </types>
     <types>
-        <members>xxxxx</members>
+        <members>NewCreditMemoForCegid__e.CreditMemoId__c</members>
+	<members>NewInvoiceForCegid__e.InvoiceId__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -29,8 +31,9 @@
 		<name>CustomMetadata</name>
 	</types>
     <types>
-		<members>xxxxxx/members>
-		<name>CustomObject</name>
+	    <members>NewCreditMemoForCegid__e</members>
+	    <members>NewInvoiceForCegid__e</members>
+	    <name>CustomObject</name>
 	</types>
     <types>
 		<members>xxxxx</members>
@@ -45,8 +48,11 @@
         <name>FlexiPage</name>
     </types>
     <types>
-		<members>XXXX</members>
-		<name>Flow</name>
+	    <members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+	    <members>SOM_460_Discount_Flow</members>
+	    <members>SOM_700_Refund_Create_Refund</members>
+	    <members>SOM_980_Validate_Manual_Order</members>
+	    <name>Flow</name>
 	</types>
     <types>
         <members>xxxxx</members>
@@ -69,12 +75,16 @@
         <name>MatchingRule</name>
     </types>
 	<types>
-        <members>xxxxx</members>
+        <members>SOM_PS_NamedCredentials.permissionset</members>
         <name>PermissionSet</name>
     </types>
     <types>
         <members>xxxxxx</members>
         <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>InvoiceDocumentMulesoftEndpoint.externalCredential</members>
+        <name>externalCredentials</name>
     </types>
     <types>
 		<members>xxxxxx</members>
