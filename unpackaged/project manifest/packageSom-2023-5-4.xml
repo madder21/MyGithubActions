@@ -12,7 +12,9 @@
                 <members>WS_SOM_Create_StoreToWebOrder</members>  
 		<members>SOM_InvoiceManagement</members>  
 		<members>WS_SOM_CapturePaymentAction</members>   
-		<members>WS_SOM_OrderSummary_CapturePaymentAction</members>
+		<members>WS_SOM_OrderSummary_CapturePaymentAction</members>  
+		<members>SOM_ConfirmInvoiceId_Response</members>  
+		<members>SOM_ConfirmInvoiceId_Response</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -33,9 +35,7 @@
 	<members>OrderSummary.Tech_ShippingCountry__c</members>
 	<members>OrderSummary.Tech_ShippingState__c</members>
         <members>OrderSummary.Tech_VAT_Id_Customer__c</members>
-        <members></members>
-        <members></members>
-        <members></members>
+        <members>DigitalWallet.CardType__c</members>  
         <name>CustomField</name>
     </types>
     <types>
@@ -78,7 +78,8 @@
 	    <members>SOM_New_Fulfillment_Order_Publish_Event</members>  
 	    <members>SOM_100_Create_OrderSummary_Orchestration</members> 
 	    <members>SOM_410_Invoice_Insert_RCU</members>  
-	    <members>SOM_410_Credit_Memo_Insert_RCU</members>
+	    <members>SOM_410_Credit_Memo_Insert_RCU</members>  
+	    <members>SOM_POST_Invoice_PDF</members>
 	    <name>Flow</name>
 	</types>
     <types>
@@ -94,7 +95,7 @@
 		<name>NamedCredential</name>
 	</types>
     <types>
-        <members>xxxxx</members>
+        <members>DigitalWallet-Digital Wallet Layout</members>
         <name>Layout</name>
     </types>
     <types>
