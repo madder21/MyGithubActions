@@ -16,7 +16,8 @@
 		<members>SOM_ConfirmInvoiceId_Response</members>  
 		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
 		<members>SOM_Constants</members>  
-		<members>WS_SOM_CreateEfulReturnOrders</members>
+		<members>WS_SOM_CreateEfulReturnOrders</members> 
+		<members>SOM_TransactionalEmailHandler</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -38,7 +39,8 @@
 	<members>OrderSummary.Tech_ShippingState__c</members>
         <members>OrderSummary.Tech_VAT_Id_Customer__c</members>
         <members>DigitalWallet.CardType__c</members>  
-	<members>OrderPaymentSummary.CardType__c</members>
+	<members>OrderPaymentSummary.CardType__c</members> 
+	<members>Transaction__c.eReceipt__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -46,7 +48,8 @@
 		<name>CustomLabel</name>
 	</types>
     <types>
-        <members>Reports_Setting__mdt</members>
+        <members>Reports_Setting__mdt</members> 
+	<members>Sales_Channel_Mapping__mdt</members>
 		<name>CustomMetadata</name>
 	</types>
     <types>
@@ -84,9 +87,31 @@
 	    <members>SOM_100_Create_OrderSummary_Orchestration</members> 
 	    <members>SOM_410_Invoice_Insert_RCU</members>  
 	    <members>SOM_410_Credit_Memo_Insert_RCU</members>  
-	    <members>SOM_POST_Invoice_PDF</members>  
-	    <members>SOM_210_Order_SToW_Retry_Allocation</members>  
-	    <members>SOM_Update_Card_Type</members>
+	    <members>SOM_POST_Invoice_PDF</members>    
+	    <members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+	    <members>SOM_210_Order_SToW_Retry_Allocation</members>
+	    <members>SOM_220_CoreModel_Create_FulfillementOrders</members>
+	    <members>SOM_230_FO_Allocated_Create_Platform_Event_FRFS</members>
+	    <members>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</members>
+	    <members>SOM_430_Invoice_After_Insert</members>
+	    <members>SOM_610_Core_Model_Create_ReturnOrder</members>
+	    <members>SOM_630_ReturnOrder_OCI_OnHandQuantity_Handler</members>
+	    <members>SOM_660_Manual_Return_Reception</members>
+	    <members>SOM_703_Refund_after_Exchange_Order</members>
+	    <members>SOM_770_Create_Refund_For_Canceled_Order_items</members>
+	    <members>SOM_810_Reship_Order_Flow</members>
+	    <members>SOM_814_OCI_Create_Reservation</members>
+	    <members>SOM_830_Close_Return_Order</members>
+	    <members>SOM_945_Manage_Process_Exceptions</members>
+	    <members>SOM_960_Exchange_Manual_Order_Creation</members>
+	    <members>SOM_970_Create_Exchange_Manual_Order</members>
+	    <members>SOM_990_Manual_Shipment</members>
+	    <members>SOM_Cancel_Order_Summary</members>
+	    <members>SOM_Close_Return_Order</members>
+	    <members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
+	    <members>SOM_SERVICE_120_GetAvailability_Call_OCI</members>
+	    <members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
+	    <members>SOM_Single_Fulfillment_Order_Cancelation</members>  
 	    <name>Flow</name>
 	</types>
     <types>
@@ -118,7 +143,7 @@
         <name>ValidationRule</name>
     </types>
     <types>
-        <members>InvoiceDocumentMulesoftEndpoint.externalCredential</members>
+        <members>InvoiceDocumentMulesoftEndpoint.externalCredential</members> 
         <name>externalCredentials</name>
     </types>
     <types>
