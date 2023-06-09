@@ -54,9 +54,14 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 }
             }
             //check order
-            List<Order> orders = [SELECT ID FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
-            if (orders != null && !orders.isEmpty())
-                throw new StoreToWebException('We cannot process your request, Order Summary number already exist in Salesforce.');
+            List<Order> orders = [SELECT ID, OrderReferenceNumber FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
+            if (orders != null && !orders.isEmpty()){
+                List<String> duplicateOrderNumbers = new List<String>();
+                for(Order singleOrder : orders){
+                    duplicateOrderNumbers.add(singleOrder.OrderReferenceNumber);
+                }
+                throw new StoreToWebException('We cannot process your request, the following Order Summary Numbers already exist in Salesforce : '+duplicateOrderNumbers);
+            }
             
             //order delivery methods
             List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers];
