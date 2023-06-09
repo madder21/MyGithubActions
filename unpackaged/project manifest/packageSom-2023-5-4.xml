@@ -14,7 +14,9 @@
 		<members>WS_SOM_CapturePaymentAction</members>   
 		<members>WS_SOM_OrderSummary_CapturePaymentAction</members>  
 		<members>SOM_ConfirmInvoiceId_Response</members>  
-		<members>SOM_ConfirmInvoiceId_Response</members>
+		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
+		<members>SOM_Constants</members>  
+		<members>WS_SOM_CreateEfulReturnOrders</members>
 		<name>ApexClass</name>
 	</types>
     <types>
@@ -36,6 +38,7 @@
 	<members>OrderSummary.Tech_ShippingState__c</members>
         <members>OrderSummary.Tech_VAT_Id_Customer__c</members>
         <members>DigitalWallet.CardType__c</members>  
+	<members>OrderPaymentSummary.CardType__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -67,7 +70,9 @@
 	<members>OCI_Home_Page_Default</members> 
 	<members>OCI_Home_Page_Default2</members>     
 	<members>Process_Exception_Record_Page</members>
-	<members>Transaction_Record_Page</members>
+	<members>Transaction_Record_Page</members>  
+	<members>Fulfillment_Order_Record_Page</members>  
+	<members>Order_Summary_Record_Page</members>
         <name>FlexiPage</name>
     </types>
     <types>
@@ -79,7 +84,9 @@
 	    <members>SOM_100_Create_OrderSummary_Orchestration</members> 
 	    <members>SOM_410_Invoice_Insert_RCU</members>  
 	    <members>SOM_410_Credit_Memo_Insert_RCU</members>  
-	    <members>SOM_POST_Invoice_PDF</members>
+	    <members>SOM_POST_Invoice_PDF</members>  
+	    <members>SOM_210_Order_SToW_Retry_Allocation</members>  
+	    <members>SOM_Update_Card_Type</members>
 	    <name>Flow</name>
 	</types>
     <types>
@@ -131,14 +138,15 @@
 	<members>Order_Summary_with_Invoices_and_Invoice_Lines</members>   
 	<members>Order_Summary_With_Payments</members>  
 	<members>Order_Summary_with_Shipping_address</members>  
-	<members>OS_Return_Orders</members>
+	<members>OS_Return_Orders</members>  
         <name>ReportType</name>
     </types>
 	<types>
         <members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>  
 	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
 	<members>ReportsforSOM/Shipments_Report_a6T</members>  
-	<members>ReportsforSOM/Return_Orders_Finance_3My</members
+	<members>ReportsforSOM/Return_Orders_Finance_3My</members> 
+	<members>ReportsforSOM/Payments_report_5w3</members>
         <name>Report</name>
     </types>
 
