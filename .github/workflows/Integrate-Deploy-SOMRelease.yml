@@ -38,4 +38,4 @@ jobs:
               run: sfdx auth:sfdxurl:store -f ./SFDX_INTEGRATION_URL.txt -s -a Integrate
 
             - name: 'Deploy the entire branch to Integration org'
-              sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml"
+              run: sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml"
