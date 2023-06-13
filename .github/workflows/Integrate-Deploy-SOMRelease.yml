@@ -27,15 +27,5 @@ jobs:
               with:
                 fetch-depth: 0
 
-            # Store secret for both otgs
-            - name: 'Populate auth file with SFDX_URL secret of Integrate Sandbox'
-              shell: bash
-              run: |
-                  echo ${{ secrets.SFDX_INTEGRATION_URL}} > ./SFDX_INTEGRATION_URL.txt
-
-            # Authenticate to org
-            - name: 'Authenticate to Integration Org'
-              run: sfdx auth:sfdxurl:store -f ./SFDX_INTEGRATION_URL.txt -s -a Integrate
-
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml"
+              run: sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml" --targetusername 00D0D0000008hd1!AREAQCS2C8rVI9G8YiZCINAI6RHhyafEGJ6X9y_Ta90LMt0Qzh7F9KhIGTQUMNE4aF8313Q8wdrrXC2IbLYL.pLbq299AjKd
