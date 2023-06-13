@@ -23,9 +23,7 @@ jobs:
 
             # Checkout the source code
             - name: 'Checkout source code'
-              uses: actions/checkout@v3
-              with:
-                fetch-depth: 0
+              run: git checkout release/SOM-2023.6.1
 
             - name: 'Deploy the entire branch to Integration org'
               run: sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml" --targetusername 00D0D0000008hd1!AREAQCS2C8rVI9G8YiZCINAI6RHhyafEGJ6X9y_Ta90LMt0Qzh7F9KhIGTQUMNE4aF8313Q8wdrrXC2IbLYL.pLbq299AjKd
