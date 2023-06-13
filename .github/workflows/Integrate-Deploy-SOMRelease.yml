@@ -37,4 +37,4 @@ jobs:
               
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -c --targetusername 00D0D0000008hd1!AREAQIPKTHKv0xlHEkh8odowfSLHyvzSVW_0XKzvFfpX2V7JolAmPjpcH1ID40iadjZzKfD6pDNIPRRC37UHTAJK2LzCZiPo
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" --targetusername 00D0D0000008hd1!AREAQIPKTHKv0xlHEkh8odowfSLHyvzSVW_0XKzvFfpX2V7JolAmPjpcH1ID40iadjZzKfD6pDNIPRRC37UHTAJK2LzCZiPo
