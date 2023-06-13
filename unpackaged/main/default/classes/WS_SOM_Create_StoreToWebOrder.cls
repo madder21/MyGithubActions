@@ -12,8 +12,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         StoreToWebResponse response = new StoreToWebResponse();
         JSONGenerator generator = JSON.createGenerator(true);
         generator.writeObject(request);
-        System.debug('Received StoreToWeb Request:');
-        System.debug(generator.getAsString());
         //savepoint
         Savepoint sp = Database.setSavepoint();
         try {
@@ -36,11 +34,11 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<String, SalesChannel> salesChannelsMap              = new Map<String, SalesChannel>();
             Map<String, SObject> locationsMap                       = new Map<String, SObject>();
 
-            Set<String> orderReferenceNumbers               = new Set<String>();
+            Set<String> orderReferenceNumbers               = new Set<String>(); 
             Set<String> orderDeliveryMethodReferenceNumbers = new Set<String>();
             Set<String> productsSKU                         = new Set<String>();
             Set<String> currencies                          = new Set<String>();
-            Set<Id>     accountIds                          = new Set<Id>();
+            Set<String>     accountIds                          = new Set<String>();
             Set<String> salesChannelRefNumbers              = new Set<String>();
             Set<String> locationsExternalRef                = new Set<String>();
             Boolean isStockAvailable = true;
@@ -56,9 +54,14 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 }
             }
             //check order
-            List<Order> orders = [SELECT ID FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
-            if (orders != null && !orders.isEmpty())
-                throw new StoreToWebException('We cannot process your request, Order Summary number already exist in Salesforce.');
+            List<Order> orders = [SELECT ID, OrderReferenceNumber FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
+            if (orders != null && !orders.isEmpty()){
+                List<String> duplicateOrderNumbers = new List<String>();
+                for(Order singleOrder : orders){
+                    duplicateOrderNumbers.add(singleOrder.OrderReferenceNumber);
+                }
+                throw new StoreToWebException('We cannot process your request, the following Order Summary Numbers already exist in Salesforce : '+duplicateOrderNumbers);
+            }
             
             //order delivery methods
             List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers];
@@ -148,7 +151,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     orderItemsMap.put(j, orderItem);
 
                     //create OrderItemTaxLineItem
-                    Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.UP) / 100;
+                    Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.HALF_EVEN) / 100;
                     Decimal taxDiff = Math.abs(((orderProduct.amount-orderProduct.orderProductTax.vat)*taxRateScaled) - orderProduct.orderProductTax.vat);
                     if (taxDiff > TAX_DIFF) {
                         //rise error and quite
@@ -191,20 +194,16 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
 
             //start persisting objects
             //1-persist orders
-            System.debug('---------Persist orders.');
             insert ordersToPersistMap.values();
             //2-persist orderDeliveryGroups
-            System.debug('---------Order Delivery Groups.');
             for (Integer idx:orderDeliveryGroupToPersistMap.keySet()) {
                 OrderDeliveryGroup odg = orderDeliveryGroupToPersistMap.get(idx);
                 odg.OrderId            = ordersToPersistMap.get(idx).Id;
             }
             insert orderDeliveryGroupToPersistMap.values();
             //3-persist pricebook entries
-            System.debug('---------Persist Pricebook entries.');
             insert pricebookEntriesToPersistMap.values();
             //4-persist order items
-            System.debug('---------Persist order items.');
             List<OrderItem> allOrderItems = new List<OrderItem>();
             for (Integer idx:orderItemsToPersistMap.keySet()) {
                 Map<Integer, OrderItem> orderItemsMap = orderItemsToPersistMap.get(idx);
@@ -220,7 +219,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert allOrderItems;
             //5-persist orderitemTaxLineItem
-            System.debug('---------Persist order item tax line items.');
             List<OrderItemTaxLineItem> allOrderItemsTax = new List<OrderItemTaxLineItem>();
             for (Integer idx:orderItemsTaxToPersistMap.keySet()) {
                 Map<Integer, OrderItem> orderItemsMap               = orderItemsToPersistMap.get(idx);
@@ -234,17 +232,14 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert allOrderItemsTax;
             //6-persist payment group
-            System.debug('---------Persist payment groups.');
             for (Integer idx:paymentGroupsToPersistMap.keySet()) {
                 PaymentGroup pg   = paymentGroupsToPersistMap.get(idx);
                 pg.SourceObjectId = ordersToPersistMap.get(idx).Id;
             }
             insert paymentGroupsToPersistMap.values();
             //7-persist payment methods
-            System.debug('---------Persist payment methods.');
             insert paymentMethodsToPersistMap.values();
             //8-persist payment authorization
-            System.debug('---------Persist payment authorizations.');
             for (Integer idx:paymentAuthorizationsToPersistMap.keySet()) {
                 PaymentAuthorization pa = paymentAuthorizationsToPersistMap.get(idx);
                 pa.PaymentGroupId       = paymentGroupsToPersistMap.get(idx).Id;
@@ -252,7 +247,6 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert paymentAuthorizationsToPersistMap.values();
             //9-persist payments
-            System.debug('---------Persist payments.');
             for (Integer idx:paymentsToPersistMap.keySet()) {
                 Payment py = paymentsToPersistMap.get(idx);
                 py.PaymentAuthorizationId = paymentAuthorizationsToPersistMap.get(idx).Id;
@@ -261,17 +255,15 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             insert paymentsToPersistMap.values();
             //10-update orders to activated
-            System.debug('---------Update orders to activated.');
             for (Integer idx:ordersToPersistMap.keySet()) {
                 Order od  = ordersToPersistMap.get(idx);
                 od.Status = SOM_Constants.ORDER_ACTIVATED_STATUS;
             }
             update ordersToPersistMap.values();
             response.status = 'OK';
+            response.orderNumber = 'The following Orders are commited successfully : '+string.valueof(orderReferenceNumbers).replace('{', '').replace('}', '');
         } catch(Exception ex) {
             Database.rollback(sp);
-            System.debug('An error is occured');
-            System.debug(ex.getMessage());
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
         }
@@ -379,6 +371,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
     global with sharing class StoreToWebResponse{
         public String errorMessage;
         public String status;
+        public String orderNumber;
     }
 
     global with sharing class StoreToWebRequest {

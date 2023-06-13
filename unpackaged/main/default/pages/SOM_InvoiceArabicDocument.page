@@ -12,16 +12,16 @@
             <!-- <div class="spacer">&nbsp;</div>
             <div class="logo_header"></div> -->
         </div>
-        <div style="height: 4px;"></div>
+        <div class="div1"></div>
 
             <table class="head" >
      
                 <tr>
                     <!-- Company Information-->
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/header.PNG')}" width="100%" height="100%" style="padding-left:50%;margin-top:-3px" alt="RIMOWA"/>
                     </td>
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!invoiceConfigs['PDF_PHONE']}"/> <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Phone.PNG')}" width="10%" height="10%" style="margin-top:-2px" alt="RIMOWA"/><br/>
                         <apex:outputText value="{!invoiceConfigs['PDF_MAIL']}"/><br/>
                         RIMOWA.COM | @RIMOWA<br/>
@@ -29,7 +29,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="margin-left: 6%">
+            <div class="div2">
                 <h3> TAX INVOICE <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/taxInvoice.PNG')}" width="15%" height="15%" style="margin-top:-4px" alt="RIMOWA"/></h3> 
             </div>
 
@@ -37,16 +37,16 @@
         <table class="billing_contact_importer">
             <tr>
                 <!-- Billing contact information -->
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     BILLING CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="25%" height="15%" style="margin-top:-2px" alt="RIMOWA"/>
                     <br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
-                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>&nbsp;<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.billingContact.country}"/>
                 </td>
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_TITLE']}"/>
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
@@ -65,7 +65,7 @@
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     <span class="fett">INVOICE NUMBER&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
                     <br/>
                     INVOICE DATE&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDate.PNG')}" width="18%" height="18%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp;<apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
@@ -77,12 +77,12 @@
                    
                 </td>
                 <!-- Delivery contact information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     DELIVERY CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/DeliveryContact.PNG')}" width="26%" height="25%" style="margin-top:-3px" alt="RIMOWA"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
-                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>&nbsp;<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
                 </td>
             </tr>
@@ -96,7 +96,7 @@
         <br/>
         <br/>
         <br/>
-        <div style='padding-left: 3px;'>
+        <div class="invoiceLine">
             TRACKING NUMBERS<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TrackingNumbers.PNG')}" width="8%" height="8%" style="margin-top:-2px" alt="RIMOWA"/> :&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
         </div>
         <div class="spacer">&nbsp;</div>
@@ -124,10 +124,10 @@
                 </tr>
 
             </thead>
-            <tbody style="line-height:15px; padding-top 3px;">
+            <tbody class="InvoiceLineItem">
                 <!-- loop invoice line items-->
                 <apex:repeat value="{!invoiceDoc.lineItems}" var="lineItem">
-                    <tr style="padding-top: 5px;">
+                    <tr class="lineIem">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
                         <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
@@ -177,12 +177,12 @@
             </tbody>  
         </table>
         <div class="footer_text"> 
-            <div style="text-transform: uppercase;">
+            <div class="paymentType">
                 THE TOTAL AMOUNT HAS BEEN PAID VIA&nbsp;<apex:outputText value="{!invoiceDoc.paymentType}"/>. THE INVOICE DATE IS THE SAME AS THE DATE OF THE SERVICE.
                 <br/><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/parag1.1.PNG')}" width="17%" height="17%" style="margin-top:-2px" alt="RIMOWA"/><apex:outputText value="{!invoiceDoc.paymentType}"/> <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/parag1.2.PNG')}" width="12%" height="12%" style="margin-top:-3px" alt="RIMOWA"/>
             </div><br/><br/><br/>
             
-            <div style="text-transform: uppercase;"> 
+            <div class="paymentType"> 
                 PLEASE RETAIN THIS INVOICE FOR 5 YEARS FROM THE DATE OF PURCHASE (INVOICE DATE). THIS INVOICE IS YOUR PROOF OF GUARANTEE! <br/>
                 <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/parag2.PNG')}" width="45%" height="45%" style="margin-top:-3px" alt="RIMOWA"/>
             </div>
@@ -190,7 +190,7 @@
                 OUR CLIENT CARE TEAM IS HAPPY TO ANSWER ANY QUESTIONS YOU MAY HAVE. YOU CAN REACH US UNDER:<br/>
                 <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/parag3.PNG')}" width="35%" height="35%" style="margin-top:-3px" alt="RIMOWA"/>
             </div> <br/>
-            <div style="text-transform: uppercase;">
+            <div class="paymentType">
                 <apex:outputText value="{!invoiceConfigs['PDF_PHONE_SERVICE']}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['PDF_MAIL_SERVICE']}"/><br/>
                 <br/>

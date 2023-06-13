@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
-        <name>Add_APM_Id</name>
-        <label>Add APM Id</label>
-        <locationX>50</locationX>
-        <locationY>703</locationY>
+        <name>Add_APM_Ids</name>
+        <label>Add APM Ids</label>
+        <locationX>620</locationX>
+        <locationY>1344</locationY>
         <assignmentItems>
             <assignToReference>C_APM_Ids</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>L10_APM.Id</elementReference>
+                <elementReference>L11_Payments.PaymentMethodId</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L10_APM</targetReference>
+            <targetReference>L11_Payments</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Managed</name>
         <label>Assign Managed</label>
-        <locationX>621</locationX>
-        <locationY>727</locationY>
+        <locationX>946</locationX>
+        <locationY>985</locationY>
         <assignmentItems>
             <assignToReference>ManagedLifeCycle</assignToReference>
             <operator>Assign</operator>
@@ -36,8 +36,8 @@
     <decisions>
         <name>IsManaged</name>
         <label>IsManaged?</label>
-        <locationX>613</locationX>
-        <locationY>914</locationY>
+        <locationX>939</locationX>
+        <locationY>1181</locationY>
         <defaultConnector>
             <targetReference>SOM_110_CM_Create_OS</targetReference>
         </defaultConnector>
@@ -53,7 +53,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Payment</leftValueReference>
+                <leftValueReference>Get_APM</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -65,21 +65,50 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Sales_Channel_Mapping_Exists</name>
+        <label>Sales Channel Mapping Exists ?</label>
+        <locationX>425</locationX>
+        <locationY>743</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Sales_Channel_Mapping_mdt_related_To_Record</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Sales_Channel_Mapping_mdt_related_To_Record.createOrderSummary__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Payment_Group</targetReference>
+            </connector>
+            <label>Exist</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
     <interviewLabel>SOM {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 100 - Create OrderSummary Orchestration</label>
     <loops>
-        <name>L10_APM</name>
-        <label>L10 APM</label>
-        <locationX>265</locationX>
-        <locationY>703</locationY>
-        <collectionReference>Get_All_Unmanaged_Alternative_Payment_Method_Records</collectionReference>
+        <name>L11_Payments</name>
+        <label>L11 Payments</label>
+        <locationX>615</locationX>
+        <locationY>1176</locationY>
+        <collectionReference>Get_Payment</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Add_APM_Id</targetReference>
+            <targetReference>Add_APM_Ids</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Get_Payment_Group</targetReference>
+            <targetReference>Get_APM</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -102,15 +131,23 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>Get_All_Unmanaged_Alternative_Payment_Method_Records</name>
-        <label>Get All Unmanaged Alternative Payment Method Records</label>
-        <locationX>431</locationX>
-        <locationY>702</locationY>
+        <description>Get Unmanaged Alternative paiement related to Payment/paymentGroup</description>
+        <name>Get_APM</name>
+        <label>Get APM</label>
+        <locationX>804</locationX>
+        <locationY>1180</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L10_APM</targetReference>
+            <targetReference>IsManaged</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_APM_Ids</elementReference>
+            </value>
+        </filters>
         <filters>
             <field>NickName</field>
             <operator>EqualTo</operator>
@@ -118,15 +155,15 @@
                 <stringValue>Unmanaged</stringValue>
             </value>
         </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>AlternativePaymentMethod</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_Order_Delivery_Groups</name>
         <label>Get Order Delivery Groups</label>
-        <locationX>436</locationX>
-        <locationY>364</locationY>
+        <locationX>434</locationX>
+        <locationY>405</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Sales_Channel_Mapping_mdt_related_To_Record</targetReference>
@@ -150,11 +187,11 @@
     <recordLookups>
         <name>Get_Payment</name>
         <label>Get Payment</label>
-        <locationX>442</locationX>
-        <locationY>914</locationY>
+        <locationX>424</locationX>
+        <locationY>1117</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>IsManaged</targetReference>
+            <targetReference>L11_Payments</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -164,22 +201,15 @@
                 <elementReference>Get_Payment_Group.Id</elementReference>
             </value>
         </filters>
-        <filters>
-            <field>PaymentMethodId</field>
-            <operator>In</operator>
-            <value>
-                <elementReference>C_APM_Ids</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Payment</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_Payment_Group</name>
         <label>Get Payment Group</label>
-        <locationX>269</locationX>
-        <locationY>915</locationY>
+        <locationX>430</locationX>
+        <locationY>958</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Payment</targetReference>
@@ -199,11 +229,11 @@
     <recordLookups>
         <name>Get_Sales_Channel_Mapping_mdt_related_To_Record</name>
         <label>Get Sales Channel Mapping mdt related To Record</label>
-        <locationX>435</locationX>
-        <locationY>535</locationY>
+        <locationX>434</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_All_Unmanaged_Alternative_Payment_Method_Records</targetReference>
+            <targetReference>Sales_Channel_Mapping_Exists</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -218,8 +248,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>310</locationX>
-        <locationY>39</locationY>
+        <locationX>309</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>Get_Order_Delivery_Groups</targetReference>
         </connector>
@@ -247,8 +277,8 @@
     <subflows>
         <name>SOM_110_CM_Create_OS</name>
         <label>SOM 110 - CM - Create OS</label>
-        <locationX>868</locationX>
-        <locationY>902</locationY>
+        <locationX>1140</locationX>
+        <locationY>1178</locationY>
         <flowName>SOM_110_CoreModel_Create_OrderSummary</flowName>
         <inputAssignments>
             <name>IsManaged</name>

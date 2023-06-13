@@ -16,6 +16,14 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>AP2_SOMInvoiceManagement</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AP2_SOMInvoiceManagement_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>B2CIACustomerResolution</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -792,6 +800,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ContactPointConsent.OptOutContactPointType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>DigitalWallet.CardType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1607,6 +1620,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ReturnOrderLineItem.DestinationLocationId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ReturnOrderLineItem.GrossUnitPriceFormula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -62,7 +62,7 @@
             <name>returnItemsOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_And_Stack_CML</name>
         <label>Assign And Stack CML</label>
@@ -573,6 +573,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
     </decisions>
     <description>Subflow of SOM 700 - Refund - Create Refund.
 1st functioning version</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_CreditMemo_Number</name>
         <dataType>String</dataType>
@@ -1374,6 +1375,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1422,6 +1424,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1470,6 +1473,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1647,6 +1651,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -1696,6 +1701,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1744,6 +1750,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
