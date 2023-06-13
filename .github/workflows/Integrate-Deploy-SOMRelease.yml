@@ -1,0 +1,41 @@
+# Unique name for this workflow
+name: Deploy SOM release branch to Integrate
+
+# Definition when the workflow should run
+on:
+    workflow_dispatch
+            
+
+# Jobs to be executed
+jobs:
+    deploy-branch-to-integrate:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: 'Install Salesforce CLI'
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # Checkout the source code
+            - name: 'Checkout source code'
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+
+            # Store secret for both otgs
+            - name: 'Populate auth file with SFDX_URL secret of Integrate Sandbox'
+              shell: bash
+              run: |
+                  echo ${{ secrets.SFDX_INTEGRATION_URL}} > ./SFDX_INTEGRATION_URL.txt
+
+            # Authenticate to org
+            - name: 'Authenticate to Integration Org'
+              run: sfdx auth:sfdxurl:store -f ./SFDX_INTEGRATION_URL.txt -s -a Integrate
+
+            - name: 'Deploy the entire branch to Integration org'
+              sfdx force:source:deploy -x "unpackaged\project manifest\packageSom-2023-6-1.xml"
