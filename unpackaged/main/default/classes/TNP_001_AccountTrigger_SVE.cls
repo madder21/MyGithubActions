@@ -27,14 +27,14 @@ public class TNP_001_AccountTrigger_SVE {
                 User user = mapInfoUser.get(acc.CreatedById);
                 System.debug('acc'+acc);
                 System.debug('user'+user);
-                if(user != null ){
+               /* if(user != null ){
                     if ( user.Name == Label.SFSC_Integration_User  ){
                         JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFSC_Source );//source 'SFSC'
                         //TNP_002_ServiceClass.sendRequest(JSONGenerated);
                         System.enqueueJob(new TNP_001_QueueableCallOut(JSONGenerated));
                         
                     }
-                }
+                }*/
                 if(user == null ){
                         JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFDC_Source );//source 'SFDC'
                         //TNP_002_ServiceClass.sendRequest(JSONGenerated);
@@ -66,6 +66,14 @@ public class TNP_001_AccountTrigger_SVE {
                     JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFDC_Source);//source 'SFDC'
                     // TNP_002_ServiceClass.sendRequest(JSONGenerated); 
                     System.enqueueJob(new TNP_001_QueueableCallOut(JSONGenerated));             
+                }
+                  if(user != null ){
+                    if ( user.Name == Label.SFSC_Integration_User  ){
+                        JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFSC_Source );//source 'SFSC'
+                        //TNP_002_ServiceClass.sendRequest(JSONGenerated);
+                        System.enqueueJob(new TNP_001_QueueableCallOut(JSONGenerated));
+                        
+                    }
                 }
             } 
         }  

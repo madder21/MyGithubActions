@@ -17,9 +17,15 @@ public class TNP_002_ServiceClass {
         Map<String, string> resolveAPINameLabelMap = new Map<String, String>();
         Map<String, String> fieldMapTemp = new Map<String, String>();
         for(String fieldName : fieldMap.keyset()) {
-            if(fieldName.contains('__c')) {
-                fieldName.replace('_pc', '__pc');
-            	resolveAPINameLabelMap.put(fieldName.replace('_pc', '__pc').split('__c')[0], fieldMap.get(fieldName).getDescribe().getLabel());
+            if(fieldName.contains('__c') ) {
+                //fieldName.replace('_pc', '__pc');
+                if(fieldName.contains('_pc')) {
+                	resolveAPINameLabelMap.put(fieldName.replace('_pc', '__pc').split('__c')[0], fieldMap.get(fieldName).getDescribe().getLabel());
+                }
+                if(fieldName.contains('_c') && !fieldName.contains('_pc')) {
+                    resolveAPINameLabelMap.put(fieldName.split('__c')[0].replace('_c', '__c'), fieldMap.get(fieldName).getDescribe().getLabel());
+                }
+            	
             }
         }
         return resolveAPINameLabelMap;
