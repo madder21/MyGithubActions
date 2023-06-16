@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_Refunded_Items</name>
         <label>Add Refunded Items</label>
@@ -171,6 +171,7 @@
             <label>Canceled</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_CalculateRefundFromPartialCancelation</name>
         <dataType>Currency</dataType>
