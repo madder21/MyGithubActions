@@ -141,7 +141,7 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     WMS_OrderPickedinStoreResponse cegidOrdNumberResponse = new WMS_OrderPickedinStoreResponse();
                     cegidOrdNumberResponse.isSuccess = false;
                     cegidOrdNumberResponse.orderSummaryNumber = reqLine.orderSummaryNumber;
-                    cegidOrdNumberResponse.errorMessage = 'Invoice Number : '+reqLine.cegidInvoiceNumber+', too long, max length is 20';
+                    cegidOrdNumberResponse.errorMessage = 'Invoice Number : '+reqLine.cegidInvoiceNumber+' too long, max length is 20';
                     responseData.put(reqLine.orderSummaryNumber, cegidOrdNumberResponse);
                     continue;
                 }
