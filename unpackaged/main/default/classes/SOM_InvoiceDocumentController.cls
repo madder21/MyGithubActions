@@ -46,7 +46,7 @@ global with sharing class SOM_InvoiceDocumentController {
         
         List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
         FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
-        OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
+        OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
         invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.CreatedDate.year(), cInvoice.CreatedDate.month(), cInvoice.CreatedDate.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.InvoiceDate.year(), fulfillmentOrder.get(0).Invoice.InvoiceDate.month(), fulfillmentOrder.get(0).Invoice.InvoiceDate.day()).format('yyyy-MM-dd');
@@ -194,9 +194,9 @@ global with sharing class SOM_InvoiceDocumentController {
         //Get order payment summary
         List<OrderPaymentSummary> paymentSummary = [SELECT Type, PaymentMethodId, PaymentMethod.ImplementorType FROM OrderPaymentSummary WHERE OrderSummaryId = :fulfillmentOrder.OrderSummaryId];
         if (paymentSummary != null && !paymentSummary.isEmpty()) {
-            if (paymentSummary.get(0).PaymentMethod.ImplementorType.equalsIgnoreCase(SOM_Constants.CARD_PAYMENT_METHOD)) {
-                CardPaymentMethod cardPaymentMethod = [SELECT CardCategory FROM CardPaymentMethod WHERE Id = :paymentSummary.get(0).PaymentMethodId];
-                return cardPaymentMethod.CardCategory;
+            Payment_Methods_Mapping__mdt paymentMethodsMapping = [SELECT Id, Value__c, Translation__c, Is_Card_Payment_Method__c FROM Payment_Methods_Mapping__mdt WHERE Value__c = :paymentSummary.get(0).Type AND Language__c = :fulfillmentOrder.OrderSummary.language__c];
+            if (paymentMethodsMapping != null) {
+                return paymentMethodsMapping.Translation__c;
             } else {
                 return paymentSummary.get(0).Type;
             }
