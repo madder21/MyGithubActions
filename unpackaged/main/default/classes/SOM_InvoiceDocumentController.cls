@@ -194,9 +194,9 @@ global with sharing class SOM_InvoiceDocumentController {
         //Get order payment summary
         List<OrderPaymentSummary> paymentSummary = [SELECT Type, PaymentMethodId, PaymentMethod.ImplementorType FROM OrderPaymentSummary WHERE OrderSummaryId = :fulfillmentOrder.OrderSummaryId];
         if (paymentSummary != null && !paymentSummary.isEmpty()) {
-            Payment_Methods_Mapping__mdt paymentMethodsMapping = [SELECT Id, Value__c, Translation__c, Is_Card_Payment_Method__c FROM Payment_Methods_Mapping__mdt WHERE Value__c = :paymentSummary.get(0).Type AND Language__c = :fulfillmentOrder.OrderSummary.language__c];
-            if (paymentMethodsMapping != null) {
-                return paymentMethodsMapping.Translation__c;
+            List<Payment_Methods_Mapping__mdt> paymentMethodsMapping = [SELECT Id, Value__c, Translation__c, Is_Card_Payment_Method__c FROM Payment_Methods_Mapping__mdt WHERE Value__c = :paymentSummary.get(0).Type AND Language__c = :fulfillmentOrder.OrderSummary.language__c];
+            if (paymentMethodsMapping != null && !paymentMethodsMapping.isEmpty()) {
+                return paymentMethodsMapping.get(0).Translation__c;
             } else {
                 return paymentSummary.get(0).Type;
             }
