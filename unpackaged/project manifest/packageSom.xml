@@ -420,7 +420,10 @@
         <members>TransactionalEmail__c.Template__c</members>
         <members>TransactionalEmail__c.OrderType__c</members>
         <members>UpdateOSCaptureEvent__e.OrderSummaryId__c</members>
-        <members>User.ByPassTriggers__c</members>
+        <members>User.ByPassTriggers__c</members>  
+	<members>PE_Emails_Setting__mdt.Countries__c</members>
+	<members>PE_Emails_Setting__mdt.Distribution_List__c</members>
+	<members>PE_Emails_Setting__mdt.PE_Emails_Setting_Name__c</members>
         <name>CustomField</name>
     </types>
     <types>
@@ -468,7 +471,9 @@
         <members>SOM_Invoice_Setting.PDF_VAT_ID_COUNTRY_AE</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_GB</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_UK</members>
-        <members>Sales_Channel_Mapping.Sales_Channel_AE</members>
+        <members>Sales_Channel_Mapping.Sales_Channel_AE</members>   
+	    	<members>PE_Emails_Setting.PE_UAE</members>
+	    	<members>PE_Emails_Setting.PE_US</members>
 		<name>CustomMetadata</name>
 	</types>
     <types>
@@ -499,6 +504,7 @@
         <members>CountryMapping__mdt</members>
 		<members>TransactionalEmail__c</members>
 		<members>UpdateOSCaptureEvent__e</members>
+		<members>PE_Emails_Setting__mdt</members>
 		<name>CustomObject</name>
 	</types>
     <types>
@@ -724,6 +730,8 @@
         <members>ReportsforSOM/Return_Orders_Report_4CL</members>
         <members>SOMReports/New_SOM_Process_Exception_Report_h7t</members>
         <members>ReportsforSOM/New_SOM_Process_Exception_Report_h7t</members>
+        <members>ECommerce_Payment_Capture_Errors_US</members>
+        <members>ECommerce_Payment_Capture_Errors_AE</members>
         <name>Report</name>        
     </types>
     <types>
@@ -737,7 +745,8 @@
         <members>Return_Orders</members>  
         <members>Shipments</members> 
         <members>Order_Summary_with_Shipping_address</members>                                       <!--RSO UAT SPRINT 5 V2-->
-        <members>SOM_PE_ReportType</members> <!--RSO UAT SPRINT 8 V2 -->
+        <members>SOM_PE_ReportType</members> <!--RSO UAT SPRINT 8 V2 --> 
+	<members>SOM_Order_Summaries_with_PE</members>
         <name>ReportType</name>
     </types>
     <types>
