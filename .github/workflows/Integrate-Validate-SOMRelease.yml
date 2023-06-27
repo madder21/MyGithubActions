@@ -6,6 +6,9 @@ on:
     pull_request:
         types: [opened, synchronize]
         branches: [release/SOM-2023.6.1]
+        paths:
+            -'unpackaged/**'
+        
             
 
 # Jobs to be executed
