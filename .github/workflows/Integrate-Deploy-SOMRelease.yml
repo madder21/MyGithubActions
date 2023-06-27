@@ -35,6 +35,10 @@ jobs:
             - name: 'Set the instanceUrl config value'
               run: sfdx config:set instanceUrl=https://rimowa--integrate.sandbox.my.salesforce.com
               
+              # Authorize devops user
+            - name: 'Authorize Devops User'
+              run: sfdx force:auth:jwt:grant -i "3MVG9qQjGkWUbcrH_xlpO3xF9dIvXKYW_7tBvY37biyTivUmmmjljbZFlnQKz2wvcP04dmbGRCE0_FmAhWCro" -f JWT/server.key -a RimowaIntegrateOrg --username devops@rimowa.integrate
+              
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" --targetusername 00D0D0000008hd1!AREAQCLt_BIcaR6eDb69uaAVKnnpvuKYl8L37TDYpa3NB4_bfFbOqMnrIxjQZ1rHYdqEHX6_6MhQA0pYE2HABIgFE0FLB261
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" 
