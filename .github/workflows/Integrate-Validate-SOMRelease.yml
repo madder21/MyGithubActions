@@ -3,11 +3,11 @@ name: Validate SOM release branch against Integrate
 
 # Definition when the workflow should run
 on:
-    pull_request:
-        types: [opened, synchronize]
-        branches: [release/SOM-2023.6.1]
-        paths:
-            -'unpackaged/**'
+  pull_request:
+    types:
+      - opened
+    branches:
+      - 'release/**'
         
             
 
