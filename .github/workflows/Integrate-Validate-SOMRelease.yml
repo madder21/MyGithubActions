@@ -4,8 +4,7 @@ name: Validate SOM release branch against Integrate
 # Definition when the workflow should run
 on:
   pull_request:
-    types:
-      - opened
+    types: [assigned, opened, synchronize, reopened]
     branches:
       - 'release/**'
         
