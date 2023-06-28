@@ -53,4 +53,48 @@ public class CLT_Utils_TaskTrigger {
         }
     }
 
+    public static void updateENOutreachReason(List<Task> newTasks, Map<Id, Task> oldTasksMap) {
+        Map<String, List<String>> reasonsMap = getReasonsMap();
+
+        for(Task newTask : newTasks) {
+            if(!String.isEmpty(newTask.Outreach_Reason__c) && (!oldTasksMap.containsKey(newTask.Id) || 
+                (oldTasksMap.containsKey(newTask.Id) && newTask.Outreach_Reason__c != oldTasksMap.get(newTask.Id).Outreach_Reason__c))) {
+                    newTask.EN_Outreach_Reason__c = getENReasonFromMap(reasonsMap, newTask.Outreach_Reason__c);
+            }
+        }
+    }
+
+    public static Map<String, List<String>> getReasonsMap() {
+        String reasonsQuery = 'SELECT ';
+       
+        Set<String> categoryMdtFields = Schema.SObjectType.CLT_EmailTemplateCategory__mdt.fields.getMap().keySet();
+        for(String categoryMdtField : categoryMdtFields) {
+            if(!categoryMdtField.endsWith('_category__c')){
+                categoryMdtFields.remove(categoryMdtField);
+            }
+        }
+        reasonsQuery += String.join((Iterable<String>)categoryMdtFields, ',') + ' FROM CLT_EmailTemplateCategory__mdt';
+
+        Map<String, List<String>> reasonsMap = new Map<String, List<String>>();
+        for(CLT_EmailTemplateCategory__mdt etc : Database.query(reasonsQuery)) {
+            reasonsMap.put(etc.en_US_category__c,new List<String>());
+            for(String categoryMdtField : categoryMdtFields) {
+                if(!String.isEmpty((String)etc.get(categoryMdtField))) {
+                    reasonsMap.get(etc.en_US_category__c).add((String)etc.get(categoryMdtField));
+                }
+            }
+        }
+
+        return reasonsMap;
+    }
+
+    public static String getENReasonFromMap(Map<String, List<String>> reasonsMap, String translatedReason) {
+        for (String enReason : reasonsMap.keySet()) {
+            if(reasonsMap.get(enReason).contains(translatedReason)) {
+                return enReason;
+            }
+        }
+        return '';
+    }
+
 }

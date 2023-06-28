@@ -570,7 +570,6 @@ public without sharing class SOM_TransactionalEmailHandler {
         return refundValidationTransactionalEmailsList;
     }
 
-
     public static List<TransactionalEmail__c> generateRefundWithoutCreditMemoTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> transactionalEmails = new List<TransactionalEmail__c>();
         List<Refund> refunds = [SELECT ID, Amount, 	ValidationDate__c, CurrencyIsoCode, OrderPaymentSummary.OrderSummaryId FROM Refund WHERE Id IN :recordIds];

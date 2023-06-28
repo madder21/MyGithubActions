@@ -1133,11 +1133,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Location.VisitorAddressId</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Location.WmsFilePath__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1293,32 +1288,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderAdjustmentGroup.AdjustmentCauseId</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderAdjustmentGroup.Description</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>OrderAdjustmentGroup.GrandTotalAmount</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderAdjustmentGroup.RelatedAdjustmentGroupId</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderAdjustmentGroup.TotalAmount</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderAdjustmentGroup.TotalTaxAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1409,26 +1379,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>OrderDeliveryGroup.TotalTaxAmount</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryMethod.Carrier</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryMethod.ClassOfService</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryMethod.Description</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryMethod.ReferenceNumber</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2484,6 +2434,12 @@
         <layout>Contract-Contract Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CorrectiveInvoice__c-Corrective Invoice Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>CountryMapping__mdt-Country mapping Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CreditMemo-Credit Memo Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2493,7 +2449,13 @@
         <layout>Customer-Customer Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Cybersource_Config__mdt-Cybersource Config Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>DDC_Config__mdt-DDC Config Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>DDUEWebService_Setting__mdt-DDUE WebService Setting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>DataUseLegalBasis-Data Use Legal Basis Layout</layout>
@@ -2527,6 +2489,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>FlowOrchestrationInstance-Orchestration Run Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FlowPersonalConfiguration__c-Flow Personal Configuration Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FlowTableViewDefinition__c-FlowTableViewDefinition Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FulfillmentOrder-Fulfillment Order Layout</layout>
@@ -2599,7 +2567,46 @@
         <layout>Order-Order Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>OrderAdjustmentGroup-Order Adjustment Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderAdjustmentGroupSummary-Order Adjustment Group Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryGroup-Order Delivery Group Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderDeliveryMethod-Order Delivery Method Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>OrderItem-Order Product Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemAdjustmentLineItem-Order Product Adjustment Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemAdjustmentLineSummary-Order Product Adjustment Line Item Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemSummary-Order Product Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemSummaryChange-Order Product Summary Change Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemTaxLineItem-Order Product Tax Line Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderItemTaxLineItemSummary-Order Product Tax Line Item Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderPaymentSummary-Order Payment Summary Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>OrderSummary-Order Summary Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Payment-Payment Layout</layout>
@@ -2687,6 +2694,18 @@
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>SOM_Invoice_Setting__mdt-SOM Invoice Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SSO_Setup_Constant__mdt-SSO Setup Constant Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SalesChannel-Sales Channel Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Scorecard-Scorecard Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -2697,6 +2716,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Seller-Seller Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Shipment-Shipment Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SocialPersona-Social Persona Layout</layout>
@@ -2724,6 +2746,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Transaction__c-Transaction Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TransactionalEmail__c-Transactional Email Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
@@ -2949,6 +2974,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>TransactionalEmail__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>WishlistItem__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -3147,6 +3176,10 @@
     <tabVisibilities>
         <tab>standard-Order</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>standard-OrderSummary</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-OtherUserProfile</tab>
