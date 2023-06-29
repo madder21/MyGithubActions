@@ -1913,7 +1913,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>CreditMemoLine.Reason__c</field>
+        <field>DigitalWallet.CardType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.EmailMessageID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1972,8 +1977,43 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>DigitalWallet.CardType__c</field>
+        <editable>false</editable>
+        <field>GCP_KPI__c.UCRInternalId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.nba_is_repeater__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.nba_prediction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.nba_proba_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.reco_product_1__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.reco_product_2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>GCP_KPI__c.reco_product_3__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Idea.Status</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2158,7 +2198,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>FlowTableViewDefinition__c.Edits__c</field>
+        <field>Location.ConvertSkuTo10d__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.Description</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2207,8 +2252,43 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>FulfillmentOrder.Location__c</field>
+        <editable>true</editable>
+        <field>Location.V3_warehouse_code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.VisitorAddressId</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.WmsFilePath__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.WmsFoFileDestination__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.WmsFoFileNamePrefix__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.cegidSalesPersonId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Location.cegidStoreCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Duration__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3523,147 +3603,137 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product2.isSerialized__c</field>
+        <field>Order.latestExpectedDeliveryDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Inventory__c.ATS__c</field>
+        <field>OrderAdjustmentGroup.AdjustmentCauseId</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Inventory__c.ProductId__c</field>
+        <field>OrderAdjustmentGroup.Description</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Back_in_stock_email_enabled__c</field>
+        <field>OrderAdjustmentGroup.GrandTotalAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Category_Name__c</field>
+        <field>OrderAdjustmentGroup.RelatedAdjustmentGroupId</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Color_Group__c</field>
+        <field>OrderAdjustmentGroup.TotalAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Color_Image_Url__c</field>
+        <field>OrderAdjustmentGroup.TotalTaxAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Color_Product__c</field>
+        <field>OrderDeliveryGroup.CLICKCOLLECT_StoreName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Finishing__c</field>
+        <field>OrderDeliveryGroup.DeliverToAddress</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Imperial_Depth__c</field>
+        <field>OrderDeliveryGroup.DeliveryInstructions</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Imperial_Height__c</field>
+        <field>OrderDeliveryGroup.Description</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Imperial_Volume__c</field>
+        <field>OrderDeliveryGroup.DesiredDeliveryDate</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Imperial_Weight__c</field>
+        <field>OrderDeliveryGroup.EmailAddress</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Imperial_Width__c</field>
+        <field>OrderDeliveryGroup.GiftMessage</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.IsCustomizable__c</field>
+        <field>OrderDeliveryGroup.GrandTotalAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Is_Active__c</field>
+        <field>OrderDeliveryGroup.IsGift</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Is_Preorder_Active__c</field>
+        <field>OrderDeliveryGroup.PhoneNumber</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Master_Id__c</field>
+        <field>OrderDeliveryGroup.PromisedDeliveryDate</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Metric_Depth__c</field>
+        <field>OrderDeliveryGroup.TotalAdjustmentAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Metric_Height__c</field>
+        <field>OrderDeliveryGroup.TotalAdjustmentAmtWithTax</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Metric_Volume__c</field>
+        <field>OrderDeliveryGroup.TotalAdjustmentTaxAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Metric_Weight__c</field>
+        <field>OrderDeliveryGroup.TotalAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Metric_Width__c</field>
+        <field>OrderDeliveryGroup.TotalLineAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Outside_Material__c</field>
+        <field>OrderDeliveryGroup.TotalLineAmtWithTax</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Product_Image_1__c</field>
+        <field>OrderDeliveryGroup.TotalLineTaxAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Product_Image_2__c</field>
+        <field>OrderDeliveryGroup.TotalTaxAmount</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Product_Localization__c.Product_Image_3__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Localization__c.Product_Image_4__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Product_Localization__c.Product_Image_5__c</field>
+        <field>OrderDeliveryGroupSummary.CLICKCOLLECT_StoreName__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4448,7 +4518,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Seller.ActiveFromDate</field>
+        <field>ReturnOrder.Tech_ShippingFeeRefund__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ReturnOrderLineItem.AssetId</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5695,9 +5770,6 @@
         <layout>DDC_Config__mdt-DDC Config Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>DDUEWebService_Setting__mdt-DDUE WebService Setting Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>DataUseLegalBasis-Data Use Legal Basis Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5729,12 +5801,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>FlowOrchestrationInstance-Orchestration Run Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>FlowPersonalConfiguration__c-Flow Personal Configuration Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>FlowTableViewDefinition__c-FlowTableViewDefinition Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FulfillmentOrder-Fulfillment Order Layout</layout>
@@ -5932,18 +5998,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>SOM_Invoice_Setting__mdt-SOM Invoice Setting Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>SSO_Setup_Constant__mdt-SSO Setup Constant Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>SalesChannel-Sales Channel Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Scorecard-Scorecard Layout</layout>
