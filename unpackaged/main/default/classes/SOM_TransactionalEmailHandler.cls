@@ -50,13 +50,13 @@ public without sharing class SOM_TransactionalEmailHandler {
         Map<Id, SOM_Additional_Shipment_Details> shipmentDetailsByFOId = new Map<Id, SOM_Additional_Shipment_Details>();
         
         List<TransactionalEmail__c> shipmentTransactionalEmailsList = new List<TransactionalEmail__c>();
-        Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail, FulfillmentOrder.OrderSummary.OrderNumber, 
+        Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail,FulfillmentOrder.OrderSummary.BillingEmailAddress , FulfillmentOrder.OrderSummary.OrderNumber, 
                     FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,
                     ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber 
                     FROM Shipment WHERE Id IN :recordIds]);
         for (Shipment ship:shipments.values()) {
             if(emailOfClient == null) {
-                emailOfClient = ship.FulfillmentOrder.OrderSummary.Account.PersonEmail;
+                emailOfClient = ship.FulfillmentOrder.OrderSummary.BillingEmailAddress;
             }
             if(!shipmentDetailsByFOId.containsKey(ship.FulfillmentOrderId)){
                 SOM_Additional_Shipment_Details shipmentDetails = new SOM_Additional_Shipment_Details();
@@ -145,7 +145,7 @@ public without sharing class SOM_TransactionalEmailHandler {
       
         List<TransactionalEmail__c> invoiceTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<FulfillmentOrder> fulfillmentOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, 
-            OrderSummary.AccountId, OrderSummary.Account.Salutation,OrderSummary.Account.PersonEmail, OrderSummary.BillingContactFirstName__c, OrderSummary.BillingContactLastName__c, 
+            OrderSummary.AccountId, OrderSummary.Account.Salutation,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress , OrderSummary.BillingContactFirstName__c, OrderSummary.BillingContactLastName__c, 
             OrderSummary.BillingCity, OrderSummary.BillingState,OrderSummary.language__c, OrderSummary.BillingCountry, OrderSummary.BillingPostalCode, OrderSummary.BillingStreet, 
             FulfilledToCountry, FulfilledToCity, FulfilledToState, FulfilledToName, FulfilledToPostalCode, 
             FulfilledToStreet,Invoice.InvoiceNumber__c, Invoice.CurrencyIsoCode, Invoice.TotalAmountWithTax 
@@ -183,7 +183,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTransactionalEmail.OrderSummary__c = fullOrder.OrderSummary.Id;
             invoiceTransactionalEmail.Client__c       = fullOrder.OrderSummary.AccountId;
             invoiceTransactionalEmail.EmailContent__c = JSON.serializePretty(invoiceTemplateContent, true);
-            invoiceTransactionalEmail.Email__c        = fullOrder.OrderSummary.Account.PersonEmail;
+            invoiceTransactionalEmail.Email__c        = fullOrder.OrderSummary.BillingEmailAddress;
             invoiceTransactionalEmail.CountrySite__c  = fullOrder.FulfilledToCountry;
 
             invoiceTransactionalEmailsList.add(invoiceTransactionalEmail);
@@ -203,7 +203,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                     BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
-                    BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,
+                    BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
                     (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
                         FROM OrderItemSummaries ORDER BY LineNumber ASC),
                     (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
@@ -299,7 +299,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderTransactionalEmail.OrderSummary__c = orderSumm.Id;
             orderTransactionalEmail.Client__c       = orderSumm.AccountId;
             orderTransactionalEmail.EmailContent__c = JSON.serializePretty(orderTemplateContent, true);
-            orderTransactionalEmail.Email__c        = orderSumm.Account.PersonEmail;
+            orderTransactionalEmail.Email__c        = orderSumm.BillingEmailAddress;
             orderTransactionalEmail.CountrySite__c  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
 
             orderTransactionalEmailsList.add(orderTransactionalEmail);
@@ -309,7 +309,7 @@ public without sharing class SOM_TransactionalEmailHandler {
 
     public static List<TransactionalEmail__c> generateReturnReceptionTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber,OrderSummaryId, OrderSummary.BillingContactFirstName__c,OrderSummary.BillingContactLastName__c,OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,
+        List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber,OrderSummaryId, OrderSummary.BillingContactFirstName__c,OrderSummary.BillingContactLastName__c,OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress ,
                     (SELECT Id,Product2.StockKeepingUnit,Product2.ImageURL__c, QuantityReceived, TotalAmount, Description, CurrencyIsoCode 
                         FROM ReturnOrderLineItems)
                     FROM ReturnOrder WHERE Id IN :recordIds];
@@ -349,7 +349,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             returnTransactionalEmail.OrderSummary__c = retOrder.OrderSummary.Id;
             returnTransactionalEmail.Client__c       = retOrder.AccountId;
             returnTransactionalEmail.EmailContent__c = JSON.serializePretty(returnTemplateContent, true);
-            returnTransactionalEmail.Email__c        = retOrder.OrderSummary.Account.PersonEmail;
+            returnTransactionalEmail.Email__c        = retOrder.OrderSummary.BillingEmailAddress;
             returnTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry;
 
             returnTransactionalEmailsList.add(returnTransactionalEmail);
@@ -362,7 +362,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> OrderReadyForPickupTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                     BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
-                    BillingCity, BillingCountry, AccountId,Account.PersonEmail,
+                    BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress ,
                     (SELECT Id, DeliverToCountry, DeliverToCity, CLICKCOLLECT_StoreName__c, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
                      FROM OrderDeliveryGroupSummaries), (SELECT Id, FulfilledFromLocation.Name FROM FulfillmentOrders)
                     FROM OrderSummary WHERE Id IN :recordIds];
@@ -401,7 +401,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             pickUpTransactionalEmail.OrderSummary__c = orderSum.Id;
             pickUpTransactionalEmail.Client__c       = orderSum.AccountId;
             pickUpTransactionalEmail.EmailContent__c = JSON.serializePretty(orderReadyForPickupTemplateContent, true);
-            pickUpTransactionalEmail.Email__c        = orderSum.Account.PersonEmail;
+            pickUpTransactionalEmail.Email__c        = orderSum.BillingEmailAddress;
             pickUpTransactionalEmail.CountrySite__c  = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry;
 
             OrderReadyForPickupTransactionalEmailsList.add(pickUpTransactionalEmail);
@@ -415,7 +415,7 @@ public without sharing class SOM_TransactionalEmailHandler {
     public static List<TransactionalEmail__c> generateReturnOrderCreationTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<ReturnOrder> returnOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName,OrderSummary.BillingContactLastName__c,OrderSummary.BillingContactFirstName__c,
-                    OrderSummaryId,AccountId,OrderSummary.Account.PersonEmail FROM ReturnOrder WHERE Id IN :recordIds];
+                    OrderSummaryId,AccountId,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress  FROM ReturnOrder WHERE Id IN :recordIds];
 
         List<String> osIds = new List<String>();
         for (ReturnOrder retOrder : returnOrders) {
@@ -438,7 +438,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             returnCreationTransactionalEmail.OrderSummary__c = retOrder.OrderSummaryId;
             returnCreationTransactionalEmail.Client__c       = retOrder.AccountId;
             returnCreationTransactionalEmail.EmailContent__c = JSON.serializePretty(returnCreationTemplateContent, true);
-            returnCreationTransactionalEmail.Email__c        = retOrder.OrderSummary.Account.PersonEmail;
+            returnCreationTransactionalEmail.Email__c        = retOrder.OrderSummary.BillingEmailAddress;
             returnCreationTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry ;
 
             returnTransactionalEmailsList.add(returnCreationTransactionalEmail);
@@ -481,7 +481,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
         if(!orderSummaryIdsList.isEmpty()){
             for(OrderSummary orderSumm : [SELECT Id,OrderNumber, AccountId, BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
-                                          BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,
+                                          BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,BillingEmailAddress ,
                                           (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName FROM OrderDeliveryGroupSummaries), 
                                           (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status =: SOM_Constants.INVOICE_POSTED) 
                                           FROM OrderSummary WHERE Id IN : orderSummaryIdsList]){
@@ -548,6 +548,11 @@ public without sharing class SOM_TransactionalEmailHandler {
                         lineItem.total        = creditMemoLine.RelatedLine.AdjustmentAmountWithTax?.setScale(2);
                     } 
                     lineItem.taxRate          =TaxRatee.TaxRate__c;
+                    
+                    /*if (creditMemoLine.RelatedLine.ReferenceEntityItem instanceof OrderItemSummary) {
+                        OrderItemSummary item = (OrderItemSummary) creditMemoLine.RelatedLine.ReferenceEntityItem;
+                        lineItem.taxRate = item.TaxRate__c;
+                    }*/
                     refundValidationTemplateContent.refundedItems.add(lineItem);
                 } 
             }
@@ -557,15 +562,13 @@ public without sharing class SOM_TransactionalEmailHandler {
             refundValidationTransactionalEmail.OrderSummary__c = creditNote.ReferenceEntityId;
             refundValidationTransactionalEmail.Client__c       = orderSumm.AccountId;
             refundValidationTransactionalEmail.EmailContent__c = JSON.serializePretty(refundValidationTemplateContent, true);
-            refundValidationTransactionalEmail.Email__c        = orderSumm.Account.PersonEmail;
+            refundValidationTransactionalEmail.Email__c        = orderSumm.BillingEmailAddress;
             refundValidationTransactionalEmail.CountrySite__c  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
             
             refundValidationTransactionalEmailsList.add(refundValidationTransactionalEmail);
         }
         return refundValidationTransactionalEmailsList;
     }
-
-
 
     public static List<TransactionalEmail__c> generateRefundWithoutCreditMemoTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> transactionalEmails = new List<TransactionalEmail__c>();
@@ -575,7 +578,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderSummaryIds.add(refund.OrderPaymentSummary.OrderSummaryId);
         }
         //get data
-        Map<Id, OrderSummary> orderSummaryMap = new Map<Id, OrderSummary>([SELECT Id,OrderNumber, AccountId,Account.PersonEmail, BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
+        Map<Id, OrderSummary> orderSummaryMap = new Map<Id, OrderSummary>([SELECT Id,OrderNumber, AccountId,Account.PersonEmail,BillingEmailAddress , BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
                                                                         BillingStreet,BillingState, SalesChannel.SalesChannelName, language__c,
                                                                         (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToState, DeliverToName FROM OrderDeliveryGroupSummaries), 
                                                                         (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status = :SOM_Constants.INVOICE_POSTED),
@@ -625,7 +628,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             refundWithoutCreditEmail.Status__c       = SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_TO_SEND;
             refundWithoutCreditEmail.OrderSummary__c = orderSum.Id;
             refundWithoutCreditEmail.Client__c       = orderSum.AccountId;
-            refundWithoutCreditEmail.Email__c        = orderSum.Account.PersonEmail;
+            refundWithoutCreditEmail.Email__c        = orderSum.BillingEmailAddress;
             refundWithoutCreditEmail.EmailContent__c = JSON.serializePretty(refundWithoutCreditMemoEmail, true);
             refundWithoutCreditEmail.CountrySite__c  = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry;
 

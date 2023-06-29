@@ -827,7 +827,7 @@ public class TestDataFactory_Test {
 		System.assertEquals('test0',mapOfValues.get('lastname').getValue(0));
 		System.assertEquals('test0',mapOfValues.get('firstname').getValue(0));
 		System.assertEquals('test0',mapOfValues.get('description').getValue(0));
-		System.assertEquals('my_custom_email0@email.com',mapOfValues.get('email').getValue(0));
+		System.assertEquals('my_custom_email0@rimowa.com',mapOfValues.get('email').getValue(0));
 	}
 	@IsTest
 	static void generateDefaultMapOfValuesTest10(){
@@ -838,7 +838,7 @@ public class TestDataFactory_Test {
 		System.assertEquals(null,mapOfValues.get('lastname'));
 		System.assertEquals('test0',mapOfValues.get('firstname').getValue(0));
 		System.assertEquals('test0',mapOfValues.get('description').getValue(0));
-		System.assertEquals('my_custom_email0@email.com',mapOfValues.get('email').getValue(0));
+		System.assertEquals('my_custom_email0@rimowa.com',mapOfValues.get('email').getValue(0));
 	}
 	@IsTest
 	static void putRelationshipFieldTest1(){
@@ -1026,7 +1026,7 @@ public class TestDataFactory_Test {
 		System.assertEquals(0,dvProvider.getDefaultValue(Lead.SObjectType.getDescribe(),Lead.fields.AnnualRevenue.getDescribe(),0)); // currency
 		System.assertEquals(Date.today(),dvProvider.getDefaultValue(Account.SObjectType.getDescribe(),Account.fields.LastActivityDate.getDescribe(),0)); // date
 		System.assertEquals(Datetime.now(),dvProvider.getDefaultValue(Account.SObjectType.getDescribe(),Account.fields.CreatedDate.getDescribe(),0)); // datetime
-		System.assertEquals('test0@email.com',dvProvider.getDefaultValue(Contact.SObjectType.getDescribe(),Contact.fields.Email.getDescribe(),0)); // email
+		System.assertEquals('test0@rimowa.com',dvProvider.getDefaultValue(Contact.SObjectType.getDescribe(),Contact.fields.Email.getDescribe(),0)); // email
 		// no standard geolocation field
 		System.assertEquals(0,dvProvider.getDefaultValue(Attachment.SObjectType.getDescribe(),Attachment.fields.BodyLength.getDescribe(),0)); // number
 		System.assertEquals(0,dvProvider.getDefaultValue(Asset.SObjectType.getDescribe(),Asset.fields.Quantity.getDescribe(),0)); // number
@@ -1048,7 +1048,7 @@ public class TestDataFactory_Test {
 		System.assertEquals(0,dvProvider.getCurrencyDefaultValue(null,null,0));
 		System.assertEquals(Date.today(),dvProvider.getDateDefaultValue(null,null,0));
 		System.assertEquals(Datetime.now(),dvProvider.getDateTimeDefaultValue(null,null,0));
-		System.assertEquals('test0@email.com',dvProvider.getEmailDefaultValue(null,null,0));
+		System.assertEquals('test0@rimowa.com',dvProvider.getEmailDefaultValue(null,null,0));
 		System.assertNotEquals(null,dvProvider.getGeolocationDefaultValue(null,null,0));
 		System.assertEquals(0,dvProvider.getNumberDefaultValue(null,null,0));
 		System.assertEquals(0,dvProvider.getPercentDefaultValue(null,null,0));
@@ -1091,7 +1091,7 @@ public class TestDataFactory_Test {
 		TestDataFactory.IFieldDefaultValue fieldDV8 = new TestDataFactory.FieldDefaultValue(new TestDataFactory.DefaultValueProvider(),Asset.SObjectType.getDescribe(),Asset.fields.Quantity.getDescribe());
 		System.assertEquals(0,fieldDV8.getValue(0));
 		TestDataFactory.IFieldDefaultValue fieldDV9 = new TestDataFactory.FieldDefaultValue(new TestDataFactory.DefaultValueProvider(),Contact.SObjectType.getDescribe(),Contact.fields.Email.getDescribe());
-		System.assertEquals('test0@email.com',fieldDV9.getValue(0));
+		System.assertEquals('test0@rimowa.com',fieldDV9.getValue(0));
 		TestDataFactory.IFieldDefaultValue fieldDV10 = new TestDataFactory.FieldDefaultValue(new TestDataFactory.DefaultValueProvider(),Account.SObjectType.getDescribe(),Account.fields.Id.getDescribe());
 		System.assertEquals(null,fieldDV10.getValue(0));
 		TestDataFactory.IFieldDefaultValue fieldDV11 = new TestDataFactory.FieldDefaultValue(new TestDataFactory.DefaultValueProvider(),Attachment.SObjectType.getDescribe(),Attachment.fields.BodyLength.getDescribe());
@@ -1142,7 +1142,7 @@ public class TestDataFactory_Test {
 		}
 
 		public override String getEmailDefaultValue(Schema.DescribeSObjectResult sObjectDesc, Schema.DescribeFieldResult fieldDesc, Integer recordIndex){
-			return 'my_custom_email'+recordIndex.format()+'@email.com';
+			return 'my_custom_email'+recordIndex.format()+'@rimowa.com';
 		}
 	}
 

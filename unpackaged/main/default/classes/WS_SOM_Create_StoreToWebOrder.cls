@@ -34,11 +34,11 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<String, SalesChannel> salesChannelsMap              = new Map<String, SalesChannel>();
             Map<String, SObject> locationsMap                       = new Map<String, SObject>();
 
-            Set<String> orderReferenceNumbers               = new Set<String>();
+            Set<String> orderReferenceNumbers               = new Set<String>(); 
             Set<String> orderDeliveryMethodReferenceNumbers = new Set<String>();
             Set<String> productsSKU                         = new Set<String>();
             Set<String> currencies                          = new Set<String>();
-            Set<Id>     accountIds                          = new Set<Id>();
+            Set<String>     accountIds                          = new Set<String>();
             Set<String> salesChannelRefNumbers              = new Set<String>();
             Set<String> locationsExternalRef                = new Set<String>();
             Boolean isStockAvailable = true;
@@ -261,6 +261,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             update ordersToPersistMap.values();
             response.status = 'OK';
+            response.orderNumber = 'The following Orders are commited successfully : '+string.valueof(orderReferenceNumbers).replace('{', '').replace('}', '');
         } catch(Exception ex) {
             Database.rollback(sp);
             response.status       = 'KO';
@@ -370,6 +371,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
     global with sharing class StoreToWebResponse{
         public String errorMessage;
         public String status;
+        public String orderNumber;
     }
 
     global with sharing class StoreToWebRequest {
