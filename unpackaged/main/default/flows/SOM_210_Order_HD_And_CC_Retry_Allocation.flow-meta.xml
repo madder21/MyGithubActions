@@ -22,7 +22,7 @@
             <name>ociGetAvailabilityOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_Allocated_Qty</name>
         <label>Add Allocated Qty</label>
@@ -649,6 +649,7 @@
             <label>Create New Process Exception</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -706,7 +707,7 @@
     </loops>
     <loops>
         <name>L22_Allocated_OSLIs</name>
-        <label>L22&#39; Allocated OSLIs</label>
+        <label>L22&apos; Allocated OSLIs</label>
         <locationX>2090</locationX>
         <locationY>526</locationY>
         <collectionReference>Get_All_Allocated_OSLIs</collectionReference>

@@ -47,7 +47,8 @@ global with sharing class SOM_InvoiceDocumentController {
         List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
         FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
         OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
-        List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
+        List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
+        
         invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.CreatedDate.year(), cInvoice.CreatedDate.month(), cInvoice.CreatedDate.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.InvoiceDate.year(), fulfillmentOrder.get(0).Invoice.InvoiceDate.month(), fulfillmentOrder.get(0).Invoice.InvoiceDate.day()).format('yyyy-MM-dd');
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
         
@@ -155,11 +156,10 @@ global with sharing class SOM_InvoiceDocumentController {
 
     public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap){
         List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
-        Integer counter = 1;
         for(InvoiceLine invoiceLine:invoiceLines) {
             if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
-                lineItem.itemDescription = invoiceLine.Product2.Description;
+                //lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
                 lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice);
                 lineItem.vat             = getTotalFormatted(invoiceLine.ChargeTaxAmount);
@@ -170,18 +170,23 @@ global with sharing class SOM_InvoiceDocumentController {
                     lineItem.hsCode            = orderItem.hsCode__c;
                     lineItem.hsCodeDescription = orderItem.hsCodeDescription__c;
                     lineItem.coo               = orderItem.COO__c;
+                    lineItem.itemDescription   = orderItem.Description;
                     List<String> serialNumbers = serialNumbersMap.get(orderItem.Id);
                     if (serialNumbers != null) {
                         lineItem.serialNumber = String.join(serialNumbers, CONCAT_CHARACTER);
                     }
+                    lineItem.lineNumber        = orderItem.LineNumber;
                 }
-                lineItem.itemNumber = counter;
-
                 lineItems.add(lineItem);
-                counter++;
             }
         }
-
+		//sort
+		lineItems.sort();
+        Integer counter = 1;
+        for(InvoiceLineItem single : lineItems){
+            single.itemNumber = counter;
+            counter++;
+        }
         return lineItems;
     }
 
@@ -252,8 +257,9 @@ global with sharing class SOM_InvoiceDocumentController {
         public String state {get; set;}
         public String country {get; set;}
     }
-
-    global with sharing class InvoiceLineItem{
+	
+    //  implements Comparable
+    global with sharing class InvoiceLineItem implements Comparable {
         public String  itemDescription {get; set;} //Product2 : description
         public Integer itemNumber {get; set;}//
         public String  serialNumber {get; set;} //serialnumber on shipping object
@@ -265,5 +271,35 @@ global with sharing class SOM_InvoiceDocumentController {
         public String  vat {get; set;} //InvoiceLine: ChargeTaxAmount
         public String  grossAmount {get; set;} //invoiceLine : TotalAmountWithTax /Quantity
         public String  total {get; set;} //invoiceLine : TotalAmountWithTax
+        //add number LineNumber
+        public Integer lineNumber {get; set;}
+       
+        // compareTo method
+		public Integer compareTo(Object compareTo) {
+            // Cast argument to InvoiceLineItem
+            InvoiceLineItem compareToOppy = (InvoiceLineItem)compareTo;
+            
+            // The return value of 0 indicates that both elements are equal.
+            Integer returnValue = 0;
+            if ((this.LineNumber == null) && (compareToOppy.LineNumber == null)) {
+                // both objects have null LineNumber
+                returnValue = 0;
+            } else if ((this.LineNumber == null) && (compareToOppy.LineNumber != null)){
+                // nulls-first implementation
+                returnValue = -1;
+            } else if ((this.LineNumber != null) && (compareToOppy.LineNumber == null)){
+                // nulls-first implementation
+                returnValue = 1;
+            } else if (this.LineNumber > compareToOppy.LineNumber) {
+                // Set return value to a positive value.
+                returnValue = 1;
+            } else if (this.LineNumber < compareToOppy.LineNumber) {
+                // Set return value to a negative value.
+                returnValue = -1;
+            } 
+            return returnValue;
+        }
+
+          
     }
 }

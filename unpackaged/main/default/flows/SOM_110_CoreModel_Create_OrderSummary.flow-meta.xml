@@ -234,7 +234,7 @@
     <formulas>
         <name>FX_CreateFOImmediatly</name>
         <dataType>Boolean</dataType>
-        <expression>if( {!OrderRecord.SalesChannel.SalesChannelName} == &quot;Rimowa&quot; &amp;&amp; {!OrderSummaryStatus} == &#39;Validated&#39;, true , false)</expression>
+        <expression>if( {!OrderRecord.SalesChannel.SalesChannelName} == &quot;Rimowa&quot; &amp;&amp; {!OrderSummaryStatus} == &apos;Validated&apos;, true , false)</expression>
     </formulas>
     <formulas>
         <name>OrderSummaryStatus</name>

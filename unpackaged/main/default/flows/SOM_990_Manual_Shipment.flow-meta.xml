@@ -87,7 +87,7 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_Id_to_Collection</name>
         <label>Assign Id to Collection</label>
@@ -439,11 +439,12 @@
     <dynamicChoiceSets>
         <name>Picklist_User_TimeZone</name>
         <dataType>Picklist</dataType>
-        <displayField xsi:nil="true" />
-        <object xsi:nil="true" />
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
         <picklistField>TimeZoneSidKey</picklistField>
         <picklistObject>User</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>FX_DispatchDateDefault</name>
         <dataType>DateTime</dataType>
@@ -695,6 +696,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section2</name>
@@ -732,6 +734,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section3</name>
@@ -769,6 +772,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section4</name>
@@ -817,6 +821,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section5</name>
@@ -855,6 +860,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>

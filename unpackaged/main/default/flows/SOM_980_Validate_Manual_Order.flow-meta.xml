@@ -56,7 +56,7 @@
             <name>returnItemsOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_to_collection</name>
         <label>Add to collection</label>
@@ -445,6 +445,7 @@
         </rules>
     </decisions>
     <description>Launch new Credit Memo for Cegid Event</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_CMNumber</name>
         <dataType>String</dataType>
@@ -812,7 +813,7 @@
         <allowPause>true</allowPause>
         <fields>
             <name>CannotValidate</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;❌ &lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;We can&#39;t validate this exchange order because a previous one is already validated for the specified return item.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;❌ &lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;We can&apos;t validate this exchange order because a previous one is already validated for the specified return item.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
