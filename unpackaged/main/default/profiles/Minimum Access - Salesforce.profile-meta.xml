@@ -52,38 +52,38 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalAdjustmentAmtWithTax</field>
+        <editable>false</editable>
+        <field>Account.Local_Main_Store_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalAdjustmentTaxAmount</field>
+        <field>Account.Local_Main_Store__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Local_equals_Main_CA__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Local_equals_Main_Store__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalAmount</field>
+        <field>Account.Market__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalLineAmount</field>
+        <field>Account.Other_sources_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalLineAmtWithTax</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalLineTaxAmount</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderDeliveryGroup.TotalTaxAmount</field>
+        <editable>false</editable>
+        <field>Account.Record_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -103,12 +103,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryGroupSummary.CLICKCOLLECT_StoreName__c</field>
+        <field>Account.Targeted_Customers__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryGroupSummary.RI_TAX_ID__c</field>
+        <field>Account.What_are_you_interested_in__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -128,7 +128,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryMethod.ClassOfService</field>
+        <field>BusinessBrand.ParentId</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -153,42 +153,42 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryMethod.ReferenceNumber</field>
+        <field>Case.Market__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderDeliveryMethod.wmsCode__c</field>
+        <field>Case.Regional_Hub__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItem.DeliveryStartDate__c</field>
+        <field>ClientList__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItem.GrossUnitPrice</field>
+        <field>ClientList__c.SpecificFieldDisplayLabel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemAdjustmentLineItem.AdjustmentCauseId</field>
+        <field>ClientList__c.SpecificFieldDisplay__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemAdjustmentLineItem.Description</field>
+        <field>ClientList__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemAdjustmentLineItem.OrderAdjustmentGroupId</field>
+        <field>ClientProduct__c.Is_last_registration__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemAdjustmentLineItem.Priority</field>
+        <field>ClientProduct__c.Purchase_type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -223,22 +223,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemAdjustmentLineItem.TotalTaxAmount</field>
+        <field>Contact.LINE_Channel_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderItemSummary.DeliveryStartDate__c</field>
+        <field>Contact.LINE_UID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderItemTaxLineItem.Description</field>
+        <editable>false</editable>
+        <field>Contact.Last_Transaction_SA__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>OrderItemTaxLineItem.OrderItemAdjustmentLineItemId</field>
+        <editable>false</editable>
+        <field>Contact.Last_Transaction_Store__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -273,12 +273,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderSummary.cegidDepositId__c</field>
+        <field>ContactPointAddress.ActiveToDate</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>OrderSummary.cegidOrderId__c</field>
+        <field>ContactPointAddress.Address</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1767,11 +1767,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>ReturnOrder.RefundProcess__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Seller.SellerType</field>
         <readable>true</readable>
@@ -1809,11 +1804,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>ShipmentItem.LocationExternalReference__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>ReturnOrderLineItem.GrossUnitPriceFormula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1884,11 +1874,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>TransactionalEmail__c.contact_key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>TransactionalEmail__c.OrderType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
