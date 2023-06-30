@@ -1,4 +1,4 @@
-public with sharing class PAD {
+public with sharing class PAD { //superthaipadframmework 14juin10h48
     private static PAD instance               = null;
     private static Id currentUserId           = null;
     private User currentUser                  = null;
@@ -7,7 +7,7 @@ public with sharing class PAD {
     private void load() {
         currentUserId     = UserInfo.getUserId();
         list<User> users  = new list<User>([SELECT ByPassTriggers__c,name,ProfileId, Profile.Name  FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1]);
-        currentUser       = users.isEmpty() ? null : users[0] ;    
+        currentUser       = users.isEmpty() ? null : users[0] ;
         String bypassApex = users.isEmpty() ? null : users[0].ByPassTriggers__c ;
         triggerStatus = new Map<String, Boolean>();                
         if (byPassApex != null) {

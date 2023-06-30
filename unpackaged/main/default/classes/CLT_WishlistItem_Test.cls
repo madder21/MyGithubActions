@@ -6,8 +6,8 @@ public class CLT_WishlistItem_Test {
 		Profile sysAdmin = [SELECT Id FROM Profile WHERE Name = 'System Administrator'];
         
 		User u = new User();
-		u.UserName = '' + UserInfo.getOrganizationId() + System.now().millisecond() + 'test@test111k.net';
-		u.Email ='test@test111.net';
+		u.UserName = '' + UserInfo.getOrganizationId() + System.now().millisecond() + 'test@rimowa.com';
+		u.Email ='test@rimowa.com';
 		u.LastName = 'test';
 		u.ProfileId = sysAdmin.Id;
 		u.LocaleSidKey = 'en_US';

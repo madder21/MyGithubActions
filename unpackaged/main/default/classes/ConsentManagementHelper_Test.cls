@@ -37,8 +37,8 @@ private class ConsentManagementHelper_Test {
         account.B2C_Customer_ID__pc = 'abKveEa2SaQRM0000';
 		account.B2C_Customer_No__pc = '000170000';
         account.Country__pc = 'DE';
-        account.LastUpdateOptinEmailing__pc = System.now();
         account.RecordTypeId  = personAccount.Id;
+        account.LastUpdateOptinEmailing__pc = System.now();
         account.OptinEmailing__pc = true;
         account.PersonIndividualId = individual.Id;
         accounts.add(account);
@@ -49,6 +49,7 @@ private class ConsentManagementHelper_Test {
         account2.B2C_Customer_ID__pc = 'abKveEa2SaQRM0054s00';
 		account2.B2C_Customer_No__pc = '000170sdsd000';
         account2.LastUpdateOptinEmailing__pc = System.now();
+        account.OptinEmailing__pc = true;
         account2.RecordTypeId  = personAccount.Id;
         accounts.add(account2);
         //Account 3 
@@ -59,6 +60,7 @@ private class ConsentManagementHelper_Test {
 		account3.B2C_Customer_No__pc = '000175465456d000';
         account3.RecordTypeId  = personAccount.Id;
         account3.LastUpdateOptinEmailing__pc = System.now();
+        account.OptinEmailing__pc = true;
         accounts.add(account3);
         //Account 4
         Account account4 =  new Account();
@@ -314,7 +316,7 @@ private class ConsentManagementHelper_Test {
 
         System.debug('***CommSubDispConsent list Size : *** : '+listCommSubConsent.size());
         //CommSubscriptionConsent Assertion
-        System.assertEquals(listCommSubConsent.size(),7);
+        System.assertEquals(listCommSubConsent.size(),8);
         for(CommSubscriptionConsent commSubCons : listCommSubConsent){
             System.debug('----commSubCons : --- : '+commSubCons);
             if(commSubCons.sku__c != null){

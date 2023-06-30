@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Contact_Consent_Mangement</name>
         <label>Contact Consent Mangement</label>
-        <locationX>1779</locationX>
-        <locationY>2470</locationY>
+        <locationX>1644</locationX>
+        <locationY>2452</locationY>
         <actionName>ConsentManagementHelper</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
+            <targetReference>Get_SFDC_and_Source_Contact_0</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -32,7 +32,7 @@
         <actionName>ConsentManagementHelper</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>ContactCreateSuccess_Assignment</targetReference>
+            <targetReference>Get_SFDC</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -93,12 +93,12 @@
             <name>processedContact</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>asn_AccountIDToSourceContact</name>
         <label>Assign the AccountID to the Contact</label>
-        <locationX>1653</locationX>
-        <locationY>2743</locationY>
+        <locationX>1563</locationX>
+        <locationY>2742</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -289,8 +289,8 @@
         <description>... set the output variables for the successful processing of the sourceContact record.</description>
         <name>asn_contactProcessSuccessfully_Update</name>
         <label>Contact Processed Successfully</label>
-        <locationX>1526</locationX>
-        <locationY>2470</locationY>
+        <locationX>939</locationX>
+        <locationY>2506</locationY>
         <assignmentItems>
             <assignToReference>Contact</assignToReference>
             <operator>Assign</operator>
@@ -699,7 +699,7 @@
         <description>... set the success flag and announce that the Contact Processing was successful</description>
         <name>ContactCreateSuccess_Assignment</name>
         <label>Contact Processed Successfully Assignment</label>
-        <locationX>1714</locationX>
+        <locationX>1444</locationX>
         <locationY>3176</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
@@ -1244,8 +1244,8 @@
         <description>... evaluate if an AccountID was present in the original / sourceContact.</description>
         <name>dec_wasAccountIDPresentInOriginalContact</name>
         <label>Was an AccountID Present in the Original Contact?</label>
-        <locationX>543</locationX>
-        <locationY>786</locationY>
+        <locationX>598</locationX>
+        <locationY>996</locationY>
         <defaultConnector>
             <targetReference>asn_resolvedContactPropertiesToSourceContact</targetReference>
         </defaultConnector>
@@ -1843,6 +1843,50 @@
         </outputAssignments>
     </subflows>
     <subflows>
+        <name>Get_SFDC</name>
+        <label>Get SFDC and Source Contact</label>
+        <locationX>1650</locationX>
+        <locationY>3182</locationY>
+        <connector>
+            <targetReference>ContactCreateSuccess_Assignment</targetReference>
+        </connector>
+        <flowName>sub_Flow_Get_ID</flowName>
+        <inputAssignments>
+            <name>Account</name>
+            <value>
+                <elementReference>Account</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>CustomInput</name>
+            <value>
+                <elementReference>CustomInput</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Get_SFDC_and_Source_Contact_0</name>
+        <label>Get SFDC and Source Contact 0</label>
+        <locationX>1199</locationX>
+        <locationY>2491</locationY>
+        <connector>
+            <targetReference>asn_contactProcessSuccessfully_Update</targetReference>
+        </connector>
+        <flowName>sub_Flow_Get_ID</flowName>
+        <inputAssignments>
+            <name>Account</name>
+            <value>
+                <elementReference>Account</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>CustomInput</name>
+            <value>
+                <elementReference>CustomInput</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper_NoContactID</name>
         <label>Evaluate Integration Configuration</label>
@@ -2095,6 +2139,13 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>Action</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>ConsementManagamentIputs</name>

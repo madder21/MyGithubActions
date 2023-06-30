@@ -1,0 +1,44 @@
+# Unique name for this workflow
+name: Deploy SOM release branch to Integrate
+
+# Definition when the workflow should run
+on:
+    workflow_dispatch
+            
+
+# Jobs to be executed
+jobs:
+    deploy-branch-to-integrate:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: 'Install Salesforce CLI'
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # Checkout the source code
+            - name: 'Checkout source code'
+              uses: actions/checkout@v3
+              with:
+                ref: release/SOM-2023.6.1
+            
+            # List items
+            - name: 'List items'
+              run: ls 'unpackaged/project manifest'
+          
+            # Set the instanceUrl config value
+            - name: 'Set the instanceUrl config value'
+              run: sfdx config:set instanceUrl=https://rimowa--integrate.sandbox.my.salesforce.com
+              
+              # Authorize devops user
+            - name: 'Authorize Devops User'
+              run: sfdx force:auth:jwt:grant -i "3MVG9qQjGkWUbcrH_xlpO3xF9dIvXKYW_7tBvY37biyTivUmmmjljbZFlnQKz2wvcP04dmbGRCE0_FmAhWCro" -f JWT/server.key -a RimowaIntegrateOrg --username devops@rimowa.integrate
+              
+            # Deploy the entire branch to Integration org
+            - name: 'Deploy the entire branch to Integration org'
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaIntegrateOrg
