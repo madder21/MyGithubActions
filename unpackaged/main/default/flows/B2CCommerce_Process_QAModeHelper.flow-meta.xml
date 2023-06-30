@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerID</name>
         <label>Assign the CustomerID</label>
-        <locationX>232</locationX>
-        <locationY>1334</locationY>
+        <locationX>50</locationX>
+        <locationY>1442</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -22,8 +22,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerList</name>
         <label>Assign the CustomerList</label>
-        <locationX>228</locationX>
-        <locationY>1120</locationY>
+        <locationX>50</locationX>
+        <locationY>1142</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -39,8 +39,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerNo</name>
         <label>Assign the CustomerNo</label>
-        <locationX>235</locationX>
-        <locationY>1585</locationY>
+        <locationX>50</locationX>
+        <locationY>1742</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -48,13 +48,16 @@
                 <elementReference>var_qaB2CCustomerNo</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>Was_Phone_Specified</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignEmail</name>
         <label>Assign the Email</label>
-        <locationX>228</locationX>
-        <locationY>844</locationY>
+        <locationX>50</locationX>
+        <locationY>842</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.Email</assignToReference>
             <operator>Assign</operator>
@@ -70,8 +73,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignFirstName</name>
         <label>Assign the FirstName</label>
-        <locationX>232</locationX>
-        <locationY>605</locationY>
+        <locationX>50</locationX>
+        <locationY>542</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -87,8 +90,8 @@
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignLastName</name>
         <label>Assign the LastName</label>
-        <locationX>225</locationX>
-        <locationY>298</locationY>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -100,11 +103,25 @@
             <targetReference>dec_wasQAFirstNameSpecified</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>Assign_the_Phone</name>
+        <label>Assign the Phone</label>
+        <locationX>50</locationX>
+        <locationY>2042</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaPhone</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <name>dec_wasQACustomerIDSpecified</name>
         <label>Was CustomerID Specified?</label>
-        <locationX>441</locationX>
-        <locationY>1200</locationY>
+        <locationX>182</locationX>
+        <locationY>1334</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerNoSpecified</targetReference>
         </defaultConnector>
@@ -135,8 +152,8 @@
     <decisions>
         <name>dec_wasQACustomerListSpecified</name>
         <label>Was CustomerList Specified?</label>
-        <locationX>442</locationX>
-        <locationY>969</locationY>
+        <locationX>182</locationX>
+        <locationY>1034</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerIDSpecified</targetReference>
         </defaultConnector>
@@ -167,8 +184,11 @@
     <decisions>
         <name>dec_wasQACustomerNoSpecified</name>
         <label>Was CustomerNo Specified?</label>
-        <locationX>442</locationX>
-        <locationY>1454</locationY>
+        <locationX>182</locationX>
+        <locationY>1634</locationY>
+        <defaultConnector>
+            <targetReference>Was_Phone_Specified</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
         <rules>
             <name>decOut_QACustomerNoWasSpecified</name>
@@ -196,8 +216,8 @@
     <decisions>
         <name>dec_wasQAEmailSpecified</name>
         <label>Was Email Specified?</label>
-        <locationX>441</locationX>
-        <locationY>742</locationY>
+        <locationX>182</locationX>
+        <locationY>734</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerListSpecified</targetReference>
         </defaultConnector>
@@ -228,8 +248,8 @@
     <decisions>
         <name>dec_wasQAFirstNameSpecified</name>
         <label>Was FirstName Specified?</label>
-        <locationX>441</locationX>
-        <locationY>518</locationY>
+        <locationX>182</locationX>
+        <locationY>434</locationY>
         <defaultConnector>
             <targetReference>dec_wasQAEmailSpecified</targetReference>
         </defaultConnector>
@@ -260,8 +280,8 @@
     <decisions>
         <name>dec_wasQALastNameSpecified</name>
         <label>Was LastName Specified?</label>
-        <locationX>441</locationX>
-        <locationY>298</locationY>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
         <defaultConnector>
             <targetReference>dec_wasQAFirstNameSpecified</targetReference>
         </defaultConnector>
@@ -289,6 +309,35 @@
             <label>Was Specified</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Was_Phone_Specified</name>
+        <label>Was Phone Specified?</label>
+        <locationX>182</locationX>
+        <locationY>1934</locationY>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>PhoneWas_Specified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaPhone</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaPhone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_Phone</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
     <description>... this flow accepts a collection of QA Mode attributes and produces a Contact record that can be used for flow validation.</description>
     <interviewLabel>B2C Commerce: Process: QA Mode Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: QA Mode Helper</label>
@@ -301,7 +350,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -312,8 +361,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>323</locationX>
-        <locationY>50</locationY>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>dec_wasQALastNameSpecified</targetReference>
         </connector>
@@ -371,6 +420,13 @@
     <variables>
         <description>... represents the lastName used to test the Customer Resolution sub-flow.</description>
         <name>var_qaLastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaPhone</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
