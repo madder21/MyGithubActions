@@ -23,22 +23,29 @@ public class AccountTriggerHandler implements ITriggerHandler {
         //return TriggerSettings__c.AccountTriggerDisabled__c ?true : TriggerDisabled;
         return TriggerDisabled;
   	}
-
-  	public void BeforeInsert(List<SObject> newItems) {}
+	
+    public Boolean isDisabledForB2CConnector(){
+        return BypassTrigger.checkBypassClass(AccountTriggerHandler.class.getName());
+    }
+    
+  	public void BeforeInsert(List<SObject> newItems) {
+    }
 
   	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {}
     
   	public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
   	public void AfterInsert(Map<Id, SObject> newItems) {
-        System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
-        TNP_001_AccountTrigger_SVE.listAccountAfterInsert(newItems.values());
-        System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****');
+            System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
+            TNP_001_AccountTrigger_SVE.listAccountAfterInsert(newItems.values());
+        	if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, new Map<Id, SObject>());
+            System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****'); 
     }
 
   	public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         System.debug('**** TRIGGER CONTEXT : START AFTER UPDATE ****');
         TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values());
+        if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, oldItems);
         System.debug('**** TRIGGER CONTEXT : END AFTER UPDATE ****');
     }
 

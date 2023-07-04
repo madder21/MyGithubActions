@@ -1198,6 +1198,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2CCustomInput__c.OptinMarketingPartner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>BL_Translation__c.Approved_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7678,6 +7683,9 @@
         <layout>CommSubscriptionConsent-Communication Subscription Consent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>ConsentSource__mdt-Consent Source Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7747,6 +7755,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>TransactionalEmail__c-Transactional Email Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TriggerBypass__mdt-Trigger Bypass Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
@@ -8249,6 +8260,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>B2CCustomInput__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>BL_Translation__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -8340,6 +8360,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>CreditMemoCreated__e</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Delete_B2CCustomInput_record__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
