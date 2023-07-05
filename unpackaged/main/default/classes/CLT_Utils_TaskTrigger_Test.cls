@@ -38,4 +38,47 @@ private class CLT_Utils_TaskTrigger_Test {
         
 		insert task;
     }
+
+    @isTest
+    static void testUpdateENOutreachReasonOnInsert() {
+        User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
+
+        System.runAs(sa) {
+            Test.startTest();
+            Task t = CLT_TestDateFactory.createTask(sa.Id, false);
+
+            List<CLT_EmailTemplateCategory__mdt> reasons = [SELECT en_US_category__c,fr_category__c 
+                                                            FROM CLT_EmailTemplateCategory__mdt 
+                                                            WHERE en_US_category__c != NULL AND fr_category__c != NULL 
+                                                            LIMIT 1];
+
+            t.Outreach_Reason__c = reasons[0].fr_category__c;
+            insert t;
+            Test.stopTest();
+            Task insertedTask = [SELECT EN_Outreach_Reason__c FROM Task WHERE Id = :t.Id LIMIT 1];
+            
+            System.assertEquals(reasons[0].en_US_category__c, insertedTask.EN_Outreach_Reason__c, 'EN Outreach Reason not updated at Insert');
+        }
+    }
+
+    @isTest
+    static void testUpdateENOutreachReasonOnUpdate() {
+        User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
+
+        System.runAs(sa) {
+            Task t = CLT_TestDateFactory.createTask(sa.Id, true);
+
+            List<CLT_EmailTemplateCategory__mdt> reasons = [SELECT en_US_category__c,fr_category__c 
+                                                            FROM CLT_EmailTemplateCategory__mdt 
+                                                            WHERE en_US_category__c != NULL AND fr_category__c != NULL 
+                                                            LIMIT 1];
+            Test.startTest();
+            t.Outreach_Reason__c = reasons[0].fr_category__c;
+            update t;
+            Test.stopTest();
+            Task updatedTask = [SELECT EN_Outreach_Reason__c FROM Task WHERE Id = :t.Id LIMIT 1];
+            
+            System.assertEquals(reasons[0].en_US_category__c, updatedTask.EN_Outreach_Reason__c, 'EN Outreach Reason not updated at Update');
+        }
+    }
 }

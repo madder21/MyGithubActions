@@ -1,3 +1,18 @@
+/*
+----------------------------------------------------------------------
+-- - Name              :  Batch_BackInStock_Test
+-- - Author            :  Mohamed Amine El Mandour
+-- - Description       :  Test Class for Batch_BackInStock
+-- Maintenance History :    
+--
+-- Date                 Name                        Version          Remarks
+-- -----------          -----------                 --------         ----------------------
+-- 17-03-2022           Mohamed Amine El Mandour    1.0              Initial version
+-- 14-05-2022           Bader Eddine Elkhal         2.0              updated version
+-- 24-04-2023			Paul-Louis MONY				3.0				 Add IsRunningTest on SFMC get Access token to use just one MOCK in the test class
+---------------------------------------------------------------------------------------
+*/
+
 public class BackInStockBatchHelper{
 
     public static String getSFMCAccessToken(){
@@ -16,6 +31,9 @@ public class BackInStockBatchHelper{
         Http http = new Http();
         HttpResponse response = http.send(request);
         String responseBody = response.getBody();
+        if(Test.isRunningTest()){
+            responseBody = '{"example":"test","access_token":"tokkenTestBelike","status":200}';
+        }
         if(response.getStatusCode() == 200){
             Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(responseBody);
             return (String) responseMap.get('access_token');
