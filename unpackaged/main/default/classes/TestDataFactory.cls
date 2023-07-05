@@ -1120,7 +1120,7 @@ public class TestDataFactory {
         * @return email default value
         */
         public virtual String getEmailDefaultValue(Schema.DescribeSObjectResult sObjectDesc, Schema.DescribeFieldResult fieldDesc, Integer recordIndex){
-            return 'test'+recordIndex.format()+'@email.com';
+            return 'test'+recordIndex.format()+'@rimowa.com';
         }
         /**
         * @description get the default value for Geolocation field type

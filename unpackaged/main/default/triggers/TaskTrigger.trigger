@@ -4,8 +4,14 @@ trigger TaskTrigger on Task(after insert, before insert, before update) {
         CLT_Utils_TaskTrigger.updateLastContactDate(Trigger.new);
     }
 
-    if(Trigger.isBefore && (Trigger.isInsert || Trigger.isUpdate)) {
+    if (Trigger.isInsert && Trigger.isBefore) {
         CLT_Utils_TaskTrigger.updateRelatedProductDetails(Trigger.new);
+        CLT_Utils_TaskTrigger.updateENOutreachReason(Trigger.new, new Map<Id, Task>());
+    }
+
+    if (Trigger.isUpdate && Trigger.isBefore) {
+        CLT_Utils_TaskTrigger.updateRelatedProductDetails(Trigger.new);
+        CLT_Utils_TaskTrigger.updateENOutreachReason(Trigger.new, Trigger.oldMap);
     }
 
 }
