@@ -517,8 +517,10 @@ global with sharing class SOM_WS_ShipmentHandler {
                 Integer shipmentLineQty = (quantityToProcess > Integer.valueOf(foliLine.quantity - totalExistingShipmentQty) )
                                             ? Integer.valueOf(foliLine.quantity - totalExistingShipmentQty)
                                             :quantityToProcess;
-                shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber));
-                quantityToProcess = quantityToProcess - shipmentLineQty;
+                if(shipmentLineQty > 0){
+                    shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber));
+                    quantityToProcess = quantityToProcess - shipmentLineQty;
+                }
             }else{
                 break;
             }
