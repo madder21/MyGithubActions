@@ -520,6 +520,17 @@ global with sharing class SOM_WS_ShipmentHandler {
                 if(shipmentLineQty > 0){
                     shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber));
                     quantityToProcess = quantityToProcess - shipmentLineQty;
+                    if(totalExistingShipmentItemsByFoliId.containskey(foliLine.Id)){
+                        totalExistingShipmentItemsByFoliId.put(
+                            foliLine.Id,
+                            totalExistingShipmentItemsByFoliId.get(foliLine.Id)+ shipmentLineQty
+                        );
+                    }else{
+                        totalExistingShipmentItemsByFoliId.put(
+                            foliLine.Id,
+                            shipmentLineQty
+                        );
+                    }
                 }
             }else{
                 break;
