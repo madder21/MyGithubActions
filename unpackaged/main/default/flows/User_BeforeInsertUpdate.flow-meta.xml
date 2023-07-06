@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>56.0</apiVersion>
+    <assignments>
+        <name>Add_Suffix_to_Record_Email</name>
+        <label>Add Suffix to Record&#39;s Email</label>
+        <locationX>314</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>EmailWithSSOSuffix</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>.</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>EmailWithSSOSuffix</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>SSOsuffix</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>isNew</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>isNew</name>
         <label>isNew</label>
         <locationX>314</locationX>
-        <locationY>311</locationY>
+        <locationY>503</locationY>
         <defaultConnector>
             <targetReference>UserStatus</targetReference>
         </defaultConnector>
@@ -21,7 +44,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Fed_ID_to_Username</targetReference>
+                <targetReference>Set_Fed_ID_to_Email</targetReference>
             </connector>
             <label>New record</label>
         </rules>
@@ -30,7 +53,7 @@
         <name>UserStatus</name>
         <label>UserStatus</label>
         <locationX>578</locationX>
-        <locationY>431</locationY>
+        <locationY>611</locationY>
         <defaultConnectorLabel>Not Changed</defaultConnectorLabel>
         <rules>
             <name>Is_Deactivated</name>
@@ -72,11 +95,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_Fed_ID_to_Username_1</targetReference>
+                <targetReference>Set_Fed_ID_to_Email_1</targetReference>
             </connector>
             <label>Is Activated</label>
         </rules>
     </decisions>
+    <description>With handling of SSO Suffix from custom metadata type (better handling of metadata type)</description>
     <formulas>
         <name>RecordIsNew</name>
         <dataType>Boolean</dataType>
@@ -103,11 +127,34 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_SSO_Suffix_for_Instance</name>
+        <label>Get SSO Suffix for Instance</label>
+        <locationX>314</locationX>
+        <locationY>287</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Add_Suffix_to_Record_Email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>MasterLabel</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>SSO Instance Own Suffix</stringValue>
+            </value>
+        </filters>
+        <object>SSO_Setup_Constant__mdt</object>
+        <outputAssignments>
+            <assignToReference>SSOsuffix</assignToReference>
+            <field>DeveloperName</field>
+        </outputAssignments>
+    </recordLookups>
     <recordUpdates>
         <name>Deactivate_User_Clean_FederationID</name>
         <label>Deactivate User-&gt;Clean FederationID</label>
         <locationX>314</locationX>
-        <locationY>911</locationY>
+        <locationY>1043</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>IsActive</field>
@@ -135,7 +182,7 @@
         <name>Deactivate_User_Clean_StaffCode</name>
         <label>Deactivate User-&gt;Clean StaffCode</label>
         <locationX>314</locationX>
-        <locationY>551</locationY>
+        <locationY>719</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_StoreCode</targetReference>
         </connector>
@@ -166,7 +213,7 @@
         <name>Deactivate_User_Clean_StoreCode</name>
         <label>Deactivate User-&gt;Clean StoreCode</label>
         <locationX>314</locationX>
-        <locationY>671</locationY>
+        <locationY>827</locationY>
         <connector>
             <targetReference>Deactivate_User_CleanUCRID</targetReference>
         </connector>
@@ -197,7 +244,7 @@
         <name>Deactivate_User_CleanUCRID</name>
         <label>Deactivate User-&gt;Clean UCRID</label>
         <locationX>314</locationX>
-        <locationY>791</locationY>
+        <locationY>935</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_FederationID</targetReference>
         </connector>
@@ -225,16 +272,23 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Set_Fed_ID_to_Username</name>
-        <label>Set Fed ID to Username</label>
+        <name>Set_Fed_ID_to_Email</name>
+        <label>Set Fed ID to Email</label>
         <locationX>50</locationX>
-        <locationY>431</locationY>
-        <filterLogic>and</filterLogic>
+        <locationY>611</locationY>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
-            <operator>NotEqualTo</operator>
+            <operator>IsNull</operator>
             <value>
-                <elementReference>$Record.Username</elementReference>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FederationIdentifier</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </filters>
         <filters>
@@ -247,22 +301,29 @@
         <inputAssignments>
             <field>FederationIdentifier</field>
             <value>
-                <elementReference>$Record.Username</elementReference>
+                <elementReference>EmailWithSSOSuffix</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Set_Fed_ID_to_Username_1</name>
-        <label>Set Fed ID to Username</label>
+        <name>Set_Fed_ID_to_Email_1</name>
+        <label>Set Fed ID to Email</label>
         <locationX>578</locationX>
-        <locationY>551</locationY>
-        <filterLogic>and</filterLogic>
+        <locationY>719</locationY>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
-            <operator>NotEqualTo</operator>
+            <operator>IsNull</operator>
             <value>
-                <elementReference>$Record.Username</elementReference>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FederationIdentifier</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </filters>
         <filters>
@@ -275,7 +336,7 @@
         <inputAssignments>
             <field>FederationIdentifier</field>
             <value>
-                <elementReference>$Record.Username</elementReference>
+                <elementReference>EmailWithSSOSuffix</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -284,11 +345,28 @@
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>isNew</targetReference>
+            <targetReference>Get_SSO_Suffix_for_Instance</targetReference>
         </connector>
         <object>User</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
+    <variables>
+        <name>EmailWithSSOSuffix</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Record.Email</elementReference>
+        </value>
+    </variables>
+    <variables>
+        <name>SSOsuffix</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
 </Flow>

@@ -1,28 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-    <members>SOM_TransactionalEmailHandler</members>
+    	<members>SOM_TransactionalEmailHandler</members>
 		<name>ApexClass</name> 
 	</types>
-  <types>
-    <members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
-  	<members>Payment_Methods_Mapping__mdt.Language__c</members>
-  	<members>Payment_Methods_Mapping__mdt.Translation__c</members>
-  	<members>Payment_Methods_Mapping__mdt.Value__c</members>
-    <name>CustomField</name>
-  </types>
-  <types>
-    <members>Payment_Methods_Mapping.ApplePay_EN</members>
-    <members>Payment_Methods_Mapping.COD_EN</members>
-    <members>Payment_Methods_Mapping.Visa_EN</members>
-    <members>Payment_Methods_Mapping.MasterCard_EN</members>
-    <members>Payment_Methods_Mapping.JCB_EN</members>
-    <members>Payment_Methods_Mapping.Amex_EN</members>
-    <name>CustomMetadata</name>
+  	<types>
+		<members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
+		<members>Payment_Methods_Mapping__mdt.Language__c</members>
+		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
+		<members>Payment_Methods_Mapping__mdt.Value__c</members>
+		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
+    	<name>CustomField</name>
+  	</types>
+  	<types>
+		<members>Payment_Methods_Mapping.ApplePay_EN</members>
+		<members>Payment_Methods_Mapping.COD_EN</members>
+		<members>Payment_Methods_Mapping.Visa_EN</members>
+		<members>Payment_Methods_Mapping.MasterCard_EN</members>
+		<members>Payment_Methods_Mapping.JCB_EN</members>
+		<members>Payment_Methods_Mapping.Amex_EN</members>
+		<name>CustomMetadata</name>
 	</types>
-  <types>
-    <members>Payment_Methods_Mapping__mdt</members>
-    <name>CustomObject</name>
+  	<types>
+    	<members>Payment_Methods_Mapping__mdt</members>
+		<members>Sales_Channel_Mapping__mdt</members>
+    	<name>CustomObject</name>
+	</types> 
+	<types>
+		<members>SOM_720_Refund_ManualValidateRefund</members>
+		<name>Flow</name>
 	</types>
 	<version>54.0</version>
 </Package>

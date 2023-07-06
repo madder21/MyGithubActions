@@ -788,11 +788,14 @@
         <relatedList>ClientProduct__c.Client__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>Name</fields>
+        <fields>CommSubscriptionChannelType</fields>
+        <fields>ContactPoint</fields>
         <fields>EffectiveFromDate</fields>
         <fields>EffectiveToDate</fields>
+        <fields>ConsentCapturedDateTime</fields>
         <fields>ConsentCapturedSource</fields>
-        <relatedList>CommSubscriptionConsents</relatedList>
+        <fields>CreatedDate</fields>
+        <relatedList>CommSubscriptionConsent.AccountId__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>Name</fields>
