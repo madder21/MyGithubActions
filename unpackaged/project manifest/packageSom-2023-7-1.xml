@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-    	<members>SOM_TransactionalEmailHandler</members>
+	    	<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_DateTimeHelper</members>
+		<members>SOM_Update_Invoice_Timezone_Date_Handler</members>
+		<members>SOM_Update_Invoice_Timezone_Date_Helper</members>
+		<members>SOM_Update_Credit_Memo_Date_Handler</members>
+		<members>SOM_Update_Credit_Memo_Date_Helper</members>
+		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_InvoiceDocumentController</members>
 		<name>ApexClass</name> 
+	</types>
+	<types>
+		<members>SOM_Update_Credit_Memo_Date</members>
+		<members>SOM_Update_Invoice_Timezone_Date</members>
+		<name>ApexTrigger</name>
 	</types>
   	<types>
 		<members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
@@ -10,7 +22,11 @@
 		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
 		<members>Payment_Methods_Mapping__mdt.Value__c</members>
 		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
-    	<name>CustomField</name>
+		<members>Sales_Channel_Mapping__mdt.Timezone__c</members>
+		<members>Invoice.Invoice_Timezone_Date__c</members>
+		<members>CorrectiveInvoice__c.Corrective_Invoice_Date__c</members>
+		<members>CreditMemo.Credit_Memo_Date__c</members>
+    		<name>CustomField</name>
   	</types>
   	<types>
 		<members>Payment_Methods_Mapping.ApplePay_EN</members>
@@ -22,12 +38,16 @@
 		<name>CustomMetadata</name>
 	</types>
   	<types>
-    	<members>Payment_Methods_Mapping__mdt</members>
+    		<members>Payment_Methods_Mapping__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
-    	<name>CustomObject</name>
+		<members>Invoice</members>
+		<members>CorrectiveInvoice__c</members>
+		<members>CreditMemo</members>
+    		<name>CustomObject</name>
 	</types> 
 	<types>
 		<members>SOM_720_Refund_ManualValidateRefund</members>
+		<members>SOM_920_Create_Corrective_Invoice</members>
 		<name>Flow</name>
 	</types>
 	<version>54.0</version>
