@@ -9,15 +9,17 @@ public with sharing class SOM_DateTimeHelper {
         if(dataInput?.isEmpty()){
             return null;
         }
-        SOM_DateConvertionInput inputLine = dataInput[0];
-        if(String.isBlank(String.valueOf(inputLine.dateToConvert)) || String.isBlank(inputLine.targetTimeZone)){
-            return null;
+        List<DateTime> dateTimeToReturnList = new List<DateTime>();
+        for( SOM_DateConvertionInput singleInput : dataInput ){
+            SOM_DateConvertionInput inputLine = singleInput;
+            if(String.isBlank(String.valueOf(inputLine.dateToConvert)) || String.isBlank(inputLine.targetTimeZone)){
+                return null;
+            }
+            String strConvertedDate = inputLine.dateToConvert.format('yyyy-MM-dd\'T\'HH:mm:ss',inputLine.targetTimeZone);
+            DateTime dateValueToReturn = Datetime.valueOf(strConvertedDate.replace('T',' '));
+            dateTimeToReturnList.add(dateValueToReturn);
         }
-        String strConvertedDate = inputLine.dateToConvert.format('yyyy-MM-dd\'T\'HH:mm:ss',inputLine.targetTimeZone);
-        DateTime dateValueToReturn = Datetime.valueOf(strConvertedDate.replace('T',' '));
-        System.debug('$$ convertDateTimeByTimeZone --- Output : ' + dateValueToReturn);
-        return new List<DateTime>{dateValueToReturn};
+        return dateTimeToReturnList;
     }
-
-    
+   
 }
