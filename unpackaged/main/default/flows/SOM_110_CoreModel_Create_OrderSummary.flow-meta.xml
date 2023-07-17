@@ -8,7 +8,7 @@
         <actionName>createOrderSummary</actionName>
         <actionType>createOrderSummary</actionType>
         <connector>
-            <targetReference>IsManaged1_0</targetReference>
+            <targetReference>Get_ODG</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -203,8 +203,8 @@
     <decisions>
         <name>IsManaged1_0</name>
         <label>IsManaged</label>
-        <locationX>1019</locationX>
-        <locationY>540</locationY>
+        <locationX>1020</locationX>
+        <locationY>500</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -289,6 +289,27 @@
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderSummary</object>
         <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ODG</name>
+        <label>Get ODG</label>
+        <locationX>1168</locationX>
+        <locationY>671</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_OS_Report_Fields</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -472,6 +493,30 @@
             <field>OriginalReturnOrder__c</field>
             <value>
                 <elementReference>OrderRecord.OriginalReturnOrder__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_OS_Report_Fields</name>
+        <label>Update OS Report Fields</label>
+        <locationX>1182</locationX>
+        <locationY>561</locationY>
+        <connector>
+            <targetReference>IsManaged1_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Tech_ShippingCountry__c</field>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
