@@ -3,7 +3,9 @@ name: Deploy SOM release branch to Integrate
 
 # Definition when the workflow should run
 on:
-    workflow_dispatch
+    push:
+      branches:
+        - "develop-som"
             
 
 # Jobs to be executed
