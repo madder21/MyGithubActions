@@ -50,10 +50,26 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
+        <name>Display_Error_message</name>
+        <label>Display Error message</label>
+        <locationX>1056</locationX>
+        <locationY>262</locationY>
+        <assignmentItems>
+            <assignToReference>Is_Error_Message</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GatewayReferenceNumberAndpaymentMethodScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Refund_Fields_Assignement</name>
         <label>Refund Fields Assignement</label>
-        <locationX>1050</locationX>
-        <locationY>254</locationY>
+        <locationX>1210</locationX>
+        <locationY>255</locationY>
         <assignmentItems>
             <assignToReference>Get_Refund.GatewayRefNumber</assignToReference>
             <operator>Assign</operator>
@@ -184,6 +200,38 @@
                 <targetReference>Generate_Refund_Validation_Transactional_Email</targetReference>
             </connector>
             <label>Refund With Credit Memo Email</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>If_Gateway_Reference_Number_is_emty</name>
+        <label>If Gateway Reference Number is emty</label>
+        <locationX>1043</locationX>
+        <locationY>89</locationY>
+        <defaultConnector>
+            <targetReference>Refund_Fields_Assignement</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GatewayReferenceNumber</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>RefundMethod</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>No Payment</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Display_Error_message</targetReference>
+            </connector>
+            <label>Empty</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -392,14 +440,46 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Refund_Fields_Assignement</targetReference>
+            <targetReference>If_Gateway_Reference_Number_is_emty</targetReference>
         </connector>
         <fields>
             <name>GatewayReferenceNumber</name>
             <dataType>String</dataType>
             <fieldText>Gateway Reference Number</fieldText>
             <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>No Payment</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Gateway_Reference_Number_ErrorMessage</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(228, 17, 17);&quot;&gt;Gateway Reference Number is missing&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Is_Error_Message</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>No Payment</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>RefundMethod</name>
@@ -421,6 +501,16 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Is_Error_Message</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>String</dataType>
