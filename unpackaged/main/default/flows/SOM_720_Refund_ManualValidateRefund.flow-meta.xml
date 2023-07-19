@@ -242,7 +242,6 @@
         <picklistField>RefundMethod__c</picklistField>
         <picklistObject>Refund</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <interviewLabel>SOM 720 Refund ManualValidateRefund {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 720 Refund ManualValidateRefund</label>
     <processMetadataValues>
@@ -471,6 +470,13 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>No Payment</stringValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>
