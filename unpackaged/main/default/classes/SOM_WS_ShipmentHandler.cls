@@ -32,7 +32,7 @@ global with sharing class SOM_WS_ShipmentHandler {
      *                              transactional emails
      */
     @HttpPost
-	global static Void createShipments() {
+    global static Void createShipments() {
         System.debug('$$$ SOM_WS_ShipmentHandler Start  createShipments Method :');
         RestRequest request   = RestContext.request;
         RestResponse response = RestContext.response;
@@ -67,7 +67,7 @@ global with sharing class SOM_WS_ShipmentHandler {
             Map<Id, FulfillmentOrder> listFulfillementOrderById                      = new Map<Id, FulfillmentOrder>();
             Set<Id> locationIds                                                      = new Set<Id>();
             Set<Id> setFoliToGetQuantity                                             = new Set<Id>();
-            Map<Id, Map<String, FulfillmentOrderLineItem>> listOfLstFOLIWithSkuBFOId = new Map<Id, Map<String, FulfillmentOrderLineItem>>();
+            Map<Id, Map<String, List<FulfillmentOrderLineItem>>> folisBySkuByFoId    = new Map<Id, Map<String, List<FulfillmentOrderLineItem>>>();
             List<WMS_ShipmentData> listWmsShimpentDataToProcess                      = new List<WMS_ShipmentData>();
             if(!fulfillmentOrders?.isEmpty()){
                 for(FulfillmentOrder fo  : fulfillmentOrders){
@@ -75,11 +75,15 @@ global with sharing class SOM_WS_ShipmentHandler {
                     locationIds.add(fo.FulfilledFromLocationId);
                     for(FulfillmentOrderLineItem foliLine : fo.FulfillmentOrderLineItems){
                         setFoliToGetQuantity.add(foliLine.Id);
-                        if(listOfLstFOLIWithSkuBFOId.containsKey(foliLine.FulfillmentOrderId)){
-                            listOfLstFOLIWithSkuBFOId.get(foliLine.FulfillmentOrderId).put(foliLine.Product2.StockKeepingUnit, foliLine);
+                        if(folisBySkuByFoId.containsKey(foliLine.FulfillmentOrderId)){
+                            if(folisBySkuByFoId.get(foliLine.FulfillmentOrderId).containsKey(foliLine.Product2.StockKeepingUnit)){
+                                folisBySkuByFoId.get(foliLine.FulfillmentOrderId).get(foliLine.Product2.StockKeepingUnit).add(foliLine);
+                            }else{
+                                folisBySkuByFoId.get(foliLine.FulfillmentOrderId).put(foliLine.Product2.StockKeepingUnit, new List<FulfillmentOrderLineItem>{foliLine});
+                            }
                         } else{
-                            listOfLstFOLIWithSkuBFOId.put(foliLine.FulfillmentOrderId, new Map<String, FulfillmentOrderLineItem>{
-                                foliLine.Product2.StockKeepingUnit => foliLine
+                            folisBySkuByFoId.put(foliLine.FulfillmentOrderId, new Map<String, List<FulfillmentOrderLineItem>>{
+                                foliLine.Product2.StockKeepingUnit => new List<FulfillmentOrderLineItem>{foliLine}
                             });
                         }   
                         
@@ -115,31 +119,35 @@ global with sharing class SOM_WS_ShipmentHandler {
                 }
             }
 
-            Map<String, List<ShipmentItem>> listShipItemToInsertByWmsExtrId = new Map<String, List<ShipmentItem>>();
-            Map<String, Shipment> shipmentToInsertBySpExternalId            = new Map<String, Shipment>();
+            Map<String, List<ShipmentItem>> listShipItemToInsertByWmsExtrId     = new Map<String, List<ShipmentItem>>();
+            Map<String, Shipment> shipmentToInsertBySpExternalId                = new Map<String, Shipment>();
             Map<Id, Integer> totalExistingShipmentItemsByFoliId             = getShippedQuantityByFOLI(setFoliToGetQuantity);
-            Set<Id> fulfillmentOrdersToRemoveFromCreationProcessSet         = new Set<Id>();
+            Map<Id, Map<String,Integer>> totalExistingShippedQuantityBySkuByFO  = getShippedQuantityBySkuByFO(setFoliToGetQuantity);
+            Set<Id> fulfillmentOrdersToRemoveFromCreationProcessSet             = new Set<Id>();
             //Loop over wmsShipmentData
             for(WMS_ShipmentData wmsShipmentLine : listWmsShimpentDataToProcess){
                 //Loop Over Articles
                 for(WMS_Article wmsArticle : wmsShipmentLine.articles){
-                    fulfillmentOrderLineItem foliLine = listOfLstFOLIWithSkuBFOId.get(foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId))?.get(wmsArticle.productSKU);
-                    String errorMessage = verifyShipmentLineItem(totalExistingShipmentItemsByFoliId, foliLine, wmsArticle, wmsShipmentLine);
+                    List<fulfillmentOrderLineItem> foliLines = folisBySkuByFoId.get(foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId))?.get(wmsArticle.productSKU);
+                    String errorMessage = verifyShipmentLineItem(
+                                            totalExistingShippedQuantityBySkuByFO.get(foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId)), 
+                                            foliLines, 
+                                            wmsArticle, 
+                                            wmsShipmentLine
+                                        );
                     if (errorMessage != null) {
                         outPutResponseByFOId.put(foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId), createWMSOutputFulfillmentResponse(STATUS_ERROR, errorMessage, foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId), null, null));
                         fulfillmentOrdersToRemoveFromCreationProcessSet.add(foIdByExternalShipmentId.get(wmsShipmentLine.WMSshipmentId));
                         break;
                     }
-                    Integer totalExistingShipmentItems = totalExistingShipmentItemsByFoliId.containsKey(foliLine.Id) ? totalExistingShipmentItemsByFoliId.get(foliLine.Id) + wmsArticle.qty : wmsArticle.qty;
-                    totalExistingShipmentItemsByFoliId.put(foliLine.Id, totalExistingShipmentItems);
                     if(wmsArticle.serialNumber != null){
                         //Loop over serial Numbers
                         for(String serialNumber : wmsArticle.serialNumber){
-                            createShipmentItemAndPopulateMap(wmsShipmentLine, foliLine, Integer.valueOf(wmsArticle.qty/wmsArticle.serialNumber.size()), serialNumber, listShipItemToInsertByWmsExtrId);         
+                            createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,Integer.valueOf(wmsArticle.qty/wmsArticle.serialNumber.size()), serialNumber, listShipItemToInsertByWmsExtrId);         
                         }
                         continue;                                  
                     }
-                    createShipmentItemAndPopulateMap(wmsShipmentLine, foliLine, wmsArticle.qty, null, listShipItemToInsertByWmsExtrId); 
+                    createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,wmsArticle.qty, null, listShipItemToInsertByWmsExtrId); 
                 }
                 //populate shipments to insert
                 shipmentToInsertBySpExternalId.put(wmsShipmentLine.WMSshipmentId, shipmentsByWmsExternalId.get(wmsShipmentLine.WMSshipmentId));
@@ -221,7 +229,7 @@ global with sharing class SOM_WS_ShipmentHandler {
             }));
             System.debug('$$$ SOM_WS_ShipmentHandler End Catch Block Error :');
         }
-	}
+    }
 
     /**
      * @description checkFulfillmentOrder check FO
@@ -314,21 +322,30 @@ global with sharing class SOM_WS_ShipmentHandler {
 
     /**
      * @description verifyShipmentLineItem Verify Shipment line before insert
-     * @param  totalExistingShipmentItemsByFoliId totalExistingShipmentItemsByFoliId Quantity already shipped by FOLI
-     * @param  foLineItem                         foLineItem      : Fulfillment Order Line Item
+     * @param  totalExistingShippedQuantityBySku  totalExistingShippedQuantityBySku Quantity already shipped by SKU
+     * @param  foLineItems                        foLineItem      : Fulfillment Order Line Items
      * @param  wmsArticle                         wmsArticle      : WMS shipment line
      * @param  wmsShipmentLine                    wmsShipmentLine : WMS shipment request
      * @return                                    return          : error message
      */
-    private static String verifyShipmentLineItem(Map<Id, Integer> totalExistingShipmentItemsByFoliId, 
-                                        FulfillmentOrderLineItem foLineItem,
+    private static String verifyShipmentLineItem(Map<String,Integer> totalExistingShippedQuantityBySku, 
+                                        List<FulfillmentOrderLineItem> foLineItems,
                                         WMS_Article wmsArticle,
                                         WMS_ShipmentData wmsShipmentLine){
-        if (foLineItem == null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' No product exist target SKU ' + wmsArticle.productSKU;
-        if (foLineItem.OrderItemSummary.isSerialized__c && (wmsArticle.serialNumber == null || wmsArticle.serialNumber.isEmpty())) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'Missing serialNumbers for serialized product with this SKU ' + wmsArticle.productSKU; 
-        if (!foLineItem.OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'No serialNumber should provided for a non serialized product with this SKU ' + wmsArticle.productSKU;
-        Integer totalExistingShipmentItems = totalExistingShipmentItemsByFoliId.containsKey(foLineItem.Id) ? totalExistingShipmentItemsByFoliId.get(foLineItem.Id) + wmsArticle.qty : wmsArticle.qty;
-        if (foLineItem.Quantity < totalExistingShipmentItems) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' we cannot create shipment Items more than quantity ordered';
+        if (foLineItems == null || foLineItems.isEmpty()) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' No product exist target SKU ' + wmsArticle.productSKU;
+        if (foLineItems[0].OrderItemSummary.isSerialized__c && (wmsArticle.serialNumber == null || wmsArticle.serialNumber.isEmpty())) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'Missing serialNumbers for serialized product with this SKU ' + wmsArticle.productSKU; 
+        if (!foLineItems[0].OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'No serialNumber should provided for a non serialized product with this SKU ' + wmsArticle.productSKU;
+        Integer totalExistingShipmentItems = (
+                                                totalExistingShippedQuantityBySku != null
+                                                && totalExistingShippedQuantityBySku.containsKey(wmsArticle.productSKU) 
+                                            )
+                                            ? totalExistingShippedQuantityBySku.get(wmsArticle.productSKU) + wmsArticle.qty 
+                                            : wmsArticle.qty;
+        Integer orderedQuantity = 0;
+        for(FulfillmentOrderLineItem foli: foLineItems){
+            orderedQuantity = orderedQuantity + Integer.valueOf(foli.Quantity);
+        }
+        if (orderedQuantity < totalExistingShipmentItems) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' we cannot create shipment Items more than quantity ordered';
         if (wmsArticle.serialNumber !=null && wmsArticle.serialNumber?.size() != wmsArticle.qty) return 'The shipment with WMSshipmentId :' + wmsShipmentLine.WMSshipmentId + ' have a number of articles not equals with serial Numbers';
         
         return null;
@@ -349,6 +366,56 @@ global with sharing class SOM_WS_ShipmentHandler {
         }
 
         return totalExistingShipmentItemsByFoliId;
+    }
+
+    /**
+     * @description getShippedQuantityBySkuByFO Calculate already shipped quantity
+     * @param  foLineItemsIds foLineItemsIds : Fulfillment Order Line Item Ids
+     * @return                return         : Already shipped quantity by SKU by Fulfillment Order Id
+     */
+    private static Map<Id, Map<String,Integer>> getShippedQuantityBySkuByFO(Set<Id> foLineItemsIds){
+        Map<Id, Map<String,Integer>> totalExistingShippedQuantityBySkuByFO = new Map<Id, Map<String,Integer>>();
+        for(ShipmentItem shipmentItem : [SELECT     FulfillmentOrderLineItemId , 
+                                                    FulfillmentOrderLineItem.Product2.StockKeepingUnit ,
+                                                    FulfillmentOrderLineItem.FulfillmentOrderId , 
+                                                    Quantity  
+                                            FROM ShipmentItem 
+                                            WHERE FulfillmentOrderLineItemId IN : foLineItemsIds]){
+            if(totalExistingShippedQuantityBySkuByFO.containsKey(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)){
+                if(
+                    totalExistingShippedQuantityBySkuByFO
+                    .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                    .containsKey(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit)){
+                        totalExistingShippedQuantityBySkuByFO
+                            .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                            .put(
+                                shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
+                                Integer.valueOf(
+                                    totalExistingShippedQuantityBySkuByFO
+                                        .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                                        .get(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit) + shipmentItem.Quantity)
+                                );
+                }else{
+                    totalExistingShippedQuantityBySkuByFO
+                        .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                        .put(
+                            shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
+                            Integer.valueOf(shipmentItem.Quantity)
+                            );
+                }
+                
+            }else{
+                totalExistingShippedQuantityBySkuByFO.put(
+                    shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId,
+                    new Map<String, Integer> {
+                        shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit => Integer.valueOf(shipmentItem.Quantity)
+                    }
+                );
+
+            }
+        }
+
+        return totalExistingShippedQuantityBySkuByFO;
     }
 
     /**
@@ -424,22 +491,55 @@ global with sharing class SOM_WS_ShipmentHandler {
 
     /**
      * @description createShipmentItemAndPopulateMap Create shipment items and populate listShipItemToInsertByWmsExtrId map
-     * @param  wmsShipmentLine                 wmsShipmentLine : WMS Shipment Line request
-     * @param  foliLine                        foliLine        : Fulfillment Order Line Item
-     * @param  quantity                        quantity        : quantity shipped
-     * @param  serialNumber                    serialNumber    : serial number attached to the shipped item
-     * @param  listShipItemToInsertByWmsExtrId listShipItemToInsertByWmsExtrId : shipment items by WMS shipment id
+     * @param  wmsShipmentLine                      wmsShipmentLine                     : WMS Shipment Line request
+     * @param  foliLine                             foliLine                            : Fulfillment Order Line Item
+     * @param  totalExistingShipmentItemsByFoliId   totalExistingShipmentItemsByFoliId  :total shipped qties By FoliId
+     * @param  quantity                             quantity                            : quantity shipped
+     * @param  serialNumber                         serialNumber                        : serial number attached to the shipped item
+     * @param  listShipItemToInsertByWmsExtrId      listShipItemToInsertByWmsExtrId     : shipment items by WMS shipment id
      */
     private static void createShipmentItemAndPopulateMap(WMS_ShipmentData wmsShipmentLine, 
-                                                FulfillmentOrderLineItem foliLine, 
+                                                List<FulfillmentOrderLineItem> foliLines,
+                                                Map<Id, Integer> totalExistingShipmentItemsByFoliId, 
                                                 Integer quantity, 
                                                 String serialNumber,
                                                 Map<String, List<ShipmentItem>> listShipItemToInsertByWmsExtrId){
-        ShipmentItem shipmentLine = createShipmentItemRecord(foliLine, quantity, serialNumber);
+        Integer quantityToProcess = quantity;
+        List<ShipmentItem> shipmentLines = new List<ShipmentItem>();
+        for(FulfillmentOrderLineItem foliLine: foliLines){
+            if(quantityToProcess > 0){
+                Integer totalExistingShipmentQty = (
+                                                totalExistingShipmentItemsByFoliId != null
+                                                && totalExistingShipmentItemsByFoliId.containskey(foliLine.Id)
+                                                )
+                                                ?totalExistingShipmentItemsByFoliId.get(foliLine.Id)
+                                                :0;
+                Integer shipmentLineQty = (quantityToProcess > Integer.valueOf(foliLine.quantity - totalExistingShipmentQty) )
+                                            ? Integer.valueOf(foliLine.quantity - totalExistingShipmentQty)
+                                            :quantityToProcess;
+                if(shipmentLineQty > 0){
+                    shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber));
+                    quantityToProcess = quantityToProcess - shipmentLineQty;
+                    if(totalExistingShipmentItemsByFoliId.containskey(foliLine.Id)){
+                        totalExistingShipmentItemsByFoliId.put(
+                            foliLine.Id,
+                            totalExistingShipmentItemsByFoliId.get(foliLine.Id)+ shipmentLineQty
+                        );
+                    }else{
+                        totalExistingShipmentItemsByFoliId.put(
+                            foliLine.Id,
+                            shipmentLineQty
+                        );
+                    }
+                }
+            }else{
+                break;
+            }
+        }
         if(listShipItemToInsertByWmsExtrId.containsKey(wmsShipmentLine.WMSshipmentId)){
-            listShipItemToInsertByWmsExtrId.get(wmsShipmentLine.WMSshipmentId).add(shipmentLine);
+            listShipItemToInsertByWmsExtrId.get(wmsShipmentLine.WMSshipmentId).addAll(shipmentLines);
         } else{
-            listShipItemToInsertByWmsExtrId.put(wmsShipmentLine.WMSshipmentId, new List<ShipmentItem>{shipmentLine});
+            listShipItemToInsertByWmsExtrId.put(wmsShipmentLine.WMSshipmentId, shipmentLines);
         } 
     }
 
@@ -498,7 +598,7 @@ global with sharing class SOM_WS_ShipmentHandler {
 
         return listShipmentsDataWithFoNumber;
     }
-	
+    
     public class ShipmentDataRquest {
         public String fulfillmentOrderNumber;
         public List<WMS_ShipmentData> shipments;

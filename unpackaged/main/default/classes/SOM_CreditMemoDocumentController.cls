@@ -111,6 +111,8 @@ global with sharing class SOM_CreditMemoDocumentController {
                                     lineItem.hsCodeDescription = orderItem.hsCodeDescription__c;
                                     lineItem.coo               = orderItem.COO__c;
                                     lineItem.itemDescription   = orderItem.Description;
+                                    lineItem.lineNumber   = orderItem.LineNumber;
+
                                     break;
                                 }
                             }
@@ -120,31 +122,34 @@ global with sharing class SOM_CreditMemoDocumentController {
                             lineItem.hsCodeDescription = orderItem.hsCodeDescription__c;
                             lineItem.coo               = orderItem.COO__c;
                             lineItem.itemDescription   = orderItem.Description;
+                            lineItem.lineNumber   = orderItem.LineNumber;
+
                             //lineItem.itemDescription   = creditMemoLine.Product2.Description;
                         }
                         
-                        lineItem.itemNumber = counter;
+                        //  lineItem.itemNumber = counter;
                         
                         lineItems.add(lineItem);
-                        counter++;
+                        // counter++;
                     }
             }
-            List<CreditMemoLineItem> lineItems2 = new List<CreditMemoLineItem>();
+            lineItems.sort();
+            // List<CreditMemoLineItem> lineItems2 = new List<CreditMemoLineItem>();
             //Adjust lineItems Order
-            Integer i =lineItems.size(), j =1,k=1 ;
-            for(j= i-1 ; j>=0 && i>0 ; i--){
-                lineItems2.add(lineItems[i-1]);
-            }
+            //Integer i =lineItems.size(), j =1,k=1 ;
+            //for(j= i-1 ; j>=0 && i>0 ; i--){
+             //   lineItems2.add(lineItems[i-1]);
+            //}
             //Adjust itemNumber
-            
-            for(CreditMemoLineItem Line : lineItems2){
+            Integer k=1 ; 
+            for(CreditMemoLineItem Line : lineItems){
                 Line.itemNumber = k;
                 k++;
             }
             
             //set credit memo line items
             //lineItems.sort();
-            creditMemoDoc.lineItems = lineItems2;
+            creditMemoDoc.lineItems = lineItems;
             this.creditMemoTaxLineItems = new Map<String, String>();
             //set credit memo line taxes
             this.creditMemoTaxLineItems = getCreditMemoTaxLineItems(creditMemo.get(0), creditMemoProductType);
@@ -274,7 +279,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String country {get; set;}
     }
     
-    global with sharing class CreditMemoLineItem{
+    global with sharing class CreditMemoLineItem implements comparable{
         public String  itemDescription {get; set;} 
         public Integer itemNumber {get; set;}
         public String  serialNumber {get; set;}
@@ -286,5 +291,33 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String  vat {get; set;} 
         public String  grossAmount {get; set;}
         public String  total {get; set;} 
+        //add number LineNumber
+        public Integer  lineNumber {get; set;} 
+
+        public Integer compareTo(Object compareTo) {
+            // Cast argument to InvoiceLineItem
+            CreditMemoLineItem compareToOppy = (CreditMemoLineItem)compareTo;
+            
+            // The return value of 0 indicates that both elements are equal.
+            Integer returnValue = 0;
+            if ((this.LineNumber == null) && (compareToOppy.LineNumber == null)) {
+                // both objects have null LineNumber
+                returnValue = 0;
+            } else if ((this.LineNumber == null) && (compareToOppy.LineNumber != null)){
+                // nulls-first implementation
+                returnValue = -1;
+            } else if ((this.LineNumber != null) && (compareToOppy.LineNumber == null)){
+                // nulls-first implementation
+                returnValue = 1;
+            } else if (this.LineNumber > compareToOppy.LineNumber) {
+                // Set return value to a positive value.
+                returnValue = 1;
+            } else if (this.LineNumber < compareToOppy.LineNumber) {
+                // Set return value to a negative value.
+                returnValue = -1;
+            } 
+            return returnValue;
+        }
+
     }
 }
