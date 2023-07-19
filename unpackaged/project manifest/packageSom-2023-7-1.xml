@@ -6,7 +6,7 @@
 		<members>SOM_WS_ShipmentHandler_Test</members>
     	<name>ApexClass</name> 
 	</types>
-  	<types>
+	<types>
 		<members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
 		<members>Payment_Methods_Mapping__mdt.Language__c</members>
 		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
@@ -14,7 +14,7 @@
 		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
     	<name>CustomField</name>
   	</types>
-  	<types>
+	<types>
 		<members>Payment_Methods_Mapping.ApplePay_EN</members>
 		<members>Payment_Methods_Mapping.COD_EN</members>
 		<members>Payment_Methods_Mapping.Visa_EN</members>
@@ -23,19 +23,27 @@
 		<members>Payment_Methods_Mapping.Amex_EN</members>
 		<name>CustomMetadata</name>
 	</types>
-  	<types>
+	<types>
     	<members>Payment_Methods_Mapping__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
     	<name>CustomObject</name>
 	</types> 
+    <types>  
+      	<members>Order_Summary_Record_Page</members>
+      	<name>FlexiPage</name>
+    </types>
 	<types>
+    	<members>SOM_115_ManuallyValidateOrderSummary.flow-meta.xml</members>
 		<members>SOM_720_Refund_ManualValidateRefund</members>
 		<name>Flow</name>
 	</types>
 	<types>
-	        <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+	    <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
 		<name>Layout</name>
 	</types>
-
+  	<types>
+		<members>OrderSummary.Unblock</members>
+		<name>QuickAction</name>
+	</types>
 	<version>54.0</version>
 </Package>
