@@ -41,7 +41,9 @@ public with sharing class B2CCustomInput_UTL_TST {
             List<B2CCustomInput__c> customInputList = [SELECT Id, CustomContactPointType__c, SubscriptionName__c, AccountId__c, //NOPMD
                                                        OptinCGI__c, EmailConsent__c, CaptureSource__c, CaptureContactPointType__c 
                                                        FROM B2CCustomInput__c];
+            System.debug('customInputList hi***hi ' + customInputList);
             B2CCustomInput_UTL utils = new B2CCustomInput_UTL(customInputList);
+            System.debug('customInputList hi***hi utils' + utils);
             Test.stopTest();
             System.assertEquals(true, !utils.authFormList.isEmpty());
             System.assertEquals(true, !utils.authFormTextList.isEmpty());

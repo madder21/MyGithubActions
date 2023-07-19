@@ -93,8 +93,10 @@ public with sharing class ConsentManagementHandler {
         for (ConsentWrapper consent : consentList) {
             if(consent.clientToUpdate) accountToUpdate.put(consent.client.id,consent.client);
             
+            //Update the status of ContactPointEmail to optout only in case of a newsletter
             if(consent.cpEmail != null){
-                if(!consent.customInput.EmailConsent__c){
+                if(!consent.customInput.EmailConsent__c && 
+                   consent.customInput.SubscriptionName__c?.equalsIgnoreCase(Label.LABS_ComSubscriptionChannelType_Newsletter)){
                     consent.cpEmail = contactPointEmailOptoutHandler(consent.cpEmail, consent.optDate);
                     cpEmailOptoutList.add(consent.cpEmail);
                 }
@@ -204,57 +206,63 @@ public with sharing class ConsentManagementHandler {
         List<consentWrapper> fullConsentList  = new List<consentWrapper>();
         
         for (ConsentWrapper consent : consentListInput) {
-            //Double Optin check
-            isDoubleOptin = ConsentManagementHelper.checkIsDoubleOptin(consent);
-            //Check if the current account has consented
-            flag = consent.customInput?.EmailConsent__c ? true : false;
-            //Subscription name
-            subscription = consent.customInput?.subscriptionName__c;
-     		//the current consent can be either optin or optout
-            status = flag ? Label.LABS_Consent_Optin : Label.LABS_Consent_Optout;
             
-            //Check if the current consent has an account and an individual
-            Boolean flagClientIndiv = String.isNotBlank(consent.client?.Id) 
-                				 && String.isNotBlank(consent.indiv?.Id);
-            
-            //Check if the current consent has contactPointEmail with the correct status
-            Date activeToDate = consent.cpEmail?.ActiveToDate;
-            Boolean flagCpEmail = (flag && String.isBlank(String.valueOf(activeToDate))) || 
-                				 (!flag && String.isNotBlank(String.valueOf(activeToDate)))? true : false;
-            
-            if (!isDoubleOptin) {
-                //Check if the current consent has contactPointTypeConsent with the correct status
-                flagCpTypeConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) ? 
-                    			true : status.equals(consent.cpTypeConsent?.PrivacyConsentStatus) ? 
-                                true : false;
-                //Check if the current consent has contactPointConsent with the correct status
-                flagCpConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) ? 
-                    			true : status.equals(consent.cpConsent?.PrivacyConsentStatus) ? 
-                                true : false;
-                //Check if the current consent has commSubscriptionConsent
-                flagComSubConsent = String.isNotBlank(consent.commSubConsent?.Id);
+            if (String.isNotBlank(consent.client.PersonEmail)) {
+                //Double Optin check
+                isDoubleOptin = ConsentManagementHelper.checkIsDoubleOptin(consent);
+                //Check if the current account has consented
+                flag = consent.customInput?.EmailConsent__c ? true : false;
+                //Subscription name
+                subscription = consent.customInput?.subscriptionName__c;
+                //the current consent can be either optin or optout
+                status = flag ? Label.LABS_Consent_Optin : Label.LABS_Consent_Optout;
                 
-            }else {
-                //Check if the current consent has contactPointTypeConsent with the correct status
-                flagCpTypeConsent = (flag && status.equals(consent.cpTypeConsent?.PrivacyConsentStatus)) ||
-                    				(!flag && consent.cpTypeConsent == null) ? true  : false;
-                //In this case always the current consent hasn't ContactPointConsent
-                flagCpConsent = true;
-                //Check if the current consent has commSubscriptionConsent
-                flagComSubConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) 
-                    				&& String.isNotBlank(consent.commSubConsent?.Id) ? true : 
-                					!(subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock)) ? true : false;
-            }
-            
-            //CreationFlag is the result of the two flags above
-            flagFullConsent = flagClientIndiv && flagCpEmail && flagCpTypeConsent && flagCpConsent && flagComSubConsent;
-            
-            if (flagFullConsent) {
+                //Check if the current consent has an account and an individual
+                Boolean flagClientIndiv = String.isNotBlank(consent.client?.Id) 
+                    && String.isNotBlank(consent.indiv?.Id);
+                
+                //Check if the current consent has contactPointEmail with the correct status
+                Date activeToDate = consent.cpEmail?.ActiveToDate;
+                Boolean flagCpEmail = (flag && String.isBlank(String.valueOf(activeToDate))) || 
+                    (!flag && String.isNotBlank(String.valueOf(activeToDate)))? true : false;
+                
+                if (!isDoubleOptin) {
+                    //Check if the current consent has contactPointTypeConsent with the correct status
+                    flagCpTypeConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) ? 
+                        true : status.equals(consent.cpTypeConsent?.PrivacyConsentStatus) ? 
+                            true : false;
+                    //Check if the current consent has contactPointConsent with the correct status
+                    flagCpConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) ? 
+                        true : status.equals(consent.cpConsent?.PrivacyConsentStatus) ? 
+                            true : false;
+                    //Check if the current consent has commSubscriptionConsent
+                    flagComSubConsent = String.isNotBlank(consent.commSubConsent?.Id);
+                    
+                }else {
+                    //Check if the current consent has contactPointTypeConsent with the correct status
+                    flagCpTypeConsent = (flag && status.equals(consent.cpTypeConsent?.PrivacyConsentStatus)) ||
+                        (!flag && consent.cpTypeConsent == null) ? true  : false;
+                    //In this case always the current consent hasn't ContactPointConsent
+                    flagCpConsent = true;
+                    //Check if the current consent has commSubscriptionConsent
+                    flagComSubConsent = subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock) 
+                        && String.isNotBlank(consent.commSubConsent?.Id) ? true : 
+                    !(subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock)) ? true : false;
+                }
+                
+                //CreationFlag is the result of the two flags above
+                flagFullConsent = flagClientIndiv && flagCpEmail && flagCpTypeConsent && flagCpConsent && flagComSubConsent;
+                
+                if (flagFullConsent) {
+                    fullConsentList.add(consent);
+                }  else {
+                    //Debug Lines
+                    System.debug('An error occurred when trying to create the consents for this account');
+                    ConsentManagementHelper.debugConsentWrapperList(new list<ConsentWrapper>{consent},'Check ', currentUser);
+                }
+                
+            } else {
                 fullConsentList.add(consent);
-            }  else {
-                //Debug Lines
-                System.debug('An error occurred when trying to create the consents for this account');
-                ConsentManagementHelper.debugConsentWrapperList(new list<ConsentWrapper>{consent},'Check ', currentUser);
             }
         }
         return fullConsentList;
@@ -311,7 +319,7 @@ public with sharing class ConsentManagementHandler {
         //Get all contactPointEmails and put them in Map 
         for (ConsentWrapper consent : consentList) {
             //If the cpEmail is not yet created
-            if (consent.cpEmail.Id == null) {
+            if (consent.cpEmail != null && consent.cpEmail.id == null) {
                 consent.cpEmail.ParentId = consent.indiv.Id;
                 contactPointEmailMap.put(consent.client.Id , consent.cpEmail);
             }

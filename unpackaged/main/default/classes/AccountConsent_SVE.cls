@@ -52,7 +52,7 @@ public without sharing class AccountConsent_SVE {
         B2CCustomInput__c customInput = new B2CCustomInput__c();
         if(consentSource!=null){
             customInput.AccountId__c = client.Id;
-            customInput.CaptureContactPointType__c = consentSource.capturePointType__c; //TODO => EMAIL
+            customInput.CaptureContactPointType__c = consentSource.capturePointType__c;
             customInput.CaptureSource__c = consentSource.captureSource__c;
             customInput.contactPointType__c = null;
             customInput.CustomContactPointType__c = consentSource.TypeSource__c;
@@ -78,23 +78,23 @@ public without sharing class AccountConsent_SVE {
     * @return list of accounts which have at least one optin changed
     */
     private static List<Account> filterOnUpdatedAccount(Map<id, sObject> newAccounts, Map<id, sObject> oldAccounts){
-         List<Account> accountToUpdate = new  List<Account>();
-        //TO DO Compare optin old VS optin New, if at least one optin changed add the new account in the list to return
+         List<Account> accountUpdated = new  List<Account>();
         for (sObject obj : newAccounts.values()) {
             Account newAccount = (Account) obj;
             Account oldAccount = (Account) oldAccounts.get(newAccount.Id);
             if (
-                (newAccount.OptinEmailing__pc != oldAccount.OptinEmailing__pc) || 
-                (newAccount.OptinMailing__pc != oldAccount.OptinMailing__pc)   ||  
-                (newAccount.OptinCalling__pc != oldAccount.OptinCalling__pc)   || 
-                (newAccount.OptinCGI__c != oldAccount.OptinCGI__c )            ||  
-                (newAccount.OptinInstantMessaging__pc != oldAccount.OptinInstantMessaging__pc ) || 
-                (newAccount.OptinMarketingPartner__c != oldAccount.OptinMarketingPartner__c)
+                (newAccount.OptinEmailing__pc != oldAccount.OptinEmailing__pc && 
+                ((newAccount.OptinEmailing__pc && String.isNotBlank(newAccount.PersonEmail)) || !newAccount.OptinEmailing__pc))|| 
+                newAccount.OptinMailing__pc != oldAccount.OptinMailing__pc   ||  
+                newAccount.OptinCalling__pc != oldAccount.OptinCalling__pc   || 
+                newAccount.OptinCGI__c != oldAccount.OptinCGI__c             ||  
+                newAccount.OptinInstantMessaging__pc != oldAccount.OptinInstantMessaging__pc  || 
+                newAccount.OptinMarketingPartner__c != oldAccount.OptinMarketingPartner__c
             	) {
-               accountToUpdate.add(newAccount);     
+               accountUpdated.add(newAccount);
             }
         }
-        return accountToUpdate;
+        return accountUpdated;
     }
     
     /*
@@ -105,11 +105,11 @@ public without sharing class AccountConsent_SVE {
     */
     private static boolean isThereAtLeastOneOptin(Account client){
         boolean status = false;
-        status = client.OptinEmailing__pc || 
+        status = (client.OptinEmailing__pc && String.isNotBlank(client.personEmail)) || 
                 client.OptinMailing__pc ||  
-                client.OptinCalling__pc || 
+                (client.OptinCalling__pc && String.isNotBlank(client.Phone)) || 
                 client.OptinCGI__c ||  
-                client.OptinInstantMessaging__pc || 
+                (client.OptinInstantMessaging__pc && (String.isNotBlank(client.Phone) ||  String.isNotBlank(client.WeChat__pc))) || 
                 client.OptinMarketingPartner__c;
         return status;
     }

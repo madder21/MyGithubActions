@@ -20,6 +20,10 @@ public class B2CContactProcessCustomInput {
     @AuraEnabled @InvocableVariable
     public String Warehouse;
     //should delete this field
-    //@AuraEnabled @InvocableVariable
-    //public Id CommSubscriptionChannelTypeId;
+    @AuraEnabled @InvocableVariable
+   	public Boolean AddressConsent;
+    @AuraEnabled @InvocableVariable
+   	public Boolean CGIConsent;
+    @AuraEnabled @InvocableVariable
+    public Boolean MarketingPartnerConsent;
 }

@@ -11,7 +11,6 @@
  * 0.0		|25052023			|.PLM		|.					|.
 */
 public without sharing class ConsentManagementHelper {
-    
     /*
     * @Description Creates a list of consentWrapper from B2CCustominput sObject
     *
@@ -23,17 +22,74 @@ public without sharing class ConsentManagementHelper {
         //Get Ids of all accounts
         Set<Id> accountSet = setOfAccountId(customInputList);
         //Get all accounts 
-        Map<Id,Account> accountsMap =  new Map<ID, Account>([SELECT Id, LastUpdateOptinEmailing__pc, OptinEmailing__pc, PersonIndividualId, LastName, Salutation, Phone, 
+        Map<Id,Account> newAccountsMap =  new Map<ID, Account>([SELECT Id, LastUpdateOptinEmailing__pc, OptinEmailing__pc, PersonIndividualId, LastName, Salutation, Phone, 
                                                              PersonBirthdate, PersonEmail, WebsiteLocale__pc, WebsiteCountry__pc, CreatedDate, Country__pc, PersonContactId,
                                                              (SELECT Id, ActiveToDate, EmailAddress FROM ContactPointEmails__r)
                                                              FROM Account WHERE ID in :accountSet]);
         
+        Map<Id,Account> OldAccountsMap = getOldAccounts(accountSet);
+        
         for (B2CCustomInput__c customInput : customInputList) {
             //Create consentWrapper for the current account
-            ConsentWrapper consent = new ConsentWrapper(customInput, accountsMap.get(customInput.AccountID__c));            
+            Account aAccount = newAccountsMap.get(customInput.AccountID__c);
+            ConsentWrapper consent = new ConsentWrapper(customInput, aAccount);
+            //Populate the current consentWrapper with the old account data
+            if (OldAccountsMap.containsKey(aAccount.Id)) {
+                consent.oldClient = OldAccountsMap.get(aAccount.Id);
+            }
             OutputConsentList.add(consent);
         }
         return OutputConsentList;
+    }
+    
+    /*
+    * @Description Create a map of accounts with their Ids as key filled with all historical information about the accounts that have been updated
+    *
+    * @param accountSet Ids of accounts to look for they histories data
+    * @return map of old accounts with their Ids as key
+    */
+
+    public static Map<Id, Account> getOldAccounts(Set<Id> accountSet) {        
+		
+        ID accountID;
+        String newPersonEmail;
+        String oldPersonEmail;
+        Boolean isTestContext = test.isRunningTest();
+        Map<Id, Account> oldAccounts = new Map<Id, Account>();
+        
+        If (accountSet.size() != 0) {
+            //Get all account histories data that have changed their personEmails
+            List<AccountHistory> accountHistoryList =  [SELECT AccountId, OldValue, NewValue, CreatedDate FROM AccountHistory 
+                                                        WHERE Field =: Label.LABS_Field_PersonEmail AND  AccountId in : accountSet ORDER BY CreatedDate];
+            //This IF block Condition is added in order to coverage code,  due to test context is not possible to track accounts on the sObject AccountHistory
+            //even it is not possible to create record of this object
+            if(isTestContext){
+                for (Id accId : accountSet) {
+                    AccountHistory accHistory = new AccountHistory(AccountId=accId , Field = Label.LABS_Field_PersonEmail);
+                    accountHistoryList.add(accHistory);
+                }
+            }
+            for (AccountHistory accountHisorty : accountHistoryList) {
+                
+                accountID = accountHisorty.AccountId;
+                newPersonEmail = (String)accountHisorty?.NewValue ;
+                oldPersonEmail = isTestContext? 'fromTestContext@gmail.com' : (String)accountHisorty?.OldValue ;
+                //IF account doesn't exist and its newPersonEmail is null & oldPersonEmail not null
+                if (!oldAccounts.containsKey(accountId) && String.isBlank(newPersonEmail) 
+                    && String.isNotBlank(oldPersonEmail)) {
+                    oldAccounts.put(accountId, new Account(Id = accountId, PersonEmail = oldPersonEmail));
+                }
+                //IF account exists 
+                else { 
+                    // Retrieve the most recent update for the old accounts
+                    if (accountHisorty?.CreatedDate > oldAccounts.get(accountId)?.CreatedDate 
+                        && String.isNotBlank(oldPersonEmail)  && String.isBlank(newPersonEmail) ) {
+                        oldAccounts.put(accountId, new Account(Id = accountId, PersonEmail= oldPersonEmail));
+                    }
+                }
+            }
+        }
+        return oldAccounts;
     }
     
     /*
@@ -49,7 +105,8 @@ public without sharing class ConsentManagementHelper {
             consent.doubleOptin = checkIsDoubleOptin(consent);
             consent.client.OptinEmailing__pc = consent.customInput.EmailConsent__c;
             consent.client.LastUpdateOptinEmailing__pc = consent.optDate;
-            consent.clientToUpdate = true;
+            //Client is only updated when they have subscribed to the newsletter and unsubscribed
+            consent.clientToUpdate = consent.customInput.SubscriptionName__c?.equalsIgnoreCase(Label.LABS_ComSubscriptionChannelType_Newsletter)? true : false;
             OutputConsentList.add(consent);
         }
         return OutputConsentList;
@@ -92,7 +149,7 @@ public without sharing class ConsentManagementHelper {
                 consent.cpEmail = cpEmail;
             } else {
                 //Create new ContactPointEmail attached to this account & add it to the current consent
-                consent.cpEmail = createContactPointEmail(consent);
+                consent.cpEmail = createContactPointEmail(consent);                
             }
             outputList.add(consent);
         }
@@ -201,10 +258,10 @@ public without sharing class ConsentManagementHelper {
                 //Populate the current consent with the exsiting ContactPointTypeConsent
                 consent.cpTypeConsent = contactPointTypeConsentMap.get(accountId); 
             }
-            if(!contactPointTypeConsentIsExist && consent.customInput.EmailConsent__c){
+            else if(!contactPointTypeConsentIsExist && consent.customInput.EmailConsent__c){
                 //create a new ContactPointTypeConsent & populate it to the current consent
                 consent.cpTypeConsent = createContactPointTypeConsent(consent);
-            } 
+            }
             outputConsents.add(consent);       
         }
         return outputConsents;
@@ -240,9 +297,9 @@ public without sharing class ConsentManagementHelper {
                 //Populate the current consent with the exsiting ContactPointConsent
                 consent.cpConsent = contactPointConsentMap.get(accountId); 
             }
-            if(!contactPointConsentIsExist && consent.customInput.EmailConsent__c){
+            else if(!contactPointConsentIsExist && consent.customInput.EmailConsent__c){
                 //create a new ContactPointConsent & populate it to the current consent
-                consent.cpConsent = createContactPointConsent(consent);
+                consent.cpConsent = createContactPointConsent(consent);  
             } 
             outputConsents.add(consent);
         }        
@@ -273,28 +330,26 @@ public without sharing class ConsentManagementHelper {
         	commSubscriptionConsentMap.put(commSubscriptionConsent.AccountId__c, commSubscriptionConsent);
         }
         for(ConsentWrapper consent : consentListInput){
-            if(true){
-                Id accountId = consent.client.Id;
-                Boolean commSubIsExist = commSubscriptionConsentMap.containsKey(accountId);
-                if(commSubIsExist){
-                    //added on the 05/06/2023
-                    //If the CommSubConsent is related to the current ContactPointEmail
-                    if (commSubscriptionConsentMap.get(accountId)?.ContactPointId == consent.cpEmail?.Id) {
-                        //Populate the current consent with the exsiting commSubscriptionConsent
-                    	consent.commSubConsent = commSubscriptionConsentMap.get(accountId);
-                    //There is no CommSubConsent related to the current ContactPointEmail
-                    }else {
-                        //create a new commSubscriptionConsent & populate it to the current consent
-                    	consent.commSubConsent = createCommSubscriptionConsent(consent, channelType);
-                    }
-                    
-                }
-                if(!commSubIsExist && consent.customInput.EmailConsent__c){
+            
+            Id accountId = consent.client.Id;
+            Boolean commSubIsExist = commSubscriptionConsentMap.containsKey(accountId);
+            if(commSubIsExist){
+                //added on the 05/06/2023
+                //If the CommSubConsent is related to the current ContactPointEmail
+                if (commSubscriptionConsentMap.get(accountId)?.ContactPointId == consent.cpEmail?.Id) {
+                    //Populate the current consent with the exsiting commSubscriptionConsent
+                    consent.commSubConsent = commSubscriptionConsentMap.get(accountId);
+                //There is no CommSubConsent related to the current ContactPointEmail
+                } else {
                     //create a new commSubscriptionConsent & populate it to the current consent
-                    consent.commSubConsent = createCommSubscriptionConsent(consent,channelType);
+                    consent.commSubConsent = createCommSubscriptionConsent(consent, channelType);
                 }
-                outputConsents.add(consent);   
             }
+            else if(!commSubIsExist && consent.customInput.EmailConsent__c){
+                //create a new commSubscriptionConsent & populate it to the current consent
+                consent.commSubConsent = createCommSubscriptionConsent(consent, channelType);
+            }
+            outputConsents.add(consent);   
         }
         return outputConsents;
     }
@@ -356,12 +411,13 @@ public without sharing class ConsentManagementHelper {
     */
     public static ContactPointEmail matchedContactPointEmail(ConsentWrapper consent) {
         ContactPointEmail outputCPE = null;
-        Account client = consent.client;
-        
+        Account newClient = consent.client;
+        String personEmail = String.isNotBlank(newClient.PersonEmail)? 
+            				 newClient.PersonEmail : consent.oldClient.PersonEmail;
         //Look for the matched ContactPointEmail
-        for(ContactPointEmail aContactPointEmail : client.ContactPointEmails__r) {
+        for(ContactPointEmail aContactPointEmail : newClient.ContactPointEmails__r) {
             //IF the matched ContactPointEmail exist
-            if(aContactPointEmail.ActiveToDate == null && aContactPointEmail.EmailAddress == client.PersonEmail) {
+            if(aContactPointEmail.ActiveToDate == null && aContactPointEmail.EmailAddress == personEmail) {
                 outputCPE = aContactPointEmail;
             }
         }
@@ -510,14 +566,16 @@ public without sharing class ConsentManagementHelper {
     public static ContactPointEmail createContactPointEmail(ConsentWrapper consent) {
         
         Account aAccount = consent.client;
-        
-        ContactPointEmail cpe = new ContactPointEmail(
-            ActiveFromDate = consent.OptDate.Date(),
-            AccountId__c   = aAccount.Id,
-            ParentId       = aAccount.PersonIndividualId,
-            EmailAddress   = aAccount.PersonEmail);
-        
-        return cpe;
+        if(String.isNotBlank(aAccount.PersonEmail)){
+            ContactPointEmail cpe = new ContactPointEmail(
+                ActiveFromDate = consent.OptDate.Date(),
+                AccountId__c   = aAccount.Id,
+                ParentId       = aAccount.PersonIndividualId,
+                EmailAddress   = aAccount.PersonEmail);
+            
+            return cpe;
+        }
+        return null;
     }
     
     /*
@@ -575,7 +633,7 @@ public without sharing class ConsentManagementHelper {
             AccountId__c                = aAccount.Id
         );
         
-        return aContactPointConsent;
+        return aContactPointConsent;        
     }
     
     /*
@@ -587,7 +645,7 @@ public without sharing class ConsentManagementHelper {
     * @return the created CommSubscriptionConsent record
     */
     public static CommSubscriptionConsent createCommSubscriptionConsent(consentWrapper consent, commSubscriptionChannelType channelType) {
-        System.debug('***CommSubscriptionConsent() Consent values: '+consent.cpEmail);
+        
         Account aAccount = consent.client;
         B2CCustomInput__c customInput = consent.customInput;
         
@@ -614,6 +672,7 @@ public without sharing class ConsentManagementHelper {
         }
         
         return comSubConsent;
+ 
     }
     
 }

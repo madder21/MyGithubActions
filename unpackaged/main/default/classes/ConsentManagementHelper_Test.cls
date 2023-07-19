@@ -41,8 +41,14 @@ public class ConsentManagementHelper_Test {
     @isTest
     static void getCustomInput_UnitTest() {
         
-        //Create a test account record
+        //Create a teste account record
         List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 1);
+        //Create a test individual record
+        List<Individual> testIndivList = ConsentManagement_TestDataFactory.createIndividuals(true, 1);
+        //Update Account & individual
+        System.runAs(userTest()) {
+        	testAccList = ConsentManagement_TestDataFactory.updateAccountAndIndividual();
+        }
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         
@@ -65,8 +71,14 @@ public class ConsentManagementHelper_Test {
     @isTest
     static void getCustomInputs_MassTest() {
 
-        //Create a test account record
+        //Create a teste account record
         List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 2);
+        //Create a test individual record
+        List<Individual> testIndivList = ConsentManagement_TestDataFactory.createIndividuals(true, 2);
+        //Update Account & individual
+        System.runAs(userTest()) {
+        	testAccList = ConsentManagement_TestDataFactory.updateAccountAndIndividual();
+        }
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         
@@ -85,6 +97,54 @@ public class ConsentManagementHelper_Test {
     }
     
     /*
+    * @description test the method getOldAccounts with one record which hasn't an email
+    * @Expected behaviour : no account is found
+    */
+    @isTest
+    static void getOldAccounts_UnitTest() {
+        
+        System.runAs(userTest()) {
+            //Create a test account record
+            List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 1);
+            
+            Test.startTest();
+                // Call the method to test
+            Map<Id, Account> result = ConsentManagementHelper.getOldAccounts(new Set<Id>{testAccList[0].Id});
+            Test.stopTest();
+            
+            // Verify the output
+            //Check if a unique consentWrapper was updated
+            Assert.areEqual(1, result.size(), 'Size must be equal to 1');
+        }
+        
+    }
+    
+    /*
+    * @description test the method getOldAccounts with mass records
+    * @Expected behaviour : an account is found for the first account & no account is found for the second account
+    */
+    @isTest
+    static void getOldAccounts_MassTest() {
+        
+        System.runAs(userTest()) {
+            //Create a test account record
+            List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 2);
+            
+          	Set<Id> accountSet =new Set<Id>{testAccList[0].Id, testAccList[1].Id};
+            
+            Test.startTest();
+                // Call the method to test
+            Map<Id, Account> result = ConsentManagementHelper.getOldAccounts(accountSet);
+            Test.stopTest();
+            
+            // Verify the output
+            //Check if a unique consentWrapper was updated
+            Assert.areEqual(2, result.size(), 'Size must be equal to 1');
+        }
+        
+    }
+    
+    /*
     * @description test the method setEmailConsentFields with one record
     * @Expected behaviour : consentWrapper variables are updated
     */
@@ -96,7 +156,7 @@ public class ConsentManagementHelper_Test {
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput
-        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('NewsLetter');
+        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('Newsletter');
         //Create a test consent
         List<ConsentWrapper> testConsentWrapperList = ConsentManagement_TestDataFactory.createConsent(testcustomInputs, testAccList);
         
@@ -129,7 +189,7 @@ public class ConsentManagementHelper_Test {
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput
-        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('NewsLetter');
+        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('Newsletter');
         //Create consent
         List<ConsentWrapper> testConsentWrapperList = ConsentManagement_TestDataFactory.createConsent(testcustomInputs, testAccList);
         
@@ -903,6 +963,8 @@ public class ConsentManagementHelper_Test {
         CommSubscriptionChannelType channelType = [SELECT Id, Name FROM CommSubscriptionChannelType WHERE Name = 'NewsLetter' LIMIT 1];
         //Create a test account record
         Account testAcc = ConsentManagement_TestDataFactory.createAccount(true);
+        testAcc.PersonEmail = 'test@test.com';
+        update testAcc;
         //Create a test B2CCustomInput record
         B2CCustomInput__c testcustomInput = ConsentManagement_TestDataFactory.createB2CCustomInput(true, testAcc.Id);
         //Update the fields of the customInput
@@ -911,19 +973,22 @@ public class ConsentManagementHelper_Test {
         update testcustomInput;
         //Create a test consent
         List<ConsentWrapper> testConsentWrapperList = ConsentManagement_TestDataFactory.createConsent((new List<B2CCustomInput__c>{testcustomInput}), (new List<Account>{testAcc}));
-            
+        
         Test.startTest();
-            // Call the method being tested
-             List<ConsentWrapper> result = ConsentManagementHelper.getNewsletterConsentSObjects(testConsentWrapperList, channelType);
+        // Call the method being tested
+        List<ConsentWrapper> result = ConsentManagementHelper.getNewsletterConsentSObjects(testConsentWrapperList, channelType);
         Test.stopTest();
-
+        
         // Verify the output
         Assert.areEqual(1, result.size(), 'Size must be equal to 1');
         ConsentWrapper outputConsent = result[0];
         //Check if the consentWrapper was updated with ContactPointTypeConsent & ContactPointConsent & CommSubscriptionConsent
-        Assert.isNotNull(outputConsent.cpTypeConsent );
+        system.debug('cpConsentcpConsent'+outputConsent.cpConsent);
+        Assert.isNotNull(outputConsent.cpTypeConsent);
         Assert.isNotNull(outputConsent.cpConsent);
         Assert.isNotNull(outputConsent.commSubConsent);
+        
+        
     }
     
     /*
@@ -946,9 +1011,9 @@ public class ConsentManagementHelper_Test {
             List<ContactPointEmail> testCpEmailList = ConsentManagement_TestDataFactory.createContactPointEmail(testAccList);
             //Update account with ContactPointEmail
             testAccList = [SELECT Id, LastUpdateOptinEmailing__pc, OptinEmailing__pc, PersonIndividualId, LastName, Salutation, Phone, 
-                                    PersonBirthdate, PersonEmail, WebsiteLocale__pc, WebsiteCountry__pc, CreatedDate, Country__pc, PersonContactId,
-                                    (SELECT Id, ActiveToDate, EmailAddress FROM ContactPointEmails__r)
-                                    FROM Account]; 
+                           PersonBirthdate, PersonEmail, WebsiteLocale__pc, WebsiteCountry__pc, CreatedDate, Country__pc, PersonContactId,
+                           (SELECT Id, ActiveToDate, EmailAddress FROM ContactPointEmails__r)
+                           FROM Account]; 
             //Create a test B2CCustomInput record
             List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
             //Create a test consent
@@ -957,24 +1022,24 @@ public class ConsentManagementHelper_Test {
             //Create a test CommSubscriptionConsent record
             List<CommSubscriptionConsent> testCommSubConsentList = new List<CommSubscriptionConsent>();
             for (ContactPointEmail cpEmail : testCpEmailList) {
-    
+                
                 CommSubscriptionConsent commSubConsent = new CommSubscriptionConsent(Name = channelType.Name, AccountId__c = cpEmail.AccountId__c,
-                                                                                    ContactPointId = cpEmail.Id,
-                                                                                    CommSubscriptionChannelTypeId = channelType.Id,
-                                                                                    EffectiveFromDate = DateTime.now().date(),
-                                                                                    ConsentCapturedDateTime = DateTime.now(),
-                                                                                    ConsentCapturedSource = 'Test Source');
+                                                                                     ContactPointId = cpEmail.Id,
+                                                                                     CommSubscriptionChannelTypeId = channelType.Id,
+                                                                                     EffectiveFromDate = DateTime.now().date(),
+                                                                                     ConsentCapturedDateTime = DateTime.now(),
+                                                                                     ConsentCapturedSource = 'Test Source');
                 testCommSubConsentList.add(commSubConsent);
-            
+                
             }
             //Insert All CommSubscriptionConsent 
             insert testCommSubConsentList;
-    
+            
             Test.startTest();
-                // Call the method being tested
-                List<ConsentWrapper> result = ConsentManagementHelper.getBackInStockConsentSObjects(testConsentWrapperList, channelType);
+            // Call the method being tested
+            List<ConsentWrapper> result = ConsentManagementHelper.getBackInStockConsentSObjects(testConsentWrapperList, channelType);
             Test.stopTest();
-    
+            
             // Verify the output
             // //Check if a unique consentWrapper was updated
             Assert.areEqual(1, result.size(), 'Size must be equal to 1');

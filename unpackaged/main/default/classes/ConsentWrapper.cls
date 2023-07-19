@@ -13,6 +13,7 @@
 public with sharing class ConsentWrapper {
     
     //All objects
+    public Account oldClient { get; set; }
     public Account client { get; set; }
     public Individual indiv { get; set; }
     public ContactPointEmail cpEmail { get; set; }

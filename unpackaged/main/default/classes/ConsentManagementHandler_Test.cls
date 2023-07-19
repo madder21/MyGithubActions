@@ -13,6 +13,17 @@
 @isTest
 public with sharing class ConsentManagementHandler_Test {
     
+    
+    public static User userTest() {
+        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
+        User u = new User(Alias = 'ecom', Email='eco-integration@rimowa.com',
+        				  EmailEncodingKey='UTF-8', LastName='Integration', FirstName='ECO', LanguageLocaleKey='en_US',
+        				  LocaleSidKey='en_US', ProfileId = p.Id,
+        				  TimeZoneSidKey='America/Los_Angeles',
+        				  UserName='eco-integration@rimowa.com.testcontext');
+        return u;
+    }
+    
     @TestSetup
     static void setup() {
         //Create CommSubscriptionChannelType
@@ -48,7 +59,7 @@ public with sharing class ConsentManagementHandler_Test {
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput 
-        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('NewsLetter');
+        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('Newsletter');
         Test.startTest();
             // Call the method being tested
             ConsentManagementHandler consentManagement = new ConsentManagementHandler();
@@ -126,7 +137,7 @@ public with sharing class ConsentManagementHandler_Test {
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput 
-        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('NewsLetter');
+        testcustomInputs = ConsentManagement_TestDataFactory.updateB2CCustomInput('Newsletter');
         Test.startTest();
             // Call the method being tested
             ConsentManagementHandler consentManagement = new ConsentManagementHandler();
@@ -219,7 +230,7 @@ public with sharing class ConsentManagementHandler_Test {
     static void emailConsentHandlerTest_Newsletter_Optout_UnitTest() {
         
         //Get the channel
-        commSubscriptionChannelType channelType = [SELECT Id, Name FROM CommSubscriptionChannelType WHERE Name = 'NewsLetter' LIMIT 1];
+        commSubscriptionChannelType channelType = [SELECT Id, Name FROM CommSubscriptionChannelType WHERE Name = 'Newsletter' LIMIT 1];
         //Create a test account record
         List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 1);
         //Create a test individual record
@@ -434,7 +445,7 @@ public with sharing class ConsentManagementHandler_Test {
         Assert.areEqual('BackInStock', outputConsent.commSubConsent.Name);
         Assert.isNotNull(outputConsent.commSubConsent.Id);
 
-        Assert.areEqual(true, outputConsent.clientToUpdate);
+        Assert.areEqual(false, outputConsent.clientToUpdate);
 
     }
 	
@@ -505,7 +516,7 @@ public with sharing class ConsentManagementHandler_Test {
         Assert.areEqual('BackInStock', outputConsent.commSubConsent.Name);
         Assert.isNotNull(outputConsent.commSubConsent.Id);
 
-        Assert.areEqual(true, outputConsent.clientToUpdate);
+        Assert.areEqual(false, outputConsent.clientToUpdate);
 		
         //Verify the result for the second consentWrapper
         outputConsent = result[1];
@@ -535,7 +546,7 @@ public with sharing class ConsentManagementHandler_Test {
         Assert.areEqual('BackInStock', outputConsent.commSubConsent.Name);
         Assert.isNotNull(outputConsent.commSubConsent.Id);
 
-        Assert.areEqual(true, outputConsent.clientToUpdate);
+        Assert.areEqual(false, outputConsent.clientToUpdate);
     }
 
 
@@ -724,12 +735,85 @@ public with sharing class ConsentManagementHandler_Test {
     
     
     /*
-    * @description test the method checkConsentCreation with one record
-    * @Expected behaviour : consentWrapper should have all consents were created
+    * @description test the method 
+    * @Expected behaviour : 
     */
     @isTest
-    static void checkConsentCreation_UnitTest() {
+    static void emailConsentHandlerTest_optinEmailing_withoutEmail_insert_UnitTest() {
+		
+        //Create a test account record
+        Account aAccount = new Account();
+        aAccount.OptinEmailing__pc = true;
+        aAccount.LastName = 'Test 1';
+        aAccount.Salutation = '1';
+        aAccount.Country__pc = 'FR';
         
+        Test.startTest();
+        	insert aAccount;
+        Test.stopTest();
+        
+        // Verify the output
+        // check that the ConsentWrapper instance has an individual record
+        Assert.isNull([SELECT Id, PersonIndividualId from Account where Id = : aAccount.ID][0].PersonIndividualId);
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointEmail record
+        Assert.areEqual(0,[SELECT Id from ContactPointEmail where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointTypeConsent record
+        Assert.areEqual(0,[SELECT Id from ContactpointTypeConsent where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointConsent record
+        Assert.areEqual(0,[SELECT Id from ContactPointConsent where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a commSubscriptionConsent record
+        Assert.areEqual(0,[SELECT Id from commSubscriptionConsent where AccountId__c = : aAccount.ID].size());
+    
+    }
+    
+    /*
+    * @description test the method 
+    * @Expected behaviour : 
+    */
+    @isTest
+    static void emailConsentHandlerTest_optinEmailing_withoutEmail_update_UnitTest() {
+		
+        
+        //Create a test account record
+        Account aAccount = new Account();
+        aAccount.OptinEmailing__pc = true;
+        aAccount.personEmail = 'fromTestContext@gmail.com';
+        aAccount.LastName = 'Test 1';
+        aAccount.Salutation = '1';
+        aAccount.Country__pc = 'FR';
+        insert aAccount;
+        
+        aAccount.personEmail = null;
+        aAccount.OptinEmailing__pc = false;
+        
+        Test.startTest();
+        	update aAccount;
+        Test.stopTest();
+        
+        // Verify the output
+        // check that the ConsentWrapper instance has an individual record
+        Assert.isNotNull([SELECT Id, PersonIndividualId from Account where Id = : aAccount.ID][0].PersonIndividualId);
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointEmail record
+        Assert.areEqual(1,[SELECT Id from ContactPointEmail where AccountId__c = : aAccount.ID AND ActiveToDate != null].size());
+        Assert.areEqual(1,[SELECT Id from ContactPointEmail where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointTypeConsent record
+        Assert.areEqual(1,[SELECT Id from ContactpointTypeConsent where PrivacyConsentStatus = 'Optout' AND AccountId__c = : aAccount.ID].size());
+        Assert.areEqual(1,[SELECT Id from ContactpointTypeConsent where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a ContactPointConsent record
+        Assert.areEqual(1,[SELECT Id from ContactPointConsent where PrivacyConsentStatus = 'Optout' AND AccountId__c = : aAccount.ID].size());
+        Assert.areEqual(1,[SELECT Id from ContactPointConsent where AccountId__c = : aAccount.ID].size());
+        
+        // check that the ConsentWrapper instance hasn't a commSubscriptionConsent record
+        Assert.areEqual(1,[SELECT Id from commSubscriptionConsent where PrivacyConsentStatus = 'Optout' AND AccountId__c = : aAccount.ID].size());
+        Assert.areEqual(1,[SELECT Id from commSubscriptionConsent where AccountId__c = : aAccount.ID].size());
+    
     }
     
 

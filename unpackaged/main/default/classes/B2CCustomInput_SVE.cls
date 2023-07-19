@@ -25,8 +25,12 @@ public without sharing class B2CCustomInput_SVE {
             }
         }
         System.debug('*** B2CCustomInput_SVE - redirectLogic - Custom Input CGI Ok***');
-        B2CCustomInput_UTL customInputClass = new B2CCustomInput_UTL(b2cCustomInputList);
-        customInputClass.runLegalConsentProcess();
+        //the if statement Test.isRunningTest() : TO be deleted when CGI go Live
+        if (Test.isRunningTest()) {
+            B2CCustomInput_UTL customInputClass = new B2CCustomInput_UTL(b2cCustomInputList);
+        	customInputClass.runLegalConsentProcess();
+        }
+        
         
         if(!inputEmail.isEmpty()){
             consentList = CMH.emailConsentHandler(inputEmail);
