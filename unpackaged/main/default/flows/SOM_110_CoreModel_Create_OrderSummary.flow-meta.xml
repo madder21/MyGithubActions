@@ -8,7 +8,7 @@
         <actionName>createOrderSummary</actionName>
         <actionType>createOrderSummary</actionType>
         <connector>
-            <targetReference>IsManaged1_0</targetReference>
+            <targetReference>Get_ODG</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -203,8 +203,8 @@
     <decisions>
         <name>IsManaged1_0</name>
         <label>IsManaged</label>
-        <locationX>1019</locationX>
-        <locationY>540</locationY>
+        <locationX>1020</locationX>
+        <locationY>500</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -222,6 +222,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -289,6 +290,27 @@
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderSummary</object>
         <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ODG</name>
+        <label>Get ODG</label>
+        <locationX>1026</locationX>
+        <locationY>637</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>IsManaged1_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -384,6 +406,12 @@
                 <elementReference>OrderSummaryStatus</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>Tech_ShippingCountry__c</field>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
         <object>OrderSummary</object>
     </recordUpdates>
     <recordUpdates>
@@ -424,6 +452,12 @@
             <field>Status</field>
             <value>
                 <elementReference>OrderSummaryStatus</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_ShippingCountry__c</field>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
@@ -472,6 +506,12 @@
             <field>OriginalReturnOrder__c</field>
             <value>
                 <elementReference>OrderRecord.OriginalReturnOrder__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tech_ShippingCountry__c</field>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
