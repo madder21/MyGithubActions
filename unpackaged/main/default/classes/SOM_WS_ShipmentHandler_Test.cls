@@ -48,23 +48,16 @@ private class SOM_WS_ShipmentHandler_Test {
                 
             }
             requestDataLine.shipments = new List<SOM_WS_ShipmentHandler.WMS_ShipmentData>{shipmentLineData};
-            System.debug('fo ::::'+fulfillOrder);
             SOM_WS_ShipmentHandler_Test.listRequestInputs.put(fulfillOrder.Id,requestDataLine);
             
             listToProcess.add(requestDataLine);
-            System.debug(' $$ requestDataLine :'+requestDataLine);
-            System.debug(' $$ shipmentLineData :'+shipmentLineData);
         }
-        //SOM_WS_ShipmentHandler_Test.listRequestInputs = listToProcess;
-        System.debug(' $$ listRequestInputs :'+listRequestInputs);
-        System.debug(' $$ listToProcess :'+listToProcess);
 
     }
     
     @isTest(seeAllData=true)
     static void testReponseOK() {
         setupData();
-        System.debug(' $$ SOM_WS_ShipmentHandler_Test.listRequestInputs :' + SOM_WS_ShipmentHandler_Test.listRequestInputs);
         String JsonMsg=JSON.serialize(SOM_WS_ShipmentHandler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -72,17 +65,13 @@ private class SOM_WS_ShipmentHandler_Test {
         req.requestURI = '/services/apexrest/shipments/insertShipments/';
         req.httpMethod = 'POST';
         
-        System.debug(' $$ JsonMsg :' + JsonMsg);
         
-        //req.requestBody = JsonMsg;
         req.requestBody = Blob.valueof(JsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         
         
         SOM_WS_ShipmentHandler.createShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :' +SOM_WS_ShipmentHandler_Test.listRequestInputs.keySet());
         List<Shipment> createdShipment = [SELECT Id FROM Shipment WHERE FulfillmentOrderId IN : SOM_WS_ShipmentHandler_Test.listRequestInputs.keySet()];
         Test.stopTest();
         System.assertEquals(1,createdShipment.size());
@@ -90,7 +79,6 @@ private class SOM_WS_ShipmentHandler_Test {
     @isTest
     static void testErrorInputNull() {
         
-        System.debug(' $$ testReponseError :');
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
@@ -98,15 +86,12 @@ private class SOM_WS_ShipmentHandler_Test {
         req.httpMethod = 'POST';
         
         
-        //req.requestBody = JsonMsg;
         req.requestBody = Blob.valueof('');
         RestContext.request = req;
         RestContext.response= res;
         
         
         SOM_WS_ShipmentHandler.createShipments();
-        System.debug(' $$ testErrorInputNull RestContext.response :' + RestContext.response);
-        System.debug(' $$ testErrorInputNull :');
         List<Shipment> createdShipment = [SELECT Id FROM Shipment WHERE FulfillmentOrderId NOT IN : SOM_WS_ShipmentHandler_Test.listRequestInputs.keySet()];
         Test.stopTest();
         System.assertEquals(createdShipment.size(), 0);
@@ -114,7 +99,6 @@ private class SOM_WS_ShipmentHandler_Test {
     @isTest
     static void testErrorInputListEmpty() {
         
-        System.debug(' $$ testReponseError :');
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
@@ -122,15 +106,12 @@ private class SOM_WS_ShipmentHandler_Test {
         req.httpMethod = 'POST';
         
         
-        //req.requestBody = JsonMsg;
         req.requestBody = Blob.valueof('[]');
         RestContext.request = req;
         RestContext.response= res;
         
         
         SOM_WS_ShipmentHandler.createShipments();
-        System.debug(' $$ testErrorInputListEmpty RestContext.response :' + RestContext.response);
-        System.debug(' $$ testErrorInputListEmpty :');
         List<Shipment> createdShipment = [SELECT Id FROM Shipment WHERE FulfillmentOrderId NOT IN : SOM_WS_ShipmentHandler_Test.listRequestInputs.keySet()];
         Test.stopTest();
         System.assertEquals(createdShipment.size(), 0);

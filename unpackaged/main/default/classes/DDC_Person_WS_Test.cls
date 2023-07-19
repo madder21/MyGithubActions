@@ -21,9 +21,9 @@ private with sharing class DDC_Person_WS_Test {
     private static User prepareUser() {
         List<Profile> profiles = [select Id from Profile];
         User user = new User(
-            Username = 'test4564566@test.com',
+            Username = 'test4564566@rimowa.com',
             LastName = 'test',
-            Email = 'test@test.com',
+            Email = 'test@rimowa.com',
             Alias = 'test',
             TimeZoneSidKey = 'GMT',
             LocaleSidKey = 'en_GB',

@@ -731,6 +731,20 @@
         <relatedList>RelatedContactAccountRelationList</relatedList>
     </relatedLists>
     <relatedLists>
+        <fields>NAME</fields>
+        <fields>et4ae5__SubjectLine__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>et4ae5__IndividualEmailResult__c.et4ae5__Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>OrderSummary__c</fields>
+        <fields>NAME</fields>
+        <fields>Template__c</fields>
+        <fields>Email__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>TransactionalEmail__c.Client__c</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>CONTACT.FULL_NAME</fields>
         <fields>CONTACT.ACCOUNT_NAME</fields>
         <fields>CONTACT.TITLE</fields>
@@ -788,11 +802,14 @@
         <relatedList>ClientProduct__c.Client__c</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>Name</fields>
+        <fields>CommSubscriptionChannelType</fields>
+        <fields>ContactPoint</fields>
         <fields>EffectiveFromDate</fields>
         <fields>EffectiveToDate</fields>
+        <fields>ConsentCapturedDateTime</fields>
         <fields>ConsentCapturedSource</fields>
-        <relatedList>CommSubscriptionConsents</relatedList>
+        <fields>CreatedDate</fields>
+        <relatedList>CommSubscriptionConsent.AccountId__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>Name</fields>
