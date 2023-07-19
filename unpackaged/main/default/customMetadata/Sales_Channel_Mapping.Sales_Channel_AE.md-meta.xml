@@ -3,12 +3,24 @@
     <label>Sales Channel AE</label>
     <protected>false</protected>
     <values>
+        <field>AmountsFormat__c</field>
+        <value xsi:type="xsd:string">###,##0.00</value>
+    </values>
+    <values>
         <field>ChannelId__c</field>
         <value xsi:type="xsd:string">SHOP_AE</value>
     </values>
     <values>
+        <field>ChannelType__c</field>
+        <value xsi:type="xsd:string">All</value>
+    </values>
+    <values>
         <field>IsManaged__c</field>
         <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>Timezone__c</field>
+        <value xsi:type="xsd:string">Asia/Dubai</value>
     </values>
     <values>
         <field>Zone__c</field>
@@ -20,11 +32,15 @@
     </values>
     <values>
         <field>cegidPaymentMethodID__c</field>
-        <value xsi:type="xsd:string">VSU</value>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>cegidPayment_MethodId__c</field>
-        <value xsi:type="xsd:string">ARU</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>cegidStateUsed__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>cegidTaxExcluded__c</field>
@@ -32,6 +48,10 @@
     </values>
     <values>
         <field>cegidTaxSystem__c</field>
-        <value xsi:type="xsd:string">AEN</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>createOrderSummary__c</field>
+        <value xsi:type="xsd:boolean">true</value>
     </values>
 </CustomMetadata>
