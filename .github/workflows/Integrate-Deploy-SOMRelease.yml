@@ -25,7 +25,7 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v3
               with:
-                ref: release/SOM-2023.6.1
+                ref: develop-som
             
             # List items
             - name: 'List items'
@@ -41,4 +41,4 @@ jobs:
               
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaIntegrateOrg
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-7-1.xml" -u RimowaIntegrateOrg
