@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_WS_ShipmentHandler</members>
+		<members>SOM_WS_ShipmentHandler_Test</members>
+    	<name>ApexClass</name> 
+	</types>
+	<types>
+		<members>Payment.paypalCustomerEmail__c</members>
+		<members>PaymentAuthorization.paypalCustomerEmail__c</members>
+		<members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
+		<members>Payment_Methods_Mapping__mdt.Language__c</members>
+		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
+		<members>Payment_Methods_Mapping__mdt.Value__c</members>
+		<members>Sales_Channel_Mapping__mdt.ChannelType__c</members>
+		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
+    	<name>CustomField</name>
+  	</types>
+	<types>
+    	<members>Payment_Methods_Mapping.ApplePay_EN</members>
+		<members>Payment_Methods_Mapping.COD_EN</members>
+		<members>Payment_Methods_Mapping.Visa_EN</members>
+		<members>Payment_Methods_Mapping.MasterCard_EN</members>
+		<members>Payment_Methods_Mapping.JCB_EN</members>
+		<members>Payment_Methods_Mapping.Amex_EN</members>
+
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+    	<members>Payment_Methods_Mapping__mdt</members>
+		<members>Sales_Channel_Mapping__mdt</members>
+    	<name>CustomObject</name>
+	</types> 
+    <types>  
+      	<members>Order_Summary_Record_Page</members>
+      	<name>FlexiPage</name>
+    </types>
+	<types>
+    	<members>SOM_100_Create_OrderSummary_Orchestration</members>
+		<members>SOM_110_CoreModel_Create_OrderSummary</members>
+		<members>SOM_115_ManuallyValidateOrderSummary</members>
+		<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+		<members>SOM_720_Refund_ManualValidateRefund</members>
+		<members>SOM_Cancel_Order_Summary</members>
+		<members>SOM_Single_Fulfillment_Order_Cancelation</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>Payment_Methods_Mapping__mdt-Payment Methods Mapping Layout</members>
+		<members>PaymentAuthorization-Payment Authorization Layout</members>
+    	<members>Payment-Payment Layout</members>
+	    <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<name>Layout</name>
+	</types>
+  	<types>
+		<members>OrderSummary.Unblock</members>
+		<name>QuickAction</name>
+	</types>
+	<version>54.0</version>
+</Package>
