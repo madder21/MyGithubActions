@@ -102,7 +102,7 @@
         <label>Manual Fraud Decision COD</label>
         <locationX>712</locationX>
         <locationY>661</locationY>
-        <allowBack>true</allowBack>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -110,9 +110,10 @@
         </connector>
         <fields>
             <name>FraudValidationCod</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Manual Fraud Validation&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Do you Confirm the order validation ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;Do you Confirm the order validation ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
@@ -128,32 +129,13 @@
             <targetReference>Fraud_Analysis</targetReference>
         </connector>
         <fields>
-            <name>FraudValidation</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;Manual Fraud Validation&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
             <name>Customer_Token</name>
             <dataType>String</dataType>
             <fieldText>Customer Token</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
-        <fields>
-            <name>ErrorMsg</name>
-            <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(244, 16, 3);&quot;&gt;A customer token must be entered to validate the order&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Customer_Token</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue></stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
+        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
