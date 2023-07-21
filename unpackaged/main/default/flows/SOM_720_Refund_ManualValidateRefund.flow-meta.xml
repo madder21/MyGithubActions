@@ -1,250 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <actionCalls>
-        <name>Generate_Refund_Validation_Transactional_Email</name>
-        <label>Generate Refund Validation Transactional Email</label>
-        <locationX>801</locationX>
-        <locationY>476</locationY>
-        <actionName>SOM_TransactionalEmailHandler</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Get_Payment_Method</targetReference>
-        </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>Get_Refund.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>templateName</name>
-            <value>
-                <elementReference>CONST_TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Refund_Without_Credit_Memo_Email</name>
-        <label>Refund Without Credit Memo Email</label>
-        <locationX>1342</locationX>
-        <locationY>952</locationY>
-        <actionName>SOM_TransactionalEmailHandler</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Get_Payment_Method</targetReference>
-        </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>templateName</name>
-            <value>
-                <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <apiVersion>54.0</apiVersion>
-    <assignments>
-        <name>Display_Error_message</name>
-        <label>Display Error message</label>
-        <locationX>1056</locationX>
-        <locationY>262</locationY>
-        <assignmentItems>
-            <assignToReference>Is_Error_Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>GatewayReferenceNumberAndpaymentMethodScreen</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Refund_Fields_Assignement</name>
-        <label>Refund Fields Assignement</label>
-        <locationX>1210</locationX>
-        <locationY>255</locationY>
-        <assignmentItems>
-            <assignToReference>Get_Refund.GatewayRefNumber</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>GatewayReferenceNumber</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Get_Refund.Status</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Processed</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Get_Refund.RefundMethod__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RefundMethod</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Get_Refund.ValidationDate__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Flow.CurrentDateTime</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_Refund</targetReference>
-        </connector>
-    </assignments>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
     <constants>
-        <name>CONST_TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION</name>
+        <name>ACCEPT</name>
         <dataType>String</dataType>
         <value>
-            <stringValue>RefundConfirmation</stringValue>
-        </value>
-    </constants>
-    <constants>
-        <name>TransactionalEmailRefundWithoutCreditMemoTemp</name>
-        <dataType>String</dataType>
-        <value>
-            <stringValue>RefundValidationMissingProduct</stringValue>
+            <stringValue>ACCEPT</stringValue>
         </value>
     </constants>
     <decisions>
-        <name>Check_No_Payment</name>
-        <label>Check_No_Payment</label>
-        <locationX>1395</locationX>
-        <locationY>485</locationY>
+        <name>Check_FraudAnalysisResponse</name>
+        <label>Check FraudAnalysisResponse</label>
+        <locationX>825</locationX>
+        <locationY>962</locationY>
         <defaultConnector>
-            <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
+            <targetReference>Screen_confirm</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>isSuccess = true</defaultConnectorLabel>
         <rules>
-            <name>No_Payment_Way</name>
+            <name>isSuccess_false</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>RefundMethod</leftValueReference>
+                <leftValueReference>Fraud_Analysis.FraudAnalysisResponse.isSuccess</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>No Payment</stringValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Payment_Method</targetReference>
+                <targetReference>Screen_not_confirm</targetReference>
             </connector>
-            <label>No_Payment_Way</label>
+            <label>isSuccess = false</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Refund_Origin</name>
-        <label>Check Refund Origin</label>
-        <locationX>317</locationX>
-        <locationY>946</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <name>Check_Order_Payment_Summary_Type</name>
+        <label>Check Order Payment Summary Type</label>
+        <locationX>834</locationX>
+        <locationY>487</locationY>
+        <defaultConnector>
+            <targetReference>Manual_Fraud_Decision_COD</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>TYPE = COD</defaultConnectorLabel>
         <rules>
-            <name>Partial_Cancelation</name>
+            <name>Type_NOT_COD</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Refund.RefundOrigin__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Partial Cancelation</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Credit_Memo_Linked_To_refund</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Publish_Partial_Cancelation_Event</targetReference>
-            </connector>
-            <label>Partial Cancelation</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_Refund_Origin_to_Launch_Email</name>
-        <label>Check Refund Origin to Launch Email</label>
-        <locationX>1019</locationX>
-        <locationY>414</locationY>
-        <defaultConnector>
-            <targetReference>Refund_Without_Credit_Memo_Email</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Refund Without Credit Memo Email</defaultConnectorLabel>
-        <rules>
-            <name>Refund_With_Credit_Memo_Email</name>
-            <conditionLogic>or</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Refund.RefundOrigin__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Appeasement</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Refund.RefundOrigin__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Return</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Generate_Refund_Validation_Transactional_Email</targetReference>
-            </connector>
-            <label>Refund With Credit Memo Email</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>If_Gateway_Reference_Number_is_emty</name>
-        <label>If Gateway Reference Number is emty</label>
-        <locationX>1043</locationX>
-        <locationY>89</locationY>
-        <defaultConnector>
-            <targetReference>Refund_Fields_Assignement</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Empty</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>GatewayReferenceNumber</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue></stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>RefundMethod</leftValueReference>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
-                    <stringValue>No Payment</stringValue>
+                    <stringValue>COD</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Display_Error_message</targetReference>
+                <targetReference>Manual_Fraud_Decision_Not_COD</targetReference>
             </connector>
-            <label>Empty</label>
+            <label>Type &lt;&gt; COD</label>
         </rules>
     </decisions>
-    <dynamicChoiceSets>
-        <name>RefundMethodChoiceSet</name>
-        <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
-        <picklistField>RefundMethod__c</picklistField>
-        <picklistObject>Refund</picklistObject>
-    </dynamicChoiceSets>
     <environments>Default</environments>
-    <interviewLabel>SOM 720 Refund ManualValidateRefund {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>SOM 720 Refund ManualValidateRefund</label>
+    <interviewLabel>SOM Unblock OS {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM 115 - Manually Validate Order Summary</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -264,150 +80,35 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
-    <recordCreates>
-        <name>Create_Refund_Line_Payment</name>
-        <label>Create Refund Line Payment</label>
-        <locationX>966</locationX>
-        <locationY>1186</locationY>
-        <connector>
-            <targetReference>Get_Credit_Memo_Linked_To_refund</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Amount</field>
-            <value>
-                <elementReference>Get_Refund.Amount</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>CurrencyIsoCode</field>
-            <value>
-                <elementReference>Get_Refund.CurrencyIsoCode</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>HasBeenUnapplied</field>
-            <value>
-                <stringValue>No</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>PaymentId</field>
-            <value>
-                <elementReference>Get_Payment_from_PaymentMethod.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>RefundId</field>
-            <value>
-                <elementReference>Get_Refund.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <stringValue>Applied</stringValue>
-            </value>
-        </inputAssignments>
-        <object>RefundLinePayment</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Publish_Partial_Cancelation_Event</name>
-        <label>Publish Partial Cancelation Event</label>
-        <locationX>22</locationX>
-        <locationY>939</locationY>
-        <inputAssignments>
-            <field>RefundId__c</field>
-            <value>
-                <elementReference>Get_Refund.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>PartialCancelation__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
     <recordLookups>
-        <name>Get_Credit_Memo_Linked_To_refund</name>
-        <label>Get Credit Memo Linked To refund</label>
-        <locationX>543</locationX>
-        <locationY>935</locationY>
+        <name>Get_Order_Payment_Summary</name>
+        <label>Get Order Payment Summary</label>
+        <locationX>840</locationX>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Refund_Origin</targetReference>
+            <targetReference>Check_Order_Payment_Summary_Type</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Refund__c</field>
+            <field>OrderSummaryId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Refund.Id</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>CreditMemo</object>
-        <queriedFields>Id</queriedFields>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Payment_from_PaymentMethod</name>
-        <label>Get Payment from PaymentMethod</label>
-        <locationX>959</locationX>
-        <locationY>893</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Create_Refund_Line_Payment</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>PaymentMethodId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Payment_Method.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Processed</stringValue>
+                <elementReference>Get_OS.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Payment</object>
-        <sortField>Id</sortField>
-        <sortOrder>Asc</sortOrder>
+        <object>OrderPaymentSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Payment_Method</name>
-        <label>Get Payment Method</label>
-        <locationX>956</locationX>
-        <locationY>735</locationY>
+        <name>Get_OS</name>
+        <label>Get OS</label>
+        <locationX>840</locationX>
+        <locationY>195</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Payment_from_PaymentMethod</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Refund.PaymentMethodId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>PaymentMethod</object>
-        <sortField>Id</sortField>
-        <sortOrder>Asc</sortOrder>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_Refund</name>
-        <label>Get Refund</label>
-        <locationX>619</locationX>
-        <locationY>254</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>GatewayReferenceNumberAndpaymentMethodScreen</targetReference>
+            <targetReference>Get_Order_Payment_Summary</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -418,104 +119,122 @@
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Refund</object>
+        <object>OrderSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <name>Update_Refund</name>
-        <label>Update Refund</label>
-        <locationX>1342</locationX>
-        <locationY>254</locationY>
-        <connector>
-            <targetReference>Check_No_Payment</targetReference>
-        </connector>
-        <inputReference>Get_Refund</inputReference>
-    </recordUpdates>
-    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
-        <name>GatewayReferenceNumberAndpaymentMethodScreen</name>
-        <label>Refund Validation</label>
-        <locationX>833</locationX>
-        <locationY>254</locationY>
+        <name>Manual_Fraud_Decision_COD</name>
+        <label>Manual Fraud Decision COD</label>
+        <locationX>712</locationX>
+        <locationY>661</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>If_Gateway_Reference_Number_is_emty</targetReference>
+            <targetReference>Fraud_Analysis</targetReference>
         </connector>
         <fields>
-            <name>GatewayReferenceNumber</name>
-            <dataType>String</dataType>
-            <fieldText>Gateway Reference Number</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>RefundMethod</leftValueReference>
-                    <operator>NotEqualTo</operator>
-                    <rightValue>
-                        <stringValue>No Payment</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>Gateway_Reference_Number_ErrorMessage</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(228, 17, 17);&quot;&gt;Gateway Reference Number is missing&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>FraudValidationCod</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;Do you Confirm the order validation ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Is_Error_Message</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>RefundMethod</leftValueReference>
-                    <operator>NotEqualTo</operator>
-                    <rightValue>
-                        <stringValue>No Payment</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>RefundMethod</leftValueReference>
-                    <operator>EqualTo</operator>
-                </conditions>
-            </visibilityRule>
         </fields>
+        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manual_Fraud_Decision_Not_COD</name>
+        <label>Manual Fraud Decision Not COD</label>
+        <locationX>974</locationX>
+        <locationY>659</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Fraud_Analysis</targetReference>
+        </connector>
         <fields>
-            <name>RefundMethod</name>
-            <choiceReferences>RefundMethodChoiceSet</choiceReferences>
+            <name>Customer_Token</name>
             <dataType>String</dataType>
-            <fieldText>Refund Method</fieldText>
-            <fieldType>DropdownBox</fieldType>
+            <fieldText>Customer Token</fieldText>
+            <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
+    <screens>
+        <name>Screen_confirm</name>
+        <label>Screen confirm</label>
+        <locationX>1099</locationX>
+        <locationY>1057</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>DisplayMsg</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;The order is successfuly validated.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Screen_not_confirm</name>
+        <label>Screen not confirm</label>
+        <locationX>643</locationX>
+        <locationY>1066</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>DisplayMsg_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(234, 3, 3);&quot;&gt;{!Fraud_Analysis.FraudAnalysisResponse.errorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <start>
-        <locationX>493</locationX>
-        <locationY>91</locationY>
+        <locationX>714</locationX>
+        <locationY>48</locationY>
         <connector>
-            <targetReference>Get_Refund</targetReference>
+            <targetReference>Get_OS</targetReference>
         </connector>
     </start>
     <status>Active</status>
-    <variables>
-        <name>Is_Error_Message</name>
-        <dataType>Boolean</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <value>
-            <booleanValue>false</booleanValue>
-        </value>
-    </variables>
+    <subflows>
+        <name>Fraud_Analysis</name>
+        <label>Fraud Analysis</label>
+        <locationX>833</locationX>
+        <locationY>796</locationY>
+        <connector>
+            <targetReference>Check_FraudAnalysisResponse</targetReference>
+        </connector>
+        <flowName>SOM_Fraud_FraudAnalysisHandler</flowName>
+        <inputAssignments>
+            <name>customerToken</name>
+            <value>
+                <elementReference>Customer_Token</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>fraudReviewDecision</name>
+            <value>
+                <elementReference>ACCEPT</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>orderSummaryNumber</name>
+            <value>
+                <elementReference>Get_OS.OrderNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
     <variables>
         <name>recordId</name>
         <dataType>String</dataType>
