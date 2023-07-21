@@ -9,6 +9,31 @@
         </value>
     </constants>
     <decisions>
+        <name>Check_FraudAnalysisResponse</name>
+        <label>Check FraudAnalysisResponse</label>
+        <locationX>825</locationX>
+        <locationY>962</locationY>
+        <defaultConnector>
+            <targetReference>Screen_confirm</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>isSuccess = true</defaultConnectorLabel>
+        <rules>
+            <name>isSuccess_false</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Fraud_Analysis.FraudAnalysisResponse.isSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Screen_not_confirm</targetReference>
+            </connector>
+            <label>isSuccess = false</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Order_Payment_Summary_Type</name>
         <label>Check Order Payment Summary Type</label>
         <locationX>834</locationX>
@@ -142,14 +167,31 @@
     <screens>
         <name>Screen_confirm</name>
         <label>Screen confirm</label>
-        <locationX>833</locationX>
-        <locationY>950</locationY>
+        <locationX>1099</locationX>
+        <locationY>1057</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>DisplayMsg</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px;&quot;&gt;The order is successfuly validated.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Screen_not_confirm</name>
+        <label>Screen not confirm</label>
+        <locationX>643</locationX>
+        <locationY>1066</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>DisplayMsg_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 16px; color: rgb(234, 3, 3);&quot;&gt;{!Fraud_Analysis.FraudAnalysisResponse.errorMessage}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
@@ -170,7 +212,7 @@
         <locationX>833</locationX>
         <locationY>796</locationY>
         <connector>
-            <targetReference>Screen_confirm</targetReference>
+            <targetReference>Check_FraudAnalysisResponse</targetReference>
         </connector>
         <flowName>SOM_Fraud_FraudAnalysisHandler</flowName>
         <inputAssignments>
