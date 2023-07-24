@@ -675,4 +675,8 @@ public without sharing class ConsentManagementHelper {
  
     }
     
+    //EBU 2023July24th  -  Retro compatibility ONLY for deploy
+    public static void migrateConsentGlobalMethod(List<Account> accounts,Map<Id,B2CContactProcessCustomInput> customInputsByAccountId, Boolean isFromMigrationJob)
+    {
+    }   
 }
