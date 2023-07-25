@@ -8,10 +8,8 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
         List <PE_Emails_Setting__mdt> peEmailSettings = [SELECT Id, DeveloperName, PE_Emails_Setting_Name__c, Countries__c, Distribution_List__c  
                                                          FROM PE_Emails_Setting__mdt WHERE Distribution_List__c != null];
         Map <String, String> reportsDeveloperNamesMap = new Map <String, String>();
-        Map <String, String> distributionListMap      = new Map <String, String>();
         for(PE_Emails_Setting__mdt singleMDT : peEmailSettings){
-            reportsDeveloperNamesMap.put('ECommerce_Payment_Capture_Errors_'+singleMDT.Countries__c, singleMDT.Countries__c);
-            distributionListMap.put(singleMDT.Countries__c, singleMDT.Distribution_List__c);
+            reportsDeveloperNamesMap.put('ECommerce_Payment_Capture_Errors_'+singleMDT.Countries__c, singleMDT.Distribution_List__c);
         }
         List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
@@ -24,7 +22,11 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                 ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
                 Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
                 attachment.setFileName('report.csv');
-                attachment.setBody(Blob.valueof(report.getContent().toString()));
+                if(Test.isRunningTest()) { 
+                	attachment.setBody(Blob.valueOf('EmailBody.Test'));
+                }else{
+                    attachment.setBody(Blob.valueof(report.getContent().toString()));
+                }
                 attachment.setContentType('text/csv');
                 Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
                 message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
@@ -33,7 +35,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                 message.setSubject(subject);
                 message.setPlainTextBody(' Link to see the report : '+baseUrl+'/'+reportId);
                 String[] toAddresses = new list<string>();
-                toAddresses.addAll((distributionListMap.get(reportsDeveloperNamesMap.get(singleReport.DeveloperName))).split(';'));
+                toAddresses.addAll((reportsDeveloperNamesMap.get(singleReport.DeveloperName)).split(';'));
                 message.setToAddresses( toAddresses );
                 emailList.add(message);
         	}
