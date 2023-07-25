@@ -5,11 +5,11 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
     @future(callout=true)
     public static void DoExport() {
         Messaging.SingleEmailMessage[] emailList = new Messaging.SingleEmailMessage[]{};
-        List <PE_Emails_Setting__mdt> peEmailSettings = [SELECT Id, DeveloperName, PE_Emails_Setting_Name__c, Countries__c, Distribution_List__c  
+        List <PE_Emails_Setting__mdt> peEmailSettings = [SELECT Id, DeveloperName, PE_Emails_Setting_Name__c, Country__c, Distribution_List__c  
                                                          FROM PE_Emails_Setting__mdt WHERE Distribution_List__c != null];
         Map <String, String> reportsDeveloperNamesMap = new Map <String, String>();
         for(PE_Emails_Setting__mdt singleMDT : peEmailSettings){
-            reportsDeveloperNamesMap.put('ECommerce_Payment_Capture_Errors_'+singleMDT.Countries__c, singleMDT.Distribution_List__c);
+            reportsDeveloperNamesMap.put('ECommerce_Payment_Capture_Errors_'+singleMDT.Country__c, singleMDT.Distribution_List__c);
         }
         List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
