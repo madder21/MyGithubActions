@@ -570,6 +570,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         return refundValidationTransactionalEmailsList;
     }
 
+
     public static List<TransactionalEmail__c> generateRefundWithoutCreditMemoTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> transactionalEmails = new List<TransactionalEmail__c>();
         List<Refund> refunds = [SELECT ID, Amount, 	ValidationDate__c, CurrencyIsoCode, OrderPaymentSummary.OrderSummaryId FROM Refund WHERE Id IN :recordIds];
@@ -639,15 +640,22 @@ public without sharing class SOM_TransactionalEmailHandler {
     } 
     
     public static String generateCountryMappingLabel(String LanguageISOcode, String CountryIso) {
-        if (LanguageISOcode == null || LanguageISOcode == ''){
-            List<CountryMapping__mdt> listMet = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso];
-            if(!listMet.isEmpty())
-                return listMet[0].CountryLabel__c;
-            else
-                return '';
-        } else{
-            String CountryMappingLabel = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso].CountryLabel__c;
-            return CountryMappingLabel ;
+        try {
+            if (LanguageISOcode == null || LanguageISOcode == ''){
+                List<CountryMapping__mdt> listMet = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryIso];
+                if(!listMet.isEmpty())
+                    return listMet[0].CountryLabel__c;
+                else
+                    return CountryIso;
+            } else{
+                List<CountryMapping__mdt> listMet = [SELECT MasterLabel, LanguageISOcode__c,CountryLabel__c FROM CountryMapping__mdt WHERE LanguageISOcode__c = :LanguageISOcode AND CoutryISOcode__c =: CountryIso];
+                if(!listMet.isEmpty())
+                    return listMet[0].CountryLabel__c;
+                else
+                    return CountryIso;
+            }
+        } catch (Exception e) {
+            return CountryIso ;
         }
     } 
 
