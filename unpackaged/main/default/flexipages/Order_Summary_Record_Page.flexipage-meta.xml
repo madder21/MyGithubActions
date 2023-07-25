@@ -451,6 +451,42 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Unblock</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND ( 2 OR 3 ) AND 4 AND 5 AND 6</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Created</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Ecom Operations</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>System Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OrderLifeCycleType}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>MANAGED</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.On_Hold__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.passedFraudScreening__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -471,7 +507,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>7</value>
+                    <value>8</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
