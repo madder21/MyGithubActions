@@ -9,7 +9,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                                                          FROM PE_Emails_Setting__mdt WHERE Distribution_List__c != null];
         Map <String, String> reportsDeveloperNamesMap = new Map <String, String>();
         for(PE_Emails_Setting__mdt singleMDT : peEmailSettings){
-            reportsDeveloperNamesMap.put(SOM_Constants.ECOMMERCE_PAYMENT_CPTURE_ERRORS + singleMDT.Country__c, singleMDT.Distribution_List__c);
+            reportsDeveloperNamesMap.put(SOM_Constants.ECOMMERCE_PAYMENT_CAPTURE_ERRORS + singleMDT.Country__c, singleMDT.Distribution_List__c);
         }
         List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
