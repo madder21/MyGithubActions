@@ -82,7 +82,7 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                 // prepare response to return
                 response.statusCode = 400;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
-                    'Response' => 'Fulfillment Order or Order Summary are not valid - there status should be in : fulfilling, partially fulfilled'
+                    'Response' => 'Fulfillment Order or Order Summary are not valid or their status should be in : fulfilling, partially fulfilled'
                 }));
                 return;
             }
@@ -141,10 +141,12 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     WMS_OrderPickedinStoreResponse cegidOrdNumberResponse = new WMS_OrderPickedinStoreResponse();
                     cegidOrdNumberResponse.isSuccess = false;
                     cegidOrdNumberResponse.orderSummaryNumber = reqLine.orderSummaryNumber;
-                    cegidOrdNumberResponse.errorMessage = 'Invoice Number : '+reqLine.cegidInvoiceNumber+', data value too large, max length is 20';
+                    cegidOrdNumberResponse.errorMessage = 'Invoice Number : '+reqLine.cegidInvoiceNumber+' too long, max length is 20';
                     responseData.put(reqLine.orderSummaryNumber, cegidOrdNumberResponse);
                     continue;
                 }
+                //Handle Error too long deliveryDate
+                //valueOf(reqLine.deliveryDate);
                 if(listfulfillmentOrderByOsId?.get(listOSIdByOsNumber.get(reqLine.orderSummaryNumber)).size() != 1){
                     //Handle Error no OrderSummary Exist with this OrderNumber
                     WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
@@ -269,7 +271,7 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                                 WMS_OrderPickedinStoreResponse fulflOrderResponse = new WMS_OrderPickedinStoreResponse();
                                 fulflOrderResponse.isSuccess = false;
                                 fulflOrderResponse.orderSummaryNumber = reqLine.orderSummaryNumber;
-                                fulflOrderResponse.errorMessage = 'SerialNumber : '+serialNumber+' data value too large, max length is 20';
+                                fulflOrderResponse.errorMessage = 'SerialNumber : '+serialNumber+' too long, max length is 20';
                                 if(shipmentItemsToInsertByOsId.containsKey(reqLine.orderSummaryNumber)) shipmentItemsToInsertByOsId.remove(reqLine.orderSummaryNumber);
                                 if(shipmentsToInsertByOsNumber.containsKey(reqLine.orderSummaryNumber)) shipmentsToInsertByOsNumber.remove(reqLine.orderSummaryNumber);
                                 responseData.put(reqLine.orderSummaryNumber, fulflOrderResponse);
@@ -380,6 +382,7 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
             }));
             
         }
+        
     }
 
     // data Request wrapper

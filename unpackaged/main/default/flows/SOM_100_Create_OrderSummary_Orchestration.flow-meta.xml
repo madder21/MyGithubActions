@@ -20,8 +20,8 @@
     <assignments>
         <name>Assign_Managed</name>
         <label>Assign Managed</label>
-        <locationX>946</locationX>
-        <locationY>985</locationY>
+        <locationX>948</locationX>
+        <locationY>990</locationY>
         <assignmentItems>
             <assignToReference>ManagedLifeCycle</assignToReference>
             <operator>Assign</operator>
@@ -33,6 +33,50 @@
             <targetReference>SOM_110_CM_Create_OS</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>C_C_Store_Pickup</name>
+        <label>C&amp;C Store Pickup ?</label>
+        <locationX>591</locationX>
+        <locationY>1066</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Store_Pickup</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Methods.Delivery_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Store Pickup</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Payment_Group</targetReference>
+            </connector>
+            <label>Store Pickup</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>HD_Home_Delivery</name>
+        <label>HD Home Delivery ?</label>
+        <locationX>281</locationX>
+        <locationY>1076</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Home_Delivery</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Methods.Delivery_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Home Delivery</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Payment_Group</targetReference>
+            </connector>
+            <label>Home Delivery</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>IsManaged</name>
         <label>IsManaged?</label>
@@ -66,10 +110,62 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Sales_Channel_Mapping</name>
+        <label>Sales Channel Mapping ?</label>
+        <locationX>429</locationX>
+        <locationY>966</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>All</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Sales_Channel_Mapping_mdt_related_To_Record.ChannelType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>All</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Payment_Group</targetReference>
+            </connector>
+            <label>All</label>
+        </rules>
+        <rules>
+            <name>C_C</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Sales_Channel_Mapping_mdt_related_To_Record.ChannelType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>C&amp;C</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>C_C_Store_Pickup</targetReference>
+            </connector>
+            <label>C&amp;C</label>
+        </rules>
+        <rules>
+            <name>HD</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Sales_Channel_Mapping_mdt_related_To_Record.ChannelType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>HD</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>HD_Home_Delivery</targetReference>
+            </connector>
+            <label>HD</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Sales_Channel_Mapping_Exists</name>
         <label>Sales Channel Mapping Exists ?</label>
-        <locationX>425</locationX>
-        <locationY>743</locationY>
+        <locationX>429</locationX>
+        <locationY>768</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Exist</name>
@@ -89,7 +185,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Payment_Group</targetReference>
+                <targetReference>Sales_Channel_Mapping</targetReference>
             </connector>
             <label>Exist</label>
         </rules>
@@ -162,11 +258,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Groups</name>
         <label>Get Order Delivery Groups</label>
-        <locationX>434</locationX>
-        <locationY>405</locationY>
+        <locationX>435</locationX>
+        <locationY>367</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Sales_Channel_Mapping_mdt_related_To_Record</targetReference>
+            <targetReference>Get_Order_Methods</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -180,15 +276,39 @@
         <object>OrderDeliveryGroup</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>DeliverToCountry</queriedFields>
+        <queriedFields>OrderDeliveryMethodId</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Methods</name>
+        <label>Get Order Methods</label>
+        <locationX>437</locationX>
+        <locationY>500</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Sales_Channel_Mapping_mdt_related_To_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Groups.OrderDeliveryMethodId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryMethod</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Delivery_Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Payment</name>
         <label>Get Payment</label>
-        <locationX>424</locationX>
-        <locationY>1117</locationY>
+        <locationX>434</locationX>
+        <locationY>1279</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L11_Payments</targetReference>
@@ -208,8 +328,8 @@
     <recordLookups>
         <name>Get_Payment_Group</name>
         <label>Get Payment Group</label>
-        <locationX>430</locationX>
-        <locationY>958</locationY>
+        <locationX>429</locationX>
+        <locationY>1179</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Payment</targetReference>
@@ -229,8 +349,8 @@
     <recordLookups>
         <name>Get_Sales_Channel_Mapping_mdt_related_To_Record</name>
         <label>Get Sales Channel Mapping mdt related To Record</label>
-        <locationX>434</locationX>
-        <locationY>566</locationY>
+        <locationX>437</locationX>
+        <locationY>627</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Sales_Channel_Mapping_Exists</targetReference>

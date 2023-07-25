@@ -1,9 +1,19 @@
 /**
- * @description       : 
+ * @description       : Create Consents for Flow B2C and batch catch up
  * @author            : BADER EDDINE ELKHAL
  * @group             : 
  * @last modified on  : 06-08-2022
  * @last modified by  : BADER EDDINE ELKHAL
+ * @last modified on  : 24-01-2023
+ * @last modified by  : Paul Louis MONY
+ * @last modification : indentation, cleansing and commenting; add a method for migrationJob newsletter handling
+ * @last modified on  : 30-01-2023
+ * @last modified by  : Ulrich NDONG NGOMO
+ * @last modification : Update of Account when IsMigrationJob
+ * @last modified on  : 22-02-2023
+ * @last modified by  : Paul Louis MONY
+ * @last modification : Correct the multiple consent created by migration job, add the ContactPointEmail fetch for the migration job + API VERSION Upgrade to 57
+ 
 **/
 
 public class ConsentManagementHelper {
@@ -23,14 +33,11 @@ public class ConsentManagementHelper {
             if(accountsList.size() == 1){
                customInputsList.put(accountsList[0].Id,customInput);
                ConsentManagementHelper.migrateConsentGlobalMethod(accountsList,customInputsList,false);
-                         
-               
             }          
         }        
     }
 
     public static String HashMD5(Datetime createDate, Id contactId, String email){
-
         String fieldsConcatenate = String.valueOf(createDate);
         if(email != null){
             fieldsConcatenate += Email;
@@ -38,157 +45,178 @@ public class ConsentManagementHelper {
         if(ContactId != null){
             fieldsConcatenate += String.valueOf(ContactId);
         }
-
         Blob targetBlob = Blob.valueOf(fieldsConcatenate);
         Blob hash = Crypto.generateDigest('MD5', targetBlob);
         String ecodingToUrl = EncodingUtil.Base64Encode(hash);
         return EncodingUtil.urlEncode(ecodingToUrl, 'UTF-8');
-
     }
     
     //Method called from DataMigrationBatch & Custom Input
     public static void migrateConsentGlobalMethod(List<Account> accounts,Map<Id,B2CContactProcessCustomInput> customInputsByAccountId, Boolean isFromMigrationJob){
-       Map<Id,Account> mapAccounts= New Map<Id,Account>(accounts);
-       List<ContactPointTypeConsent> contactPointTypeConsentToUpdate = New List<ContactPointTypeConsent>();
-       List<ContactPointTypeConsent> contactPointTypeConsentToInsert = New List<ContactPointTypeConsent>();
-       List<ContactPointConsent> contactPointConsentToInsert = New List<ContactPointConsent>();
-       List<ContactPointConsent> contactPointConsentToUpdate = New List<ContactPointConsent>();
-       Map<Id, Individual> individualsToInsertByAccountId = new Map<Id, Individual>();
-       Map<Id, Account> accountsByIndividualId = new Map<Id, Account>();
-       Map<Id, ContactPointEmail> contactPointsToInsertByIndividualId = new Map<Id, ContactPointEmail>();
-       Map<Id, ContactPointEmail> allContactPointsByIndividualId = new Map<Id, ContactPointEmail>();
-       Map<ID, ContactPointTypeConsent> contactPointTypeConsentsByAccountId = new Map<ID, ContactPointTypeConsent>();
-       Map<ID, ContactPointConsent> contactPointConsentsByAccountId = new Map<ID, ContactPointConsent>();
-       List<CommSubscriptionConsent> commSubscriptionConsentToInsert = New List<CommSubscriptionConsent>();
-       Map<String, CommSubscriptionChannelType> commSubChannelTypesByName= new Map<String, CommSubscriptionChannelType>();
-       Map<Id, CommSubscriptionConsent> commSubscriptionConsentByAccountId = new Map<Id, CommSubscriptionConsent>();
-       Map<Id, Boolean> mapConsentStatusWithAccountId = new Map<Id, Boolean>();
-       DateTime lastUpdateOptinDate = System.now();
-       Boolean isConsentActive = true;
-       Boolean toUpdateAccounts = false;
-
-       for(Account account: accounts){
-           lastUpdateOptinDate = isFromMigrationJob ? account.LastUpdateOptinEmailing__pc : System.now();
-           if(account.PersonIndividualId == null){
+        Map<Id,Account> mapAccounts= New Map<Id,Account>(accounts);
+        List<ContactPointTypeConsent> contactPointTypeConsentToUpdate = New List<ContactPointTypeConsent>();
+        List<ContactPointTypeConsent> contactPointTypeConsentToInsert = New List<ContactPointTypeConsent>();
+        List<ContactPointConsent> contactPointConsentToInsert = New List<ContactPointConsent>();
+        List<ContactPointConsent> contactPointConsentToUpdate = New List<ContactPointConsent>();
+        Map<Id, Individual> individualsToInsertByAccountId = new Map<Id, Individual>();
+        Map<Id, Account> accountsByIndividualId = new Map<Id, Account>();
+        Map<Id, List<ContactPointEmail>> contactPointsByAccountId = new Map<Id, List<ContactPointEmail>> ();
+        Map<Id, ContactPointEmail> contactPointsToInsertByIndividualId = new Map<Id, ContactPointEmail>();
+        Map<Id, ContactPointEmail> allContactPointsByIndividualId = new Map<Id, ContactPointEmail>();
+        Map<ID, ContactPointTypeConsent> contactPointTypeConsentsByAccountId = new Map<ID, ContactPointTypeConsent>();
+        Map<ID, ContactPointConsent> contactPointConsentsByAccountId = new Map<ID, ContactPointConsent>();
+        List<CommSubscriptionConsent> commSubscriptionConsentToInsert = New List<CommSubscriptionConsent>();
+        Map<String, CommSubscriptionChannelType> commSubChannelTypesByName= new Map<String, CommSubscriptionChannelType>();
+        Map<Id, CommSubscriptionConsent> commSubscriptionConsentByAccountId = new Map<Id, CommSubscriptionConsent>();
+        Map<Id, Boolean> mapConsentStatusWithAccountId = new Map<Id, Boolean>();
+        DateTime lastUpdateOptinDate = System.now();
+        Boolean isConsentActive = true;
+        Boolean toUpdateAccounts = false;
+        
+        /*!START SECTION 1 ***************************************************************************************
+        Management of Individual and ContactPointEmail
+        */
+        //List<ContactPointEmail> cpeList = [SELECT Id, ActiveToDate, EmailAddress, AccountId__c FROM ContactPointEmail WHERE AccountId__c IN :accounts];
+        List<Account>AccountContactPointEmailList = [Select ID, (SELECT Id, ActiveToDate, EmailAddress FROM ContactPointEmails__r) FROM Account WHERE Id IN :mapAccounts.keySet()];
+        for(Account acc : AccountContactPointEmailList){
+            if(acc.ContactPointEmails__r.size()>0)contactPointsByAccountId.put(acc.Id, acc.ContactPointEmails__r);
+        }
+        for(Account aAccount: accounts){
+           lastUpdateOptinDate = isFromMigrationJob ? aAccount.LastUpdateOptinEmailing__pc : System.now();
+           //IF there is no Individual attached to the Account
+           if(aAccount.PersonIndividualId == null){
                individualsToInsertByAccountId.put(
-                    account.Id,
+                    aAccount.Id,
                     new Individual(
-                        LastName = account.LastName,
-                        Salutation = account.Salutation,
-                        BirthDate = account.PersonBirthdate
+                        LastName = aAccount.LastName,
+                        Salutation = aAccount.Salutation,
+                        BirthDate = aAccount.PersonBirthdate
                     ));
-            }else{
-                if(!account.ContactPointEmails__r.isEmpty()){
-                    for(ContactPointEmail contactPointEmail: account.ContactPointEmails__r){
-                        //we need to take on considiration 
-                        if(contactPointEmail.ActiveToDate == null
-                          && contactPointEmail.EmailAddress == account.PersonEmail
-                          ){
-                              allContactPointsByIndividualId.put(
-                              	account.PersonIndividualId,
-                                contactPointEmail
-                              );
-                              break;
+            }
+            //If there is an Individual already attached to the account
+            else{
+                //IF the account have a ContactPointEmail           
+                if(contactPointsByAccountId.containskey(aAccount.Id)){
+                    for(ContactPointEmail aContactPointEmail : contactPointsByAccountId.get(aAccount.Id)){
+                        // Add to map <individualID,ContactPointEmail> the related ContactPointEmail 
+                        //with the Indidual linked in the Account if the contactPointEmail Is Active
+                        if(aContactPointEmail.ActiveToDate == null && aContactPointEmail.EmailAddress == aAccount.PersonEmail){
+                            allContactPointsByIndividualId.put(aAccount.PersonIndividualId,aContactPointEmail);
+                            break;
                         }
                     }
-                    if(!allContactPointsByIndividualId.containskey(account.PersonIndividualId)){
-                        contactPointsToInsertByIndividualId.put(
-                            account.PersonIndividualId,
-                            new ContactPointEmail(
-                            	ActiveFromDate = lastUpdateOptinDate.Date(),
-                                AccountId__c=account.Id,
-                                ParentId=account.PersonIndividualId,
-                                EmailAddress = account.PersonEmail
-                            ));
+                    //IF the map <individualID,ContactPointEmail> doestn't contain an individual who match the ContactPointEmail 
+                    //- create a new ContactPointEmail
+                    if(!allContactPointsByIndividualId.containskey(aAccount.PersonIndividualId)){
+                        contactPointsToInsertByIndividualId.put(aAccount.PersonIndividualId,
+                                                                new ContactPointEmail(ActiveFromDate = lastUpdateOptinDate.Date(),
+                                                                                      AccountId__c   = aAccount.Id,
+                                                                                      ParentId       = aAccount.PersonIndividualId,
+                                                                                      EmailAddress   = aAccount.PersonEmail));
                     }
-                }else{
-                    contactPointsToInsertByIndividualId.put(
-                            account.PersonIndividualId,
-                            new ContactPointEmail(
-                            	ActiveFromDate = lastUpdateOptinDate.Date(),
-                                AccountId__c=account.Id,
-                                ParentId=account.PersonIndividualId,
-                                EmailAddress = account.PersonEmail
-                            ));
+                }
+                //IF the account haven't a ContactPointEmail
+                else{
+                    contactPointsToInsertByIndividualId.put(aAccount.PersonIndividualId,
+                                                            new ContactPointEmail(ActiveFromDate = lastUpdateOptinDate.Date(),
+                                                                                  AccountId__c=aAccount.Id,
+                                                                                  ParentId=aAccount.PersonIndividualId,
+                                                                                  EmailAddress = aAccount.PersonEmail));
                 }
             }
-       }
+        }
+		//INSERT NEW INDIVUAL PLM 17/02/2023 : Ensure unicity of Indiv + CPE records by insert throught MapAccount
         if(!individualsToInsertByAccountId.isEmpty()){
+            System.debug('SECTION 1 : Insert Individual : ' + individualsToInsertByAccountId);
             insert individualsToInsertByAccountId.values();
-            for(Id id : individualsToInsertByAccountId.keySet()){
-                accountsByIndividualId.put(individualsToInsertByAccountId.get(id).Id, mapAccounts.get(id));
-                //affect individual Id to Account to update it later!
-                mapAccounts.get(id).PersonIndividualId = individualsToInsertByAccountId.get(id).Id;
+            //update Map Account with new indiv
+            for(Id aAccountId : individualsToInsertByAccountId.keySet()){
+                Id currentIndivualID = individualsToInsertByAccountId.get(aAccountId).Id;
+                mapAccounts.get(aAccountId).PersonIndividualId = currentIndivualID;
                 toUpdateAccounts = true;
-            }
-            for(Individual individual : individualsToInsertByAccountId.values()){
-                contactPointsToInsertByIndividualId.put(
-                            individual.Id,
-                            new ContactPointEmail(
-                            	ActiveFromDate = isFromMigrationJob ? accountsByIndividualId.get(individual.Id).LastUpdateOptinEmailing__pc.Date() : System.today(),
-                                AccountId__c=accountsByIndividualId.get(individual.Id).Id,
-                                ParentId=individual.Id,
-                                EmailAddress = accountsByIndividualId.get(individual.Id).PersonEmail
-                            ));
+                //PUT NEW CONTACTPOINT FROM NEW INDIV
+                contactPointsToInsertByIndividualId.put(currentIndivualID,
+                                                        new ContactPointEMail(ActiveFromDate = isFromMigrationJob?  mapAccounts.get(aAccountId).LastUpdateOptinEmailing__pc.Date() : System.today(),
+                                                        AccountID__c = aAccountId,
+                                                        ParentId = currentIndivualID,
+                                                        EmailAddress = mapAccounts.get(aAccountId).PersonEmail));
             }
         }
-       //Insert the list of contactPointEmails allContactPointsByIndividualId MAP
-       if(!contactPointsToInsertByIndividualId.isEmpty()) insert contactPointsToInsertByIndividualId.values();
-       //Add inserted contactPointEmails to 
-       for(ContactPointEmail contactPointEmail : contactPointsToInsertByIndividualId.values()){
-            allContactPointsByIndividualId.put(contactPointEmail.ParentId,contactPointEmail);
+        //Insert the list of contactPointEmails from contactPointsToInsertByIndividualId MAP
+        if(!contactPointsToInsertByIndividualId.isEmpty()){
+            System.debug('SECTION 1 : Insert ContactPointEmail : ' + contactPointsToInsertByIndividualId);
+            Database.Insert(contactPointsToInsertByIndividualId.values());
         }
-       //Query on ContactPointTypeConsent by AccountIds
-       for(ContactPointTypeConsent contactPointTypeConsent: [SELECT Id, AccountId__r.Name ,AccountId__c, EffectiveFrom, EffectiveTo, ContactPointType 
-                                                                 	FROM ContactPointTypeConsent 
-                                                                 	WHERE AccountId__c IN :mapAccounts.keySet()
-                                                                 	AND PrivacyConsentStatus = 'OptIn'
-                                                                	AND ContactPointType ='Email'
-                                                            		ORDER BY EffectiveFrom DESC]){
-            if(!contactPointTypeConsentsByAccountId.containsKey(contactPointTypeConsent.AccountId__c)){
-                contactPointTypeConsentsByAccountId.put(contactPointTypeConsent.AccountId__c, contactPointTypeConsent);
-            }
-       }
-       //Query on ContactPointConsent by AccountIds 
-       for(ContactPointConsent contactPointConsent: [SELECT Id, PrivacyConsentStatus ,AccountId__c, EffectiveFrom, EffectiveTo 
-                                                                 	FROM ContactPointConsent 
-                                                                 	WHERE AccountId__c IN :mapAccounts.keySet()
-                                                                 	AND PrivacyConsentStatus = 'OptIn'
-                                                            		ORDER BY EffectiveFrom DESC]){
-            if(!contactPointConsentsByAccountId.containsKey(contactPointConsent.AccountId__c)){
-                contactPointConsentsByAccountId.put(contactPointConsent.AccountId__c, contactPointConsent);
-            }
-       }
+        //Add inserted contactPointEmails to allContactPointsByIndividualId
+        for(ContactPointEmail aContactPointEmail : contactPointsToInsertByIndividualId.values()){
+            allContactPointsByIndividualId.put(aContactPointEmail.ParentId,aContactPointEmail);
+        }
+        /*!END SECTION 1    ***************************************************************************************
+        */
 
-       for(Id accountId : mapAccounts.keySet()){
-           Boolean consentFlag = !isFromMigrationJob && customInputsByAccountId.get(accountId).EmailConsent!=null ? customInputsByAccountId.get(accountId).EmailConsent : false;
+        /*!START SECTION 2  ***************************************************************************************
+        Management of ContactPointTypeConsent and ContactPointConsent
+        */
+       //Query on ContactPointTypeConsent by AccountIds
+        for(ContactPointTypeConsent aContactPointTypeConsent: [SELECT Id, AccountId__r.Name ,AccountId__c, EffectiveFrom, EffectiveTo, ContactPointType 
+                                                              FROM ContactPointTypeConsent 
+                                                              WHERE AccountId__c IN :mapAccounts.keySet()
+                                                              AND PrivacyConsentStatus = 'OptIn'
+                                                              AND ContactPointType ='Email'
+                                                              ORDER BY EffectiveFrom DESC]){
+            if(!contactPointTypeConsentsByAccountId.containsKey(aContactPointTypeConsent.AccountId__c)){
+                contactPointTypeConsentsByAccountId.put(aContactPointTypeConsent.AccountId__c, aContactPointTypeConsent);
+            }
+        }
+       //Query on ContactPointConsent by AccountIds 
+        for(ContactPointConsent aContactPointConsent : [SELECT Id, PrivacyConsentStatus ,AccountId__c, EffectiveFrom, EffectiveTo 
+                                                    FROM ContactPointConsent 
+                                                    WHERE AccountId__c IN :mapAccounts.keySet()
+                                                    AND PrivacyConsentStatus = 'OptIn'
+                                                    ORDER BY EffectiveFrom DESC]){
+            if(!contactPointConsentsByAccountId.containsKey(aContactPointConsent.AccountId__c)){
+                contactPointConsentsByAccountId.put(aContactPointConsent.AccountId__c, aContactPointConsent);
+            }
+        }
+        //For each Account in keySet, create or update ContactPointTypeConsent and ContactPointConsent Lists
+        for(Id aAccountId : mapAccounts.keySet()){
+           Boolean consentFlag = !isFromMigrationJob && customInputsByAccountId.get(aAccountId).EmailConsent!=null ? customInputsByAccountId.get(aAccountId).EmailConsent : false;
            if(!isFromMigrationJob && !consentFlag){
                System.debug('******** Inside ContactPointConsent logic part skip : ');
                continue;
            }
-           Account account = mapAccounts.get(accountId);
-           lastUpdateOptinDate = isFromMigrationJob ? account.LastUpdateOptinEmailing__pc : System.now();
+           Account aAccount = mapAccounts.get(aAccountId);
+           lastUpdateOptinDate = isFromMigrationJob ? aAccount.LastUpdateOptinEmailing__pc : System.now();
            DateTime lastUpdateOptinEmailing = DataMigrationHelper.formatDateTime(lastUpdateOptinDate);
            Datetime effectiveFrom = null;
-           if(isFromMigrationJob) effectiveFrom = !contactPointTypeConsentsByAccountId.containsKey(accountId) ? null : DataMigrationHelper.formatDateTime(contactPointTypeConsentsByAccountId.get(accountId).EffectiveFrom);
+           Date effectiveFromDate = null;
+            if(isFromMigrationJob){
+                if(contactPointTypeConsentsByAccountId.containsKey(aAccountId)){
+                    effectiveFrom = DataMigrationHelper.formatDateTime(contactPointTypeConsentsByAccountId.get(aAccountId).EffectiveFrom);
+                    effectiveFromDate = effectiveFrom.Date();
+                }
+                else{
+                    effectiveFrom = null;
+                    effectiveFromDate = lastUpdateOptinEmailing.date();
+                }
+           }
            //String generatedHashOptIn = null;
            Boolean isGerman = false;
-           if(account.Country__pc == 'DEU' || account.Country__pc =='DE' || account.WebsiteCountry__pc == 'DEU' || account.WebsiteCountry__pc == 'DE'){
+           if(aAccount.Country__pc == 'DEU' || aAccount.Country__pc =='DE' || aAccount.WebsiteCountry__pc == 'DEU' || aAccount.WebsiteCountry__pc == 'DE'){
             isGerman = true;
-            mapConsentStatusWithAccountId.put(accountId,true);
+            mapConsentStatusWithAccountId.put(aAccountId,true);
            }
            else{
-            mapConsentStatusWithAccountId.put(accountId,false);
+            mapConsentStatusWithAccountId.put(aAccountId,false);
            }
-           
-           //if not exist any ContactPointTypeConsent
-           if(!contactPointTypeConsentsByAccountId.containsKey(accountId)){
+           //if there is no ContactPointTypeConsent for this account
+           //=> create ContactPointTypeConsent and ContactPointConsent and attached it to the individual already attached to the account
+           if(!contactPointTypeConsentsByAccountId.containsKey(aAccountId)){
                //isConsentActive = isGerman ? false : true;
-               
                contactPointTypeConsentToInsert.add(
                     	new ContactPointTypeConsent (
                         	Name = 'Email Consent',
-                            PartyId = account.PersonIndividualId == null ? individualsToInsertByAccountId.get(accountId).Id : account.PersonIndividualId,
+                            PartyId = aAccount.PersonIndividualId == null ? individualsToInsertByAccountId.get(aAccountId).Id : aAccount.PersonIndividualId,
                             ContactPointType = 'Email',
                             PrivacyConsentStatus = 'OptIn',
                             EffectiveFrom = lastUpdateOptinDate,
@@ -197,120 +225,136 @@ public class ConsentManagementHelper {
                             CaptureContactPointType = 'Web',
                             CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
                             DoubleConsentCaptureDate = null,
-                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            AccountId__c = accountId
+                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            AccountId__c = aAccountId
                         ));
                //create new ContactPointConsent
                contactPointConsentToInsert.add(
                       	new ContactPointConsent(
                             Name = 'Newsletter-Subscription',
-                            ContactPointId = account.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(accountId).Id).Id : allContactPointsByIndividualId.get(account.PersonIndividualId).Id,
+                            ContactPointId = aAccount.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(aAccountId).Id).Id : allContactPointsByIndividualId.get(aAccount.PersonIndividualId).Id,
                             PrivacyConsentStatus = isGerman ? 'OptOut' : 'OptIn',
                             EffectiveFrom = isGerman ? null : lastUpdateOptinDate,
                             EffectiveTo = null,
                             CaptureDate = lastUpdateOptinDate,
-                            CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CaptureContactPointType : 'Web',
+                            CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CaptureContactPointType : 'Web',
                             CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
                             DoubleConsentCaptureDate = null,
-                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            DoubleOptInHash__c = isGerman ? ConsentManagementHelper.HashMD5(account.CreatedDate, account.PersonContactId, account.PersonEmail) : null,
-                            AccountId__c = accountId
-                            
+                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            DoubleOptInHash__c = isGerman ? ConsentManagementHelper.HashMD5(aAccount.CreatedDate, aAccount.PersonContactId, aAccount.PersonEmail) : null,
+                            AccountId__c = aAccountId
                            	));
-           }
-           //if ContactPointTypeConsent exist
-           else if(effectiveFrom < lastUpdateOptinEmailing && isFromMigrationJob){
-                        //optin True case
-                        if(account.OptinEmailing__pc==true){
-                            //update old one
-                            //update contactPointTypeConsent
-                            ContactPointTypeConsent contactPointTypeConsent = contactPointTypeConsentsByAccountId.get(accountId);
-                            contactPointTypeConsent.EffectiveTo = lastUpdateOptinDate;
-                            contactPointTypeConsentToUpdate.add(contactPointTypeConsent);
-                            //Update ContactPointConsent
-                            if(contactPointConsentsByAccountId.containsKey(accountId)){
-                           	ContactPointConsent contactPointConsent = contactPointConsentsByAccountId.get(accountId);
-                           	contactPointConsent.EffectiveTo = lastUpdateOptinDate;
-                           	contactPointConsentToUpdate.add(contactPointConsent);
-                            }
-                            //create new ContactPointTypeConsent
-                            contactPointTypeConsentToInsert.add(
-                                new ContactPointTypeConsent (
-                                    Name = 'Email Consent',
-                                    PartyId = account.PersonIndividualId == null ? individualsToInsertByAccountId.get(accountId).Id : account.PersonIndividualId,
-                                    ContactPointType = 'Email',
-                                    PrivacyConsentStatus = 'OptIn',
-                                    EffectiveFrom = lastUpdateOptinDate,
-                                    EffectiveTo = null,
-                                    CaptureDate = lastUpdateOptinDate,
-                                    CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CaptureContactPointType : 'Web',
-                                    CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
-                                    DoubleConsentCaptureDate = null,
-                                    OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            		CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                                    AccountId__c = accountId
-                                ));
-                            //create new ContactPointConsent
-                            contactPointConsentToInsert.add(
-                                new ContactPointConsent(
-                                    Name = 'Newsletter-Subscription',
-                                    ContactPointId = account.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(accountId).Id).Id : allContactPointsByIndividualId.get(account.PersonIndividualId).Id,
-                                    PrivacyConsentStatus = isGerman ? 'OptOut' : 'OptIn',
-                                    EffectiveFrom = isGerman ? null : lastUpdateOptinDate,
-                                    EffectiveTo = null,
-                                    CaptureDate = lastUpdateOptinDate,
-                                    CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CaptureContactPointType : 'Web',
-                                    CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
-                                    DoubleConsentCaptureDate = null,
-                                    OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                            		CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(accountId).CustomContactPointType : 'SFDC',
-                                    DoubleOptInHash__c = isGerman ? ConsentManagementHelper.HashMD5(account.CreatedDate, account.PersonContactId, account.PersonEmail) : null,
-                                    AccountId__c = accountId
-                                ));
-                        }
-                       ////optin False case
-                       else{
-                            ContactPointTypeConsent contactPointTypeConsent = contactPointTypeConsentsByAccountId.get(accountId);
-                            contactPointTypeConsent.EffectiveTo = lastUpdateOptinDate;
-                            contactPointTypeConsent.PrivacyConsentStatus = 'OptOut';
-                            contactPointTypeConsentToUpdate.add(contactPointTypeConsent);
-                           	//update contactPointConsent
-                           	if(contactPointConsentsByAccountId.containsKey(accountId)){
-                           	ContactPointConsent contactPointConsent = contactPointConsentsByAccountId.get(accountId);
-                            contactPointConsent.EffectiveTo = lastUpdateOptinDate;
-                            contactPointConsent.PrivacyConsentStatus = 'OptOut';
-                            contactPointConsentToUpdate.add(contactPointConsent);
-                            }
-                        }
+            }
+            //if ContactPointTypeConsent exist for this account and effectiveFrom before lastUpdateOptinEmailing and we are in MigrationJob
+            ////17.02.2023 PLM : Check Date Only to avoid Time comparison, which create another Contact consent if not in the exact datetime
+            else if(isFromMigrationJob && (effectiveFrom == null || effectiveFromDate < lastUpdateOptinEmailing.date())){                
+                //optin True case
+                if(aAccount.OptinEmailing__pc==true){
+                    //update old one
+                    //update old contactPointTypeConsent and stop it lastUpdateOptinDate
+                    ContactPointTypeConsent aContactPointTypeConsent = contactPointTypeConsentsByAccountId.get(aAccountId);
+                    aContactPointTypeConsent.EffectiveTo = lastUpdateOptinDate;
+                    contactPointTypeConsentToUpdate.add(aContactPointTypeConsent);
+                    //Update old ContactPointConsent and stop it lastUpdateOptinDate
+                    if(contactPointConsentsByAccountId.containsKey(aAccountId)){
+                        ContactPointConsent aContactPointConsent = contactPointConsentsByAccountId.get(aAccountId);
+                        aContactPointConsent.EffectiveTo = lastUpdateOptinDate;
+                        contactPointConsentToUpdate.add(aContactPointConsent);
+                    }
+                    //create new ContactPointTypeConsent and start it to lastUpdateOptinDate
+                    contactPointTypeConsentToInsert.add(
+                        new ContactPointTypeConsent (
+                            Name = 'Email Consent',
+                            PartyId = aAccount.PersonIndividualId == null ? individualsToInsertByAccountId.get(aAccountId).Id : aAccount.PersonIndividualId,
+                            ContactPointType = 'Email',
+                            PrivacyConsentStatus = 'OptIn',
+                            EffectiveFrom = lastUpdateOptinDate,
+                            EffectiveTo = null,
+                            CaptureDate = lastUpdateOptinDate,
+                            CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CaptureContactPointType : 'Web',
+                            CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
+                            DoubleConsentCaptureDate = null,
+                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            AccountId__c = aAccountId
+                        ));
+                    //create new ContactPointConsent
+                    contactPointConsentToInsert.add(
+                        new ContactPointConsent(
+                            Name = 'Newsletter-Subscription',
+                            ContactPointId = aAccount.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(aAccountId).Id).Id : allContactPointsByIndividualId.get(aAccount.PersonIndividualId).Id,
+                            PrivacyConsentStatus = isGerman ? 'OptOut' : 'OptIn',
+                            EffectiveFrom = isGerman ? null : lastUpdateOptinDate,
+                            EffectiveTo = null,
+                            CaptureDate = lastUpdateOptinDate,
+                            CaptureContactPointType = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CaptureContactPointType : 'Web',
+                            CaptureSource = !isFromMigrationJob ? 'SFDC Contact Process' : 'SFDC Migration Job',
+                            DoubleConsentCaptureDate = null,
+                            OptOutContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            CustomContactPointType__c = !isFromMigrationJob ? customInputsByAccountId.get(aAccountId).CustomContactPointType : 'SFDC',
+                            DoubleOptInHash__c = isGerman ? ConsentManagementHelper.HashMD5(aAccount.CreatedDate, aAccount.PersonContactId, aAccount.PersonEmail) : null,
+                            AccountId__c = aAccountId
+                        ));
                 }
+                ////optin False case
+                else{
+                    ContactPointTypeConsent aContactPointTypeConsent = contactPointTypeConsentsByAccountId.get(aAccountId);
+                    aContactPointTypeConsent.EffectiveTo = lastUpdateOptinDate;
+                    aContactPointTypeConsent.PrivacyConsentStatus = 'OptOut';
+                    contactPointTypeConsentToUpdate.add(aContactPointTypeConsent);
+                    //update contactPointConsent
+                    if(contactPointConsentsByAccountId.containsKey(aAccountId)){
+                        ContactPointConsent aContactPointConsent = contactPointConsentsByAccountId.get(aAccountId);
+                        aContactPointConsent.EffectiveTo = lastUpdateOptinDate;
+                        aContactPointConsent.PrivacyConsentStatus = 'OptOut';
+                        contactPointConsentToUpdate.add(aContactPointConsent);
+                    }
+                }
+            }
         }
-
-        if(!contactPointTypeConsentToUpdate.isEmpty()) update contactPointTypeConsentToUpdate;
-        if(!contactPointConsentToUpdate.isEmpty()) update contactPointConsentToUpdate;
-        if(!contactPointTypeConsentToInsert.isEmpty()) insert contactPointTypeConsentToInsert;
-        if(!contactPointConsentToInsert.isEmpty()) insert contactPointConsentToInsert;
-        //Create Communication Subscription
+        //Update ContactPointTypeConsent
+        if(!contactPointTypeConsentToUpdate.isEmpty()) {
+            Database.update(contactPointTypeConsentToUpdate);
+        }
+        //Update ContactPointConsent
+        if(!contactPointConsentToUpdate.isEmpty()){
+            Database.update(contactPointConsentToUpdate);
+        }
+        //Create ContactPointTypeConsent
+        if(!contactPointTypeConsentToInsert.isEmpty()){
+            System.debug('SECTION 2 : Insert contactPointTypeConsent : ' + contactPointTypeConsentToInsert);
+            Database.insert(contactPointTypeConsentToInsert);
+        } 
+        //Create ContactPointConsent
+        if(!contactPointConsentToInsert.isEmpty()){
+            System.debug('SECTION 2 : Insert contactPointConsent : ' + contactPointConsentToInsert);
+            Database.insert(contactPointConsentToInsert);
+        }
+         /*!END  SECTION 2  ***************************************************************************************
+         */
+        /*!START SECTION 3  ***************************************************************************************
+        Management of Communication Subscription Consent 
+        */
+        for(CommSubscriptionConsent commSubscriptionConsent : [SELECT Id, ContactPointId ,AccountId__c, EffectiveFromDate, EffectiveToDate,
+                                                                ConsentCapturedDateTime, ConsentCapturedSource, CommSubscriptionChannelTypeId
+                                                               FROM CommSubscriptionConsent 
+                                                               WHERE AccountId__c IN :mapAccounts.keySet()
+                                                               AND EffectiveToDate = null
+                                                               AND CommSubscriptionChannelType.Name = 'Newsletter'
+                                                               ORDER BY EffectiveFromDate DESC]){
+            	if(!commSubscriptionConsentByAccountId.containsKey(commSubscriptionConsent.AccountId__c)){
+                	commSubscriptionConsentByAccountId.put(commSubscriptionConsent.AccountId__c, commSubscriptionConsent);
+            	}
+        }
+        //Fill commSubChannelTypes By Names in map
+        for(CommSubscriptionChannelType commsubChannelType: [Select Id, Name From CommSubscriptionChannelType]){
+            commSubChannelTypesByName.put(commsubChannelType.Name.toLowerCase(), commsubChannelType);
+        }
+        //if from flow
         if(!isFromMigrationJob){
             toUpdateAccounts = true;
-            for(CommSubscriptionConsent commSubscriptionConsent: [SELECT Id, ContactPointId ,AccountId__c, EffectiveFromDate, EffectiveToDate,
-                                                                    ConsentCapturedDateTime, ConsentCapturedSource, CommSubscriptionChannelTypeId
-                                                                 	FROM CommSubscriptionConsent 
-                                                                 	WHERE AccountId__c IN :mapAccounts.keySet()
-                                                                 	AND EffectiveToDate = null
-                                                                    AND CommSubscriptionChannelType.Name = 'Newsletter'
-                                                            		ORDER BY EffectiveFromDate DESC]){
-            if(!commSubscriptionConsentByAccountId.containsKey(commSubscriptionConsent.AccountId__c)){
-                commSubscriptionConsentByAccountId.put(commSubscriptionConsent.AccountId__c, commSubscriptionConsent);
-            }
-       }
-
-
-            //Fill commSubChannelTypes By Names in map
-            for(CommSubscriptionChannelType commsubChannelType: [Select Id, Name From CommSubscriptionChannelType]){
-                commSubChannelTypesByName.put(commsubChannelType.Name.toLowerCase(), commsubChannelType);
-            }
             for(Account accountLine : mapAccounts.values()){
                 Boolean emailConsentFlag = customInputsByAccountId.get(accountLine.Id).EmailConsent !=null ?customInputsByAccountId.get(accountLine.Id).EmailConsent : false;
                 Id currentContactPointEmailId = accountLine.PersonIndividualId == null ? allContactPointsByIndividualId.get(individualsToInsertByAccountId.get(accountLine.Id).Id).Id : allContactPointsByIndividualId.get(accountLine.PersonIndividualId).Id;
@@ -406,17 +450,41 @@ public class ConsentManagementHelper {
                	}
                 //update Account Record
                //only if emailconsent is true !!!!
-               if(emailConsentFlag && !accountLine.OptinEmailing__pc && !mapConsentStatusWithAccountId.get(accountLine.Id)){
+                if(emailConsentFlag && !accountLine.OptinEmailing__pc && !mapConsentStatusWithAccountId.get(accountLine.Id)){
                     accountLine.OptinEmailing__pc = true;
                     accountLine.LastUpdateOptinEmailing__pc = System.now();
-               }
-               
-               }
+                }
+            }
         }
+        //If from Batch MigrationJob, Only Newsletter are concerned
+        else{
+            //toUpdateAccounts = false; -- Commented by Ulrich NDONG NGOMO 30/01/2023
+            for(Account aAccount : mapAccounts.values()){
+                if(!commSubscriptionConsentByAccountId.containsKey(aAccount.Id) && aAccount.OptinEmailing__pc){
+                    commSubscriptionConsentToInsert.add(new CommSubscriptionConsent(
+                        Name = 'Newsletter',
+                        AccountId__c = aAccount.id,
+                        ContactPointId = allContactPointsByIndividualId.get(aAccount.PersonIndividualId).Id,
+                        EffectiveFromDate = aAccount.LastUpdateOptinEmailing__pc.Date(),
+                        ConsentCapturedDateTime = system.now(),
+                        ConsentCapturedSource = 'SFDC Migration Job',
+                        Locale__c = aAccount.WebsiteLocale__pc,
+                        Country__c = aAccount.WebsiteCountry__pc == 'DEU'? 'DE' : aAccount.WebsiteCountry__pc,
+                        CommSubscriptionChannelTypeId = commSubChannelTypesByName.get('newsletter').Id));                    
+                }
+            }
+        }
+        /*!END  SECTION 3  ***************************************************************************************
+        */
         //Insert CommSubscriptionConsent list
-        if(!commSubscriptionConsentToInsert.isEmpty()) insert commSubscriptionConsentToInsert;
+        if(!commSubscriptionConsentToInsert.isEmpty()) {
+            System.debug('END : Insert commSubscriptionConsent : ' + commSubscriptionConsentToInsert);
+            Database.insert(commSubscriptionConsentToInsert);
+        }
         //update account list
-        if(!mapAccounts.isEmpty() && toUpdateAccounts) update mapAccounts.values();
-	}  
- 
+        if(!mapAccounts.isEmpty() && toUpdateAccounts) {
+            System.debug('END : Update Account : ' + mapAccounts);
+            Database.update(mapAccounts.values());
+        }
+	}   
 }
