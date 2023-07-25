@@ -6,6 +6,8 @@
 		<members>SOM_TransactionalEmailHandler</members>
 		<members>SOM_WS_ShipmentHandler</members>
 		<members>SOM_WS_ShipmentHandler_Test</members> 
+		<members>SOM_SalesAndPaymentsReportMonthSchedule</members>
+		<members>SOM_SalesAndPaymentsReportSchedule</members> 
     	<name>ApexClass</name> 
 	</types>
 	<types>
@@ -304,5 +306,13 @@
 		<members>OrderSummary.Unblock</members>
 		<name>QuickAction</name>
 	</types>
+		<types>
+		<members>ReportsforSOM/Order_Summary_with_Refunds_Report_ekT</members>
+	    <name>Report</name>
+    </types>
+	<types>
+		<members>Order_Summary_with_Refunds</members>  
+	    <name>ReportType</name>
+    </types>
 	<version>54.0</version>
 </Package>
