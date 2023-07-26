@@ -19,7 +19,10 @@
         <field>OrderSummary.AggregatedProcessExceptions$Category</field>
     </columns>
     <columns>
-        <field>OrderSummary$BillingCountry</field>
+        <field>OrderSummary$Tech_ShippingCountry__c</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.AggregatedProcessExceptions$Message</field>
     </columns>
     <crossFilters>
         <criteriaItems>
@@ -56,11 +59,11 @@
             <value>Payment</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary$BillingCountry</column>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>US</value>
+            <value>AE</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
