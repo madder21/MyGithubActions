@@ -136,4 +136,6 @@ global with sharing class SOM_Constants {
     public static final String SALES_CHANNEL_CEGID = 'CEGID';
     public static final String SALES_CHANNEL_MANUAL = 'Manual Order';
     public static final String SALES_CHANNEL_RIMOWA = 'Rimowa';
+    
+    public static final String ECOMMERCE_PAYMENT_CAPTURE_ERRORS = 'ECommerce_Payment_Capture_Errors_';
 }
