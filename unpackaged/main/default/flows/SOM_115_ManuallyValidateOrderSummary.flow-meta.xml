@@ -38,9 +38,12 @@
         <label>Check Order Payment Summary Type</label>
         <locationX>837</locationX>
         <locationY>623</locationY>
+        <defaultConnector>
+            <targetReference>Manual_Fraud_Default_Decision</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default</defaultConnectorLabel>
         <rules>
-            <name>No_Payment_Authorization</name>
+            <name>Payment_Authorization</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Payment_Authorization</leftValueReference>
@@ -50,27 +53,11 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Manual_Fraud_Decision_Not_COD</targetReference>
+                <targetReference>Manual_Fraud_Decision</targetReference>
             </connector>
-            <label>No Payment Authorization</label>
-        </rules>
-        <rules>
-            <name>COD_Type</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>COD</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Manual_Fraud_Decision_COD</targetReference>
-            </connector>
-            <label>COD Type</label>
+            <label>Payment Authorization</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM Unblock OS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 115 - Manually Validate Order Summary</label>
     <processMetadataValues>
@@ -156,28 +143,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
-        <name>Manual_Fraud_Decision_COD</name>
-        <label>Manual Fraud Decision COD</label>
-        <locationX>712</locationX>
-        <locationY>724</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Fraud_Analysis</targetReference>
-        </connector>
-        <fields>
-            <name>FraudValidationCod</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;Do you Confirm the order validation ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
-        <name>Manual_Fraud_Decision_Not_COD</name>
-        <label>Manual Fraud Decision Not COD</label>
+        <name>Manual_Fraud_Decision</name>
+        <label>Manual Fraud Decision</label>
         <locationX>974</locationX>
         <locationY>722</locationY>
         <allowBack>false</allowBack>
@@ -192,6 +159,26 @@
             <fieldText>Customer Token</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>true</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manual_Fraud_Default_Decision</name>
+        <label>Manual Fraud Default Decision</label>
+        <locationX>712</locationX>
+        <locationY>724</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Fraud_Analysis</targetReference>
+        </connector>
+        <fields>
+            <name>FraudValidationCod</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 16px;&quot;&gt;Do you Confirm the order validation ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
