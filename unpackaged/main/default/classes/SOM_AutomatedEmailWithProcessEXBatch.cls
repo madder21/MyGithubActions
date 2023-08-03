@@ -17,27 +17,31 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
         OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
         if (!ProcessExceptionRecords.isEmpty()){
             for(Report singleReport : reportList){
-                String reportId = (String)singleReport.Id;
-                String baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
-                ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
-                Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-                attachment.setFileName('report.csv');
-                if(Test.isRunningTest()) { 
-                	attachment.setBody(Blob.valueOf('EmailBody.Test'));
-                }else{
-                    attachment.setBody(Blob.valueof(report.getContent().toString()));
+                Reports.ReportResults results = Reports.ReportManager.runReport(singleReport.Id, true);
+                // check if report is empty (without rows)
+                if(((Reports.ReportFactWithDetails)results?.getFactMap()?.get(SOM_Constants.TABULAR_REPORT_FACT_MAP_KEY))?.getRows()?.size() > 0){
+                    String reportId = (String)singleReport.Id;
+                    String baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
+                    ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
+                    Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+                    attachment.setFileName('report.csv');
+                    if(Test.isRunningTest()) { 
+                        attachment.setBody(Blob.valueOf('EmailBody.Test'));
+                    }else{
+                        attachment.setBody(Blob.valueof(report.getContent().toString()));
+                    }
+                    attachment.setContentType('text/csv');
+                    Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+                    message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
+                    message.setOrgWideEmailAddressId(owa.id);
+                    String subject ='Report of Process Exceptions not resolved';
+                    message.setSubject(subject);
+                    message.setPlainTextBody(' Link to see the report : '+baseUrl+'/'+reportId);
+                    String[] toAddresses = new list<string>();
+                    toAddresses.addAll((reportsDeveloperNamesMap.get(singleReport.DeveloperName)).split(';'));
+                    message.setToAddresses( toAddresses );
+                    emailList.add(message);
                 }
-                attachment.setContentType('text/csv');
-                Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-                message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
-                message.setOrgWideEmailAddressId(owa.id);
-                String subject ='Report of Process Exceptions not resolved';
-                message.setSubject(subject);
-                message.setPlainTextBody(' Link to see the report : '+baseUrl+'/'+reportId);
-                String[] toAddresses = new list<string>();
-                toAddresses.addAll((reportsDeveloperNamesMap.get(singleReport.DeveloperName)).split(';'));
-                message.setToAddresses( toAddresses );
-                emailList.add(message);
         	}
             if(!emailList.isEmpty()) Messaging.sendEmail(emailList);
         }

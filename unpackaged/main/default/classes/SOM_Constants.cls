@@ -137,5 +137,7 @@ global with sharing class SOM_Constants {
     public static final String SALES_CHANNEL_MANUAL = 'Manual Order';
     public static final String SALES_CHANNEL_RIMOWA = 'Rimowa';
     
-    public static final String ECOMMERCE_PAYMENT_CAPTURE_ERRORS = 'ECommerce_Payment_Capture_Errors_';
+    public static final String ECOMMERCE_PAYMENT_CAPTURE_ERRORS = 'E_Commerce_Payment_Capture_Errors_';
+    
+    public static final String TABULAR_REPORT_FACT_MAP_KEY = 'T!T';
 }
