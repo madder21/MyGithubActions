@@ -53,7 +53,7 @@
             <assignToReference>Output_ConfirmOrder.orderSummaryNumber</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Order_Summary.Id</elementReference>
+                <elementReference>Get_Order_Summary.OrderNumber</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -68,6 +68,33 @@
             <operator>Assign</operator>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Assign_OS_is_Fulfilling_Or_Fulfilled</name>
+        <label>Assign OS is Fulfilling Or Fulfilled</label>
+        <locationX>668</locationX>
+        <locationY>847</locationY>
+        <assignmentItems>
+            <assignToReference>Output_ConfirmOrder.isSuccess</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Output_ConfirmOrder.status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Status</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Output_ConfirmOrder.orderSummaryNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.OrderNumber</elementReference>
             </value>
         </assignmentItems>
     </assignments>
@@ -94,8 +121,8 @@
     <assignments>
         <name>Assign_wrong_status</name>
         <label>Assign wrong status</label>
-        <locationX>780</locationX>
-        <locationY>773</locationY>
+        <locationX>668</locationX>
+        <locationY>702</locationY>
         <assignmentItems>
             <assignToReference>Output_ConfirmOrder.isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -199,11 +226,33 @@
             </connector>
             <label>FO Allocated &amp; OS Validated</label>
         </rules>
+        <rules>
+            <name>OS_is_Fulfilling_OR_Fulfilled</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fulfilling</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_OS_is_Fulfilling_Or_Fulfilled</targetReference>
+            </connector>
+            <label>OS is Fulfilling OR Fulfilled</label>
+        </rules>
     </decisions>
     <formulas>
         <name>FX_errorMessage</name>
         <dataType>String</dataType>
-        <expression>&apos;Expected status for Order Summary is Validated, found  &apos; + TEXT({!Get_Order_Summary.Status}) + &apos;.Expected status for Fulfillment Order is Allocated, found &apos;+ TEXT({!get_FO.Status})</expression>
+        <expression>&apos;Expected status for Order Summary is Validated, found  &apos; + TEXT({!Get_Order_Summary.Status}) + &apos;. Expected status for Fulfillment Order is Allocated, found &apos;+ TEXT({!get_FO.Status})</expression>
     </formulas>
     <interviewLabel>SOM_320_FO_UpdateClickAndCollectConfirmedOrders {!$Flow.CurrentDateTime}</interviewLabel>
     <isOverridable>true</isOverridable>
