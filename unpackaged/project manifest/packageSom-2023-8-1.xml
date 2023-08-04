@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-<types>
-	<members>SOM_CreditMemoDocumentController</members>
-	<members>SOM_InvoiceDocumentController</members>
-	<name>ApexClass</name> 
-</types>
-<types>
-	<members>SOM_CreditMemoArabicDocument</members>
-	<members>SOM_CreditMemoDocument</members>
-	<members>SOM_InvoiceArabicDocument</members>
-	<members>SOM_InvoiceDocument</members>
-<name>ApexPage</name>
-</types>
-<types>
-		<members>Sales_Channel_Mapping__mdt.Sales_Channel_AE</members>
-		<members>Sales_Channel_Mapping__mdt.Sales_Channel_GB</members>
-		<members>Sales_Channel_Mapping__mdt.Sales_Channel_UK</members>
-		<members>Sales_Channel_Mapping__mdt.Sales_Channel_US</members>
-	<name>CustomMetadata</name>
-</types>
-<types>
-	<members>Sales_Channel_Mapping__mdt</members>
-	<name>CustomObject</name>
-</types>
-<types>
-	<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
-	<name>Layout</name>
-</types>
-
-<version>54.0</version>
+	<types>
+		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_InvoiceDocumentController</members>
+		<name>ApexClass</name> 
+	</types>
+	<types>
+		<members>SOM_CreditMemoArabicDocument</members>
+		<members>SOM_CreditMemoDocument</members>
+		<members>SOM_InvoiceArabicDocument</members>
+		<members>SOM_InvoiceDocument</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>ReturnOrder.Carrier__c</members>
+    	<name>CustomField</name>
+  	</types>
+	<types>
+		<members>Sales_Channel_Mapping__mdt</members>
+		<name>CustomObject</name>
+	</types>
+		<types>
+		<members>SOM_120_CoreModel_OrderSummary_Capture_Payment</members>
+		<members>SOM_230_CoreModel_Payment_CapturePayment</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>ReturnOrder-Return Order Layout</members>
+		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<name>Layout</name>
+	</types>
+	<version>54.0</version>
 </Package>
