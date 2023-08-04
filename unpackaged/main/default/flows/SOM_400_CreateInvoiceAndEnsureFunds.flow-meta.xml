@@ -457,7 +457,7 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>C_FulfillmentOrderInputRepresentation</name>
         <apexClass>ConnectApi__FulfillmentOrderInputRepresentation</apexClass>
