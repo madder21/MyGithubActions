@@ -37,7 +37,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         CreditMemoContact deliveryContact = new CreditMemoContact();
         String creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
         List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c, 
-                                       BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
+                                       BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, Credit_Memo_Date__c, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                        (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
                                         TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, Description, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
         if (creditMemo != null && !creditMemo.isEmpty()) {
@@ -74,10 +74,9 @@ global with sharing class SOM_CreditMemoDocumentController {
             //set delivery contact
             creditMemoDoc.deliveryContact  = deliveryContact;
             creditMemoDoc.creditMemoNumber = creditMemo.get(0).CreditMemoNumber;
-            creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).CreditDate.year(), creditMemo.get(0).CreditDate.month(), creditMemo.get(0).CreditDate.day()).format('dd.MM.yyyy');
+            creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).Credit_Memo_Date__c.year(), creditMemo.get(0).Credit_Memo_Date__c.month(), creditMemo.get(0).Credit_Memo_Date__c.day()).format('dd.MM.yyyy');
             creditMemoDoc.netSubTotal      = (creditMemo.get(0).TotalAmount);
             creditMemoDoc.totalWithTax     = (creditMemo.get(0).TotalAmountWithTax);
-            creditMemoDoc.TotalTaxAmount   = getTotalFormatted(creditMemo.get(0).TotalTaxAmount);
             //product type
             String creditMemoProductType = getCreditMemoProductType(creditMemo.get(0));
             //create credit memo lines
