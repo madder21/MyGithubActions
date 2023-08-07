@@ -229,17 +229,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         return creditMemoTaxesSorted;
     }
     
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal.scale() > 2 ) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-        
-        return formatDecimalNumber(taxTotal.setScale(2));
-    }
-    
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
+   
     
     public String getPaymentMethod(Id orderSummaryId){
         //Get order payment summary

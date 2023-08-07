@@ -38,7 +38,7 @@ global with sharing class SOM_InvoiceDocumentController {
         Id invoiceId = ApexPages.currentPage().getParameters().get('invoiceId');
         Boolean isCorrectiveInvoice = invoiceId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME;
         if(isCorrectiveInvoice){
-            cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
+            cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate, Corrective_Invoice_Date__c FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
             System.debug('test invoice ++'+cInvoice);
             Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
             String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
@@ -46,18 +46,17 @@ global with sharing class SOM_InvoiceDocumentController {
             invoiceId = originalInvoice.Id;        
         }
         
-        List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
+        List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.Invoice_Timezone_Date__c, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
         FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
         OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
-        invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.CreatedDate.year(), cInvoice.CreatedDate.month(), cInvoice.CreatedDate.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.InvoiceDate.year(), fulfillmentOrder.get(0).Invoice.InvoiceDate.month(), fulfillmentOrder.get(0).Invoice.InvoiceDate.day()).format('yyyy-MM-dd');
+        invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.Corrective_Invoice_Date__c.year(), cInvoice.Corrective_Invoice_Date__c.month(), cInvoice.Corrective_Invoice_Date__c.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.year(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.month(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.day()).format('yyyy-MM-dd');
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
         
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-           //invDoc.taxTotal       = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalTaxAmount);
             invDoc.totalWithTax   = (fulfillmentOrder.get(0).Invoice.TotalAmountWithTax);
             invDoc.netSubTotal    = (fulfillmentOrder.get(0).Invoice.TotalAmount);
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
@@ -79,14 +78,6 @@ global with sharing class SOM_InvoiceDocumentController {
         this.invoiceDoc = invDoc;
     }
 
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal == null) return '0,00';
-        if (taxTotal.scale() > 2) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-
-        return formatDecimalNumber(taxTotal);
-    }
 
     public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
         //construct shipment ids
@@ -165,7 +156,6 @@ global with sharing class SOM_InvoiceDocumentController {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
                 //lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                //lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice);
                 lineItem.netAmount       = (invoiceLine.UnitPrice);
                 lineItem.vat             = (invoiceLine.ChargeTaxAmount);
                 lineItem.grossAmount     = (invoiceLine.GrossUnitPrice);
@@ -235,9 +225,6 @@ global with sharing class SOM_InvoiceDocumentController {
         return invoiceTaxesSorted;
     }
 
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
     
     public String setAmountsFormat(String CountryIso) {
             Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
