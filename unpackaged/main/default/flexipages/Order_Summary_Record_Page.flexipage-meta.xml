@@ -126,7 +126,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.SalesChannelName__c}</leftValue>
@@ -157,7 +157,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.SalesChannelName__c}</leftValue>
@@ -198,14 +198,14 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Reship</value>
                             <visibilityRule>
-                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4 AND 5</booleanFilter>
+                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4 AND 5 AND 6</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -224,12 +224,17 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.tech_os_store_shipping_method__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>0</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -255,7 +260,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -281,7 +286,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -307,7 +312,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -343,7 +348,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -379,7 +384,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -400,7 +405,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -426,7 +431,7 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM Read only</rightValue>
+                                    <rightValue>Finance</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -443,6 +448,42 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>CONTAINS</operator>
                                     <rightValue>System Administrator</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Unblock</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND ( 2 OR 3 ) AND 4 AND 5 AND 6</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Created</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Ecom Operations</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>System Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OrderLifeCycleType}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>MANAGED</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.On_Hold__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.passedFraudScreening__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -466,7 +507,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
-                    <value>7</value>
+                    <value>8</value>
                 </componentInstanceProperties>
                 <componentName>force:highlightsPanel</componentName>
                 <identifier>force_highlightsPanel</identifier>
