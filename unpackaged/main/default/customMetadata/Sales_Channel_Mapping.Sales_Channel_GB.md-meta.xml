@@ -3,12 +3,24 @@
     <label>Sales Channel GB</label>
     <protected>false</protected>
     <values>
+        <field>AmountsFormat__c</field>
+        <value xsi:type="xsd:string">###,##0.00</value>
+    </values>
+    <values>
         <field>ChannelId__c</field>
         <value xsi:type="xsd:string">SHOP_RUK</value>
     </values>
     <values>
+        <field>ChannelType__c</field>
+        <value xsi:type="xsd:string">All</value>
+    </values>
+    <values>
         <field>IsManaged__c</field>
         <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>Timezone__c</field>
+        <value xsi:type="xsd:string">Europe/Belfast</value>
     </values>
     <values>
         <field>Zone__c</field>
@@ -32,6 +44,10 @@
     </values>
     <values>
         <field>cegidTaxSystem__c</field>
-        <value xsi:type="xsd:string">UK1</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>createOrderSummary__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
 </CustomMetadata>
