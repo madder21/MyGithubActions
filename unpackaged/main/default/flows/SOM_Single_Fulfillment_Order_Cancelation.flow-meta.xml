@@ -28,8 +28,8 @@
     <actionCalls>
         <name>Cancel_OIS</name>
         <label>Cancel OIS</label>
-        <locationX>2887</locationX>
-        <locationY>253</locationY>
+        <locationX>2882</locationX>
+        <locationY>335</locationY>
         <actionName>cancelOrderItemSummariesSubmit</actionName>
         <actionType>cancelOrderItemSummariesSubmit</actionType>
         <connector>
@@ -93,8 +93,8 @@
     <actionCalls>
         <name>Close_OS</name>
         <label>Close OS</label>
-        <locationX>2709</locationX>
-        <locationY>253</locationY>
+        <locationX>2719</locationX>
+        <locationY>252</locationY>
         <actionName>SOM_ClosingOrderSummaryAction</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -152,12 +152,12 @@
     <actionCalls>
         <name>OCI_Release_Reservation</name>
         <label>OCI Release Reservation</label>
-        <locationX>2531</locationX>
-        <locationY>253</locationY>
+        <locationX>2612</locationX>
+        <locationY>251</locationY>
         <actionName>ociReleaseReservation</actionName>
         <actionType>ociReleaseReservation</actionType>
         <connector>
-            <targetReference>Set_Screen_Success_Message</targetReference>
+            <targetReference>Get_PEs</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -168,7 +168,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_FO_Id_to_Coll</name>
         <label>Add FO Id to Coll</label>
@@ -328,10 +328,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Collect_Fulfillment_Order_Line_Items</name>
+        <label>Collect Fulfillment Order Line Items</label>
+        <locationX>1084</locationX>
+        <locationY>175</locationY>
+        <assignmentItems>
+            <assignToReference>COLL_Fulfillment_Order_Line_Items</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>LOOP_5_Iterate_Over_Fulfillment_Order_Line_Items.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>LOOP_5_Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Count_Selected_Items</name>
         <label>Count Selected Items</label>
-        <locationX>2121</locationX>
-        <locationY>739</locationY>
+        <locationX>2123</locationX>
+        <locationY>737</locationY>
         <assignmentItems>
             <assignToReference>V_SelectedItemsCounter</assignToReference>
             <operator>AssignCount</operator>
@@ -363,7 +379,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Shipment_Items</targetReference>
+            <targetReference>Filter_Shipment_Items</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -782,8 +798,8 @@
     <assignments>
         <name>Set_Screen_Success_Message</name>
         <label>Set Screen Success Message</label>
-        <locationX>2350</locationX>
-        <locationY>258</locationY>
+        <locationX>2084</locationX>
+        <locationY>251</locationY>
         <assignmentItems>
             <assignToReference>ScreenMessage</assignToReference>
             <operator>Assign</operator>
@@ -793,6 +809,54 @@
         </assignmentItems>
         <connector>
             <targetReference>Screen_Message</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Update_OIS_With_Total_Canceled_Quantity_List</name>
+        <label>Update OIS With Total Canceled Quantity List</label>
+        <locationX>2251</locationX>
+        <locationY>1125</locationY>
+        <assignmentItems>
+            <assignToReference>OISIdsWIthTotalCanceledQuantity</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>LOOP_4_Iterate_Over_Selected_Fulfillment_Line_Items.OrderItemSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_Fulfillment_Order_LineItem_Input_Representation_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Update_PE_List</name>
+        <label>Update PE List</label>
+        <locationX>2455</locationX>
+        <locationY>77</locationY>
+        <assignmentItems>
+            <assignToReference>UpdatedPEList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_5_Iterate_Over_PEs</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_5_Iterate_Over_PEs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Update_PE_Status</name>
+        <label>Update PE Status</label>
+        <locationX>2292</locationX>
+        <locationY>79</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_5_Iterate_Over_PEs.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Ignored</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_PE_List</targetReference>
         </connector>
     </assignments>
     <collectionProcessors>
@@ -814,6 +878,27 @@
         </conditions>
         <connector>
             <targetReference>Iterate_Over_Filtered_Location</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Shipment_Items</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Shipment Items</label>
+        <locationX>294</locationX>
+        <locationY>860</locationY>
+        <assignNextValueToReference>currentItem_Filter_Shipment_Items</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Shipment_Items</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Shipment_Items.FulfillmentOrderLineItemId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>LOOP_2_Iterate_Over_Fulfillment_Order_Line_Items.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Check_Fulfillment_Shipment_Items</targetReference>
         </connector>
     </collectionProcessors>
     <constants>
@@ -901,10 +986,10 @@
     <decisions>
         <name>Check_Fulfillment_Order_Status</name>
         <label>Check Fulfillment Order Status</label>
-        <locationX>1327</locationX>
-        <locationY>607</locationY>
+        <locationX>1330</locationX>
+        <locationY>573</locationY>
         <defaultConnector>
-            <targetReference>LOOP_2_Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
+            <targetReference>LOOP_5_Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Is Partially Fulfilled</defaultConnectorLabel>
         <rules>
@@ -936,7 +1021,7 @@
             <name>There_are_shipment_items</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Shipment_Items</leftValueReference>
+                <leftValueReference>Filter_Shipment_Items</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -982,6 +1067,21 @@
             <targetReference>LOOP_4_Iterate_Over_Selected_Fulfillment_Line_Items</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Total_Quantity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LOOP_4_Iterate_Over_Selected_Fulfillment_Line_Items.Quantity</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>QuantityToCancel.value</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_OIS_With_Total_Canceled_Quantity_List</targetReference>
+            </connector>
+            <label>Total Quantity</label>
+        </rules>
         <rules>
             <name>Quantity_Greater_Than_Zero</name>
             <conditionLogic>and</conditionLogic>
@@ -1138,7 +1238,7 @@
         <label>LOOP 3 - Iterate Over Shipment Items</label>
         <locationX>234</locationX>
         <locationY>1177</locationY>
-        <collectionReference>Get_Shipment_Items</collectionReference>
+        <collectionReference>Filter_Shipment_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Add_Quantity_Shipped</targetReference>
@@ -1159,6 +1259,34 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Check_Fulfillment_Order_Products_Preview_Coll</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>LOOP_5_Iterate_Over_Fulfillment_Order_Line_Items</name>
+        <label>LOOP 5 - Iterate Over Fulfillment Order Line Items</label>
+        <locationX>1084</locationX>
+        <locationY>417</locationY>
+        <collectionReference>Get_Fulfillment_Order_Line_Items_To_Cancel</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Collect_Fulfillment_Order_Line_Items</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Shipment_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_5_Iterate_Over_PEs</name>
+        <label>Loop 5 - Iterate Over PEs</label>
+        <locationX>2380</locationX>
+        <locationY>251</locationY>
+        <collectionReference>Get_PEs</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Update_PE_Status</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_PEs</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1257,8 +1385,8 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>1709</locationX>
-        <locationY>1068</locationY>
+        <locationX>1603</locationX>
+        <locationY>1084</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LOOP_4_Iterate_Over_Selected_Fulfillment_Line_Items</targetReference>
@@ -1270,20 +1398,64 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Shipment_Items</name>
-        <label>Get Shipment Items</label>
-        <locationX>292</locationX>
-        <locationY>860</locationY>
+        <name>Get_PEs</name>
+        <label>Get PEs</label>
+        <locationX>2492</locationX>
+        <locationY>251</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Fulfillment_Shipment_Items</targetReference>
+            <targetReference>Loop_5_Iterate_Over_PEs</targetReference>
+        </connector>
+        <filterLogic>1 AND ( 2 OR 3 ) AND 4</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OISIdsWIthTotalCanceledQuantity</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Triaged</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfillment</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Status</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Shipment_Items</name>
+        <label>Get Shipment Items</label>
+        <locationX>723</locationX>
+        <locationY>410</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>LOOP_2_Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>FulfillmentOrderLineItemId</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>LOOP_2_Iterate_Over_Fulfillment_Order_Line_Items.Id</elementReference>
+                <elementReference>COLL_Fulfillment_Order_Line_Items</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -1320,6 +1492,16 @@
         <object>FulfillmentOrderLineItem</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_PEs</name>
+        <label>Update PEs</label>
+        <locationX>2210</locationX>
+        <locationY>252</locationY>
+        <connector>
+            <targetReference>Set_Screen_Success_Message</targetReference>
+        </connector>
+        <inputReference>UpdatedPEList</inputReference>
+    </recordUpdates>
     <screens>
         <name>Fulfillment_Line_Item_To_Cancel_Preview</name>
         <label>Fulfillment Line Item To Cancel Preview</label>
@@ -1694,8 +1876,8 @@
     <screens>
         <name>Line_Item_To_Cancel</name>
         <label>Line Item To Cancel</label>
-        <locationX>2071</locationX>
-        <locationY>870</locationY>
+        <locationX>2074</locationX>
+        <locationY>847</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1834,6 +2016,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>COLL_Fulfillment_Order_Line_Items</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>COLL_FulfillmentLineItemsPreview</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
@@ -1866,6 +2055,14 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Shipment_Items</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ShipmentItem</objectType>
+    </variables>
+    <variables>
         <name>ErrorMessage</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1880,6 +2077,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>FOLIWithTotalCanceledQuantityList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrderLineItem</objectType>
+    </variables>
+    <variables>
         <name>FulfillmentLineItem_Preview</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1892,6 +2097,13 @@
         <apexClass>ConnectApi__FulfillmentOrderLineItemInputRepresentation</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OISIdsWIthTotalCanceledQuantity</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
@@ -2002,6 +2214,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <name>UpdatedPEList</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
     </variables>
     <variables>
         <name>Uuid_Value</name>

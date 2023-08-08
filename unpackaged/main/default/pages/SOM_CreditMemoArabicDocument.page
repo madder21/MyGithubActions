@@ -11,14 +11,14 @@
             <!-- <div class="spacer">&nbsp;</div>
             <div class="logo_header"></div> -->
         </div>
-        <div style="height: 4px;"></div>
-            <table class="head" >
+        <div class="div1"></div>
+            <table class="head" > 
                 <tr>
                     <!-- Company Information-->
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/header.PNG')}" width="100%" height="100%" style="padding-left:50%;margin-top:-3px" alt="RIMOWA"/>
                     </td>
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!creditMemoConfigs['PDF_PHONE']}"/><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Phone.PNG')}" width="10%" height="10%" style="margin-top:-2px" alt="RIMOWA"/><br/>
                         <apex:outputText value="{!creditMemoConfigs['PDF_MAIL']}"/><br/>
                         RIMOWA.COM | @RIMOWA<br/>
@@ -26,7 +26,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="margin-left: 6%">
+            <div class="div2">
                 <h3> TAX CREDIT NOTE &nbsp; <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TaxCreditNote.PNG')}" width="25%" height="25%" style="margin-top:-4px" alt="RIMOWA"/></h3>
 
             </div>
@@ -35,16 +35,16 @@
         <table class="billing_contact_importer">
             <tr>
                 <!-- Billing contact information -->
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     BILLING CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="25%" height="15%" style="margin-top:-2px" alt="RIMOWA"/>
                     <br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
-                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
                 </td>
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_TITLE']}"/>
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
@@ -63,19 +63,19 @@
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     <span class="fett">CREDIT NOTE NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditNoteNo.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoNumber}"/></span><br/>
                     INVOICE NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
                     CREDIT NOTE DATE &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditMemoDate.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
                     ORDER NO &nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
                 </td>
                 <!-- Delivery contact information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     DELIVERY CONTACT <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/DeliveryContact.PNG')}" width="26%" height="25%" style="margin-top:-3px" alt="RIMOWA"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
-                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
                 </td>
             </tr>
@@ -105,7 +105,7 @@
                 </tr>
 
             </thead>
-            <tbody style="line-height:15px; padding-top 3px;">
+            <tbody class="InvoiceLineItem">
                 <!-- loop invoice line items-->
                 <apex:repeat value="{!creditMemoDocument.lineItems}" var="lineItem">
                     <tr style="padding-top: 5px;">
@@ -142,9 +142,10 @@
                 <!-- loop over vat rate -->
 
             <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
-                <tr>
+                <tr> 
                     <td width="100%" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/>:</td>
                     <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!-- <td  class="align-right" ><apex:outputText value="{!creditMemoDocument.TotalTaxAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td> -->
                 </tr>
             </apex:repeat>
                 <!-- end loop-->

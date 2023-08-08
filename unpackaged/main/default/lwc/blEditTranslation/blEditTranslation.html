@@ -1,0 +1,54 @@
+<template>
+
+    <div class="edit-translation-wrap" style={wrapStyle} if:false={displayRawContent}>
+        <lightning-datatable key-field="name" 
+            data={items} 
+            columns={columns}
+            sorted-by="name"
+            hide-checkbox-column
+            show-row-number-column="false"
+            draft-values={draftValues}
+            onsave={save}>
+        </lightning-datatable>
+
+        <div if:true={spinner} class="spinner-wrap" style="z-index: 9900;">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+
+        <div class="edit-raw-wrap slds-is-absolute">
+            <div class="slds-grid slds-grid_align-center">
+                <lightning-button label="Raw Content" variant="neutral" onclick={switchToRaw}></lightning-button>
+            </div>
+        </div>
+    </div>
+
+    <div class="edit-translation-wrap" style={wrapStyle} if:true={displayRawContent}>
+        <div if:true={displayRawContent}>
+            <div if:false={isEditMode}>
+                <textarea class="readonly-textarea" readonly>{rawContent}</textarea>
+            </div>
+            <div if:true={isEditMode}>
+                <textarea onchange={handleContentChange} onblur={handleContentChange}>{rawContent}</textarea>
+            </div>
+        </div>
+        
+        <div if:true={spinner} class="spinner-wrap" style="z-index: 9900;">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+
+        <div class="slds-docked-form-footer slds-is-absolute">
+            <div class="slds-grid slds-grid_align-center">
+                <div if:false={isEditMode}>
+                    <lightning-button label="Back" variant="neutral" onclick={backToJson} if:true={isValidJson} class="slds-m-right_xx-small"></lightning-button>
+                    <lightning-button label="Edit" variant="brand" onclick={edit}></lightning-button>
+                </div>
+
+                <div if:true={isEditMode}>
+                    <lightning-button label="Cancel" variant="neutral" onclick={cancelEdit} class="slds-m-right_xx-small"></lightning-button>
+                    <lightning-button label="Save" variant="brand" onclick={save}></lightning-button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</template>
