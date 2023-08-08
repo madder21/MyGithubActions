@@ -261,6 +261,13 @@
                 <stringValue>Capture</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>PaymentCaptureRecord.Date</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Check_Reconciliation_Id_Response</targetReference>
         </connector>
