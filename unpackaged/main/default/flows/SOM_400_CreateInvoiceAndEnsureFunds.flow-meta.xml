@@ -149,7 +149,6 @@
         </rules>
     </decisions>
     <description>Fields for Report</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_First_Record_Ever_Created</name>
         <dataType>String</dataType>
@@ -425,12 +424,6 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
                 <elementReference>$Record.OrderSummaryId</elementReference>
             </value>
         </filters>
-        <inputAssignments>
-            <field>Tech_ShippingCountry__c</field>
-            <value>
-                <elementReference>get_ODG.DeliverToCountry</elementReference>
-            </value>
-        </inputAssignments>
         <inputAssignments>
             <field>Tech_ShippingState__c</field>
             <value>

@@ -1,27 +1,16 @@
 /*
-Author : NAIMY BOUCHAIB
-DATE CREATION : 07/09/2022
-DESCRIPTION : test the SOM_WS_PickedInStoreShipmentHnadler class
-coverage : 91 %
+Author        : TALBI Hicham
+DATE CREATION : 13/07/2023
+DESCRIPTION   : test the SOM_WS_PickedInStoreShipmentHnadler class
+coverage      : 87 %
 
 */
 @isTest
 private class SOM_WS_PickedInStoreShipmentHnadler_Test {
     public static Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest> listRequestInputs = new Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest>();
-    public static Integer toOverQuantity = 0 ;
-    public static boolean serialNumberisNull = false ;
-    public static boolean QtySerialNumber = false ;
-    public static boolean MissingSerialNumber = false ;
-    public static boolean notfulfilled = false ;
-    public static boolean multipleFO = false ;
-    public static boolean FulfillmentOrderLineItemsNotEmpty = false ;
-    public static boolean testPassOK = false ;
-    public static boolean list_items_to_ship_empty = false ;
-    public static boolean no_fulfillmentOrderLineItem_exist = false ;
     public static Map<Id, String> mapOItemSKU = new Map<Id, String>();
 
-    @isTest(seeAllData = true)
-    public static void setupData() {
+    public static void setupData(Integer toOverQuantity, boolean serialNumberisNull, boolean QtySerialNumber, boolean MissingSerialNumber, boolean notfulfilled, boolean multipleFO, boolean list_items_to_ship_empty, boolean no_fulfillmentOrderLineItem_exist) {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,3);
         if(list_items_to_ship_empty == true || no_fulfillmentOrderLineItem_exist == true) {
             OrderSummary osOnHold = los[0];
@@ -53,20 +42,20 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
                 requestDataOrderPickedinStore.item =  new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item>();
             }
             else if (no_fulfillmentOrderLineItem_exist == true) {
-                List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listItems = convertedList(os.OrderItemSummaries);
+                List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listItems = convertedList(os.OrderItemSummaries, toOverQuantity, serialNumberisNull, QtySerialNumber, MissingSerialNumber);
                 listItems[0].sku = 'sku-9587461';
                 listItems[0].qty = 10;
                 requestDataOrderPickedinStore.item = listItems;
             }
             else {
-                requestDataOrderPickedinStore.item = convertedList(os.OrderItemSummaries);
+                requestDataOrderPickedinStore.item = convertedList(os.OrderItemSummaries, toOverQuantity, serialNumberisNull, QtySerialNumber, MissingSerialNumber);
             }
             SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.put(os.OrderNumber,requestDataOrderPickedinStore);
         }
     }
 
     //this method to convert list of order items summary ---> list of WMS_Item our wrapper in SOrM_WS_PickedInStoreShipmentHnadler class
-    private static List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> convertedList(List<OrderItemSummary> olis) {
+    private static List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> convertedList(List<OrderItemSummary> olis, Integer toOverQuantity, boolean serialNumberisNull, boolean QtySerialNumber, boolean MissingSerialNumber) {
         List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listOrderItemsData = new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item>();
         for(OrderItemSummary ois : olis) {
             if(mapOItemSKU.containsKey(ois.Id)){
@@ -155,7 +144,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void FulfillmentOrderLineItemsNotEmpty() { 
-        setupData();
+        setupData(0, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -175,9 +164,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void testPassOK() {
-        testPassOK = true ;
-        setupData();
-        testPassOK = false;
+        setupData(0, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -196,9 +183,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void list_items_to_ship_empty() {
-        list_items_to_ship_empty = true ;
-        setupData();
-        list_items_to_ship_empty = false ;
+        setupData(0, false, false, false, false, false, true, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -217,9 +202,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void no_fulfillmentOrderLineItem_exist() {
-        no_fulfillmentOrderLineItem_exist = true ;
-        setupData();
-        no_fulfillmentOrderLineItem_exist = false ;
+        setupData(0, false, false, false, false, false, false, true);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -238,9 +221,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void requested_to_ship_is_greater_than_Quantity_Available() {
-        toOverQuantity = 1 ;
-        setupData();
-        toOverQuantity = 0 ;
+        setupData(1, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -259,9 +240,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void noSerializedItem() {
-        serialNumberisNull = true ;
-        setupData();
-        serialNumberisNull = false ;
+        setupData(0, true, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -280,9 +259,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void QuantityItemsLessThanSerialNumbers() {
-        QtySerialNumber = true ;
-        setupData();
-        QtySerialNumber = false ;
+        setupData(0, false, true, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -301,9 +278,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void MissingSerialNumbers() {
-        MissingSerialNumber = true ;
-        setupData();
-        MissingSerialNumber = false ;
+        setupData(0, false, false, true, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -322,9 +297,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void testNotFulfilledOS() {
-        notfulfilled = true ;
-        setupData();
-        notfulfilled = false ;
+        setupData(0, false, false, false, true, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
@@ -343,9 +316,7 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
 
     @isTest(seeAllData=true)
     static void testMultipleFO() {
-        multipleFO = true ;
-        setupData();
-        multipleFO = false ;
+        setupData(0, false, false, false, false, true, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
