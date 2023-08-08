@@ -263,7 +263,6 @@ global with sharing class SOM_CreditMemoDocumentController {
         public Decimal                   netSubTotal {get; set;}
         public Decimal                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
-        public String                   TotalTaxAmount {get; set;}
     }
     
     global with sharing class CreditMemoContact{
