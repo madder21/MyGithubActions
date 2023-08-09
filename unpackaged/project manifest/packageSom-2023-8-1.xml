@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">	
 	<types>
-    	<members>SOM_320_FO_UpdateClickAndCollectConfirmedOrders</members>
+		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>WS_SOM_CreateReturnOrderEndpoint</members>
+		<name>ApexClass</name> 
+	</types>
+	<types>
+		<members>SOM_CreditMemoArabicDocument</members>
+		<members>SOM_CreditMemoDocument</members>
+		<members>SOM_InvoiceArabicDocument</members>
+		<members>SOM_InvoiceDocument</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>ReturnOrder.Carrier__c</members>
+		<members>Sales_Channel_Mapping__mdt.AmountsFormat__c</members>
+    	<name>CustomField</name>
+  	</types>
+	<types>
+		<members>Sales_Channel_Mapping__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>SOM_120_CoreModel_OrderSummary_Capture_Payment</members>
+		<members>SOM_230_CoreModel_Payment_CapturePayment</members>
+		<members>SOM_320_FO_UpdateClickAndCollectConfirmedOrders</members>
 		<name>Flow</name>
 	</types>
+	<types>
+		<members>ReturnOrder-Return Order Layout</members>
+		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>ReportsforSOM/Payments_report_5w3</members>
+		<members>ReportsforSOM/Payments_Report_US_S7N</members>
+		<members>ReportsforSOM/Shipments_Report_a6T</members> 
+		<members>ReportsforSOM/Shipments_Report_Finance_US_T2S</members>  
+		<name>Report</name>        
+    </types>
+	<types>
+      	<members>Shipments</members>  
+        <name>ReportType</name>
+  	</types>
 	<version>54.0</version>
 </Package>
