@@ -1,13 +1,13 @@
-public class SOM_Update_Credit_Memo_Date_Handler extends BaseTriggerHandler {
+public class SOM_CreditMemoTriggerHandler extends BaseTriggerHandler {
 	private List<CreditMemo> newList;
     private List<CreditMemo> oldList;
 
-    public SOM_Update_Credit_Memo_Date_Handler() {
+    public SOM_CreditMemoTriggerHandler() {
         oldList = (List<CreditMemo>)Trigger.old;
         newList = (List<CreditMemo>)Trigger.new;
     }
     
     protected override void beforeUpdate(){
-             SOM_Update_Credit_Memo_Date_Helper.updateCreditMemoDate(newList);
+             SOM_CreditMemoHelper.updateCreditMemoDate(newList);
     }
 }
