@@ -21,6 +21,21 @@ public with sharing class AccountTriggerHandler_TST {
             Map<id,SObject> mapOldItems = new Map<id,SObject>();
             accountHandler.BeforeUpdate(mapNewItems, mapOldItems);
         }
+    }
+	//Test de la méthode BeforeInsert de Account
+    @isTest 
+    static void testBeforeInsert() {
+        BypassTrigger__c BypassTrigger = new BypassTrigger__c(Account__c = true,
+                                               SetupOwnerId = UserInfo.getUserId());
+        
+        insert BypassTrigger;
+        User testUser = [SELECT Id, Name, ProfileId, Profile.Name, isActive
+                         FROM User WHERE ID =:UserInfo.getUserId()];
+        System.runAs(testUser){
+            AccountTriggerHandler accountHandler = new AccountTriggerHandler();
+            List<SObject> newItems = new List<SObject>();
+            accountHandler.BeforeInsert(newItems);
+        }
     }    
     //Test de la méthode AfterInsert de Account
     @isTest 
@@ -53,7 +68,7 @@ public with sharing class AccountTriggerHandler_TST {
             accountHandler.AfterUpdate(mapNewItems, mapOldItems);
         }
     }
-      //Test de la méthode AfterDelete de Account
+    //Test de la méthode AfterDelete de Account
     @isTest 
     static void testAfterDelete() {
         BypassTrigger__c BypassTrigger = new BypassTrigger__c(Account__c = true,
@@ -97,4 +112,22 @@ public with sharing class AccountTriggerHandler_TST {
             accountHandler.IsDisabled();
         }
     }
+    
+    //Test de la méthode BeforeInsert de Account
+    @isTest 
+    static void testAfterUndelete() {
+        BypassTrigger__c BypassTrigger = new BypassTrigger__c(Account__c = true,
+                                               SetupOwnerId = UserInfo.getUserId());
+        
+        insert BypassTrigger;
+        User testUser = [SELECT Id, Name, ProfileId, Profile.Name, isActive
+                         FROM User WHERE ID =:UserInfo.getUserId()];
+        System.runAs(testUser){
+            AccountTriggerHandler accountHandler = new AccountTriggerHandler();
+            Map<Id, SObject> oldItems = new Map<Id, SObject>();
+            accountHandler.AfterUndelete(oldItems);
+        }
+    }   
+    
+    
 }
