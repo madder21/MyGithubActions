@@ -175,8 +175,8 @@ global with sharing class SOM_InvoiceDocumentController {
                 lineItems.add(lineItem);
             }
         }
-		//sort
-		lineItems.sort();
+        //sort
+        lineItems.sort();
         Integer counter = 1;
         for(InvoiceLineItem single : lineItems){
             single.itemNumber = counter;
@@ -254,7 +254,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public String state {get; set;}
         public String country {get; set;}
     }
-	
+    
     //  implements Comparable
     global with sharing class InvoiceLineItem implements Comparable {
         public String  itemDescription {get; set;} //Product2 : description
@@ -272,7 +272,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public Integer lineNumber {get; set;}
        
         // compareTo method
-		public Integer compareTo(Object compareTo) {
+        public Integer compareTo(Object compareTo) {
             // Cast argument to InvoiceLineItem
             InvoiceLineItem compareToOppy = (InvoiceLineItem)compareTo;
             
