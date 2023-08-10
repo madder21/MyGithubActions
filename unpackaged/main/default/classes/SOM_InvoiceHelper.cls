@@ -4,23 +4,19 @@ public class SOM_InvoiceHelper {
         for(Invoice singleInv : newMap){
             InvoiceIds.put(singleInv.Id, singleInv.ReferenceEntityId);
         }
-        List<OrderSummary> relatedOrderSummary = [SELECT Id, BillingCountry FROM OrderSummary WHERE Id IN :InvoiceIds.values()];
-        Map<String, String> invoiceCountryMap = new Map<String, String>(); // Map<Invoice Id, BillingCountry>
-        for(OrderSummary singleOS : relatedOrderSummary){
-            for(String singleIn : InvoiceIds.KeySet()){
-                if(singleOS.Id == InvoiceIds.get(singleIn)){
-                	invoiceCountryMap.put(singleIn, singleOS.BillingCountry);
-                }
-            }
+        Map<Id,OrderSummary> relatedOrderSummary = new Map<Id, OrderSummary>([SELECT Id, Tech_ShippingCountry__c FROM OrderSummary WHERE Id IN :InvoiceIds.values()]);
+        Map<String, String> invoiceCountryMap = new Map<String, String>(); // Map<Invoice Id, Tech_ShippingCountry__c>
+        for(String singleIn : InvoiceIds.KeySet()){
+            invoiceCountryMap.put(singleIn, relatedOrderSummary.get(InvoiceIds.get(singleIn)).Tech_ShippingCountry__c);
         }
         List<Sales_Channel_Mapping__mdt> salesChannelMDT = [SELECT Zone__c, Timezone__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c IN :invoiceCountryMap.values()];
+        Map<String, String> salesChannelMDTMap = new Map<String, String>(); // Map<Zone__c, Timezone__c>
+        for(Sales_Channel_Mapping__mdt oneMDT : salesChannelMDT){
+            salesChannelMDTMap.put(oneMDT.Zone__c, oneMDT.Timezone__c);
+        }
         Map<Id, String> invoiceTimeZonesMap = new Map<Id, String>(); // Map<Invoice Id, TimeZone>
         for(String invo : invoiceCountryMap.KeySet()){
-            for(Sales_Channel_Mapping__mdt singleMDT : salesChannelMDT){
-                if(invoiceCountryMap.get(invo) == singleMDT.Zone__c){
-                    invoiceTimeZonesMap.put(invo, singleMDT.Timezone__c);
-                }
-            }
+            invoiceTimeZonesMap.put(invo, salesChannelMDTMap.get(invoiceCountryMap.get(invo)));
         }
         for(Invoice singleInvoice : newMap){
             SOM_DateConvertionInput dateinput          = new SOM_DateConvertionInput();
