@@ -6,10 +6,10 @@
 		<members>SOM_InvoiceDocumentController</members>
 		<members>WS_SOM_CreateReturnOrderEndpoint</members>
 		<members>SOM_TransactionalEmailHandler</members>
-		<members>SOM_Update_Credit_Memo_Date_Handler</members>
-		<members>SOM_Update_Credit_Memo_Date_Helper</members>
-		<members>SOM_Update_Invoice_Timezone_Date_Handler</members>
-		<members>SOM_Update_Invoice_Timezone_Date_Helper</members>
+		<members>SOM_CreditMemoTriggerHandler</members>
+		<members>SOM_CreditMemoHelper</members>
+		<members>SOM_InvoiceTriggerHandler</members>
+		<members>SOM_InvoiceHelper</members>
 		<name>ApexClass</name> 
 	</types>
 	<types>
@@ -20,8 +20,8 @@
 		<name>ApexPage</name>
 	</types>
 	<types>
-		<members>SOM_Update_Credit_Memo_Date</members>
-		<members>SOM_Update_Invoice_Timezone_Date</members>
+		<members>SOM_CreditMemoTrigger</members>
+		<members>SOM_InvoiceTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
 	<types>
