@@ -8,6 +8,14 @@ public class SOM_CreditMemoTriggerHandler extends BaseTriggerHandler {
     }
     
     protected override void beforeUpdate(){
-             SOM_CreditMemoHelper.updateCreditMemoDate(newList);
+        List<CreditMemo> newListWithEmptyDate = new List<CreditMemo>();
+        for(CreditMemo singleCr : newList){
+            if(singleCr.Credit_Memo_Date__c == null){
+                newListWithEmptyDate.add(singleCr);
+            }
+        } 
+        if(newListWithEmptyDate != null && !newListWithEmptyDate.isEmpty()){
+            SOM_CreditMemoHelper.updateCreditMemoDate(newListWithEmptyDate);
+        }
     }
 }
