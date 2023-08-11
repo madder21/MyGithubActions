@@ -284,7 +284,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                     Map<String, returnOrderItemCreateUpdate> returnOrderItemsRequest = returnOrderItemsToUpdateMap.get(returnOrderToUpdate.id);
                     if (returnOrderToUpdate.ReturnOrderLineItems != null && !returnOrderToUpdate.ReturnOrderLineItems.isEmpty()) {
                         for(ReturnOrderLineItem lineItem:returnOrderToUpdate.ReturnOrderLineItems) {
-                            returnOrderItemCreateUpdate returnOrderItemRequest = returnOrderItemsRequest.get(lineItem.Product2.StockKeepingUnit);
+                            returnOrderItemCreateUpdate returnOrderItemRequest = returnOrderItemsRequest.get(lineItem.Id);
                             if (returnOrderItemRequest != null) {
                                 lineItem.ConditionId__c = returnOrderItemRequest.conditionId;
                                 if (returnOrderItemRequest.reasonCode == null || returnOrderItemRequest.reasonCode.length() == 0)
@@ -388,7 +388,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             orderShipmentItem.quantityAvailableToReturn -= returnOrderItemCreateUpdate.quantity;
             orderSummaryShipmentsMap.get(req.orderSummaryNumber).put(returnOrderItemCreateUpdate.sku, orderShipmentItem);
             
-            returnOrderItemsRequest.put(returnOrderItemCreateUpdate.sku, returnOrderItemCreateUpdate);
             returnOrderLineItemsInputList.add(returnOrderLineItemInput);
         }
 
@@ -403,7 +402,18 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.returnOrderLifeCycleType = SOM_Constants.RETURN_ORDER_LIFE_CYCLE_TYPE;
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
-        ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);    
+        ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
+
+        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId]; 
+        for(ReturnOrderItemCreateUpdate reqItem : returnItems){
+            for(ReturnOrderLineItem singleROLI : createdROLIs){
+                if( singleROLI.Product2.StockKeepingUnit == reqItem.sku && singleROLI.reasonForReturn == reqItem.reasonCode ){
+                    // Fill the Map : returnOrderItemsRequest
+                    returnOrderItemsRequest.put(singleROLI.Id, reqItem);
+                }
+            }
+        }
+
         /****end metrics****/
         returnOrderToUpdateMap.put(returnOrderOutput.returnOrderId, req);
         returnOrderItemsToUpdateMap.put(returnOrderOutput.returnOrderId, returnOrderItemsRequest);
@@ -443,7 +453,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             if (concatenateSkuAndConditionIdList.contains(concatenateSkuAndConditionId))
                 return 'Duplicate items with the same SKU code : '+returnOrderItemCreateUpdate.sku+' and ConditionId : '+returnOrderItemCreateUpdate.ConditionId+'.';
                 concatenateSkuAndConditionIdList.add(concatenateSkuAndConditionId);
-        }  
+        } 
 
         return null;
     }
