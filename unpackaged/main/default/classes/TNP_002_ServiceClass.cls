@@ -32,14 +32,31 @@ public with sharing class TNP_002_ServiceClass {
     }
     
     public static Map<String, Object> buildObjectMap(Account accountInput, String settingName) {
+        String METHOD_NAME ='buildObjectMap';
+        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Start');
         //retrieve all TNP_ClientMap__c fields using schema
         Map<String, Object> settingObjectMap = new Map<String, Object>();
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(settingName).getDescribe().fields.getMap();
         Map<String, string> fieldNameLabelMap = TNP_002_ServiceClass.resolveFieldsAPINames(fieldMap);
+        /* for(String field : fieldNameLabelMap.keySet()) {
+settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// sur Account récupère la valeur du champ B2C_Customer_ID__pc
+}*/
         for(String field : fieldNameLabelMap.keySet()) {
-            settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// sur Account récupère la valeur du champ B2C_Customer_ID__pc
+            if(field.toLowercase().contains('optin') && !field.toLowercase().contains('lastupdate')){
+                
+                String lastUpdateName = 'LastUpdate'+field; //ex: field = OptinCalling_pc__c, LastUpdateOptinCalling_pc__c
+                //si OptinCalling_pc__c = false et LastUpdateOptinCalling_pc__c = null
+                if(accountInput.get(field) == false && accountInput.get(lastUpdateName) == null){                   
+                    settingObjectMap.put(fieldNameLabelMap.get(field), null);
+                }else {
+                    settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));
+                }   
+            }else {
+                settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));
+            }
         }
+         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END');
         return settingObjectMap;
     }    
     
@@ -54,9 +71,6 @@ public with sharing class TNP_002_ServiceClass {
             String CountryIso3Code ;
             String personMaillingCountryIso3Code ;
             String personOtherCountryIso3Code ;
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonMailingCountry'+accountInput.PersonMailingCountry);
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonOtherCountry'+accountInput.PersonOtherCountry);
             
             
             //Country Code mapping
@@ -85,7 +99,7 @@ public with sharing class TNP_002_ServiceClass {
             //Other Mailling Country
             
             if (!String.isEmpty(accountInput.PersonOtherCountry) && accountInput.PersonOtherCountry.length() <= maxNameLength  ){
-               System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonOtherCountry');
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonOtherCountry');
                 for (CountryCode__c nameCustoLabel : listCountryCode){
                     if (nameCustoLabel.Name == accountInput.PersonOtherCountry ){                           
                         personOtherCountryIso3Code = nameCustoLabel.Alpha_3_code__c;
@@ -129,6 +143,7 @@ public with sharing class TNP_002_ServiceClass {
             Map<string,object> clientMap = buildObjectMap(accountInput, 'TNP_ClientMap__c');
             clientMap.put ('Source',source);
             clientMap.put ('Country',CountryIso3Code);
+            clientMap.put ('B2CDateCreated',accountInput.CreatedDate);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'clientMap'+clientMap);
             JsonMap.put('Client',clientMap);         
             //Adresses Data 
