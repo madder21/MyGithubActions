@@ -11,8 +11,8 @@
     <decisions>
         <name>Check_FraudAnalysisResponse</name>
         <label>Check FraudAnalysisResponse</label>
-        <locationX>825</locationX>
-        <locationY>962</locationY>
+        <locationX>851</locationX>
+        <locationY>1225</locationY>
         <defaultConnector>
             <targetReference>Screen_confirm</targetReference>
         </defaultConnector>
@@ -34,31 +34,82 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Order_Payment_Summary_Type</name>
-        <label>Check Order Payment Summary Type</label>
-        <locationX>834</locationX>
-        <locationY>487</locationY>
+        <name>Check_RI_PaymentMethodId</name>
+        <label>Check RI_PaymentMethodId</label>
+        <locationX>827</locationX>
+        <locationY>864</locationY>
         <defaultConnector>
-            <targetReference>Manual_Fraud_Decision_COD</targetReference>
+            <targetReference>Manual_Fraud_Default_Decision</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>TYPE = COD</defaultConnectorLabel>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
         <rules>
-            <name>Type_NOT_COD</name>
+            <name>RI_PaymentMethodId_c</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <leftValueReference>RI_PaymentMethodId</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>COD</stringValue>
+                    <stringValue>C_CC</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Manual_Fraud_Decision_Not_COD</targetReference>
+                <targetReference>Manual_Fraud_Decision</targetReference>
             </connector>
-            <label>Type &lt;&gt; COD</label>
+            <label>RI_PaymentMethodId</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
+    <decisions>
+        <name>Check_TYPEOF_PaymentMethod</name>
+        <label>Check TYPEOF PaymentMethod</label>
+        <locationX>830</locationX>
+        <locationY>444</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CardPaymentMethod</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>03O</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Card_Payment_Method</targetReference>
+            </connector>
+            <label>CardPaymentMethod</label>
+        </rules>
+        <rules>
+            <name>DigitalWallet</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1DW</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_DigitalWallet</targetReference>
+            </connector>
+            <label>DigitalWallet</label>
+        </rules>
+        <rules>
+            <name>AlternativePaymentMethod</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>8Z7</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_AlternativePaymentMethod</targetReference>
+            </connector>
+            <label>AlternativePaymentMethod</label>
+        </rules>
+    </decisions>
     <interviewLabel>SOM Unblock OS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 115 - Manually Validate Order Summary</label>
     <processMetadataValues>
@@ -81,13 +132,82 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
-        <name>Get_Order_Payment_Summary</name>
-        <label>Get Order Payment Summary</label>
-        <locationX>840</locationX>
-        <locationY>323</locationY>
+        <name>Get_AlternativePaymentMethod</name>
+        <label>Get AlternativePaymentMethod</label>
+        <locationX>668</locationX>
+        <locationY>587</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Order_Payment_Summary_Type</targetReference>
+            <targetReference>Check_RI_PaymentMethodId</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.PaymentMethodId</elementReference>
+            </value>
+        </filters>
+        <object>AlternativePaymentMethod</object>
+        <outputAssignments>
+            <assignToReference>RI_PaymentMethodId</assignToReference>
+            <field>RI_PaymentMethodId__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Card_Payment_Method</name>
+        <label>Get Card Payment Method</label>
+        <locationX>836</locationX>
+        <locationY>677</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_RI_PaymentMethodId</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.PaymentMethodId</elementReference>
+            </value>
+        </filters>
+        <object>CardPaymentMethod</object>
+        <outputAssignments>
+            <assignToReference>RI_PaymentMethodId</assignToReference>
+            <field>RI_PaymentMethodId__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_DigitalWallet</name>
+        <label>Get DigitalWallet</label>
+        <locationX>993</locationX>
+        <locationY>584</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_RI_PaymentMethodId</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.PaymentMethodId</elementReference>
+            </value>
+        </filters>
+        <object>DigitalWallet</object>
+        <outputAssignments>
+            <assignToReference>RI_PaymentMethodId</assignToReference>
+            <field>RI_PaymentMethodId__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Payment_Summary</name>
+        <label>Get Order Payment Summary</label>
+        <locationX>838</locationX>
+        <locationY>301</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_TYPEOF_PaymentMethod</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -104,8 +224,8 @@
     <recordLookups>
         <name>Get_OS</name>
         <label>Get OS</label>
-        <locationX>840</locationX>
-        <locationY>195</locationY>
+        <locationX>838</locationX>
+        <locationY>175</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Payment_Summary</targetReference>
@@ -123,10 +243,37 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
-        <name>Manual_Fraud_Decision_COD</name>
-        <label>Manual Fraud Decision COD</label>
-        <locationX>712</locationX>
-        <locationY>661</locationY>
+        <name>Manual_Fraud_Decision</name>
+        <label>Manual Fraud Decision</label>
+        <locationX>980</locationX>
+        <locationY>1033</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Fraud_Analysis</targetReference>
+        </connector>
+        <fields>
+            <name>Help_Text</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(23, 43, 77);&quot;&gt;&lt;em&gt;To generate the customer token in Cybersource: on the authorization transaction, in the Actions menu (top right of the screen), press Create Token, then in the slider popin, press Create Token. A success message appears with the customer token number (32 characters alphanumeric).&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Customer_Token</name>
+            <dataType>String</dataType>
+            <fieldText>Customer Token</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Manual_Fraud_Default_Decision</name>
+        <label>Manual Fraud Default Decision</label>
+        <locationX>705</locationX>
+        <locationY>1007</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -143,32 +290,10 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Manual_Fraud_Decision_Not_COD</name>
-        <label>Manual Fraud Decision Not COD</label>
-        <locationX>974</locationX>
-        <locationY>659</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Fraud_Analysis</targetReference>
-        </connector>
-        <fields>
-            <name>Customer_Token</name>
-            <dataType>String</dataType>
-            <fieldText>Customer Token</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>true</isRequired>
-        </fields>
-        <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Screen_confirm</name>
         <label>Screen confirm</label>
-        <locationX>1099</locationX>
-        <locationY>1057</locationY>
+        <locationX>970</locationX>
+        <locationY>1327</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -184,8 +309,8 @@
     <screens>
         <name>Screen_not_confirm</name>
         <label>Screen not confirm</label>
-        <locationX>643</locationX>
-        <locationY>1066</locationY>
+        <locationX>739</locationX>
+        <locationY>1315</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -199,8 +324,8 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>714</locationX>
-        <locationY>48</locationY>
+        <locationX>713</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>Get_OS</targetReference>
         </connector>
@@ -209,8 +334,8 @@
     <subflows>
         <name>Fraud_Analysis</name>
         <label>Fraud Analysis</label>
-        <locationX>833</locationX>
-        <locationY>796</locationY>
+        <locationX>858</locationX>
+        <locationY>1086</locationY>
         <connector>
             <targetReference>Check_FraudAnalysisResponse</targetReference>
         </connector>
@@ -240,6 +365,13 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RI_PaymentMethodId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
