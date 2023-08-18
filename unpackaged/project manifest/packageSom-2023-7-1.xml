@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
 		<members>SOM_Batch_CustomerTokenDeletion</members>
 		<members>SOM_InvoiceDocumentController</members>
 		<members>SOM_TransactionalEmailHandler</members>
 		<members>SOM_WS_ShipmentHandler</members>
 		<members>SOM_WS_ShipmentHandler_Test</members> 
+		<members>SOM_SalesAndPaymentsReportMonthSchedule</members>
+		<members>SOM_SalesAndPaymentsReportSchedule</members> 
+		<members>SOM_Constants</members>
+		<members>SOM_GetAvailability_BatchSubClass</members>
     	<name>ApexClass</name> 
 	</types>
 	<types>
@@ -15,8 +20,11 @@
 		<members>Payment_Methods_Mapping__mdt.Language__c</members>
 		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
 		<members>Payment_Methods_Mapping__mdt.Value__c</members>
+		<members>PE_Emails_Setting__mdt.Country__c</members>
+		<members>PE_Emails_Setting__mdt.Distribution_List__c</members>
 		<members>Sales_Channel_Mapping__mdt.ChannelType__c</members>
 		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
+		<members>FulfillmentOrder.sentToToshi__c</members>
     	<name>CustomField</name>
   	</types>
 	<types>
@@ -272,10 +280,13 @@
 		<members>Payment_Methods_Mapping.MasterCard_EN</members>
 		<members>Payment_Methods_Mapping.JCB_EN</members>
 		<members>Payment_Methods_Mapping.Amex_EN</members>
+		<members>PE_Emails_Setting.PE_UAE</members>
+	    <members>PE_Emails_Setting.PE_US</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
     	<members>Payment_Methods_Mapping__mdt</members>
+		<members>PE_Emails_Setting__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
     	<name>CustomObject</name>
 	</types> 
@@ -296,13 +307,26 @@
 	<types>
 		<members>Payment_Methods_Mapping__mdt-Payment Methods Mapping Layout</members>
 		<members>PaymentAuthorization-Payment Authorization Layout</members>
-    	<members>Payment-Payment Layout</members>
-	    <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+    		<members>Payment-Payment Layout</members>
+	    	<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<members>PE_Emails_Setting__mdt-PE Emails Setting Layout</members>
+		<members>FulfillmentOrder-Fulfillment Order Layout</members>
 		<name>Layout</name>
 	</types>
   	<types>
 		<members>OrderSummary.Unblock</members>
 		<name>QuickAction</name>
 	</types>
+	<types>
+		<members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_AE</members>
+        <members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_US</members>
+		<members>ReportsforSOM/Order_Summary_with_Refunds_Report_ekT</members>
+	    <name>Report</name>
+    </types>
+	<types>
+		<members>Order_Summary_with_Refunds</members>  
+        <members>SOM_PE_ReportType</members>
+	    <name>ReportType</name>
+    </types>
 	<version>54.0</version>
 </Package>
