@@ -9,7 +9,7 @@
 -- 23/03/2023    IZR    1.0      Intitial version
 -------------------------------------------------------------------------------------------
 */
-public class TNP_002_ServiceClass {
+public with sharing class TNP_002_ServiceClass {
     
     Public Static String CLASS_NAME = 'TNP_002_ServiceClass';
     
@@ -20,12 +20,12 @@ public class TNP_002_ServiceClass {
             if(fieldName.contains('__c') ) {
                 //fieldName.replace('_pc', '__pc');
                 if(fieldName.contains('_pc')) {
-                	resolveAPINameLabelMap.put(fieldName.replace('_pc', '__pc').split('__c')[0], fieldMap.get(fieldName).getDescribe().getLabel());
+                    resolveAPINameLabelMap.put(fieldName.replace('_pc', '__pc').split('__c')[0], fieldMap.get(fieldName).getDescribe().getLabel());
                 }
                 if(fieldName.contains('_c') && !fieldName.contains('_pc')) {
                     resolveAPINameLabelMap.put(fieldName.split('__c')[0].replace('_c', '__c'), fieldMap.get(fieldName).getDescribe().getLabel());
                 }
-            	
+                
             }
         }
         return resolveAPINameLabelMap;
@@ -42,36 +42,89 @@ public class TNP_002_ServiceClass {
         }
         return settingObjectMap;
     }    
-
-    public static String GenerateJSON (account accountInput,string Source){
+    
+    public static String GenerateJSON (account accountInput,string Source, list <CountryCode__c> listCountryCode){
         String METHOD_NAME = 'GenerateJSON';
         String jsonstring = '';
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput'+accountInput);
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Source'+Source);
         map<string,map<string,object>> JsonMap = new map<string,map<string,object>>();
         if (accountInput != null ){
-            
+            Integer maxNameLength = CountryCode__c.SObjectType.getDescribe().fields.getMap().get('Name').getDescribe().getLength();
             String CountryIso3Code ;
             String personMaillingCountryIso3Code ;
             String personOtherCountryIso3Code ;
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
-            //Country Code maping
-            if ( accountInput.Country__pc != null && accountInput.Country__pc != ''  ){
-                CountryIso3Code = [Select Alpha_3_code__c,Alpha_2_code__c from  CountryCode__c where Alpha_2_code__c =: accountInput.Country__pc].Alpha_3_code__c;
-              System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
-                
-                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC id'+accountInput.SFSC_Contact_Key__pc);
-                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC id'+accountInput.Id);
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonMailingCountry'+accountInput.PersonMailingCountry);
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonOtherCountry'+accountInput.PersonOtherCountry);
+            
+            
+            //Country Code mapping
+            if ( !String.isEmpty(accountInput.Country__pc)){
+                for (CountryCode__c nameCustoLabel : listCountryCode ){
+                    if (nameCustoLabel.Alpha_2_code__c == accountInput.Country__pc){
+                        CountryIso3Code = nameCustoLabel.Alpha_3_code__c;
+                        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ ' IN IF ==> accountInput.Country__pc'+CountryIso3Code);
+                    }
+                }
             }
             //Mailling Country Code Mapping
-            if (accountInput.PersonMailingCountry != null && accountInput.PersonMailingCountry != ''  ){
-                personMaillingCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonMailingCountry)!=null?CountryCode__c.getInstance(accountInput.PersonMailingCountry).Alpha_3_code__c:null; 
+            
+            if (!String.isEmpty(accountInput.PersonMailingCountry) && accountInput.PersonMailingCountry.length() <= maxNameLength  ){
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonMailingCountry.length()'+ accountInput.PersonMailingCountry.length() );
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonMailingCountry');
+                for (CountryCode__c nameCustoLabel : listCountryCode){
+                    if (nameCustoLabel.Name == accountInput.PersonMailingCountry ){ 
+                        
+                        personMaillingCountryIso3Code = nameCustoLabel.Alpha_3_code__c; 
+                        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ ' IN IF ==> accountInput.PersonMailingCountry'+personMaillingCountryIso3Code);
+                    }
+                }
             }
-            //Other Mailling Country 
-            if (accountInput.PersonOtherCountry != null && accountInput.PersonOtherCountry != ''  ){ 
-                personOtherCountryIso3Code = CountryCode__c.getInstance(accountInput.PersonOtherCountry)!=null?CountryCode__c.getInstance(accountInput.PersonOtherCountry).Alpha_3_code__c:null;
+            
+            //Other Mailling Country
+            
+            if (!String.isEmpty(accountInput.PersonOtherCountry) && accountInput.PersonOtherCountry.length() <= maxNameLength  ){
+               System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonOtherCountry');
+                for (CountryCode__c nameCustoLabel : listCountryCode){
+                    if (nameCustoLabel.Name == accountInput.PersonOtherCountry ){                           
+                        personOtherCountryIso3Code = nameCustoLabel.Alpha_3_code__c;
+                        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ ' IN IF ==> accountInput.PersonOtherCountry'+personOtherCountryIso3Code);
+                        
+                    }
+                }
+            } 
+            
+            //Mailling Country Code Mapping
+            if (!String.isEmpty(accountInput.PersonMailingCountry) && accountInput.PersonMailingCountry.length() > maxNameLength  ){
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'SUP  maxNameLength PersonMailingCountry');
+                for (CountryCode__c nameCustoLabel : listCountryCode){
+                    if (accountInput.PersonMailingCountry.CONTAINS(nameCustoLabel.Name))
+                    {                       
+                        personMaillingCountryIso3Code = nameCustoLabel.Alpha_3_code__c; 
+                        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ ' IN IF ==> accountInput.PersonMailingCountry'+personMaillingCountryIso3Code);
+                    }
+                }
             }
-    
+            
+            //Other Mailling Country
+            if ( !String.isEmpty(accountInput.PersonOtherCountry)  && accountInput.PersonOtherCountry.length() > maxNameLength ){
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'SUP  maxNameLength PersonOtherCountry');
+                for (CountryCode__c nameCustoLabel : listCountryCode){      
+                    if (accountInput.PersonOtherCountry.CONTAINS(nameCustoLabel.Name) && !String.isEmpty(accountInput.PersonOtherCountry)){                   
+                        personOtherCountryIso3Code = nameCustoLabel.Alpha_3_code__c;
+                        System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ ' IN IF ==> accountInput.PersonOtherCountry'+personOtherCountryIso3Code);
+                    }
+                }
+            } 
+            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
+            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC_Contact_Key__pc'+accountInput.SFSC_Contact_Key__pc);
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Id'+accountInput.Id);
+            
+            
+            
             //Client Data
             Map<string,object> clientMap = buildObjectMap(accountInput, 'TNP_ClientMap__c');
             clientMap.put ('Source',source);
@@ -113,10 +166,6 @@ public class TNP_002_ServiceClass {
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Consent'+consentMap);
             JsonMap.put('Consent',consentMap);
             
-            //To Check With MAlek 
-            // Consent.put ('LastUpdateOptinMailing',accountInput.OptinMailing__pc);
-            
-                 
         }
         if (JsonMap != null && JsonMap.size()>0 )
         {
@@ -126,5 +175,42 @@ public class TNP_002_ServiceClass {
         
         return jsonstring;
     }
-
+    
+    public static void sendRequest  (String jsonGenerated){ 
+        String METHOD_NAME = 'sendRequest' ;
+        try { 
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'jsonGenerated'+jsonGenerated);         
+            Http http=new http();
+            HttpRequest req = new HttpRequest();
+            HttpResponse res = new HttpResponse();
+            AccountAPI__c apiAccount = AccountAPI__c.getInstance(Label.TNP_APINameAccount);//'Account Api'
+            if(apiAccount!=null) {
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'apiAccount'+apiAccount); 
+                String  endPoint = apiAccount.EndPoint__c;
+                String method = apiAccount.Method__c;
+                req.setEndpoint(endPoint);
+                req.setMethod(method);
+                req.setHeader('Content-Type',apiAccount.Content_Type__c);
+                req.setHeader('client_id', apiAccount.Client_Id__c);
+                req.setHeader('client_secret', apiAccount.Client_secret__c);
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'jsonGenerated : '+jsonGenerated); 
+                req.setBody(jsonGenerated);
+                req.setTimeout(2000);
+                res = http.send(req);  
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'result : '+res.toString());  
+                System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'result Status Code : '+res.getStatusCode());
+            }
+            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
+        } catch(Exception e) {
+            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'exception : '+e.getMessage());  
+        }
+    }
+    public static Map<Id,User> returnMapUserIntegration(){ 
+        String METHOD_NAME = 'returnIdUser' ;
+        System.debug(CLASS_NAME+'/'+ METHOD_NAME+'/'+'Start');
+        return new Map<Id,User>([SELECT Id, Name FROM User WHERE isIntegrationUser__c = TRUE and isActive = TRUE]);
+        //System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
+    }
 }
