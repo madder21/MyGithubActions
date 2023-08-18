@@ -1173,7 +1173,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>Formula_QuantityToCancel_Preview</name>
         <dataType>String</dataType>
@@ -1274,6 +1273,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Get_Shipment_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_5_Iterate_Over_PEs</name>
+        <label>Loop 5 - Iterate Over PEs</label>
+        <locationX>2380</locationX>
+        <locationY>251</locationY>
+        <collectionReference>Get_PEs</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Update_PE_Status</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_PEs</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1385,6 +1398,50 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_PEs</name>
+        <label>Get PEs</label>
+        <locationX>2492</locationX>
+        <locationY>251</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_5_Iterate_Over_PEs</targetReference>
+        </connector>
+        <filterLogic>1 AND ( 2 OR 3 ) AND 4</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OISIdsWIthTotalCanceledQuantity</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Triaged</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfillment</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Status</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Shipment_Items</name>
         <label>Get Shipment Items</label>
         <locationX>723</locationX>
@@ -1476,7 +1533,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumberPreview</name>
@@ -1503,7 +1559,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FulfillmentLineItemPreviewDt</name>
@@ -1634,7 +1689,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ConfirmeChanges</name>
@@ -1690,7 +1744,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_FOLISelection</name>
@@ -1717,7 +1770,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FO_Line_Item_Datatable</name>
@@ -1852,7 +1904,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_Text</name>
