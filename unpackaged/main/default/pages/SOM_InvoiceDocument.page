@@ -12,18 +12,18 @@
             <!-- <div class="spacer">&nbsp;</div>
             <div class="logo_header"></div> -->
         </div>
-        <div style="height: 4px;"></div>
+        <div class="div1"></div>
         
             <table class="head" >
      
                 <tr>
                     <!-- Company Information-->
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!invoiceConfigs['PDF_COMPANY']}"/><br/>
                         <apex:outputText value="{!invoiceConfigs['PDF_ADDRESS_1']}"/>&nbsp;<apex:outputText value="{!invoiceConfigs['PDF_ADDRESS_2']}"/><br/>
                         <apex:outputText value="{!invoiceConfigs['PDF_COUNTRY']}"/>
                     </td>
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!invoiceConfigs['PDF_PHONE']}"/><br/>
                         <apex:outputText value="{!invoiceConfigs['PDF_MAIL']}"/><br/>
                         RIMOWA.COM | @RIMOWA<br/>
@@ -31,7 +31,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="margin-left: 6%">
+            <div class="div2">
                 <h3> TAX INVOICE </h3> 
             </div>
            
@@ -39,16 +39,16 @@
         <table class="billing_contact_importer">
             <tr>
                 <!-- Billing contact information -->
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     BILLING CONTACT 
                     <br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
-                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>&nbsp;<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.billingContact.country}"/>
                 </td>
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_TITLE']}"/>
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
                     <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
@@ -67,7 +67,7 @@
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     <span class="fett">INVOICE NUMBER&nbsp;</span><br/>
                     <br/>
                     INVOICE DATE&nbsp;<br/>
@@ -79,12 +79,12 @@
                    
                 </td>
                 <!-- Delivery contact information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     DELIVERY CONTACT <br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
-                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>&nbsp;<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
                 </td>
             </tr>
@@ -98,7 +98,7 @@
         <br/>
         <br/>
         <br/>
-        <div style='padding-left: 3px;'>
+        <div class="invoiceLine">
             TRACKING NUMBERS
         </div>
         <div class="spacer">&nbsp;</div>
@@ -126,15 +126,28 @@
                 </tr>
 
             </thead>
-            <tbody style="line-height:15px; padding-top 3px;">
+            <tbody class="InvoiceLineItem">
                 <!-- loop invoice line items-->
                 <apex:repeat value="{!invoiceDoc.lineItems}" var="lineItem">
-                    <tr style="padding-top: 5px;">
+                    <tr class="lineIem">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
-                        <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        
+                        <td><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.netAmount}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        
+                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.grossAmount}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        
+                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.total}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        
+                        <!--<td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
                     </tr>
                     <tr>
                         <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -158,14 +171,20 @@
             <tbody>
                 <tr>
                     <td width="100%" class="border_top" style="padding-top:2px;">SUBTOTAL (NET):</td>
-                    <td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <!--<td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
+                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!invoiceDoc.netSubTotal}"/>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
                 <!-- loop over vat rate -->
 
             <apex:repeat value="{!invoiceTaxLineItems}" var="key">
                 <tr>
                     <td width="100%" class="" style="padding-top: 3px;">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> %:</td>
-                    <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <!--<td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
+                    <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!invoiceTaxLineItems[key]}"/>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
                 <!-- end loop-->
@@ -174,25 +193,29 @@
                 </tr> 
                 <tr>
                     <td class="border_top" width="100%" style="padding-top:2px;">TOTAL INCL. TAX:</td>
-                    <td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <!--<td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
+                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                    <apex:param value="{!invoiceDoc.totalWithTax}"/>
+                    </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    
                 </tr>
             </tbody>  
         </table>
         <div class="footer_text"> 
-            <div style="text-transform: uppercase;">
+            <div class="paymentType">
                 THE TOTAL AMOUNT HAS BEEN PAID VIA&nbsp;<apex:outputText value="{!invoiceDoc.paymentType}"/>. THE INVOICE DATE IS THE SAME AS THE DATE OF THE SERVICE.
                 <br/>
             </div><br/><br/>
             
-            <div style="text-transform: uppercase;"> 
+            <div class="paymentType"> 
                 PLEASE RETAIN THIS INVOICE FOR 5 YEARS FROM THE DATE OF PURCHASE (INVOICE DATE). THIS INVOICE IS YOUR PROOF OF GUARANTEE! <br/>
                 
             </div>
-            <div>
+            <div> 
                 OUR CLIENT CARE TEAM IS HAPPY TO ANSWER ANY QUESTIONS YOU MAY HAVE. YOU CAN REACH US UNDER:<br/>
                
             </div> <br/>
-            <div style="text-transform: uppercase;">
+            <div class="paymentType">
                 <apex:outputText value="{!invoiceConfigs['PDF_PHONE_SERVICE']}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['PDF_MAIL_SERVICE']}"/><br/>
                 <br/>

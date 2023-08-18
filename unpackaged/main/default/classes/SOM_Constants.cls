@@ -9,7 +9,14 @@ global with sharing class SOM_Constants {
     public static final String  RI_REPAYMENT_METHOD_C_KLARNA        = 'C_KLARNA';
     public static final String  RI_REPAYMENT_METHOD_C_CREDIT_CARD   = 'C_CC';
 
-
+    public static final String EXCHANGE			             		= 'Exchange';
+    public static final String FULFILLING			             	= 'Fulfilling';
+	public static final String TEMPLATE_CoreModel             		= 'CoreModel';
+    public static final String PE_NEW             					= 'New';
+    public static final String PE_PAYMENT             				= 'Payment';
+    public static final String Status_Ordered             			= 'Ordered';
+    
+    
     public static final String INVOICE_LINE_TYPE_CHARGE             = 'Charge';
     public static final String INVOICE_LINE_TYPE_TAX                = 'Tax';
     public static final String CreditMemo_LINE_TYPE_ADJUSTMENT      = 'Adjustment';
@@ -129,4 +136,8 @@ global with sharing class SOM_Constants {
     public static final String SALES_CHANNEL_CEGID = 'CEGID';
     public static final String SALES_CHANNEL_MANUAL = 'Manual Order';
     public static final String SALES_CHANNEL_RIMOWA = 'Rimowa';
+    
+    public static final String ECOMMERCE_PAYMENT_CAPTURE_ERRORS = 'E_Commerce_Payment_Capture_Errors_';
+    
+    public static final String TABULAR_REPORT_FACT_MAP_KEY = 'T!T';
 }

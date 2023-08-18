@@ -4,7 +4,7 @@
         <name>Create_Credit_Memo</name>
         <label>Create Credit Memo</label>
         <locationX>737</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <actionName>createCreditMemoOrderSummary</actionName>
         <actionType>createCreditMemoOrderSummary</actionType>
         <connector>
@@ -35,7 +35,7 @@
         <name>Return_Return_Order_Items</name>
         <label>Return Return Order Items</label>
         <locationX>561</locationX>
-        <locationY>1429</locationY>
+        <locationY>1552</locationY>
         <actionName>returnReturnOrderItems</actionName>
         <actionType>returnReturnOrderItems</actionType>
         <connector>
@@ -62,12 +62,12 @@
             <name>returnItemsOutput</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>54.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_And_Stack_CML</name>
         <label>Assign And Stack CML</label>
         <locationX>3256</locationX>
-        <locationY>1652</locationY>
+        <locationY>1775</locationY>
         <assignmentItems>
             <assignToReference>S_CreditMemoLine.ReturnOrderLineItem__c</assignToReference>
             <operator>Assign</operator>
@@ -106,7 +106,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Assign_Credit_Memo_Data</name>
         <label>Assign Credit Memo Data</label>
         <locationX>553</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <assignmentItems>
             <assignToReference>UUU_CreateCreditMemo_IR.changeOrderIds</assignToReference>
             <operator>Add</operator>
@@ -119,10 +119,26 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_CurrentROLIs_IDs</name>
+        <label>Assign CurrentROLIs IDs</label>
+        <locationX>121</locationX>
+        <locationY>641</locationY>
+        <assignmentItems>
+            <assignToReference>GetCurrentROLIsIDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Current_ROLIs.OrderItemSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Current_ROLIs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Data_To_Ensure_Refund</name>
         <label>Assign Data To Ensure Refund</label>
         <locationX>3084</locationX>
-        <locationY>1934</locationY>
+        <locationY>2057</locationY>
         <assignmentItems>
             <assignToReference>WWW_EnsureRefundsAsyncInputRepresentation.creditMemoId</assignToReference>
             <operator>Assign</operator>
@@ -138,7 +154,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Assign_Original_ChangeOrderID</name>
         <label>Assign Original ChangeOrderID</label>
         <locationX>1121</locationX>
-        <locationY>945</locationY>
+        <locationY>1068</locationY>
         <assignmentItems>
             <assignToReference>BigBox_02_Original_Change_OrderIDs</assignToReference>
             <operator>Add</operator>
@@ -175,12 +191,12 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Assign_Original_RO_ID_to_Big_Box</name>
         <label>Assign Original RO ID to Big Box</label>
         <locationX>945</locationX>
-        <locationY>499</locationY>
+        <locationY>622</locationY>
         <assignmentItems>
             <assignToReference>BigBox_01_Original_RO_IDs</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Parent_OSLI.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
+                <elementReference>currentItem_Filter_Parent_OSLI_0.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -205,7 +221,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Assign_Return_Items_Input_Representation_Data</name>
         <label>Assign Return Items Input Representation Data</label>
         <locationX>2088</locationX>
-        <locationY>1428</locationY>
+        <locationY>1551</locationY>
         <assignmentItems>
             <assignToReference>DDD_Current_ROI_IR.returnOrderItems</assignToReference>
             <operator>Assign</operator>
@@ -228,7 +244,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Calculate_Refund_Amount</name>
         <label>Calculate Refund Amount</label>
         <locationX>772</locationX>
-        <locationY>950</locationY>
+        <locationY>1073</locationY>
         <assignmentItems>
             <assignToReference>V_Refund_Amount</assignToReference>
             <operator>Add</operator>
@@ -300,7 +316,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Stack_Current_ROLIs</name>
         <label>Stack Current ROLIs</label>
         <locationX>785</locationX>
-        <locationY>50</locationY>
+        <locationY>173</locationY>
         <assignmentItems>
             <assignToReference>BBB_Current_ROI_IR</assignToReference>
             <operator>Add</operator>
@@ -309,14 +325,14 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Parent_OSLI</targetReference>
+            <targetReference>Filter_Parent_OSLI</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Stack_Original_ROLIs</name>
         <label>Stack Original ROLIs</label>
         <locationX>771</locationX>
-        <locationY>792</locationY>
+        <locationY>915</locationY>
         <assignmentItems>
             <assignToReference>QQQ_Original_ROI_IR</assignToReference>
             <operator>Add</operator>
@@ -332,7 +348,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Store_Current_ROLIs_Data</name>
         <label>Store Current ROLIs Data</label>
         <locationX>582</locationX>
-        <locationY>50</locationY>
+        <locationY>173</locationY>
         <assignmentItems>
             <assignToReference>AAA_Current_ROLI_IR.returnOrderLineItemId</assignToReference>
             <operator>Assign</operator>
@@ -383,7 +399,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Sum_Refunds_Amount</name>
         <label>Sum Refunds Amount</label>
         <locationX>1825</locationX>
-        <locationY>882</locationY>
+        <locationY>1005</locationY>
         <assignmentItems>
             <assignToReference>SUM_Amount</assignToReference>
             <operator>Add</operator>
@@ -395,11 +411,32 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
             <targetReference>L30_Amount_OPS_Refunds</targetReference>
         </connector>
     </assignments>
+    <collectionProcessors>
+        <name>Filter_Parent_OSLI</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Parent OSLI</label>
+        <locationX>943</locationX>
+        <locationY>174</locationY>
+        <assignNextValueToReference>currentItem_Filter_Parent_OSLI_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Parent_OSLI</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Parent_OSLI_0.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L00_ROLIs.OrderItemSummaryId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Is_Original_RO_already_in_BigBox</targetReference>
+        </connector>
+    </collectionProcessors>
     <decisions>
         <name>Ceck_if_CML_Match_ROLI</name>
         <label>Ceck if CML Match ROLI</label>
         <locationX>3249</locationX>
-        <locationY>1423</locationY>
+        <locationY>1546</locationY>
         <defaultConnector>
             <targetReference>L45_Loop_Over_ROLIs_To_map_CML</targetReference>
         </defaultConnector>
@@ -424,7 +461,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Check_Refund_Amount</name>
         <label>Check Refund Amount</label>
         <locationX>2081</locationX>
-        <locationY>1130</locationY>
+        <locationY>1253</locationY>
         <defaultConnector>
             <targetReference>SCREEN_40_Refund_Not_Possible</targetReference>
         </defaultConnector>
@@ -446,10 +483,35 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         </rules>
     </decisions>
     <decisions>
+        <name>GetCurrentROLIsIDSIsNULL</name>
+        <label>GetCurrentROLIsIDS Is NULL ?</label>
+        <locationX>480</locationX>
+        <locationY>639</locationY>
+        <defaultConnector>
+            <targetReference>Get_Parent_OSLI</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>GetCurrentROLIsIDS_Is_NULL</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetCurrentROLIsIDS</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>L00_ROLIs</targetReference>
+            </connector>
+            <label>GetCurrentROLIsIDS Is NULL ?</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>How_many_Original_ChangeOrders</name>
         <label>How many Original ChangeOrders ?</label>
         <locationX>1228</locationX>
-        <locationY>1138</locationY>
+        <locationY>1261</locationY>
         <defaultConnector>
             <targetReference>SCREEN_25</targetReference>
         </defaultConnector>
@@ -474,7 +536,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Is_Original_ChangeOrder_already_in_BigBox_02</name>
         <label>Is Original ChangeOrder already in BigBox_02 ?</label>
         <locationX>909</locationX>
-        <locationY>794</locationY>
+        <locationY>917</locationY>
         <defaultConnector>
             <targetReference>Assign_Original_ChangeOrderID</targetReference>
         </defaultConnector>
@@ -499,8 +561,8 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <description>Mechanism to de-duplicate Original ROs</description>
         <name>Is_Original_RO_already_in_BigBox</name>
         <label>Is Original RO already in BigBox ?</label>
-        <locationX>937</locationX>
-        <locationY>231</locationY>
+        <locationX>935</locationX>
+        <locationY>347</locationY>
         <defaultConnector>
             <targetReference>Assign_Original_RO_ID_to_Big_Box</targetReference>
         </defaultConnector>
@@ -512,7 +574,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
                 <leftValueReference>BigBox_01_Original_RO_IDs</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
-                    <elementReference>Get_Parent_OSLI.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
+                    <elementReference>currentItem_Filter_Parent_OSLI_0.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -525,7 +587,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Only_1_Original_RO</name>
         <label>Only 1 Original RO ?</label>
         <locationX>571</locationX>
-        <locationY>917</locationY>
+        <locationY>1040</locationY>
         <defaultConnector>
             <targetReference>SCREEN_20</targetReference>
         </defaultConnector>
@@ -550,7 +612,7 @@ After : add ZZZ_Original_ChangeOrder_ID (provided there is only 1)</description>
         <name>Previous_Credit_Memo_Exists</name>
         <label>Previous Credit Memo Exists?</label>
         <locationX>2085</locationX>
-        <locationY>1653</locationY>
+        <locationY>1776</locationY>
         <defaultConnector>
             <targetReference>Update_Credit_Memo1</targetReference>
         </defaultConnector>
@@ -653,7 +715,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>L00_ROLIs</name>
         <label>L00 - ROLIs</label>
         <locationX>578</locationX>
-        <locationY>372</locationY>
+        <locationY>495</locationY>
         <collectionReference>Get_Current_ROLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -667,7 +729,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>L10_Original_ROLIs</name>
         <label>L10 Original ROLIs</label>
         <locationX>909</locationX>
-        <locationY>1130</locationY>
+        <locationY>1253</locationY>
         <collectionReference>Get_Original_ROLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -681,7 +743,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>L30_Amount_OPS_Refunds</name>
         <label>L30 Amount OPS Refunds</label>
         <locationX>1823</locationX>
-        <locationY>1129</locationY>
+        <locationY>1252</locationY>
         <collectionReference>Get_OPS_Refunds</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -695,7 +757,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>L40_Loop_Over_CreditMemoLines</name>
         <label>L40 Loop Over CreditMemoLines</label>
         <locationX>2907</locationX>
-        <locationY>1653</locationY>
+        <locationY>1776</locationY>
         <collectionReference>Get_Credit_Memo_Lines</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -709,7 +771,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>L45_Loop_Over_ROLIs_To_map_CML</name>
         <label>L45 Loop Over ROLIs To map CML</label>
         <locationX>2906</locationX>
-        <locationY>1421</locationY>
+        <locationY>1544</locationY>
         <collectionReference>Get_Original_ROLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -717,6 +779,20 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>L40_Loop_Over_CreditMemoLines</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Current_ROLIs</name>
+        <label>Loop Current ROLIs</label>
+        <locationX>322</locationX>
+        <locationY>641</locationY>
+        <collectionReference>Get_Current_ROLIs</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_CurrentROLIs_IDs</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetCurrentROLIsIDSIsNULL</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -742,7 +818,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Create_Refund_Record_0</name>
         <label>Create Refund Record</label>
         <locationX>898</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <assignRecordIdToReference>Created_Refund_Id</assignRecordIdToReference>
         <connector>
             <targetReference>Update_Original_RO</targetReference>
@@ -828,7 +904,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Publish_Created_Credit_Memo_Event</name>
         <label>Publish Created Credit Memo Event</label>
         <locationX>3250</locationX>
-        <locationY>1934</locationY>
+        <locationY>2057</locationY>
         <connector>
             <targetReference>Close_Return_Order</targetReference>
         </connector>
@@ -845,7 +921,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Created_Refund_Number</name>
         <label>Get Created Refund Number</label>
         <locationX>1430</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_New_CreditMemo</targetReference>
@@ -873,7 +949,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Credit_Memo_Lines</name>
         <label>Get Credit Memo Lines</label>
         <locationX>2680</locationX>
-        <locationY>1653</locationY>
+        <locationY>1776</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L40_Loop_Over_CreditMemoLines</targetReference>
@@ -895,11 +971,11 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
     <recordLookups>
         <name>Get_Current_ROLIs</name>
         <label>Get Current ROLIs</label>
-        <locationX>403</locationX>
-        <locationY>372</locationY>
+        <locationX>298</locationX>
+        <locationY>495</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L00_ROLIs</targetReference>
+            <targetReference>Loop_Current_ROLIs</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -940,7 +1016,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Last_CreditMemo</name>
         <label>Get Last CreditMemo</label>
         <locationX>1853</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Previous_Credit_Memo_Exists</targetReference>
@@ -963,7 +1039,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_New_CreditMemo</name>
         <label>Get New CreditMemo</label>
         <locationX>1633</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Last_CreditMemo</targetReference>
@@ -988,7 +1064,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_OPS_Refunds</name>
         <label>Get OPS Refunds</label>
         <locationX>1702</locationX>
-        <locationY>1129</locationY>
+        <locationY>1252</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L30_Amount_OPS_Refunds</targetReference>
@@ -1025,7 +1101,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Original_OrderPaymentSummary</name>
         <label>Get Original OrderPaymentSummary</label>
         <locationX>1575</locationX>
-        <locationY>1136</locationY>
+        <locationY>1252</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_OPS_Refunds</targetReference>
@@ -1048,7 +1124,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Original_RO</name>
         <label>Get Original RO</label>
         <locationX>579</locationX>
-        <locationY>1130</locationY>
+        <locationY>1253</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Original_ROLIs</targetReference>
@@ -1058,7 +1134,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Parent_OSLI.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
+                <elementReference>currentItem_Filter_Parent_OSLI_0.Exchanged_from_ROLI__r.ReturnOrderId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -1071,7 +1147,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Get_Original_ROLIs</name>
         <label>Get Original ROLIs</label>
         <locationX>731</locationX>
-        <locationY>1130</locationY>
+        <locationY>1253</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L10_Original_ROLIs</targetReference>
@@ -1093,21 +1169,21 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
     <recordLookups>
         <name>Get_Parent_OSLI</name>
         <label>Get Parent OSLI</label>
-        <locationX>945</locationX>
-        <locationY>50</locationY>
+        <locationX>450</locationX>
+        <locationY>495</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Is_Original_RO_already_in_BigBox</targetReference>
+            <targetReference>L00_ROLIs</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>L00_ROLIs.OrderItemSummaryId</elementReference>
+                <elementReference>GetCurrentROLIsIDS</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
@@ -1117,7 +1193,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Update_Credit_Memo</name>
         <label>Update Credit Memo</label>
         <locationX>2429</locationX>
-        <locationY>1529</locationY>
+        <locationY>1652</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Lines</targetReference>
         </connector>
@@ -1168,7 +1244,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Update_Credit_Memo1</name>
         <label>Update Credit Memo</label>
         <locationX>2429</locationX>
-        <locationY>1791</locationY>
+        <locationY>1914</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Lines</targetReference>
         </connector>
@@ -1219,7 +1295,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Update_CreditMemoLines</name>
         <label>Update CreditMemoLines</label>
         <locationX>2908</locationX>
-        <locationY>1934</locationY>
+        <locationY>2057</locationY>
         <connector>
             <targetReference>Assign_Data_To_Ensure_Refund</targetReference>
         </connector>
@@ -1232,7 +1308,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Update_Current_ROLIs</name>
         <label>Update Current ROLIs</label>
         <locationX>1217</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <connector>
             <targetReference>Get_Created_Refund_Number</targetReference>
         </connector>
@@ -1270,7 +1346,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Update_Original_RO</name>
         <label>Update Original RO</label>
         <locationX>1044</locationX>
-        <locationY>1651</locationY>
+        <locationY>1774</locationY>
         <connector>
             <targetReference>Update_Current_ROLIs</targetReference>
         </connector>
@@ -1297,7 +1373,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Error_Screen</name>
         <label>Error Screen</label>
         <locationX>1087</locationX>
-        <locationY>2593</locationY>
+        <locationY>2716</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1314,7 +1390,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Error_Screen_0</name>
         <label>Error Screen</label>
         <locationX>1529</locationX>
-        <locationY>2748</locationY>
+        <locationY>2871</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1331,7 +1407,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_10</name>
         <label>SCREEN_10</label>
         <locationX>174</locationX>
-        <locationY>372</locationY>
+        <locationY>495</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1382,7 +1458,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_20</name>
         <label>SCREEN 20</label>
         <locationX>262</locationX>
-        <locationY>917</locationY>
+        <locationY>1040</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1430,7 +1506,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_25</name>
         <label>SCREEN 25</label>
         <locationX>1236</locationX>
-        <locationY>949</locationY>
+        <locationY>1072</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1478,7 +1554,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_30_Items_to_Refund</name>
         <label>SCREEN 30 - Items to Refund</label>
         <locationX>1449</locationX>
-        <locationY>1129</locationY>
+        <locationY>1252</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1656,7 +1732,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_40_Refund_Not_Possible</name>
         <label>SCREEN 40 - Refund Not Possible</label>
         <locationX>2090</locationX>
-        <locationY>889</locationY>
+        <locationY>1012</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1704,7 +1780,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>SCREEN_99_Finish</name>
         <label>SCREEN_99_Finish</label>
         <locationX>3600</locationX>
-        <locationY>1934</locationY>
+        <locationY>2057</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1751,7 +1827,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
     </screens>
     <start>
         <locationX>48</locationX>
-        <locationY>205</locationY>
+        <locationY>328</locationY>
         <connector>
             <targetReference>SCREEN_10</targetReference>
         </connector>
@@ -1761,7 +1837,7 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <name>Close_Return_Order</name>
         <label>Close Return Order</label>
         <locationX>3409</locationX>
-        <locationY>1934</locationY>
+        <locationY>2057</locationY>
         <connector>
             <targetReference>SCREEN_99_Finish</targetReference>
         </connector>
@@ -1857,6 +1933,14 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_Parent_OSLI_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>D_Display_Original_ROLIS</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
@@ -1881,6 +1965,13 @@ LEN({!Get_Last_CreditMemo.DocumentNumber__c})-4)</expression>
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>GetCurrentROLIsIDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>Incoming_Return_Order</name>

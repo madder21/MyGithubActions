@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_Transaction_Item_To_Coll</name>
         <label>Add Transaction Item To Coll</label>
@@ -31,6 +31,38 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_Store</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Invoice_Line_IDS</name>
+        <label>Set Invoice Line IDS</label>
+        <locationX>1745</locationX>
+        <locationY>218</locationY>
+        <assignmentItems>
+            <assignToReference>InvoiceLineIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0.ReferenceEntityItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_SerialNum</name>
+        <label>Set SerialNum</label>
+        <locationX>2330</locationX>
+        <locationY>1158</locationY>
+        <assignmentItems>
+            <assignToReference>SerialNum</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_ShipmentItems.SerialNumber__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_ShipmentItems</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -123,7 +155,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Shipment_Items</targetReference>
+            <targetReference>Filter_Shipment_Items</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -135,7 +167,23 @@
             <assignToReference>REC_TransactionItem.Serial_Number__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Shipment_Items.SerialNumber__c</elementReference>
+                <elementReference>SerialNum</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Filter_Invoice_Line_With_Type_Tax</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Transaction_Item_Serial_Number_0</name>
+        <label>Set Transaction Item Serial Number</label>
+        <locationX>1988</locationX>
+        <locationY>1089</locationY>
+        <assignmentItems>
+            <assignToReference>REC_TransactionItem.Serial_Number__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -315,7 +363,28 @@
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type</targetReference>
+            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Shipment_Items</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Shipment Items</label>
+        <locationX>2150</locationX>
+        <locationY>958</locationY>
+        <assignNextValueToReference>currentItem_Filter_Shipment_Items_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Shipment_Items</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Shipment_Items_0.OrderItemSummaryId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type.ReferenceEntityItemId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_ShipmentItems</targetReference>
         </connector>
     </collectionProcessors>
     <constants>
@@ -399,14 +468,14 @@
         <locationX>2145</locationX>
         <locationY>1101</locationY>
         <defaultConnector>
-            <targetReference>Filter_Invoice_Line_With_Type_Tax</targetReference>
+            <targetReference>Set_Transaction_Item_Serial_Number_0</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Is Empty</defaultConnectorLabel>
         <rules>
             <name>Is_Not_Empty3</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Shipment_Items</leftValueReference>
+                <leftValueReference>SerialNum</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -469,6 +538,12 @@
         </rules>
     </decisions>
     <formulas>
+        <name>ExclTaxAmount</name>
+        <dataType>Number</dataType>
+        <expression>-{!V_ExclTaxAmount}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
         <name>FX_Invoice_Currency</name>
         <dataType>String</dataType>
         <expression>TEXT({!Get_Invoice.CurrencyIsoCode})</expression>
@@ -478,13 +553,19 @@
         <dataType>String</dataType>
         <expression>{!Get_Invoice.InvoiceNumber__c} + &quot;/&quot; + TEXT({!V_LineNumber})</expression>
     </formulas>
+    <formulas>
+        <name>InclTaxAmount</name>
+        <dataType>Number</dataType>
+        <expression>-{!V_InclTaxAmount}</expression>
+        <scale>2</scale>
+    </formulas>
     <interviewLabel>SOM 410 - Invoice Insert RCU {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 410 - Invoice Insert RCU</label>
     <loops>
         <name>Iterate_Over_Invoice_Lines_With_Charge_Type</name>
         <label>Iterate Over Invoice Lines With Charge Type</label>
-        <locationX>1913</locationX>
-        <locationY>578</locationY>
+        <locationX>1903</locationX>
+        <locationY>622</locationY>
         <collectionReference>Filter_Invoice_Lines_With_Charge_Type</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -492,6 +573,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Create_Transaction_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Iterate_Over_Invoice_Lines_With_Charge_Type_0</name>
+        <label>Iterate Over Invoice Lines With Charge Type</label>
+        <locationX>1745</locationX>
+        <locationY>408</locationY>
+        <collectionReference>Filter_Invoice_Lines_With_Charge_Type</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_Invoice_Line_IDS</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Shipment_Items</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -506,6 +601,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Add_Transaction_Item_To_Coll</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_ShipmentItems</name>
+        <label>Loop ShipmentItems</label>
+        <locationX>2345</locationX>
+        <locationY>988</locationY>
+        <collectionReference>Filter_Shipment_Items</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_SerialNum</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Shipment_Items</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -689,18 +798,18 @@
     <recordLookups>
         <name>Get_Shipment_Items</name>
         <label>Get Shipment Items</label>
-        <locationX>2151</locationX>
-        <locationY>917</locationY>
+        <locationX>1913</locationX>
+        <locationY>411</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Shipment_Items</targetReference>
+            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>OrderItemSummaryId</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type.ReferenceEntityItemId</elementReference>
+                <elementReference>InvoiceLineIds</elementReference>
             </value>
         </filters>
         <filters>
@@ -710,7 +819,7 @@
                 <booleanValue>false</booleanValue>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>ShipmentItem</object>
         <sortField>CreatedDate</sortField>
         <sortOrder>Asc</sortOrder>
@@ -772,6 +881,21 @@
         <objectType>InvoiceLine</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Shipment_Items_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ShipmentItem</objectType>
+    </variables>
+    <variables>
+        <name>InvoiceLineIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>REC_Transaction</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -786,6 +910,29 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>TransactionItem__c</objectType>
+    </variables>
+    <variables>
+        <name>SerialNum</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>V_ExclTaxAmount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>V_InclTaxAmount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
     </variables>
     <variables>
         <name>V_LineNumber</name>

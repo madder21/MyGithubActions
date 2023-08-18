@@ -11,17 +11,17 @@
             <!-- <div class="spacer">&nbsp;</div>
             <div class="logo_header"></div> -->
         </div>
-        <div style="height: 4px;"></div>
+        <div class="div1"></div>
         
             <table class="head" >
                 <tr>
                     <!-- Company Information-->
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!creditMemoConfigs['PDF_COMPANY']}"/><br/>
                         <apex:outputText value="{!creditMemoConfigs['PDF_ADDRESS_1']}"/>&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_ADDRESS_2']}"/><br/>
                         <apex:outputText value="{!creditMemoConfigs['PDF_COUNTRY']}"/>
                     </td>
-                    <td style="width: 50% ;text-transform: uppercase;">
+                    <td class="Comp_Inf">
                         <apex:outputText value="{!creditMemoConfigs['PDF_PHONE']}"/><br/>
                         <apex:outputText value="{!creditMemoConfigs['PDF_MAIL']}"/><br/>
                         RIMOWA.COM | @RIMOWA<br/>
@@ -29,7 +29,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="margin-left: 6%">
+            <div class="div2">
                 <h3> TAX CREDIT NOTE</h3> 
             </div>
             
@@ -37,16 +37,16 @@
         <table class="billing_contact_importer">
             <tr>
                 <!-- Billing contact information -->
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     BILLING CONTACT 
                     <br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
-                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
                 </td>
-                <td style="width: 50%; vertical-align: top;">
+                <td class="Bill_Contact_Inf">
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_TITLE']}"/>
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
@@ -65,19 +65,19 @@
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     <span class="fett">CREDIT NOTE NO:&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoNumber}"/></span><br/>
                     INVOICE NO:&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
                     CREDIT NOTE DATE:&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
                     ORDER NO:&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
                 </td>
                 <!-- Delivery contact information -->
-                <td style="width: 50%; vertical-align: top; text-transform: uppercase;">
+                <td class="Invoice_Inf">
                     DELIVERY CONTACT <br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
-                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
                 </td>
             </tr>
@@ -107,15 +107,29 @@
                 </tr>
 
             </thead>
-            <tbody style="line-height:15px; padding-top 3px;">
+            <tbody class="InvoiceLineItem">
                 <!-- loop invoice line items-->
                 <apex:repeat value="{!creditMemoDocument.lineItems}" var="lineItem">
-                    <tr style="padding-top: 5px;">
+                    <tr class="lineIem">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        
+                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.netAmount}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        
+                        <td class="align-right"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.grossAmount}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        
+                        <td class="align-right"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!lineItem.total}"/>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        
+                        
+                        <!--<td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
                     </tr>
                     <tr>
                         <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -139,14 +153,20 @@
             <tbody>
                 <tr>
                     <td width="100px" class="border_top" style="padding-top:2px;">SUBTOTAL (NET):</td>
-                    <td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
+                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!creditMemoDocument.netSubTotal}"/>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
                 <!-- loop over vat rate -->
 
             <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
                 <tr>
                     <td width="80px" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % :</td>
-                    <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
+                    <td  class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!creditMemoTaxLineItems[key]}"/>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
                 <!-- end loop-->
@@ -155,12 +175,15 @@
                 </tr> 
                 <tr>
                     <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. TAX:</td>
-                    <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
+                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <apex:param value="{!creditMemoDocument.totalWithTax}"/>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </tbody>  
         </table>
         <div class="footer_text"> 
-            <span style="text-transform: uppercase;">
+            <span class="paymentType">
                 PAYMENT METHOD &nbsp;<apex:outputText value="{!creditMemoDocument.paymentType}"/>.
             </span><br/>
         </div>

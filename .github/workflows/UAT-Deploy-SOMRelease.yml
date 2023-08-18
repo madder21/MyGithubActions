@@ -1,0 +1,47 @@
+# Unique name for this workflow
+name: Deploy SOM release to UAT
+
+# Definition when the workflow should run
+on:
+    push:
+      branches:
+        - "Release-Candidate"
+    
+            
+
+# Jobs to be executed
+jobs:
+    deploy-branch-to-integrate:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: 'Install Salesforce CLI'
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # Checkout the source code
+            - name: 'Checkout source code'
+              uses: actions/checkout@v3
+              with:
+                ref: Release-Candidate
+            
+            # List items
+            - name: 'List items'
+              run: ls 'unpackaged/project manifest'
+          
+            # Set the instanceUrl config value
+            - name: 'Set the instanceUrl config value'
+              run: sfdx config:set instanceUrl=https://rimowa--uat.sandbox.my.salesforce.com
+              
+              # Authorize devops user
+            - name: 'Authorize Devops User'
+              run: sfdx force:auth:jwt:grant -i "3MVG9T992fY2Y4vuAbTvG70Z35vHQkVv32ow9mftNiuovpgXNP0nemtMu.HZONZ9FAEofdb0D9Hu5z7A6TtJL" -f JWT/server.key -a RimowaUATOrg --username devops@rimowa.uat
+              
+            # Deploy the entire branch to Integration org
+            - name: 'Deploy the release to UAT org'
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-7-1.xml" -u RimowaUATOrg

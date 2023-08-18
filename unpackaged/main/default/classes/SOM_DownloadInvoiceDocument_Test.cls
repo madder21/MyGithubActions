@@ -12,7 +12,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
                     (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
-        System.debug('foooo ' + lFO);
         Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
         Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
@@ -24,7 +23,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         List<Invoice> inv = [SELECT Id FROM Invoice WHERE ReferenceEntityId IN: osIds];
         inv[0].InvoiceNumber__c = 'invtest1';
         update inv;
-        System.debug('inv::'+inv);
         PageReference page = new PageReference('/apex/SOM_InvoiceDownloadContent');
         Test.setCurrentPage(page);
         ApexPages.currentPage().getParameters().put('invoiceId',inv[0].id);
@@ -34,7 +32,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
-        System.debug('res.invoiceData::' +res.invoiceData);
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
        
@@ -51,13 +48,9 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder where Id =: fo.Id];
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
-        System.debug('mapIDFO'+mapIDFO);
         Map<Id, Shipment> ships = SOM_testDataFactory.createShipments(mapIDFO);
-        System.debug('mapships'+ships);
         List<Invoice> invs = [SELECT id, InvoiceNumber__c, CurrencyIsoCode FROM Invoice WHERE ReferenceEntityId =: los[0].Id];
-        System.debug('mapinvs'+invs);
         Map<Id, Invoice> mapinv = new Map<Id, Invoice>(invs);
-        System.debug('mapinvsddd'+mapinv);
         Map<Id,CorrectiveInvoice__c> mapCorrectiveInvoice = SOM_testDataFactory.createCorrectiveInvoices(mapinv);
         Set<Id> cmIds = mapCorrectiveInvoice.keySet();
         List<Id> creditMemoIds = new List<Id>(cmIds);
@@ -70,7 +63,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
-        System.debug('res.invoiceData c::' +res.invoiceData);
 
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
@@ -89,7 +81,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
                     (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
-        System.debug('foooo ' + lFO);
         Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
         Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
@@ -114,7 +105,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         Test.startTest();
         SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController();
         Test.stopTest();
-        System.debug('res.invoiceData cm::' +res.invoiceData);
 
         System.assertEquals(false, String.isEmpty(res.invoiceData)); 
         
@@ -133,7 +123,6 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
                     (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
-        System.debug('foooo ' + lFO);
         Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
         Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
@@ -179,7 +168,38 @@ global with sharing class SOM_DownloadInvoiceDocument_Test {
         
        
     }
+	
+    //2023-04-18 : Add a test method for the overload of the constructor with an invoiceID
+    @IsTest (seeAllData = true)
+    global static void testDownloadInvoiceWithInvoiceId(){
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
+        Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
+        FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
+        List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
+        FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
+        FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
+                    (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
+                    OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
+                    FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
+        Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
+        Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
+        Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
 
+        Map<Id, Shipment> ships = SOM_testDataFactory.createShipments(mapIDFO);
+        Set<Id> shipIds = ships.keySet();
+        List<String> strShipIds = (List<String>)JSON.deserialize(JSON.serialize(shipIds), List<String>.class);
+
+        List<Invoice> inv = [SELECT Id FROM Invoice WHERE ReferenceEntityId IN: osIds];
+        inv[0].InvoiceNumber__c = 'invtest1';
+        update inv;
+        Test.setMock(HttpCalloutMock.class, new MulesoftDownloadMock());
+
+        Test.startTest();
+        SOM_DownloadInvoiceDocumentController res = new SOM_DownloadInvoiceDocumentController(inv[0].id);
+        Test.stopTest();
+        Assert.isFalse(String.isEmpty(res.invoiceData));
+    }
+    
     global class MulesoftDownloadMock implements HttpCalloutMock {
         global HttpResponse respond(HttpRequest req) {
     
