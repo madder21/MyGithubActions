@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Convert_Created_Date_To_Other_Timezone</name>
+        <label>Convert Created Date To Other Timezone</label>
+        <locationX>1764</locationX>
+        <locationY>240</locationY>
+        <actionName>SOM_DateTimeHelper</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Previous_by_Country</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>dateToConvert</name>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetTimeZone</name>
+            <value>
+                <elementReference>Get_Timezone_MDT.Timezone__c</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
     <apiVersion>55.0</apiVersion>
     <assignments>
         <name>Set_CI_Fields</name>
@@ -48,13 +73,20 @@
     <assignments>
         <name>Set_CI_Name1</name>
         <label>Set CI Name</label>
-        <locationX>1585</locationX>
-        <locationY>396</locationY>
+        <locationX>1697</locationX>
+        <locationY>621</locationY>
         <assignmentItems>
             <assignToReference>CorrectiveInvoiceToCreate.Name</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>FX_CorrectiveInvoiceNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CorrectiveInvoiceToCreate.Corrective_Invoice_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Convert_DateTime_To_Date</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -64,13 +96,20 @@
     <assignments>
         <name>Set_CInvoice_Name</name>
         <label>Set CInvoice Name</label>
-        <locationX>1691</locationX>
-        <locationY>397</locationY>
+        <locationX>1857</locationX>
+        <locationY>619</locationY>
         <assignmentItems>
             <assignToReference>CorrectiveInvoiceToCreate.Name</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>FX_First_CI_Record</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CorrectiveInvoiceToCreate.Corrective_Invoice_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Convert_DateTime_To_Date</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -117,8 +156,8 @@
     <assignments>
         <name>Set_correctiveInvoiceElligible_To_false</name>
         <label>Set correctiveInvoiceElligible To false</label>
-        <locationX>1175</locationX>
-        <locationY>551</locationY>
+        <locationX>1266</locationX>
+        <locationY>807</locationY>
         <assignmentItems>
             <assignToReference>Get_Invoice_Record.isCorrectiveInvoiceElligible__c</assignToReference>
             <operator>Assign</operator>
@@ -177,8 +216,8 @@
     <decisions>
         <name>Previous_by_Country</name>
         <label>Previous by Country</label>
-        <locationX>1579</locationX>
-        <locationY>242</locationY>
+        <locationX>1750</locationX>
+        <locationY>405</locationY>
         <defaultConnector>
             <targetReference>Set_CInvoice_Name</targetReference>
         </defaultConnector>
@@ -224,6 +263,12 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_Convert_DateTime_To_Date</name>
+        <dataType>Date</dataType>
+        <expression>DATEVALUE({!Convert_Created_Date_To_Other_Timezone})</expression>
+    </formulas>
     <formulas>
         <name>FX_CorrectiveInvoiceNumber</name>
         <dataType>String</dataType>
@@ -275,8 +320,8 @@
     <recordCreates>
         <name>Create_Corrective_Invoice_Record</name>
         <label>Create Corrective Invoice Record</label>
-        <locationX>1627</locationX>
-        <locationY>578</locationY>
+        <locationX>1775</locationX>
+        <locationY>807</locationY>
         <connector>
             <targetReference>Validate</targetReference>
         </connector>
@@ -285,8 +330,8 @@
     <recordCreates>
         <name>Publish_Corrective_Invoice_PDF_Generation_Event</name>
         <label>Publish Corrective Invoice PDF Generation Event</label>
-        <locationX>1326</locationX>
-        <locationY>551</locationY>
+        <locationX>1395</locationX>
+        <locationY>807</locationY>
         <connector>
             <targetReference>Set_correctiveInvoiceElligible_To_false</targetReference>
         </connector>
@@ -350,7 +395,7 @@
         <locationY>237</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Previous_by_Country</targetReference>
+            <targetReference>Get_Timezone_MDT</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -389,11 +434,32 @@
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Timezone_MDT</name>
+        <label>Get Timezone MDT</label>
+        <locationX>1574</locationX>
+        <locationY>239</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Convert_Created_Date_To_Other_Timezone</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_FO.OrderSummary.BillingCountry</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Sales_Channel_Mapping__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Invoice_Create_CI_Checkbox</name>
         <label>Update Invoice Create CI Checkbox</label>
-        <locationX>998</locationX>
-        <locationY>548</locationY>
+        <locationX>1114</locationX>
+        <locationY>807</locationY>
         <inputReference>Get_Invoice_Record</inputReference>
     </recordUpdates>
     <screens>
@@ -444,8 +510,8 @@
     <screens>
         <name>Validate</name>
         <label>Validate</label>
-        <locationX>1488</locationX>
-        <locationY>569</locationY>
+        <locationX>1563</locationX>
+        <locationY>807</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
