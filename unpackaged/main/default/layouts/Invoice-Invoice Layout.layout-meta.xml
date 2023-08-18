@@ -37,8 +37,8 @@
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>InvoiceDate</field>
+                <behavior>Edit</behavior>
+                <field>Invoice_Timezone_Date__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -78,7 +78,7 @@
                 <field>TotalAmountWithTax</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns />
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -86,8 +86,8 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>PaymentInformation</label>
-        <layoutColumns />
-        <layoutColumns />
+        <layoutColumns/>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -157,6 +157,14 @@
         <fields>AppliedDate</fields>
         <fields>UnappliedDate</fields>
         <relatedList>RelatedCreditMemoInvAppToInvoiceList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>Name</fields>
+        <fields>Payment</fields>
+        <fields>Amount</fields>
+        <fields>Type</fields>
+        <fields>Date</fields>
+        <relatedList>PaymentLinesInvoice</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
