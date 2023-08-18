@@ -32,8 +32,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     global static List<ReturnOrderCreateUpdateResponse> handleReturnOrderCreateUpdateRequest(List<ReturnOrderCreateUpdateRequest> request){
         JSONGenerator generator = JSON.createGenerator(true);
         generator.writeObject(request);
-        System.debug('Received Return Order Request');
-        System.debug(generator.getAsString());
         List<ReturnOrderCreateUpdateResponse> returnOrderCreateUpdateResponseList = new List<ReturnOrderCreateUpdateResponse>();
         List<String> orderNumbers = new List<String>();
         List<String> locations    = new List<String>();
@@ -67,7 +65,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                 }
                 //if return request is RMA or no Return found for this order => create new Return
                 if (req.type == SOM_Constants.RMA_RETURN_TYPE || !orderSummaryReturnOrderLineItemsMap.containsKey(req.orderSummaryNumber)) {
-                    System.debug('in 2 ::::::');
                     String errorMessage = createReturnOrderWithItems(orderSummaryShipmentsMap, 
                                                 req.items, 
                                                 req, 
@@ -105,8 +102,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             errorMessage = 'The additional return quantity: ' + (returnOrderItemCreateUpdate.quantity - roLineItem.QuantityExpected) + ' is greater than the quantity available to return: ' + orderSummaryShipmentsMap.get(req.orderSummaryNumber).get(returnOrderItemCreateUpdate.sku).quantityAvailableToReturn;
                             break;
                         }    
-                        System.debug('roLineItem.QuantityExpected ::::: ' + roLineItem.QuantityExpected);
-                        System.debug('returnOrderItemCreateUpdate.quantity ::::: ' + returnOrderItemCreateUpdate.quantity);
                         if (roLineItem.QuantityExpected < returnOrderItemCreateUpdate.quantity){
                             ReturnOrderItemCreateUpdate roItemToCreate = new ReturnOrderItemCreateUpdate();
                             roItemToCreate.sku            = returnOrderItemCreateUpdate.sku;
@@ -163,7 +158,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                 }
                 //Create new return for items that didn't have a correspondant line item
                 if (lineItemsToCreate.size() > 0) {
-                    System.debug('in 1 :::: ' );
                     errorMessage = createReturnOrderWithItems(orderSummaryShipmentsMap,
                                                 lineItemsToCreate,
                                                 req,
@@ -189,16 +183,11 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             returnOrderIds,
                             returnOrderCreateUpdateResponseList);
         } catch(Exception ex){
-            System.debug(ex.getStackTraceString());
-            System.debug(ex.getLineNumber());
-            System.debug('--------- ' + ex.getMessage()); 
             returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null));
         }
 
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeObject(returnOrderCreateUpdateResponseList);
-        System.debug('Return Order Response');
-        System.debug(gen.getAsString());
 
         return returnOrderCreateUpdateResponseList;
     }
@@ -242,9 +231,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                                 List<String> returnOrderItemConditionValues,
                                                                 List<String> returnOrderItemReasonForReturnValues){
         for(ReturnOrderItemCreateUpdate returnOrderItemCreateUpdate:req.items) {
-            System.debug('req ::::::: ' +req);
-            System.debug('req.itrms ::::::: ' +req.items);
-            System.debug('returnOrderItemCreateUpdate ::::::: ' +returnOrderItemCreateUpdate);
             String errorMessage = verifyReturnLineItemIsValid(returnOrderItemCreateUpdate, 
                                                         orderSummaryShipmentsMap.get(req.orderSummaryNumber).get(returnOrderItemCreateUpdate.sku), 
                                                         returnOrderItemConditionValues, 
@@ -298,7 +284,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                     Map<String, returnOrderItemCreateUpdate> returnOrderItemsRequest = returnOrderItemsToUpdateMap.get(returnOrderToUpdate.id);
                     if (returnOrderToUpdate.ReturnOrderLineItems != null && !returnOrderToUpdate.ReturnOrderLineItems.isEmpty()) {
                         for(ReturnOrderLineItem lineItem:returnOrderToUpdate.ReturnOrderLineItems) {
-                            returnOrderItemCreateUpdate returnOrderItemRequest = returnOrderItemsRequest.get(lineItem.Product2.StockKeepingUnit);
+                            returnOrderItemCreateUpdate returnOrderItemRequest = returnOrderItemsRequest.get(lineItem.Id);
                             if (returnOrderItemRequest != null) {
                                 lineItem.ConditionId__c = returnOrderItemRequest.conditionId;
                                 if (returnOrderItemRequest.reasonCode == null || returnOrderItemRequest.reasonCode.length() == 0)
@@ -325,9 +311,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                 returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(null, 'OK', persistedReturnOrder.OrderSummary.OrderNumber, persistedReturnOrder.Id, persistedReturnOrder.ReturnOrderNumber));
             }
         } catch(Exception ex) {
-            System.debug(ex.getStackTraceString());
-            System.debug(ex.getLineNumber());
-            System.debug(ex.getMessage());
             returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null));
         }
     }
@@ -405,7 +388,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             orderShipmentItem.quantityAvailableToReturn -= returnOrderItemCreateUpdate.quantity;
             orderSummaryShipmentsMap.get(req.orderSummaryNumber).put(returnOrderItemCreateUpdate.sku, orderShipmentItem);
             
-            returnOrderItemsRequest.put(returnOrderItemCreateUpdate.sku, returnOrderItemCreateUpdate);
             returnOrderLineItemsInputList.add(returnOrderLineItemInput);
         }
 
@@ -420,12 +402,18 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.returnOrderLifeCycleType = SOM_Constants.RETURN_ORDER_LIFE_CYCLE_TYPE;
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
-        ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);    
-        System.debug('---------Number of callouts executed is: ' + (Limits.getCallouts() - numberOfCallouts) + ' in limit: ' + Limits.getLimitCallouts());
-        System.debug('---------Number of dml rows executed is: ' + (Limits.getDmlRows() - numberOfDmlRows) + ' in limit: ' + Limits.getLimitDmlRows());
-        System.debug('---------Number of dml statments executed is: ' + (Limits.getDmlStatements() - numberOfDmlStatments) + ' in limit: ' + Limits.getLimitDmlStatements());
-        System.debug('---------Number of queries executed is: ' + (Limits.getQueries() - numberOfQueries) + ' in limit: ' + Limits.getLimitQueries());
-        System.debug('---------Number of query rows executed is: ' + (Limits.getQueryRows() - numberOfQueryRows) + ' in limit: ' + Limits.getLimitQueryRows());
+        ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
+
+        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId]; 
+        for(ReturnOrderItemCreateUpdate reqItem : returnItems){
+            for(ReturnOrderLineItem singleROLI : createdROLIs){
+                if( singleROLI.Product2.StockKeepingUnit == reqItem.sku && singleROLI.reasonForReturn == reqItem.reasonCode ){
+                    // Fill the Map : returnOrderItemsRequest
+                    returnOrderItemsRequest.put(singleROLI.Id, reqItem);
+                }
+            }
+        }
+
         /****end metrics****/
         returnOrderToUpdateMap.put(returnOrderOutput.returnOrderId, req);
         returnOrderItemsToUpdateMap.put(returnOrderOutput.returnOrderId, returnOrderItemsRequest);
@@ -459,12 +447,13 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         if (req.returnOrigin == null || !returnOrderReturnOriginValues.contains(req.returnOrigin))
             return 'Return Origin: '+req.returnOrigin+' is not valid.';
         
-        List<String> productSkus = new List<String>();
+        List<String> concatenateSkuAndConditionIdList = new List<String>();
         for (ReturnOrderItemCreateUpdate returnOrderItemCreateUpdate:req.items) {
-            if (productSkus.contains(returnOrderItemCreateUpdate.sku))
-                return 'Duplicate SKU code: '+returnOrderItemCreateUpdate.sku+' in the same Return Order.';
-            productSkus.add(returnOrderItemCreateUpdate.sku);
-        }  
+            String concatenateSkuAndConditionId = returnOrderItemCreateUpdate.sku+returnOrderItemCreateUpdate.ConditionId;
+            if (concatenateSkuAndConditionIdList.contains(concatenateSkuAndConditionId))
+                return 'Duplicate items with the same SKU code : '+returnOrderItemCreateUpdate.sku+' and ConditionId : '+returnOrderItemCreateUpdate.ConditionId+'.';
+                concatenateSkuAndConditionIdList.add(concatenateSkuAndConditionId);
+        } 
 
         return null;
     }
@@ -626,7 +615,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                     OrderShipmentItem orderShipmentItem,
                                                     List<String> returnOrderItemConditionValues,
                                                     List<String> returnOrderItemReasonForReturnValues){
-        System.debug('returnOrderItemCreateUpdate in verify ' +returnOrderItemCreateUpdate);
 
         if (returnOrderItemCreateUpdate.sku == null || returnOrderItemCreateUpdate.sku.length() ==0)
             return 'SKU code must not be empty.';
@@ -643,8 +631,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         //serialNumber sent in the request doesn't exist in the shipped products.
         if (returnOrderItemCreateUpdate.serialNumbers != null && !returnOrderItemCreateUpdate.serialNumbers.isEmpty()) {
             if (returnOrderItemCreateUpdate.serialNumbers.size() != returnOrderItemCreateUpdate.quantity){
-                System.debug('returnOrderItemCreateUpdate.serialNumbers.size()' + returnOrderItemCreateUpdate.serialNumbers.size());
-                System.debug('returnOrderItemCreateUpdate.quantity' +returnOrderItemCreateUpdate);
                 return 'Serial numbers does not match the quantity.';
             }
             for(String serialNumber:returnOrderItemCreateUpdate.serialNumbers) {
