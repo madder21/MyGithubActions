@@ -1,3 +1,14 @@
+/**
+ * @author Ulrich M
+ * @date 
+ * @Type Apex Class
+ *****************************************************************************************************************************************************************
+ * @description This class will fire the appropriate methods on the handler depending on the trigger context
+ ***************************************************************************************************************************************************************** 
+ * @Version : 
+ * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
+ * 0.0		|12062023			|.UMNN		|.					|.
+*/
 public class TriggerDispatcher {
     /*
       Call this method from your trigger, passing in an instance of a trigger handler which implements ITriggerHandler.

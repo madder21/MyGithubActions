@@ -398,6 +398,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>B2CCustomInput__c.OptinMarketingPartner__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>BusinessBrand.OrgId</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5224,6 +5229,9 @@
         <layout>AuthorizationFormConsent-Authorization Form Consent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>B2CCustomInput__c-B2CCustomInput Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>B2C_CRMSync_Setting__mdt-B2C CRM Sync Setting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5375,6 +5383,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CommSubscriptionConsent-Communication Subscription Consent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ConsentInfo__mdt-Consent Info Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ConsentSource__mdt-Consent Source Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-Contact Layout</layout>
@@ -5719,6 +5733,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>TransactionalEmail__c-Transactional Email Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>TriggerBypass__mdt-Trigger Bypass Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>User-User Layout</layout>
