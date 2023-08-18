@@ -57,7 +57,6 @@ global with sharing class SOM_InvoiceDocumentController {
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-           //invDoc.taxTotal       = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalTaxAmount);
             invDoc.totalWithTax   = (fulfillmentOrder.get(0).Invoice.TotalAmountWithTax);
             invDoc.netSubTotal    = (fulfillmentOrder.get(0).Invoice.TotalAmount);
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
@@ -79,14 +78,6 @@ global with sharing class SOM_InvoiceDocumentController {
         this.invoiceDoc = invDoc;
     }
 
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal == null) return '0,00';
-        if (taxTotal.scale() > 2) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-
-        return formatDecimalNumber(taxTotal);
-    }
 
     public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
         //construct shipment ids
@@ -165,7 +156,6 @@ global with sharing class SOM_InvoiceDocumentController {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
                 //lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                //lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice);
                 lineItem.netAmount       = (invoiceLine.UnitPrice);
                 lineItem.vat             = (invoiceLine.ChargeTaxAmount);
                 lineItem.grossAmount     = (invoiceLine.GrossUnitPrice);
@@ -235,9 +225,6 @@ global with sharing class SOM_InvoiceDocumentController {
         return invoiceTaxesSorted;
     }
 
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
     
     public String setAmountsFormat(String CountryIso) {
             Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];

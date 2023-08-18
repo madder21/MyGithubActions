@@ -77,7 +77,6 @@ global with sharing class SOM_CreditMemoDocumentController {
             creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).Credit_Memo_Date__c.year(), creditMemo.get(0).Credit_Memo_Date__c.month(), creditMemo.get(0).Credit_Memo_Date__c.day()).format('dd.MM.yyyy');
             creditMemoDoc.netSubTotal      = (creditMemo.get(0).TotalAmount);
             creditMemoDoc.totalWithTax     = (creditMemo.get(0).TotalAmountWithTax);
-            creditMemoDoc.TotalTaxAmount   = getTotalFormatted(creditMemo.get(0).TotalTaxAmount);
             //product type
             String creditMemoProductType = getCreditMemoProductType(creditMemo.get(0));
             //create credit memo lines
@@ -230,17 +229,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         return creditMemoTaxesSorted;
     }
     
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal.scale() > 2 ) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-        
-        return formatDecimalNumber(taxTotal.setScale(2));
-    }
-    
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
+   
     
     public String getPaymentMethod(Id orderSummaryId){
         //Get order payment summary
@@ -274,7 +263,6 @@ global with sharing class SOM_CreditMemoDocumentController {
         public Decimal                   netSubTotal {get; set;}
         public Decimal                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
-        public String                   TotalTaxAmount {get; set;}
     }
     
     global with sharing class CreditMemoContact{

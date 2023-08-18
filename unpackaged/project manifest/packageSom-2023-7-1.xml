@@ -1,54 +1,335 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-	    	<members>SOM_TransactionalEmailHandler</members>
-		<members>SOM_DateTimeHelper</members>
-		<members>SOM_Update_Invoice_Timezone_Date_Handler</members>
-		<members>SOM_Update_Invoice_Timezone_Date_Helper</members>
-		<members>SOM_Update_Credit_Memo_Date_Handler</members>
-		<members>SOM_Update_Credit_Memo_Date_Helper</members>
-		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
+		<members>SOM_Batch_CustomerTokenDeletion</members>
 		<members>SOM_InvoiceDocumentController</members>
-		<name>ApexClass</name> 
+		<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_WS_ShipmentHandler</members>
+		<members>SOM_WS_ShipmentHandler_Test</members> 
+		<members>SOM_SalesAndPaymentsReportMonthSchedule</members>
+		<members>SOM_SalesAndPaymentsReportSchedule</members> 
+		<members>SOM_Constants</members>
+		<members>SOM_GetAvailability_BatchSubClass</members>
+    	<name>ApexClass</name> 
 	</types>
 	<types>
-		<members>SOM_Update_Credit_Memo_Date</members>
-		<members>SOM_Update_Invoice_Timezone_Date</members>
-		<name>ApexTrigger</name>
-	</types>
-  	<types>
+		<members>Payment.paypalCustomerEmail__c</members>
+		<members>PaymentAuthorization.paypalCustomerEmail__c</members>
 		<members>Payment_Methods_Mapping__mdt.Is_Card_Payment_Method__c</members>
 		<members>Payment_Methods_Mapping__mdt.Language__c</members>
 		<members>Payment_Methods_Mapping__mdt.Translation__c</members>
 		<members>Payment_Methods_Mapping__mdt.Value__c</members>
+		<members>PE_Emails_Setting__mdt.Country__c</members>
+		<members>PE_Emails_Setting__mdt.Distribution_List__c</members>
+		<members>Sales_Channel_Mapping__mdt.ChannelType__c</members>
 		<members>Sales_Channel_Mapping__mdt.cegidStateUsed__c</members>
-		<members>Sales_Channel_Mapping__mdt.Timezone__c</members>
-		<members>Invoice.Invoice_Timezone_Date__c</members>
-		<members>CorrectiveInvoice__c.Corrective_Invoice_Date__c</members>
-		<members>CreditMemo.Credit_Memo_Date__c</members>
-    		<name>CustomField</name>
+		<members>FulfillmentOrder.sentToToshi__c</members>
+    	<name>CustomField</name>
   	</types>
-  	<types>
-		<members>Payment_Methods_Mapping.ApplePay_EN</members>
+	<types>
+		<members>CountryMapping.AD_EN</members>
+		<members>CountryMapping.AE_EN</members>
+		<members>CountryMapping.AG_EN</members>
+		<members>CountryMapping.AI_EN</members>
+		<members>CountryMapping.AL_EN</members>
+		<members>CountryMapping.AM_EN</members>
+		<members>CountryMapping.AN_EN</members>
+		<members>CountryMapping.AO_EN</members>
+		<members>CountryMapping.AQ_EN</members>
+		<members>CountryMapping.AR_EN</members>
+		<members>CountryMapping.AS_EN</members>
+		<members>CountryMapping.AT_EN</members>
+		<members>CountryMapping.AU_EN</members>
+		<members>CountryMapping.AW_EN</members>
+		<members>CountryMapping.AX_EN</members>
+		<members>CountryMapping.AZ_EN</members>
+		<members>CountryMapping.BA_EN</members>
+		<members>CountryMapping.BB_EN</members>
+		<members>CountryMapping.BD_EN</members>
+		<members>CountryMapping.BE_EN</members>
+		<members>CountryMapping.BF_EN</members>
+		<members>CountryMapping.BG_EN</members>
+		<members>CountryMapping.BH_EN</members>
+		<members>CountryMapping.BI_EN</members>
+		<members>CountryMapping.BJ_EN</members>
+		<members>CountryMapping.BL_EN</members>
+		<members>CountryMapping.BM_EN</members>
+		<members>CountryMapping.BN_EN</members>
+		<members>CountryMapping.BO_EN</members>
+		<members>CountryMapping.BR_EN</members>
+		<members>CountryMapping.BS_EN</members>
+		<members>CountryMapping.BT_EN</members>
+		<members>CountryMapping.BV_EN</members>
+		<members>CountryMapping.BW_EN</members>
+		<members>CountryMapping.BY_EN</members>
+		<members>CountryMapping.BZ_EN</members>
+		<members>CountryMapping.CA_EN</members>
+		<members>CountryMapping.CC_EN</members>
+		<members>CountryMapping.CD_EN</members>
+		<members>CountryMapping.CF_EN</members>
+		<members>CountryMapping.CG_EN</members>
+		<members>CountryMapping.CH_EN</members>
+		<members>CountryMapping.CI_EN</members>
+		<members>CountryMapping.CK_EN</members>
+		<members>CountryMapping.CL_EN</members>
+		<members>CountryMapping.CM_EN</members>
+		<members>CountryMapping.CN_EN</members>
+		<members>CountryMapping.CO_EN</members>
+		<members>CountryMapping.CR_EN</members>
+		<members>CountryMapping.CU_EN</members>
+		<members>CountryMapping.CV_EN</members>
+		<members>CountryMapping.CX_EN</members>
+		<members>CountryMapping.CY_EN</members>
+		<members>CountryMapping.CZ_EN</members>
+		<members>CountryMapping.DE_EN</members>
+		<members>CountryMapping.DJ_EN</members>
+		<members>CountryMapping.DK_EN</members>
+		<members>CountryMapping.DM_EN</members>
+		<members>CountryMapping.DO_EN</members>
+		<members>CountryMapping.DZ_EN</members>
+		<members>CountryMapping.EC_EN</members>
+		<members>CountryMapping.EE_EN</members>
+		<members>CountryMapping.EG_EN</members>
+		<members>CountryMapping.EH_EN</members>
+		<members>CountryMapping.ER_EN</members>
+		<members>CountryMapping.ES_EN</members>
+		<members>CountryMapping.ET_EN</members>
+		<members>CountryMapping.FI_EN</members>
+		<members>CountryMapping.FJ_EN</members>
+		<members>CountryMapping.FK_EN</members>
+		<members>CountryMapping.FM_EN</members>
+		<members>CountryMapping.FO_EN</members>
+		<members>CountryMapping.FR_EN</members>
+		<members>CountryMapping.GA_EN</members>
+		<members>CountryMapping.GB_EN</members>
+		<members>CountryMapping.GD_EN</members>
+		<members>CountryMapping.GE_EN</members>
+		<members>CountryMapping.GF_EN</members>
+		<members>CountryMapping.GG_EN</members>
+		<members>CountryMapping.GH_EN</members>
+		<members>CountryMapping.GI_EN</members>
+		<members>CountryMapping.GL_EN</members>
+		<members>CountryMapping.GM_EN</members>
+		<members>CountryMapping.GN_EN</members>
+		<members>CountryMapping.GP_EN</members>
+		<members>CountryMapping.GQ_EN</members>
+		<members>CountryMapping.GR_EN</members>
+		<members>CountryMapping.GS_EN</members>
+		<members>CountryMapping.GT_EN</members>
+		<members>CountryMapping.GU_EN</members>
+		<members>CountryMapping.GW_EN</members>
+		<members>CountryMapping.GY_EN</members>
+		<members>CountryMapping.HK_EN</members>
+		<members>CountryMapping.HM_EN</members>
+		<members>CountryMapping.HN_EN</members>
+		<members>CountryMapping.HR_EN</members>
+		<members>CountryMapping.HT_EN</members>
+		<members>CountryMapping.HU_EN</members>
+		<members>CountryMapping.ID_EN</members>
+		<members>CountryMapping.IE_EN</members>
+		<members>CountryMapping.IL_EN</members>
+		<members>CountryMapping.IM_EN</members>
+		<members>CountryMapping.IN_EN</members>
+		<members>CountryMapping.IO_EN</members>
+		<members>CountryMapping.IQ_EN</members>
+		<members>CountryMapping.IR_EN</members>
+		<members>CountryMapping.IS_EN</members>
+		<members>CountryMapping.IT_EN</members>
+		<members>CountryMapping.JE_EN</members>
+		<members>CountryMapping.JM_EN</members>
+		<members>CountryMapping.JO_EN</members>
+		<members>CountryMapping.JP_EN</members>
+		<members>CountryMapping.KE_EN</members>
+		<members>CountryMapping.KG_EN</members>
+		<members>CountryMapping.KH_EN</members>
+		<members>CountryMapping.KI_EN</members>
+		<members>CountryMapping.KM_EN</members>
+		<members>CountryMapping.KN_EN</members>
+		<members>CountryMapping.KP_EN</members>
+		<members>CountryMapping.KR_EN</members>
+		<members>CountryMapping.KW_EN</members>
+		<members>CountryMapping.KY_EN</members>
+		<members>CountryMapping.KZ_EN</members>
+		<members>CountryMapping.LA_EN</members>
+		<members>CountryMapping.LB_EN</members>
+		<members>CountryMapping.LC_EN</members>
+		<members>CountryMapping.LI_EN</members>
+		<members>CountryMapping.LK_EN</members>
+		<members>CountryMapping.LR_EN</members>
+		<members>CountryMapping.LS_EN</members>
+		<members>CountryMapping.LT_EN</members>
+		<members>CountryMapping.LU_EN</members>
+		<members>CountryMapping.LV_EN</members>
+		<members>CountryMapping.LY_EN</members>
+		<members>CountryMapping.MA_EN</members>
+		<members>CountryMapping.MC_EN</members>
+		<members>CountryMapping.MD_EN</members>
+		<members>CountryMapping.ME_EN</members>
+		<members>CountryMapping.MF_EN</members>
+		<members>CountryMapping.MG_EN</members>
+		<members>CountryMapping.MH_EN</members>
+		<members>CountryMapping.MK_EN</members>
+		<members>CountryMapping.ML_EN</members>
+		<members>CountryMapping.MM_EN</members>
+		<members>CountryMapping.MN_EN</members>
+		<members>CountryMapping.MO_EN</members>
+		<members>CountryMapping.MP_EN</members>
+		<members>CountryMapping.MQ_EN</members>
+		<members>CountryMapping.MR_EN</members>
+		<members>CountryMapping.MS_EN</members>
+		<members>CountryMapping.MT_EN</members>
+		<members>CountryMapping.MU_EN</members>
+		<members>CountryMapping.MV_EN</members>
+		<members>CountryMapping.MW_EN</members>
+		<members>CountryMapping.MX_EN</members>
+		<members>CountryMapping.MY_EN</members>
+		<members>CountryMapping.MZ_EN</members>
+		<members>CountryMapping.NA_EN</members>
+		<members>CountryMapping.NC_EN</members>
+		<members>CountryMapping.NE_EN</members>
+		<members>CountryMapping.NF_EN</members>
+		<members>CountryMapping.NG_EN</members>
+		<members>CountryMapping.NI_EN</members>
+		<members>CountryMapping.NL_EN</members>
+		<members>CountryMapping.NO_EN</members>
+		<members>CountryMapping.NP_EN</members>
+		<members>CountryMapping.NR_EN</members>
+		<members>CountryMapping.NU_EN</members>
+		<members>CountryMapping.NZ_EN</members>
+		<members>CountryMapping.OM_EN</members>
+		<members>CountryMapping.PA_EN</members>
+		<members>CountryMapping.PE_EN</members>
+		<members>CountryMapping.PF_EN</members>
+		<members>CountryMapping.PG_EN</members>
+		<members>CountryMapping.PH_EN</members>
+		<members>CountryMapping.PK_EN</members>
+		<members>CountryMapping.PL_EN</members>
+		<members>CountryMapping.PM_EN</members>
+		<members>CountryMapping.PN_EN</members>
+		<members>CountryMapping.PR_EN</members>
+		<members>CountryMapping.PS_EN</members>
+		<members>CountryMapping.PT_EN</members>
+		<members>CountryMapping.PW_EN</members>
+		<members>CountryMapping.PY_EN</members>
+		<members>CountryMapping.QA_EN</members>
+		<members>CountryMapping.RE_EN</members>
+		<members>CountryMapping.RO_EN</members>
+		<members>CountryMapping.RS_EN</members>
+		<members>CountryMapping.RU_EN</members>
+		<members>CountryMapping.RW_EN</members>
+		<members>CountryMapping.SA_EN</members>
+		<members>CountryMapping.SB_EN</members>
+		<members>CountryMapping.SC_EN</members>
+		<members>CountryMapping.SD_EN</members>
+		<members>CountryMapping.SE_EN</members>
+		<members>CountryMapping.SG_EN</members>
+		<members>CountryMapping.SH_EN</members>
+		<members>CountryMapping.SI_EN</members>
+		<members>CountryMapping.SJ_EN</members>
+		<members>CountryMapping.SK_EN</members>
+		<members>CountryMapping.SL_EN</members>
+		<members>CountryMapping.SM_EN</members>
+		<members>CountryMapping.SN_EN</members>
+		<members>CountryMapping.SO_EN</members>
+		<members>CountryMapping.SR_EN</members>
+		<members>CountryMapping.SS_EN</members>
+		<members>CountryMapping.ST_EN</members>
+		<members>CountryMapping.SV_EN</members>
+		<members>CountryMapping.SY_EN</members>
+		<members>CountryMapping.SZ_EN</members>
+		<members>CountryMapping.TC_EN</members>
+		<members>CountryMapping.TD_EN</members>
+		<members>CountryMapping.TF_EN</members>
+		<members>CountryMapping.TG_EN</members>
+		<members>CountryMapping.TH_EN</members>
+		<members>CountryMapping.TJ_EN</members>
+		<members>CountryMapping.TK_EN</members>
+		<members>CountryMapping.TL_EN</members>
+		<members>CountryMapping.TM_EN</members>
+		<members>CountryMapping.TN_EN</members>
+		<members>CountryMapping.TO_EN</members>
+		<members>CountryMapping.TR_EN</members>
+		<members>CountryMapping.TT_EN</members>
+		<members>CountryMapping.TV_EN</members>
+		<members>CountryMapping.TW_EN</members>
+		<members>CountryMapping.TZ_EN</members>
+		<members>CountryMapping.UA_EN</members>
+		<members>CountryMapping.UG_EN</members>
+		<members>CountryMapping.UM_EN</members>
+		<members>CountryMapping.US_EN</members>
+		<members>CountryMapping.UY_EN</members>
+		<members>CountryMapping.UZ_EN</members>
+		<members>CountryMapping.VA_EN</members>
+		<members>CountryMapping.VC_EN</members>
+		<members>CountryMapping.VE_EN</members>
+		<members>CountryMapping.VG_EN</members>
+		<members>CountryMapping.VI_EN</members>
+		<members>CountryMapping.VN_EN</members>
+		<members>CountryMapping.VU_EN</members>
+		<members>CountryMapping.WF_EN</members>
+		<members>CountryMapping.WS_EN</members>
+		<members>CountryMapping.YE_EN</members>
+		<members>CountryMapping.YT_EN</members>
+		<members>CountryMapping.ZA_EN</members>
+		<members>CountryMapping.ZM_EN</members>
+		<members>CountryMapping.ZW_EN</members>
+    	<members>Payment_Methods_Mapping.ApplePay_EN</members>
 		<members>Payment_Methods_Mapping.COD_EN</members>
 		<members>Payment_Methods_Mapping.Visa_EN</members>
 		<members>Payment_Methods_Mapping.MasterCard_EN</members>
 		<members>Payment_Methods_Mapping.JCB_EN</members>
 		<members>Payment_Methods_Mapping.Amex_EN</members>
+		<members>PE_Emails_Setting.PE_UAE</members>
+	    <members>PE_Emails_Setting.PE_US</members>
 		<name>CustomMetadata</name>
 	</types>
-  	<types>
-    		<members>Payment_Methods_Mapping__mdt</members>
+	<types>
+    	<members>Payment_Methods_Mapping__mdt</members>
+		<members>PE_Emails_Setting__mdt</members>
 		<members>Sales_Channel_Mapping__mdt</members>
 		<members>Invoice</members>
 		<members>CorrectiveInvoice__c</members>
 		<members>CreditMemo</members>
     		<name>CustomObject</name>
 	</types> 
+    <types>  
+      	<members>Order_Summary_Record_Page</members>
+      	<name>FlexiPage</name>
+    </types>
 	<types>
+    	<members>SOM_100_Create_OrderSummary_Orchestration</members>
+		<members>SOM_110_CoreModel_Create_OrderSummary</members>
+		<members>SOM_115_ManuallyValidateOrderSummary</members>
+		<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
 		<members>SOM_720_Refund_ManualValidateRefund</members>
-		<members>SOM_920_Create_Corrective_Invoice</members>
+		<members>SOM_Cancel_Order_Summary</members>
+		<members>SOM_Single_Fulfillment_Order_Cancelation</members>
 		<name>Flow</name>
 	</types>
+	<types>
+		<members>Payment_Methods_Mapping__mdt-Payment Methods Mapping Layout</members>
+		<members>PaymentAuthorization-Payment Authorization Layout</members>
+    		<members>Payment-Payment Layout</members>
+	    	<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<members>PE_Emails_Setting__mdt-PE Emails Setting Layout</members>
+		<members>FulfillmentOrder-Fulfillment Order Layout</members>
+		<name>Layout</name>
+	</types>
+  	<types>
+		<members>OrderSummary.Unblock</members>
+		<name>QuickAction</name>
+	</types>
+	<types>
+		<members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_AE</members>
+        <members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_US</members>
+		<members>ReportsforSOM/Order_Summary_with_Refunds_Report_ekT</members>
+	    <name>Report</name>
+    </types>
+	<types>
+		<members>Order_Summary_with_Refunds</members>  
+        <members>SOM_PE_ReportType</members>
+	    <name>ReportType</name>
+    </types>
 	<version>54.0</version>
 </Package>

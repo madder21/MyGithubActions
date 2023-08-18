@@ -28,7 +28,8 @@ global class DataMigrationBatch implements Database.Batchable<sObject>{
         
     }
     global void execute(Database.BatchableContext BC, List<Account> accountList) {
-        ConsentManagementHelper.migrateConsentGlobalMethod(accountList,null,true);
+        //EBU 2023July24th  -  Retro compatibility ONLY for deploy
+        //ConsentManagementHelper.migrateConsentGlobalMethod(accountList,null,true);
     }    
     global void finish(Database.BatchableContext bc){
     }    

@@ -1,27 +1,16 @@
 /*
-Author : NAIMY BOUCHAIB
-DATE CREATION : 07/09/2022
-DESCRIPTION : test the SOM_WS_PickedInStoreShipmentHnadler class
-coverage : 91 %
+Author        : TALBI Hicham
+DATE CREATION : 13/07/2023
+DESCRIPTION   : test the SOM_WS_PickedInStoreShipmentHnadler class
+coverage      : 87 %
 
 */
 @isTest
 private class SOM_WS_PickedInStoreShipmentHnadler_Test {
     public static Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest> listRequestInputs = new Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest>();
-    public static Integer toOverQuantity = 0 ;
-    public static boolean serialNumberisNull = false ;
-    public static boolean QtySerialNumber = false ;
-    public static boolean MissingSerialNumber = false ;
-    public static boolean notfulfilled = false ;
-    public static boolean multipleFO = false ;
-    public static boolean FulfillmentOrderLineItemsNotEmpty = false ;
-    public static boolean testPassOK = false ;
-    public static boolean list_items_to_ship_empty = false ;
-    public static boolean no_fulfillmentOrderLineItem_exist = false ;
     public static Map<Id, String> mapOItemSKU = new Map<Id, String>();
 
-    @isTest(seeAllData = true)
-    public static void setupData() {
+    public static void setupData(Integer toOverQuantity, boolean serialNumberisNull, boolean QtySerialNumber, boolean MissingSerialNumber, boolean notfulfilled, boolean multipleFO, boolean list_items_to_ship_empty, boolean no_fulfillmentOrderLineItem_exist) {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,3);
         if(list_items_to_ship_empty == true || no_fulfillmentOrderLineItem_exist == true) {
             OrderSummary osOnHold = los[0];
@@ -44,7 +33,6 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
             mapOItemSKU.put(foli.OrderItemSummaryId, foli.OrderItemSummary.StockKeepingUnit);
         }
         
-        System.debug('ordersummaryIds  +'+orderSummaryIds);
         for(OrderSummary os : [SELECT ID, OrderNumber, (SELECT Id,StockKeepingUnit,Quantity,isSerialized__c FROM OrderItemSummaries where Type != :SOM_Constants.FULFILLMENT_ORDER_LINE_ITEM_DELIVERY_CHARGE) FROM OrderSummary where ID IN :orderSummaryIds]) {
             SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest requestDataOrderPickedinStore = new SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest();
             requestDataOrderPickedinStore.orderSummaryNumber = os.OrderNumber;
@@ -54,21 +42,20 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
                 requestDataOrderPickedinStore.item =  new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item>();
             }
             else if (no_fulfillmentOrderLineItem_exist == true) {
-                List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listItems = convertedList(os.OrderItemSummaries);
+                List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listItems = convertedList(os.OrderItemSummaries, toOverQuantity, serialNumberisNull, QtySerialNumber, MissingSerialNumber);
                 listItems[0].sku = 'sku-9587461';
                 listItems[0].qty = 10;
                 requestDataOrderPickedinStore.item = listItems;
             }
             else {
-                requestDataOrderPickedinStore.item = convertedList(os.OrderItemSummaries);
+                requestDataOrderPickedinStore.item = convertedList(os.OrderItemSummaries, toOverQuantity, serialNumberisNull, QtySerialNumber, MissingSerialNumber);
             }
-            System.debug('requestDataOrderPickedinStore ::: ' +requestDataOrderPickedinStore);
             SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.put(os.OrderNumber,requestDataOrderPickedinStore);
         }
     }
 
     //this method to convert list of order items summary ---> list of WMS_Item our wrapper in SOrM_WS_PickedInStoreShipmentHnadler class
-    private static List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> convertedList(List<OrderItemSummary> olis) {
+    private static List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> convertedList(List<OrderItemSummary> olis, Integer toOverQuantity, boolean serialNumberisNull, boolean QtySerialNumber, boolean MissingSerialNumber) {
         List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> listOrderItemsData = new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item>();
         for(OrderItemSummary ois : olis) {
             if(mapOItemSKU.containsKey(ois.Id)){
@@ -97,7 +84,6 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
                 if(MissingSerialNumber == true) {
                     if(ois.isSerialized__c){
                         wms.serialNumber = null;
-                        System.debug('yoyoyo');
                     }
                 }
                 listOrderItemsData.add(wms);
@@ -115,23 +101,19 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
     @isTest
     static void testDataEmpty(){
         Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest> listRequestInputsEmptyData = new Map<String,SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest>();
-        System.debug(' listRequestInputsEmptyData :' + listRequestInputsEmptyData);
         String jsonMsg=JSON.serialize(listRequestInputsEmptyData.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         Map<String,Object> result = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.assert(String.valueOf(result.get('Response')).contains('Error Data Request Body Empty'));
+        System.assert(String.valueOf(result.get('Response')).contains('Error Data Request Body Empty'),'Data Request body is not empty');
     }
 
 
@@ -151,282 +133,204 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         Map<String,Object> result = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.assertEquals('Fulfillment Order or Order Summary are not valid - there status should be in : fulfilling, partially fulfilled',result.get('Response'));
+        System.assertEquals('Fulfillment Order or Order Summary are not valid or their status should be in : fulfilling, partially fulfilled',result.get('Response'),'FO and OS are valid');
     }
 
     @isTest(seeAllData=true)
     static void FulfillmentOrderLineItemsNotEmpty() { 
-        setupData();
+        setupData(0, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'));
+        system.debug('FOLI response returned  :'+String.valueOf(result1.get('Response')));
+        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'),'Shipments has not been created or FO and OS have not been updated successfully');
     }
 
     @isTest(seeAllData=true)
     static void testPassOK() {
-        testPassOK = true ;
-        setupData();
-        testPassOK = false;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'));
+        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'),'Shipments has not been created or FO and OS have not been updated successfully');
     }
 
     @isTest(seeAllData=true)
     static void list_items_to_ship_empty() {
-        list_items_to_ship_empty = true ;
-        setupData();
-        list_items_to_ship_empty = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, false, false, false, true, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('list items to ship is empty'));
+        System.assert(String.valueOf(result1.get('Response')).contains('list items to ship is empty'),'List of items to ship is not empty');
     }
 
     @isTest(seeAllData=true)
     static void no_fulfillmentOrderLineItem_exist() {
-        no_fulfillmentOrderLineItem_exist = true ;
-        setupData();
-        no_fulfillmentOrderLineItem_exist = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, false, false, false, false, true);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('no fulfillmentOrderLineItem exist with target SKU sku-9587461'));
+        System.assert(String.valueOf(result1.get('Response')).contains('no fulfillmentOrderLineItem exist with target SKU sku-9587461'),'FOLI exists with the target SKU');
     }
 
     @isTest(seeAllData=true)
     static void requested_to_ship_is_greater_than_Quantity_Available() {
-        toOverQuantity = 1 ;
-        setupData();
-        toOverQuantity = 0 ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(1, false, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('Error: Quantity requested to ship is greater than Quantity Available for this SKU'));
+        System.assert(String.valueOf(result1.get('Response')).contains('Error: Quantity requested to ship is greater than Quantity Available for this SKU'),'FOLI Quantity is not less than requested quantity to ship');
     }
 
     @isTest(seeAllData=true)
     static void noSerializedItem() {
-        serialNumberisNull = true ;
-        setupData();
-        serialNumberisNull = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, true, false, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact noserialitem'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('No serialNumber should provided for a non serialized product with this SKU'));
+        System.assert(String.valueOf(result1.get('Response')).contains('No serialNumber should provided for a non serialized product with this SKU'),'FOLI is serialized with an existing serialNumber');
     }
 
     @isTest(seeAllData=true)
     static void QuantityItemsLessThanSerialNumbers() {
-        QtySerialNumber = true ;
-        setupData();
-        QtySerialNumber = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, true, false, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('Error: Quantity requested to ship not equal the totale of serialNumbers'));
+        System.assert(String.valueOf(result1.get('Response')).contains('Error: Quantity requested to ship not equal the totale of serialNumbers'),'serialNumbers size is equal to the shipment quantity response returned');
     }
 
     @isTest(seeAllData=true)
     static void MissingSerialNumbers() {
-        MissingSerialNumber = true ;
-        setupData();
-        MissingSerialNumber = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, true, false, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('Missing serialNumbers for serialized product with this SKU'));
+        System.assert(String.valueOf(result1.get('Response')).contains('Missing serialNumbers for serialized product with this SKU'),'OrderItemSummary is serialized with an existing serialNumber');
     }
 
     @isTest(seeAllData=true)
     static void testNotFulfilledOS() {
-        notfulfilled = true ;
-        setupData();
-        notfulfilled = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, false, true, false, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('should be in fulling or partially fulfilled status'));
+        System.assert(String.valueOf(result1.get('Response')).contains('should be in fulling or partially fulfilled status'),'OrderSummary status is fulling or partially fulfilled');
     }
 
     @isTest(seeAllData=true)
     static void testMultipleFO() {
-        multipleFO = true ;
-        setupData();
-        multipleFO = false ;
-        System.debug('SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()'+SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        setupData(0, false, false, false, false, true, false, false);
         String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
         Test.startTest();
         RestRequest req = new RestRequest(); 
         RestResponse res = new RestResponse();             
         req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
         req.httpMethod = 'POST';
-        System.debug(' $$ JsonMsg :' + jsonMsg);
         req.requestBody = Blob.valueof(jsonMsg);
         RestContext.request = req;
         RestContext.response= res;
         SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
-        System.debug(' $$ testReponseOK RestContext.response :' + RestContext.response);
-        System.debug(' $$ testReponseOK :');
         Test.stopTest();
         String actual = res.responseBody.toString();
-        System.debug(' $$ SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs :' + SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs);
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.debug('testact'+result1.get('Response'));
-        System.assert(String.valueOf(result1.get('Response')).contains('Error: this order Summary with the number'));
+        system.debug('Error response'+String.valueOf(result1.get('Response')));
+        System.assert(String.valueOf(result1.get('Response')).contains('Error: this order Summary with the number'),'OrderSummary does not have more than one FO to ship response or no Fos');
     }
 }

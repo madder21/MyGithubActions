@@ -13,7 +13,7 @@ public with sharing class SOM_DateTimeHelper {
         for( SOM_DateConvertionInput singleInput : dataInput ){
             SOM_DateConvertionInput inputLine = singleInput;
             if(String.isBlank(String.valueOf(inputLine.dateToConvert)) || String.isBlank(inputLine.targetTimeZone)){
-                return null;
+                continue;
             }
             String strConvertedDate = inputLine.dateToConvert.format('yyyy-MM-dd\'T\'HH:mm:ss',inputLine.targetTimeZone);
             DateTime dateValueToReturn = Datetime.valueOf(strConvertedDate.replace('T',' '));
