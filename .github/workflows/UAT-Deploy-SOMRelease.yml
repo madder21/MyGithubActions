@@ -44,4 +44,4 @@ jobs:
               
             # Deploy the entire branch to Integration org
             - name: 'Deploy the release to UAT org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-7-1.xml" -u RimowaUATOrg
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-8-1.xml" -u RimowaUATOrg
