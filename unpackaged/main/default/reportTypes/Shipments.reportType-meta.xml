@@ -2,7 +2,7 @@
 <ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
     <baseObject>Shipment</baseObject>
     <category>activities</category>
-    <deployed>false</deployed>
+    <deployed>true</deployed>
     <description>Allow report on shipment level</description>
     <join>
         <outerJoin>false</outerJoin>
@@ -12,22 +12,17 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
+            <field>ActualDeliveryDate</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CurrencyIsoCode</field>
+            <field>Carrier__c</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
+            <field>CegidInvoiceNumber__c</field>
             <table>Shipment</table>
         </columns>
         <columns>
@@ -37,147 +32,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
+            <field>CreatedDate</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
+            <field>CurrencyIsoCode</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromAddress</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromStreet</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromCity</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromState</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromPostalCode</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromCountry</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromLatitude</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromLongitude</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipFromGeocodeAccuracy</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToAddress</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToStreet</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToCity</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToState</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToPostalCode</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToCountry</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToLatitude</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToLongitude</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToGeocodeAccuracy</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>SourceLocation</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>DestinationLocation</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TrackingNumber</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TrackingUrl</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ExpectedDeliveryDate</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ActualDeliveryDate</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Provider</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Status</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>ShipToName</field>
+            <field>DeliveryMethod</field>
             <table>Shipment</table>
         </columns>
         <columns>
@@ -187,7 +52,37 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>DestinationLocation</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>DispatchDate__c</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ExpectedDeliveryDate</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>FulfillmentOrder</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsDelivered__c</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
             <table>Shipment</table>
         </columns>
         <columns>
@@ -202,32 +97,67 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DeliveryMethod</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>TotalItemsQuantity</field>
-            <table>Shipment</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>ReturnOrder</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>WMSShipmentId__c</field>
+            <field>ShipFromAddress</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>DispatchDate__c</field>
+            <field>ShipFromCity</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Carrier__c</field>
+            <field>ShipFromCountry</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromGeocodeAccuracy</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromLatitude</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromLongitude</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromState</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromStreet</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipFromPostalCode</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Provider</field>
             <table>Shipment</table>
         </columns>
         <columns>
@@ -237,12 +167,87 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CegidInvoiceNumber__c</field>
+            <field>ShipToAddress</field>
             <table>Shipment</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>IsDelivered__c</field>
+            <field>ShipToCity</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToCountry</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToGeocodeAccuracy</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToLatitude</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToLongitude</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToName</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToState</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToStreet</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ShipToPostalCode</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>SourceLocation</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Status</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>FulfillmentOrder.Name</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TotalItemsQuantity</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TrackingNumber</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>TrackingUrl</field>
+            <table>Shipment</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>WMSShipmentId__c</field>
             <table>Shipment</table>
         </columns>
         <masterLabel>Shipments</masterLabel>
@@ -250,17 +255,7 @@
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Shipment.ShipmentItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <field>Name</field>
-            <table>Shipment.ShipmentItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CurrencyIsoCode</field>
+            <field>CreatedBy</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <columns>
@@ -270,17 +265,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Shipment.ShipmentItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Shipment.ShipmentItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
+            <field>CurrencyIsoCode</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <columns>
@@ -291,6 +276,21 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>FulfillmentOrderLineItem</field>
+            <table>Shipment.ShipmentItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedBy</field>
+            <table>Shipment.ShipmentItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastModifiedDate</field>
+            <table>Shipment.ShipmentItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LocationExternalReference__c</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <columns>
@@ -320,12 +320,17 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>StockKeepingUnit__c</field>
+            <field>Id</field>
+            <table>Shipment.ShipmentItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>LocationExternalReference__c</field>
+            <field>StockKeepingUnit__c</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <masterLabel>Shipment Items</masterLabel>
