@@ -114,7 +114,7 @@
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
                         
-                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                        <!--<td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
                         <apex:param value="{!lineItem.netAmount}"/>
                     	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         
@@ -124,12 +124,12 @@
                         
                         <td class="align-right"><apex:outputText value="{0, number, {!AmountsFormat}}">
                         <apex:param value="{!lineItem.total}"/>
-                    	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    	</apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
                         
                         
-                        <!--<td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                     </tr>
                     <tr>
                         <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -153,20 +153,20 @@
             <tbody>
                 <tr>
                     <td width="100px" class="border_top" style="padding-top:2px;">SUBTOTAL (NET):</td>
-                    <!--<td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
-                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                    <td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
                         <apex:param value="{!creditMemoDocument.netSubTotal}"/>
-                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
                 </tr>
                 <!-- loop over vat rate -->
 
             <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
                 <tr>
                     <td width="80px" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % :</td>
-                    <!--<td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
-                    <td  class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
+                    <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td  class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
                         <apex:param value="{!creditMemoTaxLineItems[key]}"/>
-                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
                 </tr>
             </apex:repeat>
                 <!-- end loop-->
@@ -175,10 +175,10 @@
                 </tr> 
                 <tr>
                     <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. TAX:</td>
-                    <!--<td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
-                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
+                    <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    <!--<td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
                         <apex:param value="{!creditMemoDocument.totalWithTax}"/>
-                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        </apex:outputText>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>-->
                 </tr>
             </tbody>  
         </table>
