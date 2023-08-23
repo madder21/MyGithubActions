@@ -406,10 +406,13 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
 
         List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId]; 
         for(ReturnOrderItemCreateUpdate reqItem : returnItems){
-            for(ReturnOrderLineItem singleROLI : createdROLIs){
+            for(Integer i=0; i<createdROLIs.size(); i++){
+            	ReturnOrderLineItem singleROLI = createdROLIs.get(i);
                 if( singleROLI.Product2.StockKeepingUnit == reqItem.sku && singleROLI.reasonForReturn == reqItem.reasonCode ){
                     // Fill the Map : returnOrderItemsRequest
                     returnOrderItemsRequest.put(singleROLI.Id, reqItem);
+                    createdROLIs.remove(i);
+                    break;
                 }
             }
         }
