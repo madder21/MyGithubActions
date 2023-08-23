@@ -59,8 +59,8 @@
     <assignments>
         <name>Assign_Prices</name>
         <label>Assign Prices</label>
-        <locationX>949</locationX>
-        <locationY>1085</locationY>
+        <locationX>920</locationX>
+        <locationY>1087</locationY>
         <assignmentItems>
             <assignToReference>V_UnitPrice</assignToReference>
             <operator>Assign</operator>
@@ -83,7 +83,7 @@
         <name>Assign_Prices_0</name>
         <label>Assign Prices</label>
         <locationX>770</locationX>
-        <locationY>1286</locationY>
+        <locationY>1434</locationY>
         <assignmentItems>
             <assignToReference>V_UnitPrice</assignToReference>
             <operator>Assign</operator>
@@ -103,6 +103,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Fx</name>
+        <label>Fx</label>
+        <locationX>1074</locationX>
+        <locationY>1293</locationY>
+        <assignmentItems>
+            <assignToReference>ReturnLineItemRec</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Filter_Return_Order_Line_Item</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>FX_QtyRecieved</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Filter_Return_Order_Line_Item.QuantityReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Filter_Return_Order_Line_Item</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Increment_Line_Number</name>
         <label>Increment Line Number</label>
         <locationX>1962</locationX>
@@ -116,6 +139,22 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_Store_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_ChargeLine_Ids</name>
+        <label>Set ChargeLine Ids</label>
+        <locationX>2711</locationX>
+        <locationY>705</locationY>
+        <assignmentItems>
+            <assignToReference>ChargeLineIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_Over_Filtered_Charge_Lines_0.ReturnOrderLineItem__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_Over_Filtered_Charge_Lines_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -151,7 +190,7 @@
     <assignments>
         <name>Set_Transaction_Item_Amount_Fields</name>
         <label>Set Transaction Item Amount Fields</label>
-        <locationX>942</locationX>
+        <locationX>921</locationX>
         <locationY>927</locationY>
         <assignmentItems>
             <assignToReference>REC_TransactionItem.ExclTaxAmount__c</assignToReference>
@@ -171,7 +210,7 @@
             <assignToReference>REC_TransactionItem.Quantity__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Return_Order_Line_Item.QuantityReceived</elementReference>
+                <elementReference>ReturnLineItemRec.QuantityReceived</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -512,8 +551,8 @@
         <name>Filter_Line_With_Type_Charge</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Line With Type Charge</label>
-        <locationX>2416</locationX>
-        <locationY>480</locationY>
+        <locationX>2924</locationX>
+        <locationY>395</locationY>
         <assignNextValueToReference>currentItem_Filter_Line_With_Type_Charge</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Credit_Memo_Lines</collectionReference>
@@ -526,7 +565,7 @@
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>Iterate_Over_Filtered_Charge_Lines</targetReference>
+            <targetReference>Iterate_Over_Filtered_Charge_Lines_0</targetReference>
         </connector>
     </collectionProcessors>
     <collectionProcessors>
@@ -548,6 +587,27 @@
         </conditions>
         <connector>
             <targetReference>Iterate_Over_Filtered_Order_Item_Summaries</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Return_Order_Line_Item</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Return Order Line Item</label>
+        <locationX>1236</locationX>
+        <locationY>1089</locationY>
+        <assignNextValueToReference>currentItem_Filter_Return_Order_Line_Item_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Return_Order_Line_Item</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Return_Order_Line_Item_0.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Iterate_Over_Filtered_Charge_Lines.ReturnOrderLineItem__c</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Filter_Return_Order_Line_Item</targetReference>
         </connector>
     </collectionProcessors>
     <constants>
@@ -603,8 +663,8 @@
     <decisions>
         <name>Check_Refund_Origin</name>
         <label>Check Refund Origin</label>
-        <locationX>1403</locationX>
-        <locationY>1088</locationY>
+        <locationX>1529</locationX>
+        <locationY>1084</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>From_Appeasment</name>
@@ -740,10 +800,10 @@
     <decisions>
         <name>Express_Delivery</name>
         <label>Express Delivery</label>
-        <locationX>1335</locationX>
-        <locationY>1198</locationY>
+        <locationX>1550</locationX>
+        <locationY>1278</locationY>
         <defaultConnector>
-            <targetReference>Get_Return_Order_Line_Item</targetReference>
+            <targetReference>Filter_Return_Order_Line_Item</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -764,12 +824,11 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Credit_Memo_Lines_Adj</targetReference>
+                <targetReference>Assign_Prices_0</targetReference>
             </connector>
             <label>Express Delivery ?</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>Adj</name>
         <dataType>Number</dataType>
@@ -820,7 +879,7 @@
     <formulas>
         <name>FX_GrossUnitPrice</name>
         <dataType>Number</dataType>
-        <expression>-{!V_GrossUnitPrice} / {!Get_Return_Order_Line_Item.QuantityReceived}</expression>
+        <expression>-{!V_GrossUnitPrice} / {!FX_QtyRecieved}</expression>
         <scale>2</scale>
     </formulas>
     <formulas>
@@ -831,7 +890,7 @@
     <formulas>
         <name>FX_UnitPrice</name>
         <dataType>Number</dataType>
-        <expression>-{!V_UnitPrice} / {!Get_Return_Order_Line_Item.QuantityReceived}</expression>
+        <expression>-{!V_UnitPrice} / {!FX_QtyRecieved}</expression>
         <scale>2</scale>
     </formulas>
     <formulas>
@@ -895,6 +954,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Iterate_Over_Filtered_Charge_Lines_0</name>
+        <label>Iterate Over Filtered Charge Lines</label>
+        <locationX>2712</locationX>
+        <locationY>504</locationY>
+        <collectionReference>Filter_Line_With_Type_Charge</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_ChargeLine_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Return_Order_Line_Item</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Iterate_Over_Filtered_Order_Item_Summaries</name>
         <label>Iterate Over Filtered Order Item Summaries</label>
         <locationX>1413</locationX>
@@ -906,6 +979,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Check_Refund_Origin</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Filter_Return_Order_Line_Item</name>
+        <label>Loop Filter Return Order Line Item</label>
+        <locationX>1074</locationX>
+        <locationY>1090</locationY>
+        <collectionReference>Filter_Return_Order_Line_Item</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Fx</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Prices</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1007,7 +1094,7 @@
         <locationY>314</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Filter_Line_With_Type_Charge</targetReference>
+            <targetReference>Get_Credit_Memo_Lines_Adj</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1026,8 +1113,8 @@
     <recordLookups>
         <name>Get_Credit_Memo_Lines_Adj</name>
         <label>Get Credit Memo Lines ( Adj )</label>
-        <locationX>1171</locationX>
-        <locationY>1286</locationY>
+        <locationX>2478</locationX>
+        <locationY>307</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Credit_Memo_Lines_Tax_0</targetReference>
@@ -1056,11 +1143,11 @@
     <recordLookups>
         <name>Get_Credit_Memo_Lines_Tax_0</name>
         <label>Get Credit Memo Lines ( Tax )</label>
-        <locationX>1014</locationX>
-        <locationY>1285</locationY>
+        <locationX>2617</locationX>
+        <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Prices_0</targetReference>
+            <targetReference>Filter_Line_With_Type_Charge</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1222,22 +1309,24 @@
     <recordLookups>
         <name>Get_Return_Order_Line_Item</name>
         <label>Get Return Order Line Item</label>
-        <locationX>1189</locationX>
-        <locationY>1085</locationY>
+        <locationX>2498</locationX>
+        <locationY>512</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Prices</targetReference>
+            <targetReference>Iterate_Over_Filtered_Charge_Lines</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>Iterate_Over_Filtered_Charge_Lines.ReturnOrderLineItem__c</elementReference>
+                <elementReference>ChargeLineIds</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>ReturnOrderLineItem</object>
+        <sortField>Id</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -1321,6 +1410,13 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>ChargeLineIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>COL_TransactionItem</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
@@ -1353,6 +1449,22 @@
         <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Return_Order_Line_Item_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ReturnOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>FX_QtyRecieved</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
         <name>REC_Transaction</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1367,6 +1479,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>TransactionItem__c</objectType>
+    </variables>
+    <variables>
+        <name>ReturnLineItemRec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
         <name>V_ExclTaxAmount</name>

@@ -12,7 +12,7 @@
         <name>Check_FraudAnalysisResponse</name>
         <label>Check FraudAnalysisResponse</label>
         <locationX>851</locationX>
-        <locationY>1225</locationY>
+        <locationY>1448</locationY>
         <defaultConnector>
             <targetReference>Screen_confirm</targetReference>
         </defaultConnector>
@@ -37,7 +37,7 @@
         <name>Check_RI_PaymentMethodId</name>
         <label>Check RI_PaymentMethodId</label>
         <locationX>827</locationX>
-        <locationY>864</locationY>
+        <locationY>1089</locationY>
         <defaultConnector>
             <targetReference>Manual_Fraud_Default_Decision</targetReference>
         </defaultConnector>
@@ -52,6 +52,13 @@
                     <stringValue>C_CC</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Payment_Authorization</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Manual_Fraud_Decision</targetReference>
             </connector>
@@ -62,7 +69,7 @@
         <name>Check_TYPEOF_PaymentMethod</name>
         <label>Check TYPEOF PaymentMethod</label>
         <locationX>830</locationX>
-        <locationY>444</locationY>
+        <locationY>667</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CardPaymentMethod</name>
@@ -135,7 +142,7 @@
         <name>Get_AlternativePaymentMethod</name>
         <label>Get AlternativePaymentMethod</label>
         <locationX>668</locationX>
-        <locationY>587</locationY>
+        <locationY>810</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_RI_PaymentMethodId</targetReference>
@@ -158,7 +165,7 @@
         <name>Get_Card_Payment_Method</name>
         <label>Get Card Payment Method</label>
         <locationX>836</locationX>
-        <locationY>677</locationY>
+        <locationY>900</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_RI_PaymentMethodId</targetReference>
@@ -181,7 +188,7 @@
         <name>Get_DigitalWallet</name>
         <label>Get DigitalWallet</label>
         <locationX>993</locationX>
-        <locationY>584</locationY>
+        <locationY>807</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_RI_PaymentMethodId</targetReference>
@@ -204,10 +211,10 @@
         <name>Get_Order_Payment_Summary</name>
         <label>Get Order Payment Summary</label>
         <locationX>838</locationX>
-        <locationY>301</locationY>
+        <locationY>303</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_TYPEOF_PaymentMethod</targetReference>
+            <targetReference>Get_Payment_Authorization</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -225,7 +232,7 @@
         <name>Get_OS</name>
         <label>Get OS</label>
         <locationX>838</locationX>
-        <locationY>175</locationY>
+        <locationY>179</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Payment_Summary</targetReference>
@@ -242,11 +249,32 @@
         <object>OrderSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_Payment_Authorization</name>
+        <label>Get Payment Authorization</label>
+        <locationX>838</locationX>
+        <locationY>485</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_TYPEOF_PaymentMethod</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderPaymentSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>PaymentAuthorization</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <screens>
         <name>Manual_Fraud_Decision</name>
         <label>Manual Fraud Decision</label>
         <locationX>980</locationX>
-        <locationY>1033</locationY>
+        <locationY>1256</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -272,8 +300,8 @@
     <screens>
         <name>Manual_Fraud_Default_Decision</name>
         <label>Manual Fraud Default Decision</label>
-        <locationX>705</locationX>
-        <locationY>1007</locationY>
+        <locationX>700</locationX>
+        <locationY>1255</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -293,7 +321,7 @@
         <name>Screen_confirm</name>
         <label>Screen confirm</label>
         <locationX>970</locationX>
-        <locationY>1327</locationY>
+        <locationY>1550</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -310,7 +338,7 @@
         <name>Screen_not_confirm</name>
         <label>Screen not confirm</label>
         <locationX>739</locationX>
-        <locationY>1315</locationY>
+        <locationY>1538</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -324,7 +352,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>713</locationX>
+        <locationX>712</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>Get_OS</targetReference>
@@ -335,7 +363,7 @@
         <name>Fraud_Analysis</name>
         <label>Fraud Analysis</label>
         <locationX>858</locationX>
-        <locationY>1086</locationY>
+        <locationY>1309</locationY>
         <connector>
             <targetReference>Check_FraudAnalysisResponse</targetReference>
         </connector>
