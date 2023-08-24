@@ -234,47 +234,30 @@ global with sharing class SOM_InvoiceDocumentController {
     
     
     //Apply the AmountsFormat
-    public String getTotalFormatted(Decimal taxTotal, String AmountsFormat ){
-        	String decimalSep = AmountsFormat.substring(7, 8);
-        	Decimal input = taxTotal;
-        	if (taxTotal == null && (decimalSep =='.')) return '0.00';
-        	if (taxTotal == null && (decimalSep ==',')) return '0,00';
-        	if (taxTotal.scale() > 2) {
-        		input = taxTotal.setScale(2, RoundingMode.HALF_UP);
+    public String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
+        	Decimal input = amountToFormat;
+        	if (amountToFormat == null && (AmountsFormat == SOM_Constants.AMOUNT_FORMAT2)) return '0.00';
+        	if (amountToFormat == null && (AmountsFormat == SOM_Constants.AMOUNT_FORMAT1)) return '0,00';
+        	if (amountToFormat.scale() > 2) {
+        		input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
             }
-           	return formatDecimalNumber(getCents(input),decimalSep);
+           	return formatDecimalNumber(SOM_Utils.getCents(input),AmountsFormat);
     }
     
     //Apply the AmountsFormat
-    public String formatDecimalNumber(String price, String decimalSep){
+    public String formatDecimalNumber(String price, String AmountsFormat){
         String FinalExp,test;
-        if(decimalSep =='.'){
+        if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT2){
             FinalExp = price.replace(' ', ',').replace('.', ',');
             FinalExp = FinalExp.reverse().replaceFirst(',', '.').reverse();
-        }else if (decimalSep ==','){
+        }else if (AmountsFormat == SOM_Constants.AMOUNT_FORMAT1){
             FinalExp = price.replace(' ', '.').replace(',', '.');
             FinalExp = FinalExp.reverse();
             FinalExp = (FinalExp.substring(0,2)+','+FinalExp.substring(3,(FinalExp).length())).reverse();}
         return FinalExp;
     }
     
-    //convert a number into a formatted string
-    public String getCents(Decimal x){
-       Decimal dec = x;
-        String amount;
-        if (!string.valueof(dec.format()).right(3).contains('.') && !string.valueof(dec.format()).right(3).contains(',') ){
-            amount = string.valueof(dec.format()) + '.00';
-        }else if (string.valueof(dec.format()).right(2).contains('.')){
-            amount = string.valueof(dec.format()) + '0';
-        }else if (string.valueof(dec.format()).right(2).contains(',')){
-            amount = string.valueof(dec.format()) + '0';
-        }else {
-            amount = string.valueof(dec.format());
-        }
-        return amount;
-        
-    }
-        
+    
         
 
     global with sharing class InvoiceDocument{
