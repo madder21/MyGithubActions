@@ -64,9 +64,9 @@ public with sharing class SOM_Utils {
             for(String intValueItem: intValueList){
                 valueToReturn = valueToReturn + intValueItem + ',';
             }
-            //valueToReturn = valueToReturn.removeEnd('.');
-            valueToReturn = valueToReturn + myDecimalString.substringafter('.');
-            valueToReturn = valueToReturn.reverse().replaceFirst(',', '.').reverse();
+            
+            valueToReturn = valueToReturn.removeEnd(',');
+			valueToReturn = valueToReturn + '.' + myDecimalString.substringafter('.');
             
             Return valueToReturn;
             
