@@ -236,29 +236,68 @@ global with sharing class SOM_InvoiceDocumentController {
     //Apply the AmountsFormat
     public String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
         	Decimal input = amountToFormat;
-        	if (amountToFormat == null && (AmountsFormat == SOM_Constants.AMOUNT_FORMAT2)) return '0.00';
-        	if (amountToFormat == null && (AmountsFormat == SOM_Constants.AMOUNT_FORMAT1)) return '0,00';
         	if (amountToFormat.scale() > 2) {
         		input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
             }
-           	return formatDecimalNumber(SOM_Utils.getCents(input),AmountsFormat);
+           	return formatDecimalNumber((input),AmountsFormat);
     }
     
-    //Apply the AmountsFormat
-    public String formatDecimalNumber(String price, String AmountsFormat){
-        String FinalExp,test;
-        if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT2){
-            FinalExp = price.replace(' ', ',').replace('.', ',');
-            FinalExp = FinalExp.reverse().replaceFirst(',', '.').reverse();
-        }else if (AmountsFormat == SOM_Constants.AMOUNT_FORMAT1){
-            FinalExp = price.replace(' ', '.').replace(',', '.');
-            FinalExp = FinalExp.reverse();
-            FinalExp = (FinalExp.substring(0,2)+','+FinalExp.substring(3,(FinalExp).length())).reverse();}
-        return FinalExp;
-    }
+    	//Apply the AmountsFormat
+        public String formatDecimalNumber(Decimal myDecimal, String AmountsFormat){
+            if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT1){
+                if (myDecimal == null) return '0,00';
+                String myDecimalString = myDecimal.toPlainString();
+                String intValue = myDecimalString.substringBefore('.');
+                List<String> intValueList = new List<String>();
+                for(Integer i=intValue.length(); i>0; i-=3) {
+                    integer startIndex = i>3?i-3:0;
+                    if(intValueList.isEmpty()){
+                        intValueList.add(intValue.substring(startIndex, i));
+                    }else{
+                        intValueList.add(0,intValue.substring(startIndex, i));
+                    }
+                    
+                }
+                String valueToReturn = '';
+                for(String intValueItem: intValueList){
+                    valueToReturn = valueToReturn + intValueItem + '.';
+                }
+                valueToReturn = valueToReturn.removeEnd('.');
+                valueToReturn = valueToReturn + ',' + myDecimalString.substringafter('.');
+                
+                Return valueToReturn;
+                
+            }else if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT2){
+                if (myDecimal == null) return '0.00';
+                String myDecimalString = myDecimal.toPlainString();
+                // exemple ###.###,##
+                String intValue = myDecimalString.substringBefore('.');
+                List<String> intValueList = new List<String>();
+                for(Integer i=intValue.length(); i>0; i-=3) {
+                    integer startIndex = i>3?i-3:0;
+                    if(intValueList.isEmpty()){
+                        intValueList.add(intValue.substring(startIndex, i));
+                    }else{
+                        intValueList.add(0,intValue.substring(startIndex, i));
+                    }
+                    
+                }
+                String valueToReturn = '';
+                for(String intValueItem: intValueList){
+                    valueToReturn = valueToReturn + intValueItem + ',';
+                }
+                //valueToReturn = valueToReturn.removeEnd('.');
+                valueToReturn = valueToReturn + myDecimalString.substringafter('.');
+                valueToReturn = valueToReturn.reverse().replaceFirst(',', '.').reverse();
+                
+                Return valueToReturn;
+                
+            }else{
+            	Return 'Invalid Format';
+            }
+        }
     
     
-        
 
     global with sharing class InvoiceDocument{
         public String                documentNumber {get; set;} //Invoice: DocumentNumber

@@ -10,22 +10,6 @@ public with sharing class SOM_Utils {
 		return countryName;
     }
     
-    //Convert a number into a formatted string
-    public static String getCents(Decimal x){
-        Decimal dec = x;
-        String amount;
-        if (!string.valueof(dec.format()).right(3).contains('.') && !string.valueof(dec.format()).right(3).contains(',') ){
-            amount = string.valueof(dec.format()) + '.00';
-        }else if (string.valueof(dec.format()).right(2).contains('.')){
-            amount = string.valueof(dec.format()) + '0';
-        }else if (string.valueof(dec.format()).right(2).contains(',')){
-            amount = string.valueof(dec.format()) + '0';
-        }else {
-            amount = string.valueof(dec.format());
-        }
-        return amount;
-        
-    }
 
 
 }
