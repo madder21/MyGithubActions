@@ -3,14 +3,13 @@ global with sharing class SOM_InvoiceDocumentController {
     public static final String   CONCAT_CHARACTER = ',';
     public Map<String, String>   invoiceConfigs { get; set; }
     public InvoiceDocument       invoiceDoc { get; set;}
-    public Map<Decimal,Decimal>    invoiceTaxLineItems {get; set; }
+    public Map<Decimal,String>    invoiceTaxLineItems {get; set; }
     public Map<String,String>    countryMap {get;set;}
     public String                correctiveInvoiceHeaderMessage {get; set; }
     public String                AmountsFormat {get; set; }
     
 
     public SOM_InvoiceDocumentController() {
-        System.debug('start++');
         this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
         this.setInvoiceDocumentConfigs();
         this.setInvoiceData(); 
@@ -39,7 +38,6 @@ global with sharing class SOM_InvoiceDocumentController {
         Boolean isCorrectiveInvoice = invoiceId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME;
         if(isCorrectiveInvoice){
             cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate, Corrective_Invoice_Date__c FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
-            System.debug('test invoice ++'+cInvoice);
             Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
             String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
             this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
@@ -55,15 +53,19 @@ global with sharing class SOM_InvoiceDocumentController {
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
         
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
+            //AmountsFormat info
+            this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.get(0).FulfilledToCountry);
+            
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-            invDoc.totalWithTax   = (fulfillmentOrder.get(0).Invoice.TotalAmountWithTax);
-            invDoc.netSubTotal    = (fulfillmentOrder.get(0).Invoice.TotalAmount);
+            invDoc.totalWithTax   = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
+            
+            invDoc.netSubTotal    = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
             //Invoice lines
             if (invoiceLines != null && !invoiceLines.isEmpty()) {
                 invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder));
-                this.invoiceTaxLineItems = new Map<Decimal, Decimal>();
+                this.invoiceTaxLineItems = new Map<Decimal, String>();
                 this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines);
 
             }
@@ -77,6 +79,7 @@ global with sharing class SOM_InvoiceDocumentController {
 
         this.invoiceDoc = invDoc;
     }
+    
 
 
     public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
@@ -144,7 +147,6 @@ global with sharing class SOM_InvoiceDocumentController {
         billContact.state   = fulfillmentOrder.OrderSummary.BillingState;
         billContact.country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
         this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.FulfilledToCountry);
-        System.debug('billContact.country' + AmountsFormat);
 
         return billContact;
     }
@@ -154,12 +156,12 @@ global with sharing class SOM_InvoiceDocumentController {
         for(InvoiceLine invoiceLine:invoiceLines) {
             if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
-                //lineItem.itemDescription = invoiceLine.Product2.Description;
+                lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                lineItem.netAmount       = (invoiceLine.UnitPrice);
-                lineItem.vat             = (invoiceLine.ChargeTaxAmount);
-                lineItem.grossAmount     = (invoiceLine.GrossUnitPrice);
-                lineItem.total           = (invoiceLine.ChargeAmountWithTax);
+                lineItem.netAmount       = SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
+                lineItem.vat             = SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
+                lineItem.grossAmount     = SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
+                lineItem.total           = SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
                 if (invoiceLine.ReferenceEntityItem instanceOf OrderItemSummary) {
                     OrderItemSummary orderItem = invoiceLine.ReferenceEntityItem;
                     lineItem.hsCode            = orderItem.hsCode__c;
@@ -200,9 +202,9 @@ global with sharing class SOM_InvoiceDocumentController {
         return '';
     }
 
-    public Map<Decimal,Decimal> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
+    public Map<Decimal,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
         Map<Decimal, Decimal> invoiceTaxes       = new Map<Decimal, Decimal>();
-        Map<Decimal, Decimal> invoiceTaxesSorted = new Map<Decimal, Decimal>();
+        Map<Decimal, String> invoiceTaxesSorted = new Map<Decimal, String>();
 
         for (InvoiceLine lineItem:lineItems) {
             if (lineItem.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_TAX)) {
@@ -219,9 +221,8 @@ global with sharing class SOM_InvoiceDocumentController {
         sortedTaxes.addAll(invoiceTaxes.keySet());
         sortedTaxes.sort();
         for(Decimal dec: sortedTaxes){
-            invoiceTaxesSorted.put((dec),(invoiceTaxes.get(dec)));
+            invoiceTaxesSorted.put((dec),(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
         }
-    
         return invoiceTaxesSorted;
     }
 
@@ -230,6 +231,11 @@ global with sharing class SOM_InvoiceDocumentController {
             Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
                 return AmountsFormat.AmountsFormat__c;
     } 
+    
+    
+    
+    
+    
 
     global with sharing class InvoiceDocument{
         public String                documentNumber {get; set;} //Invoice: DocumentNumber
@@ -240,8 +246,8 @@ global with sharing class SOM_InvoiceDocumentController {
         public InvoiceContact        deliveryContact {get; set;}
         public String                trackingNumbers {get; set;}
         public List<InvoiceLineItem> lineItems {get; set;}
-        public Decimal                netSubTotal {get; set;}
-        public Decimal                totalWithTax {get; set;}
+        public String                netSubTotal {get; set;}
+        public String                totalWithTax {get; set;}
         public String                paymentType {get; set;}
     }
 
@@ -264,10 +270,10 @@ global with sharing class SOM_InvoiceDocumentController {
         public String  hsCodeDescription {get; set;}
         public String  coo {get; set;}
         public Decimal quantity {get; set;} //InvoiceLine : Quantity
-        public Decimal  netAmount {get; set;} //InvoiceLine : UnitPrice
-        public Decimal  vat {get; set;} //InvoiceLine: ChargeTaxAmount
-        public Decimal  grossAmount {get; set;} //invoiceLine : TotalAmountWithTax /Quantity
-        public Decimal  total {get; set;} //invoiceLine : TotalAmountWithTax
+        public String  netAmount {get; set;} //InvoiceLine : UnitPrice
+        public String  vat {get; set;} //InvoiceLine: ChargeTaxAmount
+        public String  grossAmount {get; set;} //invoiceLine : TotalAmountWithTax /Quantity
+        public String  total {get; set;} //invoiceLine : TotalAmountWithTax
         //add number LineNumber
         public Integer lineNumber {get; set;}
        
