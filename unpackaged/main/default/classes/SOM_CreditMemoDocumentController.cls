@@ -74,8 +74,8 @@ global with sharing class SOM_CreditMemoDocumentController {
             creditMemoDoc.deliveryContact  = deliveryContact;
             creditMemoDoc.creditMemoNumber = creditMemo.get(0).CreditMemoNumber;
             creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).Credit_Memo_Date__c.year(), creditMemo.get(0).Credit_Memo_Date__c.month(), creditMemo.get(0).Credit_Memo_Date__c.day()).format('dd.MM.yyyy');
-            creditMemoDoc.netSubTotal      = getTotalFormatted(creditMemo.get(0).TotalAmount,AmountsFormat);
-            creditMemoDoc.totalWithTax     = getTotalFormatted(creditMemo.get(0).TotalAmountWithTax,AmountsFormat);
+            creditMemoDoc.netSubTotal      = SOM_Utils.getTotalFormatted(creditMemo.get(0).TotalAmount,AmountsFormat);
+            creditMemoDoc.totalWithTax     = SOM_Utils.getTotalFormatted(creditMemo.get(0).TotalAmountWithTax,AmountsFormat);
             //product type
             String creditMemoProductType = getCreditMemoProductType(creditMemo.get(0));
             //create credit memo lines
@@ -89,20 +89,20 @@ global with sharing class SOM_CreditMemoDocumentController {
                         //Only if attached to a returnLineItem, divide by returnedQuantity 
                         if (creditMemoLine.ReturnOrderLineItem__c != null && creditMemoLine.ReturnOrderLineItem__r.QuantityReturned > 0) {
                             lineItem.quantity     = creditMemoLine.ReturnOrderLineItem__r.QuantityReturned;
-                            lineItem.netAmount    = getTotalFormatted(getAmount(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
-                            lineItem.vat          = getTotalFormatted(getVAT(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
-                            lineItem.grossAmount  = getTotalFormatted(getAmountWithTax(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
-                            lineItem.total        = getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat); 
+                            lineItem.netAmount    = SOM_Utils.getTotalFormatted(getAmount(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.vat          = SOM_Utils.getTotalFormatted(getVAT(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.grossAmount  = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.total        = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat); 
                             lineItem.serialNumber = creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c;
                             this.quantityColumnName     = 'QUANTITY';
                             this.SerialNumberColumnName = 'SERIAL NO.';
                         } 
                         else {
                             //we should use adjustment
-                            lineItem.netAmount   = getTotalFormatted(getAmount(creditMemoLine),AmountsFormat);
-                            lineItem.vat         = getTotalFormatted(getVAT(creditMemoLine),AmountsFormat);
-                            lineItem.grossAmount = getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
-                            lineItem.total       = getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
+                            lineItem.netAmount   = SOM_Utils.getTotalFormatted(getAmount(creditMemoLine),AmountsFormat);
+                            lineItem.vat         = SOM_Utils.getTotalFormatted(getVAT(creditMemoLine),AmountsFormat);
+                            lineItem.grossAmount = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
+                            lineItem.total       = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
                         }
                         if (creditMemoLine.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                             for(CreditMemoLine creditMemoLineCharge:creditMemo.get(0).CreditMemoLines) {
@@ -223,7 +223,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         sortedTaxes.addAll(creditMemoTaxes.keySet());
         sortedTaxes.sort();
         for(Decimal taxRate: sortedTaxes){
-            creditMemoTaxesSorted.put((taxRate),getTotalFormatted(creditMemoTaxes.get(taxRate),AmountsFormat));
+            creditMemoTaxesSorted.put((taxRate),SOM_Utils.getTotalFormatted(creditMemoTaxes.get(taxRate),AmountsFormat));
         }
         return creditMemoTaxesSorted;
     }
@@ -250,70 +250,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                 return AmountsFormat.AmountsFormat__c;
     }
     
-    //Apply the AmountsFormat
-    public String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
-        	Decimal input = amountToFormat;
-        	if (amountToFormat.scale() > 2) {
-        		input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
-            }
-           	return formatDecimalNumber((input),AmountsFormat);
-    }
     
-    	//Apply the AmountsFormat
-        public String formatDecimalNumber(Decimal myDecimal, String AmountsFormat){
-            if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT1){
-                if (myDecimal == null) return '0,00';
-                String myDecimalString = myDecimal.toPlainString();
-                String intValue = myDecimalString.substringBefore('.');
-                List<String> intValueList = new List<String>();
-                for(Integer i=intValue.length(); i>0; i-=3) {
-                    integer startIndex = i>3?i-3:0;
-                    if(intValueList.isEmpty()){
-                        intValueList.add(intValue.substring(startIndex, i));
-                    }else{
-                        intValueList.add(0,intValue.substring(startIndex, i));
-                    }
-                    
-                }
-                String valueToReturn = '';
-                for(String intValueItem: intValueList){
-                    valueToReturn = valueToReturn + intValueItem + '.';
-                }
-                valueToReturn = valueToReturn.removeEnd('.');
-                valueToReturn = valueToReturn + ',' + myDecimalString.substringafter('.');
-                
-                Return valueToReturn;
-                
-            }else if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT2){
-                if (myDecimal == null) return '0.00';
-                String myDecimalString = myDecimal.toPlainString();
-                // exemple ###.###,##
-                String intValue = myDecimalString.substringBefore('.');
-                List<String> intValueList = new List<String>();
-                for(Integer i=intValue.length(); i>0; i-=3) {
-                    integer startIndex = i>3?i-3:0;
-                    if(intValueList.isEmpty()){
-                        intValueList.add(intValue.substring(startIndex, i));
-                    }else{
-                        intValueList.add(0,intValue.substring(startIndex, i));
-                    }
-                    
-                }
-                String valueToReturn = '';
-                for(String intValueItem: intValueList){
-                    valueToReturn = valueToReturn + intValueItem + ',';
-                }
-                //valueToReturn = valueToReturn.removeEnd('.');
-                valueToReturn = valueToReturn + myDecimalString.substringafter('.');
-                valueToReturn = valueToReturn.reverse().replaceFirst(',', '.').reverse();
-                
-                Return valueToReturn;
-                
-            }else{
-            	Return 'Invalid Format';
-            }
-        }
-        
     
     global with sharing class CreditMemoDocument{
         public String                   creditMemoNumber {get; set;}

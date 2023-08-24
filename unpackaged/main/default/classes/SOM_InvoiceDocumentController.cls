@@ -58,9 +58,9 @@ global with sharing class SOM_InvoiceDocumentController {
             
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-            invDoc.totalWithTax   = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
+            invDoc.totalWithTax   = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
             
-            invDoc.netSubTotal    = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
+            invDoc.netSubTotal    = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
             //Invoice lines
             if (invoiceLines != null && !invoiceLines.isEmpty()) {
@@ -158,10 +158,10 @@ global with sharing class SOM_InvoiceDocumentController {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
                 lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
-                lineItem.vat             = getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
-                lineItem.grossAmount     = getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
-                lineItem.total           = getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
+                lineItem.netAmount       = SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
+                lineItem.vat             = SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
+                lineItem.grossAmount     = SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
+                lineItem.total           = SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
                 if (invoiceLine.ReferenceEntityItem instanceOf OrderItemSummary) {
                     OrderItemSummary orderItem = invoiceLine.ReferenceEntityItem;
                     lineItem.hsCode            = orderItem.hsCode__c;
@@ -221,7 +221,7 @@ global with sharing class SOM_InvoiceDocumentController {
         sortedTaxes.addAll(invoiceTaxes.keySet());
         sortedTaxes.sort();
         for(Decimal dec: sortedTaxes){
-            invoiceTaxesSorted.put((dec),(getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
+            invoiceTaxesSorted.put((dec),(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
         }
         return invoiceTaxesSorted;
     }
@@ -233,69 +233,7 @@ global with sharing class SOM_InvoiceDocumentController {
     } 
     
     
-    //Apply the AmountsFormat
-    public String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
-        	Decimal input = amountToFormat;
-        	if (amountToFormat.scale() > 2) {
-        		input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
-            }
-           	return formatDecimalNumber((input),AmountsFormat);
-    }
     
-    	//Apply the AmountsFormat
-        public String formatDecimalNumber(Decimal myDecimal, String AmountsFormat){
-            if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT1){
-                if (myDecimal == null) return '0,00';
-                String myDecimalString = myDecimal.toPlainString();
-                String intValue = myDecimalString.substringBefore('.');
-                List<String> intValueList = new List<String>();
-                for(Integer i=intValue.length(); i>0; i-=3) {
-                    integer startIndex = i>3?i-3:0;
-                    if(intValueList.isEmpty()){
-                        intValueList.add(intValue.substring(startIndex, i));
-                    }else{
-                        intValueList.add(0,intValue.substring(startIndex, i));
-                    }
-                    
-                }
-                String valueToReturn = '';
-                for(String intValueItem: intValueList){
-                    valueToReturn = valueToReturn + intValueItem + '.';
-                }
-                valueToReturn = valueToReturn.removeEnd('.');
-                valueToReturn = valueToReturn + ',' + myDecimalString.substringafter('.');
-                
-                Return valueToReturn;
-                
-            }else if(AmountsFormat == SOM_Constants.AMOUNT_FORMAT2){
-                if (myDecimal == null) return '0.00';
-                String myDecimalString = myDecimal.toPlainString();
-                // exemple ###.###,##
-                String intValue = myDecimalString.substringBefore('.');
-                List<String> intValueList = new List<String>();
-                for(Integer i=intValue.length(); i>0; i-=3) {
-                    integer startIndex = i>3?i-3:0;
-                    if(intValueList.isEmpty()){
-                        intValueList.add(intValue.substring(startIndex, i));
-                    }else{
-                        intValueList.add(0,intValue.substring(startIndex, i));
-                    }
-                    
-                }
-                String valueToReturn = '';
-                for(String intValueItem: intValueList){
-                    valueToReturn = valueToReturn + intValueItem + ',';
-                }
-                //valueToReturn = valueToReturn.removeEnd('.');
-                valueToReturn = valueToReturn + myDecimalString.substringafter('.');
-                valueToReturn = valueToReturn.reverse().replaceFirst(',', '.').reverse();
-                
-                Return valueToReturn;
-                
-            }else{
-            	Return 'Invalid Format';
-            }
-        }
     
     
 
