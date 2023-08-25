@@ -13,7 +13,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>CaseId</field>
+                <field>OrderSummaryId</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -29,39 +29,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ReturnTrackingNumber__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ReturnLabelUrl__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Already_Refunded__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>RefundProcess__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>ExchangeROLI__c</field>
-            </layoutItems>
         </layoutColumns>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ReturnedById</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>ContactId</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>OwnerId</field>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -72,11 +43,15 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>SourceLocationId</field>
+                <field>Carrier__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ShipmentType</field>
+                <field>ReturnTrackingNumber__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ReturnLabelUrl__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -132,22 +107,22 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns />
-        <layoutColumns />
-        <layoutColumns />
+        <layoutColumns/>
+        <layoutColumns/>
+        <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>ReturnOrder.Create_Refund</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>1</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>Edit</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>0</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>ReturnOrder.Create_Refund</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>1</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>ReturnOrder.Manual_Reception</actionName>
