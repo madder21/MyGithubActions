@@ -143,7 +143,9 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             Map<string,object> clientMap = buildObjectMap(accountInput, 'TNP_ClientMap__c');
             clientMap.put ('Source',source);
             clientMap.put ('Country',CountryIso3Code);
-            clientMap.put ('B2CDateCreated',accountInput.CreatedDate);
+            if (source != 'SFDC' && source != 'SFSC' && accountInput.B2C_Date_Created__pc == null  ){
+                clientMap.put ('B2CDateCreated',accountInput.B2C_Date_Last_Modified__pc);
+            }
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'clientMap'+clientMap);
             JsonMap.put('Client',clientMap);         
             //Adresses Data 
