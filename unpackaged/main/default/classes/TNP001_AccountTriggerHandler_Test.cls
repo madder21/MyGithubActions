@@ -25,9 +25,9 @@ public class TNP001_AccountTriggerHandler_Test {
         User user = new User();
         user.FirstName =Label.SFSC_Integration_User ;
         user.isIntegrationUser__c =true;
-        user.Username= 'test22112@test.com';
+        user.Username= 'test22112@rimowa.com';
             user.LastName= 'test';
-            user.Email='test@test.com';
+            user.Email='test@rimowa.com';
             user.Alias='ttest';
             user.TimeZoneSidKey='Europe/Paris';
             user.LocaleSidKey= 'fr_FR_EURO';
@@ -52,7 +52,7 @@ public class TNP001_AccountTriggerHandler_Test {
         
         
         Test.stopTest();
-        
+         system.assertNotEquals (acc , null);
     }
     
     private class MockUpdateInsertAccount implements HttpCalloutMock {
