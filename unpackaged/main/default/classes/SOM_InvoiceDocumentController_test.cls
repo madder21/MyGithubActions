@@ -21,10 +21,6 @@ public with sharing class SOM_InvoiceDocumentController_test {
         Map<Id,Shipment> test = SOM_testDataFactory.createShipments(fotest);
         Invoice invoice = [SELECT Id , CreatedDate, ReferenceEntityId , InvoiceNumber__c , CurrencyIsoCode from Invoice where ReferenceEntity.type =: SOM_Constants.ORDER_SUMMARY_NAME AND ReferenceEntityId = :los[0].Id];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoice.Id];
-        System.debug('invoiceLine.GrossUnitPrice test1' + invoiceLines.size() + invoiceLines[0]  );
-        System.debug('invoiceLine.GrossUnitPrice test2' + invoiceLines.size() + invoiceLines[1]  );
-        System.debug('invoiceLine.GrossUnitPrice test3' + invoiceLines.size() + invoiceLines[2]  );
-        System.debug('invoiceLine.GrossUnitPrice test4' + invoiceLines.size() + invoiceLines[3]  );
         Map<Id,Invoice> mapInvoice = new Map<Id,Invoice>();
         mapInvoice.put(invoice.Id , invoice);
         Map<Id,CorrectiveInvoice__c> mapCorrectiveInvoice = SOM_testDataFactory.createCorrectiveInvoices(mapInvoice);
