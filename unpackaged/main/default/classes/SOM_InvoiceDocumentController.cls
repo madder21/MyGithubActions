@@ -3,12 +3,13 @@ global with sharing class SOM_InvoiceDocumentController {
     public static final String   CONCAT_CHARACTER = ',';
     public Map<String, String>   invoiceConfigs { get; set; }
     public InvoiceDocument       invoiceDoc { get; set;}
-    public Map<String,String>    invoiceTaxLineItems {get; set; }
+    public Map<Decimal,String>    invoiceTaxLineItems {get; set; }
     public Map<String,String>    countryMap {get;set;}
     public String                correctiveInvoiceHeaderMessage {get; set; }
+    public String                AmountsFormat {get; set; }
+    
 
     public SOM_InvoiceDocumentController() {
-        System.debug('start++');
         this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
         this.setInvoiceDocumentConfigs();
         this.setInvoiceData(); 
@@ -36,33 +37,35 @@ global with sharing class SOM_InvoiceDocumentController {
         Id invoiceId = ApexPages.currentPage().getParameters().get('invoiceId');
         Boolean isCorrectiveInvoice = invoiceId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME;
         if(isCorrectiveInvoice){
-            cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
-            System.debug('test invoice ++'+cInvoice);
+            cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate, Corrective_Invoice_Date__c FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
             Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
             String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
             this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
             invoiceId = originalInvoice.Id;        
         }
         
-        List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
+        List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.Invoice_Timezone_Date__c, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
         FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
         OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
-        invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.CreatedDate.year(), cInvoice.CreatedDate.month(), cInvoice.CreatedDate.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.InvoiceDate.year(), fulfillmentOrder.get(0).Invoice.InvoiceDate.month(), fulfillmentOrder.get(0).Invoice.InvoiceDate.day()).format('yyyy-MM-dd');
+        invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.Corrective_Invoice_Date__c.year(), cInvoice.Corrective_Invoice_Date__c.month(), cInvoice.Corrective_Invoice_Date__c.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.year(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.month(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.day()).format('yyyy-MM-dd');
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
         
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
+            //AmountsFormat info
+            this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.get(0).FulfilledToCountry);
+            
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-           //invDoc.taxTotal       = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalTaxAmount);
-            invDoc.totalWithTax   = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax);
-            invDoc.netSubTotal    = getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount);
+            invDoc.totalWithTax   = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
+            
+            invDoc.netSubTotal    = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
             //Invoice lines
             if (invoiceLines != null && !invoiceLines.isEmpty()) {
                 invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder));
-                this.invoiceTaxLineItems = new Map<String, String>();
+                this.invoiceTaxLineItems = new Map<Decimal, String>();
                 this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines);
 
             }
@@ -76,15 +79,8 @@ global with sharing class SOM_InvoiceDocumentController {
 
         this.invoiceDoc = invDoc;
     }
+    
 
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal == null) return '0,00';
-        if (taxTotal.scale() > 2) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-
-        return formatDecimalNumber(taxTotal);
-    }
 
     public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
         //construct shipment ids
@@ -150,6 +146,7 @@ global with sharing class SOM_InvoiceDocumentController {
         billContact.address = fulfillmentOrder.OrderSummary.BillingStreet;
         billContact.state   = fulfillmentOrder.OrderSummary.BillingState;
         billContact.country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
+        this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.FulfilledToCountry);
 
         return billContact;
     }
@@ -159,12 +156,12 @@ global with sharing class SOM_InvoiceDocumentController {
         for(InvoiceLine invoiceLine:invoiceLines) {
             if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
-                //lineItem.itemDescription = invoiceLine.Product2.Description;
+                lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                lineItem.netAmount       = getTotalFormatted(invoiceLine.UnitPrice);
-                lineItem.vat             = getTotalFormatted(invoiceLine.ChargeTaxAmount);
-                lineItem.grossAmount     = getTotalFormatted(invoiceLine.GrossUnitPrice);
-                lineItem.total           = getTotalFormatted(invoiceLine.ChargeAmountWithTax);
+                lineItem.netAmount       = SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
+                lineItem.vat             = SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
+                lineItem.grossAmount     = SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
+                lineItem.total           = SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
                 if (invoiceLine.ReferenceEntityItem instanceOf OrderItemSummary) {
                     OrderItemSummary orderItem = invoiceLine.ReferenceEntityItem;
                     lineItem.hsCode            = orderItem.hsCode__c;
@@ -180,8 +177,8 @@ global with sharing class SOM_InvoiceDocumentController {
                 lineItems.add(lineItem);
             }
         }
-		//sort
-		lineItems.sort();
+        //sort
+        lineItems.sort();
         Integer counter = 1;
         for(InvoiceLineItem single : lineItems){
             single.itemNumber = counter;
@@ -205,9 +202,9 @@ global with sharing class SOM_InvoiceDocumentController {
         return '';
     }
 
-    public Map<String,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
+    public Map<Decimal,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
         Map<Decimal, Decimal> invoiceTaxes       = new Map<Decimal, Decimal>();
-        Map<String, String> invoiceTaxesSorted = new Map<String, String>();
+        Map<Decimal, String> invoiceTaxesSorted = new Map<Decimal, String>();
 
         for (InvoiceLine lineItem:lineItems) {
             if (lineItem.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_TAX)) {
@@ -218,21 +215,27 @@ global with sharing class SOM_InvoiceDocumentController {
                 }
                
             }
-        }
+        } 
 
         List<Decimal> sortedTaxes = new List<Decimal>();
         sortedTaxes.addAll(invoiceTaxes.keySet());
         sortedTaxes.sort();
         for(Decimal dec: sortedTaxes){
-            invoiceTaxesSorted.put(formatDecimalNumber(dec),formatDecimalNumber(invoiceTaxes.get(dec)));
+            invoiceTaxesSorted.put((dec),(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
         }
-    
         return invoiceTaxesSorted;
     }
 
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
+    
+    public String setAmountsFormat(String CountryIso) {
+            Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
+                return AmountsFormat.AmountsFormat__c;
+    } 
+    
+    
+    
+    
+    
 
     global with sharing class InvoiceDocument{
         public String                documentNumber {get; set;} //Invoice: DocumentNumber
@@ -257,7 +260,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public String state {get; set;}
         public String country {get; set;}
     }
-	
+    
     //  implements Comparable
     global with sharing class InvoiceLineItem implements Comparable {
         public String  itemDescription {get; set;} //Product2 : description
@@ -275,7 +278,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public Integer lineNumber {get; set;}
        
         // compareTo method
-		public Integer compareTo(Object compareTo) {
+        public Integer compareTo(Object compareTo) {
             // Cast argument to InvoiceLineItem
             InvoiceLineItem compareToOppy = (InvoiceLineItem)compareTo;
             
