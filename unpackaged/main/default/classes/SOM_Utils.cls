@@ -10,17 +10,15 @@ public with sharing class SOM_Utils {
         return countryName;
     }
     
-    
+
     //Apply the AmountsFormat
     public static String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
-        Decimal input = amountToFormat;
-        if(Test.isRunningTest() && amountToFormat == null) {
-            input = 0.00;
-        }else{
-            if (amountToFormat.scale() > 2) {
+        Decimal input ;
+        if(amountToFormat!= null || amountToFormat.scale() > 2) {
                 input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
+            }else if (amountToFormat == null) {
+                input = 0.00;
             }
-        }
             return formatDecimalNumber((input),AmountsFormat);
     }
     
