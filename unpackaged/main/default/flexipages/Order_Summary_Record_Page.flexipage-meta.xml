@@ -454,7 +454,7 @@
                         <valueListItems>
                             <value>OrderSummary.Unblock</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND ( 2 OR 3 ) AND 4</booleanFilter>
+                                <booleanFilter>1 AND ( 2 OR 3 ) AND 4 AND 5 AND 6</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -474,6 +474,16 @@
                                     <leftValue>{!Record.OrderLifeCycleType}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>MANAGED</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.On_Hold__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.passedFraudScreening__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

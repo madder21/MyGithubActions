@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">	
+	<types>
+		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_DateTimeHelper</members>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>WS_SOM_Create_StoreToWebOrder</members>
+		<members>WS_SOM_CreateReturnOrderEndpoint</members>
+		<members>SOM_Utils</members>
+		<members>SOM_Constants</members>
+		<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_CreditMemoTriggerHandler</members>
+		<members>SOM_CreditMemoHelper</members>
+		<members>SOM_InvoiceTriggerHandler</members>
+		<members>SOM_InvoiceHelper</members>
+		<name>ApexClass</name> 
+	</types>
+	<types>
+		<members>SOM_CreditMemoArabicDocument</members>
+		<members>SOM_CreditMemoDocument</members>
+		<members>SOM_InvoiceArabicDocument</members>
+		<members>SOM_InvoiceDocument</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>SOM_CreditMemoTrigger</members>
+		<members>SOM_InvoiceTrigger</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>CorrectiveInvoice__c.Corrective_Invoice_Date__c</members>
+		<members>CreditMemo.Credit_Memo_Date__c</members>
+		<members>Invoice.Invoice_Timezone_Date__c</members>
+		<members>ReturnOrder.Carrier__c</members>
+		<members>Sales_Channel_Mapping__mdt.AmountsFormat__c</members>
+		<members>Sales_Channel_Mapping__mdt.Timezone__c</members>
+    	<name>CustomField</name>
+  	</types>
+	<types>
+		<members>Sales_Channel_Mapping__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>SOM_115_ManuallyValidateOrderSummary</members>
+		<members>SOM_120_CoreModel_OrderSummary_Capture_Payment</members>
+		<members>SOM_210_Order_SToW_Retry_Allocation</members>
+		<members>SOM_230_CoreModel_Payment_CapturePayment</members>
+		<members>SOM_320_FO_UpdateClickAndCollectConfirmedOrders</members>
+		<members>SOM_410_Credit_Memo_Insert_RCU</members>
+		<members>SOM_410_Invoice_Insert_RCU</members>
+		<members>SOM_703_Refund_after_Exchange_Order</members>
+		<members>SOM_920_Create_Corrective_Invoice</members>
+		<members>SOM_970_Create_Exchange_Manual_Order</members>
+		<members>SOM_Cancel_Order_Summary</members>
+		<members>SOM_Single_Fulfillment_Order_Cancelation</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>ReturnOrder-Return Order Layout</members>	
+		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<members>CorrectiveInvoice__c-Corrective Invoice Layout</members>
+		<members>CreditMemo-Credit Memo Layout</members>
+		<members>Invoice-Invoice Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>ReportsforSOM/Payments_report_5w3</members>
+		<members>ReportsforSOM/Payments_Report_US_S7N</members>
+		<members>ReportsforSOM/Shipments_Report_a6T</members> 
+		<members>ReportsforSOM/Shipments_Report_Finance_US_T2S</members>  
+		<name>Report</name>        
+    </types>
+	<types>
+      	<members>Shipments</members>  
+        <name>ReportType</name>
+  	</types>
+	<version>54.0</version>
+</Package>

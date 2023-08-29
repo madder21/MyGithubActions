@@ -21,6 +21,10 @@
     <columns>
         <field>OrderSummary.OrderPaymentSummaries$CardType__c</field>
     </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>OrderSummary.OrderPaymentSummaries.Payments$Amount</field>
+    </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>

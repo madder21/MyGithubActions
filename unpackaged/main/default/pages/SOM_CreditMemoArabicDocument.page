@@ -111,6 +111,7 @@
                     <tr style="padding-top: 5px;">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                                                
                         <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
@@ -145,7 +146,6 @@
                 <tr> 
                     <td width="100%" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/>:</td>
                     <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
-                    <!-- <td  class="align-right" ><apex:outputText value="{!creditMemoDocument.TotalTaxAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td> -->
                 </tr>
             </apex:repeat>
                 <!-- end loop-->
