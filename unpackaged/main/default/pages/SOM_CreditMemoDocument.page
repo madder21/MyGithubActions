@@ -113,6 +113,7 @@
                     <tr class="lineIem">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                                                
                         <td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>

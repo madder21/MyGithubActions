@@ -3,7 +3,8 @@ global class Batch_UpdateLastStoreAndSA implements Database.Batchable<sObject>, 
     String query;
 
     public Batch_UpdateLastStoreAndSA() {
-        query = 'SELECT Id FROM Account WHERE Id != NULL AND Id IN (SELECT Client__c FROM TransactionItem__c) ORDER BY Id';
+        //query = 'SELECT Id FROM Account WHERE Id != NULL AND Id IN (SELECT Client__c FROM TransactionItem__c) ORDER BY Id';
+        query = 'SELECT Id FROM Account WHERE Id IN (SELECT Client__c  FROM Transaction__c where TransactionDate__c = LAST_N_DAYS:30) ORDER BY Id';
     }
 
     global Database.QueryLocator start(Database.BatchableContext BC) {

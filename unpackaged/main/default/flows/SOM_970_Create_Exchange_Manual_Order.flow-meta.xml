@@ -298,7 +298,6 @@
         </rules>
     </decisions>
     <description>tax local type = gross</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_FirstReferenceNumber</name>
         <dataType>String</dataType>
@@ -664,6 +663,12 @@
             <field>CurrencyIsoCode</field>
             <value>
                 <elementReference>v_SourceOrder.CurrencyIsoCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Date</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

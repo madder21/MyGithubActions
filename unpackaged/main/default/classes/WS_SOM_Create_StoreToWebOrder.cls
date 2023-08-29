@@ -346,6 +346,8 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         py.Status          = SOM_Constants.PAYMENT_STATUS_PROCESSED;
         py.ProcessingMode  = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
         py.Type            = SOM_Constants.PAYMENT_TYPE_CAPTURE;
+        py.Date    		   = System.now();
+
 
         return py;
     }
