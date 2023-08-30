@@ -65,20 +65,20 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
                 wms.qty = (Integer) ois.Quantity + toOverQuantity;
                 if(ois.isSerialized__c){
                     for(Integer counter = 0 ; counter < ois.Quantity ; counter++){
-                        serialNumbers.add('12345678912345678');
+                        serialNumbers.add('123456789123456781111');
                     }
                     wms.serialNumber = serialNumbers;
                 }
                 if(serialNumberisNull == true) {
                     if(!ois.isSerialized__c)
                         if(wms.qty == 1)
-                            wms.serialNumber = new List<String>{'12345678912345678'};
+                            wms.serialNumber = new List<String>{'123456789123456781111'};
                         if(wms.qty == 2)
-                            wms.serialNumber = new List<String>{'12345678912345678','78945612336925814'};
+                            wms.serialNumber = new List<String>{'123456789123456781111','789456123369258141111'};
                 }
                 if(QtySerialNumber == true){
                     if(wms.qty > 1){
-                        wms.serialNumber = new List<String>{'12345678912345678'}; 
+                        wms.serialNumber = new List<String>{'123456789123456781111'}; 
                     }
                 }
                 if(MissingSerialNumber == true) {
@@ -158,7 +158,6 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
         Test.stopTest();
         String actual = res.responseBody.toString();
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        system.debug('FOLI response returned  :'+String.valueOf(result1.get('Response')));
         System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'),'Shipments has not been created or FO and OS have not been updated successfully');
     }
 
@@ -330,7 +329,61 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
         Test.stopTest();
         String actual = res.responseBody.toString();
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        system.debug('Error response'+String.valueOf(result1.get('Response')));
         System.assert(String.valueOf(result1.get('Response')).contains('Error: this order Summary with the number'),'OrderSummary does not have more than one FO to ship response or no Fos');
     }
+    
+    @isTest(seeAllData=true)
+    static void testLongCegidInvoiceNumber() {
+        setupData(0, false, false, false, false, false, false, false);
+        //String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        List<SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest> newList = new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest>();
+        for(SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest single : SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()){
+            single.cegidInvoiceNumber = '7474747474747474747478956';
+            newList.add(single);
+        }
+        String jsonMsg=JSON.serialize(newList);
+        Test.startTest();
+        RestRequest req = new RestRequest(); 
+        RestResponse res = new RestResponse();             
+        req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
+        req.httpMethod = 'POST';
+        req.requestBody = Blob.valueof(jsonMsg);
+        RestContext.request = req;
+        RestContext.response= res;
+        SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
+        Test.stopTest();
+        String actual = res.responseBody.toString();
+        Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
+        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=false'),' too long, max length is 20');
+    }
+    
+    @isTest(seeAllData=true)
+    static void testLongSerialNumber() {
+        setupData(0, false, false, false, false, false, false, false);
+        //String jsonMsg=JSON.serialize(SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values());
+        List<SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest> newList = new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest>();
+        List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item> ItemsData = new List<SOM_WS_PickedInStoreShipmentHnadler.WMS_Item>();
+        SOM_WS_PickedInStoreShipmentHnadler.WMS_Item wms = new SOM_WS_PickedInStoreShipmentHnadler.WMS_Item();
+        wms.serialNumber = new List<String>{'7474747474747474747478956'};
+        ItemsData.add(wms);
+        for(SOM_WS_PickedInStoreShipmentHnadler.WMS_OrderPickedinStoreRequest single : SOM_WS_PickedInStoreShipmentHnadler_Test.listRequestInputs.values()){
+            single.item = ItemsData;
+            newList.add(single);
+        }
+        String jsonMsg=JSON.serialize(newList);
+        Test.startTest();
+        RestRequest req = new RestRequest(); 
+        RestResponse res = new RestResponse();             
+        req.requestURI = '/services/apexrest/shipments/orderPickedinStore/';
+        req.httpMethod = 'POST';
+        req.requestBody = Blob.valueof(jsonMsg);
+        RestContext.request = req;
+        RestContext.response= res;
+        SOM_WS_PickedInStoreShipmentHnadler.createPickedInStoreShipments();
+        Test.stopTest();
+        String actual = res.responseBody.toString();
+        Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
+        System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=false'),' too long, max length is 20');
+    }
+    
 }
