@@ -158,7 +158,6 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
         Test.stopTest();
         String actual = res.responseBody.toString();
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        system.debug('FOLI response returned  :'+String.valueOf(result1.get('Response')));
         System.assert(String.valueOf(result1.get('Response')).contains('isSuccess=true'),'Shipments has not been created or FO and OS have not been updated successfully');
     }
 
@@ -330,7 +329,6 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
         Test.stopTest();
         String actual = res.responseBody.toString();
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        system.debug('Error response'+String.valueOf(result1.get('Response')));
         System.assert(String.valueOf(result1.get('Response')).contains('Error: this order Summary with the number'),'OrderSummary does not have more than one FO to ship response or no Fos');
     }
     
