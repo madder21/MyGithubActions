@@ -13,9 +13,12 @@ public with sharing class SOM_Utils {
     
     //Apply the AmountsFormat
     public static String getTotalFormatted(Decimal amountToFormat, String AmountsFormat ){
-        Decimal input = amountToFormat;
-        if (amountToFormat.scale() > 2) {
+        Decimal input ;
+        if(amountToFormat == null) {
+            input = 0.00;
+        }else if ( amountToFormat!= null || amountToFormat.scale() > 2) {
             input = amountToFormat.setScale(2, RoundingMode.HALF_UP);
+            
         }
         return formatDecimalNumber((input),AmountsFormat);
     }
@@ -66,7 +69,7 @@ public with sharing class SOM_Utils {
             }
             
             valueToReturn = valueToReturn.removeEnd(',');
-			valueToReturn = valueToReturn + '.' + myDecimalString.substringafter('.');
+            valueToReturn = valueToReturn + '.' + myDecimalString.substringafter('.');
             
             Return valueToReturn;
             
