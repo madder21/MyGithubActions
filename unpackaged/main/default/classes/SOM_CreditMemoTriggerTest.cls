@@ -13,11 +13,8 @@ public class SOM_CreditMemoTriggerTest {
         mapFO.put(fo.Id,fo);
         Map<Id, Shipment> shipmentMap = SOM_testDataFactory.createShipments(mapFO);
         Refund refund = SOM_testDataFactory.createRefundWithCreditMemo(los[0] ,attachedToRO,discount);
-        creditmemo = [SELECT ID, ReturnOrder__c, Credit_Memo_Date__c, CreatedDate,Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c, 
-                      BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
-                      (SELECT ID, Type, RelatedLineId, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
-                       TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c END FROM CreditMemoLines) FROM CreditMemo WHERE Refund__c = :refund.Id];
-        List<CreditMemoLine> credMemoLines = [select Id , ReturnOrderLineItem__c , Type from CreditMemoLine where CreditMemoId =: creditmemo[0].Id];
+        creditmemo = [SELECT ID, Credit_Memo_Date__c, CreatedDate, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id END 
+                       FROM CreditMemo WHERE Refund__c = :refund.Id];
         creditMemoId = creditmemo[0].Id;
     }
     
