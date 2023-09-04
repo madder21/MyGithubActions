@@ -1,21 +1,9 @@
 @RestResource(urlMapping='/InvoiceDocument/*')
 global with sharing class WS_SOM_InvoiceDocument {
 
-    @HttpGet
-    global static void doGet() {
-        RestRequest req  = RestContext.request;
-        RestResponse res = RestContext.response;
-        String invoiceId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
-        List<Attachment> attachment = [SELECT Id, Body, Name FROM Attachment WHERE ParentId = :invoiceId LIMIT 1];
-        if (attachment != null && !attachment.isEmpty()) {
-            res.responseBody = attachment.get(0).Body;
-        } else {
-            res.statusCode = 404;
-        }
-    }
-
     @HttpDelete
     global static void doDelete() {
+        System.debug('call Delete');
         RestRequest req  = RestContext.request;
         RestResponse res = RestContext.response;
         String invoiceId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
@@ -24,6 +12,19 @@ global with sharing class WS_SOM_InvoiceDocument {
             delete attachment.get(0);
             if (!invoiceId.contains(SOM_Constants.CREDIT_MEMO_KEY_PREFIX))
                 triggerEmailGeneration(invoiceId);
+        } else {
+            res.statusCode = 404;
+        }
+    }
+
+    @HttpGet
+    global static void doGet() {
+        RestRequest req  = RestContext.request;
+        RestResponse res = RestContext.response;
+        String invoiceId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
+        List<Attachment> attachment = [SELECT Id, Body, Name FROM Attachment WHERE ParentId = :invoiceId LIMIT 1];
+        if (attachment != null && !attachment.isEmpty()) {
+            res.responseBody = attachment.get(0).Body;
         } else {
             res.statusCode = 404;
         }
