@@ -3,10 +3,11 @@ global with sharing class SOM_CreditMemoDocumentController {
     public static final String   CONCAT_CHARACTER = ',';
     public Map<String, String>   creditMemoConfigs { get; set; }
     public CreditMemoDocument    creditMemoDocument { get; set;}
-    public Map<String,String> creditMemoTaxLineItems {get; set; }
+    public Map<Decimal,String> creditMemoTaxLineItems {get; set; }
     public Map<String,String>    countryMap {get; set;}
     public String                quantityColumnName {get; set;}
     public String                SerialNumberColumnName {get; set;}
+    public String                AmountsFormat {get; set; }
     
     public SOM_CreditMemoDocumentController() {
         this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
@@ -36,7 +37,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         CreditMemoContact deliveryContact = new CreditMemoContact();
         String creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
         List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c, 
-                                       BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
+                                       BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, Credit_Memo_Date__c, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                        (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
                                         TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, Description, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
         if (creditMemo != null && !creditMemo.isEmpty()) {
@@ -51,6 +52,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                 billingContact.address     = ordSummary.BillingStreet;
                 billingContact.zipCode     = ordSummary.BillingPostalCode;
                 billingContact.state       = ordSummary.BillingState;
+                this.AmountsFormat  = setAmountsFormat(ordSummary.BillingCountry);
                 //set billing contact
                 creditMemoDoc.billingContact = billingContact;
                 creditMemoDoc.paymentType = this.getPaymentMethod(ordSummary.Id);
@@ -71,10 +73,9 @@ global with sharing class SOM_CreditMemoDocumentController {
             //set delivery contact
             creditMemoDoc.deliveryContact  = deliveryContact;
             creditMemoDoc.creditMemoNumber = creditMemo.get(0).CreditMemoNumber;
-            creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).CreditDate.year(), creditMemo.get(0).CreditDate.month(), creditMemo.get(0).CreditDate.day()).format('dd.MM.yyyy');
-            creditMemoDoc.netSubTotal      = getTotalFormatted(creditMemo.get(0).TotalAmount);
-            creditMemoDoc.totalWithTax     = getTotalFormatted(creditMemo.get(0).TotalAmountWithTax);
-            creditMemoDoc.TotalTaxAmount   = getTotalFormatted(creditMemo.get(0).TotalTaxAmount);
+            creditMemoDoc.creditMemoDate   = DateTime.newInstance(creditMemo.get(0).Credit_Memo_Date__c.year(), creditMemo.get(0).Credit_Memo_Date__c.month(), creditMemo.get(0).Credit_Memo_Date__c.day()).format('dd.MM.yyyy');
+            creditMemoDoc.netSubTotal      = SOM_Utils.getTotalFormatted(creditMemo.get(0).TotalAmount,AmountsFormat);
+            creditMemoDoc.totalWithTax     = SOM_Utils.getTotalFormatted(creditMemo.get(0).TotalAmountWithTax,AmountsFormat);
             //product type
             String creditMemoProductType = getCreditMemoProductType(creditMemo.get(0));
             //create credit memo lines
@@ -88,20 +89,20 @@ global with sharing class SOM_CreditMemoDocumentController {
                         //Only if attached to a returnLineItem, divide by returnedQuantity 
                         if (creditMemoLine.ReturnOrderLineItem__c != null && creditMemoLine.ReturnOrderLineItem__r.QuantityReturned > 0) {
                             lineItem.quantity     = creditMemoLine.ReturnOrderLineItem__r.QuantityReturned;
-                            lineItem.netAmount    = getTotalFormatted(getAmount(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned);
-                            lineItem.vat          = getTotalFormatted(getVAT(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned);
-                            lineItem.grossAmount  = getTotalFormatted(getAmountWithTax(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned);
-                            lineItem.total        = getTotalFormatted(getAmountWithTax(creditMemoLine)); 
+                            lineItem.netAmount    = SOM_Utils.getTotalFormatted(getAmount(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.vat          = SOM_Utils.getTotalFormatted(getVAT(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.grossAmount  = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine)/creditMemoLine.ReturnOrderLineItem__r.QuantityReturned,AmountsFormat);
+                            lineItem.total        = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat); 
                             lineItem.serialNumber = creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c;
                             this.quantityColumnName     = 'QUANTITY';
                             this.SerialNumberColumnName = 'SERIAL NO.';
                         } 
                         else {
                             //we should use adjustment
-                            lineItem.netAmount   = getTotalFormatted(getAmount(creditMemoLine));
-                            lineItem.vat         = getTotalFormatted(getVAT(creditMemoLine));
-                            lineItem.grossAmount = getTotalFormatted(getAmountWithTax(creditMemoLine));
-                            lineItem.total       = getTotalFormatted(getAmountWithTax(creditMemoLine));
+                            lineItem.netAmount   = SOM_Utils.getTotalFormatted(getAmount(creditMemoLine),AmountsFormat);
+                            lineItem.vat         = SOM_Utils.getTotalFormatted(getVAT(creditMemoLine),AmountsFormat);
+                            lineItem.grossAmount = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
+                            lineItem.total       = SOM_Utils.getTotalFormatted(getAmountWithTax(creditMemoLine),AmountsFormat);
                         }
                         if (creditMemoLine.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                             for(CreditMemoLine creditMemoLineCharge:creditMemo.get(0).CreditMemoLines) {
@@ -150,7 +151,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             //set credit memo line items
             //lineItems.sort();
             creditMemoDoc.lineItems = lineItems;
-            this.creditMemoTaxLineItems = new Map<String, String>();
+            this.creditMemoTaxLineItems = new Map<Decimal, String>();
             //set credit memo line taxes
             this.creditMemoTaxLineItems = getCreditMemoTaxLineItems(creditMemo.get(0), creditMemoProductType);
             this.creditMemoDocument     = creditMemoDoc;
@@ -190,9 +191,9 @@ global with sharing class SOM_CreditMemoDocumentController {
         return creditMemoLine.ChargeAmountWithTax;
     }
     
-    public Map<String,String> getCreditMemoTaxLineItems(CreditMemo creditMemo, String creditMemoProductType){
+    public Map<Decimal,String> getCreditMemoTaxLineItems(CreditMemo creditMemo, String creditMemoProductType){
         Map<Decimal, Decimal> creditMemoTaxes       = new Map<Decimal, Decimal>();
-        Map<String, String> creditMemoTaxesSorted = new Map<String, String>();
+        Map<Decimal, String> creditMemoTaxesSorted = new Map<Decimal, String>();
         for (CreditMemoLine lineItem:creditMemo.CreditMemoLines) {
             if (lineItem.Type.equalsIgnoreCase(creditMemoProductType) || ( creditMemo.ReturnOrder__r.Tech_ShippingFeeRefund__c == true && lineItem.Type == SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                 Decimal taxRate = 0;
@@ -201,7 +202,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                         if (lineItem.RelatedLineId == creditMemoLineCharge.Id && creditMemoLineCharge.ReferenceEntityItem instanceOf OrderItemSummary) {
                             OrderItemSummary orderItem = (OrderItemSummary)creditMemoLineCharge.ReferenceEntityItem;
                             taxRate = orderItem.TaxRate__c;
-                            break;
+                            break; 
                         }
                     }
                 } else if (lineItem.ReferenceEntityItem instanceOf OrderItemSummary) {
@@ -222,22 +223,12 @@ global with sharing class SOM_CreditMemoDocumentController {
         sortedTaxes.addAll(creditMemoTaxes.keySet());
         sortedTaxes.sort();
         for(Decimal taxRate: sortedTaxes){
-            creditMemoTaxesSorted.put(formatDecimalNumber(taxRate),formatDecimalNumber(creditMemoTaxes.get(taxRate)));
+            creditMemoTaxesSorted.put((taxRate),SOM_Utils.getTotalFormatted(creditMemoTaxes.get(taxRate),AmountsFormat));
         }
         return creditMemoTaxesSorted;
     }
     
-    public String getTotalFormatted(Decimal taxTotal){
-        if (taxTotal.scale() > 2 ) {
-            return formatDecimalNumber(taxTotal.setScale(2, RoundingMode.HALF_UP));
-        }
-        
-        return formatDecimalNumber(taxTotal.setScale(2));
-    }
-    
-    public String formatDecimalNumber(Decimal price){
-        return String.valueOf(price).replace('.', ',');
-    }
+   
     
     public String getPaymentMethod(Id orderSummaryId){
         //Get order payment summary
@@ -254,6 +245,13 @@ global with sharing class SOM_CreditMemoDocumentController {
         return '';
     }
     
+    public String setAmountsFormat(String CountryIso) {
+            Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
+                return AmountsFormat.AmountsFormat__c;
+    }
+    
+    
+    
     global with sharing class CreditMemoDocument{
         public String                   creditMemoNumber {get; set;}
         public String                   invoiceNumber {get; set;}
@@ -266,7 +264,6 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   netSubTotal {get; set;}
         public String                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
-        public String                   TotalTaxAmount {get; set;}
     }
     
     global with sharing class CreditMemoContact{

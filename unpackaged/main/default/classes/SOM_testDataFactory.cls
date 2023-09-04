@@ -102,6 +102,18 @@ public class SOM_testDataFactory {
         product.isSerialized__c = isSerialized;
 		return product;
 	}
+    
+    	public static String createProductTEST(String productName, String productCode, String sku , Boolean isSerialized) {
+		Product2 product = new Product2();
+		product.Name = productName;
+		product.ProductCode = productCode;
+        product.IsActive = true;
+        product.StockKeepingUnit = sku;
+        product.isSerialized__c = isSerialized;
+            insert product;
+		return product.Id;
+	}
+    
     public static PricebookEntry createPricebookEntry(Decimal unitPrice, Id productId, Id pricebookId) {
 		PricebookEntry priceBookEntry = new PriceBookEntry();
 		priceBookEntry.UnitPrice = unitPrice;
@@ -110,7 +122,21 @@ public class SOM_testDataFactory {
 		priceBookEntry.IsActive = true;
         priceBookEntry.CurrencyIsoCode = 'EUR';
 		return priceBookEntry;
-	}
+	
+    }
+
+    public static PricebookEntry createPricebookEntryTEST(Decimal unitPrice, Id productId, Id pricebookId) {
+		PricebookEntry priceBookEntry = new PriceBookEntry();
+		priceBookEntry.UnitPrice = unitPrice;
+		priceBookEntry.Pricebook2Id = pricebookId;
+		priceBookEntry.Product2Id = productId;
+		priceBookEntry.IsActive = true;
+        priceBookEntry.CurrencyIsoCode = 'AED';
+        insert priceBookEntry;
+		return priceBookEntry;
+	
+    }
+    
     public static OrderDeliveryMethod createOrderDeliveryMethod(String name,Id productId, String referenceNumber) {
 		OrderDeliveryMethod orderDeliveryMethod = new OrderDeliveryMethod();
 		orderDeliveryMethod.Name = name;
@@ -279,8 +305,6 @@ public class SOM_testDataFactory {
         
         //start creation of shipement
         for(FulfillmentOrder foToShip : listFulfillmentOrders.values()){
-            System.debug('foToShip'+foToShip);
-           System.debug('foToShip.FulfillmentOrderLineItems'+foToShip.FulfillmentOrderLineItems);
             if(foToShip.FulfillmentOrderLineItems?.isEmpty()){
                 continue;
             }
@@ -319,7 +343,6 @@ public class SOM_testDataFactory {
             }
             shipementToInsert.Status = SOM_Constants.SHIPMENT_SHIPPED;
             shipmentToInsertByFoId.put(foToShip.Id, shipementToInsert);
-           System.debug('shipmentToInsertByFoId'+shipmentToInsertByFoId);
 
         }
         if(shipmentToInsertByFoId.values().isEmpty()){
@@ -341,13 +364,11 @@ public class SOM_testDataFactory {
                 shipmentItem.OrderItemSummaryId = foliLine.OrderItemSummaryId;
                 if(foliLine.OrderItemSummary.isSerialized__c) shipmentItem.SerialNumber__c = 'SrNbr'+String.valueOf(foliLine.Id);
                 listShipmentItemsToInsert.add(shipmentItem);
-                System.debug('serial item ::: ' +shipmentItem.SerialNumber__c + foliLine.OrderItemSummary.isSerialized__c );
             }
             shipmentToReturnByFoId.put(fulmOrder.Id, shipmentToInsertByFoId.get(fulmOrder.Id));
         }        
         if(!listShipmentItemsToInsert.isEmpty()) insert listShipmentItemsToInsert;
 
-        System.debug('listShipmentItemsToInsert' + listShipmentItemsToInsert);
 
         SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs arg = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
         List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> args = new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs>();
@@ -355,9 +376,7 @@ public class SOM_testDataFactory {
         arg.foIds.addAll(shipmentToReturnByFoId.keySet());
         arg.doUpdateOSStatus = true;
         args.add(arg);
-        System.debug('arg' + arg + '    rgs :: ' + args);
         List<SOM_CloseFulfillmentOrderResponseWr> listFoIdResponse = SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(args);
-        System.debug('------------Closing FO response:');
         return shipmentToReturnByFoId;
     }
 
@@ -392,11 +411,9 @@ public class SOM_testDataFactory {
         List<Id> listIds = new List<Id>();
         //Create Account
         Account acc = createAccount('test.user@rimowa.com');
-        System.debug('**** Created Account is :'+acc);
 
         //Create Contact
         Contact contact= getContact(acc.Id);
-        System.debug('**** Created contact is :'+contact);
 
         
         List<Product2> listProducts = new List<Product2>();
@@ -444,7 +461,6 @@ public class SOM_testDataFactory {
         listAddress.add(address2);
         insert listAddress;
 
-        System.debug('************ listAddress is :'+listAddress);
         listLocations[0].VisitorAddressId = listAddress[0].Id;
         listLocations[1].VisitorAddressId = listAddress[1].Id;
         update listLocations;
@@ -477,16 +493,12 @@ public class SOM_testDataFactory {
 
         order.Status = 'Activated';
         update order;
-        System.debug('ordeeeeeeeeeeeeeer : ' + order);
 
         List<OrderSummary> oS = getListOrderSummaries(order.Id);
         
-        System.debug('****** getListOrderSummaries :: '+ oS);
         
         OrderSummary orderSumm = oS[0];
 
-        System.debug('****** orderSumm :: '+ orderSumm);
-        System.debug('****** FOooooo :: '+ orderSumm.FulfillmentOrders);
         
       return orderSumm;
         
@@ -510,7 +522,6 @@ public class SOM_testDataFactory {
 
         //Create Account
         Account account = createAccount('test2.user@rimowa.com');
-        System.debug('==Account is :'+account);
         //Create products
         //Order Product 
         Product2 product = createProduct('produit 1', '10012002', 'sku10004',true);
@@ -547,7 +558,6 @@ public class SOM_testDataFactory {
         Schema.Address address2 = createAddress(listLocations[1].Id,'Shipping', SOM_Constants.STORE);
         listAddress.add(address2);
         insert listAddress;
-        System.debug('************ listAddress is :'+listAddress);
         listLocations[0].VisitorAddressId = listAddress[0].Id;
         listLocations[1].VisitorAddressId = listAddress[1].Id;
         update listLocations;
@@ -618,19 +628,11 @@ public class SOM_testDataFactory {
 
         //Activate Orders
         update listOfOrderToCreate;
-        System.debug('*** ordeeeeeeeeeeeeeers : ' + listOfOrderToCreate);
-        System.debug('**** list orders size : ' + listOfOrderToCreate);
         List<OrderSummary> orderSummaries = getListOrderSummaryByOrder(listOfOrderToCreate);
         Set<Id> osIds = (new Map<Id,OrderSummary>(orderSummaries)).keySet();
 
         for(OrderSummary os : orderSummaries){
-            System.debug('****** os status :: '+ os.Status);
-            System.debug('****** os CreateFulfillmentOrderImmediatly__c :: '+ os.CreateFulfillmentOrderImmediatly__c);
-            System.debug('****** os On_Hold__c :: '+ os.On_Hold__c);
-            System.debug('****** os CaptureStatus__c :: '+ os.CaptureStatus__c);
         }
-        System.debug('****** getListOrderSummaryByOrder :: '+ orderSummaries);
-        System.debug('****** size of getListOrderSummaryByOrder :: '+ orderSummaries.size());
         return orderSummaries;    
        
     }
@@ -651,7 +653,6 @@ public class SOM_testDataFactory {
 
         //Create Account
         Account account = createAccount('test.user@rimowa.com');
-        System.debug('==Account is :'+account);
         //Create products
         //Order Product 
         Product2 product = createProduct('produit 1', '10012002', 'sku10001',true);
@@ -688,7 +689,6 @@ public class SOM_testDataFactory {
         Schema.Address address2 = createAddress(listLocations[1].Id,'Shipping', SOM_Constants.STORE);
         listAddress.add(address2);
         insert listAddress;
-        System.debug('************ listAddress is :'+listAddress);
         listLocations[0].VisitorAddressId = listAddress[0].Id;
         listLocations[1].VisitorAddressId = listAddress[1].Id;
         update listLocations;
@@ -759,19 +759,11 @@ public class SOM_testDataFactory {
 
         //Activate Orders
         update listOfOrderToCreate;
-        System.debug('*** ordeeeeeeeeeeeeeers : ' + listOfOrderToCreate);
-        System.debug('**** list orders size : ' + listOfOrderToCreate);
         List<OrderSummary> orderSummaries = getListOrderSummaryByOrder(listOfOrderToCreate);
         Set<Id> osIds = (new Map<Id,OrderSummary>(orderSummaries)).keySet();
 
         for(OrderSummary os : orderSummaries){
-            System.debug('****** os status :: '+ os.Status);
-            System.debug('****** os CreateFulfillmentOrderImmediatly__c :: '+ os.CreateFulfillmentOrderImmediatly__c);
-            System.debug('****** os On_Hold__c :: '+ os.On_Hold__c);
-            System.debug('****** os CaptureStatus__c :: '+ os.CaptureStatus__c);
         }
-        System.debug('****** getListOrderSummaryByOrder :: '+ orderSummaries);
-        System.debug('****** size of getListOrderSummaryByOrder :: '+ orderSummaries.size());
         return orderSummaries;    
        
     }
@@ -794,7 +786,6 @@ public class SOM_testDataFactory {
         List<ConnectApi.OrderItemSummaryInputRepresentation> ListorderItemSummariesInputRep = new List<ConnectApi.OrderItemSummaryInputRepresentation>();
         for(OrderItemSummary oIS : orderItemSummries){
             ConnectApi.OrderItemSummaryInputRepresentation orderItemSummaryInputRep = new ConnectApi.OrderItemSummaryInputRepresentation();
-            System.debug('oIS.Status'+oIS.Status);    
             orderItemSummaryInputRep.orderItemSummaryId = oIS.Id;
                 orderItemSummaryInputRep.Quantity = oIS.Quantity;
                 ListorderItemSummariesInputRep.add(orderItemSummaryInputRep);
@@ -824,7 +815,6 @@ public class SOM_testDataFactory {
         ConnectApi.MultipleFulfillmentOrderInputRepresentation multipleFulfillmentOrderInputRep = new ConnectApi.MultipleFulfillmentOrderInputRepresentation();
         multipleFulfillmentOrderInputRep.fulfillmentOrders = listFulfilementOrderInputReps;
         ConnectApi.FulfillmentOrderOutputRepresentation result = ConnectAPI.FulfillmentOrder.createFulfillmentOrders(fulfilementOrderInputRep);
-        System.debug('Tessssssssssssst ConnectAPI.FulfillmentOrder.createFulfillmentOrders : '+ result);
         
         List<FulfillmentOrder> listFulfillmentOrders = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
         FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
@@ -833,17 +823,13 @@ public class SOM_testDataFactory {
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder WHERE OrderSummaryId =: orderSumm.Id];
 
-        System.debug('Size of listFulfillmentOrders List :'+ listFulfillmentOrders.size());
-        System.debug('listFulfillmentOrders List :'+ listFulfillmentOrders);
         // if(orderSumm.captureAtShipment__c == false && orderSumm.CaptureStatus__c == 'Not Applicable'){
         //     listFulfillmentOrders[0].Capture_Status__c = 'To capture';
         // }else{
             listFulfillmentOrders[0].Capture_Status__c = 'Not Applicable';
             listFulfillmentOrders[0].Status = 'Allocated';
         // }
-        System.debug('before'+listFulfillmentOrders[0]);
         update listFulfillmentOrders[0];
-        System.debug('after'+listFulfillmentOrders[0]);
         return listFulfillmentOrders[0];
 
     }
@@ -920,13 +906,10 @@ public class SOM_testDataFactory {
         ConnectApi.MultipleFulfillmentOrderInputRepresentation multipleFulfillmentOrderInputRep = new ConnectApi.MultipleFulfillmentOrderInputRepresentation();
         multipleFulfillmentOrderInputRep.fulfillmentOrders = listFulfilementOrderInputReps;
         ConnectApi.MultipleFulfillmentOrderOutputRepresentation result = ConnectAPI.FulfillmentOrder.createMultipleFulfillmentOrder(multipleFulfillmentOrderInputRep);
-        System.debug('Tessssssssssssst ConnectAPI.FulfillmentOrder.createFulfillmentOrders : '+ result);
         
         List<FulfillmentOrder> listFulfillmentOrders = [SELECT Id, Type, Status FROM FulfillmentOrder
                                                             WHERE OrderSummaryId = : orderSumm.Id];
 
-        System.debug('Size of listFulfillmentOrders List :'+ listFulfillmentOrders.size());
-        System.debug('listFulfillmentOrders List :'+ listFulfillmentOrders);
         // if(orderSumm.captureAtShipment__c == false && orderSumm.CaptureStatus__c == 'Not Applicable'){
         //     listFulfillmentOrders[0].Capture_Status__c = 'To capture';
         // }else{
@@ -944,7 +927,6 @@ public class SOM_testDataFactory {
 	@isTest
 	public static void testBulkOrderSummariesCreation(){
 		
-		System.debug('**** testBulkOrderSummariesCreation Start  :::: ');
         
         Test.startTest();
         //System.debug('**** HomeDELIVERY and Mixte  :::: ');
@@ -953,11 +935,9 @@ public class SOM_testDataFactory {
         //SOM_testDataFactory.createOrderSummaryBulk(true, orderType.STANDARD, 5);
         //System.debug('**** HomeDELIVERY and PREORDER  :::: ');
         //SOM_testDataFactory.createOrderSummaryBulk(true, orderType.PREORDER, 8);
-        System.debug('**** HomeDELIVERY and STANDARD  :::: ');
         //createOrderSummaryBulk Change Method type to return list of orderSummaries
         SOM_testDataFactory.createOrderSummaryBulk(false, orderType.STANDARD, 5);
         Test.stopTest();
-		System.debug('**** testBulkOrderSummariesCreation End  :::: ');
 
         //we should add check by OrderSummaryId to avoid using environement records !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Map<Id, FulfillmentOrder> fulfillmentOrders = new Map<Id, FulfillmentOrder>();
@@ -977,10 +957,8 @@ public class SOM_testDataFactory {
         Map<Id, Shipment> listOfCreatedShipments;
         if(!fulfillmentOrders.isEmpty()){
             listOfCreatedShipments = SOM_testDataFactory.createShipments(fulfillmentOrders);
-            System.debug('**** listOfCreatedShipments   :::: '+listOfCreatedShipments);
         }
         
-        System.debug('**** fulfillmentOrders   :::: '+fulfillmentOrders);
 
 	}
 
@@ -992,11 +970,9 @@ public class SOM_testDataFactory {
         List<Id> listIds = new List<Id>();
         //Create Account
         Account acc = createAccount('test.user@rimowa.com');
-        System.debug('**** Created Account is :'+acc);
 
         //Create Contact
         Contact contact= getContact(acc.Id);
-        System.debug('**** Created contact is :'+contact);
 
         
         List<Product2> listProducts = new List<Product2>();
@@ -1014,7 +990,6 @@ public class SOM_testDataFactory {
 		Product2 product4 = createProduct('produit 4', listOfSKU[3],  'SKU' + listOfSKU[3],false);
         listProducts.add(product4);
         insert listProducts;
-        System.debug('----SOM_DataFactory __ CustomOrderCreation --- Products : '+ listProducts);
         Id pricebookId = Test.getStandardPricebookId();
         List<PricebookEntry> listPriceEntries = new List<PricebookEntry>();
         PricebookEntry priceentry = createPricebookEntry(79.2, listProducts[0].Id, pricebookId);
@@ -1045,7 +1020,6 @@ public class SOM_testDataFactory {
         listAddress.add(address2);
         insert listAddress;
 
-        System.debug('************ listAddress is :'+listAddress);
         listLocations[0].VisitorAddressId = listAddress[0].Id;
         listLocations[1].VisitorAddressId = listAddress[1].Id;
         update listLocations;
@@ -1093,19 +1067,12 @@ public class SOM_testDataFactory {
 
         order.Status = 'Activated';
         update order;
-        System.debug('ordeeeeeeeeeeeeeer : ' + order);
 
         List<OrderSummary> oS = getListOrderSummaries(order.Id);
         
-        System.debug('****** getListOrderSummaries :: '+ oS);
         
         OrderSummary orderSumm = oS[0];
 
-        System.debug('****** orderSumm :: '+ orderSumm);
-        System.debug('****** Status of OrderSummary :: '+ orderSumm.Status);
-        System.debug('****** Capture Status  :: '+ orderSumm.CaptureStatus__c);
-        System.debug('****** FOooooo :: '+ orderSumm.FulfillmentOrders);
-        System.debug('------- OrderItemSummaries ---- :: '+ orderSumm.OrderItemSummaries);
         
       return orderSumm;
         
@@ -1149,6 +1116,7 @@ public class SOM_testDataFactory {
             cInv.CurrencyIsoCode        = inv.CurrencyIsoCode;
             cInv.OriginalInvoiceId__c   = inv.Id;
             cInv.Name                   = 'CI' + inv.InvoiceNumber__c;
+            cInv.Corrective_Invoice_Date__c  = system.today();
             cInToCreate.add(cInv);
         }
         insert cInToCreate;
@@ -1172,7 +1140,6 @@ public class SOM_testDataFactory {
                                                                 FROM OrderItemSummary WHERE Type != 'Delivery Charge' AND QuantityAvailableToReturn != 0
                                                                 AND OrderSummaryId = : os.Id];
 
-        System.debug('listOrderItemSummForReturn ::::::::::::'  + listOrderItemSummForReturn);
                                                        
         ConnectApi.ReturnOrderLineItemInputRepresentation SingleChangeItem = new ConnectApi.ReturnOrderLineItemInputRepresentation();
         List<ConnectApi.ReturnOrderLineItemInputRepresentation> changeLines = new List<ConnectApi.ReturnOrderLineItemInputRepresentation>();
@@ -1182,7 +1149,6 @@ public class SOM_testDataFactory {
         SingleChangeItem.reasonForReturn = 'RE01';
         SingleChangeItem.canReduceShipping = false;
         changeLines.add(SingleChangeItem);
-        System.debug('error1');
 
         ConnectApi.ReturnOrderInputRepresentation changeInputRepresentation = new ConnectApi.ReturnOrderInputRepresentation();
         List<ConnectApi.ReturnOrderInputRepresentation> listChangeInputs = new List<ConnectApi.ReturnOrderInputRepresentation>();
@@ -1191,11 +1157,9 @@ public class SOM_testDataFactory {
         changeInputRepresentation.orderSummaryId = listOrderItemSummForReturn[0].OrderSummaryId;
         changeInputRepresentation.Status = 'Submitted';
         listChangeInputs.add(changeInputRepresentation);
-        System.debug('changeInputRepresentation::::::::::::'  + changeInputRepresentation);
 
 
         ConnectApi.ReturnOrderOutputRepresentation outRep =  ConnectApi.ReturnOrder.createReturnOrder(changeInputRepresentation);
-        System.debug(' after changeInputRepresentation::::::::::::'  + outRep);
 
         ReturnOrder returnOrder = [SELECT Id, AccountId,CurrencyIsoCode, ReturnOrderNumber, Status, OrderSummaryId,LifeCycleType FROM ReturnOrder WHERE Id =: outRep.returnOrderId LIMIT 1];
 
@@ -1214,7 +1178,92 @@ public class SOM_testDataFactory {
 
     }
 
+    
+     /**
+    * @description 
+    * @author MME | 01-06-2023 
+    * @param os 
+    * @return ReturnOrder
+    **/
+    public static ReturnOrder createReturnOrderEXCHANGEROI(OrderSummary os){
+        List<OrderItemSummary> listOrderItemSummForReturn = [SELECT Id, OrderSummaryId, Type, Product2Id , Quantity, QuantityAllocated, QuantityAvailableToFulfill, QuantityAvailableToReturn, QuantityFulfilled, QuantityShipped, QuantityReturned
+                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' AND QuantityAvailableToReturn != 0
+                                                                AND OrderSummaryId = : os.Id];
 
+                                                       
+        ConnectApi.ReturnOrderLineItemInputRepresentation SingleChangeItem = new ConnectApi.ReturnOrderLineItemInputRepresentation();
+        List<ConnectApi.ReturnOrderLineItemInputRepresentation> changeLines = new List<ConnectApi.ReturnOrderLineItemInputRepresentation>();
+        SingleChangeItem.orderItemSummaryId = listOrderItemSummForReturn[0].Id;
+        SingleChangeItem.quantityExpected = 1;
+        SingleChangeItem.quantityReceived = 0;
+        SingleChangeItem.reasonForReturn = 'RE01';
+        SingleChangeItem.canReduceShipping = false;
+        changeLines.add(SingleChangeItem);
+
+        ConnectApi.ReturnOrderInputRepresentation changeInputRepresentation = new ConnectApi.ReturnOrderInputRepresentation();
+        List<ConnectApi.ReturnOrderInputRepresentation> listChangeInputs = new List<ConnectApi.ReturnOrderInputRepresentation>();
+        changeInputRepresentation.returnOrderLifeCycleType = 'MANAGED';
+        changeInputRepresentation.returnOrderLineItems = changeLines;
+        changeInputRepresentation.orderSummaryId = listOrderItemSummForReturn[0].OrderSummaryId;
+        changeInputRepresentation.Status = 'Submitted';
+        listChangeInputs.add(changeInputRepresentation);
+
+
+        ConnectApi.ReturnOrderOutputRepresentation outRep =  ConnectApi.ReturnOrder.createReturnOrder(changeInputRepresentation);
+
+        ReturnOrder returnOrder = [SELECT Id, AccountId,CurrencyIsoCode, ReturnOrderNumber, Status, OrderSummaryId,LifeCycleType FROM ReturnOrder WHERE Id =: outRep.returnOrderId LIMIT 1];
+
+        ReturnOrderLineItem returnOrderLineItemToUpdate = [SELECT Id, OrderItemSummary.Product2.StockKeepingUnit, QuantityReceived, QuantityRejected, QuantityExpected,Description,ReasonForRejection
+                                                                FROM ReturnOrderLineItem 
+                                                                WHERE returnOrderId =: returnOrder.Id LIMIT 1];
+        returnOrderLineItemToUpdate.QuantityReceived   = 1;
+        returnOrderLineItemToUpdate.QuantityRejected   = 0;
+        returnOrderLineItemToUpdate.QuantityExpected   = 1;
+        returnOrderLineItemToUpdate.Description        = 'no description';
+        returnOrderLineItemToUpdate.ReasonForRejection = 'Damaged Item';
+        returnOrderLineItemToUpdate.RepaymentMethod    = SOM_Constants.EXCHANGE;
+        returnOrderLineItemToUpdate.FollowUpProcessed__c = false ;
+        update returnOrderLineItemToUpdate;
+
+        return returnOrder;
+
+    }
+
+    
+    /**
+    * @description This method creates Attachment record
+    * @author Hicham TALBI | 04-09-2023 
+    * @param Attachment fields 
+    * @return null
+    **/
+
+    public static void createAttachment(String Name, String parentId, String Body){
+        Attachment att = new Attachment();
+        att.Name = Name;
+        att.ParentId = parentId;
+        att.Body = Blob.valueOf(Body);
+        insert att;
+    }
+    
+    
+    /**
+    * @description This method creates Attachment record
+    * @author Hicham TALBI | 04-09-2023 
+    * @param OrderSummary Id 
+    * @return Map<Id, FulfillmentOrder>
+    **/
+
+    public static Map<Id, FulfillmentOrder> prepareFulfillmentOrderMap(String orderSummaryId){
+        List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
+        FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
+        FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
+                    (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
+                    OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
+                    FROM FulfillmentOrder WHERE OrderSummaryId = :orderSummaryId];
+        Map<Id, FulfillmentOrder> foMap = new Map<Id, FulfillmentOrder>(lFO);
+        return foMap;
+    }
+    
 
     /**
     * @description 
@@ -1234,7 +1283,6 @@ public class SOM_testDataFactory {
         ReturnOrder ro = new ReturnOrder();
         if(Discount == true) {
             OrderItemSummary ois = [SELECT Id , Type , Quantity FROM OrderItemSummary WHERE Type <> 'Delivery Charge' and Quantity > 0 and OrderSummaryId =: os.Id LIMIT 1];
-            System.debug('debug ios'+ois);
             // FulfillmentOrder foWithDiscount = createFO(os);
             // Map<Id,FulfillmentOrder> mapFO = new Map<Id,FulfillmentOrder>();
             // mapFO.put(foWithDiscount.Id,foWithDiscount);
@@ -1244,16 +1292,12 @@ public class SOM_testDataFactory {
             AdjustItem.amount = 50-100;
             AdjustItem.orderItemSummaryId = ois.Id;
             AdjustItem.reason = 'RE01';
-            System.debug('debug AdjustItem'+AdjustItem);
             listeAdjustItems.add(AdjustItem);
             adjustOrderInput.adjustItems = listeAdjustItems;
             ConnectApi.AdjustOrderSummaryOutputRepresentation adjustOutput = ConnectApi.Ordersummary.adjustSubmit(os.Id,adjustOrderInput);
-            System.debug('adjustOutput'+adjustOutput);
             creditMemoInput.changeOrderIds = new List<String>{ adjustOutput.postFulfillmentChangeOrderId };
             creditMemoOutputAdjustment = ConnectApi.OrderSummary.createCreditMemo(os.Id, creditMemoInput);
-            System.debug('creditMemoOutputAdjustment'+creditMemoOutputAdjustment);
             OrderPaymentSummary ops = [SELECT Id, PaymentMethodId , CurrencyIsoCode FROM OrderPaymentSummary WHERE OrderSummaryId =: os.Id];
-            System.debug('opss'+ops);
             ref.Amount                  = 50.0;
             ref.CurrencyIsoCode         = ops.CurrencyIsoCode;
             ref.Date                    = System.today();
@@ -1269,9 +1313,7 @@ public class SOM_testDataFactory {
         else {
         ro = createReturnOrder(os);
         ro.Status = 'Received';
-        System.debug('ro in test data factory ::::::::::::'  + ro);
         update ro;
-        System.debug('after update ::::::::::::'  + ro);
         ReturnOrderLineItem roli = [SELECT Id, ReturnOrderId, QuantityReceived, QuantityRejected, RepaymentMethod, FollowUpProcessed__c, OrderItemSummary.TotalAmtWithTax, OrderItemSummary.OrderSummaryId FROM ReturnOrderLineItem 
                                                                 WHERE returnOrderId =: ro.Id AND RepaymentMethod = 'Refund' 
                                                                 AND FollowUpProcessed__c = false LIMIT 1];
@@ -1283,8 +1325,6 @@ public class SOM_testDataFactory {
         roliInputRep.quantityRejected       = roli.QuantityRejected;
         roliInputRep.quantityReturned       = roli.QuantityReceived;
         roliInputRep.quantityToCancel       = roli.QuantityRejected;
-        System.debug('quantity received :::: ' + roli.QuantityReceived);
-        System.debug('quantity QuantityRejected :::: ' + roli.QuantityRejected);
         List<ConnectApi.ReturnOrderItemInputRepresentation> CroliInputRep = new List<ConnectApi.ReturnOrderItemInputRepresentation>();
         CroliInputRep.add(roliInputRep); 
 
@@ -1309,9 +1349,7 @@ public class SOM_testDataFactory {
         ConnectApi.ReturnItemsInputRepresentation inpRep = new ConnectApi.ReturnItemsInputRepresentation();
         inpRep.returnOrderItems = CroliInputRep;
         
-        System.debug('ro ::::::::::::::::::::: ' + ro);
         ConnectApi.ReturnItemsOutputRepresentation outRep = ConnectApi.ReturnOrder.returnItems(ro.Id, inpRep);
-        System.debug('roddddd ::::::::::::::::::::: ' + ro);
         creditMemoInput.changeOrderIds = new List<String>{ outRep.changeOrderId };
         creditMemoOutputAdjustment = ConnectApi.OrderSummary.createCreditMemo(roli.OrderItemSummary.OrderSummaryId, creditMemoInput);
     }
@@ -1319,7 +1357,6 @@ public class SOM_testDataFactory {
             // ConnectApi.EnsureRefundsAsyncInputRepresentation refundInput = new ConnectApi.EnsureRefundsAsyncInputRepresentation();
             // refundInput.creditMemoId = creditMemoOutput.creditMemoId;
             // ConnectApi.EnsureRefundsAsyncOutputRepresentation refundOutput = ConnectApi.OrderSummary.ensureRefundsAsync(listOrderItemSummForReturn[1].orderSummaryId, refundInput);
-        System.debug('credit memo :::: ' + creditMemo);
         creditMemo.CreditMemoNumber         = 'CM0003231';
         creditMemo.DocumentNumber__c        = 'CM0003231';   
         creditMemo.PDFGenerationStatus__c   = 'Not Started';
@@ -1329,10 +1366,8 @@ public class SOM_testDataFactory {
         }
         update creditMemo;
         List<CreditMemoLine> crl1 = [SELECT ReturnOrderLineItem__c , ChargeAmount , Type FROM CreditMemoLine where CreditMemoId =: creditMemo.Id];
-        System.debug('dkdk'+crl1);
         if(attachedRO == true) {
             List<CreditMemoLine> crl = [SELECT ReturnOrderLineItem__c , ChargeAmount , Type FROM CreditMemoLine where CreditMemoId =: creditMemo.Id];
-            System.debug('dkdk'+crl);
             for(CreditMemoLine cr : crl){
                 if(roliHandler != null) {
 
@@ -1354,6 +1389,137 @@ public class SOM_testDataFactory {
         Insert orderDeliveryMethod;
 		return orderDeliveryMethod;
 	}
+    
+        public static List<OrderSummary> createOrderSummaries(Boolean isPickUpOrder, OrderType typeOfOrders, Integer numberOfOrderToCreate){
+        List<Id> listIds = new List<Id>();
+        List<Order> listOfOrderToCreate = new List<Order>();
+        List<Product2> listProducts = new List<Product2>();
+        List<PricebookEntry> listPriceEntries = new List<PricebookEntry>();
+        List<Schema.Location> listLocations = new List<Schema.Location>();
+        List<Schema.Address> listAddress = new List<Schema.Address>();
+        Map<Id, PaymentGroup> listPaymentGrpsByOrderId = new  Map<Id, PaymentGroup>();
+        Map<Id, CardPaymentMethod> listCardPayMethodbyOrderId = new  Map<Id, CardPaymentMethod>();
+        Map<Id, OrderDeliveryMethod> listOrderDlvryMthdByOrderId = new Map<Id, OrderDeliveryMethod>();
+        Map<Id, PaymentAuthorization> listPaymentAuthByOrderId = new Map<Id, PaymentAuthorization>();
+        Map<Id, OrderDeliveryGroup> listOrderDlvryGrpByOrderId = new Map<Id, OrderDeliveryGroup>();
+        List<OrderItem> listOrderItemsByOrderId = new  List<OrderItem>();
+
+        //Create Account
+        Account account = createAccount('test.user@rimowa.com');
+        //Create products
+        //Order Product 
+        Product2 product = createProduct('produit 1', '10012002', 'sku10001',true);
+        listProducts.add(product);
+        //Shipping Product 
+        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10002',false);
+        listProducts.add(product2);
+        //Order Product 
+        Product2 product3 = createProduct('produit 3', '10013003', 'sku10003',false);
+        listProducts.add(product3);
+        insert listProducts;
+        //Get getStandardPricebookId
+        Id pricebookId = Test.getStandardPricebookId();
+        //Create PriceBookEntries
+        PricebookEntry priceentry = createPricebookEntry(79.2, listProducts[0].Id, pricebookId);
+        listPriceEntries.add(priceentry);
+        PricebookEntry priceentry2 = createPricebookEntry(0, listProducts[1].Id, pricebookId);
+        listPriceEntries.add(priceentry2);
+        PricebookEntry priceentry3 = createPricebookEntry(255.2, listProducts[2].Id, pricebookId);
+        listPriceEntries.add(priceentry3);
+        insert listPriceEntries;
+        //Create SalesChannel
+        SalesChannel saleschannel = createSaleschannel('Rimowa','Rimowa');
+        insert saleschannel;
+        //Create Locations
+        Schema.Location location1 = createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
+        listLocations.add(location1);
+        Schema.Location location2 = createLocation('AE01','inventory_1010501', false, 'Store');
+        listLocations.add(location2);
+        insert listLocations;
+        //Create Addresses
+        Schema.Address address1 = createAddress(listLocations[0].Id,'Home', SOM_Constants.WAREHOUSE);
+        listAddress.add(address1);
+        Schema.Address address2 = createAddress(listLocations[1].Id,'Shipping', SOM_Constants.STORE);
+        listAddress.add(address2);
+        insert listAddress;
+        listLocations[0].VisitorAddressId = listAddress[0].Id;
+        listLocations[1].VisitorAddressId = listAddress[1].Id;
+        update listLocations;
+        //Create Orderes
+        for(Integer i=1; i<=numberOfOrderToCreate; i++){
+            Order order = createOrder(account.Id,'Order101'+i,saleschannel.Id,'Order101'+i ,pricebookId, true, false);
+            listOfOrderToCreate.add(order);
+        }
+        insert listOfOrderToCreate;
+
+        for(Order createdOrder : listOfOrderToCreate){
+            //Create PaymentGroup
+            PaymentGroup paymentgrp = createPaymentGroup(createdOrder.Id);
+            listPaymentGrpsByOrderId.put(createdOrder.Id, paymentgrp);
+            //Create CardPaymentMethod
+            CardPaymentMethod cardPayMethod = createCardPaymentMethod(account.Id, 'CreditCard', 'Visa');
+            listCardPayMethodbyOrderId.put(createdOrder.Id, cardPayMethod);
+            //Create OrderDeliveryMethod
+            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standard_AE',listProducts[1].Id,'standard_AE');
+            listOrderDlvryMthdByOrderId.put(createdOrder.Id, oDeliveryMethod);
+        }
+        insert listPaymentGrpsByOrderId.values();
+        insert listCardPayMethodbyOrderId.values();
+        insert listOrderDlvryMthdByOrderId.values();
+        Id locationId = isPickUpOrder ? listLocations[1].Id : listLocations[0].Id;
+        //prepare flags for products
+        List<Boolean> listProductFlags;
+        if(typeOfOrders == OrderType.STANDARD){
+            listProductFlags = new List<Boolean>{false, false};
+        }
+        if(typeOfOrders == OrderType.MIXTE){
+            listProductFlags = new List<Boolean>{true, false};
+        }
+        if(typeOfOrders == OrderType.PREORDER){
+            listProductFlags = new List<Boolean>{true, true};
+        }
+        for(Order createdOrder : listOfOrderToCreate){
+            
+            PaymentAuthorization paymentAuth = createPaymentAuthorization(account.Id, 1000, listPaymentGrpsByOrderId.get(createdOrder.Id).Id, listCardPayMethodbyOrderId.get(createdOrder.Id).Id, 'DFEB7B92BF462697E053AF598E0A4E9C');
+            listPaymentAuthByOrderId.put(createdOrder.Id, paymentAuth);
+            OrderDeliveryGroup oDG = createOrderDeliveryGroup(createdOrder.Id,listOrderDlvryMthdByOrderId.get(createdOrder.Id).Id);
+            listOrderDlvryGrpByOrderId.put(createdOrder.Id, oDG);
+        }
+        insert listPaymentAuthByOrderId.values();
+        insert listOrderDlvryGrpByOrderId.values();
+
+        for(Order createdOrder : listOfOrderToCreate){
+            OrderItem orderItem1 = createOrderItem(listProducts[0].Id, createdOrder.Id, 1, 79.2,79.2, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.ORDER_PRODUCT, listPriceEntries[0].Id, locationId, true,listProductFlags[0],listProductFlags[0]? System.now().addDays(30):null);
+            listOrderItemsByOrderId.add(orderItem1);
+            OrderItem orderItem2 = createOrderItem(listProducts[1].Id, createdOrder.Id, 1, 0, 0, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.DELIVERY_CHARGE, listPriceEntries[1].Id, locationId, false,false,null);
+            listOrderItemsByOrderId.add(orderItem2);
+            OrderItem orderItem3 = createOrderItem(listProducts[2].Id, createdOrder.Id, 2, 255.2, 255.2, listOrderDlvryGrpByOrderId.get(createdOrder.Id).Id, SOM_Constants.ORDER_PRODUCT,listPriceEntries[2].Id, locationId, false,listProductFlags[1],listProductFlags[0]? System.now().addDays(30):null);
+            listOrderItemsByOrderId.add(orderItem3);
+            
+            //Change Order Status
+            createdOrder.Status = SOM_Constants.ACTIVATED; 
+        }
+    
+        insert listOrderItemsByOrderId;
+        List<OrderItemTaxLineItem> ListeOITLI = new List<OrderItemTaxLineItem>(); 
+        OrderItemTaxLineItem OITLI1 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[0].Id);
+        ListeOITLI.add(OITLI1);
+        OrderItemTaxLineItem OITLI2 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[1].Id);
+        ListeOITLI.add(OITLI2);
+        OrderItemTaxLineItem OITLI3 = new OrderItemTaxLineItem(Name = '97352004 - Tax',Type	= 'Estimated',Amount=20,Rate=20.0,TaxEffectiveDate=Date.today(),CreatedDate=System.now(),	OrderItemId = listOrderItemsByOrderId[2].Id);
+        ListeOITLI.add(OITLI3);
+        insert ListeOITLI;
+
+        //Activate Orders
+        update listOfOrderToCreate;
+        List<OrderSummary> orderSummaries = getListOrderSummaryByOrder(listOfOrderToCreate);
+        Set<Id> osIds = (new Map<Id,OrderSummary>(orderSummaries)).keySet();
+
+        for(OrderSummary os : orderSummaries){
+        }
+        return orderSummaries;    
+       
+    }
 
  
 }
