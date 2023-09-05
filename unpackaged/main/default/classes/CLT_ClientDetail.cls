@@ -5,7 +5,7 @@ global with sharing class CLT_ClientDetail implements CLT_RetailInterface{
     }
      
     public Object retrievePost(Map<String, String> params, Map<String,Object> body){
-        return null;
+        return CLT_Utils_ClientDetails.upsertClientinsight(body);
     }   
 
     public Object retrieveGet(Map<String, String> params){
@@ -21,7 +21,10 @@ global with sharing class CLT_ClientDetail implements CLT_RetailInterface{
             result.put('purchases', CLT_Utils_ClientDetails.getPurchases(clientId));
             result.put('timelineItems', CLT_Utils_ClientDetails.getClientTimeline(clientId));
             result.put('notes', CLT_Utils_ClientDetails.getClientNotes(clientId));
+            result.put('clientInsights', CLT_Utils_ClientDetails.getClientInsights(clientId));
             result.put('wishlistItems', CLT_Utils_ClientDetails.getClientWishList(clientId));
+            result.put('gifts', CLT_Utils_ClientDetails.getClientGifts(clientId));
+            result.put('events', CLT_Utils_ClientDetails.getClientEvents(clientId));
         }
         return result;  
     }

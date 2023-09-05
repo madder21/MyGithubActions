@@ -2,6 +2,22 @@
 // * Created by Israel Zygelboim on 28/02/2019.
 // */
 public class CLT_Utils_ClientDetails {
+    public static Map<String, Object> upsertClientinsight(Map<String,Object> body) {
+        if(body.containsKey('clientInsights')) {
+            Object ciItem = body.get('clientInsights');
+            String clientId = (String)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(ciItem))).get('clientId');
+            Map<String, Object> mapClientInsight = (CLT_Utils_Mapping.getMapObjectsByWrapperItems('Client_Insight__c', 'Client_Insight__c', new List<Object>{ciItem}))[0];
+            mapClientInsight.put('ExternalId__c', clientId);
+            Client_Insight__c clientInsight = (Client_Insight__c) JSON.deserialize(JSON.serialize(mapClientInsight), Client_Insight__c.class);
+
+            Database.upsert(clientInsight, Client_Insight__c.ExternalId__c);
+
+            return getClientInsights(clientId);
+        }
+        else {
+            return new Map<String, Object>();
+        }
+    }
 
     public static Map<String, Object> getClientFields(String clientId) {
         Map<String, Object> clients = CLT_Utils_Mapping.getStandardWrapperList('Account', 'ClientFields', 'FROM Account WHERE Id = \'' + clientId + '\'')[0];
@@ -49,12 +65,32 @@ public class CLT_Utils_ClientDetails {
         return objects;
     }
 
-    public static List<Map<String, Object>> getClientNotes(String clientId) {
-        string userId = UserInfo.getUserId();
+    public static Map<String, Object> getClientInsights(String clientId) {
+        Map<String, Object> clienInsightMap = new Map<String, Object>();
+        List<Map<String, Object>> clienInsightMapList = CLT_Utils_Mapping.getStandardWrapperList('Client_Insight__c','Client_Insight__c', ' FROM Client_Insight__c WHERE ExternalId__c = \'' + clientId + '\'');
+        if(clienInsightMapList.size() > 0){
+            clienInsightMap = clienInsightMapList[0];
+            
+            List<Client_Insight_History__c> ciHistoriesList = [SELECT ModifiedBy__c,ModifiedBy__r.Name,ModifiedAt__c
+                                                            FROM Client_Insight_History__c
+                                                            WHERE ClientInsight__r.Client__c = :clientId
+                                                            ORDER BY ModifiedAt__c DESC
+                                                            LIMIT 1];
 
+                if(ciHistoriesList.size() > 0) {
+                clienInsightMap.put('modifiedById', ciHistoriesList[0].ModifiedBy__c);
+                clienInsightMap.put('modifiedByName', ciHistoriesList[0].ModifiedBy__r.Name);
+                clienInsightMap.put('modifiedAt', ciHistoriesList[0].ModifiedAt__c);
+            }
+        }
+        return clienInsightMap;
+    }
+
+    public static List<Map<String, Object>> getClientNotes(String clientId) {
         return CLT_Utils_Mapping.getStandardWrapperList('Note__c','Note',
                         ' FROM Note__c WHERE Client__c = \'' + clientId + '\' ORDER BY LastModifiedDate DESC');
     }
+
     public static List<Map<String, Object>> getClientWishList(String clientId) {
         //string userId = UserInfo.getUserId();
 
@@ -66,5 +102,15 @@ public class CLT_Utils_ClientDetails {
 
         return CLT_Utils_Mapping.getStandardWrapperList('ClientAddress__c','ClientAddress',
                         ' FROM ClientAddress__c WHERE Client__c = \'' + clientId + '\' ORDER BY IsMain__c DESC');
+    }
+
+    public static List<Map<String, Object>> getClientGifts(String clientId) {
+        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task',
+                        'FROM Task WHERE WhatId = \'' + clientId + '\' AND Outreach_Type__c = \'Gift\' ORDER BY ActivityDate, CreatedDate DESC');
+    }
+
+    public static List<Map<String, Object>> getClientEvents(String clientId) {
+        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task',
+                        'FROM Task WHERE WhatId = \'' + clientId + '\' AND Outreach_Type__c = \'Event\' ORDER BY ActivityDate, CreatedDate DESC');
     }
 }

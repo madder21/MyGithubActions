@@ -42,6 +42,7 @@ public with sharing class CLT_EmailTemplates implements CLT_RetailInterface {
 
         String query = 'SELECT Category__c,JSON__c,Email_Template_Id__c FROM CLT_Email_Template__c WHERE ('+ langCondition +') AND Is_Active__c = TRUE ORDER BY Category__c';
 
+        system.debug(query);
         Set<String> emailTemplatesIds = new Set<String>();
         Map<String, List<CLT_Email_Template__c>> cltEmailTemplatesMap = new Map<String, List<CLT_Email_Template__c>>();
         for(CLT_Email_Template__c cltEmailTemplate : Database.query(query)) {

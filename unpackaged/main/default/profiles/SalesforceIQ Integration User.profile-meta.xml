@@ -532,6 +532,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>ClientAddress__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>ClientList__c.External_Id__c</field>
         <readable>true</readable>
@@ -549,6 +554,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ClientList__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ClientProduct__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ClientSource__c.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5003,6 +5018,12 @@
         <layout>Client_Consent__c-Client Consent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Client_Insight_History__c-Client Insight History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Client_Insight__c-Client Insight Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CommSubscriptionConsent-Communication Subscription Consent Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5040,6 +5061,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>GCP_KPI__c-GCP KPI Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Gift__c-Gift Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Hub_Origin__mdt-Hub Origin Layout</layout>
@@ -5613,12 +5637,24 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Event__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Future_Stock__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>GCP_KPI__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Gift__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>News__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>TransactionalEmail__c</tab>
