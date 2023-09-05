@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>GenerationRange__c</fullName>
+    <externalId>false</externalId>
+    <label>Generation Range</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Baby Boomer</fullName>
+                <default>false</default>
+                <label>Baby Boomer</label>
+            </value>
+            <value>
+                <fullName>Gen X</fullName>
+                <default>false</default>
+                <label>Gen X</label>
+            </value>
+            <value>
+                <fullName>Millennial</fullName>
+                <default>false</default>
+                <label>Millennial</label>
+            </value>
+            <value>
+                <fullName>Gen Z</fullName>
+                <default>false</default>
+                <label>Gen Z</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
