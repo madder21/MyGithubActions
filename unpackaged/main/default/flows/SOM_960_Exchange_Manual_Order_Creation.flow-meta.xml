@@ -50,8 +50,8 @@
     <assignments>
         <name>Assign_Order_Product_Tax_Line_Item</name>
         <label>Assign Order Product Tax Line Item</label>
-        <locationX>1564</locationX>
-        <locationY>1091</locationY>
+        <locationX>1568</locationX>
+        <locationY>1090</locationY>
         <assignmentItems>
             <assignToReference>S_OrderTaxLineItem.Name</assignToReference>
             <operator>Assign</operator>
@@ -95,7 +95,7 @@
         <name>Assign_OrderItem_Data</name>
         <label>Assign OrderItem Data</label>
         <locationX>1400</locationX>
-        <locationY>942</locationY>
+        <locationY>968</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -174,7 +174,23 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Product_SKU</targetReference>
+            <targetReference>Filter_Product_by_productId</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Product_SKU</name>
+        <label>Assign Product SKU</label>
+        <locationX>1995</locationX>
+        <locationY>1027</locationY>
+        <assignmentItems>
+            <assignToReference>ProductSKU</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Products.StockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Products</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -385,7 +401,7 @@
         <name>Filter_Location_by_ExternlReference</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Location by ExternlReference</label>
-        <locationX>1188</locationX>
+        <locationX>1126</locationX>
         <locationY>764</locationY>
         <assignNextValueToReference>currentItem_Filter_Location_by_ExternlReference_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
@@ -400,6 +416,27 @@
         </conditions>
         <connector>
             <targetReference>L20_Loop_Over_Filtered_Locations</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Product_by_productId</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Product by productId</label>
+        <locationX>1570</locationX>
+        <locationY>968</locationY>
+        <assignNextValueToReference>currentItem_Filter_Product_by_productId</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Product_SKU</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Product_by_productId.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L10_Loop_over_OutputLines.productId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Products</targetReference>
         </connector>
     </collectionProcessors>
     <decisions>
@@ -465,7 +502,6 @@
         </rules>
     </decisions>
     <description>2 decimal places</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_LineSubtotal</name>
         <dataType>Number</dataType>
@@ -480,7 +516,7 @@
     <formulas>
         <name>FX_TaxName</name>
         <dataType>String</dataType>
-        <expression>{!Get_Product_SKU.StockKeepingUnit} + &quot;  - TAX &quot;</expression>
+        <expression>{!ProductSKU} + &quot;  - TAX &quot;</expression>
     </formulas>
     <formulas>
         <name>FX_TaxValue</name>
@@ -499,8 +535,8 @@
     <loops>
         <name>L10_Loop_over_OutputLines</name>
         <label>L10 Loop over OutputLines</label>
-        <locationX>928</locationX>
-        <locationY>1087</locationY>
+        <locationX>970</locationX>
+        <locationY>1090</locationY>
         <collectionReference>C_Output_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -522,6 +558,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Assign_OrderItem_Data</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Products</name>
+        <label>Loop Over Products</label>
+        <locationX>1774</locationX>
+        <locationY>1026</locationY>
+        <collectionReference>Filter_Product_by_productId</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Product_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Order_Product_Tax_Line_Item</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -546,11 +596,11 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>720</locationX>
+        <locationX>669</locationX>
         <locationY>1090</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L10_Loop_over_OutputLines</targetReference>
+            <targetReference>Get_Product_SKU</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -636,23 +686,17 @@
     </recordLookups>
     <recordLookups>
         <name>Get_Product_SKU</name>
-        <label>Get Product SKU</label>
-        <locationX>1563</locationX>
-        <locationY>939</locationY>
+        <label>Get Products SKU</label>
+        <locationX>804</locationX>
+        <locationY>1090</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Order_Product_Tax_Line_Item</targetReference>
+            <targetReference>L10_Loop_over_OutputLines</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>L10_Loop_over_OutputLines.productId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>Product2</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>StockKeepingUnit</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -825,7 +869,7 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>471</locationX>
+        <locationX>468</locationX>
         <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -881,8 +925,8 @@
     <subflows>
         <name>Create_the_Order</name>
         <label>Create the Order</label>
-        <locationX>764</locationX>
-        <locationY>1512</locationY>
+        <locationX>769</locationX>
+        <locationY>1514</locationY>
         <connector>
             <targetReference>Get_OS_Newly_created</targetReference>
         </connector>
@@ -965,11 +1009,26 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Product_by_productId</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product2</objectType>
+    </variables>
+    <variables>
         <name>OsId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ProductSKU</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>recordId</name>
