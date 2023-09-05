@@ -37,8 +37,7 @@ public with sharing class SOM_InvoiceDocumentController_test {
         System.assertNotEquals(inv_doc_constructor.invoiceConfigs.size(),0, 'InvoiceCnfigs Returned');
         System.assertNotEquals(inv_doc_constructor.invoiceTaxLineItems.size(),0, 'invoiceTaxLineItems Returned' );
         System.assertNotEquals(inv_doc_constructor.countryMap.size(),0, 'countryMap Returned');
-       // System.assertNotEquals(inv_doc_constructor.AmountsFormat,null, 'AmountsFormat Returned');
-        
+       
         
     }
 }
