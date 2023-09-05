@@ -126,6 +126,18 @@ public with sharing class CLT_Utils_PersonalClientList {
         List<String> clientGiftConditions = new List<String>();
         List<String> clientEventConditions = new List<String>();
 
+        if(body.containsKey('contactable')) {
+            List<String> outreachChannelList = new List<String>();
+            if(body.containsKey('outreachChannel')) {
+                for(Object objectOChannel : (List<Object>)JSON.deserializeUntyped(JSON.serialize(body.get('outreachChannel')))) {
+                    outreachChannelList.add((String)objectOChannel);
+                }
+                body.remove('outreachChannel');
+            }
+            clientConditions.add(getContactableCondition((Boolean)body.get('contactable'), outreachChannelList));
+            body.remove('contactable');
+        }
+
         for(String filterName : body.keySet()) {
             if(filtersInformationMap.containsKey(filterName)) {
                 FilterInformation filterInfo = filtersInformationMap.get(filterName);
@@ -224,6 +236,7 @@ public with sharing class CLT_Utils_PersonalClientList {
             query += ' AND Id IN (SELECT Client__c FROM TransactionItem__c WHERE ' + String.join(clientTransactionItemConditions, ' AND ') + ')';
         }
         
+        System.debug('client filters query---> ' + query);
         return CLT_Utils_Mapping.getStandardWrapperList('Account', 'Client', query);
     }
 
@@ -286,5 +299,63 @@ public with sharing class CLT_Utils_PersonalClientList {
             this.isJunctionFilter = isJunctionFilter;
             this.junctionObject = junctionObject;
         }
+    }
+    
+    public static String getContactableCondition(Boolean contactable, List<String> outreachChannels) {
+        List<String> contactableConditions = new List<String>();
+        if(contactable) {
+            Map<String, String> contactableConditionMap = getContactableConditionMap();
+            if(outreachChannels.size() == 0) {
+                for(String oChannel : contactableConditionMap.keySet()) {
+                    contactableConditions.add(contactableConditionMap.get(oChannel));
+                }
+            }
+            else {
+                for(String oChannel : outreachChannels) {
+                    if(contactableConditionMap.containsKey(oChannel)) {
+                        contactableConditions.add(contactableConditionMap.get(oChannel));
+                    }
+                }  
+            }
+            return '(' + String.join(contactableConditions, ' OR ') + ')';
+        }
+        else {
+            Map<String, String> nonContactableConditionMap = getNonContactableConditionMap();
+            if(outreachChannels.size() == 0) {
+                for(String oChannel : nonContactableConditionMap.keySet()) {
+                    contactableConditions.add(nonContactableConditionMap.get(oChannel));
+                }
+            }
+            else {
+                for(String oChannel : outreachChannels) {
+                    if(nonContactableConditionMap.containsKey(oChannel)) {
+                        contactableConditions.add(nonContactableConditionMap.get(oChannel));
+                    }
+                }
+            }
+            return '(' + String.join(contactableConditions, ' AND ') + ')';
+        }
+    }
+
+    public static Map<String, String> getContactableConditionMap() {
+        return new Map<String, String> {
+            'Phone' => '(OptinCalling__pc = TRUE AND (Phone != NULL OR Phone2__pc != NULL OR Phone3__pc != NULL))',
+            'Email' => '(OptinEmailing__pc = TRUE AND (PersonEmail != NULL OR OtherEmail__pc != NULL))',
+            'SMS' => '(OptinInstantMessaging__pc = TRUE AND (Phone != NULL OR Phone2__pc != NULL OR Phone3__pc != NULL))',
+            'Whatsapp' => '(OptinInstantMessaging__pc = TRUE AND (Phone != NULL OR Phone2__pc != NULL OR Phone3__pc != NULL))',
+            'Wechat' => '(OptinInstantMessaging__pc = TRUE AND WeChat__pc != NULL AND (Phone != NULL OR Phone2__pc != NULL OR Phone3__pc != NULL))',
+            'Postal' => '(OptinMailing__pc = TRUE AND NbOfClientAddresses__c >= 1)'
+        };
+    }
+
+    public static Map<String, String> getNonContactableConditionMap() {
+        return new Map<String, String> {
+            'Phone' => '(OptinCalling__pc = FALSE)',
+            'Email' => '(OptinEmailing__pc = FALSE)',
+            'SMS' => '(OptinInstantMessaging__pc = FALSE)',
+            'Whatsapp' => '(OptinInstantMessaging__pc = FALSE)',
+            'Wechat' => '(OptinInstantMessaging__pc = FALSE)',
+            'Postal' => '(OptinMailing__pc = FALSE)'
+        };
     }
 }

@@ -3,44 +3,90 @@ private class CLT_ClientList_Test {
     
     @testSetup
     static void clientListTestDataFactory() {
-        List<Account> clients = new List<Account>();
-        
-        Account c1 = new Account(FirstName = 'Client1', LastName = 'Test1', CLienttype__pc = 'Client', VIP__pc = 'Yes', ClientAdvisor__pc = UserInfo.getUserId());
-        clients.add(c1);
-        
-        Account c2 = new Account(FirstName = 'Client2', LastName = 'Test2', CLienttype__pc = 'Client', VIP__pc = 'Yes', ClientAdvisor__pc = UserInfo.getUserId());
-        clients.add(c2);
-        
-        insert clients;
+		User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
+
+		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
+
+		List<Account> clients = new List<Account>();
+
+        Account client1 = CLT_TestDateFactory.createTestClient('Test client 1', 'Test Last Name1', sa.Id, store.Id, false);
+		client1.CLienttype__pc = 'Client';
+		client1.VIP__pc = 'Yes';
+		client1.Local_Main_CA__c = sa.Id;
+		clients.add(client1);
+
+		Account client2 = CLT_TestDateFactory.createTestClient('Test client 2', 'Test Last Name2', sa.Id, store.Id, false);
+		client2.CLienttype__pc = 'Client';
+		client2.VIP__pc = 'Yes';
+		clients.add(client2);
+
+		insert clients;
 
 		List<ClientList__c> clientLists = new List<ClientList__c>();
 
-		ClientList__c clientList1 = new ClientList__c(Name = 'TEST', clientListQuery__c = 'AND CLienttype__pc in (\'PROSPECT_T\', \'Client\', \'Company\') AND VIP__pc = \'Yes\'');
+		ClientList__c clientList1 = CLT_TestDateFactory.createTestClientList('TEST MY VIP', 'AND CLienttype__pc in (\'PROSPECT_T\', \'Client\', \'Company\') AND VIP__pc = \'Yes\'', false);
 		clientLists.add(clientList1);
-        
-		ClientList__c clientList2 = new ClientList__c(clientListQuery__c = 'AND FirstName = \'Test\'', InMyStore__c = true);
+
+		ClientList__c clientList2 = CLT_TestDateFactory.createTestClientList('TEST Client List 2', 'AND FirstName = \'Test client 2\'', false);
+		clientList2.InMyStore__c = true;
 		clientLists.add(clientList2);
-        
-		ClientList__c clientList3 = new ClientList__c(clientListQuery__c = 'AND FirstName = \'Testy\'', VisibilityBasedOnField__c = 'Local_Main_CA__c');
+
+		ClientList__c clientList3 = CLT_TestDateFactory.createTestClientList('TEST Client List 3', 'AND FirstName = \'Test client%\'', false);
+		clientList3.VisibilityBasedOnField__c = 'Local_Main_CA__c';
 		clientLists.add(clientList3);
         
 		insert clientLists;
     }
 
-	@isTest 
-    static void test_method_one() {
-        
-        ClientList__c clientList1 = [SELECT Id FROM ClientList__c WHERE Name = 'TEST' LIMIT 1];
-        
-		CLT_ClientList clt_clientLists = new  CLT_ClientList();
- 		Test.startTest();
+	@isTest
+	static void test_ClientList_GET() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		CLT_ClientList cltClientList = new CLT_ClientList();
 
-		clt_clientLists.retrieveGet(new Map<String, String>{'Type' => clientList1.Id});
-		clt_clientLists.retrieveGet(new Map<String, String>{'Type' => null});
-		clt_clientLists.retrieveDelete(new Map<String, String>());
-		clt_clientLists.retrievePost(new Map<String, String>(),new Map<String,Object>());
+		ClientList__c cl = [SELECT Id FROM ClientList__c WHERE Name = 'TEST MY VIP' LIMIT 1];
 
-		Test.stopTest();
+		System.runAs(sa) {
+			Test.startTest();
+
+			Object getSpecificClientListResponse = cltClientList.retrieveGet(new Map<String, String>{'Type' => cl.Id});
+			List<Object> clientListsInGetSpecific = (List<Object>)JSON.deserializeUntyped(JSON.serialize(((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(getSpecificClientListResponse))).get('clientLists')));
+			System.assertEquals(1, clientListsInGetSpecific.size(), 'returned specific client list size is different than 1');
+
+			Object getClientListEmptyParamsResponse = cltClientList.retrieveGet(new Map<String, String>{'Type' => null});
+			List<Object> clientListsInGetGeneral = (List<Object>)JSON.deserializeUntyped(JSON.serialize(((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(getClientListEmptyParamsResponse))).get('clientLists')));
+			System.assertEquals(3, clientListsInGetGeneral.size(), 'returned general client list size is different than 3');
+
+			Test.stopTest();
+		}
 	}
 
+	@isTest
+	static void test_ClientList_POST() {
+		CLT_ClientList cltClientList = new CLT_ClientList();
+
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        System.runAs(sa) {
+            Test.startTest();
+            
+            Object cltClientListPostResponse = cltClientList.retrievePost(new Map<String, String>(),new Map<String,Object>());
+            System.assertEquals(null, cltClientListPostResponse, 'Post method defined and not tested');
+
+            Test.stopTest();
+        }
+	}
+
+	@isTest
+	static void test_ClientList_DELETE() {
+		CLT_ClientList cltClientList = new CLT_ClientList();
+
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        System.runAs(sa) {
+            Test.startTest();
+            
+            Object cltClientListDeleteResponse = cltClientList.retrieveDelete(new Map<String, String>());
+            System.assertEquals(null, cltClientListDeleteResponse, 'Delete method defined and not tested');
+
+            Test.stopTest();
+        }
+	}
 }

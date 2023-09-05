@@ -8,7 +8,12 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
     }
 
     public Object retrieveGet(Map<String, String> params){  
-        return new ConfigWrapper(getPicklists(params), getMappings(), getActiveSOQL(), getClientNotes(), getEmailTemplatesFields(), getSAs(), getGlobalSAs(), getUserInfos(), getCallOutreachReasons(), getListOrder());
+        User u = [SELECT StoreCode__c FROM User WHERE Id = :UserInfo.getUserId()];
+        Store__c userStore = [SELECT Country__c,Region__c FROM Store__c WHERE SourceStoreId__c = :u.StoreCode__c LIMIT 1];
+        return new ConfigWrapper(getPicklists(params), getMappings(), getActiveSOQL(), getClientNotes(), getEmailTemplatesFields(),
+                                getSAs(), getGlobalSAs(), getUserInfos(), getGifts(userStore), getEvents(userStore), 
+                                getCallOutreachReasons(), getListOrder(), getProductColors(), getProductCollections(),
+                                getProductMaterials(), getProductSizes());
     }
 
     public List<CLT_UtilsPicklist.PicklistWrapper> getPicklists(Map<String, String> params){
@@ -95,6 +100,22 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
 //        resultMapping.put('contactId', CLT_Utils.getMyContactId());
         return resultMapping;
     }
+
+    public List<Map<String, Object>> getGifts(Store__c userStore) {
+        String giftQuery = ' FROM Gift__c WHERE (ActiveFrom__c = NULL OR ActiveFrom__c <= TODAY) AND (ActiveUntil__c = NULL OR ActiveUntil__c >= TODAY) ';
+        giftQuery += ' AND ((Countries__c = \'\' OR Countries__c INCLUDES (\'' + userStore.Country__c + '\'))) ';
+        giftQuery += ' AND ((Region__c = \'\' OR Region__c = \'' + userStore.Region__c + '\')) ';
+        giftQuery += ' ORDER BY Name__c';
+        return CLT_Utils_Mapping.getStandardWrapperList('Gift__c','Gift__c', giftQuery);
+    }
+
+    public List<Map<String, Object>> getEvents(Store__c userStore) {
+        String eventQuery = ' FROM Event__c WHERE (ActiveFrom__c = NULL OR ActiveFrom__c <= TODAY) AND (ActiveUntil__c = NULL OR ActiveUntil__c >= TODAY) ';
+        eventQuery += ' AND ((Countries__c = \'\' OR Countries__c INCLUDES (\'' + userStore.Country__c + '\'))) ';
+        eventQuery += ' AND ((Region__c = \'\' OR Region__c = \'' + userStore.Region__c + '\')) ';
+        eventQuery += ' ORDER BY Name__c';
+        return CLT_Utils_Mapping.getStandardWrapperList('Event__c','Event__c', eventQuery);
+    }
     
     public Object getZoneStoreCodes(String currentStoreCode) {
         String storeCodes = '';
@@ -153,8 +174,40 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
 
     }
 
-    public  List<Map<String, Object>> getListOrder(){  
+    public List<Map<String, Object>> getListOrder(){  
         return CLT_Utils_Mapping.getStandardWrapperList('CLT_List_Order__mdt', 'CLT_List_Order__mdt', 'FROM CLT_List_Order__mdt WHERE SectionName__c = \'Tasks Group\'');
+    }
+
+    public List<String> getProductColors() {
+        List<String> productColors = new List<String>();
+        for(AggregateResult ar : [SELECT color_v3__c color FROM Product2 WHERE color_v3__c != NULL GROUP BY color_v3__c]) {
+            productColors.add((String)ar.get('color'));
+        }
+        return productColors;
+    }
+
+    public List<String> getProductCollections() {
+        List<String> productCollections = new List<String>();
+        for(AggregateResult ar : [SELECT model__c collection FROM Product2 WHERE model__c != NULL GROUP BY model__c]) {
+            productCollections.add((String)ar.get('collection'));
+        }
+        return productCollections;
+    }
+
+    public List<String> getProductMaterials() {
+        List<String> productMaterials = new List<String>();
+        for(AggregateResult ar : [SELECT material_v3__c material FROM Product2 WHERE material_v3__c != NULL GROUP BY material_v3__c]) {
+            productMaterials.add((String)ar.get('material'));
+        }
+        return productMaterials;
+    }
+
+    public List<String> getProductSizes() {
+        List<String> productSizes = new List<String>();
+        for(AggregateResult ar : [SELECT size__c size FROM Product2 WHERE size__c != NULL GROUP BY size__c]) {
+            productSizes.add((String)ar.get('size'));
+        }
+        return productSizes;
     }
 
     public class ConfigWrapper{
@@ -166,11 +219,23 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
         public List<Map<String, Object>> SAs {get;set;}
         public List<Map<String, Object>> globalSAs {get;set;}
         public Map<String, Object> userInfos {get;set;}
+        public List<Map<String, Object>> gifts {get;set;}
+        public List<Map<String, Object>> events {get;set;}
         public List<callOutreachReasonsWrapper> callOutreachReasons {get; set;}
         public List<Map<String, Object>> listsOrder {get;set;}
+        public List<String> productColors {get;set;}
+        public List<String> productCollections {get;set;}
+        public List<String> productMaterials {get;set;}
+        public List<String> productSizes {get;set;}
+
 
         //Constructor
-        public ConfigWrapper(list<CLT_UtilsPicklist.PicklistWrapper> picklists, List<Map<String, Object>> mappings, List<Map<String,String>> queries, List<Map<String, Object>> clientNotes, List<Map<String,String>> emailTemplatesFields, List<Map<String, Object>> SAs,  List<Map<String, Object>> globalSAs, Map<String,object> userInfos, List<callOutreachReasonsWrapper> callOutreachReasons, List<Map<String, Object>> listsOrder){
+        public ConfigWrapper(list<CLT_UtilsPicklist.PicklistWrapper> picklists, List<Map<String, Object>> mappings, List<Map<String,String>> queries,
+                        List<Map<String, Object>> clientNotes, List<Map<String,String>> emailTemplatesFields, List<Map<String, Object>> SAs,
+                        List<Map<String, Object>> globalSAs, Map<String,object> userInfos, List<Map<String, Object>> gifts,
+                        List<Map<String, Object>> events, List<callOutreachReasonsWrapper> callOutreachReasons, 
+                        List<Map<String, Object>> listsOrder, List<String> productColors, List<String> productCollections,
+                        List<String> productMaterials, List<String> productSizes){
             this.picklists = picklists;
             this.mappings = mappings;
             this.queries = queries;
@@ -179,8 +244,14 @@ public with sharing class CLT_Config implements CLT_RetailInterface{
             this.SAs = SAs;
             this.globalSAs =globalSAs;
             this.userInfos = userInfos;
+            this.gifts = gifts;
+            this.events = events;
             this.callOutreachReasons = callOutreachReasons;
             this.listsOrder = listsOrder;
+            this.productColors = productColors;
+            this.productCollections = productCollections;
+            this.productMaterials = productMaterials;
+            this.productSizes = productSizes;
         }
     } 
 }

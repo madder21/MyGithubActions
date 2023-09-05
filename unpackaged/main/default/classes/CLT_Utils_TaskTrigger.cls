@@ -3,25 +3,34 @@
  */
 public class CLT_Utils_TaskTrigger {
 
-    public static void updateLastContactDate(List<Task> newTask) {
-        Map<String,Account> accountToUpdate = new Map<String,Account>();
-    
+    public static void updateLastContactDate(List<Task> newTask) {  
+        Map<String, Date> clientContactedDateMap = new Map<String, Date>();  
         for (Task task : newTask) {
-            if (task.Outreach_Type__c != null && task.Outreach_Type__c != 'Wishlist' && task.AccountId != null) {
+            Boolean accToUpdateFlag = false;
+            if (task.Outreach_Type__c != null && task.AccountId != null && task.Outreach_Type__c != 'Wishlist' 
+                && task.Outreach_Type__c != 'Event' && task.Outreach_Type__c != 'Gift') {
                 Account account = new Account(id = task.AccountId);
-                account.LastContactDate__pc = task.ActivityDate;
-                if (!accountToUpdate.containsKey(account.Id)) {
-                    accountToUpdate.put(account.Id, account);
-                } 
-                else if (accountToUpdate.containsKey(account.Id) && accountToUpdate.get(account.Id).LastContactDate__pc < account.LastContactDate__pc) {
-                    Account acc = accountToUpdate.remove(account.Id);
-                    accountToUpdate.put(account.Id, account);
+                if(task.ActivityDate != null && (!clientContactedDateMap.containsKey(task.AccountId) || (clientContactedDateMap.containsKey(task.AccountId) && clientContactedDateMap.get(task.AccountId) < task.ActivityDate))) {
+                    clientContactedDateMap.put(task.AccountId, task.ActivityDate);
                 }
             }
         }
-        update accountToUpdate.values();
-    }
 
+        List<Account> clientsToUpdate = new List<Account>();
+        if(clientContactedDateMap.size() > 0) {
+            for(Account client : [SELECT Id,LastContactDate__pc FROM Account WHERE Id IN :clientContactedDateMap.keySet()]) {
+                if(client.LastContactDate__pc == null || (client.LastContactDate__pc != null && clientContactedDateMap.get(client.Id) > client.LastContactDate__pc)) {
+                    client.LastContactDate__pc = clientContactedDateMap.get(client.Id);
+                    clientsToUpdate.add(client);
+                }
+            }
+        }
+
+        if(clientsToUpdate.size() > 0) {
+            update clientsToUpdate;
+        }
+    }
+    
     public static void updateRelatedProductDetails(List<Task> newTasks) {
         List<Task> tasksWithProducts = new List<Task>();
         Map<String,String> productDetailsMap = new Map<String, String>();
@@ -57,9 +66,15 @@ public class CLT_Utils_TaskTrigger {
         Map<String, List<String>> reasonsMap = getReasonsMap();
 
         for(Task newTask : newTasks) {
-            if(!String.isEmpty(newTask.Outreach_Reason__c) && (!oldTasksMap.containsKey(newTask.Id) || 
-                (oldTasksMap.containsKey(newTask.Id) && newTask.Outreach_Reason__c != oldTasksMap.get(newTask.Id).Outreach_Reason__c))) {
-                    newTask.EN_Outreach_Reason__c = getENReasonFromMap(reasonsMap, newTask.Outreach_Reason__c);
+            if((newTask.Outreach_Type__c == 'Gift' || newTask.Outreach_Type__c == 'Event') &&
+                String.isEmpty(newTask.EN_Outreach_Reason__c) && !String.isEmpty(newTask.Outreach_Reason__c)) {
+                newTask.EN_Outreach_Reason__c = newTask.Outreach_Reason__c;
+            }
+            if((newTask.Outreach_Type__c != 'Gift' && newTask.Outreach_Type__c != 'Event') && 
+                !String.isEmpty(newTask.Outreach_Reason__c) && 
+                (!oldTasksMap.containsKey(newTask.Id) || (oldTasksMap.containsKey(newTask.Id) && 
+                newTask.Outreach_Reason__c != oldTasksMap.get(newTask.Id).Outreach_Reason__c))) {
+                newTask.EN_Outreach_Reason__c = getENReasonFromMap(reasonsMap, newTask.Outreach_Reason__c);
             }
         }
     }
@@ -97,4 +112,31 @@ public class CLT_Utils_TaskTrigger {
         return '';
     }
 
+    public static void updateRelatedClientListMembersStatus(List<Task> newTasks) {
+        Map<String, List<String>> clientClientListsMap = new Map<String, List<String>>();
+        List<String> clientListIds = new List<String>();
+        for(Task task : newTasks) {
+            if(!String.isEmpty(task.ClientList__c) && !String.isEmpty(task.AccountId)) {
+                if(!clientClientListsMap.containsKey(task.AccountId)) {
+                    clientClientListsMap.put(task.AccountId, new List<String>());
+                }
+                clientClientListsMap.get(task.AccountId).add(task.ClientList__c);
+                clientListIds.add(task.ClientList__c);
+            }
+        }
+        if(clientClientListsMap.size() > 0) {
+            List<ClientListMember__c> clmToUpdate = new List<ClientListMember__c>();
+            for(ClientListMember__c clm : [SELECT Client__c, ClientList__c, Status__c
+                                        FROM ClientListMember__c
+                                        WHERE Client__c IN :clientClientListsMap.keySet() AND ClientList__c IN :clientListIds]) {
+                if(clientClientListsMap.get(clm.Client__c).contains(clm.ClientList__c)) {
+                    clm.Status__c = 'Contacted';
+                    clmToUpdate.add(clm);
+                }
+            }
+            if(clmToUpdate.size() > 0) {
+                update clmToUpdate;
+            }
+        }
+    }
 }

@@ -4,30 +4,15 @@
     <columns>NAME</columns>
     <columns>CREATED_DATE</columns>
     <columns>Store__c</columns>
-    <columns>Vendor__c</columns>
     <columns>TransactionDate__c</columns>
     <columns>ExclTaxAmount__c</columns>
     <columns>TransactionChannel__c</columns>
     <columns>VendorFullName__c</columns>
+    <columns>Vendor__c</columns>
     <columns>VendorID__c</columns>
     <columns>IsGiftTransaction__c</columns>
     <columns>UCRInternalId__c</columns>
     <columns>Client__c</columns>
     <filterScope>Everything</filterScope>
-    <filters>
-        <field>Vendor__c</field>
-        <operation>contains</operation>
-        <value>Margot Galamont</value>
-    </filters>
-    <filters>
-        <field>TransactionDate__c</field>
-        <operation>lessOrEqual</operation>
-        <value>6/26/2022</value>
-    </filters>
-    <filters>
-        <field>TransactionDate__c</field>
-        <operation>greaterOrEqual</operation>
-        <value>6/20/2022</value>
-    </filters>
     <label>All Transactions</label>
 </ListView>

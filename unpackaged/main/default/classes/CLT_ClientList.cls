@@ -33,7 +33,7 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
             Set<Id> clientIds = new Set<Id>();
             clientListIds.add(clientList.Id);
     
-            if(!String.isEmpty(clientList.clientListQuery__c) || clientList.Type__c == 'Membered'){
+            if(!String.isEmpty(clientList.clientListQuery__c)){
                 String clientsQuery = CLT_Utils_Query.getClientsQuery(false, false) + CLT_Utils_ClientLists.buildDynamicQuery(clientList, userId, storeCode, isSpecificClientList);
 //                String clientsQuery = 'SELECT Id From Account WHERE ID != \'\' ' + CLT_Utils_ClientLists.buildDynamicQuery(clientList, userId, storeCode);
                 system.debug(clientsQuery);
@@ -44,6 +44,25 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
                 clients.addAll((List<Object>)CLT_Utils_Mapping.getStandardWrapperListFromObjectList('Account', 'Client', clientsToAdd));
                 
                 clientsListWrapper.add(new ClientListWrapper(clientList, clientIds));
+            }
+            else if(clientList.Type__c == 'Membered'){
+                List<Map<String,Object>> membersWithStatusMap = new List<Map<String,Object>>();
+                for(ClientListMember__c clm : [SELECT Client__c, Status__c
+                                            FROM ClientListMember__c
+                                            WHERE ClientList__c = :clientList.Id AND Client__r.ClientAdvisor__pc = :System.UserInfo.getUserId()]) {
+                    membersWithStatusMap.add(new Map<String,Object>{
+                        'id' => clm.Client__c,
+                        'status' => clm.Status__c
+                    });
+                    clientIds.add(clm.Client__c);
+                }
+                String clientsToAddQuery = CLT_Utils_Query.getClientsQuery(false, false) + ' AND Id IN :clientIds AND Id NOT IN :allClientIds';
+                List<Account> clientsToAdd = (List<Account>)Database.query(clientsToAddQuery);
+                allClientIds.addAll(clientIds);
+                clients.addAll((List<Object>)CLT_Utils_Mapping.getStandardWrapperListFromObjectList('Account', 'Client', clientsToAdd));
+                
+                clientsListWrapper.add(new ClientListWrapper(clientList, clientIds, membersWithStatusMap));
+                
             }
         }  
 
@@ -67,18 +86,32 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
     }
 
     List<ClientList__c> getClientLists(String clientListId, Boolean isManager, String storeCode){
-        string query = 'SELECT Id,OwnerId,Owner.FirstName,CreatedDate,Type__c,Owner.LastName,Description__c,Position__c,Name,ClientListQuery__c,InMyStore__c,StaticList__c,' +
-                                'IsDarkText__c,OrderBy__c,Ascendant__c,DisplayType__c,VisibilityBasedOnField__c,SpecificFieldDisplay__c,SpecificFieldDisplayLabel__c, ' + 
+        string query = 'SELECT Id,OwnerId,Owner.FirstName,CreatedDate,LastModifiedDate,Type__c,Owner.LastName,Description__c,Position__c,Name,ClientListQuery__c,InMyStore__c,StaticList__c,' +
+                                'IsDarkText__c,OrderBy__c,Ascendant__c,DisplayType__c,VisibilityBasedOnField__c,SpecificFieldDisplay__c,SpecificFieldDisplayLabel__c,' +
+                                'DisplayToReachOutContactedSection__c,ContactedSectionDisplayPeriod__c, ' + 
                                 '(SELECT Description__c,Title__c,Name FROM Client_List_Translations__r' +
                                 ' WHERE Language__c = \'' + UserInfo.getLanguage() +'\' LIMIT 1)' +
                         ' FROM ClientList__c ' +
-            			' WHERE Id != \'\' AND (Stores__c includes (\'' + storeCode + '\') OR Stores__c = \'\')';
+            			' WHERE Id != \'\' AND Type__c != \'Personal\' AND (Stores__c includes (\'' + storeCode + '\') OR Stores__c = \'\') ';
         
         if(clientListId != null){
-            query += ' AND Id = \'' + clientListId + '\'';
+            query += ' AND Id = \'' + clientListId + '\' ';
+        }
+        else if (String.isEmpty(clientListId)) {
+            List<String> memberdListIds = new List<String>();
+            for(AggregateResult ar : [SELECT ClientList__c clientListId 
+                                    FROM ClientListMember__c 
+                                    WHERE ClientList__r.Type__c = 'Membered' AND ClientList__r.IsActive__c = TRUE AND 
+                                        (ClientList__r.StartDate__c <= TODAY OR ClientList__r.StartDate__c = NULL) AND 
+                                        (ClientList__r.EndDate__c >= TODAY OR ClientList__r.EndDate__c = NULL) AND 
+                                        Client__r.ClientAdvisor__pc = :UserInfo.getUserId() 
+                                    GROUP BY ClientList__c ]) {
+                memberdListIds.add((String)ar.get('clientListId'));
+            }
+            query += ' AND (Type__c != \'Membered\' OR (Type__c = \'Membered\' AND Id IN (\'' + String.join(memberdListIds, '\',\'') +'\'))) ';
         }
         if(!isManager){
-            query += 'AND IsManagerList__c = false';
+            query += ' AND IsManagerList__c = false ';
         }
 
         System.debug('queryyyy '+ query);
@@ -86,15 +119,18 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
     }
 //------------------------------------END   GET Client List------------------------------------------------------------------------
 
-    class ClientListWrapper{
+    public class ClientListWrapper{
         public String id {get;set;}
         public String name {get;set;}
         public String createdDate {get;set;}
+        public DateTime modifiedDate {get;set;}
         public String listDescription {get;set;}
         public Decimal position {get;set;}
         public String ownerId {get;set;}
         public String type {get;set;}
         public Boolean isStaticList {get; set;}
+        public Boolean displayToReachOutContactedSection {get; set;}
+        public Integer contactedSectionDisplayPeriod {get; set;}
         public Boolean isDarkText {get;set;}
         public Boolean ascendant {get;set;}
         public String orderBy {get;set;}
@@ -102,16 +138,23 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
         public string specificFieldDisplay {get; set;}
         public string specificFieldDisplayLabel {get; set;}
         public Set<Id> clientIds {get;set;}
-  
+        public List<Map<String,Object>> membersWithStatus {get;set;}
 
-        ClientListWrapper(ClientList__c clientList, Set<Id> clientIds){
+        public ClientListWrapper(ClientList__c clientList, Set<Id> clientIds, List<Map<String,Object>> membersWithStatus){
+            this(clientList, clientIds);
+            this.membersWithStatus = membersWithStatus;
+        }
+
+        public ClientListWrapper(ClientList__c clientList, Set<Id> clientIds){
             this(clientList);
             this.clientIds = clientIds;
         }
 
-        ClientListWrapper(ClientList__c clientList){
+        public ClientListWrapper(ClientList__c clientList){
             this.id = clientList.Id;
             this.isStaticList = clientList.StaticList__c;
+            this.displayToReachOutContactedSection = clientList.DisplayToReachOutContactedSection__c;
+            this.contactedSectionDisplayPeriod = (Integer)clientList.ContactedSectionDisplayPeriod__c;
             this.isDarkText = clientList.IsDarkText__c;
             this.orderBy = clientList.OrderBy__c;
             this.ascendant = clientList.Ascendant__c;
@@ -122,7 +165,9 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
             this.name = clientList.Name;
             this.listDescription = clientList.Description__c;
             this.ownerId = clientList.OwnerId;
+            this.type = clientList.Type__c;
             this.createdDate = clientList.CreatedDate.format('yyyy-MM-dd');
+            this.modifiedDate = clientList.LastModifiedDate;
 
 
             if (!clientList.Client_List_Translations__r.isEmpty()){

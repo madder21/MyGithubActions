@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Non_Personal_List</fullName>
+    <columns>NAME</columns>
+    <columns>Position__c</columns>
+    <columns>ClientListQuery__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>VisibilityBasedOnField__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>notEqual</operation>
+        <value>Membered,Personal</value>
+    </filters>
+    <label>HQ List</label>
+</ListView>

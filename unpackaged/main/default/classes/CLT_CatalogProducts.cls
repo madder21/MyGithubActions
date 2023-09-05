@@ -12,6 +12,8 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         String listType = params.get('listType');
         String productId = params.get('productId');
         Boolean isNewVersion = params.containsKey('isNewVersion') ? Boolean.valueOf(params.get('isNewVersion')) : false;
+        Integer versionNum = params.containsKey('versionNum') ? Integer.valueOf(params.get('versionNum')) : 1;
+
 
         if(params.get('productId') != null) {
             User user = [SELECT Id, StoreCode__c FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
@@ -28,14 +30,27 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
             return getWaitingClients(user.Id, user.StoreCode__c);
         }
 
+        else if(listType == 'productTranslation') {
+            List<String> translationLanguages = new List<String>{'EN'};
+
+            User user = [SELECT Id, Email_templates__c FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
+            translationLanguages.addAll(user.Email_templates__c.split(';'));
+
+            return getProductTranslations(translationLanguages);
+        }
+
         Map<String, Object> result = new Map<String, Object>();
         list<map<string, object>> catalogProducts = getCatalogProducts();
         result.put('catalogProducts', catalogProducts);
         result.put('catalogColors', getCatalogColors());
-        if(isNewVersion) {
+
+        if(versionNum >= 2) {
+            result.put('productTranslations', getProductTranslations(new List<String> {UserInfo.getLanguage(), 'en'}));
+        }
+        else if(isNewVersion) {
             result.put('productTranslations', getProductTranslations());
         }
-        system.debug('result: ' + result);
+        
         return result;
     }
 
@@ -51,13 +66,52 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation', 'FROM Product_Translation__c');
     }
 
+    public list<map<string, object>> getProductTranslations(List<String> languagesToRetrieve){
+        return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation',
+            'FROM Product_Translation__c' + (languagesToRetrieve.size() > 0 ? ' WHERE Language__c IN (\'' + String.join(getUserTranslationLanguages(languagesToRetrieve), '\',\'') + '\')' : ''));
+    }
+
+    private List<String> getUserTranslationLanguages(List<String> languages) {
+        List<String> isoLanguages = new List<String>();
+        for(String lang : languages) {
+            isoLanguages.add(getTranslationLanguages(lang));
+        }
+
+        return isoLanguages;
+    }
+
+    private String getTranslationLanguages(String language) {
+        switch on language {
+            when 'en_US' {
+                return 'en';
+            }
+            when 'fr', 'es', 'de', 'it', 'ja', 'ko', 'EN', 'FR', 'ES', 'DE', 'IT', 'JA', 'KO', 'NL', 'PT' {
+                return language.toLowerCase();
+            }
+            when 'JP' {
+                return 'ja';
+            }
+            when 'nl_NL' {
+                return 'nl';
+            }
+            when 'pt_BR', 'pt_PT' {
+                return 'pt';
+            }
+            when 'zh_CN', 'CHS' {
+                return 'zh';
+            }
+            when 'zh_TW', 'CHT' {
+                return 'zh-Hant';
+            }
+            when else {
+                return 'en';
+            }
+        }
+    }
+
     public List<Map<String, Object>> getRelatedProducts(String userId, String storeCode, String productId){ 
         List<Map<String, Object>> result = new List<Map<String, Object>>();
-        System.debug('pro id -->> '+productId);
-        System.debug('user id -->> '+userId);
-        System.debug('store storeCode -->> '+storeCode);
         Catalog_Product__c product = [SELECT Id,Name,Category__r.Name,Accessory_Type__r.Name FROM Catalog_Product__c WHERE Id = :productId LIMIT 1];
-        System.debug('product -->> '+product);
         
         String productFamilyCond;
         if(product.Category__r.name == 'Luggage' || (product.Category__r.name == 'Accessories' && product.Accessory_Type__r.Name == 'Extras')) {
@@ -66,7 +120,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         else {
             productFamilyCond = 'Product__r.Id = \'' + product.Id + '\' ';
         }
-        System.debug('productFamilyCond -->> '+productFamilyCond);
 
         Map<String, Integer> myWishlistsMap = new Map<String, Integer>();
         String wishlistQuery = 'SELECT Product__c product, COUNT(Id) timesAdded '+
@@ -79,7 +132,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         for(AggregateResult ar : Database.query(wishlistQuery)) {
             myWishlistsMap.put((String)ar.get('product'), Integer.ValueOf(ar.get('timesAdded')));
         }
-        System.debug('myWishlistsMap -->> '+ myWishlistsMap);
             
         Map<String, Integer> storeWishlistsMap = new Map<String, Integer>();
         String storeQuery = 'SELECT Product__c product, COUNT(Id) timesAdded '+
@@ -92,7 +144,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         for(AggregateResult ar : Database.query(storeQuery)) {
             storeWishlistsMap.put((String)ar.get('product'), Integer.ValueOf(ar.get('timesAdded')));
         }
-        System.debug('storewish -->> '+ storeWishlistsMap);
         
         String waitedProductQuery = 'SELECT Product__c product, MAX(CreatedDate) addedDate '+
         'FROM WishlistItem__c '+
@@ -111,8 +162,7 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
             result.add(waitedProduct);
         }
         
-        System.debug('result -->> '+ result);
-            return result;
+        return result;
     }
 
     public List<Map<String, Object>> getWaitedProduct(String userId, String storeCode){    
@@ -127,8 +177,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
                                     GROUP BY Product__c]) {
             myWishlistsMap.put((String)ar.get('product'), Integer.ValueOf(ar.get('timesAdded')));
         }
-        System.debug('wish -->> '+ myWishlistsMap);
-
 
         Map<String, Integer> storeWishlistsMap = new Map<String, Integer>();
         
@@ -138,8 +186,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
                                     GROUP BY Product__c]) {
             storeWishlistsMap.put((String)ar.get('product'), Integer.ValueOf(ar.get('timesAdded')));
         }
-        System.debug('storewish -->> '+ storeWishlistsMap);
-
 
         for (AggregateResult ar : [SELECT Product__c product, MAX(CreatedDate) addedDate
                                     FROM WishlistItem__c
@@ -159,7 +205,6 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
     }
 
     public list<map<string, object>> getWaitingClients(String userId, String storeCode){ 
-
         Map<String, String> wishlistClientMap = new Map<String, String>();
         for(WishlistItem__c wi : [SELECT Id,Client__c 
                                 FROM WishlistItem__c
@@ -169,37 +214,25 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
             if(!wishlistClientMap.containsKey(wi.Client__c)) {
                 wishlistClientMap.put(wi.Client__c, wi.Id);
             }
-            System.debug('wishlistClientMap ===>> '+wishlistClientMap);
         }
         
-        
-        
-        //Eli change
         Map<Object, Object> wishlistClientItems = new Map<Object, Object>();
         for(AggregateResult ar : [SELECT Client__c cli, COUNT(id) numOfProducts
         FROM WishlistItem__c
         WHERE  (CreatedBy.StoreCode__c = :storeCode OR CreatedById = :userId)
-        // WHERE  (Client__r.MainStore__pr.SourceStoreId__c = :storeCode OR CreatedById = :userId)
         AND removedItem__c = false
         GROUP BY Client__c]) {
             wishlistClientItems.put(ar.get('cli'), ar.get('numOfProducts'));
         }
         
-        //end
-        
         List<Map<String, Object>> wishlistClients = CLT_Utils_Mapping.getStandardWrapperList('WishlistItem__c', 'WishlistClient', 
         'FROM WishlistItem__c WHERE Id IN (\'' + String.join(wishlistClientMap.values(), '\',\'') + '\')  ORDER BY CreatedDate DESC');
-        
-        System.debug('wishlistClients ===>> '+wishlistClients);
-
-       
+               
         for(Map<String, Object> wi : wishlistClients){
-            System.debug('i client ==>> '+ wi);
             String clientId = wi.get('clientId').toString();
             wi.put('nbrProducts',wishlistClientItems.get(clientId));
         }
 
-       
         return wishlistClients;
     }
 }

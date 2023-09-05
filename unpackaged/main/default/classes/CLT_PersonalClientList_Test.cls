@@ -144,8 +144,10 @@ private class CLT_PersonalClientList_Test {
         List<Transaction__c> transactionsToInsert = new List<Transaction__c>();
         List<Account> clientsToUpdate = new List<Account>();
 
-        Gift__c gift = CLT_TestDateFactory.createTestGift('Wedding', true);
-        Event__c event = CLT_TestDateFactory.createTestClientelingEvent('Holiday Season 2023', true);
+        String giftNameOption =  Gift__c.Name__c.getDescribe().getPicklistValues()[0].getLabel();
+        Gift__c gift = CLT_TestDateFactory.createTestGift(giftNameOption, true);
+        String eventNameOption =  Event__c.Name__c.getDescribe().getPicklistValues()[0].getLabel();
+        Event__c event = CLT_TestDateFactory.createTestClientelingEvent(eventNameOption, true);
         List<Task> tasksToInsert = new List<Task>();
 
         CLT_TestDateFactory.createTestCountryCode('France', 'FR', 'FRA', true);
@@ -216,7 +218,9 @@ private class CLT_PersonalClientList_Test {
                 'giftGifted' => true,
                 'giftGiftedDate' => DateTime.now().addDays(-30).format('yyyy-MM-dd'),
                 'eventAttended' => true,
-                'eventAttendedDate' => DateTime.now().addDays(-30).format('yyyy-MM-dd') 
+                'eventAttendedDate' => DateTime.now().addDays(-30).format('yyyy-MM-dd'),
+                'contactable' => false,
+                'outreachChannel' => new List<String> {'Postal'}
             };
 			Object responseGetClientsByFilters = cltPersonalClientList.retrievePost(new Map<String, String>{'clientsFilters' => 'true'}, body);
 			Test.stopTest();

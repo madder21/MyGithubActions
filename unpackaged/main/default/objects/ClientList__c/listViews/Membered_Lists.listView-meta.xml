@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Membered_Lists</fullName>
+    <columns>NAME</columns>
+    <columns>Position__c</columns>
+    <columns>ClientListQuery__c</columns>
+    <columns>LAST_UPDATE</columns>
+    <columns>CREATEDBY_USER</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>Type__c</field>
+        <operation>equals</operation>
+        <value>Membered</value>
+    </filters>
+    <label>Campaign Lists</label>
+</ListView>

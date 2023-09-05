@@ -1827,6 +1827,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Store__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.Related_Products_Details__c</field>
         <readable>true</readable>
@@ -1854,6 +1859,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>TransactionPayment__c.Client__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.LocalOrTourist__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Transaction__c.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2095,6 +2110,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>LocationGroupAssignment-Location Group Assignment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>NewsContent__c-News Content Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>News__c-News Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>OrderAdjustmentGroup-Order Adjustment Group Layout</layout>

@@ -33,7 +33,11 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
     }
 
     public list<map<string, object>> getTasks(){
-        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', 'FROM Task WHERE OwnerId = \'' + UserInfo.getUserId() + '\' AND Outreach_Type__c = NULL AND Status__c != \'Canceled\'');
+        String taskQuery = 'FROM Task WHERE OwnerId = \'' + UserInfo.getUserId() + '\' AND Outreach_Type__c = NULL' + 
+                            ' AND Status__c != \'Canceled\' AND (CompletedDateTime = NULL OR CompletedDateTime = LAST_N_DAYS:2)' +
+                            ' AND ((Status != \'Completed\' AND Status__c != \'Completed\') OR (Status = \'Completed\' AND Status__c = \'Completed\'))' +
+                            ' AND (Subject != \'Birthday to wish\' OR (Subject = \'Birthday to wish\' AND ActivityDate = LAST_N_DAYS:2))';
+        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', taskQuery);
         
     }
     
@@ -59,12 +63,17 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
         Store__c myStore = CLT_Utils.getMyStore(); 
         String userStoreId = myStore == null ? '' : myStore.Id;
         Boolean isMultipleCATask = body.get('isMultipleCATask') != null ? (Boolean)body.get('isMultipleCATask') : false;
+        Boolean isMultipleClientsTask = body.get('isMultipleClientsTask') != null ? (Boolean)body.get('isMultipleClientsTask') : false;
   
         List<sObject> objects;
         if(objectName == 'Task') {
             if(isMultipleCATask) {
                 List<String> caIds = body.get('caIds') != null ? ((String)body.get('caIds')).split(';') : new String[]{ UserInfo.getUserId() };
                 objects = upsertMultipleCATasks(items, caIds, userStoreId);
+            }
+            else if(isMultipleClientsTask) {
+                List<String> clientsIds = body.get('clientsIds') != null ? ((String)body.get('clientsIds')).split(';') : new List<String>();
+                objects = upsertMultipleClientsTasks(items, clientsIds, userStoreId);
             }
             else {
                 objects = upsertTasks(items, userStoreId);
@@ -123,6 +132,28 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
         }
 
         return tasks;  
+    }
+
+    public static List<Task> upsertMultipleClientsTasks(List<Object> items, List<String> clientsIds, String userStoreId) {
+        List<Map<String, Object>> mapTasks = CLT_Utils_Mapping.getMapObjectsByWrapperItems('Task', 'Task', items);
+        List<Task> tasksToUpsert = new List<Task>();
+        for(String clientId : clientsIds) {
+            List<Task> tasks = (List<Task>) JSON.deserialize(JSON.serialize(mapTasks), List<Task>.class);
+            for(Task task : tasks) {
+                if(String.isNotEmpty(userStoreId)){
+                    task.Store__c = userStoreId;
+                }
+                
+                if (task.ActivityDate == null) {
+                    task.ActivityDate = null;
+                }
+                
+                task.WhatId = clientId;
+                tasksToUpsert.add(task);
+            }
+        }
+        upsert tasksToUpsert; 
+        return tasksToUpsert; 
     }
 
     public static List<Task> upsertMultipleCATasks(List<Object> items, List<String> caIds, String userStoreId) {

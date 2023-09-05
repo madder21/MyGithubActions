@@ -4,37 +4,170 @@
 @IsTest
 private class CLT_Activities_Test {
 
-	@isTest static void test_method_one() {
-
-		Task task = new Task();
-		insert task;
-        
-        List<String> taskAttachments = new List<String>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'};
-        CLT_Activities.manageTaskAttachments(taskAttachments, task);
-
-		CLT_Activities cltWishlist = new CLT_Activities();
-		Test.startTest();
-		cltWishlist.retrieveGet(new Map<String, String>{'taskId' => task.Id});
-        cltWishlist.retrieveGet(new Map<String, String>{'params' => 'test'});
-		cltWishlist.retrieveDelete(new Map<String, String>{'id' => task.Id,'objectName' => 'Task'});
-		cltWishlist.retrievePost(new Map<String, String>(),new Map<String,Object> { 'objectName'=> 'Task','id' => task.Id,'items'=> JSON.deserializeUntyped('[{},{}]')});
-
-		Object itemsJsonStr = JSON.deserializeUntyped(JSON.serialize(new List<Event>{new Event(IsAllDayEvent = true, ActivityDate = System.today())})
-				.replace('IsAllDayEvent', 'allDayEvent')
-				.replace('ActivityDate', 'activityDate'));//=> [{"attributes":{"type":"Event"},"allDayEvent":true,"activityDate":"2019-02-07"}]
-
-		cltWishlist.retrievePost(new Map<String, String>(),new Map<String,Object> { 'objectName'=> 'Event',
-																								'id' => task.Id,
-																								'items'=>itemsJsonStr
-																								});
-		Test.stopTest();                
+	@TestSetup
+	static void prepareTestData(){
+		User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
+		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
 	}
 
-	@isTest static void test_method_two() {
-		CLT_Activities cltActivities = new CLT_Activities();
-		Test.startTest();
-		cltActivities.retrievePost(new Map<String, String>(),new Map<String,Object> { 'objectName'=>'Task','isMultipleCATask'=>true, 'caIds'=>UserInfo.getUserId() + ';' ,'id' => task.Id,'items'=> JSON.deserializeUntyped('[{},{}]')});
+	@isTest
+	static void testDeleteActivities() {
+		
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		Task t = CLT_TestDateFactory.createTask(sa.Id, true);
 
-		Test.stopTest();                
+        System.runAs(sa) {
+			CLT_Activities cltActivities = new CLT_Activities();
+			Test.startTest();
+			cltActivities.retrieveDelete(new Map<String, String>{'id' => t.Id,'objectName' => 'Task'});
+			Test.stopTest();
+            List<Task> taskAfterWS = [SELECT Id FROM Task WHERE Id = :t.Id];
+			System.assertEquals(0, taskAfterWS.size(), 'Task list size is not 0 after delete');
+		}
+	}
+
+	@isTest
+	static void testPostActivities() {
+		
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+
+		Map<String,Object> tasksObjToInsert = new Map<String,Object>();
+		tasksObjToInsert.put('subject', 'test post task');
+		tasksObjToInsert.put('ownerId', sa.Id);
+		tasksObjToInsert.put('priority', 'Normal');
+		tasksObjToInsert.put('status', 'Completed');
+		tasksObjToInsert.put('taskAttachments', new List<Object>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'});
+
+		Map<String,Object> body = new Map<String,Object>();
+		body.put('objectName', 'Task');
+		body.put('items', new List<Object> {tasksObjToInsert});
+
+        System.runAs(sa) {
+			CLT_Activities cltActivities = new CLT_Activities();
+			
+			Test.startTest();
+			cltActivities.retrievePost(new Map<String, String>(), body);
+			Test.stopTest();
+            List<Task> insertedTaskWS = [SELECT Id FROM Task WHERE Subject = 'test post task' AND OwnerId = :sa.Id];
+			System.assertEquals(1, insertedTaskWS.size(), 'task list size is not 1 after insert');
+			List<ContentDocumentLink> cdlTask = [SELECT ContentDocumentId,Id,LinkedEntityId FROM ContentDocumentLink WHERE LinkedEntityId =:insertedTaskWS[0].Id];
+			System.assertEquals(1, cdlTask.size(), 'attachement of task list size is not 1 after insert');
+
+			Map<String,Object> eventsObjToInsert = new Map<String,Object>();
+			eventsObjToInsert.put('subject', 'test post event');
+			eventsObjToInsert.put('ownerId', sa.Id);
+			eventsObjToInsert.put('startDateTime', Datetime.now().addHours(24));
+			eventsObjToInsert.put('endDateTime', Datetime.now().addHours(25));
+
+			body.put('objectName', 'Event');
+			body.put('items', new List<Object> {eventsObjToInsert});
+			cltActivities.retrievePost(new Map<String, String>(), body);
+
+			List<Event> insertedEventWS = [SELECT Id FROM Event WHERE Subject = 'test post event' AND OwnerId = :sa.Id];
+			System.assertEquals(1, insertedEventWS.size(), 'event list size is not 1 after insert');
+		}
+	}
+
+	@isTest
+	static void testPostMultipleCATasksActivities() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		User sa2 = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, false);
+		sa2.Email = Datetime.now().getTime()+'testUser2@rimowa.com';
+		insert sa2;
+		
+		Map<String,Object> tasksObjToInsert = new Map<String,Object>();
+		tasksObjToInsert.put('subject', 'test post task');
+		tasksObjToInsert.put('priority', 'Normal');
+		tasksObjToInsert.put('status', 'Completed');
+		tasksObjToInsert.put('taskAttachments', new List<Object>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'});
+
+		Map<String,Object> body = new Map<String,Object>();
+		body.put('objectName', 'Task');
+		body.put('items', new List<Object> {tasksObjToInsert});
+		body.put('isMultipleCATask', true);
+		body.put('caIds', sa.Id + ';' + sa2.Id);
+
+        System.runAs(sa) {
+			CLT_Activities cltActivities = new CLT_Activities();
+			
+			Test.startTest();
+			cltActivities.retrievePost(new Map<String, String>(), body);
+			Test.stopTest();
+            List<Task> insertedTaskWS = [SELECT Id FROM Task WHERE Subject = 'test post task' AND OwnerId = :sa.Id];
+			System.assertEquals(1, insertedTaskWS.size(), 'task list size is not 1 for creator user after insert of multiple ca users');
+		}
+
+		System.runAs(sa2) {
+            List<Task> insertedTaskSA2WS = [SELECT Id FROM Task WHERE Subject = 'test post task' AND OwnerId = :sa2.Id];
+			System.assertEquals(1, insertedTaskSA2WS.size(), 'task list size is not 1 for receiver user after insert of multiple ca users');
+		}
+	}
+
+	@isTest
+	static void testPostMultipleClientsTasksActivities() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		Store__c store = [SELECT Id FROM Store__c WHERE SourceStoreId__c = :'TST123'];
+
+		List<Account> clientsToInsert = new List<Account>();
+		Account client1 = CLT_TestDateFactory.createTestClient('Test First Name 1', 'Test Last Name 1', sa.Id, store.Id, false);
+		clientsToInsert.add(client1);
+		Account client2 = CLT_TestDateFactory.createTestClient('Test First Name 2', 'Test Last Name 2', sa.Id, store.Id, false);
+		clientsToInsert.add(client2);
+		insert clientsToInsert;
+		
+		Map<String,Object> tasksObjToInsert = new Map<String,Object>();
+		tasksObjToInsert.put('subject', 'test post task multiple clients');
+		tasksObjToInsert.put('priority', 'Normal');
+		tasksObjToInsert.put('status', 'Completed');
+
+		Map<String,Object> body = new Map<String,Object>();
+		body.put('objectName', 'Task');
+		body.put('items', new List<Object> {tasksObjToInsert});
+		body.put('isMultipleClientsTask', true);
+		body.put('clientsIds', client1.Id + ';' + client2.Id);
+
+        System.runAs(sa) {
+			CLT_Activities cltActivities = new CLT_Activities();
+			
+			Test.startTest();
+			cltActivities.retrievePost(new Map<String, String>(), body);
+			Test.stopTest();
+            List<Task> insertedTaskWS = [SELECT Id FROM Task WHERE Subject = 'test post task multiple clients' AND OwnerId = :sa.Id AND (WhatId = : client1.Id OR WhatId = : client2.Id)];
+			System.assertEquals(2, insertedTaskWS.size(), 'task list size is not 2 for creator user after insert of multiple clients task');
+		}
+	}
+
+	@isTest
+	static void testGetActivities() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+
+        System.runAs(sa) {
+			Task t = CLT_TestDateFactory.createTask(sa.Id, false);
+			t.Description = 'test get activity task';
+			insert t;
+
+			CLT_Activities.manageTaskAttachments(new List<String>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'}, t);
+
+			Event e = CLT_TestDateFactory.createTestEvent(sa.Id, false);
+			e.Description = 'test get activity event';
+			insert e;
+
+			CLT_Activities cltActivities = new CLT_Activities();
+			Test.startTest();
+			Object responseGetSpecificTask = cltActivities.retrieveGet(new Map<String, String>{'taskId' => t.Id});
+			Object responseGetActivities = cltActivities.retrieveGet(new Map<String, String>());
+			Test.stopTest();
+			String getTaskDescription = (String)((map<String, object>)JSON.deserializeUntyped(JSON.serialize(((list<Object>)JSON.deserializeUntyped(JSON.serialize(responseGetSpecificTask)))[0]))).get('desc');
+			System.assertEquals('test get activity task', getTaskDescription, 'description of task is incorrect');
+
+			Integer itemsCount = 0;
+			for(Object item : (list<Object>)JSON.deserializeUntyped(JSON.serialize(responseGetActivities))) {
+				String description = (String)((map<String, object>)JSON.deserializeUntyped(JSON.serialize(item))).get('desc');
+				if(description == 'test get activity task' || description == 'test get activity event') {
+					itemsCount++;
+				}
+			}
+			System.assertEquals(2, itemsCount, 'number of activities that are receiven from get is not 2');
+		}
 	}
 }

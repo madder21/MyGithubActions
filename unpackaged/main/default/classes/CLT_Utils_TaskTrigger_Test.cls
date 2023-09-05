@@ -38,35 +38,6 @@ private class CLT_Utils_TaskTrigger_Test {
     }
 
     @isTest
-    static void testUpdateLastContactDateOnGift() {
-        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
-        Store__c store = [SELECT Id FROM Store__c WHERE SourceStoreId__c = 'TST123'];
-        Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
-       
-        List<Task> tasksToInsert = new List<Task>();
-
-        Task t1 = CLT_TestDateFactory.createTask(sa.Id, false);
-        t1.WhatId = client.Id;
-        t1.Outreach_Type__c = 'Gift';
-        t1.ActivityDate = Date.today().addDays(-6);
-        t1.GiftedDate__c = Date.today().addDays(-6);
-        tasksToInsert.add(t1);
-
-        Task t2 = CLT_TestDateFactory.createTask(sa.Id, false);
-        t2.WhatId = client.Id;
-        t2.Outreach_Type__c = 'Gift';
-        t2.ActivityDate = Date.today();
-        t2.GiftedDate__c = Date.today();
-        tasksToInsert.add(t2);
-
-        insert tasksToInsert;
-
-        Account clientAfterTaskInsert = [SELECT LastContactDate__pc FROM Account WHERE Id = :client.Id];
-
-        System.assertEquals(t2.GiftedDate__c, clientAfterTaskInsert.LastContactDate__pc, 'LAst Contacted Date of the client is not the same as gift 2 Gifted Date');
-    }
-
-    @isTest
     static void testUpdateRelatedProductDetails() {
         List<Catalog_Product__c> productsToInsert = new List<Catalog_Product__c>();
 
@@ -151,27 +122,6 @@ private class CLT_Utils_TaskTrigger_Test {
             
             
         }
-    }
-
-    @isTest
-    static void testUpdateEventDates() {
-        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
-
-        Event__c event = CLT_TestDateFactory.createTestClientelingEvent('Holiday Season 2023', true);
-
-        Task t = CLT_TestDateFactory.createTask(sa.Id, false);
-        t.Event__c = event.Id;
-        t.EventClientInvited__c = true;
-        insert t;
-
-        Task taskAfterInsertTrigger = [SELECT EventInvitedDate__c FROM Task WHERE Id = :t.Id];
-        System.assertEquals(Date.today(), taskAfterInsertTrigger.EventInvitedDate__c, 'invited date is not today after insert trigger');
-
-        t.EventClientAttended__c = true;
-        update t;
-
-        Task taskAfterUpdateTrigger = [SELECT EventAttendedDate__c FROM Task WHERE Id = :t.Id];
-        System.assertEquals(Date.today(), taskAfterUpdateTrigger.EventAttendedDate__c, 'attended date is not today after update trigger');
     }
 
     @isTest

@@ -1,47 +1,86 @@
 @IsTest
 private class CLT_CatalogProducts_Test {
 
-	@isTest static void test_CatalogProducts_methods() {
-        Catalog_Product__c product = new Catalog_Product__c();
-        product.Product_SKU__c = 'testSku1';
-        product.Name = 'testSku1';
-        
-        insert product;
-        
-        User ca = [SELECT Id, StoreCode__c FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
-        
-        Store__c store = new Store__c();
-        store.Name = 'test store';
-        store.SourceStoreId__c = ca.StoreCode__c;
-        
-        insert store;
-        
-        Account client = new Account();
-        client.FirstName = 'test';
-        client.LastName = 'test';
-        client.ClientAdvisor__pc = ca.Id;
-        client.MainStore__pc = store.Id;
-        
-        insert client;
-        
-        WishlistItem__c wishlist = new WishlistItem__c();
-        wishlist.Product__c = product.Id;
-        wishlist.Client__c = client.Id;
-        wishlist.TECH_uniqueKey__c = client.Id + '-' + product.Id;
-        
-        insert wishlist;
-        
+    @TestSetup
+	static void prepareTestData(){
+		User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, false);
+        sa.Email_templates__c = 'FR';
+        sa.LanguageLocaleKey = 'fr';
+        insert sa;
+
+		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
+        Catalog_Product__c product = CLT_TestDateFactory.createTestProduct('testSKU1', true);
+        CLT_TestDateFactory.createTestProductTranslation(product.Id, true);
+        Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
+	}
+
+	@isTest static void test_CatalogProducts_GET() {
         CLT_CatalogProducts catalog = new  CLT_CatalogProducts();
- 		Test.startTest();
 
-		catalog.retrieveGet(new Map<String, String>());
-        catalog.retrieveGet(new Map<String, String>{'listType' => 'waitedProduct'});
-        catalog.retrieveGet(new Map<String, String>{'listType' => 'waitingClients'});        
-        catalog.retrieveGet(new Map<String, String>{'productId' => product.id});        
-		catalog.retrieveDelete(new Map<String, String>());
-		catalog.retrievePost(new Map<String, String>(),new Map<String,Object>());
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        Catalog_Product__c product = [SELECT Id FROM Catalog_Product__c WHERE Product_SKU__c = 'testSKU1' LIMIT 1];
+        Account client = [SELECT Id FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
+        System.runAs(sa) {
+            WishlistItem__c wishlist = CLT_TestDateFactory.createTestWishlist(product.Id, client.Id, true);
+            Test.startTest();
 
-		Test.stopTest();
+            Object newVersionNoParamsGetResponse = catalog.retrieveGet(new Map<String, String>{'isNewVersion' => 'true'});
+            Object catalogProductsResponse = ((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(newVersionNoParamsGetResponse))).get('catalogProducts');
+            String getProductId = (String)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(((List<Object>)JSON.deserializeUntyped(JSON.serialize(catalogProductsResponse)))[0]))).get('id');
+            System.assertEquals(product.Id, getProductId, 'product id is different than the inserted product');
 
+            Object v2NoParamsGetResponse = catalog.retrieveGet(new Map<String, String>{'versionNum' => '2'});
+            Object productTranslationsResponse = ((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(v2NoParamsGetResponse))).get('productTranslations');
+            System.assertEquals(1, ((List<Object>)JSON.deserializeUntyped(JSON.serialize(productTranslationsResponse))).size(), 'translations list size is different than 1');
+
+            Object waitedProductGetResponse = catalog.retrieveGet(new Map<String, String>{'listType' => 'waitedProduct'});
+            Integer myTimesAdded = (Integer)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(((List<Object>)JSON.deserializeUntyped(JSON.serialize(waitedProductGetResponse)))[0]))).get('myTimesAdded');
+            System.assertEquals(1, myTimesAdded, 'product not added once to wishlist by me');
+           
+            Object waitingClientsGetResponse = catalog.retrieveGet(new Map<String, String>{'listType' => 'waitingClients'}); 
+            String myWaitingClientId = (String)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(((List<Object>)JSON.deserializeUntyped(JSON.serialize(waitingClientsGetResponse)))[0]))).get('clientId');
+            System.assertEquals(client.Id, myWaitingClientId, 'my client is not the waiting client');
+
+            Object getTranslationResponse = catalog.retrieveGet(new Map<String, String>{'listType' => 'productTranslation'}); 
+            System.assertEquals(1, ((List<Object>)JSON.deserializeUntyped(JSON.serialize(getTranslationResponse))).size(), 'translations list size is different than 1');
+
+            Object productGetResponse = catalog.retrieveGet(new Map<String, String>{'productId' => product.id}); 
+            Integer myProductAddedTime = (Integer)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(((List<Object>)JSON.deserializeUntyped(JSON.serialize(waitedProductGetResponse)))[0]))).get('myTimesAdded');
+            System.assertEquals(1, myProductAddedTime, 'my product not added once to wishlist by me');
+            
+                   
+            catalog.retrieveDelete(new Map<String, String>());
+            catalog.retrievePost(new Map<String, String>(),new Map<String,Object>());
+
+            Test.stopTest();
+        }
+    }
+
+    @isTest static void test_CatalogProducts_POST() {
+        CLT_CatalogProducts catalog = new  CLT_CatalogProducts();
+
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        System.runAs(sa) {
+            Test.startTest();
+            
+            Object productPostResponse = catalog.retrievePost(new Map<String, String>(),new Map<String,Object>());
+            System.assertEquals(null, productPostResponse, 'Post method defined and not tested');
+
+            Test.stopTest();
+        }
+    }
+
+    @isTest static void test_CatalogProducts_DELETE() {
+        CLT_CatalogProducts catalog = new  CLT_CatalogProducts();
+
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        System.runAs(sa) {
+            Test.startTest(); 
+            
+            Object productDeleteResponse = catalog.retrieveDelete(new Map<String, String>());
+            System.assertEquals(null, productDeleteResponse, 'Delete method defined and not tested');
+
+            Test.stopTest();
+        }
     }
 }
