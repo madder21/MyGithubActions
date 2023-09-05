@@ -40,4 +40,4 @@ jobs:
               
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-8-1.xml" -u RimowaIntegrateOrg
+              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-9-1.xml" -u RimowaIntegrateOrg
