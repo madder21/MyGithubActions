@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+<Package xmlns="http://soap.sforce.com/2006/04/metadata"> 
+
+	
+  <types>
+		  <members>SOM_Retry_Allocation</members>
+    	<name>ApexClass</name> 
+  </types>
+    
 	<types>
+
 		<members>SOM_960_Exchange_Manual_Order_Creation</members>
+  <members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+		<members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
+  <members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
+    <members>SOM_810_Reship_Order_Flow</members>
 		<name>Flow</name>
+
 	</types>
+	
 	<version>54.0</version>
 </Package>
+
+
