@@ -17,7 +17,6 @@ public with sharing class SOM_CreditMemoDocumentController_Test {
         (SELECT ID, Type, RelatedLineId, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
         TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c END FROM CreditMemoLines) FROM CreditMemo WHERE Refund__c = :refund.Id];
         List<CreditMemoLine> credMemoLines = [select Id , ReturnOrderLineItem__c , Type from CreditMemoLine where CreditMemoId =: creditmemo[0].Id];
-        System.debug('++++cccc'+credMemoLines);
         creditMemoId = creditmemo[0].Id;
     }
 
@@ -26,10 +25,14 @@ public with sharing class SOM_CreditMemoDocumentController_Test {
         attachedToRO = true ;
         makeData();
         attachedToRO = false ;
-        System.debug('debug2'+creditMemoId);
         ApexPages.currentPage().getParameters().put('template', 'CoreModel');
         ApexPages.currentPage().getParameters().put('creditMemoId',creditMemoId);
         SOM_CreditMemoDocumentController creditMedmoCtrl = new SOM_CreditMemoDocumentController();
+        
+        System.assertNotEquals(creditMedmoCtrl.creditMemoConfigs.size(),0, 'attachedToRO - creditMemoConfigs Returned');
+        System.assertNotEquals(creditMedmoCtrl.creditMemoTaxLineItems.size(),0, 'attachedToRO - creditMemoTaxLineItems Returned' );
+        System.assertNotEquals(creditMedmoCtrl.countryMap.size(),0, 'attachedToRO - countryMap Returned');
+        
     }
 
     @isTest(seeAllData=true)
@@ -37,9 +40,12 @@ public with sharing class SOM_CreditMemoDocumentController_Test {
         discount = true ;
         makeData();
         discount = false ;
-        System.debug('debug2'+creditMemoId);
         ApexPages.currentPage().getParameters().put('template', 'CoreModel');
         ApexPages.currentPage().getParameters().put('creditMemoId',creditMemoId);
         SOM_CreditMemoDocumentController creditMedmoCtrl = new SOM_CreditMemoDocumentController();
+        
+        System.assertNotEquals(creditMedmoCtrl.creditMemoConfigs.size(),0, 'discount - creditMemoConfigs Returned');
+        System.assertNotEquals(creditMedmoCtrl.creditMemoTaxLineItems.size(),0, 'discount - creditMemoTaxLineItems Returned' );
+        System.assertNotEquals(creditMedmoCtrl.countryMap.size(),0, 'discount - countryMap Returned');
     }
 }

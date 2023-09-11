@@ -21,7 +21,6 @@ global with sharing class SOM_ClosingOrderSummaryAction {
         for(FulfillmentOrder fo : firstFosFromIds){
             osIds.add(fo.OrderSummaryId);
         }
-        System.debug('os in close ::::: ' + osIds);
 
         List<FulfillmentOrder> fosFromIds = [SELECT Id, OrderSummaryId, Status FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
 
@@ -35,21 +34,17 @@ global with sharing class SOM_ClosingOrderSummaryAction {
 
 
         List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId, quantityAvailabletofulfill FROM OrderItemSummary WHERE Status =: 'Ordered' AND Type != 'Delivery Charge' AND quantityAvailabletofulfill > 0 AND OrderSummaryId IN: osIds];
-        System.debug('ois ::::: ' + ois);
 
         Map<Id, Integer> orderedItems = new Map<Id, Integer>();
 
         if(!ois.isEmpty()){
             for(OrderItemSummary oi : ois){
-                System.debug('oioi'+oi.OrderSummaryId);
                 if(orderedItems.containsKey(oi.OrderSummaryId)){
                     orderedItems.put(oi.OrderSummaryId,orderedItems.get(oi.OrderSummaryId)+1);
                 }
                 else{
-                    System.debug('in else   :::: ' + orderedItems);
     
                     orderedItems.put(oi.OrderSummaryId,1);
-                    System.debug('in else   put :::: ' + orderedItems);
     
                 }
             }
@@ -92,7 +87,6 @@ global with sharing class SOM_ClosingOrderSummaryAction {
         for (Id orderId:orderSummaryStatusMap.keySet()) {
             OrderSummaryStatus orderSummaryStatus = orderSummaryStatusMap.get(orderId);
             osToUpdateList.add(orderSummaryStatus.orderSummary);
-            System.debug('order summary :::::::::::::::: '+orderSummaryStatus);
 
             if (orderSummaryStatus.numberOfCanceledFO == orderSummaryStatus.numberOfFO) {
                 //canceled
@@ -118,13 +112,8 @@ global with sharing class SOM_ClosingOrderSummaryAction {
         }
 
         try {
-           // if (foToUpdateList.size() > 0) update foToUpdateList;
             if (osToUpdateList.size() > 0) update osToUpdateList;
-            //List<Id> foIdList = new List<Id>();
             List<Id> osIdList = new List<Id>();
-            // for (FulfillmentOrder fo:foToUpdateList) {
-            //     foIdList.add(fo.Id);
-            // }
             for (OrderSummary os:osToUpdateList) {
                 osIdList.add(os.Id);
             }
@@ -132,7 +121,6 @@ global with sharing class SOM_ClosingOrderSummaryAction {
             response.osIds     = osIdList;
             response.isSuccess = true;
         } catch(DmlException ex) { 
-            System.debug(ex.getMessage());
             response.isSuccess = false;
             response.errorMessage = ex.getMessage();
         }

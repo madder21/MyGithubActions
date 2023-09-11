@@ -29,7 +29,6 @@ public with sharing class SOM_CreateShipment {
         List<Shipment> shipmentsToInsert = new List<Shipment>();
         ShipmentItem shipmentLine;
         List<ShipmentItem> shipItemsToInsert = new List<ShipmentItem>();
-        System.debug('inputs°°°°°°°°°°' + wrShips[0] );
         List<String> serialNumbers;
         Map<String,Shipment> mapExtShip = new Map<String,Shipment>();
         Map<String,Shipment> mapExtShipAfterInsert = new Map<String,Shipment>();
@@ -74,10 +73,8 @@ public with sharing class SOM_CreateShipment {
             if(input.serialNumber != null){
                 serialNumbers = new List<String>();
                 serialNumbers = input.serialNumber.split(';');
-                System.debug('serials °°°°°°°°° ' + serialNumbers + serialNumbers.size());
                 for(String serial : serialNumbers){
                     shipmentLine = new ShipmentItem();
-                    System.debug('serial 1 °°°° ' + serial);
                     shipmentLine.SerialNumber__c            = serial;
                     shipmentLine.Quantity                   = Integer.valueOf(input.quantity/serialNumbers.size());  
                     shipmentLine.Product2Id                 = input.productId;
@@ -88,7 +85,6 @@ public with sharing class SOM_CreateShipment {
                     }else{
                         mapExtShipItem.put(input.trackingNumber + input.orderMethodId,new List<ShipmentItem>{shipmentLine});
                     }  
-                    System.debug('mapExtShipItem in for'+ mapExtShipItem);
       
                 }   
 
@@ -109,8 +105,6 @@ public with sharing class SOM_CreateShipment {
         insert shipmentsToInsert;
         //generate TE for manual shipment
         GenerateTransactionalEmail(shipmentsToInsert);
-        System.debug('shipments '+ shipmentsToInsert);
-        System.debug('mapExtShipItem  '+ mapExtShipItem);
 
         for(Shipment ship : shipmentsToInsert){
             mapExtShipAfterInsert.put(ship.TrackingNumber + ship.DeliveryMethodId,ship);
@@ -121,7 +115,6 @@ public with sharing class SOM_CreateShipment {
 
         }
 
-        System.debug('shipments items  '+ shipItemsToInsert);
         insert shipItemsToInsert;
         List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> params = new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs>();
         SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs param = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
@@ -148,7 +141,6 @@ public with sharing class SOM_CreateShipment {
                 generateTransactionalEmailInputsList.add(generateTransactionalEmailInput);
                 
             }
-            System.debug('list'+generateTransactionalEmailInputsList);
             SOM_TransactionalEmailHandler.generateTransactionalEmail(generateTransactionalEmailInputsList);
         }
     }

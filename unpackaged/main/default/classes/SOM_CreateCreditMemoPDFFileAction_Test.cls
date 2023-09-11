@@ -13,7 +13,6 @@ public with sharing class SOM_CreateCreditMemoPDFFileAction_Test {
                     (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
                     OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
                     FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
-        System.debug('foooo ' + lFO);
         Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
         Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);

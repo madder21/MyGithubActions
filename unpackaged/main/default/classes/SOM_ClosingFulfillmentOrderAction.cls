@@ -10,7 +10,6 @@ global with sharing class SOM_ClosingFulfillmentOrderAction {
 
         List<FulfillmentOrderLineItem> fulfillmentOrderLineItems = [SELECT Id, Quantity, OriginalQuantity, Type, FulfillmentOrderId, FulfillmentOrder.Status, FulfillmentOrder.OrderSummaryId, FulfillmentOrder.OrderSummary.status, (SELECT Id, Quantity FROM ShipmentItems) FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN :foIds AND Type != :SOM_Constants.FULFILLMENT_ORDER_LINE_ITEM_DELIVERY_CHARGE];
         if (fulfillmentOrderLineItems == null || fulfillmentOrderLineItems.isEmpty()) {
-            System.debug('FOLI list is empty.');
             response.isSuccess = false;
             response.errorMessage = 'The Query returns an empty result.';
             responseWrapper.add(response);
@@ -61,10 +60,8 @@ global with sharing class SOM_ClosingFulfillmentOrderAction {
                 }
             }
 
-            System.debug('fulfillmentOrderStatus :::::::::: ' +fulfillmentOrderStatus);
             foToUpdateList.add(fulfillmentOrderStatus.fulfillmentOrder);
             Integer numberOfFOLI = fulfillmentOrderMap.get(foId).size();
-            System.debug('numberOfFOLI ::::::::::: ' + numberOfFOLI);
             if (fulfillmentOrderStatus.numberOfCanceledFOLI == numberOfFOLI) {
                 //fo status is canceled
                 fulfillmentOrderStatus.fulfillmentOrder.Status = SOM_Constants.FULFILLMENT_ORDER_CANCELED;
@@ -83,8 +80,6 @@ global with sharing class SOM_ClosingFulfillmentOrderAction {
             
 
         }
-        System.debug('foToUpdateList ::::::::::: ' + foToUpdateList);
-
         try {
             if (foToUpdateList.size() > 0) update foToUpdateList;
             List<Id> foIdList = new List<Id>();
@@ -94,7 +89,6 @@ global with sharing class SOM_ClosingFulfillmentOrderAction {
             response.foIds     = foIdList;
             response.isSuccess = true;
         } catch(DmlException ex) { 
-            System.debug(ex.getMessage());
             response.isSuccess = false;
             response.errorMessage = ex.getMessage();
         }

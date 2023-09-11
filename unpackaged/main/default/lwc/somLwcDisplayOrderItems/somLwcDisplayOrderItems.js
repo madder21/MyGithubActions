@@ -41,17 +41,13 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     connectedCallback(){
         
         
-        console.log('>> Start SomLwcDisplayOrderItems.connectedCallback');
         try {
             this.startLoading();
-            console.log('>> isFromReturn ', this.isFromReturn);
-            console.log('>> countryCode ', this.countryCode);
             this.getListLocations();
             this.setSKUReplacementLabel();
             this.getListSkusDelivery();  
             this.getCurrency();    
             if(this.InputLineItems !== undefined && this.InputLineItems !== null && this.InputLineItems.length>0){
-                console.log('InputLineItems not empty ');
                 const initialData = this.InputLineItems.map(object => ({ ...object }));
                 this.customData = initialData;
                 this.customDataDisplay = this.customData;
@@ -72,12 +68,10 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     }
 
     getListSkusDelivery(){
-        console.log('>> Start SomLwcDisplayOrderItems.getListSkusDelivery');
         try {
             getSKUsDelivery()
             .then(result => {
                 this.skusDelivery = result;
-                console.log('** skusDelivery: ', this.skusDelivery);
             })
             .catch(error => {
                 console.log('** error: ', error);
@@ -87,7 +81,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         }
     }
     getListData() {
-        console.log('>> Start SomLwcDisplayOrderItems.getListData');
         try {
             getListLineItems({orderSumId : this.orderSummaryId, returnOrdId : this.returnOrderId, isFromRo : this.isFromReturn})
             .then(result => {
@@ -104,7 +97,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     }
 
     getTotalLinesRO(){
-        console.log('>> Start SomLwcDisplayOrderItems.getTotalLinesRO');
         try {
             getTotalLinesRO({returnOrdId : this.returnOrderId, isFromRo : this.isFromReturn})
             .then(result => {
@@ -135,7 +127,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
 
     handleProdctChange(event){
         this.startLoading();
-        console.log('*SomLwcDisplayOrderItems* --- handleProdctChange -- ');
         const lineKey = event.target.accessKey;
         if( lineKey === null || lineKey === undefined || lineKey === ''){
             this.truncateProductId(lineKey);
@@ -160,9 +151,7 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
 
     handleClickType(event){
         this.currentLineKey = event.target.value;
-        console.log("in handle type access key::::::: " , this.currentLineKey);
         for(let i=0; i<this.customData.length; i++){
-            console.log('this.customData[i]::::::::::::::::::::::::::::::::: ' , JSON.stringify(this.customData[i]));
             if(this.customData[i].taxType === false && this.customData[i].amountId === this.currentLineKey){
                 this.customDataDisplay[i].taxType = true;
                 this.customData[i].taxType = true;
@@ -199,7 +188,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     handleUnitPrice(event){
 
         this.currentLineKey = event.target.accessKey;
-        console.log("unitprice::::: " , this.currentLineKey);
         var unitPric = parseFloat(event.target.value);
         for(let i=0; i<this.customData.length; i++){
             if(this.customData[i].sku === this.currentLineKey){
@@ -218,13 +206,10 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     
     handleTaxValue(event){
         this.currentLineKey = event.target.accessKey;
-        console.log('this.currentLineKey',this.currentLineKey);
         var valEntered = parseFloat(event.target.value);
         var itemTaxVal = 0;
-        console.log('tax val' , valEntered);
         for(let i=0; i<this.customData.length; i++){
             if( this.customData[i].taxType === true && this.customData[i].sku === this.currentLineKey){
-                console.log('this.customData[i].taxValue ' + this.customData[i].taxValue);
                 this.customData[i].lineTotal = this.customData[i].unitPrice * this.customData[i].quantity ;
                 this.customDataDisplay[i].lineTotal = this.customData[i].unitPrice * this.customData[i].quantity;
                 this.customData[i].taxValue = valEntered;
@@ -244,7 +229,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 break;    
             }  
             else if( this.customData[i].taxType === false && this.customData[i].sku === this.currentLineKey){
-                console.log('taxVal',valEntered);
                 //itemTaxVal = this.customData[i].unitPrice * (taxVal/100) * this.customData[i].quantity;
                 itemTaxVal = (valEntered * this.customData[i].unitPrice) / (100 + valEntered);
                 this.customData[i].taxRate = valEntered;
@@ -280,7 +264,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     
     
     handleLocationChange(event) {
-        console.log('*SomLwcDisplayOrderItems* --- handleLocationChange --- ');
         if(event.target.accessKey === undefined || event.target.accessKey === null || event.target.accessKey === ''){
             return;
         }
@@ -297,7 +280,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     }
 
     handleQuantityChange(event) {
-        console.log('*SomLwcDisplayOrderItems* --- handleQuantityChange ---     ');
         if(event.target.accessKey === undefined || event.target.accessKey === null || event.target.accessKey === ''){
             return;
         }
@@ -321,7 +303,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         }
     }
     incrementQuantity(event){
-        console.log('*SomLwcDisplayOrderItems* --- incrementQuantity ---     ');
         //event.preventDefault();
         if(event.target.accessKey === undefined || event.target.accessKey === null || event.target.accessKey === ''){
             return;
@@ -346,7 +327,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
 
     }
     decrementQuantity(event){
-        console.log('*SomLwcDisplayOrderItems* --- decrementQuantity ---     ');
         if(event.target.accessKey === undefined || event.target.accessKey === null || event.target.accessKey === ''){
             return;
         }
@@ -374,7 +354,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
     }
 
     getListLocations() {
-        console.log('>> Start SomLwcDisplayOrderItems.getListLocations');
         try {
             getLocations({ countryCode : this.countryCode })
             .then(result => {
@@ -383,7 +362,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                     return;
                 }
                 this.locationPicklist = result;
-                console.log('>> Start SomLwcDisplayOrderItems locationPicklist ', JSON.stringify(result));
                 
             })
             .catch(error => {
@@ -395,7 +373,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         }  
     }
     truncateProductId(itemKey){
-        console.log('>> start truncateProductId ', itemKey);
         for(let i=0; i<this.customData.length; i++){
             if( this.customData[i].sku === itemKey){
                 this.customData[i].ats = 0;
@@ -418,7 +395,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 
                 
                 this.endLoading();
-                console.log('>> end loop i start  truncateProductId ');
                 break;
             }
             
@@ -435,7 +411,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
      */
     getProductDetails(itemKey, newProdId, newLocation) {
         try{
-            console.log('>> Start SomLwcDisplayOrderItems.getProductDetails');
             if(itemKey === null || itemKey === undefined || itemKey === ''){
                 this.endLoading();
                 return;
@@ -464,7 +439,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                         return;
                     }
                     this.lineIndex = i;
-                    console.log('* currentLine: ',this.productLineItem);
                     break;
                 }
                 
@@ -473,10 +447,8 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 this.endLoading();
                 return;
             }
-            console.log('>> pass ', newLocation);
             getProductDetails({productLine : JSON.stringify(this.customData[this.lineIndex]) , currencyCode : this.currencyCode, priceBookId : this.priceBookId})
             .then(result => {
-                console.log('>> getProductDetails 2 ', JSON.parse(result));
                 const responseData = JSON.parse(result);
                 if(responseData === undefined || responseData === null || responseData.length === 0 ){
                     if(newProdId !== null){
@@ -497,7 +469,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 this.customDataDisplay[this.lineIndex].pbEntryId = responseData.pbEntryId;
                 this.customDataDisplay[this.lineIndex].description = responseData.description;
                 this.customDataDisplay[this.lineIndex].skuExchange = responseData.skuExchange;
-                console.log('custom data :::::::::: ' ,this.customData );
                 this.refresOutPutData();
                 this.refreshAttributes();
                 this.endLoading();
@@ -530,10 +501,7 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         for(let i=0; i<this.customData.length; i++){
             const lineItem = JSON.parse(JSON.stringify(this.customData[i]))
             const itemValid = this.verifyLineItemValidation(lineItem);
-            console.log(' --- itemValid : ',itemValid);
-            console.log('avant ifffff ::::::::::: ' , JSON.stringify(this.customData[i]));
             if(this.skusDelivery.includes(this.customData[i].skuExchange)){
-                console.log('in ifffff ::::::::::: ' , this.customData[i].skuExchange);
                 this.displayWarningMessage('shipping service products are not allowed','Warning');
                 this.endLoading(); 
                 return;
@@ -549,7 +517,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 continue;
             }
             listLines = listLines.filter(element => element.sku !== lineItem.sku);
-            console.log('LISTLINES ::::::::::: ' , listLines);
             
             
         }
@@ -559,12 +526,9 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
             return;
         }
         this.OutputLineItems = listLines.map(object => ({ ...object }));
-        console.log('NEXT ::::::::::: ' , JSON.stringify(this.OutputLineItems));
         this.endLoading();
         const navigateNextEvent = new FlowNavigationNextEvent();
-        console.log('dispatch ::::::::::: ');
         this.dispatchEvent(navigateNextEvent);
-        console.log(' after dispatch ::::::::::: ');
 
         
     }
@@ -589,7 +553,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
 
     handleRemoveItem(event){
         this.startLoading();
-        console.log('*SomLwcDisplayOrderItems* --- handleRemoveItem ---     ');
         this.currentLineKey = event.target.accessKey;
         
         for(let i=0; i<this.customData.length; i++){
@@ -608,8 +571,6 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
 
     }
     handleAddProduct(event){
-        console.log('*--- handleAddProduct start : ');
-        console.log('now ::::: ' + JSON.stringify(this.customData));
         this.startLoading();
         var listLines = this.customData.map(object => ({ ...object }));
         listLines = listLines.filter(element => { return element.sku === event.target.accessKey || element.productId === '';});
@@ -649,18 +610,15 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         //     }
         // })
         this.customDataDisplay = this.customData;
-        console.log('custom data add  ' +JSON.stringify(this.customData));
         this.refresOutPutData();
         this.endLoading();
     }
 
     deleteArrayLineItem(item){
-            console.log('*--- line To delete : ');
             const lines = JSON.parse(JSON.stringify(this.customData));
             this.customData = lines.filter(element => element.sku !== item.sku);
             this.customDataDisplay = lines.filter(element => element.sku !== item.sku);
 
-            console.log('*--- end delete method : ',this.customData);
     }
 
 

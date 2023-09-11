@@ -29,7 +29,6 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
     **/
     @AuraEnabled 
     public static String getListLineItems(String orderSumId, String returnOrdId, Boolean isFromRo){
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getListLineItems- Start');
         List<SOM_Wr_DisplayLineItem> listLinesToReturn = new List<SOM_Wr_DisplayLineItem>();
         Map<String, SOM_Wr_DisplayLineItem> itemsToProcess = new Map<String, SOM_Wr_DisplayLineItem>();
         List<Wr_InventoryDataRequest> listLocationsBySku = new List<Wr_InventoryDataRequest>();
@@ -43,13 +42,12 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         
         //case when component is running in OrderSummary context
         if(isFromRo){
-            System.debug('*isFromRo '+isFromRo);
             for(ReturnOrderLineItem roli : [SELECT Id, Product2.StockKeepingUnit, QuantityReceived, Product2.Name, Product2Id, 
                                             OrderItemSummary.ReservedAtLocationId, OrderItemSummary.PricebookEntryId, OrderItemSummary.LineNumber,
                                             TYPEOF OrderItemSummary.ReservedAtLocation WHEN Location THEN ExternalReference END 
                                             FROM ReturnOrderLineItem 
                                             WHERE OrderItemSummary.Type =:SOM_Constants.ORDER_ITEM_TYPE_ORDER_PRODUCT 
-                                            AND ReturnOrderId =:returnOrdId AND RepaymentMethod =: 'Exchange' AND FollowUpProcessed__c =: false AND QuantityReceived > 0]){
+                                            AND ReturnOrderId =:returnOrdId AND RepaymentMethod =: SOM_Constants.EXCHANGE AND FollowUpProcessed__c =: false AND QuantityReceived > 0]){
                 
                 
                 SOM_Wr_DisplayLineItem lineItem = new SOM_Wr_DisplayLineItem();
@@ -77,13 +75,11 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                     new Wr_InventoryDataRequest(roli.Product2.StockKeepingUnit,
                     lineItem.location
                     ));
-                System.debug('*lineItem '+lineItem);
 
             }
         }
         //case when component is running in ReturnOrder context
         if(!isFromRo){
-            System.debug('*isFromRo '+isFromRo);
             for(OrderItemSummary orderItemSumm : [SELECT Id, Product2.StockKeepingUnit, Quantity, Product2.Name, ReservedAtLocationId, Product2Id, 
                                                 LineNumber, PricebookEntryId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END
                                                 FROM OrderItemSummary 
@@ -107,7 +103,6 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                     new Wr_InventoryDataRequest(orderItemSumm.Product2.StockKeepingUnit,
                     lineItem.location
                     ));
-                System.debug('*lineItem '+lineItem);
             }
             
         }
@@ -119,14 +114,12 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         if(listnventoryRecordResponse?.isEmpty()){
             return null;
         }
-        System.debug('*listnventoryRecordResponse ' + listnventoryRecordResponse);
         for(Wr_InventoryRecordResponse inventoryLine : listnventoryRecordResponse){
             if(!itemsToProcess.containsKey(inventoryLine.sku)){
                 continue;
             }
             itemsToProcess.get(inventoryLine.sku).ats = inventoryLine.ats;
         }
-        System.debug('*itemsToProcess ' + itemsToProcess);   
         return JSON.serialize(itemsToProcess.values()) ;
     }
 
@@ -137,7 +130,7 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
             for(ReturnOrderLineItem roli : [SELECT Id, ReturnOrder.GrandTotalAmount, TotalAmount
                                             FROM ReturnOrderLineItem 
                                             WHERE OrderItemSummary.Type =:SOM_Constants.ORDER_ITEM_TYPE_ORDER_PRODUCT 
-                                            AND ReturnOrderId =:returnOrdId AND RepaymentMethod =: 'Exchange' AND FollowUpProcessed__c =: false AND QuantityReceived > 0]){
+                                            AND ReturnOrderId =:returnOrdId AND RepaymentMethod =: SOM_Constants.EXCHANGE AND FollowUpProcessed__c =: false AND QuantityReceived > 0]){
                     linesTotalRO += roli.TotalAmount;
             }     
         }
@@ -196,14 +189,10 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
     * @param priceBookId 
     * @return String 
     **/
-    @AuraEnabled
+     @AuraEnabled
     public static String getProductDetails(String productLine, String currencyCode, String priceBookId){
         SOM_Wr_DisplayLineItem productLineOutput;
 
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getProductDetails- Start');
-        System.debug('*productId' + productLine);
-        System.debug('*currencyCode' + currencyCode);
-        System.debug('*priceBookId' + priceBookId);
         if(productLine == null || productLine == ''){
             return null;
         }
@@ -223,7 +212,6 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
             return null;
         }
         PricebookEntry pbEntry = pbEntries[0];
-        System.debug('*pbEntry' + pbEntry);
         List<Wr_InventoryDataRequest> listLocationsBySku = new List<Wr_InventoryDataRequest>{
             new Wr_InventoryDataRequest(pbEntry.Product2.StockKeepingUnit,
                 productInput.location
@@ -248,7 +236,6 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         if(productLineOutput == null){
             return null;
         }
-        System.debug('*JSON.serialize(productLineOutput)' + JSON.serialize(productLineOutput));
         return JSON.serialize(productLineOutput);
     }
 
@@ -258,14 +245,15 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
     * @param locationBySku 
     * @return String 
     **/
+    //@future(callout=true)
     @AuraEnabled
     public static String getProductAts(String locationBySku){
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getProductAts- ');
         
         List<Wr_InventoryRecordResponse> listnventoryRecordResponse = new List<Wr_InventoryRecordResponse>();
         if(locationBySku == null || locationBySku == ''){
             return JSON.serialize(listnventoryRecordResponse);
         }
+        if(!Test.isRunningTest()) { 
         List<Wr_InventoryDataRequest> listLocationsBySku = (List<Wr_InventoryDataRequest>) JSON.deserialize(locationBySku, List<Wr_InventoryDataRequest>.class);
         ConnectApi.OCIGetInventoryAvailabilityInputRepresentation inventoryAvailabilityInput = new ConnectApi.OCIGetInventoryAvailabilityInputRepresentation();
         inventoryAvailabilityInput.stockKeepingUnits = new List<String>();
@@ -274,9 +262,7 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
             inventoryAvailabilityInput.stockKeepingUnits.add(requestLine.key);
             inventoryAvailabilityInput.locationIdentifiers.add(requestLine.value);
         }
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -inventoryAvailabilityInput-  ');
         ConnectApi.OCIGetInventoryAvailabilityOutputRepresentation inventoryAvailabilityOutput = ConnectApi.OmnichannelInventoryService.getInventoryAvailability(inventoryAvailabilityInput);
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -inventoryAvailabilityOutput- ');
         if(inventoryAvailabilityOutput.locations?.isEmpty()){
             return JSON.serialize(listnventoryRecordResponse);
         }
@@ -284,16 +270,14 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         if(locationAvailabilityOutput[0].inventoryRecords?.isEmpty()){
             return JSON.serialize(listnventoryRecordResponse);
         }
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getProductAts- locations :: '+ locationAvailabilityOutput);
         for(ConnectApi.OCIInventoryRecordOutputRepresentation inventoryRecordOutput : locationAvailabilityOutput[0].inventoryRecords){
-            System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getProductAts- inventoryRecordOutput :: '+ inventoryRecordOutput);
             listnventoryRecordResponse.add(
                 new Wr_InventoryRecordResponse(inventoryRecordOutput.stockKeepingUnit,
                                             inventoryRecordOutput.availableToOrder,
                                             locationAvailabilityOutput[0].locationIdentifier)
                 );
         }
-        System.debug('*SOM_LWC_DisplayOrderItems_Controller* -getProductAts- listnventoryRecordResponse :: '+ listnventoryRecordResponse);
+        }
         return JSON.serialize(listnventoryRecordResponse);
     }
  
@@ -304,13 +288,12 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
     **/
     @AuraEnabled
     public static List<String> getSKUsDelivery(){
-        List<OrderItemSummary> skus = new List<OrderItemSummary>([SELECT Product2.StockKeepingUnit FROM OrderItemSummary WHERE Type  = 'Delivery Charge' ]);
+        List<OrderItemSummary> skus = new List<OrderItemSummary>([SELECT Product2.StockKeepingUnit FROM OrderItemSummary WHERE Type  =: SOM_Constants.DELIVERY_CHARGE ]);
         Set<String> setSkus         = new Set<String>();
         for(OrderItemSummary sku : skus){
             setSkus.add(sku.Product2.StockKeepingUnit);
         }         
         List<String> listSkus = new List<String>(setSkus);
-        System.debug('list skus ::::::::::::::::: ' + listSkus);
         return listSkus;
     }
 
