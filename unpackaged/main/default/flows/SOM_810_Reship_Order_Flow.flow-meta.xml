@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Translate_ADV</name>
         <label>Translate Errors</label>
-        <locationX>2638</locationX>
+        <locationX>2975</locationX>
         <locationY>247</locationY>
         <actionName>SOM_TranslateReservation</actionName>
         <actionType>apex</actionType>
@@ -25,7 +25,7 @@
     <actionCalls>
         <name>Translate_OK</name>
         <label>Translate OK</label>
-        <locationX>2877</locationX>
+        <locationX>3214</locationX>
         <locationY>242</locationY>
         <actionName>SOM_TranslateReservation</actionName>
         <actionType>apex</actionType>
@@ -48,7 +48,7 @@
     <assignments>
         <name>Add_C50_to_FulfillItems</name>
         <label>Add C50 to FulfillItems</label>
-        <locationX>3419</locationX>
+        <locationX>3756</locationX>
         <locationY>631</locationY>
         <assignmentItems>
             <assignToReference>fulfillItem.locationId</assignToReference>
@@ -85,7 +85,7 @@
     <assignments>
         <name>Add_Input_Representation_to_List</name>
         <label>Add Input Representation to List</label>
-        <locationX>2659</locationX>
+        <locationX>2996</locationX>
         <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>fulfillItems</assignToReference>
@@ -101,8 +101,8 @@
     <assignments>
         <name>Add_orderItemsSummary_to_alreadyAddedOrderItemList</name>
         <label>Add orderItemsSummary to alreadyAddedOrderItemList</label>
-        <locationX>3352</locationX>
-        <locationY>1662</locationY>
+        <locationX>3692</locationX>
+        <locationY>1906</locationY>
         <assignmentItems>
             <assignToReference>alreadyAddedOrderItemList</assignToReference>
             <operator>Add</operator>
@@ -110,15 +110,22 @@
                 <elementReference>FulfillItems_Inner_Loop.orderItemSummaryId</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Counter_Loop_Iterations</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Get_Inner_OrderItemSummary</targetReference>
+            <targetReference>Filter_Selected_Order_Product_Summaries</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Add_to_Available_Delivery_Groups</name>
         <label>Add to Available Delivery Groups</label>
-        <locationX>732</locationX>
-        <locationY>1462</locationY>
+        <locationX>1162</locationX>
+        <locationY>1506</locationY>
         <assignmentItems>
             <assignToReference>AvailableOrderDeliveryGroupSummaries</assignToReference>
             <operator>Add</operator>
@@ -140,7 +147,7 @@
     <assignments>
         <name>Assign_Selected_ODGS</name>
         <label>Assign Selected ODGS</label>
-        <locationX>1288</locationX>
+        <locationX>1625</locationX>
         <locationY>1589</locationY>
         <assignmentItems>
             <assignToReference>selectedOrderDeliveryGroupSummary</assignToReference>
@@ -156,8 +163,8 @@
     <assignments>
         <name>Assignment_Outer_FulfillItems</name>
         <label>Assignment Outer FulfillItems</label>
-        <locationX>2843</locationX>
-        <locationY>1115</locationY>
+        <locationX>3181</locationX>
+        <locationY>1084</locationY>
         <assignmentItems>
             <assignToReference>outerLoopLocationId</assignToReference>
             <operator>Assign</operator>
@@ -179,7 +186,7 @@
     <assignments>
         <name>Clear_Coll_FulfillItems</name>
         <label>Clear Coll FulfillItems</label>
-        <locationX>3173</locationX>
+        <locationX>3510</locationX>
         <locationY>622</locationY>
         <assignmentItems>
             <assignToReference>fulfillItems</assignToReference>
@@ -190,9 +197,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Count_Filter_Elements</name>
+        <label>Count Filter Elements</label>
+        <locationX>831</locationX>
+        <locationY>1621</locationY>
+        <assignmentItems>
+            <assignToReference>V_Counter_Filter_Elements</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Filter_Order_Product_Summaries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Are_Any_Items_To_Fulfill_in_ODGS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Count_OCI_Results</name>
         <label>Count OCI Results</label>
-        <locationX>2570</locationX>
+        <locationX>2907</locationX>
         <locationY>661</locationY>
         <assignmentItems>
             <assignToReference>COUNT_OCI_Errors</assignToReference>
@@ -213,9 +236,230 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Fulfillment_Order_Line_Item_To_Create</name>
+        <label>Fulfillment Order Line Item To Create</label>
+        <locationX>4119</locationX>
+        <locationY>1578</locationY>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.FulfillmentOrderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Created_FOs.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.OrderItemSummaryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FulfillItems_Inner_Loop.orderItemSummaryId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.OriginalQuantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>V_First_Filtered_Order_Product_Summary.QuantityOrdered</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.Product2Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>V_First_Filtered_Order_Product_Summary.Product2Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.Quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FulfillItems_Inner_Loop.quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.TotalLineAmount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ZeroQuantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.Type</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>V_First_Filtered_Order_Product_Summary.Type</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.TypeCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>V_First_Filtered_Order_Product_Summary.TypeCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Fulfillment_Order_Line_Item_To_Create</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>V_Fulfillment_Order_Line_Item_To_Create</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>FulfillItems_Inner_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Fulfillment_Order_To_Create</name>
+        <label>Fulfillment Order To Create</label>
+        <locationX>3721</locationX>
+        <locationY>1165</locationY>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary_Object.AccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.Capture_Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Not Applicable</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.DeliveryMethodId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.OrderDeliveryMethodId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledFromLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L60_FulfillItems_Outer_Loop.locationId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToCity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToCity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToEmailAddress</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.EmailAddress</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToGeocodeAccuracy</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToGeocodeAccuracy</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToLatitude</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToLatitude</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToLongitude</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToLongitude</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToPhone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.PhoneNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToPostalCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToPostalCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToState</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToState</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.FulfilledToStreet</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToStreet</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.IsReship</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.OrderSummaryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Draft</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.Type</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L60_FulfillItems_Outer_Loop.locationType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Fulfillment_Order_To_Create</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>V_Fulfillment_Order_To_Create</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L60_FulfillItems_Outer_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>IsSingleDeliveryGroup</name>
         <label>IsSingleDeliveryGroup</label>
-        <locationX>1113</locationX>
+        <locationX>1450</locationX>
         <locationY>1474</locationY>
         <assignmentItems>
             <assignToReference>SingleDeliveryGroup</assignToReference>
@@ -231,7 +475,7 @@
     <assignments>
         <name>Location_Error_Message_Assignment</name>
         <label>Location Error Message Assignment</label>
-        <locationX>2172</locationX>
+        <locationX>2509</locationX>
         <locationY>2188</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -261,7 +505,7 @@
     <assignments>
         <name>No_Delivery_Groups_Error_Message</name>
         <label>No Delivery Groups Error Message</label>
-        <locationX>1109</locationX>
+        <locationX>1446</locationX>
         <locationY>1660</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -291,7 +535,7 @@
     <assignments>
         <name>Set_Item_Summary_Input_Representation</name>
         <label>Set Item Summary Input Representation</label>
-        <locationX>2487</locationX>
+        <locationX>2824</locationX>
         <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>fulfillItem.orderItemSummaryId</assignToReference>
@@ -307,6 +551,13 @@
                 <elementReference>selectedOrderItem.Quantity</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Selected_Order_Item_Summary_Ids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Add_Input_Representation_to_List</targetReference>
         </connector>
@@ -314,7 +565,7 @@
     <assignments>
         <name>Set_Stage_2_As_Stage_1</name>
         <label>Set Stage 2 As Stage 1</label>
-        <locationX>1428</locationX>
+        <locationX>1765</locationX>
         <locationY>1396</locationY>
         <assignmentItems>
             <assignToReference>$Flow.ActiveStages</assignToReference>
@@ -344,7 +595,7 @@
     <assignments>
         <name>Set_Stage_To_Part_1</name>
         <label>Set Stage To Part 1</label>
-        <locationX>1095</locationX>
+        <locationX>1432</locationX>
         <locationY>1093</locationY>
         <assignmentItems>
             <assignToReference>$Flow.ActiveStages</assignToReference>
@@ -388,7 +639,7 @@
     <assignments>
         <name>Set_Stage_To_Part_2</name>
         <label>Set Stage To Part 2</label>
-        <locationX>1685</locationX>
+        <locationX>2022</locationX>
         <locationY>1254</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -404,7 +655,7 @@
     <assignments>
         <name>Set_Stage_To_Part_3</name>
         <label>Set Stage To Part 3</label>
-        <locationX>1960</locationX>
+        <locationX>2297</locationX>
         <locationY>1242</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -420,8 +671,8 @@
     <assignments>
         <name>Set_Stage_To_Part_4</name>
         <label>Set Stage To Part 4</label>
-        <locationX>2902</locationX>
-        <locationY>915</locationY>
+        <locationX>3262</locationX>
+        <locationY>788</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -437,14 +688,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L60_FulfillItems_Outer_Loop</targetReference>
+            <targetReference>Get_selected_Order_Product_Summaries</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_Unmanaged_Order_Error_Message</name>
         <label>Set Unmanaged Order Error Message</label>
-        <locationX>158</locationX>
-        <locationY>2046</locationY>
+        <locationX>93</locationX>
+        <locationY>2074</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -473,7 +724,7 @@
     <assignments>
         <name>Set_Wrong_Entity_Error_Message</name>
         <label>Set Wrong Entity Error Message</label>
-        <locationX>378</locationX>
+        <locationX>715</locationX>
         <locationY>2627</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -503,7 +754,7 @@
     <assignments>
         <name>Stack_New_FulfillItems</name>
         <label>Stack New FulfillItems</label>
-        <locationX>3419</locationX>
+        <locationX>3756</locationX>
         <locationY>804</locationY>
         <assignmentItems>
             <assignToReference>fulfillItems</assignToReference>
@@ -516,6 +767,103 @@
             <targetReference>L40_OK_Reservations</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Store_Created_FO_Id</name>
+        <label>Store Created FO Id</label>
+        <locationX>3735</locationX>
+        <locationY>1431</locationY>
+        <assignmentItems>
+            <assignToReference>C_Fulfillment_Order_To_Update_Ids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Created_FOs.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>FulfillItems_Inner_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Store_First_Element</name>
+        <label>Store First Element</label>
+        <locationX>4279</locationX>
+        <locationY>1798</locationY>
+        <assignmentItems>
+            <assignToReference>V_First_Filtered_Order_Product_Summary</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_over_filter</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Counter_Loop_Iterations</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_over_filter</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Store_Order_Delivery_Group_Summary_Id</name>
+        <label>Store Order Delivery Group Summary Id</label>
+        <locationX>515</locationX>
+        <locationY>1158</locationY>
+        <assignmentItems>
+            <assignToReference>C_OrderDeliveryGroupSummaryIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Delivery_Group_Summaries.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Delivery_Group_Summaries</targetReference>
+        </connector>
+    </assignments>
+    <collectionProcessors>
+        <name>Filter_Order_Product_Summaries</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Order Product Summaries</label>
+        <locationX>817</locationX>
+        <locationY>1463</locationY>
+        <assignNextValueToReference>currentItem_Filter_Order_Product_Summaries_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Order_Product_Summaries</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Order_Product_Summaries_0.OrderDeliveryGroupSummaryId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>OrderDeliveryGroupSummaryRecord.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Count_Filter_Elements</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Selected_Order_Product_Summaries</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Selected Order Product Summaries</label>
+        <locationX>3914</locationX>
+        <locationY>1906</locationY>
+        <assignNextValueToReference>currentItem_Filter_Selected_Order_Product_Summaries_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_selected_Order_Product_Summaries</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Selected_Order_Product_Summaries_0.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>FulfillItems_Inner_Loop.orderItemSummaryId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_over_filter</targetReference>
+        </connector>
+    </collectionProcessors>
     <constants>
         <name>Confirmation_Image</name>
         <dataType>String</dataType>
@@ -561,7 +909,7 @@
     <decisions>
         <name>Any_Errors_to_translate</name>
         <label>Any Errors to translate</label>
-        <locationX>2561</locationX>
+        <locationX>2898</locationX>
         <locationY>490</locationY>
         <defaultConnector>
             <targetReference>Any_Success_to_translate</targetReference>
@@ -586,7 +934,7 @@
     <decisions>
         <name>Any_Success_to_translate</name>
         <label>Any Success to translate ?</label>
-        <locationX>2769</locationX>
+        <locationX>3106</locationX>
         <locationY>491</locationY>
         <defaultConnector>
             <targetReference>OCI_Reservation_Result</targetReference>
@@ -611,7 +959,7 @@
     <decisions>
         <name>Are_Any_Delivery_Groups_To_Fulfill</name>
         <label>Are Any Delivery Groups To Fulfill</label>
-        <locationX>852</locationX>
+        <locationX>1189</locationX>
         <locationY>1375</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -677,17 +1025,17 @@
     <decisions>
         <name>Are_Any_Items_To_Fulfill_in_ODGS</name>
         <label>Are Any Items To Fulfill in ODGS</label>
-        <locationX>625</locationX>
-        <locationY>1601</locationY>
+        <locationX>988</locationX>
+        <locationY>1621</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NoItems</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Order_Product_Summaries</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>V_Counter_Filter_Elements</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -699,10 +1047,10 @@
             <name>ItemsAvailable</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Order_Product_Summaries</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>V_Counter_Filter_Elements</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -714,7 +1062,7 @@
     <decisions>
         <name>Check_Empty_Locations</name>
         <label>Check Empty Locations</label>
-        <locationX>2290</locationX>
+        <locationX>2627</locationX>
         <locationY>1915</locationY>
         <defaultConnector>
             <targetReference>Get_Location_Group_Assignments</targetReference>
@@ -739,8 +1087,8 @@
     <decisions>
         <name>Check_for_LocationIds_Match</name>
         <label>Check for LocationIds Match</label>
-        <locationX>3245</locationX>
-        <locationY>1478</locationY>
+        <locationX>3686</locationX>
+        <locationY>1585</locationY>
         <defaultConnector>
             <targetReference>FulfillItems_Inner_Loop</targetReference>
         </defaultConnector>
@@ -749,7 +1097,7 @@
             <name>LocationIdsMatch</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>outerLoopLocationId</leftValueReference>
+                <leftValueReference>Loop_Over_Created_FOs.FulfilledFromLocationId</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>FulfillItems_Inner_Loop.locationId</elementReference>
@@ -764,10 +1112,10 @@
     <decisions>
         <name>Check_if_OrderItemSummary_processed</name>
         <label>Check if OrderItemSummary processed</label>
-        <locationX>2835</locationX>
-        <locationY>1294</locationY>
+        <locationX>3477</locationX>
+        <locationY>1239</locationY>
         <defaultConnector>
-            <targetReference>Create_Fulfillment_Order</targetReference>
+            <targetReference>Fulfillment_Order_To_Create</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Already OrderItemSummary Not Processed</defaultConnectorLabel>
         <rules>
@@ -789,7 +1137,7 @@
     <decisions>
         <name>Check_Location_groups_empty_or_not</name>
         <label>Check Location groups empty or not</label>
-        <locationX>2134</locationX>
+        <locationX>2471</locationX>
         <locationY>1586</locationY>
         <defaultConnector>
             <targetReference>Get_Locations</targetReference>
@@ -812,10 +1160,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>If_the_first_element</name>
+        <label>If the first element</label>
+        <locationX>4438</locationX>
+        <locationY>1904</locationY>
+        <defaultConnector>
+            <targetReference>Loop_over_filter</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>First_element</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Counter_Loop_Iterations</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Store_First_Element</targetReference>
+            </connector>
+            <label>First element</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Valid_Order_Summary</name>
         <label>Is Valid Order Summary</label>
-        <locationX>159</locationX>
-        <locationY>1381</locationY>
+        <locationX>152</locationX>
+        <locationY>1385</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Unmanaged_Order</name>
@@ -873,7 +1246,7 @@
     <decisions>
         <name>OCI_Reservation_Result</name>
         <label>OCI Reservation Result ?</label>
-        <locationX>2993</locationX>
+        <locationX>3330</locationX>
         <locationY>492</locationY>
         <defaultConnector>
             <targetReference>Clear_Coll_FulfillItems</targetReference>
@@ -895,34 +1268,33 @@
             <label>❌ OCI Error</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM_Reship Order Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 810 Reship Order Flow</label>
     <loops>
         <name>FulfillItems_Inner_Loop</name>
         <label>FulfillItems Inner Loop</label>
-        <locationX>3557</locationX>
-        <locationY>1296</locationY>
+        <locationX>3925</locationX>
+        <locationY>1578</locationY>
         <collectionReference>fulfillItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Check_for_LocationIds_Match</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_FO_Status</targetReference>
+            <targetReference>Loop_Over_Created_FOs</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
         <description>Order Delivery Group Summaries</description>
         <name>L10_ODGS</name>
         <label>L10 - ODGS</label>
-        <locationX>594</locationX>
-        <locationY>1381</locationY>
+        <locationX>997</locationX>
+        <locationY>1383</locationY>
         <assignNextValueToReference>OrderDeliveryGroupSummaryRecord</assignNextValueToReference>
         <collectionReference>Get_Order_Delivery_Group_Summary</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Get_Order_Product_Summaries</targetReference>
+            <targetReference>Filter_Order_Product_Summaries</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Are_Any_Delivery_Groups_To_Fulfill</targetReference>
@@ -931,7 +1303,7 @@
     <loops>
         <name>L20_SelectedOrderDeliveryGroup</name>
         <label>L20 - SelectedOrderDeliveryGroup</label>
-        <locationX>1284</locationX>
+        <locationX>1621</locationX>
         <locationY>1395</locationY>
         <collectionReference>AvailableOrderDeliveryGroupSummaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -945,7 +1317,7 @@
     <loops>
         <name>L30_OIS_Assignment_Loop</name>
         <label>L30 - OIS Assignment Loop</label>
-        <locationX>2569</locationX>
+        <locationX>2906</locationX>
         <locationY>1409</locationY>
         <assignNextValueToReference>selectedOrderItem</assignNextValueToReference>
         <collectionReference>selectedOrderItemSummaries</collectionReference>
@@ -960,7 +1332,7 @@
     <loops>
         <name>L40_OK_Reservations</name>
         <label>L40 - OK Reservations</label>
-        <locationX>3173</locationX>
+        <locationX>3510</locationX>
         <locationY>797</locationY>
         <collectionReference>OCI_Reservation_SubFlow.C50_OKs_On_Reservation</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -974,7 +1346,7 @@
     <loops>
         <name>L60_FulfillItems_Outer_Loop</name>
         <label>L60 - FulfillItems Outer Loop</label>
-        <locationX>3138</locationX>
+        <locationX>3475</locationX>
         <locationY>1026</locationY>
         <collectionReference>fulfillItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -982,7 +1354,49 @@
             <targetReference>Assignment_Outer_FulfillItems</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Confirmation</targetReference>
+            <targetReference>Create_Fulfillment_Order</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Created_FOs</name>
+        <label>Loop Over Created FOs</label>
+        <locationX>3931</locationX>
+        <locationY>1309</locationY>
+        <collectionReference>C_Fulfillment_Order_To_Create</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Store_Created_FO_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Create_Fulfillment_Order_Item</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Delivery_Group_Summaries</name>
+        <label>Loop Over Delivery Group Summaries</label>
+        <locationX>519</locationX>
+        <locationY>1390</locationY>
+        <collectionReference>Get_Order_Delivery_Group_Summary</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Store_Order_Delivery_Group_Summary_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Order_Product_Summaries</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_over_filter</name>
+        <label>Loop over filter</label>
+        <locationX>4122</locationX>
+        <locationY>1906</locationY>
+        <collectionReference>Filter_Selected_Order_Product_Summaries</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>If_the_first_element</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Fulfillment_Order_Line_Item_To_Create</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1001,221 +1415,33 @@
     <recordCreates>
         <name>Create_Fulfillment_Order</name>
         <label>Create Fulfillment Order</label>
-        <locationX>3049</locationX>
-        <locationY>1374</locationY>
-        <assignRecordIdToReference>loopFulfillmentOrderId</assignRecordIdToReference>
+        <locationX>3923</locationX>
+        <locationY>1113</locationY>
         <connector>
-            <targetReference>FulfillItems_Inner_Loop</targetReference>
+            <targetReference>Loop_Over_Created_FOs</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
         </faultConnector>
-        <inputAssignments>
-            <field>AccountId</field>
-            <value>
-                <elementReference>Get_Order_Summary_Object.AccountId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Capture_Status__c</field>
-            <value>
-                <stringValue>Not Applicable</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>DeliveryMethodId</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.OrderDeliveryMethodId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledFromLocationId</field>
-            <value>
-                <elementReference>L60_FulfillItems_Outer_Loop.locationId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToCity</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToCity</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToCountry</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToCountry</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToEmailAddress</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.EmailAddress</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToGeocodeAccuracy</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToGeocodeAccuracy</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToLatitude</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToLatitude</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToLongitude</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToLongitude</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToName</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToName</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToPhone</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.PhoneNumber</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToPostalCode</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToPostalCode</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToState</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToState</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>FulfilledToStreet</field>
-            <value>
-                <elementReference>selectedOrderDeliveryGroupSummary.DeliverToStreet</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>IsReship</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OrderSummaryId</field>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value>
-                <stringValue>Draft</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <elementReference>L60_FulfillItems_Outer_Loop.locationType</elementReference>
-            </value>
-        </inputAssignments>
-        <object>FulfillmentOrder</object>
+        <inputReference>C_Fulfillment_Order_To_Create</inputReference>
     </recordCreates>
     <recordCreates>
-        <name>Inner_Create_Fulfillment_Order_Item</name>
-        <label>Inner Create Fulfillment Order Item</label>
-        <locationX>3843</locationX>
-        <locationY>1456</locationY>
+        <name>Create_Fulfillment_Order_Item</name>
+        <label>Create Fulfillment Order Item</label>
+        <locationX>4161</locationX>
+        <locationY>1120</locationY>
         <connector>
-            <targetReference>FulfillItems_Inner_Loop</targetReference>
+            <targetReference>Update_FO_Status</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
         </faultConnector>
-        <inputAssignments>
-            <field>FulfillmentOrderId</field>
-            <value>
-                <elementReference>loopFulfillmentOrderId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OrderItemSummaryId</field>
-            <value>
-                <elementReference>FulfillItems_Inner_Loop.orderItemSummaryId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OriginalQuantity</field>
-            <value>
-                <elementReference>Get_Inner_OrderItemSummary.QuantityOrdered</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Product2Id</field>
-            <value>
-                <elementReference>Get_Inner_OrderItemSummary.Product2Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Quantity</field>
-            <value>
-                <elementReference>FulfillItems_Inner_Loop.quantity</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>TotalLineAmount</field>
-            <value>
-                <elementReference>ZeroQuantity</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <elementReference>Get_Inner_OrderItemSummary.Type</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>TypeCode</field>
-            <value>
-                <elementReference>Get_Inner_OrderItemSummary.TypeCode</elementReference>
-            </value>
-        </inputAssignments>
-        <object>FulfillmentOrderLineItem</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <inputReference>C_Fulfillment_Order_Line_Item_To_Create</inputReference>
     </recordCreates>
-    <recordLookups>
-        <name>Get_Inner_OrderItemSummary</name>
-        <label>Get Inner OrderItemSummary</label>
-        <locationX>3758</locationX>
-        <locationY>1663</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Inner_Create_Fulfillment_Order_Item</targetReference>
-        </connector>
-        <faultConnector>
-            <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
-        </faultConnector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>FulfillItems_Inner_Loop.orderItemSummaryId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>OrderItemSummary</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordLookups>
         <name>Get_Items_In_ODGS</name>
         <label>Get Items In ODGS</label>
-        <locationX>1565</locationX>
+        <locationX>1902</locationX>
         <locationY>1396</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1261,7 +1487,7 @@
         <description>Get Location Assignments</description>
         <name>Get_Location_Group_Assignments</name>
         <label>Get Location Group Assignments</label>
-        <locationX>2396</locationX>
+        <locationX>2733</locationX>
         <locationY>1321</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1284,7 +1510,7 @@
         <description>Get Location Groups</description>
         <name>Get_Location_Groups</name>
         <label>Get Location Groups</label>
-        <locationX>2244</locationX>
+        <locationX>2581</locationX>
         <locationY>1416</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1303,7 +1529,7 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>2135</locationX>
+        <locationX>2472</locationX>
         <locationY>1933</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1321,11 +1547,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>425</locationX>
-        <locationY>1380</locationY>
+        <locationX>353</locationX>
+        <locationY>1391</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L10_ODGS</targetReference>
+            <targetReference>Loop_Over_Delivery_Group_Summaries</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
@@ -1344,12 +1570,12 @@
     </recordLookups>
     <recordLookups>
         <name>Get_Order_Product_Summaries</name>
-        <label>Get_Order_Product_Summaries</label>
-        <locationX>471</locationX>
-        <locationY>1600</locationY>
+        <label>Get Order Product Summaries</label>
+        <locationX>702</locationX>
+        <locationY>1389</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Are_Any_Items_To_Fulfill_in_ODGS</targetReference>
+            <targetReference>L10_ODGS</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
@@ -1378,21 +1604,23 @@
         </filters>
         <filters>
             <field>OrderDeliveryGroupSummaryId</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>OrderDeliveryGroupSummaryRecord.Id</elementReference>
+                <elementReference>C_OrderDeliveryGroupSummaryIds</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <description>Get OrderSummary for the record Id passed</description>
         <name>Get_Order_Summary_Object</name>
         <label>Get Order Summary Object</label>
-        <locationX>176</locationX>
-        <locationY>1096</locationY>
+        <locationX>172</locationX>
+        <locationY>1143</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>is_Valid_Order_Summary</targetReference>
@@ -1412,20 +1640,12 @@
         <object>OrderSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordRollbacks>
-        <name>Failure_Exit</name>
-        <label>Failure Exit</label>
-        <locationX>843</locationX>
-        <locationY>2013</locationY>
-        <connector>
-            <targetReference>Error_Message</targetReference>
-        </connector>
-    </recordRollbacks>
-    <recordUpdates>
-        <name>Update_FO_Status</name>
-        <label>Update FO Status</label>
-        <locationX>3495</locationX>
-        <locationY>1071</locationY>
+    <recordLookups>
+        <name>Get_selected_Order_Product_Summaries</name>
+        <label>Get selected Order Product Summaries</label>
+        <locationX>3357</locationX>
+        <locationY>925</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L60_FulfillItems_Outer_Loop</targetReference>
         </connector>
@@ -1435,9 +1655,43 @@
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-            <operator>EqualTo</operator>
+            <operator>In</operator>
             <value>
-                <elementReference>loopFulfillmentOrderId</elementReference>
+                <elementReference>C_Selected_Order_Item_Summary_Ids</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordRollbacks>
+        <name>Failure_Exit</name>
+        <label>Failure Exit</label>
+        <locationX>1180</locationX>
+        <locationY>2013</locationY>
+        <connector>
+            <targetReference>Error_Message</targetReference>
+        </connector>
+    </recordRollbacks>
+    <recordUpdates>
+        <name>Update_FO_Status</name>
+        <label>Update FO Status</label>
+        <locationX>4160</locationX>
+        <locationY>963</locationY>
+        <connector>
+            <targetReference>Confirmation</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_Wrong_Entity_Error_Message</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_Fulfillment_Order_To_Update_Ids</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -1451,8 +1705,8 @@
     <screens>
         <name>Confirmation</name>
         <label>Confirmation</label>
-        <locationX>3488</locationX>
-        <locationY>916</locationY>
+        <locationX>4159</locationX>
+        <locationY>791</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1501,7 +1755,7 @@
     <screens>
         <name>Delivery_Group_Select</name>
         <label>Delivery Group Select</label>
-        <locationX>1360</locationX>
+        <locationX>1697</locationX>
         <locationY>1094</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1594,7 +1848,7 @@
     <screens>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>845</locationX>
+        <locationX>1182</locationX>
         <locationY>2172</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1615,7 +1869,7 @@
     <screens>
         <name>Location_Selection</name>
         <label>Location Selection</label>
-        <locationX>2569</locationX>
+        <locationX>2906</locationX>
         <locationY>915</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1720,7 +1974,7 @@
     <screens>
         <name>Product_Selection</name>
         <label>Product Selection</label>
-        <locationX>1736</locationX>
+        <locationX>2073</locationX>
         <locationY>939</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1811,7 +2065,7 @@
     <screens>
         <name>SCREEN_OCI_Error</name>
         <label>SCREEN_OCI_Error</label>
-        <locationX>3173</locationX>
+        <locationX>3510</locationX>
         <locationY>358</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1852,7 +2106,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>TABLE_Success_OCI</name>
@@ -2197,8 +2450,8 @@
         <stageOrder>4</stageOrder>
     </stages>
     <start>
-        <locationX>56</locationX>
-        <locationY>962</locationY>
+        <locationX>50</locationX>
+        <locationY>966</locationY>
         <connector>
             <targetReference>Get_Order_Summary_Object</targetReference>
         </connector>
@@ -2207,7 +2460,7 @@
     <subflows>
         <name>OCI_Reservation_SubFlow</name>
         <label>OCI Reservation SubFlow</label>
-        <locationX>2571</locationX>
+        <locationX>2908</locationX>
         <locationY>793</locationY>
         <connector>
             <targetReference>Count_OCI_Results</targetReference>
@@ -2332,6 +2585,43 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>C_Fulfillment_Order_Line_Item_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>C_Fulfillment_Order_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrder</objectType>
+    </variables>
+    <variables>
+        <name>C_Fulfillment_Order_To_Update_Ids</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_OrderDeliveryGroupSummaryIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Selected_Order_Item_Summary_Ids</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>COL_OCICreateReservationSingleInputRepresentation</name>
         <apexClass>ConnectApi__OCICreateReservationSingleInputRepresentation</apexClass>
         <dataType>Apex</dataType>
@@ -2363,12 +2653,39 @@
         <scale>0</scale>
     </variables>
     <variables>
+        <name>Counter_Loop_Iterations</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Locations_By_Location_Id</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Order_Product_Summaries_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Selected_Order_Product_Summaries_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>errorMessage</name>
@@ -2648,11 +2965,53 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>testvariable</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>UUID_Value</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>V_Counter_Filter_Elements</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>V_First_Filtered_Order_Product_Summary</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>V_Fulfillment_Order_Line_Item_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>V_Fulfillment_Order_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrder</objectType>
     </variables>
     <variables>
         <name>V_RO_Id</name>
