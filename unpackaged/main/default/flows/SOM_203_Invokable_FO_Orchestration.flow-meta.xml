@@ -74,6 +74,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.OrderDeliveryMethod.Delivery_Type__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Store Pickup</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Store_to_Web_or_not</targetReference>
             </connector>
@@ -81,12 +88,19 @@
         </rules>
         <rules>
             <name>Create_FO_And_Do_Not_Verify_Stock</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>Get_OS.RetryAllocationProcessed__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.OrderDeliveryMethod.Delivery_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Store Pickup</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -189,13 +203,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Delivery_Group_Summary</name>
+        <label>Get Order Delivery Group Summary</label>
+        <locationX>807</locationX>
+        <locationY>469</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Fulfillment_Order_Decision</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_OS</name>
         <label>Get OS</label>
         <locationX>585</locationX>
         <locationY>470</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Create_Fulfillment_Order_Decision</targetReference>
+            <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
