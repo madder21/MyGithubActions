@@ -1460,6 +1460,10 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <tabSettings>
+        <tab>TransactionalEmail__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>standard-Order</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1467,4 +1471,12 @@
         <tab>standard-OrderSummary</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <classAccesses>
+        <apexClass>BackInStockBatchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BackInStockWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </PermissionSet>

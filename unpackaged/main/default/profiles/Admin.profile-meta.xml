@@ -533,6 +533,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>BackInStockWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BackInStock_Wrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1863,6 +1867,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Phone</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3866,6 +3875,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>CommSubscriptionConsent.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>CommSubscriptionConsent.LastCommunicationSend__c</field>
         <readable>true</readable>
@@ -5657,6 +5671,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>GCP_KPI__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>GCP_KPI__c.UCRInternalId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6223,6 +6242,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Note__c.Is_Private__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Note__c.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7113,6 +7137,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Color__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ConversionRate_SFMC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8821,6 +8850,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>TransactionItem__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>TransactionItem__c.ReasonForDiscount__c</field>
         <readable>true</readable>
@@ -8888,6 +8922,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>TransactionPayment__c.PaymentMethod__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>TransactionPayment__c.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9118,6 +9157,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>User.LicenseCustom__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>User.R360ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

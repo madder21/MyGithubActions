@@ -9,7 +9,7 @@
 -- -----------          -----------                 --------         ----------------------
 -- 17-03-2022           Mohamed Amine El Mandour    1.0              Initial version
 -- 14-05-2022           Bader Eddine Elkhal         2.0              updated version
--- 24-04-2023			Paul-Louis MONY				3.0				 Add SFMCApiSettings data test and XML Soap Message into the mock
+-- 24-04-2023			Paul-Louis MONY				3.0				 Add SFMCApiSettings data test and XML Soap Message into the mock & test method for sheduler and wrapper
 ---------------------------------------------------------------------------------------
 */
 @isTest
@@ -119,6 +119,55 @@ private class Batch_BackInStock_Test {
         
         Test.stopTest();
         
-     	System.assertEquals(productInventory.sku__c, commSuub[0].sku__c);
+     	Assert.areEqual(productInventory.sku__c, commSuub[0].sku__c, '');
+
        }
+    
+    @isTest
+    static void testSchedulerExecution() {
+        // Schedule the batch job using the scheduler class
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        Test.startTest();
+        String jobId = System.schedule('BackInStockBatchScheduler_Test', '0 20 01/02 * * ? *', new BackInStockBatchScheduler());
+        Test.stopTest();
+        
+        // Verify that the job was scheduled
+        Assert.isNotNull(jobId, 'Job was not scheduled');
+        
+        // Retrieve the scheduled job details
+        CronTrigger scheduledJob = [SELECT Id, CronExpression, CronJobDetail.Name FROM CronTrigger WHERE Id = :jobId];
+        
+        // Verify that the job has the correct Cron expression
+        Assert.areEqual('0 20 01/02 * * ? *', scheduledJob.CronExpression, 'Incorrect Cron expression');
+        
+        // Verify that the job has the correct name
+        Assert.areEqual('BackInStockBatchScheduler_Test', scheduledJob.CronJobDetail.Name, 'Incorrect job name');
+    }
+    
+    @isTest
+    static void testWrapperProperties() {
+        // Create a new instance of the BackInStockWrapper
+        BackInStockWrapper wrapper = new BackInStockWrapper();
+        
+        // Set values for the properties
+        wrapper.sku = 'SKU123';
+        wrapper.warehouse = 'Warehouse1';
+        wrapper.ats = 10;
+        
+        // Verify that the properties have been set correctly
+        Assert.areEqual('SKU123', wrapper.sku, 'SKU property should be set correctly');
+        Assert.areEqual('Warehouse1', wrapper.warehouse, 'Warehouse property should be set correctly');
+        Assert.areEqual(10, wrapper.ats, 'ATS property should be set correctly');
+    }
+    
+    @isTest
+    static void testWrapperInitialization() {
+        // Create a new instance of the BackInStockWrapper
+        BackInStockWrapper wrapper = new BackInStockWrapper();
+        
+        // Verify that the properties are initially null
+        Assert.isNull(wrapper.sku, 'SKU property should be initially null');
+        Assert.isNull(wrapper.warehouse, 'Warehouse property should be initially null');
+        Assert.isNull(wrapper.ats, 'ATS property should be initially null');
+    }
 }

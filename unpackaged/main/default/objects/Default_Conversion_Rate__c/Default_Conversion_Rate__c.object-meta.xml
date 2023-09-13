@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>When a product is back in stock, indicate the percentage of total back in stock subscribers that should receive an email based on the product received. If we receive 100 products and email sending rate is 15, then we will only send 15 emails. This attribute will be ignored if Porduct2.ConvertionRate is configured</description>
+    <enableFeeds>false</enableFeeds>
+    <label>Default Conversion Rate</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,14 +1,14 @@
 /*
 ----------------------------------------------------------------------
--- - Name              :  Batch_BackInStock_Test
--- - Author            :  Mohamed Amine El Mandour
--- - Description       :  Test Class for Batch_BackInStock
+-- - Name              :  BackInStockBatchHelper
+-- - Author            :  Abdelaaziz Idaoumahmoud
+-- - Description       :  Helper Class for Batch_BackInStock
 -- Maintenance History :    
 --
 -- Date                 Name                        Version          Remarks
 -- -----------          -----------                 --------         ----------------------
--- 17-03-2022           Mohamed Amine El Mandour    1.0              Initial version
--- 14-05-2022           Bader Eddine Elkhal         2.0              updated version
+-- 30/05/2022           Abdelaaziz Idaoumahmoud    	1.0              Initial version
+-- 22-12-2022           Mohamed Abdelfadel	        2.0              Remove every hard coding, replaced by Custom Setting record fields
 -- 24-04-2023			Paul-Louis MONY				3.0				 Add IsRunningTest on SFMC get Access token to use just one MOCK in the test class
 ---------------------------------------------------------------------------------------
 */
@@ -42,7 +42,7 @@ public class BackInStockBatchHelper{
         } 
     }
 
-    public static Long postBackInStockEvent(Map<String, BackInStock_Wrapper> productInventories, Set<String> skuWarehouseToSendToSFMC, String oAUTHAccessToken){
+    public static Long postBackInStockEvent(Map<String, BackInStockWrapper> productInventories, Set<String> skuWarehouseToSendToSFMC, String oAUTHAccessToken){
         List<Object> jsonList= new List<Object>();
         SFMCAPISetting__c sfmcAPISetting = SFMCAPISetting__c.getOrgDefaults();
         Long i = (Long) sfmcAPISetting.LastSentEventId__c;

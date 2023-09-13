@@ -1646,6 +1646,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>CommSubscriptionConsent.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>CommSubscriptionConsent.LastCommunicationSend__c</field>
         <readable>true</readable>
@@ -4978,6 +4983,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Product2.Color__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Product2.ConversionRate_SFMC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8548,7 +8558,7 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>TransactionalEmail__c</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>WishlistItem__c</tab>

@@ -1,6 +1,19 @@
+/*
+----------------------------------------------------------------------
+-- - Name              :  Batch_BackInStock
+-- - Author            :  Abdelaaziz Idaoumahmoud
+-- - Description       :  Batch for BackInStock process SFCC
+-- Maintenance History :    
+--
+-- Date                 Name                        Version          Remarks
+-- -----------          -----------                 --------         ----------------------
+-- 30-05-2022           Abdelaaziz Idaoumahmoud    	1.0              Initial version
+-- 22-12-2022           Mohamed Abdelfadel         	2.0              Remove every hard coding, replaced by Custom Setting record fields and usage of a backInStockBatchHelper
+---------------------------------------------------------------------------------------
+*/
 global class Batch_BackInStock implements Database.Batchable<sObject>,  Database.AllowsCallouts, Schedulable, Database.Stateful {
 
-    private Map<String, BackInStock_Wrapper> productInventories;
+    private Map<String, BackInStockWrapper> productInventories;
     private Set<String> skuWarehouseToSendToSFMC;
     private Set<String> setSkuToGetConsent;
     private Set<String> setWarehouseToGetConsent;
@@ -8,12 +21,12 @@ global class Batch_BackInStock implements Database.Batchable<sObject>,  Database
         skuWarehouseToSendToSFMC = new Set<String>();
         setSkuToGetConsent = new Set<String>();
         setWarehouseToGetConsent = new Set<String>();
-        productInventories = new Map<String, BackInStock_Wrapper>();
+        productInventories = new Map<String, BackInStockWrapper>();
         for(Product_Inventory__c productInventory : [SELECT sku__c, Warehouse__c, ATS__c 
                                                         FROM Product_Inventory__c 
                                                         WHERE ATS__c > 0 order by sku__c]){
 
-            BackInStock_Wrapper productLine = new BackInStock_Wrapper();
+            BackInStockWrapper productLine = new BackInStockWrapper();
             productLine.sku = productInventory.sku__c;
             productLine.warehouse = productInventory.warehouse__c;
             productLine.ats = Integer.valueOf(productInventory.ATS__c);
