@@ -386,7 +386,7 @@
             <leftValueReference>currentItem_Check_OCI_Stock_Unavailable.onHand</leftValueReference>
             <operator>GreaterThanOrEqualTo</operator>
             <rightValue>
-                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Quantity</elementReference>
+                <elementReference>FX_QtyAllocated_And_AlreadyAllocated</elementReference>
             </rightValue>
         </conditions>
         <conditions>
@@ -414,7 +414,7 @@
             <leftValueReference>currentItem_Check_OCI_Stock_Unavailable.onHand</leftValueReference>
             <operator>LessThan</operator>
             <rightValue>
-                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Quantity</elementReference>
+                <elementReference>FX_QtyAllocated_And_AlreadyAllocated</elementReference>
             </rightValue>
         </conditions>
         <conditions>
