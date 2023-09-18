@@ -23,14 +23,11 @@ export default class Som_ManualReturnReception extends LightningElement {
     
 
     connectedCallback(){ 
-        console.log('$$ Start Som_ManualReturnReception.connectedCallback $$');
         try {
-            console.log(' this.recordId ', this.recordId);
             this.startLoading();
             this.getConditionPicklistValues();
             this.getFollowUpPicklistValues();
             if(this.listOutputDataWithDetails !== undefined && this.listOutputDataWithDetails !== null && this.listOutputDataWithDetails.length>0){
-                console.log('listOutputLine not empty ');
                 const initialData = this.listOutputDataWithDetails.map(object => ({ ...object }));
                 this.customData = initialData;
                 this.getSerialNumbers();
@@ -46,7 +43,6 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
 
     getConditionPicklistValues() {
-        console.log('>> getConditionPicklistValues');
         try {
             getCondtions()
             .then(result => {
@@ -66,7 +62,6 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
 
     getFollowUpPicklistValues() {
-        console.log('>> getFollowUpPicklistValues');
         try {
             getFollowUps()
             .then(result => {
@@ -87,11 +82,9 @@ export default class Som_ManualReturnReception extends LightningElement {
     
 
     getListInitialROLIsByRoId() {
-        console.log('$$ getListInitialROLIsByRoId');
         try {
             getReturnOrderLineItems({returnOrderId : this.recordId})
             .then(result => {
-                console.log('** result: ', JSON.parse(result));
                 this.customData = JSON.parse(result);
                 this.getSerialNumbers();
             })
@@ -103,7 +96,6 @@ export default class Som_ManualReturnReception extends LightningElement {
         }
     }
     getSerialNumbers() {
-        console.log('$$ getSerialNumbers');
         try {
             this.listSkus = [];
             this.customData.forEach(lineItem =>{
@@ -111,7 +103,6 @@ export default class Som_ManualReturnReception extends LightningElement {
                     this.listSkus.push(lineItem.OrderItemSummaryId);
                 }  
             });
-            console.log('list Sku : ', this.listSkus);
             getShipmentSerialNumbers({listIds : JSON.stringify(this.listSkus)})
             .then(result => {
                 const resData = JSON.parse(result);
@@ -119,7 +110,6 @@ export default class Som_ManualReturnReception extends LightningElement {
                 for (let key in resData) {
                     this.mapSerialNumberByOis.push({value:resData[key], key:key});
                 }
-                console.log('** this.mapSerialNumberByOis ', this.mapSerialNumberByOis);
             })
             .catch(error => {
                 console.log('** error: ', error);
@@ -130,7 +120,6 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
 
     handleSerialNumberChange(event){
-        console.log('$$ handleSerialNumberChange');
         try{
             this.startLoading();
             const lineId = event.target.accessKey;
@@ -138,7 +127,6 @@ export default class Som_ManualReturnReception extends LightningElement {
             var lineItem = this.customData.filter(element => element.Id === lineId);
             lineItem[0].SerialNumber__c = newSerialNumberValue;
             const inputSerialNumbers = (newSerialNumberValue||'').split(';');
-            console.log('inputSerialNumbers',inputSerialNumbers);
             this.endLoading();
         
         }
@@ -152,7 +140,6 @@ export default class Som_ManualReturnReception extends LightningElement {
 
     handleConditionChange(event){
         try{
-            console.log('$$ handleConditionChange');
             this.startLoading();
             const lineId = event.target.accessKey;
             const newConditionValue = event.target.value;
@@ -167,7 +154,6 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
 
     handleFollowUpChange(event){
-        console.log('$$ handleFollowUpChange');
         try{
             this.startLoading();
             const lineId = event.target.accessKey;
@@ -183,16 +169,12 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
 
     handleQuantityRecievedChange(event){
-        console.log('$$ handleQuantityRecievedChange');
         try{
             this.startLoading();
             const lineId = event.target.accessKey;
             const newQuantityValue = parseInt(event.target.value);
             var lineItem = this.customData.filter(element => element.Id === lineId);
             const receivedQte = lineItem[0].QuantityReceived;
-            // if(newQuantityValue === 0){
-            //     this.displayWarningMessage('Quantity Received should be greater than 0 ','Bad value for Quantity Received');
-            // }
             lineItem[0].QuantityReceived = newQuantityValue;
 
             this.endLoading();
@@ -206,7 +188,6 @@ export default class Som_ManualReturnReception extends LightningElement {
     }
     prepareOutPutForNextScreen(){
         try{
-            console.log('> prepareOutPutForNextScreen  ');
             this.listOutputLine = [];
             this.listOutputDataWithDetails = [];
             var listData = this.customData.map(object => ({ ...object }));

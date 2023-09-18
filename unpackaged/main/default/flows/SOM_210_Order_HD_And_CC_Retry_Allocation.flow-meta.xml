@@ -74,8 +74,8 @@
     <assignments>
         <name>Assign_PE</name>
         <label>Assign PE</label>
-        <locationX>2427</locationX>
-        <locationY>1611</locationY>
+        <locationX>2459</locationX>
+        <locationY>1490</locationY>
         <assignmentItems>
             <assignToReference>V_ProcessExceptionToCreate.Description</assignToReference>
             <operator>Assign</operator>
@@ -132,8 +132,31 @@
                 <stringValue>High</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Process_Exceptions_To_Create</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>V_ProcessExceptionToCreate</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Create_Process_Exceptions</targetReference>
+            <targetReference>LP4_Locations_by_current_Item</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Count_PEs</name>
+        <label>Count PEs</label>
+        <locationX>2450</locationX>
+        <locationY>975</locationY>
+        <assignmentItems>
+            <assignToReference>V_Count_PEs</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Filter_Process_Exceptions</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L26_Iterate_Over_Collection_Inventory</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -149,7 +172,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_All_Allocated_OSLIs</targetReference>
+            <targetReference>Filter_Allocated_OSLIs</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -172,7 +195,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Existing_Process_Exception</targetReference>
+            <targetReference>Filter_Process_Exceptions</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -202,7 +225,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_Existing_Process_Exception</targetReference>
+            <targetReference>Filter_Process_Exceptions</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -306,33 +329,47 @@
     <assignments>
         <name>Update_PE</name>
         <label>Update PE</label>
-        <locationX>1993</locationX>
-        <locationY>1695</locationY>
+        <locationX>2760</locationX>
+        <locationY>1660</locationY>
         <assignmentItems>
-            <assignToReference>Get_Existing_Process_Exception.Description</assignToReference>
+            <assignToReference>L27_Iterate_Over_Filtered_PEs.Description</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>FX_PEDescription</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Process_Exceptions_To_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L27_Iterate_Over_Filtered_PEs</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Update_Process_Exception</targetReference>
+            <targetReference>L27_Iterate_Over_Filtered_PEs</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Update_PE_to_Resolved</name>
         <label>Update PE to Resolved</label>
-        <locationX>2226</locationX>
-        <locationY>1842</locationY>
+        <locationX>2724</locationX>
+        <locationY>1198</locationY>
         <assignmentItems>
-            <assignToReference>Get_Existing_Process_Exception.Status</assignToReference>
+            <assignToReference>L28_Iterate_Over_Filtered_PEs.Status</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>Resolved</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Process_Exceptions_To_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L28_Iterate_Over_Filtered_PEs</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Update_Process_Exception</targetReference>
+            <targetReference>L28_Iterate_Over_Filtered_PEs</targetReference>
         </connector>
     </assignments>
     <collectionProcessors>
@@ -349,7 +386,7 @@
             <leftValueReference>currentItem_Check_OCI_Stock_Unavailable.onHand</leftValueReference>
             <operator>GreaterThanOrEqualTo</operator>
             <rightValue>
-                <elementReference>FX_QtyAllocated_And_AlreadyAllocated</elementReference>
+                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Quantity</elementReference>
             </rightValue>
         </conditions>
         <conditions>
@@ -377,7 +414,7 @@
             <leftValueReference>currentItem_Check_OCI_Stock_Unavailable.onHand</leftValueReference>
             <operator>LessThan</operator>
             <rightValue>
-                <elementReference>FX_QtyAllocated_And_AlreadyAllocated</elementReference>
+                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Quantity</elementReference>
             </rightValue>
         </conditions>
         <conditions>
@@ -392,11 +429,39 @@
         </connector>
     </collectionProcessors>
     <collectionProcessors>
+        <name>Filter_Allocated_OSLIs</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Allocated OSLIs</label>
+        <locationX>2090</locationX>
+        <locationY>680</locationY>
+        <assignNextValueToReference>currentItem_Filter_Allocated_OSLIs</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_All_Allocated_OSLIs</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Allocated_OSLIs.StockKeepingUnit</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.StockKeepingUnit</elementReference>
+            </rightValue>
+        </conditions>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Allocated_OSLIs.ReservedAtLocationId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.ReservedAtLocationId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>L22_Allocated_OSLIs</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
         <name>Filter_Location_by_Current_Item</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Location by Current Item</label>
-        <locationX>2409</locationX>
-        <locationY>1329</locationY>
+        <locationX>2116</locationX>
+        <locationY>1234</locationY>
         <assignNextValueToReference>currentItem_Filter_Location_by_Current_Item</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
@@ -452,6 +517,27 @@
         </conditions>
         <connector>
             <targetReference>L12_Iterate_Over_Filtered_Location</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Process_Exceptions</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Process Exceptions</label>
+        <locationX>2649</locationX>
+        <locationY>910</locationY>
+        <assignNextValueToReference>currentItem_Filter_Process_Exceptions</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Existing_Process_Exception</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Process_Exceptions.AttachedToId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Count_PEs</targetReference>
         </connector>
     </collectionProcessors>
     <decisions>
@@ -532,8 +618,8 @@
     <decisions>
         <name>Is_Stock_Sufficient</name>
         <label>Is Stock Sufficient</label>
-        <locationX>1922</locationX>
-        <locationY>1383</locationY>
+        <locationX>1920</locationX>
+        <locationY>1631</locationY>
         <defaultConnectorLabel>False</defaultConnectorLabel>
         <rules>
             <name>True</name>
@@ -576,8 +662,8 @@
     <decisions>
         <name>Update_or_Create_PE</name>
         <label>Update or Create PE?</label>
-        <locationX>2221</locationX>
-        <locationY>1634</locationY>
+        <locationX>2650</locationX>
+        <locationY>1407</locationY>
         <defaultConnector>
             <targetReference>LP4_Locations_by_current_Item</targetReference>
         </defaultConnector>
@@ -586,10 +672,10 @@
             <name>Update_Active_Process_Exception</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Existing_Process_Exception</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>V_Count_PEs</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -600,7 +686,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_PE</targetReference>
+                <targetReference>L27_Iterate_Over_Filtered_PEs</targetReference>
             </connector>
             <label>Update Active Process Exception</label>
         </rules>
@@ -608,10 +694,10 @@
             <name>Update_Active_Process_Exception_to_Resolved</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Existing_Process_Exception</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>V_Count_PEs</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -622,7 +708,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_PE_to_Resolved</targetReference>
+                <targetReference>L28_Iterate_Over_Filtered_PEs</targetReference>
             </connector>
             <label>Update Active Process Exception to Resolved</label>
         </rules>
@@ -630,10 +716,10 @@
             <name>Create_New_Process_Exception</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Existing_Process_Exception</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>V_Count_PEs</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -649,7 +735,6 @@
             <label>Create New Process Exception</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -674,7 +759,7 @@
             <targetReference>Filter_Location_By_Reserved_Location_Id</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Set_Get_Inventory_Availability_Input_Values</targetReference>
+            <targetReference>Get_Existing_Process_Exception</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -702,7 +787,7 @@
             <targetReference>Filter_Location_By_External_Reference</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Is_Stock_Sufficient</targetReference>
+            <targetReference>Update_Process_Exception</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -710,7 +795,7 @@
         <label>L22&apos; Allocated OSLIs</label>
         <locationX>2090</locationX>
         <locationY>526</locationY>
-        <collectionReference>Get_All_Allocated_OSLIs</collectionReference>
+        <collectionReference>Filter_Allocated_OSLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Add_Allocated_Qty</targetReference>
@@ -762,10 +847,38 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>L27_Iterate_Over_Filtered_PEs</name>
+        <label>L27 - Iterate Over Filtered PEs</label>
+        <locationX>2530</locationX>
+        <locationY>1660</locationY>
+        <collectionReference>Filter_Process_Exceptions</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Update_PE</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>LP4_Locations_by_current_Item</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>L28_Iterate_Over_Filtered_PEs</name>
+        <label>L28 - Iterate Over Filtered PEs</label>
+        <locationX>2543</locationX>
+        <locationY>1199</locationY>
+        <collectionReference>Filter_Process_Exceptions</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Update_PE_to_Resolved</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>LP4_Locations_by_current_Item</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>LP4_Locations_by_current_Item</name>
         <label>LP4 Locations by current Item</label>
-        <locationX>2227</locationX>
-        <locationY>1337</locationY>
+        <locationX>2249</locationX>
+        <locationY>1402</locationY>
         <collectionReference>Filter_Location_by_Current_Item</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -797,30 +910,23 @@
     <recordCreates>
         <name>Create_Process_Exceptions</name>
         <label>Create Process Exceptions</label>
-        <locationX>2421</locationX>
-        <locationY>1459</locationY>
+        <locationX>1928</locationX>
+        <locationY>1452</locationY>
         <connector>
-            <targetReference>LP4_Locations_by_current_Item</targetReference>
+            <targetReference>Is_Stock_Sufficient</targetReference>
         </connector>
-        <inputReference>V_ProcessExceptionToCreate</inputReference>
+        <inputReference>C_Process_Exceptions_To_Create</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_All_Allocated_OSLIs</name>
-        <label>Get All Allocated OSLIs</label>
-        <locationX>2090</locationX>
-        <locationY>680</locationY>
+        <label>Get_All_Allocated_OSLIs</label>
+        <locationX>1182</locationX>
+        <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L22_Allocated_OSLIs</targetReference>
+            <targetReference>Records_Exist</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>StockKeepingUnit</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.StockKeepingUnit</elementReference>
-            </value>
-        </filters>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -828,34 +934,22 @@
                 <stringValue>ALLOCATED</stringValue>
             </value>
         </filters>
-        <filters>
-            <field>ReservedAtLocationId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.ReservedAtLocationId</elementReference>
-            </value>
-        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_Existing_Process_Exception</name>
         <label>Get Existing Process Exception</label>
-        <locationX>2780</locationX>
-        <locationY>892</locationY>
+        <locationX>1535</locationX>
+        <locationY>866</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L26_Iterate_Over_Collection_Inventory</targetReference>
+            <targetReference>Set_Get_Inventory_Availability_Input_Values</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>AttachedToId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>L22_Iterate_Over_Order_Iem_Summaries.Id</elementReference>
-            </value>
-        </filters>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -877,14 +971,16 @@
                 <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>ProcessException</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>960</locationX>
+        <locationX>823</locationX>
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -902,11 +998,11 @@
     <recordLookups>
         <name>Get_Order_Item_Summaries</name>
         <label>Get Order Item Summaries</label>
-        <locationX>1187</locationX>
+        <locationX>1013</locationX>
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Records_Exist</targetReference>
+            <targetReference>Get_All_Allocated_OSLIs</targetReference>
         </connector>
         <filterLogic>(1 AND 2 AND 3 AND 6) OR (1 AND 2 AND 4 AND 5 AND 6)</filterLogic>
         <filters>
@@ -965,16 +1061,16 @@
     <recordUpdates>
         <name>Update_Process_Exception</name>
         <label>Update Process Exception</label>
-        <locationX>1845</locationX>
-        <locationY>1841</locationY>
+        <locationX>1927</locationX>
+        <locationY>1277</locationY>
         <connector>
-            <targetReference>LP4_Locations_by_current_Item</targetReference>
+            <targetReference>Create_Process_Exceptions</targetReference>
         </connector>
-        <inputReference>Get_Existing_Process_Exception</inputReference>
+        <inputReference>C_Process_Exceptions_To_Update</inputReference>
     </recordUpdates>
     <start>
-        <locationX>832</locationX>
-        <locationY>366</locationY>
+        <locationX>700</locationX>
+        <locationY>321</locationY>
         <connector>
             <targetReference>Get_Locations</targetReference>
         </connector>
@@ -992,7 +1088,15 @@
         </value>
     </variables>
     <variables>
-        <name>C_ProcessExceptionsToCreate</name>
+        <name>C_Process_Exceptions_To_Create</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>C_Process_Exceptions_To_Update</name>
         <dataType>SObject</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
@@ -1038,6 +1142,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_Allocated_OSLIs</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Invenory_Records</name>
         <apexClass>ConnectApi__OCIInventoryRecordOutputRepresentation</apexClass>
         <dataType>Apex</dataType>
@@ -1068,6 +1180,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Process_Exceptions</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
     </variables>
     <variables>
         <name>InventoryRecordsCount</name>
@@ -1147,6 +1267,17 @@
         <isOutput>true</isOutput>
         <value>
             <booleanValue>true</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>V_Count_PEs</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
         </value>
     </variables>
     <variables>

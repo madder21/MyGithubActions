@@ -6,7 +6,6 @@ private class SOM_GetAvailabilityBatchTest {
         List<OrderSummary> osList = new List<OrderSummary>();
         osList =  SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,1);
         
-        System.debug('osList :::: ' +osList);
         Test.startTest();
         SOM_GetAvailability_BatchSubClass b = new SOM_GetAvailability_BatchSubClass(osList);
         Test.stopTest();

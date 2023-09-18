@@ -9,7 +9,6 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
             setSkus.add(sku.StockKeepingUnit);
         }         
         List<String> listSkus = new List<String>(setSkus);
-        System.debug('list skus ::::::::::::::::: ' + listSkus);
         return listSkus;
     }
 
@@ -35,8 +34,6 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
 
     @AuraEnabled
     public static SOM_OCI_InventoryRecord getOnHand(String locationEntry, String skuEntry){
-        System.debug('locationEntry' + locationEntry);
-        System.debug('skuEntry' + skuEntry);
         ConnectApi.OCIGetInventoryAvailabilityInputRepresentation inventoryAvailabilityInput = new ConnectApi.OCIGetInventoryAvailabilityInputRepresentation();
         inventoryAvailabilityInput.stockKeepingUnits = new List<String>();
         inventoryAvailabilityInput.locationIdentifiers = new List<String>();
@@ -44,22 +41,17 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
         inventoryAvailabilityInput.stockKeepingUnits.add(skuEntry);
         inventoryAvailabilityInput.locationIdentifiers.add(locationEntry);
         inventoryAvailabilityInput.useCache	= false;
-        System.debug('inventoryAvailabilityInput' + inventoryAvailabilityInput);
         SOM_OCI_InventoryRecord inventoryRec = new SOM_OCI_InventoryRecord();
 
         ConnectApi.OCIInventoryRecordOutputRepresentation inventoryRecordOutput;
         try{
-            System.debug('ConnectApi1');
             if(!Test.isRunningTest()){
                 ConnectApi.OCIGetInventoryAvailabilityOutputRepresentation inventoryAvailabilityOutput = ConnectApi.OmnichannelInventoryService.getInventoryAvailability(inventoryAvailabilityInput);
-                System.debug('ConnectApi2');
                 if(inventoryAvailabilityOutput.locations?.isEmpty()){
-                    System.debug('locations');
                     return inventoryRec;
                 }
                 List<ConnectApi.OCILocationAvailabilityOutputRepresentation> locationAvailabilityOutput = inventoryAvailabilityOutput.locations;
                 if(locationAvailabilityOutput[0].inventoryRecords?.isEmpty()){
-                    System.debug('inventoryRecords');
                     return inventoryRec;
                 }
             	inventoryRecordOutput  = locationAvailabilityOutput[0].inventoryRecords[0];
@@ -112,10 +104,10 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
                                 
         }
         
-
-        inventoryRecords.recordId = generateUUID();
+		Uuid uuid = new Uuid();
+        String value = uuid.getValue() ; 
+        inventoryRecords.recordId = value;
         outputJson = outputJson + JSON.serialize(inventoryRecords) + '\n';
-        System.debug('$$$$$ outputJson : ' + outputJson);
 
         if(!Test.isRunningTest()){
         ConnectApi.OCIUploadInventoryAvailabilityOutputRepresentation submitOutpUt = ConnectApi.OmnichannelInventoryService.submitInventoryAvailabilityUpload(new ConnectApi.BinaryInput( Blob.valueof(outputJson), SOM_Constants.FILE_TYPE ,'fileUpdateOnHands.json'));
@@ -131,14 +123,14 @@ public with sharing class SOM_LWC_Update_OnHands_Controller {
         }
     }
 
-    public static String generateUUID(){
+   /* public static String generateUUID(){
          
         String h = EncodingUtil.ConvertTohex(Crypto.GenerateAESKey(128));
          
          return h.SubString(0,8)+ '-' + h.SubString(8,12) + '-' + h.SubString(12,16) + '-' + h.SubString(16,20) + 
                 '-' + h.substring(20);
         } 
-
+	*/
 
     public class Wr_PicklistValue{
 

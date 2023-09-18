@@ -2,24 +2,26 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
     <assignments>
+        <name>Assign_Allocated_OSLI</name>
+        <label>Assign Allocated OSLI</label>
+        <locationX>1917</locationX>
+        <locationY>1681</locationY>
+        <assignmentItems>
+            <assignToReference>Allocated_OSLI_Rec</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Allocated_OSLI_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Allocated_OSLI_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Current_Location_Ref</name>
         <label>Assign Current Location Ref</label>
-        <locationX>939</locationX>
-        <locationY>547</locationY>
-        <assignmentItems>
-            <assignToReference>Current_Location_Ref</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>GetLocation.ExternalReference</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Current_Location_Name</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>GetLocation.Name</elementReference>
-            </value>
-        </assignmentItems>
+        <locationX>1391</locationX>
+        <locationY>550</locationY>
         <assignmentItems>
             <assignToReference>Current_Type</assignToReference>
             <operator>Assign</operator>
@@ -28,10 +30,24 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>Current_Location_Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LocRec.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Current_Location_Ref</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LocRec.ExternalReference</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>Current_LocationLocationGroup_ID</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetLocation.Id</elementReference>
+                <elementReference>LocRec.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -41,22 +57,8 @@
     <assignments>
         <name>Assign_Current_LocationGroup_Ref</name>
         <label>Assign Current LocationGroup Ref</label>
-        <locationX>1205</locationX>
+        <locationX>1667</locationX>
         <locationY>550</locationY>
-        <assignmentItems>
-            <assignToReference>Current_Location_Ref</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>GetLocationGroup.ExternalReference</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Current_Location_Name</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>GetLocationGroup.LocationGroupName</elementReference>
-            </value>
-        </assignmentItems>
         <assignmentItems>
             <assignToReference>Current_Type</assignToReference>
             <operator>Assign</operator>
@@ -65,10 +67,24 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>Current_Location_Ref</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LocG_Rec.ExternalReference</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Current_Location_Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LocG_Rec.LocationGroupName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>Current_LocationLocationGroup_ID</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetLocationGroup.Id</elementReference>
+                <elementReference>LocG_Rec.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -76,9 +92,41 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Location</name>
+        <label>Assign Location</label>
+        <locationX>1237</locationX>
+        <locationY>571</locationY>
+        <assignmentItems>
+            <assignToReference>LocRec</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Location_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Location_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Location_Group</name>
+        <label>Assign Location Group</label>
+        <locationX>1809</locationX>
+        <locationY>587</locationY>
+        <assignmentItems>
+            <assignToReference>LocG_Rec</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Location_Goup_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Location_Goup_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_LocationGroupId</name>
         <label>Assign LocationGroupId</label>
-        <locationX>1848</locationX>
+        <locationX>2310</locationX>
         <locationY>1074</locationY>
         <assignmentItems>
             <assignToReference>S_Reservation.locationGroupId</assignToReference>
@@ -101,7 +149,7 @@
     <assignments>
         <name>Assign_LocationId</name>
         <label>Assign LocationId</label>
-        <locationX>1398</locationX>
+        <locationX>1860</locationX>
         <locationY>1073</locationY>
         <assignmentItems>
             <assignToReference>S_Reservation.locationId</assignToReference>
@@ -124,7 +172,7 @@
     <assignments>
         <name>Assign_LocationType_identifier_name</name>
         <label>Assign LocationType, identifier &amp; name</label>
-        <locationX>1623</locationX>
+        <locationX>2085</locationX>
         <locationY>1365</locationY>
         <assignmentItems>
             <assignToReference>S_Reservation.locationType</assignToReference>
@@ -158,17 +206,17 @@
             <assignToReference>S_Reservation.orderSummaryId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_OSLI.OrderSummaryId</elementReference>
+                <elementReference>OSLI_Assigned_Rec.OrderSummaryId</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Get_All_Allocated_OSLIs</targetReference>
+            <targetReference>Filter_Allocated_OSLI</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_OIS_FOR_FGroups</name>
         <label>Assign OIS FOR FGroups</label>
-        <locationX>480</locationX>
+        <locationX>942</locationX>
         <locationY>194</locationY>
         <assignmentItems>
             <assignToReference>C_OIS_IR</assignToReference>
@@ -182,9 +230,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_OSLI</name>
+        <label>Assign OSLI</label>
+        <locationX>2283</locationX>
+        <locationY>952</locationY>
+        <assignmentItems>
+            <assignToReference>OSLI_Assigned_Rec</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OSLI_Loop</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>OSLI_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Product</name>
         <label>Assign Product</label>
-        <locationX>1075</locationX>
+        <locationX>1537</locationX>
         <locationY>1303</locationY>
         <assignmentItems>
             <assignToReference>S_Reservation.orderItemSummaryId</assignToReference>
@@ -201,20 +265,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>S_Reservation.productName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_OSLI.Product2.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>S_Reservation.stockKeepingUnit</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_OSLI.Product2.StockKeepingUnit</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>S_Reservation.quantityAlreadyAllocated</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -222,21 +272,67 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>C_Reservations</assignToReference>
-            <operator>Add</operator>
+            <assignToReference>S_Reservation.productName</assignToReference>
+            <operator>Assign</operator>
             <value>
-                <elementReference>S_Reservation</elementReference>
+                <elementReference>OSLI_Assigned_Rec.Product2.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_Reservation.stockKeepingUnit</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>OSLI_Assigned_Rec.Product2.StockKeepingUnit</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L222_OrderItemSummaries</targetReference>
+            <targetReference>Stack_Reservation</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>F_LocationId</name>
+        <label>F_LocationId</label>
+        <locationX>83</locationX>
+        <locationY>760</locationY>
+        <assignmentItems>
+            <assignToReference>VF_LocationIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loop_Groups.fulfilledFromLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_OSLI</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loop_Groups.orderItemSummaries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_Groups</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>F_OSLI_Ids</name>
+        <label>F OSLI Ids</label>
+        <locationX>22</locationX>
+        <locationY>945</locationY>
+        <assignmentItems>
+            <assignToReference>OSLI_Ids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loop_OSLI.orderItemSummaryId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_OSLI</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>FGroups</name>
         <label>FGroups</label>
-        <locationX>324</locationX>
-        <locationY>854</locationY>
+        <locationX>786</locationX>
+        <locationY>858</locationY>
         <assignmentItems>
             <assignToReference>C_FGroups</assignToReference>
             <operator>Assign</operator>
@@ -249,9 +345,41 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Groups</name>
+        <label>Groups</label>
+        <locationX>165</locationX>
+        <locationY>407</locationY>
+        <assignmentItems>
+            <assignToReference>V_Groups</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loop_FOIR.fulfillmentGroups</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_Groups</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Stack_Reservation</name>
+        <label>Stack Reservation</label>
+        <locationX>1541</locationX>
+        <locationY>1140</locationY>
+        <assignmentItems>
+            <assignToReference>C_Reservations</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>S_Reservation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L222_OrderItemSummaries</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Sum_Allocated_OSLIs</name>
         <label>Sum Allocated OSLIs</label>
-        <locationX>826</locationX>
+        <locationX>1288</locationX>
         <locationY>1536</locationY>
         <assignmentItems>
             <assignToReference>Current_Allocated_Qty</assignToReference>
@@ -264,6 +392,104 @@
             <targetReference>L24_Allocated_OSLIs</targetReference>
         </connector>
     </assignments>
+    <collectionProcessors>
+        <name>Filter_Allocated_OSLI</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Allocated OSLI</label>
+        <locationX>2088</locationX>
+        <locationY>1533</locationY>
+        <assignNextValueToReference>currentItem_Filter_Allocated_OSLI_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_OSLI_0</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Allocated_OSLI_0.StockKeepingUnit</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>currentItem_Filter_OSLI.StockKeepingUnit</elementReference>
+            </rightValue>
+        </conditions>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Allocated_OSLI_0.Status</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <stringValue>ALLOCATED</stringValue>
+            </rightValue>
+        </conditions>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Allocated_OSLI_0.ReservedAtLocationId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Current_LocationLocationGroup_ID</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>L24_Allocated_OSLIs</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Location</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Location</label>
+        <locationX>1411</locationX>
+        <locationY>406</locationY>
+        <assignNextValueToReference>currentItem_Filter_Location</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>GetLocation_0</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Location.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L111_FGroups.fulfilledFromLocationId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Location_Loop</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Location_Group</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Location Group</label>
+        <locationX>1645</locationX>
+        <locationY>420</locationY>
+        <assignNextValueToReference>currentItem_Filter_Location_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>GetLocationGroup_0</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Location_0.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L111_FGroups.fulfilledFromLocationId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Location_Goup_Loop</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_OSLI</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter OSLI</label>
+        <locationX>2080</locationX>
+        <locationY>776</locationY>
+        <assignNextValueToReference>currentItem_Filter_OSLI</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_OSLI_0</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_OSLI.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L222_OrderItemSummaries.orderItemSummaryId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>OSLI_Loop</targetReference>
+        </connector>
+    </collectionProcessors>
     <constants>
         <name>Constant_Location</name>
         <dataType>String</dataType>
@@ -281,7 +507,7 @@
     <decisions>
         <name>Is_shipping_charge</name>
         <label>Is shipping charge ?</label>
-        <locationX>1612</locationX>
+        <locationX>2074</locationX>
         <locationY>918</locationY>
         <defaultConnector>
             <targetReference>Location_or_LocationGroup</targetReference>
@@ -291,7 +517,7 @@
             <name>Shipping_Charge</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_OSLI.Type</leftValueReference>
+                <leftValueReference>OSLI_Assigned_Rec.Type</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Delivery Charge</stringValue>
@@ -306,7 +532,7 @@
     <decisions>
         <name>Location_or_LocationGroup</name>
         <label>Location or LocationGroup ?</label>
-        <locationX>1614</locationX>
+        <locationX>2076</locationX>
         <locationY>1075</locationY>
         <defaultConnector>
             <targetReference>Assign_LocationId</targetReference>
@@ -331,10 +557,10 @@
     <decisions>
         <name>LocationGroup_or_Location</name>
         <label>LocationGroup or Location ?</label>
-        <locationX>1064</locationX>
+        <locationX>1526</locationX>
         <locationY>195</locationY>
         <defaultConnector>
-            <targetReference>GetLocation</targetReference>
+            <targetReference>Filter_Location</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Location</defaultConnectorLabel>
         <rules>
@@ -348,18 +574,28 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>GetLocationGroup</targetReference>
+                <targetReference>Filter_Location_Group</targetReference>
             </connector>
             <label>LocationGroup</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM SERVICE 110 - GetAvailability - Transform FO_IR into Reservations {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM SERVICE 110 - GetAvailability - Transform FO_IR into Reservations</label>
     <loops>
+        <name>Allocated_OSLI_Loop</name>
+        <label>Allocated OSLI Loop</label>
+        <locationX>1770</locationX>
+        <locationY>1695</locationY>
+        <collectionReference>Filter_Allocated_OSLI</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Allocated_OSLI</targetReference>
+        </nextValueConnector>
+    </loops>
+    <loops>
         <name>L000_FOIR</name>
         <label>L000 - FOIR</label>
-        <locationX>169</locationX>
+        <locationX>631</locationX>
         <locationY>757</locationY>
         <collectionReference>C_FulfillmentOrderInputRepresentation</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -370,7 +606,7 @@
     <loops>
         <name>L111_FGroups</name>
         <label>L111 FGroups</label>
-        <locationX>480</locationX>
+        <locationX>942</locationX>
         <locationY>767</locationY>
         <collectionReference>C_FGroups</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -384,12 +620,12 @@
     <loops>
         <name>L222_OrderItemSummaries</name>
         <label>L222 OrderItemSummaries</label>
-        <locationX>1074</locationX>
-        <locationY>768</locationY>
+        <locationX>1541</locationX>
+        <locationY>792</locationY>
         <collectionReference>C_OIS_IR</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Get_OSLI</targetReference>
+            <targetReference>Filter_OSLI</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>L111_FGroups</targetReference>
@@ -398,15 +634,99 @@
     <loops>
         <name>L24_Allocated_OSLIs</name>
         <label>L24 - Allocated OSLIs</label>
-        <locationX>1074</locationX>
+        <locationX>1536</locationX>
         <locationY>1536</locationY>
-        <collectionReference>Get_All_Allocated_OSLIs</collectionReference>
+        <collectionReference>Filter_Allocated_OSLI</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Sum_Allocated_OSLIs</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Assign_Product</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Location_Goup_Loop</name>
+        <label>Location Goup Loop</label>
+        <locationX>1808</locationX>
+        <locationY>429</locationY>
+        <collectionReference>Filter_Location_Group</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Location_Group</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Current_LocationGroup_Ref</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Location_Loop</name>
+        <label>Location Loop</label>
+        <locationX>1236</locationX>
+        <locationY>414</locationY>
+        <collectionReference>Filter_Location</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Location</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Current_Location_Ref</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loop_FOIR</name>
+        <label>loop FOIR</label>
+        <locationX>240</locationX>
+        <locationY>567</locationY>
+        <collectionReference>C_FulfillmentOrderInputRepresentation</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Groups</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>loop_OSLI</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loop_Groups</name>
+        <label>loop Groups</label>
+        <locationX>83</locationX>
+        <locationY>566</locationY>
+        <collectionReference>V_Groups</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>F_LocationId</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>loop_FOIR</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loop_OSLI</name>
+        <label>loop OSLI</label>
+        <locationX>227</locationX>
+        <locationY>946</locationY>
+        <collectionReference>V_OSLI</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>F_OSLI_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_OSLI_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>OSLI_Loop</name>
+        <label>OSLI Loop</label>
+        <locationX>2282</locationX>
+        <locationY>784</locationY>
+        <collectionReference>Filter_OSLI</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_OSLI</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_shipping_charge</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -431,18 +751,15 @@
     <recordLookups>
         <name>Get_All_Allocated_OSLIs</name>
         <label>Get All Allocated OSLIs</label>
-        <locationX>1623</locationX>
-        <locationY>1535</locationY>
+        <locationX>2230</locationX>
+        <locationY>1511</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>L24_Allocated_OSLIs</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>StockKeepingUnit</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_OSLI.StockKeepingUnit</elementReference>
+                <elementReference>OSLI_Assigned_Rec.StockKeepingUnit</elementReference>
             </value>
         </filters>
         <filters>
@@ -470,12 +787,9 @@
     <recordLookups>
         <name>Get_OSLI</name>
         <label>Get OSLI</label>
-        <locationX>1620</locationX>
-        <locationY>758</locationY>
+        <locationX>2423</locationX>
+        <locationY>764</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Is_shipping_charge</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -491,14 +805,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>GetLocation</name>
-        <label>GetLocation</label>
-        <locationX>938</locationX>
-        <locationY>427</locationY>
+        <name>Get_OSLI_0</name>
+        <label>Get OSLI</label>
+        <locationX>409</locationX>
+        <locationY>935</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Current_Location_Ref</targetReference>
+            <targetReference>GetLocation_0</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OSLI_Ids</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetLocation</name>
+        <label>GetLocation</label>
+        <locationX>1085</locationX>
+        <locationY>367</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -517,14 +851,37 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>GetLocationGroup</name>
-        <label>GetLocationGroup</label>
-        <locationX>1208</locationX>
-        <locationY>415</locationY>
+        <name>GetLocation_0</name>
+        <label>GetLocation</label>
+        <locationX>404</locationX>
+        <locationY>764</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Current_LocationGroup_Ref</targetReference>
+            <targetReference>GetLocationGroup_0</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>VF_LocationIds</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Location</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>ExternalReference</queriedFields>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetLocationGroup</name>
+        <label>GetLocationGroup</label>
+        <locationX>2052</locationX>
+        <locationY>317</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -542,14 +899,56 @@
         <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <start>
-        <locationX>43</locationX>
-        <locationY>562</locationY>
+    <recordLookups>
+        <name>GetLocationGroup_0</name>
+        <label>GetLocationGroup</label>
+        <locationX>520</locationX>
+        <locationY>763</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L000_FOIR</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>VF_LocationIds</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>LocationGroup</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>LocationGroupName</queriedFields>
+        <queriedFields>ExternalReference</queriedFields>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>502</locationX>
+        <locationY>538</locationY>
+        <connector>
+            <targetReference>loop_FOIR</targetReference>
+        </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Allocated_OSLI_Rec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>AssignedLoc</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
     <variables>
         <name>C_FGroups</name>
         <apexClass>ConnectApi__FulfillmentGroupInputRepresentation</apexClass>
@@ -620,6 +1019,38 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_Allocated_OSLI_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Location</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Location_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>LocationGroup</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_OSLI</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>FLAG_LocationGroups_are_used</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -634,10 +1065,72 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>LocG_Rec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>LocationGroup</objectType>
+    </variables>
+    <variables>
+        <name>LocRec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>OSLI_Assigned_Rec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>OSLI_Ids</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OSLI_Rec</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>S_Reservation</name>
         <apexClass>SOM_ADV_Reservation</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>V_Groups</name>
+        <apexClass>ConnectApi__FulfillmentGroupInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>V_OSLI</name>
+        <apexClass>ConnectApi__OrderItemSummaryInputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>VF_LocationIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>

@@ -10,17 +10,13 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
     public static void setupData() {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,3);
         Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
-        System.debug('osIds'+osIds);
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
         FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
         List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
         List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
         listFOids.addAll(FulfillmentOrderIds);
-        System.debug('FulfillmentOrderIds'+FulfillmentOrderIds);
-        List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId,status FROM OrderItemSummary WHERE Status =: 'Ordered' AND OrderSummaryId IN :osIds];
-        System.debug('ios'+ois);
+        List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId,status FROM OrderItemSummary WHERE Status =: SOM_Constants.Status_Ordered AND OrderSummaryId IN :osIds];
         List<List<Id>> lfoIds = new List<List<Id>>{FulfillmentOrderIds};
-        System.debug('lfoIds'+lfoIds);
         listeFOids = lfoIds;
         if(cancel) {
             List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : FulfillmentOrderIds];
@@ -39,8 +35,6 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
     @isTest(seeAllData = true)
     public static void testClosingOK() {
         setupData(); 
-        System.debug('listeFOids'+listeFOids);
-        System.debug('mme *********** listFOids ************'+listFOids);
     	List<Id> foIds = new List<Id>();
         List<fulfillmentOrder> ListfulfillmentOrder = [Select Id, Status from fulfillmentOrder where id in: listFOids  ];
         
@@ -51,52 +45,52 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
         
         Test.startTest();
         SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request});
-        //SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(request);
         Test.stopTest();
-        System.assertEquals(true,SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request}).get(0).isSuccess);
+        System.assertEquals(true,SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request}).get(0).isSuccess,'Fo Has not been closed');
     }
     
-
-/*
     @isTest(seeAllData = true)
-    public static void testClosingOK() {
-        setupData();
-        System.debug('listeFOids'+listeFOids);
-        Test.startTest();
-        List<SOM_ClosingFulfillmentOrderAction.CloseFulfillmentOrderResponse> response = SOM_ClosingFulfillmentOrderAction.closeFulfillmentOrders(listeFOids);
-        Test.stopTest();
-        System.assertEquals(true,response.get(0).isSuccess);
-    }
+    public static void testClosingEmptyFOLI() {
+        setupData(); 
+    	List<Id> foIds = new List<Id>();
+        List<fulfillmentOrder> ListfulfillmentOrder = [Select Id, Status from fulfillmentOrder where id in: listFOids  ];
+        SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs request = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
+        if(listFOids.size() > 0)
+        request.foIds = listFOids;
+        request.doUpdateOSStatus = true;
+        List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : listFOids];
+        delete listfoli; 
+        update ListfulfillmentOrder;
 
-    @isTest(seeAllData = true)
-    public static void testClosingDataEmpty() {
-        System.debug('listeFOids'+listeFOids);
         Test.startTest();
-        List<SOM_ClosingFulfillmentOrderAction.CloseFulfillmentOrderResponse> response = SOM_ClosingFulfillmentOrderAction.closeFulfillmentOrders(listeFOids);
+        SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request});
         Test.stopTest();
-        System.assertEquals(false,response.get(0).isSuccess);
+        System.assertEquals(false,SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request}).get(0).isSuccess,'Fo is closed, status has been updated');
     }
+    
+    @isTest(seeAllData = true)
+    public static void testClosingFOLIBadStatus() {
+        setupData(); 
+    	List<Id> foIds = new List<Id>();
+        List<fulfillmentOrder> ListfulfillmentOrder = [Select Id, Status from fulfillmentOrder where id in: listFOids  ];
+        SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs request = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
+        if(listFOids.size() > 0)
+        request.foIds = listFOids;
+        request.doUpdateOSStatus = true;
+        List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : listFOids];
+        delete listfoli; 
+        update ListfulfillmentOrder;
 
-    @isTest(seeAllData = true)
-    public static void testClosingshippedFO() {
-        shipping = true ;
-        setupData();
         Test.startTest();
-        List<SOM_ClosingFulfillmentOrderAction.CloseFulfillmentOrderResponse> response = SOM_ClosingFulfillmentOrderAction.closeFulfillmentOrders(listeFOids);
+        SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request});
         Test.stopTest();
-        System.assertEquals(true,response.get(0).isSuccess);
+        System.assertEquals(false,SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(new List<SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs> {request}).get(0).isSuccess,'Fo is closed, status has been updated');
     }
+    
+    
+    
+    
 
-    @isTest(seeAllData = true)
-    public static void testClosingFOLIcancel() {
-        cancel = true ;
-        shipping = true ;
-        setupData();
-        Test.startTest();
-        List<SOM_ClosingFulfillmentOrderAction.CloseFulfillmentOrderResponse> response = SOM_ClosingFulfillmentOrderAction.closeFulfillmentOrders(listeFOids);
-        Test.stopTest();
-        System.assertEquals(true,response.get(0).isSuccess);
-    }
-*/
+
 
 }

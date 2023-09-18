@@ -23,21 +23,15 @@ export default class SomLwcProductChangesSelection extends LightningElement {
     ReturnReasonPicklist;
 
     connectedCallback(){ 
-        console.log('$$ Start Som_ManualReturnReception.connectedCallback $$');
-        console.log('$$ Start Som_ManualReturnReception.selectedOrderItemSummaries $$',JSON.parse(JSON.stringify(this.selectedOrderItemSummaries)));
-        console.log('$$ Start Som_ManualReturnReception.LineItems $$', JSON.stringify(this.data));
         try {
             this.startLoading();
             this.customData = this.selectedOrderItemSummaries;
             this.customOutputData = this.OutputLineItems;
             const initialData = this.OutputLineItems.map(object => ({ ...object }));
-                console.log('$$ Start Som_ManualReturnReception.initialData $$', JSON.parse(JSON.stringify(initialData)));
-                console.log('$$ Start Som_ManualReturnReception.OutputLineItems $$', JSON.stringify(this.OutputLineItems));
             this.getCurrency();
             this.prepareOutPutForNextScreen();
             this.getReturnReasonsPicklistValues();
             //this.getLineItems();
-            console.log('$$ end Som_ManualReturnReception.connectedCallback $$');
             this.endLoading();
         } catch (error) {
             console.log('** Exception error: ', error);
@@ -47,10 +41,7 @@ export default class SomLwcProductChangesSelection extends LightningElement {
 
     handleClickType(event){
         this.currentLineKey = event.target.value;
-        console.log("in handle type access key::::::: " , this.currentLineKey);
-        console.log("in handle type access key::::::: " , this.customData.length);
         for(let i=0; i<this.customOutputData.length; i++){
-            console.log('this.customData[i]::::::::::::::::::::::::::::::::: ' , JSON.stringify(this.customData[i]));
             if(this.customData[i].taxType === false && this.customData[i].amountId === this.currentLineKey){
                 this.customOutputData[i].lineTotal = 0;
                 this.customOutputData[i].taxType = true;
@@ -75,10 +66,8 @@ export default class SomLwcProductChangesSelection extends LightningElement {
 
      handleTaxValue(event){
         this.currentLineKey = event.target.accessKey;
-        console.log('this.currentLineKey',this.currentLineKey);
         var valEntered = parseFloat(event.target.value);
         var itemTaxVal = 0;
-        console.log('tax val' , valEntered);
         for(let i=0; i<this.customData.length; i++){
             let getDiscountValue = this.template.querySelector('.DiscountValue11');
             if( this.customData[i].taxType === true && this.customData[i].sku === this.currentLineKey){
@@ -89,9 +78,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
                     this.displayToastError();
                 }else{
                     getDiscountValue.setCustomValidity('');
-                console.log('this.customData[i].taxValue ' + this.customData[i].taxValue);
-                console.log('this.customData[i].TotalPrice ' + this.customData[i].TotalPrice);
-                console.log('this.customData[i].valEntered ' + valEntered);
                 this.customData[i].taxValue = valEntered;
                 this.customData[i].lineTotal = valEntered ;
                 this.customData[i].discountValue = -valEntered;
@@ -111,9 +97,7 @@ export default class SomLwcProductChangesSelection extends LightningElement {
                     this.customOutputData[i].lineTotal = 0;
                 }else{
                     getDiscountValue.setCustomValidity('');
-                console.log('taxVal',valEntered);
                 itemTaxVal = (valEntered * this.customData[i].TotalPrice) / (100);
-                console.log('itemTaxVal',itemTaxVal);
                 this.customData[i].taxRate = valEntered;
                 this.customData[i].lineTotal = itemTaxVal;
                 this.customOutputData[i].lineTotal = itemTaxVal;
@@ -134,7 +118,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
         this.currentLineValue = event.target.value;
         for(let i=0; i<this.customData.length; i++){
             if(  this.customData[i].sku === this.currentLineKey){
-                console.log('this.currentLineValue ' + this.currentLineValue);
                 this.customData[i].reason = this.currentLineValue ;
                 this.currentLineKey = '';
                 this.refresOutPutData();
@@ -149,7 +132,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
         this.currentLineValue = event.target.value;
         for(let i=0; i<this.customData.length; i++){
             if(  this.customData[i].sku === this.currentLineKey){
-                console.log('this.discountNote ' + this.currentLineValue);
                 this.customData[i].discountNote = this.currentLineValue ;
                 this.currentLineKey = '';
                 this.refresOutPutData();
@@ -173,7 +155,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
         }
     }
     getReturnReasonsPicklistValues() {
-        console.log('>> getReturnReasonsPicklistValues');
         try {
             getReturnReasons()
             .then(result => {
@@ -195,7 +176,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
     prepareOutPutForNextScreen(){
         
         try{
-            console.log('>>>>> prepareOutPutForNextScreen  ');
             const initialData = this.OutputLineItems.map(object => ({ ...object }));
                 this.customOutputData = initialData;
                 this.customData = initialData;
@@ -215,9 +195,7 @@ export default class SomLwcProductChangesSelection extends LightningElement {
                 this.customOutputData[i].TotalPrice = this.selectedOrderItemSummaries[i].AdjustedLineAmtWithTax;
             }   
                 //this.customOutputData.push(newLine);
-                console.log('custom data add  ' + JSON.stringify(this.customOutputData));
             this.customData = this.customOutputData;
-            console.log('custom data add customData ' + JSON.stringify(this.customData));
         }catch(error){
             this.endLoading();
             console.log('** error: ', error);
@@ -225,7 +203,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
         }
     } 
     getLineItems(){
-        console.log('>> getLineItems');
         // const initialData = this.OutputLineItems.map(object => ({ ...object }));
         //          this.customOutputData = initialData;
         try {
@@ -240,7 +217,6 @@ export default class SomLwcProductChangesSelection extends LightningElement {
         } catch (error) {
             console.log('*SomLwcDisplayOrderItems* SomLwcDisplayOrderItems Exception error: ', error);
         }
-            console.log('$$ Start getLineItems $$',OutputLineItems);
     }
     startLoading(){
         this.isLoading = true;
@@ -250,13 +226,11 @@ export default class SomLwcProductChangesSelection extends LightningElement {
     }
 
     refresOutPutData(){
-        console.log('$$$$$$$$$$ refresOutPutData',this.OutputLineItems);
         try {
             this.OutputLineItems = JSON.parse(JSON.stringify(this.customData));
         } catch (error) {
             console.log('**$$** error: ', error);  
         }
-        console.log('$$$$$$$$ OutputLineItems',this.OutputLineItems);
     }
     displayToastError() {
         const toastEvt = new ShowToastEvent({

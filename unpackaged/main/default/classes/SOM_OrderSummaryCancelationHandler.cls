@@ -15,7 +15,6 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
 	**/
     @HttpPost
 	global static Void cancelPickup() {
-        System.debug('$$$ SOM_OrderSummaryCancelationHandler Start  createShipments Method :');
 
         RestRequest request = RestContext.request;
         RestResponse response = RestContext.response;
@@ -41,24 +40,18 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
         String RequestBody = request.requestBody.toString() != null ? request.requestBody.toString() : null;
         Savepoint sp = Database.setSavepoint();
         try {
-            System.debug('$$$ SOM_OrderSummaryCancelationHandler Enter Try block : ');
             // Parse Json Input data to PickupCancelRequest List
             
             listOrderNumberRequest = (List<PickupCancelRequest>) json.deserialize(RequestBody, List<PickupCancelRequest>.class);
-            System.debug('$$$ SOM_OrderSummaryCancelationHandler -- listOrderNumberRequest  : ' + listOrderNumberRequest);
             if(!listOrderNumberRequest.isEmpty() && listOrderNumberRequest.size()<31){
                 for(PickupCancelRequest osNumberLine : listOrderNumberRequest){
                     initialOsNumber.add(osNumberLine.orderSummaryNumber);
                 }
-                System.debug('°°°°°°°° initialOsNumber '+initialOsNumber);
                 //Query On target OrderSummaries with related FulfillmentOrders
                 for(FulfillmentOrder fulmntOrder : [SELECT Id, Status, OrderSummaryId, OrderSummary.orderNumber, (SELECT Id, OrderItemSummaryId, Quantity , orderItemSummary.listPrice 
-                    FROM FulfillmentOrderLineItems WHERE Quantity>0 AND Type != 'Delivery Charge') FROM fulfillmentOrder WHERE Type = 'Store' AND	OrderSummary.OrderNumber IN : initialOsNumber AND 
-                    ((orderSummary.Status = 'Validated' AND Status = 'Allocated') OR (orderSummary.Status = 'Fulfilling' AND Status = 'Fulfilling'))]){
-                    System.debug('fooo'+fulmntOrder);
+                    FROM FulfillmentOrderLineItems WHERE Quantity>0 AND Type !=: SOM_Constants.DELIVERY_CHARGE) FROM fulfillmentOrder WHERE Type =: SOM_Constants.STORE AND	OrderSummary.OrderNumber IN : initialOsNumber AND 
+                    ((orderSummary.Status =: SOM_Constants.VALIDATED AND Status =: SOM_Constants.ALLOCATED ) OR (orderSummary.Status =: SOM_Constants.ORDER_SUMMARY_FULFILLING AND Status =: SOM_Constants.ORDER_SUMMARY_FULFILLING ))]){
                     //Stack OrderSummaries
-                    //orderSummariesByNumber.put(orderSumm.OrderNumber, orderSumm);
-                    //orderSummariesById.put(orderSumm.Id, orderSumm);
                     if(!OrderSummaryIdByNumber.containsKey(fulmntOrder.OrderSummary.orderNumber)) OrderSummaryIdByNumber.put(fulmntOrder.OrderSummary.OrderNumber, fulmntOrder.OrderSummaryId);
                     listFulfillmentOrderById.put(fulmntOrder.Id, fulmntOrder);
 
@@ -82,8 +75,6 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                     }      
                     
                 }
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler -- fulfillmentOrdersByOSId  : ' + fulfillmentOrdersByOSId);
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler -- folisByFOId  : ' + folisByFOId);
                 for(String orderSummNumber : initialOsNumber){
                     if(OrderSummaryIdByNumber.containsKey(orderSummNumber)){
                         Id ordersummId = OrderSummaryIdByNumber.get(orderSummNumber);
@@ -109,8 +100,6 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                                         FoliInputToCancel.quantity = foli.Quantity;
                                         folisToCancel.add(FoliInputToCancel);
 
-                                        //Calculate Refund Amount to edite later
-                                        //refundAmount = refundAmount + (foli.Quantity * foli.orderItemSummary.listPrice);
                                         //Prepare OIS To Cancel
                                         oisInputToCancel.orderItemSummaryId = foli.orderItemSummaryId;
                                         oisInputToCancel.quantity = foli.Quantity;
@@ -120,15 +109,11 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                                     }
                                     //Cancel FOLI
                                     input.fulfillmentOrderLineItemsToCancel = folisToCancel;
-                                    System.debug('$$$ SOM_OrderSummaryCancelationHandler -- folisToCancel  : ' + folisToCancel);      
                                     ConnectAPI.FulfillmentOrderCancelLineItemsOutputRepresentation foCancelResult = ConnectAPI.FulfillmentOrder.cancelFulfillmentOrderLineItems(fo.Id, input);
-                                    System.debug('$$$ SOM_OrderSummaryCancelationHandler -- foCancelResult  : ' + foCancelResult);
                                     if(foCancelResult.success){
                                         //fo.Status = 'Canceled';
                                         if(!mapFOByIdToUpdate.containsKey(fo.Id)) mapFOByIdToUpdate.put(fo.Id,fo);
                                         seOfFulfillmentOrderIds.add(fo.Id);
-                                        //Calculate Refund Amount
-                                        //refundAmount = refundAmount + (foli.Quantity * foli.orderItemSummary.listPrice);
 
                                     }
                                     else{
@@ -159,9 +144,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                                 //Cancel OIS
                                 ConnectApi.ChangeInputRepresentation changeInput = new ConnectApi.ChangeInputRepresentation();
                                 changeInput.changeItems = listOisItemsTocancel;
-                                System.debug('$$$ SOM_OrderSummaryCancelationHandler -- changeInput  : ' + changeInput); 
                                 ConnectApi.SubmitCancelOutputRepresentation osCancelResult = ConnectAPI.OrderSummary.submitCancel(orderSummId, changeInput);
-                                System.debug('$$$ SOM_OrderSummaryCancelationHandler -- osCancelResult  : ' + osCancelResult);
                                 if(osCancelResult.success){
                                     Refund refundItem = new Refund();
                                     refundItem.Amount = osCancelResult.changeBalances.totalAdjProductAmtWithTax;
@@ -175,17 +158,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                                 }
                                 
                             }
-                            else{
-                                //To verify
-                            }
 
-                        }
-                        else{
-                            //Error Message to handle
-                            /*System.debug('$$$ SOM_OrderSummaryCancelationHandler -- Error fulfillmentOrdersByOSId empty  : ');
-                            PickupCancelResponse pickUpLine = new PickupCancelResponse();
-                            pickUpLine.errorMessage = 'This OrderSummary not contains Any fulfillmentOrder to cancel';
-                            listPickUpResponse.add(pickUpLine);*/
                         }
                     }
                     else{
@@ -193,7 +166,6 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                         PickupCancelResponse pickUpLine = new PickupCancelResponse();
                         pickUpLine.errorMessage = 'No OrderSummary Exist with this OrderNumber : ' + orderSummNumber;
                         pickUpLine.orderSummaryNumber = orderSummNumber;
-                        System.debug('ffffffffffffffffffffffff pick' + pickUpLine);
                         listPickUpResponse.add(pickUpLine);
                     }
 
@@ -255,28 +227,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                     }));
                     return;
                 }
-                /*if(refundToPrepareByOsId.values()?.isEmpty()){
-                    Database.rollback(sp);
-                    response.statusCode = 500;
-                    response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
-                        'Response' => 'Error while Creating refunds please contact your salesforce Admin for more details'
-                    
-                    }));
-                    return;
-                }
-                for(OrderSummary osLine : [SELECT  Id, AccountId, CurrencyIsoCode, OrderNumber, (SELECT Id, PaymentMethodId FROM OrderPaymentSummaries ) FROM OrderSummary WHERE Id IN : refundToPrepareByOsId.keySet()]){
-                    if(!osLine.OrderPaymentSummaries?.isEmpty()){
-                        refundToPrepareByOsId.get(osLine.Id).AccountId = osLine.AccountId;
-                        refundToPrepareByOsId.get(osLine.Id).CurrencyIsoCode = osLine.CurrencyIsoCode;
-                        refundToPrepareByOsId.get(osLine.Id).OrderPaymentSummaryId = osLine.OrderPaymentSummaries[0].Id;
-                        refundToPrepareByOsId.get(osLine.Id).PaymentMethodId = osLine.OrderPaymentSummaries[0].PaymentMethodId;
-                    }
-                }
-                //Process the creation of refunds
-                
-                //insert Refunds
-                insert refundToPrepareByOsId.values();
-                */
+               
                 //Prepare Response 
                 for(FulfillmentOrder foItem : [SELECT Id, Status , OrderSummaryId, OrderSummary.OrderNumber, OrderSummary.Status 
                                                 FROM FulfillmentOrder 
@@ -298,35 +249,11 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                     listPickUpResponse.add(pickUpLine);
                     
                 }
-                /*for(FulfillmentOrder fo : mapFOByIdToUpdate.values()){
-                    if(listosToUpdate.containsKey(fo.OrderSummaryId)){
-                        PickupCancelResponse pickUpLine = new PickupCancelResponse();
-                        WR_fulfillmentOrderOutput wrFOOutput = new WR_fulfillmentOrderOutput();
-                        wrFOOutput.FulfillmentOrderId = fo.Id;
-                        wrFOOutput.FulfillmentOrderStatus = fo.status;
-                        wrFOOutput.isSuccess = true;
-                        pickUpLine.orderSummaryNumber = fo.OrderSummary.OrderNumber;
-                        pickUpLine.orderSummaryStatus = listosToUpdate.get(fo.OrderSummaryId).status;
-                        if(pickUpLine.fulfillmentOrdersOuputs?.size()>0){
-                            pickUpLine.fulfillmentOrdersOuputs.add(wrFOOutput);
-                        }
-                        else{
-                            pickUpLine.fulfillmentOrdersOuputs = new List<WR_fulfillmentOrderOutput>{wrFOOutput};
-                        }
-                        listPickUpResponse.add(pickUpLine);
-                        
-
-
-                    }
-                }*/
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler :::: go to ok response : ' + listPickUpResponse);
+                
                 response.statusCode = 200;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => listPickUpResponse
-                //'Response' => outPutResponseByFOId.values()
-                //'data' => 'ok'
                 }));
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler End Try block With Success : ');
 
                 
             }
@@ -335,21 +262,16 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                 response.statusCode = 403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, String> {
                     'Response' => errorMessage
-                //'Response' => outPutResponseByFOId.values()
-                //'data' => 'ok'
                 }));
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler End Try block With Error : ');
             }
         }
         catch(Exception exp){
             Database.rollback(sp);
-            System.debug('$$$ SOM_OrderSummaryCancelationHandler Catch Bolck :: Error : '+ exp.getMessage());
                 response.statusCode = 403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => 'Internal Error Please contact your Salesforce Admin'
                 
                 }));
-                System.debug('$$$ SOM_OrderSummaryCancelationHandler End Catch Block : ');
 
         }
     }

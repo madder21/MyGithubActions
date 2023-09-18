@@ -17,12 +17,10 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
 
         Test.startTest();
         FulfillmentOrder fo = [SELECT Id FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds AND Capture_Status__c =: SOM_Constants.ORDER_TO_CAPTURE_STATUS  LIMIT 1];
-        System.debug('foooo ;;;;;;;; ' + fo);
         requestData.fulfillmetOrderId = fo.Id;
         if(requestData.fulfillmetOrderId != null){
             
             captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<WS_SOM_CapturePaymentAction.CapturePaymentActionRequest>{requestData});
-            System.debug('---------- captureResponse : ' + captureResponse);
         }
         Test.stopTest();
         System.assertEquals(true, captureResponse[0].isSucces); 
@@ -44,12 +42,10 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
 
         Test.startTest();
         FulfillmentOrder fo = [SELECT Id FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds AND Capture_Status__c =: SOM_Constants.ORDER_TO_CAPTURE_STATUS  LIMIT 1];
-        System.debug('foooo ;;;;;;;; ' + fo);
         requestData.fulfillmetOrderId = fo.Id;
         if(requestData.fulfillmetOrderId != null){
             
             captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<WS_SOM_CapturePaymentAction.CapturePaymentActionRequest>{requestData});
-            System.debug('---------- captureResponse : ' + captureResponse);
         }
         Test.stopTest();
         System.assertEquals(false, captureResponse[0].isSucces); 

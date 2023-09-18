@@ -9,12 +9,6 @@ global with sharing class WS_SOM_CreateEfulOrders {
     global static List<EfulOrderResponse> createEfulOrder(List<EfulOrderRequest> request){
 
         //limits summary
-        System.debug('--------- WS_SOM_CreateEfulOrders -- START ');
-        System.debug('---------Number of callouts executed is: ' + Limits.getCallouts() + ' in limit: ' + Limits.getLimitCallouts());
-        System.debug('---------Number of dml rows executed is: ' + Limits.getDmlRows() + ' in limit: ' + Limits.getLimitDmlRows());
-        System.debug('---------Number of dml statments executed is: ' + Limits.getDmlStatements() + ' in limit: ' + Limits.getLimitDmlStatements());
-        System.debug('---------Number of queries executed is: ' + Limits.getQueries() + ' in limit: ' + Limits.getLimitQueries());
-        System.debug('---------Number of query rows executed is: ' + Limits.getQueryRows() + ' in limit: ' + Limits.getLimitQueryRows());
 
 
         List<EfulOrderResponse> efulOrdersResponseList = new List<EfulOrderResponse>();
@@ -379,14 +373,7 @@ global with sharing class WS_SOM_CreateEfulOrders {
 
         insert logs;
 
-        //limits summary
-        System.debug('--------- WS_SOM_CreateEfulOrders -- END ');
-        System.debug('---------Number of callouts executed is: ' + Limits.getCallouts() + ' in limit: ' + Limits.getLimitCallouts());
-        System.debug('---------Number of dml rows executed is: ' + Limits.getDmlRows() + ' in limit: ' + Limits.getLimitDmlRows());
-        System.debug('---------Number of dml statments executed is: ' + Limits.getDmlStatements() + ' in limit: ' + Limits.getLimitDmlStatements());
-        System.debug('---------Number of queries executed is: ' + Limits.getQueries() + ' in limit: ' + Limits.getLimitQueries());
-        System.debug('---------Number of query rows executed is: ' + Limits.getQueryRows() + ' in limit: ' + Limits.getLimitQueryRows());
-
+       
         return efulOrdersResponseList;
     }
 

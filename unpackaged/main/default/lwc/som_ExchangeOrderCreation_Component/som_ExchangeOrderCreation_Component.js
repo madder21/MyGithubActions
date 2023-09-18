@@ -275,8 +275,6 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.osObj.BillingContactFirstName__c = this.osFirstName;
             this.osObj.BillingContactLastName__c  = this.osLastName;
             this.osObj.BillingState               = this.osBillingState;
-            console.log('test1'+JSON.stringify(this.odgObj));
-            console.log('test2'+JSON.stringify(this.osObj));
             this.prevOSObj = this.osObj;
             this.prevODGObj = this.odgObj;
             this.prevselectedODM = this.selectedODM;

@@ -33,7 +33,6 @@ global with sharing class SOM_WS_ShipmentHandler {
      */
     @HttpPost
     global static Void createShipments() {
-        System.debug('$$$ SOM_WS_ShipmentHandler Start  createShipments Method :');
         RestRequest request   = RestContext.request;
         RestResponse response = RestContext.response;
         response.addHeader('Content-Type', 'application/json');
@@ -43,7 +42,6 @@ global with sharing class SOM_WS_ShipmentHandler {
         Savepoint sp = Database.setSavepoint();
         try {
             List<ShipmentDataRquest> shipmentDataRquestInputs = (List<ShipmentDataRquest>) json.deserialize(RequestBody, List<ShipmentDataRquest>.class);
-            System.debug('$$$ SOM_WS_ShipmentHandler --  shipmentDataRquestInputs : ' + shipmentDataRquestInputs);
             if (shipmentDataRquestInputs.isEmpty()) {
                 response.statusCode   = STATUS_CODE_403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
@@ -208,26 +206,20 @@ global with sharing class SOM_WS_ShipmentHandler {
                             foIdByExternalShipmentId, 
                             listFulfillementOrderById, 
                             outPutResponseByFOId);
-            System.debug('----------------------trs');
-            System.debug(transactionalEmails);
             SOM_TransactionalEmailHandler.generateTransactionalEmail(transactionalEmails);
             
-            System.debug('$$$ SOM_WS_ShipmentHandler :::: go to ok response : ');
             response.statusCode   = STATUS_CODE_200;
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => outPutResponseByFOId.values()
             }));
-            System.debug('$$$ SOM_WS_ShipmentHandler End Try block With Success : ');
         } catch(Exception ex){
             Database.rollback(sp);
-            System.debug(ex.getStackTraceString());
             List<WMS_OutPutFulfillment> foOutPutResponseData = new List<WMS_OutPutFulfillment>();
             response.statusCode = STATUS_CODE_403;
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => outPutResponseByFOId.values(),
                 'Error'    => getErrorMessageForResponse(ex.getMessage())
             }));
-            System.debug('$$$ SOM_WS_ShipmentHandler End Catch Block Error :');
         }
     }
 

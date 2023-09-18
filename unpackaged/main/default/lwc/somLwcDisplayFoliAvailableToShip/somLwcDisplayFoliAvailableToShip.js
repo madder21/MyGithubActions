@@ -21,9 +21,6 @@ export default class SomLwcDisplayFoliAvailableToShip extends LightningElement {
     connectedCallback(){
         if(this.folisToShip!=null){
             setTimeout(() => this.selectedRows = this.folisToShip.map(record=>record.id));
-            console.log('id ' + this.selectedRows);
-            console.log('id ' + JSON.stringify(this.selectedRows));
-
         }
         getFOLItoShip({ listQte: this.qtyShipped }).then((data) => {
             this.wrFOLIS = data;
@@ -36,15 +33,8 @@ export default class SomLwcDisplayFoliAvailableToShip extends LightningElement {
 
     handleRowsSelection(event) {
         let currentRows = event.detail.selectedRows;
-        // if (this.currentSelectedRows.length > 0) {
-        //     let selectedIds = currentRows.map(row => row.id);
-        //     let unselectedRows = this.currentSelectedRows.filter(row => !selectedIds.includes(row.id));
-        //     console.log('unselected'+ unselectedRows);
-            
-        // }
         this.currentSelectedRows = currentRows;
         this.folisToShip = this.currentSelectedRows;
-        console.log('selected action ' + JSON.stringify(this.currentSelectedRows));
     }
 
 }

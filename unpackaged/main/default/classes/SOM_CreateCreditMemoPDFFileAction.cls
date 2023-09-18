@@ -28,10 +28,7 @@ global with sharing class SOM_CreateCreditMemoPDFFileAction {
         if(!attachmentList.isEmpty()) {
             insert attachmentList;
             update CreditMemoList ;
-        }else {
-        System.debug('We cannot find any Credit Memo with ids: ' + creditMemoIds);
         }
-    
     }
 
     global static String getFileName(CreditMemo creditMemo){

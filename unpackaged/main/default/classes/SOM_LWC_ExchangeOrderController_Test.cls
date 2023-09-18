@@ -7,7 +7,6 @@ public with sharing class SOM_LWC_ExchangeOrderController_Test {
     public static void makeData() {
         
         Id pricebookId = Test.getStandardPricebookId();
-        System.debug('**********pricebookId*********' + pricebookId);
         Product2 product = SOM_testDataFactory.createProduct('produit 1', '10012002', 'sku10001',true);
         PricebookEntry PBEntry = SOM_testDataFactory.createPricebookEntry(1000,product.Id, pricebookId);
         Schema.Location location1 = SOM_testDataFactory.createLocation('WH_AE','rimowa-inventory-ae', true, 'Warehouse');
@@ -19,7 +18,6 @@ public with sharing class SOM_LWC_ExchangeOrderController_Test {
         OrderDeliveryMethod mId = SOM_testDataFactory.createOrderDeliveryMethod('standard_AE','standard_AE','Home Delivery');
         OdmId = mId.Id;
         osID = los[0].Id;
-        //System.debug('**********createOrderDeliveryMethod*********' + mId );
     }
     
     @isTest(seeAllData=true)
@@ -55,7 +53,6 @@ public with sharing class SOM_LWC_ExchangeOrderController_Test {
     public static void getOrderDelievryMethodNameTest() {
         makeData();
         Test.startTest();
-        //System.debug('MME**********createOrderDeliveryMethod*********' + OdmId); 
         OrderDeliveryMethod result = SOM_LWC_ExchangeOrderController.getOrderDelievryMethodName(OdmId);
         Test.stopTest();
         System.assertNotEquals(Null,result);
