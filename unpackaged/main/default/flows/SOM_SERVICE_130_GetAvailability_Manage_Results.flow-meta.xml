@@ -78,8 +78,8 @@
     <assignments>
         <name>Assign_Fail_0</name>
         <label>Assign Fail</label>
-        <locationX>1352</locationX>
-        <locationY>1250</locationY>
+        <locationX>1366</locationX>
+        <locationY>1661</locationY>
         <assignmentItems>
             <assignToReference>FLAG_Result_Fail</assignToReference>
             <operator>Assign</operator>
@@ -95,7 +95,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L11_Full_Results</targetReference>
+            <targetReference>Update_PE</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -115,26 +115,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_OIS</name>
-        <label>Assign OIS</label>
-        <locationX>2691</locationX>
-        <locationY>876</locationY>
-        <assignmentItems>
-            <assignToReference>OIS_Rec</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Filter_OIS</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Filter_OIS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Pass</name>
         <label>Assign Pass</label>
-        <locationX>1477</locationX>
-        <locationY>1696</locationY>
+        <locationX>1482</locationX>
+        <locationY>1848</locationY>
         <assignmentItems>
             <assignToReference>FLAG_Result_Pass</assignToReference>
             <operator>Assign</operator>
@@ -150,7 +134,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_REC.Status</assignToReference>
+            <assignToReference>Get_PE_for_Item.Status</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>Resolved</stringValue>
@@ -164,7 +148,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L11_Full_Results</targetReference>
+            <targetReference>Update_PE</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -195,22 +179,6 @@
         </assignmentItems>
         <connector>
             <targetReference>L11_Full_Results</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE</name>
-        <label>Assign PE</label>
-        <locationX>2833</locationX>
-        <locationY>1278</locationY>
-        <assignmentItems>
-            <assignToReference>PE_REC</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Filter_PE</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Filter_PE</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -391,7 +359,7 @@
         <locationX>1354</locationX>
         <locationY>2073</locationY>
         <assignmentItems>
-            <assignToReference>PE_REC.Description</assignToReference>
+            <assignToReference>Get_PE_for_Item.Description</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>FX_PE_Description_Line_Info</elementReference>
@@ -401,27 +369,6 @@
             <targetReference>Assign_Fail_0</targetReference>
         </connector>
     </assignments>
-    <collectionProcessors>
-        <name>Filter_OIS</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter OIS</label>
-        <locationX>2247</locationX>
-        <locationY>876</locationY>
-        <assignNextValueToReference>currentItem_Filter_OIS_0</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_All_Ordered_OIS</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_OIS_0.Id</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>L14_OIS_Input_Reps.orderItemSummaryId</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Filter_OIS</targetReference>
-        </connector>
-    </collectionProcessors>
     <collectionProcessors>
         <name>Filter_OIS_by_Id</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
@@ -448,34 +395,6 @@
         </conditions>
         <connector>
             <targetReference>L19_Filter</targetReference>
-        </connector>
-    </collectionProcessors>
-    <collectionProcessors>
-        <name>Filter_PE</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter PE</label>
-        <locationX>2477</locationX>
-        <locationY>1260</locationY>
-        <assignNextValueToReference>currentItem_Filter_PE_0</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_All_New_PE_for_Item</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_PE_0.AttachedToId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>L11_Full_Results.orderItemSummaryId</elementReference>
-            </rightValue>
-        </conditions>
-        <conditions>
-            <leftValueReference>currentItem_Filter_PE_0.OrderSummaryId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>L11_Full_Results.orderSummaryId</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Filter_PE</targetReference>
         </connector>
     </collectionProcessors>
     <decisions>
@@ -538,7 +457,7 @@
             <name>Yes</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>OIS_Rec.Type</leftValueReference>
+                <leftValueReference>Get_Current_OIS.Type</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Delivery Charge</stringValue>
@@ -615,7 +534,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>PE_REC</leftValueReference>
+                <leftValueReference>Get_PE_for_Item</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -637,7 +556,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>PE_REC</leftValueReference>
+                <leftValueReference>Get_PE_for_Item</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -659,7 +578,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>PE_REC</leftValueReference>
+                <leftValueReference>Get_PE_for_Item</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -681,7 +600,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>PE_REC</leftValueReference>
+                <leftValueReference>Get_PE_for_Item</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -693,10 +612,11 @@
             <label>✅ Pass</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_OnHand_minus_AlreadyAllocated</name>
         <dataType>Number</dataType>
-        <expression>{!L11_Full_Results.OCI_OnHand}</expression>
+        <expression>{!L11_Full_Results.OCI_OnHand} - {!L11_Full_Results.quantityAlreadyAllocated}</expression>
         <scale>0</scale>
     </formulas>
     <formulas>
@@ -714,7 +634,7 @@
         <collectionReference>C_Full_Results</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Filter_PE</targetReference>
+            <targetReference>Get_PE_for_Item</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>L14_OIS_Input_Reps</targetReference>
@@ -731,7 +651,7 @@
             <targetReference>Stack_FGIR</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_PE</targetReference>
+            <targetReference>Any_Exceptions_to_create</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -756,7 +676,7 @@
         <collectionReference>C_OISIR</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Filter_OIS</targetReference>
+            <targetReference>Get_Current_OIS</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>FOIR_Elligible_for_Creation</targetReference>
@@ -818,34 +738,6 @@
             <targetReference>L18_Ois_Ids</targetReference>
         </noMoreValuesConnector>
     </loops>
-    <loops>
-        <name>Loop_Filter_OIS</name>
-        <label>Loop Filter OIS</label>
-        <locationX>2431</locationX>
-        <locationY>885</locationY>
-        <collectionReference>Filter_OIS</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_OIS</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Is_Delivery_Charge</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Loop_Filter_PE</name>
-        <label>Loop Filter PE</label>
-        <locationX>2650</locationX>
-        <locationY>1265</locationY>
-        <collectionReference>Filter_PE</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_PE</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Match_Reservation_with_FOIR</targetReference>
-        </noMoreValuesConnector>
-    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -876,36 +768,6 @@
         <inputReference>C_ProcessExceptions</inputReference>
     </recordCreates>
     <recordLookups>
-        <name>Get_All_New_PE_for_Item</name>
-        <label>Get All New PE for Item</label>
-        <locationX>2661</locationX>
-        <locationY>614</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_All_Ordered_OIS</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Fulfillment</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>ProcessException</object>
-        <sortField>Id</sortField>
-        <sortOrder>Asc</sortOrder>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_All_Ordered_OIS</name>
         <label>Get All Ordered OIS</label>
         <locationX>2463</locationX>
@@ -929,9 +791,12 @@
     <recordLookups>
         <name>Get_Current_OIS</name>
         <label>Get Current OIS</label>
-        <locationX>2258</locationX>
-        <locationY>699</locationY>
+        <locationX>2244</locationX>
+        <locationY>855</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Delivery_Charge</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -970,9 +835,12 @@
     <recordLookups>
         <name>Get_PE_for_Item</name>
         <label>Get PE for Item</label>
-        <locationX>2471</locationX>
-        <locationY>1118</locationY>
+        <locationX>2484</locationX>
+        <locationY>1274</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Match_Reservation_with_FOIR</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>AttachedToId</field>
@@ -1030,18 +898,18 @@
     <recordUpdates>
         <name>Update_PE</name>
         <label>Update PE</label>
-        <locationX>2149</locationX>
-        <locationY>165</locationY>
+        <locationX>1371</locationX>
+        <locationY>1272</locationY>
         <connector>
-            <targetReference>Any_Exceptions_to_create</targetReference>
+            <targetReference>L11_Full_Results</targetReference>
         </connector>
-        <inputReference>PE_REC</inputReference>
+        <inputReference>Get_PE_for_Item</inputReference>
     </recordUpdates>
     <start>
-        <locationX>2835</locationX>
-        <locationY>597</locationY>
+        <locationX>2877</locationX>
+        <locationY>599</locationY>
         <connector>
-            <targetReference>Get_All_New_PE_for_Item</targetReference>
+            <targetReference>Get_All_Ordered_OIS</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -1141,28 +1009,12 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>currentItem_Filter_OIS_0</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>OrderItemSummary</objectType>
-    </variables>
-    <variables>
         <name>currentItem_Filter_OIS_by_Id_0</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>OrderItemSummary</objectType>
-    </variables>
-    <variables>
-        <name>currentItem_Filter_PE_0</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>ProcessException</objectType>
     </variables>
     <variables>
         <name>currentItem_Filter_reservations_by_SKU_and_Location_0</name>
@@ -1204,22 +1056,6 @@
         </value>
     </variables>
     <variables>
-        <name>OIS_Ids</name>
-        <apexClass>ConnectApi__AdjustOrderItemSummaryInputRepresentation</apexClass>
-        <dataType>Apex</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>OIS_Rec</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>OrderItemSummary</objectType>
-    </variables>
-    <variables>
         <name>OIS_Size</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
@@ -1236,14 +1072,6 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>PE_REC</name>
-        <dataType>SObject</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>ProcessException</objectType>
     </variables>
     <variables>
         <name>S_ProcessException</name>
