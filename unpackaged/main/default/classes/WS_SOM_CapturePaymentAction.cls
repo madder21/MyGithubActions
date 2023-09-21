@@ -2,11 +2,13 @@ global with sharing class WS_SOM_CapturePaymentAction {
 
     @InvocableMethod(label='Capture Payment' description='Capture Payment for the specified fulfillmentOrder Id' callout=true)
     global static List<List<SOM_CapturePaymentActionResponseWrapper>> capturePayment(List<List<SOM_CapturePaymentActionRequestWrapper>> requests){
+        List<SOM_CapturePaymentActionResponseWrapper> responseWrapper = new List<SOM_CapturePaymentActionResponseWrapper>();
         map<String,List<FulfillmentOrderLineItem>> mapFulfillOrdertems = new map<String,List<FulfillmentOrderLineItem>>();
         map<String,FulfillmentOrder> mapFulfillOrder = new map<String,FulfillmentOrder>();
         map<String,paymentAuthorization> mapPaymentAuthoriz = new map<String,paymentAuthorization>();
         set<Id> fulfillmentOrderIds = new set<Id>();
         set<Id> OriginalOrderIds = new set<Id>();
+        SOM_CapturePaymentActionResponseWrapper response              = new SOM_CapturePaymentActionResponseWrapper();
         List<List<SOM_CapturePaymentActionResponseWrapper>> responseWrapperList = new List<List<SOM_CapturePaymentActionResponseWrapper>>();
 
         for(List<SOM_CapturePaymentActionRequestWrapper> requestList:requests){
@@ -25,6 +27,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
                                               ];
 
                                                                                             
+
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             for(FulfillmentOrder fo:fulfillmentOrder){
                 OriginalOrderIds.add(fo.OrderSummary.OriginalOrderId);
@@ -55,9 +58,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
        }    
     
         for(List<SOM_CapturePaymentActionRequestWrapper> requestList:requests){
-            List<SOM_CapturePaymentActionResponseWrapper> responseWrapper = new List<SOM_CapturePaymentActionResponseWrapper>();
-            for(SOM_CapturePaymentActionRequestWrapper request:requestList){ 
-                SOM_CapturePaymentActionResponseWrapper response  = new SOM_CapturePaymentActionResponseWrapper();  
+            for(SOM_CapturePaymentActionRequestWrapper request:requestList){   
                 try {
                     //check fulfillmentOrder
                     if (mapFulfillOrdertems.get(request.fulfillmetOrderId) != null) {
@@ -145,11 +146,11 @@ global with sharing class WS_SOM_CapturePaymentAction {
                     response.errorMessage         = e.getMessage(); 
                     response.fulfillmentOrderId   = request.fulfillmetOrderId; 
                 }
-                responseWrapper.add(response);
             }
-            responseWrapperList.add(responseWrapper);
         }
         
+        responseWrapper.add(response);
+        responseWrapperList.add(responseWrapper);
         return responseWrapperList;
     }
 

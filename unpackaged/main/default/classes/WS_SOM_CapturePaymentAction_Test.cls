@@ -10,8 +10,9 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
         foCreated.Capture_Status__c = SOM_Constants.ORDER_TO_CAPTURE_STATUS;
         update foCreated;
 
-        List<WS_SOM_CapturePaymentAction.CapturePaymentActionResponse> captureResponse;
-        WS_SOM_CapturePaymentAction.CapturePaymentActionRequest requestData = new WS_SOM_CapturePaymentAction.CapturePaymentActionRequest();
+        List<List<SOM_CapturePaymentActionResponseWrapper>> captureResponse;
+        List<SOM_CapturePaymentActionRequestWrapper> requestDataList = new List<SOM_CapturePaymentActionRequestWrapper>();
+        SOM_CapturePaymentActionRequestWrapper requestData = new SOM_CapturePaymentActionRequestWrapper();
         
         Test.setMock(HttpCalloutMock.class, new CybersourceCalloutMock());
 
@@ -19,11 +20,11 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
         FulfillmentOrder fo = [SELECT Id FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds AND Capture_Status__c =: SOM_Constants.ORDER_TO_CAPTURE_STATUS  LIMIT 1];
         requestData.fulfillmetOrderId = fo.Id;
         if(requestData.fulfillmetOrderId != null){
-            
-            captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<WS_SOM_CapturePaymentAction.CapturePaymentActionRequest>{requestData});
+            requestDataList.add(requestData);
+            captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<List<SOM_CapturePaymentActionRequestWrapper>>{requestDataList});
         }
         Test.stopTest();
-        System.assertEquals(true, captureResponse[0].isSucces); 
+        System.assertEquals(true, captureResponse[0][0].isSucces); 
         
     }
 
@@ -35,8 +36,9 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
         foCreated.Capture_Status__c = SOM_Constants.ORDER_TO_CAPTURE_STATUS;
         update foCreated;
 
-        List<WS_SOM_CapturePaymentAction.CapturePaymentActionResponse> captureResponse;
-        WS_SOM_CapturePaymentAction.CapturePaymentActionRequest requestData = new WS_SOM_CapturePaymentAction.CapturePaymentActionRequest();
+        List<List<SOM_CapturePaymentActionResponseWrapper>> captureResponse;
+        List<SOM_CapturePaymentActionRequestWrapper> requestDataList = new List<SOM_CapturePaymentActionRequestWrapper>();
+        SOM_CapturePaymentActionRequestWrapper requestData = new SOM_CapturePaymentActionRequestWrapper();
         
         Test.setMock(HttpCalloutMock.class, new CybersourceCalloutErrorMock());
 
@@ -44,11 +46,11 @@ global with sharing class WS_SOM_CapturePaymentAction_Test {
         FulfillmentOrder fo = [SELECT Id FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds AND Capture_Status__c =: SOM_Constants.ORDER_TO_CAPTURE_STATUS  LIMIT 1];
         requestData.fulfillmetOrderId = fo.Id;
         if(requestData.fulfillmetOrderId != null){
-            
-            captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<WS_SOM_CapturePaymentAction.CapturePaymentActionRequest>{requestData});
+            requestDataList.add(requestData);
+            captureResponse = WS_SOM_CapturePaymentAction.capturePayment(new List<List<SOM_CapturePaymentActionRequestWrapper>>{requestDataList});
         }
         Test.stopTest();
-        System.assertEquals(false, captureResponse[0].isSucces); 
+        System.assertEquals(false, captureResponse[0][0].isSucces); 
         
     }
 
