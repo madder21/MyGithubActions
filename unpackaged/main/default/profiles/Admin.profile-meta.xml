@@ -13,6 +13,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AP3_SFMCSynchronisation</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AP3_SFMCSynchronisation_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountConsent_SVE</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4804,6 +4812,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.WebsiteLocale__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.isSFMC__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9761,6 +9774,9 @@
         <layout>ReturnOrderLineItem-Return Order Line Item Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>SFMCCountry__mdt-SFMCCountry Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -11208,4 +11224,12 @@
         <enabled>true</enabled>
         <name>ViewUserPII</name>
     </userPermissions>
+    <customSettingAccesses>
+        <enabled>true</enabled>
+        <name>SFMCAPISetting__c</name>
+    </customSettingAccesses>
+    <customSettingAccesses>
+        <enabled>true</enabled>
+        <name>SFMCCredential__c</name>
+    </customSettingAccesses>
 </Profile>

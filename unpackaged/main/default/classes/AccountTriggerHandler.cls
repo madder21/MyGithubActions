@@ -2,7 +2,7 @@
  * @author: Ulrich M. NDONG NGOMO
  * @description: This class is used to manage consent action needs to be done when an account is created/updated
  * @Created Date: 4/12/2023
- * @LastModifiedDate: 4/12/2023
+ * @LastModifiedDate: 9/22/2023
  * 
  */
 public class AccountTriggerHandler implements ITriggerHandler {
@@ -29,9 +29,13 @@ public class AccountTriggerHandler implements ITriggerHandler {
     }
     
   	public void BeforeInsert(List<SObject> newItems) {
+        //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
+        AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems);
     }
 
   	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
+        //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
+         AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems.Values());
         //AccountConsent_SVE.checkKPIFieldsValues(newItems.values(), (Map<Id, Account>) oldItems);
     }
     
