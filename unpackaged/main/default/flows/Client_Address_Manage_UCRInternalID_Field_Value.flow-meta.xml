@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
-    <interviewLabel>Transaction Payement Manage UCRInternalID Field Value {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>Transaction Payement Manage UCRInternalID Field Value</label>
+    <interviewLabel>Client Address Manage UCRInternalID Field Value {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Client Address Manage UCRInternalID Field Value</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -23,8 +23,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Update_UCRinternalID_Value</name>
-        <label>Update UCRinternalID Value</label>
+        <name>Update_UCRInternalID_Value</name>
+        <label>Update UCRInternalID Value</label>
         <locationX>308</locationX>
         <locationY>276</locationY>
         <inputAssignments>
@@ -58,15 +58,23 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
-        <object>TransactionPayment__c</object>
+        <filters>
+            <field>R360ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>ClientAddress__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Update_UCRinternalID_Value</targetReference>
+                <targetReference>Update_UCRInternalID_Value</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Obsolete</status>
+    <triggerOrder>300</triggerOrder>
 </Flow>

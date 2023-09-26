@@ -28,9 +28,21 @@
         <locationX>308</locationX>
         <locationY>276</locationY>
         <inputAssignments>
+            <field>UCRCreationDate__c</field>
+            <value>
+                <elementReference>$Record.CreatedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>UCRInternalId__c</field>
             <value>
                 <elementReference>$Record.R360ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UCRLastUpdateDate__c</field>
+            <value>
+                <elementReference>$Record.LastModifiedDate</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -43,7 +55,7 @@
             <field>UCRInternalId__c</field>
             <operator>IsNull</operator>
             <value>
-                <booleanValue>false</booleanValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>User</object>
@@ -56,5 +68,5 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Obsolete</status>
 </Flow>

@@ -15,9 +15,6 @@ public with sharing class WS_ClientKPIUTL {
         List<ClientSource__c> srcListToBeUpdated = new List<ClientSource__c>();
         List<ClientSource__c> srcListToBeCreated = new List<ClientSource__c>();
         Database.SaveResult[] srList;
-        // Get the SObject describe result
-		Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get('ClientSourceFields__c').getDescribe();
-        Map<String, SObjectField> fieldsMap = describeResult.fields.getMap();
         
         List<ClientSource__c> retrievedClientSources = [SELECT Id, Client__c, Source__c, SourceCode__c, SourceCreationDate__c, SourceLastUpdateDate__c
                                                         FROM ClientSource__c WHERE Client__c =: clientID];
@@ -70,11 +67,7 @@ public with sharing class WS_ClientKPIUTL {
         List<ClientAddress__c> addrListToBeUpdated = new List<ClientAddress__c>();
         List<ClientAddress__c> addrListToBeCreated = new List<ClientAddress__c>();
         Database.SaveResult[] srList;
-        Boolean isAlreadyExisted = false;
-        // Get the SObject describe result
-		Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get('ClientAddressFields__c').getDescribe();
-        Map<String, SObjectField> fieldsMap = describeResult.fields.getMap();
-        
+        Boolean isAlreadyExisted = false;        
         List<ClientAddress__c> retrievedClientAddresses = [SELECT Id, Address1__c, Address2__c, Address3__c, City__c, Country__c,
                                                            PostalCode__c, State__c, AddressTypology__c, IsValid__c 
                                                            FROM ClientAddress__c WHERE Client__c =: clientID];

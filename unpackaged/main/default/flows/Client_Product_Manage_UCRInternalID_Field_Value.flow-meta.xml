@@ -23,8 +23,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Update_UCRinternalID_Value</name>
-        <label>Update UCRinternalID Value</label>
+        <name>Copy_1_of_Update_UCRinternalID_Value</name>
+        <label>Copy 1 of Update UCRinternalID Value</label>
         <locationX>308</locationX>
         <locationY>276</locationY>
         <inputAssignments>
@@ -50,7 +50,7 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Update_UCRinternalID_Value</targetReference>
+                <targetReference>Copy_1_of_Update_UCRinternalID_Value</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>

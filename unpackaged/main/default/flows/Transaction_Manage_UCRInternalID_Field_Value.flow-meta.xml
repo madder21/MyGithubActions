@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>Check_UCR_Internal_ID_value</name>
+        <label>Check UCR Internal ID value</label>
+        <locationX>374</locationX>
+        <locationY>276</locationY>
+        <defaultConnector>
+            <targetReference>Update_UCRinternalID_Value</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.UCRInternalId__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Dates</targetReference>
+            </connector>
+            <label>is Not Null</label>
+        </rules>
+    </decisions>
     <interviewLabel>Transaction Manage UCRInternalID Field Value {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Transaction Manage UCRInternalID Field Value</label>
     <processMetadataValues>
@@ -23,10 +48,23 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
+        <name>Update_Dates</name>
+        <label>Update Dates</label>
+        <locationX>242</locationX>
+        <locationY>384</locationY>
+        <inputAssignments>
+            <field>UCRLastUpdateDate__c</field>
+            <value>
+                <elementReference>$Record.LastModifiedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_UCRinternalID_Value</name>
         <label>Update UCRinternalID Value</label>
-        <locationX>308</locationX>
-        <locationY>276</locationY>
+        <locationX>506</locationX>
+        <locationY>384</locationY>
         <inputAssignments>
             <field>UCRInternalId__c</field>
             <value>
@@ -50,11 +88,11 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Update_UCRinternalID_Value</targetReference>
+                <targetReference>Check_UCR_Internal_ID_value</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>

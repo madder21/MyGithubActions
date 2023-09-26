@@ -23,8 +23,8 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Update_TransactionITem_UCR_Internal</name>
-        <label>Update TransactionITem UCR Internal</label>
+        <name>Copy_1_of_Update_TransactionITem_UCR_Internal</name>
+        <label>Copy 1 of Update TransactionITem UCR Internal</label>
         <locationX>308</locationX>
         <locationY>276</locationY>
         <inputAssignments>
@@ -43,18 +43,18 @@
             <field>UCRInternalId__c</field>
             <operator>IsNull</operator>
             <value>
-                <booleanValue>false</booleanValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>TransactionItem__c</object>
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Update_TransactionITem_UCR_Internal</targetReference>
+                <targetReference>Copy_1_of_Update_TransactionITem_UCR_Internal</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Obsolete</status>
 </Flow>
