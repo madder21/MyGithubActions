@@ -9,7 +9,6 @@ public with sharing class ProductManagementUTL {
     
     public static String upsertProduct(Product2 product) {
         List<Product2> retrievedProductList = [SELECT Id FROM Product2 WHERE StockKeepingUnit =: product.StockKeepingUnit LIMIT 1];
-        
         // Get the SObject describe result
 		Schema.DescribeSObjectResult describeResult = Schema.getGlobalDescribe().get('WS_ProductFields__c').getDescribe();
 		Map<String, SObjectField> fieldsMap = describeResult.fields.getMap();
@@ -21,8 +20,13 @@ public with sharing class ProductManagementUTL {
                 // Check if the field is custom
 				Boolean isCustomField = describeResult.fields.getMap().get(fieldName).getDescribe().isCustom();
                 if(isCustomField) {
-                   	fieldName = fieldName.substring(0, fieldName.length() - 3);
-                	retrievedProduct.put(fieldName, product.get(fieldName)); 
+                    if(fieldName.contains('_s__c')) {
+                    	fieldName = fieldName.substring(0, fieldName.length() - 5); 
+                    }
+                    if(product.get(fieldName)!=null) {
+                       retrievedProduct.put(fieldName, product.get(fieldName));
+                    }
+                	
                 }
         	}
             
