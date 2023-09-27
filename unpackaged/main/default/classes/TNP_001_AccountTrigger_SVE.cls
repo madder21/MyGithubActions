@@ -17,9 +17,9 @@ public with sharing class TNP_001_AccountTrigger_SVE {
         String METHOD_NAME = 'listAccountAfterInsert';
         list<account> listFinalAccountToInsert = new list<account>();
         Map<Id,User> mapInfoUser = TNP_002_ServiceClass.returnMapUserIntegration();
-       map<String,SObject> mapSobject  = new map<String,SObject>();
+        map<String,SObject> mapSobject  = new map<String,SObject>();
         for (Account accountToInsert:listAccountToInsert ){
-             User user = mapInfoUser.get(accountToInsert.CreatedById);
+            User user = mapInfoUser.get(accountToInsert.CreatedById);
             if (user == null || (user != null && user.Name == Label.SFSC_Integration_User) ){
                 listFinalAccountToInsert.add(accountToInsert);
             }
@@ -34,26 +34,37 @@ public with sharing class TNP_001_AccountTrigger_SVE {
     }    
     
     
-  public static void listAccountAfterUpdate( list<account> listAccountToUpdate)
+    public static void listAccountAfterUpdate( list<account> listAccountToUpdateNew,Map<Id, Account>  listAccountToUpdateOld)
     {  
         String METHOD_NAME = 'listAccountAfterUpdate';
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'START'); 
-         list<account> listFinalAccountToUpdate = new list<account>();
+        list<account> listFinalAccountToUpdate = new list<account>();
         Map<Id,User> mapInfoUser = TNP_002_ServiceClass.returnMapUserIntegration();
-       
-        for (Account accountToUpdate: listAccountToUpdate ){
-             User user = mapInfoUser.get(accountToUpdate.LastModifiedById);
-            if (user == null || (user != null && user.Name == Label.SFSC_Integration_User)  ){
-                listFinalAccountToUpdate.add(accountToUpdate);
+        List<Account> accountToBeProcessed = new List<Account>();
+        for (Account accountToUpdate: listAccountToUpdateNew ){
+            if(accountToUpdate.UCRInternalId__c == listAccountToUpdateOld.get(accountToUpdate.Id).UCRInternalId__c) {
+                accountToBeProcessed.add(accountToUpdate);
+                
             }
         }
-     if ( !listFinalAccountToUpdate.isEmpty() )
+        if(!accountToBeProcessed.isEmpty()) {
+            
+            
+            for (Account accountToUpdate: accountToBeProcessed ){
+                User user = mapInfoUser.get(accountToUpdate.LastModifiedById);
+                if (user == null || (user != null && user.Name == Label.SFSC_Integration_User)  ){
+                    listFinalAccountToUpdate.add(accountToUpdate);
+                }
+            }
+            
+        }
+        if ( !listFinalAccountToUpdate.isEmpty() )
         {  
             System.enqueueJob(new TNP_001_QueueableCallOut(listFinalAccountToUpdate,'',Label.TNP_CL_AfterUpdate));   
         }  
         
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END');         
     } 
-
+    
     
 }

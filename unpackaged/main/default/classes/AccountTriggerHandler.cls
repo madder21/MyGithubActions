@@ -50,7 +50,7 @@ public class AccountTriggerHandler implements ITriggerHandler {
 
   	public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         System.debug('**** TRIGGER CONTEXT : START AFTER UPDATE ****');
-        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values());
+        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values(),(Map<Id, Account>)oldItems);
         if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, oldItems);
         System.debug('**** TRIGGER CONTEXT : END AFTER UPDATE ****');
     }
