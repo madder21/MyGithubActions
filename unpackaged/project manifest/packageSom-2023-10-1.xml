@@ -1,37 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-		<members>WS_SOM_CapturePaymentAction</members>
-		<members>WS_SOM_CapturePaymentAction_Test</members>
-		<members>SOM_CapturePaymentActionRequestWrapper</members>
-		<members>SOM_CapturePaymentActionResponseWrapper</members>
-		<name>ApexClass</name>
-	</types>
-	<types>
-		<members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
-		<members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
-		<members>SOM_230_CoreModel_Payment_CapturePayment</members>
-		<name>Flow</name>
-	</types>
-	<types>
+<types>
+	<members>WS_SOM_CapturePaymentAction</members>
+	<members>WS_SOM_CapturePaymentAction_Test</members>
+	<members>SOM_CapturePaymentActionRequestWrapper</members>
+	<members>SOM_CapturePaymentActionResponseWrapper</members>
+	<members>SOM_BatchAnonymization_1</members>
+	<members>SOM_BatchAnonymization_1_Test</members>
+	<members>SOM_BatchAnonymization_2</members>
+	<members>SOM_BatchAnonymization_2_Test</members>
+	<members>SOM_BatchAnonymization_3</members>
+	<members>SOM_BatchAnonymization_3_Test</members>
+	<members>SOM_BatchAnonymization_4</members>
+	<members>SOM_BatchAnonymization_4_Test</members>
+	<members>SOM_BatchAnonymization_5</members>
+	<members>SOM_BatchAnonymization_5_Test</members>
+	<members>WS_SOM_CreateReturnOrderEndpoint</members>
+	<name>ApexClass</name>
+</types>
+<types>
+	<members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
+	<members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
+	<members>SOM_230_CoreModel_Payment_CapturePayment</members>
+	<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+	<members>SOM_Client_Anonymization</members>
+	<name>Flow</name>
+</types>
+<types>
 
-		<members>Location.Phone__c</members>
-		<members>ReturnOrder.expectedPackages__c</members>
-    <members>Sales_Channel_Mapping__mdt.Timezone__c</members>
-  	<members>Location.cegidWarehouseCode__c</members>
-		<name>CustomField</name>
+	<members>Location.Phone__c</members>
+	<members>ReturnOrder.expectedPackages__c</members>
+	<members>Sales_Channel_Mapping__mdt.Timezone__c</members>
+	<members>Location.cegidWarehouseCode__c</members>
+	<members>Location.V3_warehouse_code__c</members>
+	<members>PrivacyRequest__c.Status__c</members>
+	<members>PrivacyRequest__c.Application__c</members>
+	<members>PrivacyRequest__c.AnonymizationLog__c</members>
+	<members>PrivacyRequest__c.AccountId__c</members>
+	<members>Account.isPurged__c</members>
+	<members>Product_Config__mdt.Macrofunction_id__c</members>
+	<members>Product_Config__mdt.Need_Package__c</members>
+	<name>CustomField</name>
 
-  	</types>
-	<types>
-		<members>Sales_Channel_Mapping__mdt</members>
-    	<members>Location</members>
-		<name>CustomObject</name>
-    	</types>
-		
-	<types>
-			<members>SOM_InvoiceDocument</members>
-		<name>ApexPage</name> 
+</types>
+<types>
+	<members>Sales_Channel_Mapping__mdt</members>
+	<members>Location</members>
+	<members>PrivacyRequest__c</members>
+	<members>Product_Config__mdt</members>
+	<name>CustomObject</name>
+</types>
+<types>
+	<members>Product_Config.Macrofunction_1</members> 
+	<members>Product_Config.Macrofunction_2</members>
+	<members>Product_Config.Macrofunction_3</members>
+	<name>CustomMetadata</name>
+</types>
+<types>
+	<members>Product_Config__mdt-Product Config Layout</members>
+	<name>Layout</name>
+</types>
+<types>
+	<members>SOM_InvoiceDocument</members>
+	<name>ApexPage</name> 
+</types>
 
-	</types>
-	<version>54.0</version>
+
+<types>
+	<members>B2C_Account_Record_Page</members>  
+	<name>FlexiPage</name>
+</types>
+
+
+<types>
+	<members>Account.Anonymization</members>
+	<name>QuickAction</name>
+</types>
+
+
+<version>54.0</version>
 </Package> 
