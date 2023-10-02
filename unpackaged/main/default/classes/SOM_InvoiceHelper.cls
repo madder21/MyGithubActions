@@ -9,10 +9,10 @@ public class SOM_InvoiceHelper {
         for(String singleIn : InvoiceIds.KeySet()){
             invoiceCountryMap.put(singleIn, relatedOrderSummary.get(InvoiceIds.get(singleIn)).Tech_ShippingCountry__c);
         }
-        List<Sales_Channel_Mapping__mdt> salesChannelMDT = [SELECT Zone__c, Timezone__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c IN :invoiceCountryMap.values()];
+        List<Sales_Channel_Mapping__mdt> salesChannelMDT = [SELECT Zone__c, TimeZones__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c IN :invoiceCountryMap.values()];
         Map<String, String> salesChannelMDTMap = new Map<String, String>(); // Map<Zone__c, Timezone__c>
         for(Sales_Channel_Mapping__mdt oneMDT : salesChannelMDT){
-            salesChannelMDTMap.put(oneMDT.Zone__c, oneMDT.Timezone__c);
+            salesChannelMDTMap.put(oneMDT.Zone__c, oneMDT.TimeZones__c);
         }
         Map<Id, String> invoiceTimeZonesMap = new Map<Id, String>(); // Map<Invoice Id, TimeZone>
         for(String invo : invoiceCountryMap.KeySet()){
