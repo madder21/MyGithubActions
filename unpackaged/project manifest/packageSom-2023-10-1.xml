@@ -21,19 +21,24 @@
 	<name>ApexClass</name>
 </types>
 <types>
+	<members>SOM_814_OCI_Create_Reservation</members>
 	<members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
 	<members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
 	<members>SOM_230_CoreModel_Payment_CapturePayment</members>
 	<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
 	<members>SOM_Client_Anonymization</members>
 	<members>SOM_920_Create_Corrective_Invoice</members>
+	<members>SOM_220_CoreModel_Create_FulfillementOrders</members>
+	<members>SOM_Cancel_Order_Summary</members>
+	<members>SOM_Close_Return_Order</members>
 	<name>Flow</name>
 </types>
 <types>
 
+
 	<members>Location.Phone__c</members>
 	<members>ReturnOrder.expectedPackages__c</members>
-	<members>Sales_Channel_Mapping__mdt.Timezone__c</members>
+        <members>Sales_Channel_Mapping__mdt.Timezone__c</members>
 	<members>Location.cegidWarehouseCode__c</members>
 	<members>Location.V3_warehouse_code__c</members>
 	<members>PrivacyRequest__c.Status__c</members>
@@ -65,10 +70,18 @@
 	<members>SOM_InvoiceDocument</members>
 	<name>ApexPage</name> 
 </types>
-
+<types> 
+        <members>Customer_service_Center</members>
+        <name>PermissionSet</name>
+    </types>
 
 <types>
-	<members>B2C_Account_Record_Page</members>  
+	<members>B2C_Account_Record_Page</members> 
+	<members>Fulfillment_Order_Record_Page</members> 
+	<members>Order_Summary_Record_Page</members> 
+	<members>Refund_Record_Page</members>
+	<members>Return_Order_Record_Page</members> 
+	<members>Privacy_Request_Record_Page</members> 
 	<name>FlexiPage</name>
 </types>
 
@@ -83,10 +96,19 @@
 
 	 <members>ReturnOrder-Return Order Layout</members>
 	 <members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+	 <members>PrivacyRequest__c-Privacy Request Layout</members>
 
         <name>Layout</name>
     </types>
-
+	<types> 
+        <members>Customer_service_Center</members>
+        <name>PermissionSet</name>
+    </types>
+	<types>
+		<members>CorrectiveInvoice__c</members>
+		<name>CustomTab</name>
+	</types>
+	
 
 
 <version>54.0</version>
