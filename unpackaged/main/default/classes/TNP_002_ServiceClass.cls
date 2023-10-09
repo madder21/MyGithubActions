@@ -135,16 +135,14 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
             
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC_Contact_Key__pc'+accountInput.SFSC_Contact_Key__pc);
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Id'+accountInput.Id);
-            
-            
-            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Id'+accountInput.Id);      
             //Client Data
             Map<string,object> clientMap = buildObjectMap(accountInput, 'TNP_ClientMap__c');
             clientMap.put ('Source',source);
             clientMap.put ('Country',CountryIso3Code);
-            if (source != 'SFDC' && source != 'SFSC' && accountInput.B2C_Date_Created__pc == null  ){
-                clientMap.put ('B2CDateCreated',accountInput.B2C_Date_Last_Modified__pc);
+            String currentUserName = UserInfo.getName();
+            if (currentUserName.contains('ECO')){
+                clientMap.put ('B2CDateCreated',accountInput.LastModifiedDate);
             }
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'clientMap'+clientMap);
             JsonMap.put('Client',clientMap);         

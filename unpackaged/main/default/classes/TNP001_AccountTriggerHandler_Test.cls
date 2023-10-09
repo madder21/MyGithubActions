@@ -11,6 +11,21 @@
 */
 @isTest 
 public class TNP001_AccountTriggerHandler_Test {
+    
+    @isTest
+    static void testCreateNotificationContent() {
+        // Create a list of test Account records
+        List<Account> accList = TestDataFactory.createSObjectList('Account',10);
+        Test.startTest();
+        
+        // Call the createNotificationContent method
+        TNP_001_AccountTrigger_SVE.createNotificationContent(accList);
+        
+        Test.stopTest();
+        
+        // Add assertions or verifications here based on your specific requirements
+        // For example, you can check debug logs or verify that the queuable job was enqueued.
+    }
 
     @isTest 
     public static void listAccountAfterInsert_TEST (){
@@ -25,9 +40,9 @@ public class TNP001_AccountTriggerHandler_Test {
         User user = new User();
         user.FirstName =Label.SFSC_Integration_User ;
         user.isIntegrationUser__c =true;
-        user.Username= 'test22112@rimowa.com';
+        user.Username= 'test22112@test.com';
             user.LastName= 'test';
-            user.Email='test@rimowa.com';
+            user.Email='test@test.com';
             user.Alias='ttest';
             user.TimeZoneSidKey='Europe/Paris';
             user.LocaleSidKey= 'fr_FR_EURO';

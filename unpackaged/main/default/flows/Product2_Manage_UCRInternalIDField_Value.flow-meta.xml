@@ -23,14 +23,14 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>UpdateProduct2_UCRInternal</name>
+        <name>Update_Product2_UCR_Internal</name>
         <label>Update Product2 UCR Internal</label>
         <locationX>308</locationX>
         <locationY>276</locationY>
         <inputAssignments>
             <field>UCRInternalId__c</field>
             <value>
-                <elementReference>$Record.Category__c</elementReference>
+                <elementReference>$Record.R360ID__c</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -43,18 +43,18 @@
             <field>UCRInternalId__c</field>
             <operator>IsNull</operator>
             <value>
-                <booleanValue>false</booleanValue>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <object>Product2</object>
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>UpdateProduct2_UCRInternal</targetReference>
+                <targetReference>Update_Product2_UCR_Internal</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Obsolete</status>
 </Flow>

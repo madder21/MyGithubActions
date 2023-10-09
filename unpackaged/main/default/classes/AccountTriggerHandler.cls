@@ -23,31 +23,28 @@ public class AccountTriggerHandler implements ITriggerHandler {
         //return TriggerSettings__c.AccountTriggerDisabled__c ?true : TriggerDisabled;
         return TriggerDisabled;
   	}
-	
-    public Boolean isDisabledForB2CConnector(){
-        return BypassTrigger.checkBypassClass(AccountTriggerHandler.class.getName());
-    }
-    
+
   	public void BeforeInsert(List<SObject> newItems) {
     }
 
-  	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-        //AccountConsent_SVE.checkKPIFieldsValues(newItems.values(), (Map<Id, Account>) oldItems);
-    }
+  	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {}
     
   	public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
   	public void AfterInsert(Map<Id, SObject> newItems) {
-            System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
-            TNP_001_AccountTrigger_SVE.listAccountAfterInsert(newItems.values());
-        	if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, new Map<Id, SObject>());
-            System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****'); 
+    	System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
+        TNP_001_AccountWrapper wrapper = TNP_001_AccountTrigger_SVE.manageAccountEvent(newItems.values());
+        System.debug('** wrapper: '+wrapper);
+        TNP_001_AccountTrigger_SVE.createNotificationContent(wrapper.cdpAccountList);
+        TNP_001_AccountTrigger_SVE.listAccountAfterInsert(wrapper.otherAccountList);
+        System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****'); 
     }
 
   	public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         System.debug('**** TRIGGER CONTEXT : START AFTER UPDATE ****');
-        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values());
-        if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, oldItems);
+        TNP_001_AccountWrapper wrapper = TNP_001_AccountTrigger_SVE.manageAccountEvent(newItems.values());
+        Map<Id, Account> accountMap = (Map<Id, Account>)JSON.deserialize(JSON.serialize(oldItems), Map<Id, Account>.class);
+        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values(),accountMap);
         System.debug('**** TRIGGER CONTEXT : END AFTER UPDATE ****');
     }
 
