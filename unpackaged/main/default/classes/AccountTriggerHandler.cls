@@ -42,6 +42,7 @@ public class AccountTriggerHandler implements ITriggerHandler {
 
   	public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         System.debug('**** TRIGGER CONTEXT : START AFTER UPDATE ****');
+        TNP_001_AccountWrapper wrapper = TNP_001_AccountTrigger_SVE.manageAccountEvent(newItems.values());
         Map<Id, Account> accountMap = (Map<Id, Account>)JSON.deserialize(JSON.serialize(oldItems), Map<Id, Account>.class);
         TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values(),accountMap);
         System.debug('**** TRIGGER CONTEXT : END AFTER UPDATE ****');

@@ -16,7 +16,7 @@ public with sharing class TNP_001_AccountTrigger_SVE {
       	TNP_001_AccountWrapper wrapper = new TNP_001_AccountWrapper();
         for(Account acc : accountList) {
             System.debug('*** acc.CreatedById: '+acc.CreatedById);
-            if(acc.CreatedById==Label.CDPIntegrationUserID) {
+            if(acc.CreatedById==Label.CDPIntegrationUserID || acc.LastModifiedById==Label.CDPIntegrationUserID) {
                 wrapper.cdpAccountList.add(acc);
             }else {
                 wrapper.otherAccountList.add(acc);
