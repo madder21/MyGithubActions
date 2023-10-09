@@ -20,7 +20,7 @@
         <inputParameters>
             <name>targetTimeZone</name>
             <value>
-                <elementReference>Get_Timezone_MDT.Timezone__c</elementReference>
+                <elementReference>Get_Timezone_MDT.TimeZones__c</elementReference>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -263,7 +263,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>FX_Convert_DateTime_To_Date</name>
         <dataType>Date</dataType>
@@ -330,7 +329,7 @@
     <recordCreates>
         <name>Publish_Corrective_Invoice_PDF_Generation_Event</name>
         <label>Publish Corrective Invoice PDF Generation Event</label>
-        <locationX>1395</locationX>
+        <locationX>1421</locationX>
         <locationY>807</locationY>
         <connector>
             <targetReference>Set_correctiveInvoiceElligible_To_false</targetReference>

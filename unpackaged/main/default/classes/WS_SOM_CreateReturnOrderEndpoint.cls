@@ -60,7 +60,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                 Map<String, returnOrderItemCreateUpdate> returnOrderItemsRequest = new Map<String, returnOrderItemCreateUpdate>();
                 String errorMsg = checkReturnOrderRequest(req, orderSummaryMap.get(req.orderSummaryNumber), locationMap.get(req.warehouseId), returnOrderReturnOriginValues);
                 if (errorMsg != null) {
-                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMsg, 'KO', req.orderSummaryNumber, null, null));
+                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMsg, 'KO', req.orderSummaryNumber, null, null,null));
                     continue;
                 }
                 //if return request is RMA or no Return found for this order => create new Return
@@ -74,7 +74,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                 returnOrderToUpdateMap, 
                                                 returnOrderItemsToUpdateMap); 
                     if (errorMessage != null) {
-                        returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null));
+                        returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null,null));
                     }
                     continue;
                 }
@@ -88,7 +88,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                                             returnOrderItemConditionValues, 
                                                                             returnOrderItemReasonForReturnValues);
                 if (errorMessage != null) {
-                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null));
+                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null,null));
                     continue;
                 }
                 List<ReturnOrderLineItem> lineItemsToUpdate         = new List<ReturnOrderLineItem>();
@@ -153,7 +153,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                     lineItemsToCreate.add(returnOrderItemCreateUpdate);
                 }
                 if (errorMessage != null) {
-                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null));
+                    returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null,null));
                     continue;
                 }
                 //Create new return for items that didn't have a correspondant line item
@@ -167,7 +167,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                                 returnOrderToUpdateMap,
                                                 returnOrderItemsToUpdateMap);
                     if (errorMessage != null) {
-                        returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null));
+                        returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(errorMessage, 'KO', req.orderSummaryNumber, null, null,null));
                         continue;
                     }
                 }
@@ -183,7 +183,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             returnOrderIds,
                             returnOrderCreateUpdateResponseList);
         } catch(Exception ex){
-            returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null));
+            returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null,null));
         }
 
         JSONGenerator gen = JSON.createGenerator(true);
@@ -262,7 +262,8 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
      */
     private static void updateReturnOrders(Map<Id, ReturnOrderCreateUpdateRequest> returnOrderToUpdateMap,
                                         Map<Id, Map<String, returnOrderItemCreateUpdate>> returnOrderItemsToUpdateMap,
-                                        Map<String, Schema.location> locationMap,
+                                        //ReturnOrderCreateUpdateRequest req,
+                                        Map<String, Schema.location> locationMap, 
                                         List<ReturnOrderLineItem> returnOrderLineItemsList,
                                         Set<Id> returnOrderIds,
                                         List<ReturnOrderCreateUpdateResponse> returnOrderCreateUpdateResponseList){
@@ -281,6 +282,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                         returnOrdersToUpdateList.add(returnOrderToUpdate);
                         continue;
                     }
+                    List<ReturnOrderLineItem> ReturnOrderLineItemList = new List<ReturnOrderLineItem>();
                     Map<String, returnOrderItemCreateUpdate> returnOrderItemsRequest = returnOrderItemsToUpdateMap.get(returnOrderToUpdate.id);
                     if (returnOrderToUpdate.ReturnOrderLineItems != null && !returnOrderToUpdate.ReturnOrderLineItems.isEmpty()) {
                         for(ReturnOrderLineItem lineItem:returnOrderToUpdate.ReturnOrderLineItems) {
@@ -295,8 +297,11 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                 lineItem.AdditionalReturnReason__c = returnOrderItemRequest.reasonFreeText;
                                 returnOrderLineItemsToUpdateList.add(lineItem);
                             }
+                            ReturnOrderLineItemList.add(lineItem);
                         }
                     }
+                    if (req.type == SOM_Constants.RMA_RETURN_TYPE)
+                    returnOrderToUpdate.expectedPackages__c         =  Math.max(1,GetSUMQuantityExpected(ReturnOrderLineItemList));
                     returnOrdersToUpdateList.add(returnOrderToUpdate);
                 }
             }
@@ -308,10 +313,15 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             if (returnOrderLineItemsToUpdateList.size() > 0) update returnOrderLineItemsToUpdateList;
             updateReturnOrdersToReceived(returnOrderToUpdateMap);
             for (ReturnOrder persistedReturnOrder:returnOrdersToUpdateList) {
-                returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(null, 'OK', persistedReturnOrder.OrderSummary.OrderNumber, persistedReturnOrder.Id, persistedReturnOrder.ReturnOrderNumber));
+                ReturnOrderCreateUpdateRequest req = returnOrderToUpdateMap.get(persistedReturnOrder.Id);
+                if (req.type == SOM_Constants.RMA_RETURN_TYPE){
+                	returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(null, 'OK', persistedReturnOrder.OrderSummary.OrderNumber, persistedReturnOrder.Id, persistedReturnOrder.ReturnOrderNumber,persistedReturnOrder.expectedPackages__c));
+                }else{
+                	returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(null, 'OK', persistedReturnOrder.OrderSummary.OrderNumber, persistedReturnOrder.Id, persistedReturnOrder.ReturnOrderNumber,null));
+                }
             }
         } catch(Exception ex) {
-            returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null));
+            returnOrderCreateUpdateResponseList.add(createReturnOrderCreateUpdateResponse(ex.getMessage(), 'KO', null, null, null,null));
         }
     }
 
@@ -403,7 +413,6 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
         ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
-
         List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId]; 
         for(ReturnOrderItemCreateUpdate reqItem : returnItems){
             for(Integer i=0; i<createdROLIs.size(); i++){
@@ -423,6 +432,45 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
 
         return null;
     }
+    
+    /**
+     * @description Get SUM(QuantityExpected) of the return request
+     * @param  returnItems                   returnItems : return items request
+     * @return                               return Decimal : SUM of QuantityExpected
+     */
+    //private static Decimal GetSUMQuantityExpected(List<ConnectApi.ReturnOrderLineItemInputRepresentation> returnOrderLineItemsInputList){
+    private static Decimal GetSUMQuantityExpected(List<ReturnOrderLineItem> ReturnOrderLineItemList){
+        
+        List<String> ReturnOrderLineItemListIds = new List<String>();
+        Map<String,Decimal> ReturnOrderLineItemMap = new Map<String,Decimal>();
+        Decimal SUMQuantityExpected = 0;
+        if (ReturnOrderLineItemList.size() > 0) {
+                for (ReturnOrderLineItem returnOrderLineItem:ReturnOrderLineItemList) {
+                    ReturnOrderLineItemListIds.add(returnOrderLineItem.Id);
+                    //orderItemSummaryIdsMap.put(returnOrderLineItem.orderItemSummaryId,returnOrderLineItem.quantityExpected);
+                }
+        }
+        List<ReturnOrderLineItem> ReturnOrderLineItems = [Select Id,QuantityExpected From ReturnOrderLineItem where Id In :ReturnOrderLineItemListIds AND Product2.macrofunction_id__c IN : Getmacrofunction_id()];
+        for (ReturnOrderLineItem returnOrderLineItem:ReturnOrderLineItems) {
+            SUMQuantityExpected += returnOrderLineItem.QuantityExpected;
+                }
+        return SUMQuantityExpected;
+    }
+    
+    /**
+     * @description Get macrofunction_ids of the Product_Config__mdt
+     * @return                               return List<Decimal>
+     */
+    private static List<Decimal> Getmacrofunction_id(){
+        List<Decimal> ListToReturn = new List<Decimal>();
+			List<Product_Config__mdt> listMet = [SELECT Macrofunction_id__c, Need_Package__c FROM Product_Config__mdt WHERE Need_Package__c = true ];
+        	for (Product_Config__mdt Temp:listMet) {
+                    ListToReturn.add(Temp.Macrofunction_id__c);
+                }
+        	Return ListToReturn;
+    }
+    
+        
 
     /**
      * @description checkReturnOrderRequest check the validity of the return request
@@ -576,13 +624,14 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
      * @param  returnOrderNumber returnOrderNumber
      * @return                   return return response
      */
-    private static ReturnOrderCreateUpdateResponse createReturnOrderCreateUpdateResponse(String errorMsg, String status, String orderNumber, Id returnOrderId, String returnOrderNumber){
+    private static ReturnOrderCreateUpdateResponse createReturnOrderCreateUpdateResponse(String errorMsg, String status, String orderNumber, Id returnOrderId, String returnOrderNumber,Decimal expectedPackages){
         ReturnOrderCreateUpdateResponse response = new ReturnOrderCreateUpdateResponse();
         response.errorMessage       = errorMsg;
         response.orderSummaryNumber = orderNumber;
         response.returnOrderId      = returnOrderId;
         response.returnOrderStatus  = status;
         response.returnOrderNumber  = returnOrderNumber;
+        response.expectedPackages   = expectedPackages;
 
         return response;
     }
@@ -669,6 +718,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         public String   returnOrderStatus; //OK or KO
         public String   errorMessage;
         public String   returnOrderNumber;
+        public Decimal   expectedPackages;
     }
 
     global with sharing class OrderShipmentItem{
