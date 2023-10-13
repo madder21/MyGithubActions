@@ -97,7 +97,7 @@
             <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityReceived</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_Received_ROLI.QuantityReceived</elementReference>
+                <numberValue>0.0</numberValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -210,15 +210,15 @@
         <label>Get_Received_Roli</label>
         <locationX>1135</locationX>
         <locationY>298</locationY>
-        <assignNextValueToReference>currentItem_Get_Received_Roli_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Get_Received_Roli</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Return_Order_Line_Items</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Get_Received_Roli_0.QuantityReceived</leftValueReference>
-            <operator>GreaterThan</operator>
+            <leftValueReference>currentItem_Get_Received_Roli.FollowUpProcessed__c</leftValueReference>
+            <operator>EqualTo</operator>
             <rightValue>
-                <numberValue>0.0</numberValue>
+                <booleanValue>false</booleanValue>
             </rightValue>
         </conditions>
         <connector>
@@ -583,7 +583,7 @@
         <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
-        <name>currentItem_Get_Received_Roli_0</name>
+        <name>currentItem_Get_Received_Roli</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
