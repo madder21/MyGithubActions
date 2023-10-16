@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>OrderSummary.CreditMemos$Name</field>
+        <field>OrderSummary.CreditMemos*CreditMemo$DocumentNumber__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Name</field>
@@ -37,19 +37,15 @@
         <field>OrderSummary.CreditMemos.CreditMemoLines$Product2.StockKeepingUnit</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.CreditMemos.CreditMemoLines$ChargeAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.CreditMemos.CreditMemoLines$AdjustmentAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.CreditMemos.CreditMemoLines$TaxAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.CreditMemos.CreditMemoLines$TaxRate</field>
     </columns>
     <columns>
@@ -90,13 +86,15 @@
     <name>Sales Report Credit Memo UK</name>
     <params>
         <name>co</name>
-        <value>0</value>
+        <value>1</value>
     </params>
     <reportType>Order_Summary_with_Credit_Memo_and_Lines__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>false</showGrandTotal>
     <showSubTotals>false</showSubTotals>
+    <sortColumn>OrderSummary.CreditMemos.CreditMemoLines$TaxAmount</sortColumn>
+    <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>OrderSummary$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
