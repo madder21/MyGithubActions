@@ -2,7 +2,7 @@
  * @author: Ulrich M. NDONG NGOMO
  * @description: This class is used to manage consent action needs to be done when an account is created/updated
  * @Created Date: 4/12/2023
- * @LastModifiedDate: 9/22/2023
+ * @LastModifiedDate: 4/12/2023
  * 
  */
 public class AccountTriggerHandler implements ITriggerHandler {
@@ -23,35 +23,28 @@ public class AccountTriggerHandler implements ITriggerHandler {
         //return TriggerSettings__c.AccountTriggerDisabled__c ?true : TriggerDisabled;
         return TriggerDisabled;
   	}
-	
-    public Boolean isDisabledForB2CConnector(){
-        return BypassTrigger.checkBypassClass(AccountTriggerHandler.class.getName());
-    }
-    
+
   	public void BeforeInsert(List<SObject> newItems) {
-        //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
-        AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems);
     }
 
-  	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
-        //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
-         AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems.Values());
-        //AccountConsent_SVE.checkKPIFieldsValues(newItems.values(), (Map<Id, Account>) oldItems);
-    }
+  	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {}
     
   	public void BeforeDelete(Map<Id, SObject> oldItems) {}
 
   	public void AfterInsert(Map<Id, SObject> newItems) {
-            System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
-            TNP_001_AccountTrigger_SVE.listAccountAfterInsert(newItems.values());
-        	if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, new Map<Id, SObject>());
-            System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****'); 
+    	System.debug('**** TRIGGER CONTEXT : START AFTER INSERT ****');
+        TNP_001_AccountWrapper wrapper = TNP_001_AccountTrigger_SVE.manageAccountEvent(newItems.values());
+        System.debug('** wrapper: '+wrapper);
+        TNP_001_AccountTrigger_SVE.createNotificationContent(wrapper.cdpAccountList);
+        TNP_001_AccountTrigger_SVE.listAccountAfterInsert(wrapper.otherAccountList);
+        System.debug('**** TRIGGER CONTEXT : END AFTER INSERT ****'); 
     }
 
   	public void AfterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
         System.debug('**** TRIGGER CONTEXT : START AFTER UPDATE ****');
-        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values(),(Map<Id, Account>)oldItems);
-        if(!isDisabledForB2CConnector()) AccountConsent_SVE.createB2CCustomInputForRetail(newItems, oldItems);
+        TNP_001_AccountWrapper wrapper = TNP_001_AccountTrigger_SVE.manageAccountEvent(newItems.values());
+        Map<Id, Account> accountMap = (Map<Id, Account>)JSON.deserialize(JSON.serialize(oldItems), Map<Id, Account>.class);
+        TNP_001_AccountTrigger_SVE.listAccountAfterUpdate(newItems.values(),accountMap);
         System.debug('**** TRIGGER CONTEXT : END AFTER UPDATE ****');
     }
 

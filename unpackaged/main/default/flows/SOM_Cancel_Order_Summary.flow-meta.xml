@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Cancel_Fulfillment_Order_Line_Items</name>
         <label>Cancel Fulfillment Order Line Items</label>
-        <locationX>2368</locationX>
-        <locationY>974</locationY>
+        <locationX>2492</locationX>
+        <locationY>1095</locationY>
         <actionName>cancelFulfillmentOrderItem</actionName>
         <actionType>cancelFulfillmentOrderItem</actionType>
         <connector>
@@ -28,8 +28,8 @@
     <actionCalls>
         <name>Cancel_Order_Item_Summaries</name>
         <label>Cancel Order Item Summaries</label>
-        <locationX>1287</locationX>
-        <locationY>1209</locationY>
+        <locationX>1411</locationX>
+        <locationY>1330</locationY>
         <actionName>cancelOrderItemSummariesSubmit</actionName>
         <actionType>cancelOrderItemSummariesSubmit</actionType>
         <connector>
@@ -56,8 +56,8 @@
     <actionCalls>
         <name>Generate_Uuid_Value</name>
         <label>Generate Uuid Value</label>
-        <locationX>1076</locationX>
-        <locationY>930</locationY>
+        <locationX>1200</locationX>
+        <locationY>1051</locationY>
         <actionName>SOM_FlowUtils_UuidGenerator</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -78,8 +78,8 @@
     <actionCalls>
         <name>OCI_Release_Reservation</name>
         <label>OCI Release Reservation</label>
-        <locationX>513</locationX>
-        <locationY>744</locationY>
+        <locationX>709</locationX>
+        <locationY>816</locationY>
         <actionName>ociReleaseReservation</actionName>
         <actionType>ociReleaseReservation</actionType>
         <connector>
@@ -98,8 +98,8 @@
     <assignments>
         <name>Add_Change_Item_Input_To_Collection</name>
         <label>Add Change Item Input To Collection</label>
-        <locationX>1886</locationX>
-        <locationY>1229</locationY>
+        <locationX>2010</locationX>
+        <locationY>1350</locationY>
         <assignmentItems>
             <assignToReference>COL_ChangeItemInputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -114,8 +114,8 @@
     <assignments>
         <name>Add_FO_Line_Item_To_Collection</name>
         <label>Add FO Line Item To Collection</label>
-        <locationX>2820</locationX>
-        <locationY>960</locationY>
+        <locationX>2944</locationX>
+        <locationY>1081</locationY>
         <assignmentItems>
             <assignToReference>COL_FulfillmentOrderLineItemInputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -130,8 +130,8 @@
     <assignments>
         <name>Add_OCI_Single_Input_To_Collection</name>
         <label>Add OCI Single Input To Collection</label>
-        <locationX>620</locationX>
-        <locationY>1131</locationY>
+        <locationX>744</locationX>
+        <locationY>1252</locationY>
         <assignmentItems>
             <assignToReference>COL_OCIReleaseReservationSingleInputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -144,10 +144,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Add_to_Order_Items_List</name>
+        <label>Add to Order Items List</label>
+        <locationX>99</locationX>
+        <locationY>51</locationY>
+        <assignmentItems>
+            <assignToReference>OrderItemsToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Filter_Order_Items</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Filter_Order_Items</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Change_Input_Representation_Values</name>
         <label>Set Change Input Representation Values</label>
-        <locationX>1714</locationX>
-        <locationY>1228</locationY>
+        <locationX>1838</locationX>
+        <locationY>1349</locationY>
         <assignmentItems>
             <assignToReference>REC_ChangeItemInputRepresentation.orderItemSummaryId</assignToReference>
             <operator>Assign</operator>
@@ -183,8 +199,8 @@
     <assignments>
         <name>Set_FO_Items_To_Cancel_In_Collection</name>
         <label>Set FO Items To Cancel In Collection</label>
-        <locationX>2553</locationX>
-        <locationY>1026</locationY>
+        <locationX>2677</locationX>
+        <locationY>1147</locationY>
         <assignmentItems>
             <assignToReference>REC_FulfillmentOrderLineItemsToCancelInputRepresentation.fulfillmentOrderLineItemsToCancel</assignToReference>
             <operator>Assign</operator>
@@ -199,8 +215,8 @@
     <assignments>
         <name>Set_Fulfillment_Order_Line_Items_Input</name>
         <label>Set Fulfillment Order Line Items Input</label>
-        <locationX>2819</locationX>
-        <locationY>744</locationY>
+        <locationX>2943</locationX>
+        <locationY>865</locationY>
         <assignmentItems>
             <assignToReference>REC_FulfillmentOrderLineItemInputRepresentation.fulfillmentOrderLineItemId</assignToReference>
             <operator>Assign</operator>
@@ -222,8 +238,8 @@
     <assignments>
         <name>Set_Fulfilment_Order_IDS</name>
         <label>Set Fulfilment Order IDS</label>
-        <locationX>1487</locationX>
-        <locationY>543</locationY>
+        <locationX>1611</locationX>
+        <locationY>664</locationY>
         <assignmentItems>
             <assignToReference>FlfulmentOrderIds</assignToReference>
             <operator>Add</operator>
@@ -238,8 +254,8 @@
     <assignments>
         <name>Set_Location_External_Reference</name>
         <label>Set Location External Reference</label>
-        <locationX>857</locationX>
-        <locationY>1390</locationY>
+        <locationX>981</locationX>
+        <locationY>1511</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationSingleInputRepresentation.locationIdentifier</assignToReference>
             <operator>Assign</operator>
@@ -254,8 +270,8 @@
     <assignments>
         <name>Set_OCI_Release_Reservation_Single_Input</name>
         <label>Set OCI Release Reservation Single Input</label>
-        <locationX>958</locationX>
-        <locationY>1018</locationY>
+        <locationX>1082</locationX>
+        <locationY>1139</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationSingleInputRepresentation.actionRequestId</assignToReference>
             <operator>Assign</operator>
@@ -291,8 +307,8 @@
     <assignments>
         <name>Set_Order_Item_Summaries_To_Cancel</name>
         <label>Set Order Item Summaries To Cancel</label>
-        <locationX>617</locationX>
-        <locationY>833</locationY>
+        <locationX>741</locationX>
+        <locationY>954</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationInputRepresentation.releaseRecords</assignToReference>
             <operator>Assign</operator>
@@ -307,8 +323,8 @@
     <assignments>
         <name>Set_OS_Items_To_Cancel</name>
         <label>Set OS Items To Cancel</label>
-        <locationX>1819</locationX>
-        <locationY>835</locationY>
+        <locationX>1943</locationX>
+        <locationY>956</locationY>
         <assignmentItems>
             <assignToReference>REC_ChangeInputRepresentation.changeItems</assignToReference>
             <operator>Assign</operator>
@@ -323,8 +339,8 @@
     <assignments>
         <name>Set_OS_To_Canceled</name>
         <label>Set OS To Canceled</label>
-        <locationX>912</locationX>
-        <locationY>481</locationY>
+        <locationX>1036</locationX>
+        <locationY>602</locationY>
         <assignmentItems>
             <assignToReference>recordId.Status</assignToReference>
             <operator>Assign</operator>
@@ -339,8 +355,8 @@
     <assignments>
         <name>Set_PE_Status_To_Ignored</name>
         <label>Set PE Status To Ignored</label>
-        <locationX>312</locationX>
-        <locationY>654</locationY>
+        <locationX>436</locationX>
+        <locationY>775</locationY>
         <assignmentItems>
             <assignToReference>Iterate_Over_Process_Exceptions.Status</assignToReference>
             <operator>Assign</operator>
@@ -353,10 +369,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_Unresolved_PEs_c_to_0</name>
+        <label>Set Unresolved_PEs__c to 0</label>
+        <locationX>350</locationX>
+        <locationY>50</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Over_Filter_Order_Items.Unresolved_PEs__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_to_Order_Items_List</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Update_PE_List</name>
         <label>Update PE List</label>
-        <locationX>468</locationX>
-        <locationY>653</locationY>
+        <locationX>592</locationX>
+        <locationY>774</locationY>
         <assignmentItems>
             <assignToReference>ProcessExceptionList</assignToReference>
             <operator>Add</operator>
@@ -372,8 +404,8 @@
         <name>Filter_Fulfillment_Order_Line_Items_Rec</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Fulfillment Order Line Items Rec</label>
-        <locationX>2548</locationX>
-        <locationY>580</locationY>
+        <locationX>2672</locationX>
+        <locationY>701</locationY>
         <assignNextValueToReference>currentItem_Filter_Fulfillment_Order_Line_Items_Rec_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Fulfillment_Order_Line_Items_Rec</collectionReference>
@@ -393,8 +425,8 @@
         <name>Filter_Locations</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Locations</label>
-        <locationX>1064</locationX>
-        <locationY>1143</locationY>
+        <locationX>1188</locationX>
+        <locationY>1264</locationY>
         <assignNextValueToReference>currentItem_Filter_Locations</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
@@ -410,11 +442,32 @@
             <targetReference>Iterate_Over_Filtered_Locations</targetReference>
         </connector>
     </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Order_Item_Summary</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Order Item Summary</label>
+        <locationX>440</locationX>
+        <locationY>383</locationY>
+        <assignNextValueToReference>currentItem_Filter_Order_Item_Summary_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Order_Item_Summaries</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Order_Item_Summary_0.Unresolved_PEs__c</leftValueReference>
+            <operator>NotEqualTo</operator>
+            <rightValue>
+                <numberValue>0.0</numberValue>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Filter_Order_Items</targetReference>
+        </connector>
+    </collectionProcessors>
     <decisions>
         <name>Check_Fulfillment_Order</name>
         <label>Check Fulfillment Order</label>
-        <locationX>1661</locationX>
-        <locationY>674</locationY>
+        <locationX>1785</locationX>
+        <locationY>795</locationY>
         <defaultConnector>
             <targetReference>Get_Fulfillment_Order_Line_Items_Rec</targetReference>
         </defaultConnector>
@@ -438,8 +491,8 @@
     <decisions>
         <name>Check_Order_Summary_Status</name>
         <label>Check Order Summary Status</label>
-        <locationX>2022</locationX>
-        <locationY>245</locationY>
+        <locationX>2146</locationX>
+        <locationY>366</locationY>
         <defaultConnector>
             <targetReference>Error_Screen_OS</targetReference>
         </defaultConnector>
@@ -477,8 +530,8 @@
     <decisions>
         <name>Confirm_Delete</name>
         <label>Confirm Delete</label>
-        <locationX>1775</locationX>
-        <locationY>401</locationY>
+        <locationX>1899</locationX>
+        <locationY>522</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Proceed_on_Delete</name>
@@ -499,26 +552,40 @@
     <decisions>
         <name>OCI_Release_Reservation_Decision</name>
         <label>OCI Release Reservation Decision</label>
-        <locationX>1383</locationX>
-        <locationY>728</locationY>
+        <locationX>1503</locationX>
+        <locationY>851</locationY>
         <defaultConnector>
-            <targetReference>Set_OS_To_Canceled</targetReference>
+            <targetReference>Get_Locations</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Cannot Release Reservation</defaultConnectorLabel>
+        <defaultConnectorLabel>Release Reservation</defaultConnectorLabel>
         <rules>
-            <name>Release_Reservation</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Do_Not_Release_Reservation</name>
+            <conditionLogic>1 AND ( 2 OR 3 )</conditionLogic>
             <conditions>
                 <leftValueReference>recordId.Status</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Waiting for goods</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>recordId.SalesChannelName__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CEGID</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recordId.SalesChannelName__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Manual Order</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Get_Locations</targetReference>
+                <targetReference>Set_OS_To_Canceled</targetReference>
             </connector>
-            <label>Release Reservation</label>
+            <label>Do Not Release Reservation</label>
         </rules>
     </decisions>
     <interviewLabel>SOM - Cancel Order Summary {!$Flow.CurrentDateTime}</interviewLabel>
@@ -526,8 +593,8 @@
     <loops>
         <name>Iterate_Over_Filtered_Locations</name>
         <label>Iterate Over Filtered Locations</label>
-        <locationX>858</locationX>
-        <locationY>1143</locationY>
+        <locationX>982</locationX>
+        <locationY>1264</locationY>
         <collectionReference>Filter_Locations</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -540,8 +607,8 @@
     <loops>
         <name>Iterate_Over_Fulfillment_Order</name>
         <label>Iterate Over Fulfillment Order</label>
-        <locationX>1769</locationX>
-        <locationY>539</locationY>
+        <locationX>1893</locationX>
+        <locationY>660</locationY>
         <collectionReference>Get_Fulfillment_Orders</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -554,8 +621,8 @@
     <loops>
         <name>Iterate_Over_Fulfillment_Order_Line_Items</name>
         <label>Iterate Over Fulfillment Order Line Items</label>
-        <locationX>2251</locationX>
-        <locationY>576</locationY>
+        <locationX>2375</locationX>
+        <locationY>697</locationY>
         <collectionReference>Get_Fulfillment_Orders</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -568,8 +635,8 @@
     <loops>
         <name>Iterate_Over_Order_Item_Summaries</name>
         <label>Iterate Over Order Item Summaries</label>
-        <locationX>1819</locationX>
-        <locationY>1029</locationY>
+        <locationX>1943</locationX>
+        <locationY>1150</locationY>
         <collectionReference>Get_Order_Item_Summaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -582,8 +649,8 @@
     <loops>
         <name>Iterate_Over_Order_Item_Summaries_To_Release_OCI</name>
         <label>Iterate Over Order Item Summaries To Release OCI</label>
-        <locationX>867</locationX>
-        <locationY>833</locationY>
+        <locationX>991</locationX>
+        <locationY>954</locationY>
         <collectionReference>Get_Order_Item_Summaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -596,8 +663,8 @@
     <loops>
         <name>Iterate_Over_Process_Exceptions</name>
         <label>Iterate Over Process Exceptions</label>
-        <locationX>405</locationX>
-        <locationY>480</locationY>
+        <locationX>529</locationX>
+        <locationY>601</locationY>
         <collectionReference>Get_PE</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -608,10 +675,24 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Over_Filter_Order_Items</name>
+        <label>Loop Over Filter Order Items</label>
+        <locationX>236</locationX>
+        <locationY>258</locationY>
+        <collectionReference>Filter_Order_Item_Summary</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_Unresolved_PEs_c_to_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Items</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_Over_Fulfillment_Order_Line_Items</name>
         <label>Loop Over Fulfillment Order Line Items</label>
-        <locationX>2549</locationX>
-        <locationY>808</locationY>
+        <locationX>2673</locationX>
+        <locationY>929</locationY>
         <collectionReference>Filter_Fulfillment_Order_Line_Items_Rec</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -643,8 +724,8 @@
     <recordLookups>
         <name>Get_Fulfillment_Order_Line_Items_Rec</name>
         <label>Get Fulfillment Order Line Items Rec</label>
-        <locationX>2097</locationX>
-        <locationY>575</locationY>
+        <locationX>2221</locationX>
+        <locationY>696</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
@@ -673,8 +754,8 @@
     <recordLookups>
         <name>Get_Fulfillment_Orders</name>
         <label>Get Fulfillment Orders</label>
-        <locationX>2092</locationX>
-        <locationY>418</locationY>
+        <locationX>2216</locationX>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Fulfillment_Order</targetReference>
@@ -717,8 +798,8 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>1150</locationX>
-        <locationY>826</locationY>
+        <locationX>1274</locationX>
+        <locationY>947</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Order_Item_Summaries_To_Release_OCI</targetReference>
@@ -734,8 +815,8 @@
     <recordLookups>
         <name>Get_Order_Item_Summaries</name>
         <label>Get Order Item Summaries</label>
-        <locationX>2044</locationX>
-        <locationY>1029</locationY>
+        <locationX>2168</locationX>
+        <locationY>1150</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Order_Item_Summaries</targetReference>
@@ -771,8 +852,8 @@
     <recordLookups>
         <name>Get_PE</name>
         <label>Get PE</label>
-        <locationX>556</locationX>
-        <locationY>480</locationY>
+        <locationX>680</locationX>
+        <locationY>601</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Process_Exceptions</targetReference>
@@ -815,8 +896,8 @@
     <recordUpdates>
         <name>Set_Fulfillment_Order_Status_To_Canceled</name>
         <label>Set Fulfillment Order Status To Canceled</label>
-        <locationX>1565</locationX>
-        <locationY>1033</locationY>
+        <locationX>1689</locationX>
+        <locationY>1154</locationY>
         <connector>
             <targetReference>Cancel_Order_Item_Summaries</targetReference>
         </connector>
@@ -858,10 +939,20 @@
         <object>FulfillmentOrder</object>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_Order_Items</name>
+        <label>Update Order Items</label>
+        <locationX>50</locationX>
+        <locationY>377</locationY>
+        <connector>
+            <targetReference>Success_Screen</targetReference>
+        </connector>
+        <inputReference>OrderItemsToUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_OS</name>
         <label>Update OS</label>
-        <locationX>698</locationX>
-        <locationY>480</locationY>
+        <locationX>822</locationX>
+        <locationY>601</locationY>
         <connector>
             <targetReference>Get_PE</targetReference>
         </connector>
@@ -870,18 +961,18 @@
     <recordUpdates>
         <name>Update_PEs</name>
         <label>Update PEs</label>
-        <locationX>227</locationX>
-        <locationY>480</locationY>
+        <locationX>351</locationX>
+        <locationY>601</locationY>
         <connector>
-            <targetReference>Success_Screen</targetReference>
+            <targetReference>Filter_Order_Item_Summary</targetReference>
         </connector>
         <inputReference>ProcessExceptionList</inputReference>
     </recordUpdates>
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
-        <locationX>1782</locationX>
-        <locationY>247</locationY>
+        <locationX>1906</locationX>
+        <locationY>368</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -926,8 +1017,8 @@
     <screens>
         <name>Error_Screen_OS</name>
         <label>Error Screen OS</label>
-        <locationX>2417</locationX>
-        <locationY>246</locationY>
+        <locationX>2541</locationX>
+        <locationY>367</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -942,8 +1033,8 @@
     <screens>
         <name>Success_Screen</name>
         <label>Success Screen</label>
-        <locationX>50</locationX>
-        <locationY>481</locationY>
+        <locationX>174</locationX>
+        <locationY>602</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -956,8 +1047,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1904</locationX>
-        <locationY>23</locationY>
+        <locationX>2028</locationX>
+        <locationY>144</locationY>
         <connector>
             <targetReference>Check_Order_Summary_Status</targetReference>
         </connector>
@@ -1012,6 +1103,14 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Order_Item_Summary_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>ensureRefundsAsyncInputRepresentation</name>
         <apexClass>ConnectApi__EnsureRefundsAsyncInputRepresentation</apexClass>
         <dataType>Apex</dataType>
@@ -1025,6 +1124,14 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderItemsToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>ProcessExceptionList</name>

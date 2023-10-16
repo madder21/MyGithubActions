@@ -11,6 +11,9 @@ jobs:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: "14"
             # Install Salesforce CLI
             - name: 'Install Salesforce CLI'
               run: |
@@ -28,7 +31,7 @@ jobs:
             
             # List items
             - name: 'List items'
-              run: ls 'unpackaged/project manifest'
+              run: ls 'unpackaged/projectManifest'
           
             # Set the instanceUrl config value
             - name: 'Set the instanceUrl config value'
@@ -37,7 +40,10 @@ jobs:
               # Authorize devops user
             - name: 'Authorize Devops User'
               run: sfdx force:auth:jwt:grant -i "3MVG9qQjGkWUbcrH_xlpO3xF9dIvXKYW_7tBvY37biyTivUmmmjljbZFlnQKz2wvcP04dmbGRCE0_FmAhWCro" -f JWT/server.key -a RimowaIntegrateOrg --username devops@rimowa.integrate
-              
+               
+                               
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-10-1.xml" -u RimowaIntegrateOrg
+              run: >
+                  echo ${{env.APEX_TESTS}}
+                  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2023-10-1.xml" --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-10.1.txt) -u RimowaIntegrateOrg

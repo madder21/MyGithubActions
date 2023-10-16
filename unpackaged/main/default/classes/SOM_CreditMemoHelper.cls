@@ -9,10 +9,10 @@ public class SOM_CreditMemoHelper {
         for(String singleCr : CreditMemoIdsMap.KeySet()){
             CreditMemoCountryMap.put(singleCr, relatedOrderSummary.get(CreditMemoIdsMap.get(singleCr)).Tech_ShippingCountry__c);
         }
-        List<Sales_Channel_Mapping__mdt> salesChannelMDT = [SELECT Zone__c, Timezone__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c IN :CreditMemoCountryMap.values()];
+        List<Sales_Channel_Mapping__mdt> salesChannelMDT = [SELECT Zone__c, TimeZones__c FROM Sales_Channel_Mapping__mdt WHERE Zone__c IN :CreditMemoCountryMap.values()];
         Map<String, String> salesChannelMDTMap = new Map<String, String>(); // Map<Zone__c, Timezone__c>
         for(Sales_Channel_Mapping__mdt oneMDT : salesChannelMDT){
-            salesChannelMDTMap.put(oneMDT.Zone__c, oneMDT.Timezone__c);
+            salesChannelMDTMap.put(oneMDT.Zone__c, oneMDT.TimeZones__c);
         }
         Map<Id, String> CreditMemoTimeZonesMap = new Map<Id, String>(); // Map<Credit Memo Id, TimeZone>
         for(String crMemo : CreditMemoCountryMap.KeySet()){
@@ -26,4 +26,5 @@ public class SOM_CreditMemoHelper {
             singleCredit.Credit_Memo_Date__c    = SOM_DateTimeHelper.convertDateTimeByTimeZone(new List<SOM_DateConvertionInput>{dateinput})[0].date();
         }
     }
+    
 }

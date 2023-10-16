@@ -12,6 +12,26 @@
 public with sharing class TNP_001_AccountTrigger_SVE {
     Public Static String CLASS_NAME = 'TNP_001_AccountTrigger_SVE';
     
+    public static TNP_001_AccountWrapper manageAccountEvent(List<Account> accountList) {
+      	TNP_001_AccountWrapper wrapper = new TNP_001_AccountWrapper();
+        for(Account acc : accountList) {
+            System.debug('*** acc.CreatedById: '+acc.CreatedById);
+            if(acc.CreatedById==Label.CDPIntegrationUserID || acc.LastModifiedById==Label.CDPIntegrationUserID) {
+                wrapper.cdpAccountList.add(acc);
+            }else {
+                wrapper.otherAccountList.add(acc);
+            }
+        }
+        System.debug('*** wrapper: '+wrapper);
+        return wrapper;
+    }
+    
+    public static void createNotificationContent(List<Account> accountList) {
+        if(!accountList.isEmpty()) {
+        	System.enqueueJob(new AccountCDPQueuableCallout(accountList));
+        }         
+    }
+    
     public static void listAccountAfterInsert( list<account> listAccountToInsert)
     {  
         String METHOD_NAME = 'listAccountAfterInsert';
