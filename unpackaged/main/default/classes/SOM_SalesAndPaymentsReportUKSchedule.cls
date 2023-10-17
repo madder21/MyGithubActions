@@ -95,42 +95,61 @@ public with sharing class SOM_SalesAndPaymentsReportUKSchedule Implements Schedu
         } 
         else{
             if(!invoiceRep.isEmpty()){
-                invoiceAttachment.setFileName('Sales Invoice Report.csv');
                 invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
+            }
+            if(!creditMemoRep.isEmpty()){
+                creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
+            }
+            if(!paymentRep.isEmpty()){
+                paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
+            }
+            if(!shipmentRep.isEmpty()){
+                shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
+            }
+            if(!returnOrdersRep.isEmpty()){
+                returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
+            }
+            if(!refundOrdersRep.isEmpty()){
+                    refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
+            }
+        } 
+            if(!invoiceRep.isEmpty()){
+                invoiceAttachment.setFileName('Sales Invoice Report.csv');
+                //invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
                 invoiceAttachment.setContentType('text/csv');
                 attchs.add(invoiceAttachment);
             }
             if(!creditMemoRep.isEmpty()){
                 creditMemoAttachment.setFileName('Sales Credit Memo Report.csv');
-                creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
+                //creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
                 creditMemoAttachment.setContentType('text/csv');
                 attchs.add(creditMemoAttachment);
             }
             if(!paymentRep.isEmpty()){
                 paymentAttachment.setFileName('Payment Report.csv');
-                paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
+                //paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
                 paymentAttachment.setContentType('text/csv');
                 attchs.add(paymentAttachment);
             }
             if(!shipmentRep.isEmpty()){
                 shipmentAttachment.setFileName('Shipment Report.csv');
-                shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
+                //shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
                 shipmentAttachment.setContentType('text/csv');
                 attchs.add(shipmentAttachment);
             }
             if(!returnOrdersRep.isEmpty()){
                 returnOrdersAttachment.setFileName('Return Orders Report.csv');
-                returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
+                //returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
                 returnOrdersAttachment.setContentType('text/csv');
                 attchs.add(returnOrdersAttachment);
             }
             if(!refundOrdersRep.isEmpty()){
                     refundOrdersAttachment.setFileName('Refund Orders Report.csv');
-                    refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
+                    //refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
                     refundOrdersAttachment.setContentType('text/csv');
                     attchs.add(refundOrdersAttachment);
             }
-        } 
+        
         
         email.setFileAttachments(attchs);
         
