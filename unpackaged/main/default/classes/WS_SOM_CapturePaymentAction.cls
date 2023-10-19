@@ -1,18 +1,18 @@
 global with sharing class WS_SOM_CapturePaymentAction {
 
     @InvocableMethod(label='Capture Payment' description='Capture Payment for the specified fulfillmentOrder Id' callout=true)
-    global static List<CapturePaymentActionResponse> capturePayment(List<CapturePaymentActionRequest> requests){
-        List<CapturePaymentActionResponse> responseWrapper = new List<CapturePaymentActionResponse>();
+    global static List<List<SOM_CapturePaymentActionResponseWrapper>> capturePayment(List<List<SOM_CapturePaymentActionRequestWrapper>> requests){
         map<String,List<FulfillmentOrderLineItem>> mapFulfillOrdertems = new map<String,List<FulfillmentOrderLineItem>>();
         map<String,FulfillmentOrder> mapFulfillOrder = new map<String,FulfillmentOrder>();
         map<String,paymentAuthorization> mapPaymentAuthoriz = new map<String,paymentAuthorization>();
         set<Id> fulfillmentOrderIds = new set<Id>();
         set<Id> OriginalOrderIds = new set<Id>();
-        CapturePaymentActionResponse response              = new CapturePaymentActionResponse();
+        List<List<SOM_CapturePaymentActionResponseWrapper>> responseWrapperList = new List<List<SOM_CapturePaymentActionResponseWrapper>>();
 
-
-        for(CapturePaymentActionRequest request:requests){
-            fulfillmentOrderIds.add(request.fulfillmetOrderId);
+        for(List<SOM_CapturePaymentActionRequestWrapper> requestList:requests){
+            for(SOM_CapturePaymentActionRequestWrapper request:requestList){
+                fulfillmentOrderIds.add(request.fulfillmetOrderId);
+            }
         }
 
         //Get Fulfillment Order
@@ -25,7 +25,6 @@ global with sharing class WS_SOM_CapturePaymentAction {
                                               ];
 
                                                                                             
-
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             for(FulfillmentOrder fo:fulfillmentOrder){
                 OriginalOrderIds.add(fo.OrderSummary.OriginalOrderId);
@@ -55,93 +54,103 @@ global with sharing class WS_SOM_CapturePaymentAction {
             }
        }    
     
-        for(CapturePaymentActionRequest request:requests){   
-            try {
-                //check fulfillmentOrder
-                if (mapFulfillOrdertems.get(request.fulfillmetOrderId) != null) {
-                    //Get Payment Authorization
-                    if (mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId) !=null) {
-                        //Get OrderItems
-                        FulfillmentOrderLineItem[] orderItems = mapFulfillOrdertems.get(request.fulfillmetOrderId);              
-                        PaymentRequest capturePaymentRequest  = new PaymentRequest();
-                        OrderInformation orderInformation     = new OrderInformation();
-                        //Create lineItems
-                        List<lineItem> lineItems = getLineItems(orderItems);
-                        Double totalAmount       = getTotalAmount(lineItems);
-                        //Create AmountDetails
-                        AmountDetails amountDetails   = new AmountDetails();
-                        amountDetails.amount_currency = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.CurrencyIsoCode;
-                        amountDetails.totalAmounts    = String.valueOf(totalAmount);
-                        //Create ClientReferenceInformation
-                        ClientReferenceInformation clientReferenceInformation = new ClientReferenceInformation();
-                        clientReferenceInformation.code      = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
-                        clientReferenceInformation.channelId = mapSalesChannelMapping.get(mapFulfillOrder.get(request.fulfillmetOrderId).FulfilledToCountry);
+        for(List<SOM_CapturePaymentActionRequestWrapper> requestList:requests){
+            List<SOM_CapturePaymentActionResponseWrapper> responseWrapper = new List<SOM_CapturePaymentActionResponseWrapper>();
+            for(SOM_CapturePaymentActionRequestWrapper request:requestList){ 
+                SOM_CapturePaymentActionResponseWrapper response  = new SOM_CapturePaymentActionResponseWrapper();  
+                try {
+                    //check fulfillmentOrder
+                    if (mapFulfillOrdertems.get(request.fulfillmetOrderId) != null) {
+                        //Get Payment Authorization
+                        if (mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId) !=null) {
+                            //Get OrderItems
+                            FulfillmentOrderLineItem[] orderItems = mapFulfillOrdertems.get(request.fulfillmetOrderId);              
+                            PaymentRequest capturePaymentRequest  = new PaymentRequest();
+                            OrderInformation orderInformation     = new OrderInformation();
+                            //Create lineItems
+                            List<lineItem> lineItems = getLineItems(orderItems);
+                            Double totalAmount       = getTotalAmount(lineItems);
+                            //Create AmountDetails
+                            AmountDetails amountDetails   = new AmountDetails();
+                            amountDetails.amount_currency = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.CurrencyIsoCode;
+                            amountDetails.totalAmounts    = String.valueOf(totalAmount);
+                            //Create ClientReferenceInformation
+                            ClientReferenceInformation clientReferenceInformation = new ClientReferenceInformation();
+                            clientReferenceInformation.code      = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
+                            clientReferenceInformation.channelId = mapSalesChannelMapping.get(mapFulfillOrder.get(request.fulfillmetOrderId).FulfilledToCountry);
 
-                        orderInformation.amountDetails                   = amountDetails;
-                        orderInformation.lineItems                       = lineItems;
-                        capturePaymentRequest.clientReferenceInformation = clientReferenceInformation;
-                        capturePaymentRequest.orderInformation           = orderInformation;
-                        capturePaymentRequest.token                      = RimowaCapturePayment__c.getOrgDefaults().Token__c;
-                        capturePaymentRequest.authorizationDateTimeUtc   = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderedDate;
-                        capturePaymentRequest.omsOrderId                 = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
-                        //Payment info
-                        PaymentMethodInfo paymentMethodInfo  = getPaymentMethodCode(mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId));
-                        capturePaymentRequest.paymentMethod  = paymentMethodInfo.paymentMethodId;
-                        capturePaymentRequest.creditCardType = paymentMethodInfo.cardType;
-                        //Authorization info
-                        capturePaymentRequest.customerToken          = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).customerToken__c;
-                        capturePaymentRequest.paypalOrderRequestId   = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).orderRequestID__c;
-                        if (SOM_Constants.DIGITAL_WALLET_TYPE_PAYPAL.equalsIgnoreCase(paymentMethodInfo.type) || capturePaymentRequest.creditCardType == null) {
-                            capturePaymentRequest.authorizationRequestId = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).authorizationRequestId__c;
+                            orderInformation.amountDetails                   = amountDetails;
+                            orderInformation.lineItems                       = lineItems;
+                            capturePaymentRequest.clientReferenceInformation = clientReferenceInformation;
+                            capturePaymentRequest.orderInformation           = orderInformation;
+                            capturePaymentRequest.token                      = RimowaCapturePayment__c.getOrgDefaults().Token__c;
+                            capturePaymentRequest.authorizationDateTimeUtc   = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderedDate;
+                            capturePaymentRequest.omsOrderId                 = mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OrderNumber;
+                            //Payment info
+                            PaymentMethodInfo paymentMethodInfo  = getPaymentMethodCode(mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId));
+                            capturePaymentRequest.paymentMethod  = paymentMethodInfo.paymentMethodId;
+                            capturePaymentRequest.creditCardType = paymentMethodInfo.cardType;
+                            //Authorization info
+                            capturePaymentRequest.customerToken          = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).customerToken__c;
+                            capturePaymentRequest.paypalOrderRequestId   = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).orderRequestID__c;
+                            if (SOM_Constants.DIGITAL_WALLET_TYPE_PAYPAL.equalsIgnoreCase(paymentMethodInfo.type) || capturePaymentRequest.creditCardType == null) {
+                                capturePaymentRequest.authorizationRequestId = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).authorizationRequestId__c;
+                            } else {
+                                capturePaymentRequest.authorizationRequestId = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).GatewayRefNumber;
+                            } 
+                            //Generate json object
+                            JSONGenerator generator = JSON.createGenerator(true);
+                            generator.writeObject(capturePaymentRequest);
+                            String requestAsString = generator.getAsString();
+                            if (requestAsString != null) {
+                                requestAsString = requestAsString.replace(SOM_Constants.AMOUNT_CURRENCY, SOM_Constants.CAPTURE_CURRENCY_ATTRIBUTE);
+                            }
+                            //make http callout
+                            Http http = new Http();
+                            HttpRequest httpRequest = new HttpRequest();
+                            httpRequest.setEndpoint(SOM_Constants.CAPTURE_CALLOUT_ENDPOINT);
+                            httpRequest.setMethod('POST');
+                            httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
+                            httpRequest.setBody(requestAsString);
+                            HttpResponse httpResponse = http.send(httpRequest);
+                            if (httpResponse.getStatusCode() == 200) {
+                                //Read http response
+                                Map<String, Object> httpResponseMap = (Map<String, Object>)JSON.deserializeUntyped(httpResponse.getBody());
+                                response.settlementTransactionId = httpResponseMap.get('settlementTransactionId') != null ? String.valueOf(httpResponseMap.get('settlementTransactionId')) : null;
+                                response.decision                = String.valueOf(httpResponseMap.get('decision'));
+                                response.reasonCode              = Integer.valueOf(httpResponseMap.get('reasonCode'));
+                                response.reconciliationId        = httpResponseMap.get('reconciliationId') != null ? String.valueOf(httpResponseMap.get('reconciliationId')) : null;
+                                response.authorizationCode       = httpResponseMap.get('authorizationCode') != null ? String.valueOf(httpResponseMap.get('authorizationCode')) : null;
+                                response.amount                  = totalAmount;
+                                response.isSucces                = true;
+                                response.errorMessage            = httpResponseMap.get('errorDescription') != null ? String.valueOf(httpResponseMap.get('errorDescription')) : null;
+                                response.fulfillmentOrderId      = request.fulfillmetOrderId;
+                            } else {
+                                response.isSucces             = false;
+                                response.errorMessage         = 'The status code returned was not expected: ' + httpResponse.getStatusCode() + ' ' + httpResponse.getStatus();
+                                response.fulfillmentOrderId   = request.fulfillmetOrderId;
+                            }
                         } else {
-                            capturePaymentRequest.authorizationRequestId = mapPaymentAuthoriz.get(mapFulfillOrder.get(request.fulfillmetOrderId).OrderSummary.OriginalOrderId).GatewayRefNumber;
-                        } 
-                        //Generate json object
-                        JSONGenerator generator = JSON.createGenerator(true);
-                        generator.writeObject(capturePaymentRequest);
-                        String requestAsString = generator.getAsString();
-                        if (requestAsString != null) {
-                            requestAsString = requestAsString.replace(SOM_Constants.AMOUNT_CURRENCY, SOM_Constants.CAPTURE_CURRENCY_ATTRIBUTE);
-                        }
-                        //make http callout
-                        Http http = new Http();
-                        HttpRequest httpRequest = new HttpRequest();
-                        httpRequest.setEndpoint(SOM_Constants.CAPTURE_CALLOUT_ENDPOINT);
-                        httpRequest.setMethod('POST');
-                        httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
-                        httpRequest.setBody(requestAsString);
-                        HttpResponse httpResponse = http.send(httpRequest);
-                        if (httpResponse.getStatusCode() == 200) {
-                            //Read http response
-                            Map<String, Object> httpResponseMap = (Map<String, Object>)JSON.deserializeUntyped(httpResponse.getBody());
-                            response.settlementTransactionId = httpResponseMap.get('settlementTransactionId') != null ? String.valueOf(httpResponseMap.get('settlementTransactionId')) : null;
-                            response.decision                = String.valueOf(httpResponseMap.get('decision'));
-                            response.reasonCode              = Integer.valueOf(httpResponseMap.get('reasonCode'));
-                            response.reconciliationId        = httpResponseMap.get('reconciliationId') != null ? String.valueOf(httpResponseMap.get('reconciliationId')) : null;
-                            response.authorizationCode       = httpResponseMap.get('authorizationCode') != null ? String.valueOf(httpResponseMap.get('authorizationCode')) : null;
-                            response.amount                  = totalAmount;
-                            response.isSucces                = true;
-                            response.errorMessage            = httpResponseMap.get('errorDescription') != null ? String.valueOf(httpResponseMap.get('errorDescription')) : null;
-                        } else {
-                            response.isSucces     = false;
-                            response.errorMessage = 'The status code returned was not expected: ' + httpResponse.getStatusCode() + ' ' + httpResponse.getStatus();
+                            response.isSucces             = false;
+                            response.errorMessage         = 'Payment Authorization is empty, FulfillmentOrderId: ' + request.fulfillmetOrderId;
+                            response.fulfillmentOrderId   = request.fulfillmetOrderId;
                         }
                     } else {
-                        response.isSucces     = false;
-                        response.errorMessage = 'Payment Authorization is empty, FulfillmentOrderId: ' + request.fulfillmetOrderId;
+                        response.isSucces             = false;
+                        response.errorMessage         = 'Fulfilment Order is not valid: ' + request.fulfillmetOrderId;
+                        response.fulfillmentOrderId   = request.fulfillmetOrderId;
                     }
-                } else {
-                    response.isSucces     = false;
-                    response.errorMessage = 'Fulfilment Order is not valid: ' + request.fulfillmetOrderId;
+                } catch(Exception e) {
+                    response.isSucces             = false;
+                    response.errorMessage         = e.getMessage(); 
+                    response.fulfillmentOrderId   = request.fulfillmetOrderId; 
                 }
-            } catch(Exception e) {
-                response.isSucces     = false;
-                response.errorMessage = e.getMessage();   
+                responseWrapper.add(response);
             }
+            responseWrapperList.add(responseWrapper);
         }
-        responseWrapper.add(response);
         
-        return responseWrapper;
+        return responseWrapperList;
     }
 
     global static List<LineItem> getLineItems(FulfillmentOrderLineItem[] orderItems){
@@ -242,7 +251,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
 
     //capture payment action request
     global with sharing class CapturePaymentActionRequest{
-        @InvocableVariable(required=true)
+        @InvocableVariable(required=true) 
         global ID fulfillmetOrderId;
     }
 
