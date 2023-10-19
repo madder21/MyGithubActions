@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>OrderSummary.Invoices$Name</field>
+        <field>OrderSummary.CreditMemos*CreditMemo$DocumentNumber__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Name</field>
@@ -13,7 +13,7 @@
         <field>OrderSummary$Status</field>
     </columns>
     <columns>
-        <field>OrderSummary.Invoices$CreatedDate</field>
+        <field>OrderSummary.CreditMemos$CreatedDate</field>
     </columns>
     <columns>
         <field>OrderSummary$Tech_ShippingCountry__c</field>
@@ -34,49 +34,38 @@
         <field>OrderSummary$CurrencyIsoCode</field>
     </columns>
     <columns>
-        <field>OrderSummary.Invoices.InvoiceLines$Product2.StockKeepingUnit</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$Product2.StockKeepingUnit</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.Invoices.InvoiceLines$Quantity</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$ChargeAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.Invoices.InvoiceLines$GrossUnitPrice</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$AdjustmentAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.Invoices.InvoiceLines$ChargeAmount</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$TaxAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.Invoices.InvoiceLines$TaxAmount</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$TaxRate</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.Invoices.InvoiceLines$TaxRate</field>
-    </columns>
-    <columns>
-        <field>OrderSummary.Invoices.InvoiceLines$Type</field>
-    </columns>
-    <columns>
-        <field>OrderSummary$OriginalOrderSummary__c</field>
+        <field>OrderSummary.CreditMemos.CreditMemoLines$Type</field>
     </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
-            <column>OrderSummary.Invoices$CreatedDate</column>
+            <column>OrderSummary.CreditMemos.CreditMemoLines$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>3/1/2023 12:00 AM</value>
+            <value>10/5/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary.Invoices$CreatedDate</column>
+            <column>OrderSummary.CreditMemos.CreditMemoLines$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>3/23/2023 12:00 AM</value>
+            <value>10/13/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$SalesChannelName__c</column>
@@ -90,20 +79,22 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>AE</value>
+            <value>GB</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Sales Report Invoice UAE</name>
+    <name>Sales Report Credit Memo UK</name>
     <params>
         <name>co</name>
-        <value>0</value>
+        <value>1</value>
     </params>
-    <reportType>Order_Summary_with_Invoices_and_Invoice_Lines__c</reportType>
+    <reportType>Order_Summary_with_Credit_Memo_and_Lines__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <showGrandTotal>false</showGrandTotal>
     <showSubTotals>false</showSubTotals>
+    <sortColumn>OrderSummary.CreditMemos.CreditMemoLines$TaxAmount</sortColumn>
+    <sortOrder>Desc</sortOrder>
     <timeFrameFilter>
         <dateColumn>OrderSummary$CreatedDate</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

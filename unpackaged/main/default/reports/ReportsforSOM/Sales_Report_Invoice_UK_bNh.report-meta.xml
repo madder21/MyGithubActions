@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>OrderSummary.Invoices$Name</field>
+        <field>OrderSummary.Invoices*Invoice$DocumentNumber__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Name</field>
@@ -37,23 +37,18 @@
         <field>OrderSummary.Invoices.InvoiceLines$Product2.StockKeepingUnit</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.Invoices.InvoiceLines$Quantity</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.Invoices.InvoiceLines$GrossUnitPrice</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.Invoices.InvoiceLines$ChargeAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.Invoices.InvoiceLines$TaxAmount</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
         <field>OrderSummary.Invoices.InvoiceLines$TaxRate</field>
     </columns>
     <columns>
@@ -62,21 +57,21 @@
     <columns>
         <field>OrderSummary$OriginalOrderSummary__c</field>
     </columns>
-    <currency>EUR</currency>
+    <currency>GBP</currency>
     <filter>
         <criteriaItems>
             <column>OrderSummary.Invoices$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>3/1/2023 12:00 AM</value>
+            <value>9/1/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary.Invoices$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>3/23/2023 12:00 AM</value>
+            <value>10/31/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$SalesChannelName__c</column>
@@ -90,14 +85,14 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>AE</value>
+            <value>GB</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
-    <name>Sales Report Invoice UAE</name>
+    <name>Sales Report Invoice UK</name>
     <params>
         <name>co</name>
-        <value>0</value>
+        <value>1</value>
     </params>
     <reportType>Order_Summary_with_Invoices_and_Invoice_Lines__c</reportType>
     <scope>organization</scope>
