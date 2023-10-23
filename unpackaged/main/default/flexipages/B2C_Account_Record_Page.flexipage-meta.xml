@@ -93,7 +93,7 @@
                         <valueListItems>
                             <value>Account.Anonymization</value>
                             <visibilityRule>
-                                <booleanFilter>(1 AND 2) OR (1 AND 3)</booleanFilter>
+                                <booleanFilter>1 AND (2 OR 3)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.isPurged__c}</leftValue>
                                     <operator>EQUAL</operator>
