@@ -4,6 +4,8 @@
 	
 	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
 	<members>SOM_SalesPaymentsReportUKMonthSchedule</members>
+	<members>SOM_SalesPaymentsReportUKSchedule_Test</members>
+	<members>SOM_SalesPaymentUKMonthSchedule_Test</members>
 	<members>SOM_BatchAnonymization_1</members>
 	<members>SOM_BatchAnonymization_1_Test</members>
 	<members>SOM_BatchAnonymization_2</members>
@@ -19,6 +21,9 @@
 
 <types>
 	<members>SOM_Client_Anonymization</members>
+	<members>SOM_220_CoreModel_Create_FulfillementOrders</members>
+	<members>SOM_SERVICE_110_GetAvailability_Transform_FO_IR_into_Reservations</members>
+	<members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
 	<name>Flow</name>
 </types>
 
@@ -28,6 +33,7 @@
 	<members>PrivacyRequest__c.AnonymizationLog__c</members>
 	<members>PrivacyRequest__c.AccountId__c</members>
 	<members>Account.isPurged__c</members>
+	<members>Refund.reconciliationId__c</members>
 	<name>CustomField</name>
 </types>
 
@@ -39,6 +45,7 @@
 <types>
 	<members>B2C_Account_Record_Page</members>  
 	<members>Privacy_Request_Record_Page1</members> 
+	<members>Refund_Record_Page</members>
 	<name>FlexiPage</name>
 </types>
 
