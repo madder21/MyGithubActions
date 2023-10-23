@@ -4,20 +4,53 @@
 	
 	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
 	<members>SOM_SalesPaymentsReportUKMonthSchedule</members>
-	
+	<members>SOM_BatchAnonymization_1</members>
+	<members>SOM_BatchAnonymization_1_Test</members>
+	<members>SOM_BatchAnonymization_2</members>
+	<members>SOM_BatchAnonymization_2_Test</members>
+	<members>SOM_BatchAnonymization_3</members>
+	<members>SOM_BatchAnonymization_3_Test</members>
+	<members>SOM_BatchAnonymization_4</members>
+	<members>SOM_BatchAnonymization_4_Test</members>
+	<members>SOM_BatchAnonymization_5</members>
+	<members>SOM_BatchAnonymization_5_Test</members>
 	<name>ApexClass</name>
 </types>
 
+<types>
+	<members>SOM_Client_Anonymization</members>
+	<name>Flow</name>
+</types>
 
 <types>
-	<members>ReportsforSOM/Sales_Report_Credit_Memo_UK_vu7</members>
-	<members>ReportsforSOM/Sales_Report_Invoice_UK_bNh</members>
-	<members>ReportsforSOM/Payments_Report_UK_jiM</members> 
-	<members>ReportsforSOM/Return_Orders_Report_Finance_UK_Dvk</members>  
-	<members>ReportsforSOM/Shipments_Report_Finance_GB</members>  
-	<members>ReportsforSOM/Refunds_Report_UK_R41</members>
-	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
-	<name>Report</name>        
+	<members>PrivacyRequest__c.Status__c</members>
+	<members>PrivacyRequest__c.Application__c</members>
+	<members>PrivacyRequest__c.AnonymizationLog__c</members>
+	<members>PrivacyRequest__c.AccountId__c</members>
+	<members>Account.isPurged__c</members>
+	<name>CustomField</name>
+</types>
+
+<types>
+	<members>PrivacyRequest__c</members>
+	<name>CustomObject</name>
+</types>
+
+<types>
+	<members>B2C_Account_Record_Page</members>  
+	<members>Privacy_Request_Record_Page1</members> 
+	<name>FlexiPage</name>
+</types>
+
+<types>
+    <members>Account.Anonymization</members>
+    <name>QuickAction</name>
+</types>
+
+<types>
+    <members>Account-Account Layout</members>
+	<members>PrivacyRequest__c-Privacy Request Layout</members>
+    <name>Layout</name>
 </types>
 
 <version>54.0</version>
