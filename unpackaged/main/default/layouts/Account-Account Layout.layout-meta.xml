@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
+    <excludeButtons>DataDotComAccountInsights</excludeButtons>
+    <excludeButtons>DataDotComClean</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
     <excludeButtons>IncludeOffline</excludeButtons>
@@ -76,8 +77,8 @@
                 <field>Record_ID__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>nb_Client_Sources__c</field>
+                <behavior>Edit</behavior>
+                <field>isPurged__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -389,6 +390,10 @@
         <fields>LastModifiedBy</fields>
         <fields>Parent</fields>
         <relatedList>ContactPointEmail.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>PrivacyRequest__c.AccountId__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>
