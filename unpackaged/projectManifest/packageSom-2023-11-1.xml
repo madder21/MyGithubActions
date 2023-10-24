@@ -17,12 +17,25 @@
 	<members>SOM_SalesPaymentUKMonthSchedule_Test</members>
 	<members>SOM_Batch_StartFulfillmentProcess</members>
 	<members>SOM_Batch_StartFulfillmentProcess_Test</members>
+
+	<members>SOM_TransactionalEmailHandler</members>
+	<members>SOM_TransactionalEmailHandler_Test</members>
 	
+
 	<members>WS_SOM_CapturePaymentAction</members>
 	<members>SOM_StartFulfillmentProcessHelper</members>
+
+	<members>SOM_Batch_CustomerTokenDeletion</members>
+
+	<members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_USWeeklyReportSchedule_Test</members>
+	<members>SOM_USReportMonthSchedule</members>
+	<members>SOM_USReportMonthSchedule_Test</members>
+
 	<members>WS_SOM_AutomaticRefundInCybersource</members>
 	<members>WS_SOM_AutomaticRefundInCybersourceTest</members>
 	<members>SOM_Constants</members>
+
 	<name>ApexClass</name>
 </types>
 
@@ -30,6 +43,7 @@
 	<members>SOM_Client_Anonymization</members>
 	<members>SOM_Close_Return_Order</members>
 	<members>SOM_720_Refund_ManualValidateRefund</members>
+	<members>SOM_Cancel_Order_Summary</members>
 	<members>SOM_Automatic_refund_in_Cybersource</members>
 	<name>Flow</name>
 </types>
@@ -41,6 +55,7 @@
 	<members>PrivacyRequest__c.AccountId__c</members>
 	<members>Account.isPurged__c</members>
 	<members>Refund.reconciliationId__c</members>
+	<members>TransactionalEmail__c.LanguageSite__c</members>
 	<members>Refund.OrderPaymentSummaryType__c</members>
 	<name>CustomField</name>
 
@@ -54,14 +69,16 @@
 <types>
 	<members>B2C_Account_Record_Page</members>  
 	<members>Privacy_Request_Record_Page1</members>
+	<members>Privacy_Request_Record_Page1</members> 
 	<members>Refund_Record_Page</members> 
 	<name>FlexiPage</name>
 </types>
 
 <types>
     <members>Account.Anonymization</members>
-	<members>Refund.AutomaticRefund</members>
+	
 	<members>Refund.ValidateRefund</members>
+	<members>Refund.AutomaticRefund</members>
     <name>QuickAction</name>
 </types>
 
@@ -79,13 +96,18 @@
 	<members>ReportsforSOM/Return_Orders_Report_Finance_UK_Dvk</members>  
 	<members>ReportsforSOM/Shipments_Report_Finance_GB</members>  
 	<members>ReportsforSOM/Refunds_Report_UK_R41</members>
-	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
-	<name>Report</name>        
-</types>
 
-<types>
-	<members>Refunds</members>
-	<name>NamedCredential</name>
+	
+	<members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_GB</members>  
+
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_US</members>   
+	<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>   
+	<members>ReportsforSOM/Payments_Report_US</members>   
+	<members>ReportsforSOM/Shipments_Report_Finance_US</members>   
+	<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
+
+	<name>Report</name>        
 </types>
 
 <version>54.0</version>
