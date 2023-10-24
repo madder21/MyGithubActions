@@ -9,7 +9,7 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
         AutomaticRefundInCybersourceResponse response              = new AutomaticRefundInCybersourceResponse();
         Refund Ref = [select id, Amount from Refund where Id =: request.RefundId];
         try {
-            if (request.RefundMethod == 'CC'){
+            if (request.RefundMethod == SOM_Constants.REFUND_METHOD_CC){
                 
                 requestCC.url = request.url;
                 requestCC.merchantId = request.merchantId;
@@ -19,7 +19,7 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
                 requestCC.amount_currency = request.amount_currency;
                 requestCC.grandTotalAmount = String.valueOf(Ref.Amount);
                 requestCC.captureRequestID = request.captureRequestID;
-            }else if (request.apPaymentType == 'PPL'){
+            }else if (request.apPaymentType == SOM_Constants.REFUND_METHOD_PPL){
                 requestPPL.url = request.url;
                 requestPPL.merchantId = request.merchantId;
                 requestPPL.Password = request.Password;
@@ -29,7 +29,7 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
                 requestPPL.grandTotalAmount = String.valueOf(Ref.Amount);
                 requestPPL.refundRequestID = request.refundRequestID;
             }
-            else if (request.apPaymentType == 'KLI'){
+            else if (request.apPaymentType == SOM_Constants.REFUND_METHOD_KLI){
                 requestPPL.url = request.url;
                 requestPPL.merchantId = request.merchantId;
                 requestPPL.Password = request.Password;
@@ -49,8 +49,7 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
             //make http callout
             Http http = new Http();
             HttpRequest httpRequest = new HttpRequest();
-            httpRequest.setEndpoint(SOM_Constants.REFUND_CALLOUT_ENDPOINT);
-            //httpRequest.setEndpoint('callout:TEST/som-eapi/v1/customers/orders/refunds');
+            httpRequest.setEndpoint('callout:Refunds');
             httpRequest.setMethod('POST');
             httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
             //httpRequest.setHeader('client_id', 'd5b6364c170d4cd395f2ed8c7e66bd78');'{!$Credential.UserName}'

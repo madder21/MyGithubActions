@@ -4,7 +4,7 @@
         <name>Automatic_Refund_In_Cybersource</name>
         <label>Automatic Refund In Cybersource</label>
         <locationX>1162</locationX>
-        <locationY>813</locationY>
+        <locationY>687</locationY>
         <actionName>WS_SOM_AutomaticRefundInCybersource</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -14,7 +14,7 @@
         <inputParameters>
             <name>amount_currency</name>
             <value>
-                <elementReference>Get_Refund.CurrencyIsoCode</elementReference>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -26,7 +26,7 @@
         <inputParameters>
             <name>grandTotalAmount</name>
             <value>
-                <elementReference>Get_Refund.Amount</elementReference>
+                <elementReference>recordId.Amount</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -38,7 +38,7 @@
         <inputParameters>
             <name>merchantReferenceCode</name>
             <value>
-                <elementReference>Get_Refund.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
+                <elementReference>recordId.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -50,7 +50,7 @@
         <inputParameters>
             <name>RefundId</name>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordId.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -71,7 +71,7 @@
         <name>Automatic_Refund_In_Cybersource_0</name>
         <label>Automatic Refund In Cybersource</label>
         <locationX>1005</locationX>
-        <locationY>797</locationY>
+        <locationY>671</locationY>
         <actionName>WS_SOM_AutomaticRefundInCybersource</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -81,7 +81,7 @@
         <inputParameters>
             <name>amount_currency</name>
             <value>
-                <elementReference>Get_Refund.CurrencyIsoCode</elementReference>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -99,7 +99,7 @@
         <inputParameters>
             <name>grandTotalAmount</name>
             <value>
-                <elementReference>Get_Refund.Amount</elementReference>
+                <elementReference>recordId.Amount</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -111,7 +111,7 @@
         <inputParameters>
             <name>merchantReferenceCode</name>
             <value>
-                <elementReference>Get_Refund.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
+                <elementReference>recordId.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -123,7 +123,7 @@
         <inputParameters>
             <name>RefundId</name>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordId.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -150,7 +150,7 @@
         <name>Automatic_Refund_In_Cybersource_0_0</name>
         <label>Automatic Refund In Cybersource</label>
         <locationX>853</locationX>
-        <locationY>800</locationY>
+        <locationY>674</locationY>
         <actionName>WS_SOM_AutomaticRefundInCybersource</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -160,7 +160,7 @@
         <inputParameters>
             <name>amount_currency</name>
             <value>
-                <elementReference>Get_Refund.CurrencyIsoCode</elementReference>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -178,7 +178,7 @@
         <inputParameters>
             <name>grandTotalAmount</name>
             <value>
-                <elementReference>Get_Refund.Amount</elementReference>
+                <elementReference>recordId.Amount</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -190,7 +190,7 @@
         <inputParameters>
             <name>merchantReferenceCode</name>
             <value>
-                <elementReference>Get_Refund.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
+                <elementReference>recordId.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -202,7 +202,7 @@
         <inputParameters>
             <name>RefundId</name>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordId.Id</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -230,7 +230,7 @@
         <name>Set_Refund_Values_to_Update_CC</name>
         <label>Set Refund Values to Update CC</label>
         <locationX>1165</locationX>
-        <locationY>958</locationY>
+        <locationY>832</locationY>
         <assignmentItems>
             <assignToReference>RefundStatus</assignToReference>
             <operator>Assign</operator>
@@ -281,7 +281,7 @@
         <name>Set_Refund_Values_to_Update_KLI</name>
         <label>Set Refund Values to Update KLI</label>
         <locationX>851</locationX>
-        <locationY>963</locationY>
+        <locationY>837</locationY>
         <assignmentItems>
             <assignToReference>RefundStatus</assignToReference>
             <operator>Assign</operator>
@@ -332,7 +332,7 @@
         <name>Set_Refund_Values_to_Update_PPL</name>
         <label>Set Refund Values to Update PPL</label>
         <locationX>1011</locationX>
-        <locationY>932</locationY>
+        <locationY>806</locationY>
         <assignmentItems>
             <assignToReference>RefundStatus</assignToReference>
             <operator>Assign</operator>
@@ -380,49 +380,10 @@
         </connector>
     </assignments>
     <decisions>
-        <name>Check_Order_Payment_Summary_Type</name>
-        <label>Check Order Payment Summary Type</label>
-        <locationX>860</locationX>
-        <locationY>191</locationY>
-        <defaultConnector>
-            <targetReference>Screen1_0</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Type_Accepted</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>COD</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>Paid in Store</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>No Payment</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Screen1</targetReference>
-            </connector>
-            <label>Type Accepted</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Decision_after_Response</name>
         <label>Decision after Response</label>
         <locationX>1005</locationX>
-        <locationY>1105</locationY>
+        <locationY>979</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Accept</name>
@@ -459,7 +420,7 @@
         <name>Payment_Methode</name>
         <label>Payment Methode</label>
         <locationX>993</locationX>
-        <locationY>619</locationY>
+        <locationY>493</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>PM_Card</name>
@@ -524,8 +485,8 @@
     <decisions>
         <name>User_Decision</name>
         <label>User Decision</label>
-        <locationX>1058</locationX>
-        <locationY>195</locationY>
+        <locationX>567</locationX>
+        <locationY>341</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Confirm</name>
@@ -538,16 +499,11 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Payment</targetReference>
+                <targetReference>Get_Order_Payment_Summary</targetReference>
             </connector>
             <label>Confirm</label>
         </rules>
     </decisions>
-    <formulas>
-        <name>TYPE</name>
-        <dataType>String</dataType>
-        <expression>IF({!Get_Order_Payment_Summary.Type} == &apos;COD&apos;, &apos;Cash On Delivery&apos; , {!Get_Order_Payment_Summary.Type})</expression>
-    </formulas>
     <interviewLabel>SOM - Automatic refund in Cybersource {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Automatic refund in Cybersource</label>
     <processMetadataValues>
@@ -573,11 +529,11 @@
         <name>Create_PE</name>
         <label>Create PE</label>
         <locationX>863</locationX>
-        <locationY>1259</locationY>
+        <locationY>1133</locationY>
         <inputAssignments>
             <field>AttachedToId</field>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordId.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -599,7 +555,7 @@
         <name>Get_Cybersource_Config</name>
         <label>Get Cybersource Config</label>
         <locationX>1076</locationX>
-        <locationY>461</locationY>
+        <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Payment_Methode</targetReference>
@@ -619,18 +575,18 @@
     <recordLookups>
         <name>Get_Order_Payment_Summary</name>
         <label>Get Order Payment Summary</label>
-        <locationX>721</locationX>
-        <locationY>185</locationY>
+        <locationX>874</locationX>
+        <locationY>335</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Order_Payment_Summary_Type</targetReference>
+            <targetReference>Get_Payment</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>Get_Refund.OrderPaymentSummaryId</elementReference>
+                <elementReference>recordId.OrderPaymentSummaryId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -640,8 +596,8 @@
     <recordLookups>
         <name>Get_Payment</name>
         <label>Get Payment</label>
-        <locationX>1238</locationX>
-        <locationY>374</locationY>
+        <locationX>875</locationX>
+        <locationY>212</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Shipping_Country</targetReference>
@@ -659,31 +615,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Refund</name>
-        <label>Get Refund</label>
-        <locationX>562</locationX>
-        <locationY>186</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_Order_Payment_Summary</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Refund</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_Shipping_Country</name>
         <label>Get Shipping Country</label>
         <locationX>1071</locationX>
-        <locationY>336</locationY>
+        <locationY>210</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Cybersource_Config</targetReference>
@@ -704,13 +639,13 @@
         <name>Update_Refund</name>
         <label>Update Refund</label>
         <locationX>1161</locationX>
-        <locationY>1285</locationY>
+        <locationY>1159</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>recordId</elementReference>
+                <elementReference>recordId.Id</elementReference>
             </value>
         </filters>
         <inputAssignments>
@@ -748,8 +683,8 @@
     <screens>
         <name>Screen1</name>
         <label>Screen1</label>
-        <locationX>870</locationX>
-        <locationY>348</locationY>
+        <locationX>578</locationX>
+        <locationY>210</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -803,36 +738,21 @@
         <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
-    <screens>
-        <name>Screen1_0</name>
-        <label>Screen 2</label>
-        <locationX>932</locationX>
-        <locationY>50</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>DisplayText_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;❌ &lt;/strong&gt;&lt;strong style=&quot;color: rgb(0, 0, 0); font-size: 14px;&quot;&gt;You cannot refund this order with payment method&amp;nbsp;{!TYPE} &lt;/strong&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;❌&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
     <start>
-        <locationX>438</locationX>
-        <locationY>51</locationY>
+        <locationX>454</locationX>
+        <locationY>48</locationY>
         <connector>
-            <targetReference>Get_Refund</targetReference>
+            <targetReference>Screen1</targetReference>
         </connector>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <variables>
         <name>recordId</name>
-        <dataType>String</dataType>
+        <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+        <objectType>Refund</objectType>
     </variables>
     <variables>
         <name>RefundDecision</name>
