@@ -179,8 +179,8 @@
     <assignments>
         <name>Set_Reference_Number_0</name>
         <label>Set Reference Number</label>
-        <locationX>1343</locationX>
-        <locationY>28</locationY>
+        <locationX>1344</locationX>
+        <locationY>29</locationY>
         <assignmentItems>
             <assignToReference>v_SourceOrder.OrderReferenceNumber</assignToReference>
             <operator>Assign</operator>
@@ -195,7 +195,7 @@
     <assignments>
         <name>Set_Reference_Number_0_0</name>
         <label>Set Reference Number</label>
-        <locationX>1170</locationX>
+        <locationX>1169</locationX>
         <locationY>244</locationY>
         <assignmentItems>
             <assignToReference>v_SourceOrder.OrderReferenceNumber</assignToReference>
@@ -474,7 +474,7 @@
         <name>Create_Order</name>
         <label>Create Order</label>
         <locationX>1167</locationX>
-        <locationY>29</locationY>
+        <locationY>30</locationY>
         <assignRecordIdToReference>CreatedOrderId</assignRecordIdToReference>
         <connector>
             <targetReference>Assign_New_Order_Summary_Number_Output</targetReference>
@@ -615,6 +615,12 @@
             <field>captureAtShipment__c</field>
             <value>
                 <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>language__c</field>
+            <value>
+                <elementReference>v_SourceOrder.language__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
