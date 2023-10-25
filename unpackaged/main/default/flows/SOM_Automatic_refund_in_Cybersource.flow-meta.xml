@@ -548,6 +548,12 @@
                 <elementReference>RefundDecision</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>OrderSummaryId</field>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.OrderSummary.Id</elementReference>
+            </value>
+        </inputAssignments>
         <object>ProcessException</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
