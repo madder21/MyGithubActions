@@ -73,18 +73,18 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
                 clientsToBeUpdated.add(cli);
             }
             update clientsToBeUpdated;
-            String anonymLogToSend = string.valueof(ordNumbersToSend).replace('{', '').replace('}', '');
+            String anonymLogToSend = string.valueof(ordNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
             List<OrderSummary> nonAnomizedList = [SELECT Id, Status, OrderNumber FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
             List<String> nonAnonymOrdNumbers = new List<String>();
             for(OrderSummary ord : nonAnomizedList){
                 nonAnonymOrdNumbers.add(ord.OrderNumber);
             }
-            String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '');
-            sendEmail(currentUserEmail, anonymLogToSend, nonAnonymLogToSend);
+            String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
+            sendEmail(currentUserEmail, anonymLogToSend, nonAnonymLogToSend, clientsToBeUpdated[0].Id);
         } 
     }
 
-    public static void sendEmail(String emailUser, String orderNumbers, String nonAnonymOrderNumbers){
+    public static void sendEmail(String emailUser, String orderNumbers, String nonAnonymOrderNumbers, String AccountId){
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
         OrgWideEmailAddress owa = [SELECT id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' LIMIT 1];
         message.setOrgWideEmailAddressId(owa.id);
@@ -94,7 +94,7 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
         toAddresses.add(emailUser);
         message.setToAddresses(toAddresses);
         //message.setPlainTextBody(' Anonymized orders : '+orderNumbers);
-        message.setHtmlBody(' Anonymized orders : '+orderNumbers+'. <br/>'+' Non anonymized orders : '+nonAnonymOrderNumbers+'.');
+        message.setHtmlBody('Hello,<br/> <br/>'+'Please, find below the result of your anonymization request for the following account id : '+AccountId+'. <br/><br/> Anonymized orders : '+orderNumbers+'. <br/><br/>'+' The following orders were not anonymized as they are not in "Fulfilled" or "Canceled" status : '+nonAnonymOrderNumbers+'.<br/> <br/> Best regards,');
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] { message });
     }
 }
