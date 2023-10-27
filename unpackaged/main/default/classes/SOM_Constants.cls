@@ -151,4 +151,6 @@ global with sharing class SOM_Constants {
     public static final String  STRING_OPERATOR_ANONYMIZATION = 'XXXXXXXXXX';
     public static final String  EMAIL_OPERATOR_ANONYMIZATION = 'XXXXXXXXXX@XXX.XXX';
     public static final Integer INTEGER_OPERATOR_ANONYMIZATION = 999999999;
+
+    public static final String FULFILLMENT = 'Fulfillment';
 }

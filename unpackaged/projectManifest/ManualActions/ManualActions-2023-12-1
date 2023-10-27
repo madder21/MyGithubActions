@@ -1,0 +1,19 @@
+* Ticket : SOM-813 
+    - Make sure the value DinersClub was added to the picklist Card Payment method:CardType on DEV, INT and UAT.
+
+* Ticket : SOM-796
+    - OrderItem.giftMessage__c : Edit access for all profiles
+    - OrderItem.gift__c : Edit access for all profiles
+    - OrderItemSummary.giftMessage__c : Edit access for all profiles
+    - OrderItemSummary.gift__c : Edit access for all profiles
+
+
+* Ticket : SOM-834 
+    - Create a payment gateway provider record that points to the adapter class GatewayProviderAdapterClass on PROD.
+    - In Setup, define a named credential that contains the gateway provider’s authentication and login information.
+        The adapter class callout definition calls the named credential.
+        URL: https://www.salesforce.com/
+        Identity Type : Anonymous
+        Authentication Protocol : No Authentication
+    - To link the payment gateway provider record and the named credential, create a payment gateway record.
+    - It is already done on UAT, INT and DEV. 

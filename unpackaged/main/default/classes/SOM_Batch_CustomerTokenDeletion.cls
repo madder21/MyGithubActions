@@ -54,7 +54,7 @@ global with sharing class SOM_Batch_CustomerTokenDeletion implements Database.Ba
                 //Create http signature
                 String signatureHeaderValue = 'keyid="'+merchantKeyId+'"';
                 signatureHeaderValue += ', algorithm="HmacSHA256"';
-                signatureHeaderValue += ', headers="host date (request-target) v-c-merchant-id"';
+                signatureHeaderValue += ', headers="host date request-target v-c-merchant-id"';
                 signatureHeaderValue += ', signature="' + signatureEncodedBase64 + '"';
 
                 //Create http request
