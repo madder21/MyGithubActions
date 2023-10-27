@@ -4,13 +4,12 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
     global static List<AutomaticRefundInCybersourceResponse> AutomaticRefundInCybersource(List<AutomaticRefundInCybersourceRequest> requests){
         AutomaticRefundInCybersourceRequest request                = requests.get(0);
         AutomaticRefundInCybersourceCCRequest requestCC        = new AutomaticRefundInCybersourceCCRequest();
-        AutomaticRefundInCybersourcePPLRequest requestPPL        = new AutomaticRefundInCybersourcePPLRequest();
         List<AutomaticRefundInCybersourceResponse> responseWrapper = new List<AutomaticRefundInCybersourceResponse>();
         AutomaticRefundInCybersourceResponse response              = new AutomaticRefundInCybersourceResponse();
         Refund Ref = [select id, Amount from Refund where Id =: request.RefundId];
+        //Generate json object
+            JSONGenerator generator = JSON.createGenerator(true);
         try {
-            if (request.RefundMethod == SOM_Constants.REFUND_METHOD_CC){
-                
                 requestCC.url = request.url;
                 requestCC.merchantId = request.merchantId;
                 requestCC.Password = request.Password;
@@ -19,28 +18,6 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
                 requestCC.amount_currency = request.amount_currency;
                 requestCC.grandTotalAmount = String.valueOf(Ref.Amount);
                 requestCC.captureRequestID = request.captureRequestID;
-            }else if (request.apPaymentType == SOM_Constants.REFUND_METHOD_PPL){
-                requestPPL.url = request.url;
-                requestPPL.merchantId = request.merchantId;
-                requestPPL.Password = request.Password;
-                requestPPL.apPaymentType = request.apPaymentType;
-                requestPPL.merchantReferenceCode = request.merchantReferenceCode;
-                requestPPL.amount_currency = request.amount_currency;
-                requestPPL.grandTotalAmount = String.valueOf(Ref.Amount);
-                requestPPL.refundRequestID = request.refundRequestID;
-            }
-            else if (request.apPaymentType == SOM_Constants.REFUND_METHOD_KLI){
-                requestPPL.url = request.url;
-                requestPPL.merchantId = request.merchantId;
-                requestPPL.Password = request.Password;
-                requestPPL.apPaymentType = request.apPaymentType;
-                requestPPL.merchantReferenceCode = request.merchantReferenceCode;
-                requestPPL.amount_currency = request.amount_currency;
-                requestPPL.grandTotalAmount = String.valueOf(Ref.Amount);
-                requestPPL.refundRequestID = request.refundRequestID;
-            }
-            //Generate json object
-            JSONGenerator generator = JSON.createGenerator(true);
             generator.writeObject(requestCC);
             String requestAsString = generator.getAsString();
             if (requestAsString != null) {
@@ -102,44 +79,6 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
         public String                            captureRequestID;
     }
     
-    global with sharing class AutomaticRefundInCybersourcePPLRequest{
-        @InvocableVariable
-        public String                            url; 
-        @InvocableVariable
-        public String                            merchantId;
-        @InvocableVariable
-        public String                            Password;
-        @InvocableVariable
-        public String                            merchantReferenceCode;
-        @InvocableVariable
-        public String                            amount_currency; 
-        @InvocableVariable
-        public String                           grandTotalAmount;
-        @InvocableVariable
-        public String                            refundRequestID;
-        @InvocableVariable
-        public String                            apPaymentType;                
-    }
-    
-    global with sharing class AutomaticRefundInCybersourceKLIRequest{
-        @InvocableVariable
-        public String                            url; 
-        @InvocableVariable
-        public String                            merchantId;
-        @InvocableVariable
-        public String                            Password;
-        @InvocableVariable
-        public String                            merchantReferenceCode;
-        @InvocableVariable
-        public String                            amount_currency; 
-        @InvocableVariable
-        public String                           grandTotalAmount;
-        @InvocableVariable
-        public String                            refundRequestID;
-        @InvocableVariable
-        public String                            apPaymentType;                
-    }
-    
     global with sharing class AutomaticRefundInCybersourceRequest{
         @InvocableVariable
         public String                            url; 
@@ -157,10 +96,6 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
         public String                           grandTotalAmount;
         @InvocableVariable
         public String                            captureRequestID;
-        @InvocableVariable
-        public String                            refundRequestID;
-        @InvocableVariable
-        public String                            apPaymentType; 
         @InvocableVariable
         public String   						 RefundId;
     }

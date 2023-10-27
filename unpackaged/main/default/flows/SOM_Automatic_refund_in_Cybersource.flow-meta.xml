@@ -85,12 +85,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>apPaymentType</name>
-            <value>
-                <stringValue>PPL</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>captureRequestID</name>
             <value>
                 <elementReference>Get_Payment.GatewayRefNumber</elementReference>
@@ -129,13 +123,7 @@
         <inputParameters>
             <name>RefundMethod</name>
             <value>
-                <stringValue>CC</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>refundRequestID</name>
-            <value>
-                <elementReference>Get_Payment.GatewayRefNumber</elementReference>
+                <stringValue>PPL</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -164,12 +152,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>apPaymentType</name>
-            <value>
-                <stringValue>KLI</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
             <name>captureRequestID</name>
             <value>
                 <elementReference>Get_Payment.GatewayRefNumber</elementReference>
@@ -208,13 +190,7 @@
         <inputParameters>
             <name>RefundMethod</name>
             <value>
-                <stringValue>CC</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>refundRequestID</name>
-            <value>
-                <elementReference>Get_Payment.GatewayRefNumber</elementReference>
+                <stringValue>KLI</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -274,7 +250,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Decision_after_Response</targetReference>
+            <targetReference>Get_PE</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -325,7 +301,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Decision_after_Response</targetReference>
+            <targetReference>Get_PE</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -376,14 +352,39 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Decision_after_Response</targetReference>
+            <targetReference>Get_PE</targetReference>
         </connector>
     </assignments>
     <decisions>
+        <name>Create_Or_Update_PE</name>
+        <label>Create Or Update PE</label>
+        <locationX>877</locationX>
+        <locationY>1163</locationY>
+        <defaultConnector>
+            <targetReference>Screen1_0_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CreatePE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Refund_0</targetReference>
+            </connector>
+            <label>CreatePE</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Decision_after_Response</name>
         <label>Decision after Response</label>
-        <locationX>1005</locationX>
-        <locationY>979</locationY>
+        <locationX>1003</locationX>
+        <locationY>1214</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Accept</name>
@@ -411,7 +412,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Create_PE</targetReference>
+                <targetReference>Create_Or_Update_PE</targetReference>
             </connector>
             <label>Do Not Accept</label>
         </rules>
@@ -424,12 +425,26 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>PM_Card</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 OR ( 2 AND 3 )</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
                 <operator>StartsWith</operator>
                 <rightValue>
                     <stringValue>03O</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1DW</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>APPLE_PAY</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -483,6 +498,28 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Update_PE_0</name>
+        <label>Update PE</label>
+        <locationX>1394</locationX>
+        <locationY>1164</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>UpdatePE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_PE</targetReference>
+            </connector>
+            <label>UpdatePE</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>User_Decision</name>
         <label>User Decision</label>
         <locationX>567</locationX>
@@ -528,8 +565,11 @@
     <recordCreates>
         <name>Create_PE</name>
         <label>Create PE</label>
-        <locationX>863</locationX>
-        <locationY>1133</locationY>
+        <locationX>677</locationX>
+        <locationY>1093</locationY>
+        <connector>
+            <targetReference>Screen1_0_0</targetReference>
+        </connector>
         <inputAssignments>
             <field>AttachedToId</field>
             <value>
@@ -621,6 +661,48 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_PE</name>
+        <label>Get PE</label>
+        <locationX>1011</locationX>
+        <locationY>1023</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Decision_after_Response</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Refund</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.OrderSummary.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Shipping_Country</name>
         <label>Get Shipping Country</label>
         <locationX>1071</locationX>
@@ -642,10 +724,38 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_PE</name>
+        <label>Update PE</label>
+        <locationX>1555</locationX>
+        <locationY>1155</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.OrderSummary.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </inputAssignments>
+        <object>ProcessException</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_Refund</name>
         <label>Update Refund</label>
-        <locationX>1161</locationX>
-        <locationY>1159</locationY>
+        <locationX>1140</locationX>
+        <locationY>1162</locationY>
         <connector>
             <targetReference>Screen1_0</targetReference>
         </connector>
@@ -661,6 +771,12 @@
             <field>GatewayRefNumber</field>
             <value>
                 <elementReference>RefundGatewayRefNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PE_was_identified__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -685,6 +801,30 @@
             <field>reconciliationId__c</field>
             <value>
                 <elementReference>RefundReconciliationId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Refund</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Refund_0</name>
+        <label>Update Refund</label>
+        <locationX>795</locationX>
+        <locationY>1044</locationY>
+        <connector>
+            <targetReference>Create_PE</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>PE_was_identified__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <object>Refund</object>
@@ -750,14 +890,33 @@
     <screens>
         <name>Screen1_0</name>
         <label>Screen1</label>
-        <locationX>1155</locationX>
-        <locationY>1324</locationY>
+        <locationX>1278</locationX>
+        <locationY>1163</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Update_PE_0</targetReference>
+        </connector>
+        <fields>
+            <name>DisplayText_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The refund is successfuly done in Cybersource.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Screen1_0_0</name>
+        <label>Screen1</label>
+        <locationX>727</locationX>
+        <locationY>1268</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>DisplayText_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The refund is successfuly done in Cybersource.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>DisplayText_0_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;❌ &lt;/span&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;An error has occured when executing the refund. Please refer to the Process Exception created on the order summary. &lt;/strong&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;❌&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
