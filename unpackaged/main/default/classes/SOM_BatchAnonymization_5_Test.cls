@@ -28,6 +28,7 @@ public with sharing class SOM_BatchAnonymization_5_Test {
         ordNum.add(orderSu.OrderNumber);
         orderSummaryNumbers.put(accId, ordNum);
         List<String> cls = new List<String>();
+        cls.add(accId);
         Test.startTest();
         SOM_BatchAnonymization_5 nextBatch = new SOM_BatchAnonymization_5(paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
         database.executebatch(nextBatch);
