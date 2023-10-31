@@ -87,23 +87,6 @@
         <inputParameters>
             <name>captureRequestID</name>
             <value>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -123,7 +129,13 @@
-  
                 <elementReference>Get_Payment.GatewayRefNumber</elementReference>
             </value>
         </inputParameters>
@@ -144,23 +127,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -151,6 +163,12 @@
-  
             <name>url</name>
             <value>
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
@@ -188,23 +154,6 @@
         <inputParameters>
             <name>captureRequestID</name>
             <value>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -190,7 +208,13 @@
-  
                 <elementReference>Get_Payment.GatewayRefNumber</elementReference>
             </value>
         </inputParameters>
@@ -245,23 +194,6 @@
             </value>
         </inputParameters>
         <inputParameters>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -250,7 +274,7 @@
-  
             <name>url</name>
             <value>
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
@@ -322,23 +254,6 @@
         </connector>
     </assignments>
     <assignments>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -301,7 +325,7 @@
-  
         <name>Set_Refund_Values_to_Update_KLI</name>
         <label>Set Refund Values to Update KLI</label>
         <locationX>851</locationX>
@@ -390,23 +305,6 @@
         </connector>
     </assignments>
     <assignments>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -352,39 +376,14 @@
-  
         <name>Set_Refund_Values_to_Update_PPL</name>
         <label>Set Refund Values to Update PPL</label>
         <locationX>1011</locationX>
@@ -490,23 +388,6 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Accept</name>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -412,7 +411,7 @@
-  
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>RefundDecision</leftValueReference>
@@ -535,17 +416,6 @@
             </connector>
             <label>Do Not Accept</label>
         </rules>
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -425,28 +424,14 @@
-  
     </decisions>
     <decisions>
         <name>Payment_Methode</name>
@@ -580,23 +450,6 @@
             <connector>
                 <targetReference>Automatic_Refund_In_Cybersource</targetReference>
             </connector>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -497,28 +482,6 @@
-  
             <label>PM Card</label>
         </rules>
         <rules>
@@ -669,23 +522,6 @@
     <decisions>
         <name>User_Decision</name>
         <label>User Decision</label>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -565,11 +528,8 @@
-  
         <locationX>567</locationX>
         <locationY>341</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
@@ -737,17 +573,6 @@
         <inputAssignments>
             <field>AttachedToId</field>
             <value>
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -588,12 +548,6 @@
-  
                 <elementReference>recordId.Id</elementReference>
             </value>
         </inputAssignments>
@@ -772,23 +597,6 @@
         <object>ProcessException</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -660,48 +614,6 @@
-  
     <recordLookups>
         <name>Get_Cybersource_Config</name>
         <label>Get Cybersource Config</label>
@@ -897,17 +705,6 @@
     <recordLookups>
         <name>Get_Shipping_Country</name>
         <label>Get Shipping Country</label>
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -723,42 +635,11 @@
-  
         <locationX>1071</locationX>
         <locationY>210</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
@@ -965,17 +762,6 @@
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -773,12 +654,6 @@
-  
             <operator>EqualTo</operator>
             <value>
                 <elementReference>recordId.Id</elementReference>
@@ -996,17 +782,6 @@
         <inputAssignments>
             <field>RefundMethod__c</field>
             <value>
-
-    
-        
-          
-    
-
-        
-        Expand All
-    
-    @@ -805,30 +680,6 @@
-  
                 <elementReference>RefundRefundMethod</elementReference>
             </value>
         </inputAssignments>
@@ -1057,23 +832,6 @@
     <screens>
         <name>Screen1</name>
         <label>Screen1</label>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -887,41 +738,6 @@
-  
         <locationX>578</locationX>
         <locationY>210</locationY>
         <allowBack>false</allowBack>
@@ -1167,23 +925,6 @@
     <start>
         <locationX>454</locationX>
         <locationY>48</locationY>
-
-    
-          
-            
-    
-
-          
-          Expand Down
-          
-            
-    
-
-          
-          Expand Up
-    
-    @@ -980,4 +796,4 @@
-  
         <connector>
             <targetReference>Screen1</targetReference>
         </connector>
