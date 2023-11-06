@@ -4,8 +4,8 @@
     <decisions>
         <name>Refund_PE</name>
         <label>Refund PE</label>
-        <locationX>269</locationX>
-        <locationY>467</locationY>
+        <locationX>515</locationX>
+        <locationY>516</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Refund</name>
@@ -84,8 +84,8 @@
     <recordLookups>
         <name>Get_Refund_PE</name>
         <label>Get Refund PE</label>
-        <locationX>150</locationX>
-        <locationY>465</locationY>
+        <locationX>519</locationX>
+        <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Refund_PE</targetReference>
@@ -112,8 +112,11 @@
     <recordUpdates>
         <name>Update_PE_To_Ignored</name>
         <label>Update PE To Ignored</label>
-        <locationX>894</locationX>
-        <locationY>327</locationY>
+        <locationX>838</locationX>
+        <locationY>315</locationY>
+        <connector>
+            <targetReference>Get_Refund_PE</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -133,7 +136,7 @@
     <recordUpdates>
         <name>Update_PE_To_Resolved</name>
         <label>Update PE To Resolved</label>
-        <locationX>152</locationX>
+        <locationX>188</locationX>
         <locationY>321</locationY>
         <connector>
             <targetReference>Get_Refund_PE</targetReference>
@@ -157,8 +160,8 @@
     <recordUpdates>
         <name>Update_Refund</name>
         <label>Update Refund</label>
-        <locationX>430</locationX>
-        <locationY>470</locationY>
+        <locationX>528</locationX>
+        <locationY>675</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -178,8 +181,8 @@
     <screens>
         <name>Popup_Ignore_confirmation_0</name>
         <label>Popup Ignore confirmation</label>
-        <locationX>740</locationX>
-        <locationY>327</locationY>
+        <locationX>747</locationX>
+        <locationY>210</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -199,8 +202,8 @@
     <screens>
         <name>Popup_resolve_confirmation</name>
         <label>Popup resolve confirmation</label>
-        <locationX>296</locationX>
-        <locationY>321</locationY>
+        <locationX>281</locationX>
+        <locationY>211</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
