@@ -858,19 +858,12 @@
         <connector>
             <targetReference>Iterate_Over_Process_Exceptions</targetReference>
         </connector>
-        <filterLogic>1 AND 2 AND ( 3 OR 4 )</filterLogic>
+        <filterLogic>1 AND ( 2 OR 3 )</filterLogic>
         <filters>
             <field>OrderSummaryId</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>recordId.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Fulfillment</stringValue>
             </value>
         </filters>
         <filters>

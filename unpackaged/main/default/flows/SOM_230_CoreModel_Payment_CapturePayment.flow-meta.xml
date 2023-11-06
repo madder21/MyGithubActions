@@ -3,58 +3,118 @@
     <actionCalls>
         <name>Capture_Payment</name>
         <label>Capture Payment</label>
-        <locationX>584</locationX>
-        <locationY>275</locationY>
+        <locationX>376</locationX>
+        <locationY>280</locationY>
         <actionName>WS_SOM_CapturePaymentAction</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Get_Fulfillment_Order</targetReference>
+            <targetReference>Filter_Output_Collection</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>fulfillmetOrderId</name>
+            <name>requests</name>
             <value>
-                <elementReference>$Record.Fulfillment_Order_Id__c</elementReference>
+                <elementReference>C_Input_Collection</elementReference>
             </value>
         </inputParameters>
         <outputParameters>
-            <assignToReference>Amount</assignToReference>
-            <name>amount</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>authorizationCode</assignToReference>
-            <name>authorizationCode</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>decision</assignToReference>
-            <name>decision</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>Error_Message</assignToReference>
-            <name>errorMessage</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>Is_Success</assignToReference>
-            <name>isSucces</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>reasonCode</assignToReference>
-            <name>reasonCode</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>reconciliationId</assignToReference>
-            <name>reconciliationId</name>
-        </outputParameters>
-        <outputParameters>
-            <assignToReference>settlementTransactionId</assignToReference>
-            <name>settlementTransactionId</name>
+            <assignToReference>C_Output_Collection</assignToReference>
+            <name>output</name>
         </outputParameters>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
+        <name>Assign_Input_Collection</name>
+        <label>Assign Input Collection</label>
+        <locationX>176</locationX>
+        <locationY>280</locationY>
+        <assignmentItems>
+            <assignToReference>S_Input_Collection.fulfillmetOrderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Fulfillment_Order_Id__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Input_Collection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>S_Input_Collection</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Capture_Payment</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Output_Variables</name>
+        <label>Assign Output Variables</label>
+        <locationX>772</locationX>
+        <locationY>515</locationY>
+        <assignmentItems>
+            <assignToReference>settlementTransactionId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.settlementTransactionId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>decision</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.decision</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>reasonCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.reasonCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>authorizationCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.authorizationCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>reconciliationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.reconciliationId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Amount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.amount</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Is_Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.isSucces</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Error_Message</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Output_Action.errorMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Output_Action</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Capture_Authorization_Amount</name>
         <label>Set Capture Authorization Amount</label>
-        <locationX>1684</locationX>
+        <locationX>1947</locationX>
         <locationY>1090</locationY>
         <assignmentItems>
             <assignToReference>Amount</assignToReference>
@@ -70,7 +130,7 @@
     <assignments>
         <name>Set_Create_Process_Exception_To_False</name>
         <label>Set Create Process Exception To False</label>
-        <locationX>1519</locationX>
+        <locationX>1782</locationX>
         <locationY>271</locationY>
         <assignmentItems>
             <assignToReference>CreateProcessException</assignToReference>
@@ -86,7 +146,7 @@
     <assignments>
         <name>Set_Create_Process_Exception_To_True</name>
         <label>Set Create Process Exception To True</label>
-        <locationX>1114</locationX>
+        <locationX>1377</locationX>
         <locationY>519</locationY>
         <assignmentItems>
             <assignToReference>CreateProcessException</assignToReference>
@@ -102,7 +162,7 @@
     <assignments>
         <name>Set_Error_Message_Default_Value</name>
         <label>Set Error Message Default Value</label>
-        <locationX>1513</locationX>
+        <locationX>1776</locationX>
         <locationY>519</locationY>
         <assignmentItems>
             <assignToReference>Error_Message</assignToReference>
@@ -118,7 +178,7 @@
     <assignments>
         <name>Set_Fulfillment_Capture_Status_To_Error</name>
         <label>Set Fulfillment Capture Status To Error</label>
-        <locationX>975</locationX>
+        <locationX>1238</locationX>
         <locationY>518</locationY>
         <assignmentItems>
             <assignToReference>Get_Fulfillment_Order.Capture_Status__c</assignToReference>
@@ -134,7 +194,7 @@
     <assignments>
         <name>Set_Fulfillment_Order_Values</name>
         <label>Set Fulfillment Order Values</label>
-        <locationX>1183</locationX>
+        <locationX>1446</locationX>
         <locationY>271</locationY>
         <assignmentItems>
             <assignToReference>Get_Fulfillment_Order.Capture_Status__c</assignToReference>
@@ -157,7 +217,7 @@
     <assignments>
         <name>Set_Payment_Authorization_Code</name>
         <label>Set Payment Authorization Code</label>
-        <locationX>656</locationX>
+        <locationX>919</locationX>
         <locationY>1332</locationY>
         <assignmentItems>
             <assignToReference>Get_Payment_Authorization.GatewayAuthCode</assignToReference>
@@ -173,7 +233,7 @@
     <assignments>
         <name>Set_Payment_Reconciliation_Id</name>
         <label>Set Payment Reconciliation Id</label>
-        <locationX>948</locationX>
+        <locationX>1211</locationX>
         <locationY>1048</locationY>
         <assignmentItems>
             <assignToReference>PaymentCaptureRecord.reconciliationId__c</assignToReference>
@@ -189,7 +249,7 @@
     <assignments>
         <name>Set_Payment_Record_Values</name>
         <label>Set Payment Record Values</label>
-        <locationX>1481</locationX>
+        <locationX>1744</locationX>
         <locationY>1089</locationY>
         <assignmentItems>
             <assignToReference>PaymentCaptureRecord.AccountId</assignToReference>
@@ -275,7 +335,7 @@
     <assignments>
         <name>Set_Payment_Settlement_Transaction_Id</name>
         <label>Set Payment Settlement Transaction Id</label>
-        <locationX>158</locationX>
+        <locationX>421</locationX>
         <locationY>891</locationY>
         <assignmentItems>
             <assignToReference>PaymentCaptureRecord.GatewayRefNumber</assignToReference>
@@ -291,7 +351,7 @@
     <assignments>
         <name>Set_Payment_Status_Error_Fields</name>
         <label>Set Payment Status Error Fields</label>
-        <locationX>1666</locationX>
+        <locationX>1929</locationX>
         <locationY>385</locationY>
         <assignmentItems>
             <assignToReference>PaymentCaptureRecord.Status</assignToReference>
@@ -314,7 +374,7 @@
     <assignments>
         <name>Set_Payment_Status_To_Processed</name>
         <label>Set Payment Status To Processed</label>
-        <locationX>1369</locationX>
+        <locationX>1632</locationX>
         <locationY>271</locationY>
         <assignmentItems>
             <assignToReference>PaymentCaptureRecord.Status</assignToReference>
@@ -330,7 +390,7 @@
     <assignments>
         <name>Set_PE_To_Resolved</name>
         <label>Set PE To Resolved</label>
-        <locationX>1709</locationX>
+        <locationX>1972</locationX>
         <locationY>1683</locationY>
         <assignmentItems>
             <assignToReference>Get_Active_Process_Exception.Status</assignToReference>
@@ -346,7 +406,7 @@
     <assignments>
         <name>Set_Process_Exception_Message</name>
         <label>Set Process Exception Message + payment</label>
-        <locationX>1449</locationX>
+        <locationX>1712</locationX>
         <locationY>1543</locationY>
         <assignmentItems>
             <assignToReference>Get_Active_Process_Exception.Message</assignToReference>
@@ -369,7 +429,7 @@
     <assignments>
         <name>Set_Process_Exception_Values</name>
         <label>Set Process Exception Values</label>
-        <locationX>1329</locationX>
+        <locationX>1592</locationX>
         <locationY>1440</locationY>
         <assignmentItems>
             <assignToReference>ProcessExceptionRecord.AttachedToId</assignToReference>
@@ -424,6 +484,27 @@
             <targetReference>Create_Process_Exception</targetReference>
         </connector>
     </assignments>
+    <collectionProcessors>
+        <name>Filter_Output_Collection</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Output Collection</label>
+        <locationX>573</locationX>
+        <locationY>280</locationY>
+        <assignNextValueToReference>currentItem_Filter_Output_Collection</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>C_Output_Collection</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Output_Collection.fulfillmentOrderId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>$Record.Fulfillment_Order_Id__c</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Output_Action</targetReference>
+        </connector>
+    </collectionProcessors>
     <constants>
         <name>Capture_Decision_Accept</name>
         <dataType>String</dataType>
@@ -448,7 +529,7 @@
     <decisions>
         <name>Check_Authorization_Code_Response</name>
         <label>Check Authorization Code Response</label>
-        <locationX>314</locationX>
+        <locationX>577</locationX>
         <locationY>1336</locationY>
         <defaultConnector>
             <targetReference>Create_Payment_Record</targetReference>
@@ -473,7 +554,7 @@
     <decisions>
         <name>Check_Capture_Amount</name>
         <label>Check Capture Amount</label>
-        <locationX>1678</locationX>
+        <locationX>1941</locationX>
         <locationY>862</locationY>
         <defaultConnector>
             <targetReference>Set_Payment_Record_Values</targetReference>
@@ -498,7 +579,7 @@
     <decisions>
         <name>Check_Capture_Response</name>
         <label>Check Capture Response</label>
-        <locationX>967</locationX>
+        <locationX>1230</locationX>
         <locationY>276</locationY>
         <defaultConnector>
             <targetReference>Set_Fulfillment_Capture_Status_To_Error</targetReference>
@@ -537,7 +618,7 @@
     <decisions>
         <name>Check_Error_Message</name>
         <label>Check Error Message</label>
-        <locationX>1257</locationX>
+        <locationX>1520</locationX>
         <locationY>520</locationY>
         <defaultConnector>
             <targetReference>Set_Payment_Status_Error_Fields</targetReference>
@@ -562,7 +643,7 @@
     <decisions>
         <name>Check_if_active_Process_Exception_exist</name>
         <label>Check if active Process Exception exist</label>
-        <locationX>1691</locationX>
+        <locationX>1954</locationX>
         <locationY>1451</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
@@ -635,7 +716,7 @@
     <decisions>
         <name>Check_Reconciliation_Id_Response</name>
         <label>Check Reconciliation Id Response</label>
-        <locationX>1303</locationX>
+        <locationX>1566</locationX>
         <locationY>966</locationY>
         <defaultConnector>
             <targetReference>Check_Settlement_Transaction_Id_Response</targetReference>
@@ -660,7 +741,7 @@
     <decisions>
         <name>Check_Settlement_Transaction_Id_Response</name>
         <label>Check Settlement Transaction Id Response</label>
-        <locationX>403</locationX>
+        <locationX>666</locationX>
         <locationY>896</locationY>
         <defaultConnector>
             <targetReference>Check_Authorization_Code_Response</targetReference>
@@ -685,7 +766,7 @@
     <decisions>
         <name>FO_capture_error_exist</name>
         <label>FO capture error exist</label>
-        <locationX>2160</locationX>
+        <locationX>2423</locationX>
         <locationY>1261</locationY>
         <defaultConnector>
             <targetReference>Update_OS_Checkbox1</targetReference>
@@ -710,6 +791,20 @@
     <description>Simplify Decision Condition</description>
     <interviewLabel>SOM_230_CoreModel_Payment_CapturePayment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM_230_CoreModel_Payment_CapturePayment</label>
+    <loops>
+        <name>Loop_Over_Output_Action</name>
+        <label>Loop Over Output Action</label>
+        <locationX>771</locationX>
+        <locationY>280</locationY>
+        <collectionReference>Filter_Output_Collection</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Output_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Fulfillment_Order</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -732,7 +827,7 @@
     <recordCreates>
         <name>Create_Payment_Record</name>
         <label>Create Payment Record</label>
-        <locationX>1479</locationX>
+        <locationX>1742</locationX>
         <locationY>1253</locationY>
         <connector>
             <targetReference>Update_Fulfillment_Order</targetReference>
@@ -742,14 +837,14 @@
     <recordCreates>
         <name>Create_Process_Exception</name>
         <label>Create Process Exception</label>
-        <locationX>1199</locationX>
+        <locationX>1462</locationX>
         <locationY>1440</locationY>
         <inputReference>ProcessExceptionRecord</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_Active_Process_Exception</name>
         <label>Get Active Process Exception</label>
-        <locationX>1827</locationX>
+        <locationX>2090</locationX>
         <locationY>1449</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -786,7 +881,7 @@
     <recordLookups>
         <name>Get_FO_Capture_Error</name>
         <label>Get FO Capture Error</label>
-        <locationX>1845</locationX>
+        <locationX>2108</locationX>
         <locationY>1253</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -814,7 +909,7 @@
     <recordLookups>
         <name>Get_Fulfillment_Order</name>
         <label>Get Fulfillment Order</label>
-        <locationX>767</locationX>
+        <locationX>1030</locationX>
         <locationY>274</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -835,7 +930,7 @@
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1837</locationX>
+        <locationX>2100</locationX>
         <locationY>279</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -856,7 +951,7 @@
     <recordLookups>
         <name>Get_Payment_Authorization</name>
         <label>Get Payment Authorization</label>
-        <locationX>1686</locationX>
+        <locationX>1949</locationX>
         <locationY>682</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -879,7 +974,7 @@
     <recordLookups>
         <name>Get_Payment_Group</name>
         <label>Get Payment Group</label>
-        <locationX>1837</locationX>
+        <locationX>2100</locationX>
         <locationY>683</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -902,14 +997,14 @@
     <recordUpdates>
         <name>Update_Active_Process_Exception</name>
         <label>Update Active Process Exception</label>
-        <locationX>1290</locationX>
+        <locationX>1553</locationX>
         <locationY>1661</locationY>
         <inputReference>Get_Active_Process_Exception</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Fulfillment_Order</name>
         <label>Update Fulfillment Order</label>
-        <locationX>1694</locationX>
+        <locationX>1957</locationX>
         <locationY>1253</locationY>
         <connector>
             <targetReference>Get_FO_Capture_Error</targetReference>
@@ -919,7 +1014,7 @@
     <recordUpdates>
         <name>Update_OS_Checkbox</name>
         <label>Update OS Checkbox</label>
-        <locationX>2172</locationX>
+        <locationX>2435</locationX>
         <locationY>1451</locationY>
         <connector>
             <targetReference>Get_Active_Process_Exception</targetReference>
@@ -943,7 +1038,7 @@
     <recordUpdates>
         <name>Update_OS_Checkbox1</name>
         <label>Update OS Checkbox</label>
-        <locationX>1998</locationX>
+        <locationX>2261</locationX>
         <locationY>1351</locationY>
         <connector>
             <targetReference>Get_Active_Process_Exception</targetReference>
@@ -967,7 +1062,7 @@
     <recordUpdates>
         <name>Update_Payment_Authorization</name>
         <label>Update Payment Authorization</label>
-        <locationX>1085</locationX>
+        <locationX>1348</locationX>
         <locationY>1332</locationY>
         <connector>
             <targetReference>Create_Payment_Record</targetReference>
@@ -975,10 +1070,10 @@
         <inputReference>Get_Payment_Authorization</inputReference>
     </recordUpdates>
     <start>
-        <locationX>458</locationX>
-        <locationY>48</locationY>
+        <locationX>50</locationX>
+        <locationY>67</locationY>
         <connector>
-            <targetReference>Capture_Payment</targetReference>
+            <targetReference>Assign_Input_Collection</targetReference>
         </connector>
         <object>Order_Ready_For_Capture__e</object>
         <triggerType>PlatformEvent</triggerType>
@@ -1000,6 +1095,29 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>C_Id_Collection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Input_Collection</name>
+        <apexClass>SOM_CapturePaymentActionRequestWrapper</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Output_Collection</name>
+        <apexClass>SOM_CapturePaymentActionResponseWrapper</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>CaptureStatus</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1009,6 +1127,14 @@
     <variables>
         <name>CreateProcessException</name>
         <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Output_Collection</name>
+        <apexClass>SOM_CapturePaymentActionResponseWrapper</apexClass>
+        <dataType>Apex</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
@@ -1078,6 +1204,22 @@
     <variables>
         <name>reconciliationId</name>
         <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>S_Input_Collection</name>
+        <apexClass>SOM_CapturePaymentActionRequestWrapper</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>S_Output_Collection</name>
+        <apexClass>SOM_CapturePaymentActionResponseWrapper</apexClass>
+        <dataType>Apex</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>

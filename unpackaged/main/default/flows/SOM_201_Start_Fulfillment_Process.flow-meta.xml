@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>StartFulfillmentProcess</name>
+        <label>Start Fulfillment Process</label>
+        <locationX>588</locationX>
+        <locationY>432</locationY>
+        <actionName>SOM_callStartFulfillmentProcessBatch</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>orderSummaryIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <apiVersion>54.0</apiVersion>
     <constants>
         <name>SalesChanned_Cegid</name>
@@ -30,25 +45,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordCreates>
-        <name>Start_Fulfillment_Process</name>
-        <label>Start Fulfillment Process</label>
-        <locationX>584</locationX>
-        <locationY>434</locationY>
-        <inputAssignments>
-            <field>OrderSummaryId__c</field>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>Start_Fulfillment_Process__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
     <start>
         <locationX>459</locationX>
         <locationY>63</locationY>
         <connector>
-            <targetReference>Start_Fulfillment_Process</targetReference>
+            <targetReference>StartFulfillmentProcess</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>1 AND 2 AND (3 OR 4) AND 5</filterLogic>
@@ -89,13 +90,6 @@
         </filters>
         <object>OrderSummary</object>
         <recordTriggerType>Update</recordTriggerType>
-        <scheduledPaths>
-            <name>Run_0_Minute_After</name>
-            <label>Run 0 Minute After</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Minutes</offsetUnit>
-            <timeSource>RecordTriggerEvent</timeSource>
-        </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>

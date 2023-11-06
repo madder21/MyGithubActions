@@ -27,6 +27,13 @@
                 <elementReference>Get_OS_record.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>v_orderOutput.language__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_record.language__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Set_Initial_Data_for_ListItems_Screen</targetReference>
         </connector>
@@ -243,6 +250,13 @@
                 <elementReference>Get_RO.Id</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>v_orderOutput.language__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_from_RO.language__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Set_Initial_Data_for_ListItems_Screen</targetReference>
         </connector>
@@ -251,7 +265,7 @@
         <name>Set_Initial_Data_for_ListItems_Screen</name>
         <label>Set Initial Data for ListItems Screen</label>
         <locationX>522</locationX>
-        <locationY>840</locationY>
+        <locationY>841</locationY>
         <assignmentItems>
             <assignToReference>V_Input_CountryCode</assignToReference>
             <operator>Assign</operator>
@@ -283,7 +297,7 @@
         <name>Set_OS_id</name>
         <label>Set OS id</label>
         <locationX>940</locationX>
-        <locationY>421</locationY>
+        <locationY>422</locationY>
         <assignmentItems>
             <assignToReference>OsId</assignToReference>
             <operator>Assign</operator>
@@ -925,8 +939,8 @@
     <subflows>
         <name>Create_the_Order</name>
         <label>Create the Order</label>
-        <locationX>769</locationX>
-        <locationY>1514</locationY>
+        <locationX>770</locationX>
+        <locationY>1515</locationY>
         <connector>
             <targetReference>Get_OS_Newly_created</targetReference>
         </connector>
