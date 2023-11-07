@@ -93,8 +93,15 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
         list<string> toAddresses = new list<string>();
         toAddresses.add(emailUser);
         message.setToAddresses(toAddresses);
-        //message.setPlainTextBody(' Anonymized orders : '+orderNumbers);
-        message.setHtmlBody('Hello,<br/> <br/>'+'Please, find below the result of your anonymization request for the following account id : '+AccountId+'. <br/><br/> Anonymized orders : '+orderNumbers+'. <br/><br/>'+' The following orders were not anonymized as they are not in "Fulfilled" or "Canceled" status : '+nonAnonymOrderNumbers+'.<br/> <br/> Best regards,');
+        String bodyMessage = 'Hello,<br/> <br/>'+'Please, find below the result of your anonymization request for the following account id : '+AccountId+'.';
+        if(!String.isBlank(orderNumbers)){
+            bodyMessage += '<br/><br/> Anonymized orders : '+orderNumbers+'.';
+        }
+        if(!String.isBlank(nonAnonymOrderNumbers)){
+            bodyMessage += '<br/><br/>'+' The following orders were not anonymized as they are not in "Fulfilled" or "Canceled" status : '+nonAnonymOrderNumbers+'.';
+        }
+        bodyMessage += '<br/> <br/> Best regards, ';
+        message.setHtmlBody(bodyMessage);
         Messaging.sendEmail(new Messaging.SingleEmailMessage[] { message });
     }
 }
