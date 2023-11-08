@@ -10,8 +10,9 @@
         <members>OrderItem.gift__c</members>
         <members>OrderItemSummary.giftMessage__c</members>
         <members>OrderItemSummary.gift__c</members>
+        <members>Refund.OrderPaymentSummaryType__c</members>
+          <members>Refund.PE_was_identified__c</members>
         <name>CustomField</name>
-    
     </types>
 
     <types>
@@ -20,5 +21,30 @@
         <name>Layout</name>
     </types>
 
-	<version>54.0</version>
+    <types>
+        <members>SOM_810_Reship_Order_Flow</members>
+        <members>SOM_Automatic_refund_in_Cybersource</members>
+        <members>SOM_940_Resolve_Ignore_Process_Exception</members>
+        <name>Flow</name>
+    </types>
+
+    <types>
+        <members>WS_SOM_AutomaticRefundInCybersource</members>
+        <members>WS_SOM_AutomaticRefundInCybersourceTest</members>
+        <members>SOM_Constants</members>
+        <name>ApexClass</name>
+    </types>
+
+    <types>
+        <members>Refund_Record_Page</members> 
+        <name>FlexiPage</name>
+    </types>
+
+    <types>
+        <members>Refund.ValidateRefund</members>
+        <members>Refund.AutomaticRefund</members>
+        <name>QuickAction</name>
+    </types>
+
+<version>54.0</version>
 </Package>

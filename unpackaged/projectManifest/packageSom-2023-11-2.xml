@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-<types>
+    <types>
+		<members>SOM_SalesAndPaymentsReportSchedule</members>
+		<members>SOM_SalesAndPaymentsReportUKSchedule</members>
 	<members>WS_SOM_AutomaticRefundInCybersource</members>
 	<members>WS_SOM_AutomaticRefundInCybersourceTest</members>
 	<members>SOM_Constants</members>
+
+	<members>SOM_TransactionalEmailHandler</members>
+
+	<members>SOM_TransactionalEmailHandler_Test</members>
+
 
 	<name>ApexClass</name>
 </types>
@@ -12,13 +19,15 @@
 	<members>SOM_Automatic_refund_in_Cybersource</members>
 	<members>SOM_940_Resolve_Ignore_Process_Exception</members>
 	<members>SOM_720_Refund_ManualValidateRefund</members>
-
+	<members>SOM_110_CoreModel_Create_OrderSummary</members>
+	<members>SOM_460_Discount_Flow</members>
 	<name>Flow</name>
 </types>
 
 <types>
 	<members>Refund.OrderPaymentSummaryType__c</members>
 	<members>Refund.PE_was_identified__c</members>
+	<members>TransactionalEmail__c.LanguageSite__c</members>
 
 	<name>CustomField</name>
 
