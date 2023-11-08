@@ -22,7 +22,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                 // check if report is empty (without rows)
                 if(((Reports.ReportFactWithDetails)results?.getFactMap()?.get(SOM_Constants.TABULAR_REPORT_FACT_MAP_KEY))?.getRows()?.size() > 0){
                     String reportId = (String)singleReport.Id;
-                    String baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
+                    String baseUrl = URL.getOrgDomainUrl().toExternalForm();
                     ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
                     Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
                     attachment.setFileName('E-Commerce Payment Capture Errors - ' + country + '.csv');
