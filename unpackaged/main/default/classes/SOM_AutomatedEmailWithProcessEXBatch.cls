@@ -17,6 +17,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
         OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
         if (!ProcessExceptionRecords.isEmpty()){
             for(Report singleReport : reportList){
+                String country = singleReport.DeveloperName.right(2) == 'GB' ? 'UK' : singleReport.DeveloperName.right(2) ; 
                 Reports.ReportResults results = Reports.ReportManager.runReport(singleReport.Id, true);
                 // check if report is empty (without rows)
                 if(((Reports.ReportFactWithDetails)results?.getFactMap()?.get(SOM_Constants.TABULAR_REPORT_FACT_MAP_KEY))?.getRows()?.size() > 0){
@@ -24,7 +25,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                     String baseUrl = URL.getSalesforceBaseUrl().toExternalForm();
                     ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
                     Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-                    attachment.setFileName('report.csv');
+                    attachment.setFileName('E-Commerce Payment Capture Errors - ' + country + '.csv');
                     if(Test.isRunningTest()) { 
                         attachment.setBody(Blob.valueOf('EmailBody.Test'));
                     }else{
@@ -34,9 +35,9 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                     Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
                     message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
                     message.setOrgWideEmailAddressId(owa.id);
-                    String subject ='Report of Process Exceptions not resolved';
+                    String subject ='Report of Process Exceptions not resolved - ' + country;
                     message.setSubject(subject);
-                    message.setPlainTextBody(' Link to see the report : '+baseUrl+'/'+reportId);
+                    message.setPlainTextBody('Hello,' + '\n\n' +'Find attached payment capture errors report for '+country+'\n\n' + 'Best regards.');
                     String[] toAddresses = new list<string>();
                     toAddresses.addAll((reportsDeveloperNamesMap.get(singleReport.DeveloperName)).split(';'));
                     message.setToAddresses( toAddresses );
