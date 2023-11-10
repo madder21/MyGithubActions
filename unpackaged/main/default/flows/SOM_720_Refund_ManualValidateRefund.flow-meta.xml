@@ -128,6 +128,13 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Refund.RefundedBy__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Update_Refund</targetReference>
         </connector>
