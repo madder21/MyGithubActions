@@ -6,13 +6,14 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
     @future(callout=true)
     public static void weekExportTEST() {
 
-        DateTime previousMondayDate = (DateTime)System.Today().addDays(-7);
-        String previousMonday = previousMondayDate.format('MM/dd/YYYY');
+        date myDate = date.today();
+		DateTime weekStart = myDate.toStartofWeek().addDays(-7);
+        String previousMonday = weekStart.format('MM/dd/YYYY');
         
         OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
 
-        DateTime previousSundayDate = (DateTime)System.Today().addDays(-1);
-        String previousSunday = previousSundayDate.format('MM/dd/YYYY');
+        DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
+		String previousSunday = previousSundayDate.format('MM/dd/YYYY');
 
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
 
@@ -24,7 +25,7 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             List<Report> paymentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Payments_Report_US'];
             List<Report> shipmentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName = 'Shipments_Report_Finance_US'];
             List<Report> returnOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Return_Orders_Report_Finance_US'];
-            
+        	List<Report> refundOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Refunds_Report_US_79u'];
             
             
             String invoiceReportId = (String)invoiceRep.get(0).get('Id');
@@ -32,6 +33,7 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             String paymentReportId = (String)paymentRep.get(0).get('Id');
             String shipmentReportId = (String)shipmentRep.get(0).get('Id');
             String returnOrdersReportId = (String)returnOrdersRep.get(0).get('Id');
+        	String refundOrdersReportId = (String)refundOrdersRep.get(0).get('Id');
 
 
             String urlFilters = '?&pv0=' + previousMonday + '&pv1=' + previousSunday + '&csv=1&exp=1&enc=UTF-8&isdtp=p1';
@@ -43,6 +45,7 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             Messaging.EmailFileAttachment paymentAttachment    = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment shipmentAttachment    = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment returnOrdersAttachment    = new Messaging.EmailFileAttachment();
+        	Messaging.EmailFileAttachment refundOrdersAttachment    = new Messaging.EmailFileAttachment();
             
 
 
@@ -51,6 +54,7 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             ApexPages.PageReference paymentReport;
             ApexPages.PageReference shipmentReport;
             ApexPages.PageReference returnOrdersReport;
+        	ApexPages.PageReference refundOrdersReport;
 			
             
             if(!invoiceRep.isEmpty()){
@@ -73,6 +77,10 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
                     returnOrdersReport    = new ApexPages.PageReference('/'+returnOrdersReportId + urlFilters);
     
                 }
+        	if(!refundOrdersRep.isEmpty()){
+                    refundOrdersReport    = new ApexPages.PageReference('/'+refundOrdersReportId + urlFilters);
+    
+                }
 
             Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
             List<Messaging.EmailFileAttachment> attchs = new List<Messaging.EmailFileAttachment>();
@@ -83,39 +91,65 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
                 paymentAttachment.setBody(Blob.valueOf('UnitPayment.Test'));
                 shipmentAttachment.setBody(Blob.valueOf('Unitshipment.Test'));
                 returnOrdersAttachment.setBody(Blob.valueOf('UnitreturnOrders.Test'));
-            } 
-            else{
+                refundOrdersAttachment.setBody(Blob.valueOf('UnitrefundOrders.Test'));
+            }else{
+            if(!invoiceRep.isEmpty()){
+                invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
+            }
+            if(!creditMemoRep.isEmpty()){
+                creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
+            }
+            if(!paymentRep.isEmpty()){
+                paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
+            }
+            if(!shipmentRep.isEmpty()){
+                shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
+            }
+            if(!returnOrdersRep.isEmpty()){
+                returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
+            }
+            if(!refundOrdersRep.isEmpty()){
+                    refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
+            }
+        } 
+
                 if(!invoiceRep.isEmpty()){
                     invoiceAttachment.setFileName('Sales Invoice Report.csv');
-                    invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
+                    //invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
                     invoiceAttachment.setContentType('text/csv');
                     attchs.add(invoiceAttachment);
                 }
                 if(!creditMemoRep.isEmpty()){
                     creditMemoAttachment.setFileName('Sales Credit Memo Report.csv');
-                    creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
+                    //creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
                     creditMemoAttachment.setContentType('text/csv');
                     attchs.add(creditMemoAttachment);
                 }
                 if(!paymentRep.isEmpty()){
                     paymentAttachment.setFileName('Payment Report.csv');
-                    paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
+                    //paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
                     paymentAttachment.setContentType('text/csv');
                     attchs.add(paymentAttachment);
                 }
                 if(!shipmentRep.isEmpty()){
                     shipmentAttachment.setFileName('Shipment Report.csv');
-                    shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
+                    //shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
                     shipmentAttachment.setContentType('text/csv');
                     attchs.add(shipmentAttachment);
                 }
                 if(!returnOrdersRep.isEmpty()){
                     returnOrdersAttachment.setFileName('Return Orders Report.csv');
-                    returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
+                    //returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
                     returnOrdersAttachment.setContentType('text/csv');
                     attchs.add(returnOrdersAttachment);
                 }
-            } 
+                if(!refundOrdersRep.isEmpty()){
+                    refundOrdersAttachment.setFileName('Refund Orders Report.csv');
+                    //refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
+                    refundOrdersAttachment.setContentType('text/csv');
+                    attchs.add(refundOrdersAttachment);
+                }
+
 
             email.setFileAttachments(attchs);
             
