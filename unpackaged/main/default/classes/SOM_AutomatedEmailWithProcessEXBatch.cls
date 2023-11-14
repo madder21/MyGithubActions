@@ -37,7 +37,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                     message.setOrgWideEmailAddressId(owa.id);
                     String subject ='Report of Process Exceptions not resolved - ' + country;
                     message.setSubject(subject);
-                    message.setPlainTextBody('Hello,' + '\n\n' +'Find attached payment capture errors report for '+country+'.\n\n' + 'Best regards.');
+                    message.setPlainTextBody('Hello,' + '\n\n' +'Find attached payment capture errors report for '+country+'.\n\n' + 'Best regards,');
                     String[] toAddresses = new list<string>();
                     toAddresses.addAll((reportsDeveloperNamesMap.get(singleReport.DeveloperName)).split(';'));
                     message.setToAddresses( toAddresses );
