@@ -4,7 +4,7 @@
         <name>Generate_Refund_Validation_Transactional_Email</name>
         <label>Generate Refund Validation Transactional Email</label>
         <locationX>801</locationX>
-        <locationY>476</locationY>
+        <locationY>691</locationY>
         <actionName>SOM_TransactionalEmailHandler</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -28,7 +28,7 @@
         <name>Refund_Without_Credit_Memo_Email</name>
         <label>Refund Without Credit Memo Email</label>
         <locationX>1342</locationX>
-        <locationY>952</locationY>
+        <locationY>1167</locationY>
         <actionName>SOM_TransactionalEmailHandler</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -50,12 +50,28 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
-        <name>Display_Error_message</name>
-        <label>Display Error message</label>
-        <locationX>1056</locationX>
-        <locationY>262</locationY>
+        <name>Display_Error_message_Gat_Ref_Num</name>
+        <label>Display Error message Gat Ref Num</label>
+        <locationX>952</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
-            <assignToReference>Is_Error_Message</assignToReference>
+            <assignToReference>Is_Error_Message_Ref_Num</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GatewayReferenceNumberAndpaymentMethodScreen</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Display_Error_message_Reconciliation_Id</name>
+        <label>Display Error message Reconciliation Id</label>
+        <locationX>947</locationX>
+        <locationY>81</locationY>
+        <assignmentItems>
+            <assignToReference>Is_Error_Message_ReconciliationId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>true</booleanValue>
@@ -68,8 +84,8 @@
     <assignments>
         <name>Refund_Fields_Assignement</name>
         <label>Refund Fields Assignement</label>
-        <locationX>1210</locationX>
-        <locationY>255</locationY>
+        <locationX>1213</locationX>
+        <locationY>478</locationY>
         <assignmentItems>
             <assignToReference>Get_Refund.GatewayRefNumber</assignToReference>
             <operator>Assign</operator>
@@ -98,6 +114,27 @@
                 <elementReference>$Flow.CurrentDateTime</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Refund.reconciliationId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Reconciliation_Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Refund.PE_was_identified__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Refund.RefundedBy__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Update_Refund</targetReference>
         </connector>
@@ -120,7 +157,7 @@
         <name>Check_No_Payment</name>
         <label>Check_No_Payment</label>
         <locationX>1395</locationX>
-        <locationY>485</locationY>
+        <locationY>700</locationY>
         <defaultConnector>
             <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
         </defaultConnector>
@@ -142,10 +179,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_PE</name>
+        <label>Check PE</label>
+        <locationX>1629</locationX>
+        <locationY>623</locationY>
+        <defaultConnector>
+            <targetReference>Check_No_Payment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PE_not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_PE</targetReference>
+            </connector>
+            <label>PE not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Refund_Origin</name>
         <label>Check Refund Origin</label>
         <locationX>317</locationX>
-        <locationY>946</locationY>
+        <locationY>1161</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Partial_Cancelation</name>
@@ -173,8 +235,8 @@
     <decisions>
         <name>Check_Refund_Origin_to_Launch_Email</name>
         <label>Check Refund Origin to Launch Email</label>
-        <locationX>1019</locationX>
-        <locationY>414</locationY>
+        <locationX>1028</locationX>
+        <locationY>694</locationY>
         <defaultConnector>
             <targetReference>Refund_Without_Credit_Memo_Email</targetReference>
         </defaultConnector>
@@ -203,16 +265,16 @@
         </rules>
     </decisions>
     <decisions>
-        <name>If_Gateway_Reference_Number_is_emty</name>
-        <label>If Gateway Reference Number is emty</label>
-        <locationX>1043</locationX>
-        <locationY>89</locationY>
+        <name>If_one_input_is_emty</name>
+        <label>If one input is emty</label>
+        <locationX>1045</locationX>
+        <locationY>278</locationY>
         <defaultConnector>
             <targetReference>Refund_Fields_Assignement</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Empty</name>
+            <name>Gat_Ref_Num_Empty</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>GatewayReferenceNumber</leftValueReference>
@@ -229,9 +291,31 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Display_Error_message</targetReference>
+                <targetReference>Display_Error_message_Gat_Ref_Num</targetReference>
             </connector>
-            <label>Empty</label>
+            <label>Gat Ref Num Empty</label>
+        </rules>
+        <rules>
+            <name>Reconciliation_Id_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RefundMethod</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>No Payment</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Reconciliation_Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Display_Error_message_Reconciliation_Id</targetReference>
+            </connector>
+            <label>Reconciliation Id Empty</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -242,7 +326,6 @@
         <picklistField>RefundMethod__c</picklistField>
         <picklistObject>Refund</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <interviewLabel>SOM 720 Refund ManualValidateRefund {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 720 Refund ManualValidateRefund</label>
     <processMetadataValues>
@@ -268,7 +351,7 @@
         <name>Create_Refund_Line_Payment</name>
         <label>Create Refund Line Payment</label>
         <locationX>966</locationX>
-        <locationY>1186</locationY>
+        <locationY>1401</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Linked_To_refund</targetReference>
         </connector>
@@ -315,7 +398,7 @@
         <name>Publish_Partial_Cancelation_Event</name>
         <label>Publish Partial Cancelation Event</label>
         <locationX>22</locationX>
-        <locationY>939</locationY>
+        <locationY>1154</locationY>
         <inputAssignments>
             <field>RefundId__c</field>
             <value>
@@ -329,7 +412,7 @@
         <name>Get_Credit_Memo_Linked_To_refund</name>
         <label>Get Credit Memo Linked To refund</label>
         <locationX>543</locationX>
-        <locationY>935</locationY>
+        <locationY>1150</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Refund_Origin</targetReference>
@@ -351,7 +434,7 @@
         <name>Get_Payment_from_PaymentMethod</name>
         <label>Get Payment from PaymentMethod</label>
         <locationX>959</locationX>
-        <locationY>893</locationY>
+        <locationY>1108</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Refund_Line_Payment</targetReference>
@@ -381,7 +464,7 @@
         <name>Get_Payment_Method</name>
         <label>Get Payment Method</label>
         <locationX>956</locationX>
-        <locationY>735</locationY>
+        <locationY>950</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Payment_from_PaymentMethod</targetReference>
@@ -401,10 +484,52 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_PE</name>
+        <label>Get PE</label>
+        <locationX>1638</locationX>
+        <locationY>478</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_PE</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Refund</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Refund.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Refund.OrderPaymentSummary.OrderSummary.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Refund</name>
         <label>Get Refund</label>
-        <locationX>619</locationX>
-        <locationY>254</locationY>
+        <locationX>622</locationX>
+        <locationY>276</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GatewayReferenceNumberAndpaymentMethodScreen</targetReference>
@@ -422,12 +547,43 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
-        <name>Update_Refund</name>
-        <label>Update Refund</label>
-        <locationX>1342</locationX>
-        <locationY>254</locationY>
+        <name>Update_PE</name>
+        <label>Update PE</label>
+        <locationX>1636</locationX>
+        <locationY>818</locationY>
         <connector>
             <targetReference>Check_No_Payment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Refund.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Refund.OrderPaymentSummary.OrderSummary.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </inputAssignments>
+        <object>ProcessException</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Refund</name>
+        <label>Update Refund</label>
+        <locationX>1403</locationX>
+        <locationY>478</locationY>
+        <connector>
+            <targetReference>Get_PE</targetReference>
         </connector>
         <inputReference>Get_Refund</inputReference>
     </recordUpdates>
@@ -435,13 +591,13 @@
     <screens>
         <name>GatewayReferenceNumberAndpaymentMethodScreen</name>
         <label>Refund Validation</label>
-        <locationX>833</locationX>
-        <locationY>254</locationY>
+        <locationX>838</locationX>
+        <locationY>276</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>If_Gateway_Reference_Number_is_emty</targetReference>
+            <targetReference>If_one_input_is_emty</targetReference>
         </connector>
         <fields>
             <name>GatewayReferenceNumber</name>
@@ -467,7 +623,51 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
-                    <leftValueReference>Is_Error_Message</leftValueReference>
+                    <leftValueReference>Is_Error_Message_Ref_Num</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>No Payment</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>EqualTo</operator>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Reconciliation_Id</name>
+            <dataType>String</dataType>
+            <fieldText>Reconciliation Id</fieldText>
+            <fieldType>InputField</fieldType>
+            <helpText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Transaction Reference Number on the Credit transaction in Cybersource EBC.&lt;/span&gt;&lt;/p&gt;</helpText>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>RefundMethod</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>No Payment</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Reconciliation_Id_ErrorMessage</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; color: rgb(228, 17, 17);&quot;&gt;Reconciliation Id is missing&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Is_Error_Message_ReconciliationId</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
@@ -499,15 +699,22 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>493</locationX>
-        <locationY>91</locationY>
+        <locationX>497</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>Get_Refund</targetReference>
         </connector>
     </start>
     <status>Active</status>
     <variables>
-        <name>Is_Error_Message</name>
+        <name>Is_Error_Message_ReconciliationId</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Is_Error_Message_Ref_Num</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

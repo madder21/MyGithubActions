@@ -41,7 +41,6 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
         Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
-
         Map<Id, Shipment> ships = SOM_testDataFactory.createShipments(mapIDFO);
         Set<Id> shipIds = ships.keySet();
         List<String> strShipIds = (List<String>)JSON.deserialize(JSON.serialize(shipIds), List<String>.class);
@@ -168,7 +167,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
-        List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
+        List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId, OrderSummary.BillingCountry,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
         FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
         FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
                     (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
@@ -184,7 +183,6 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         sIds.addAll(inv.keySet());
         sIds.addAll(cinv.keySet());
         Set<String> lIds = (Set<String>)JSON.deserialize(JSON.serialize(sIds), Set<String>.class);
-   
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>();
 
         Test.startTest();

@@ -297,6 +297,13 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary_Object.CurrencyIsoCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>C_Fulfillment_Order_Line_Item_To_Create</assignToReference>
             <operator>Add</operator>
             <value>
@@ -443,6 +450,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>L60_FulfillItems_Outer_Loop.locationType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary_Object.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
