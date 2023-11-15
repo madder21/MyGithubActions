@@ -1,0 +1,30 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body style="height: auto; min-height: auto;"><span style="font-size:14px;"><span style="font-family:Arial,Helvetica,sans-serif;"><u>Recap:</u><br />
+[Write a recap of the case, incl. information in child cases].<br />
+<br />
+<u>Action to take:</u><br />
+[specify any open clarifications to be done with client or actions to take]<br />
+<br />
+<u>Client details:</u><br />
+Name: {{{Case.FirstName__c}}}&nbsp;{{{Case.LastName__c}}}<br />
+Email: {{{Case.PersonEmail}}}<br />
+Phone:&nbsp;{{{Case.Phone__c}}}<br />
+Client segment:&nbsp;{{{Case.TECH_CurrentCluster__c}}}<br />
+<br />
+Client language: {{{Case.CaseLanguage__c}}}<br />
+<br />
+Contact channel:&nbsp;{{{Case.Origin}}}<br />
+Request date: {{{Case.CreatedDate}}}<br />
+<br />
+<u>Request body:</u><br />
+{{{Case.CommentBody__c}}}<br />
+<br />
+Attachments: [indicate YES or NO]<br />
+<br />
+Thank you for taking over.<br />
+<br />
+Best regards,</span></span></body>
+</html>
