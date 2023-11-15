@@ -786,6 +786,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>RefundedBy__c</field>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>RefundStatus</elementReference>
