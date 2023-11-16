@@ -64,7 +64,7 @@ public without sharing class SOM_TransactionalEmailHandler {
                 shipmentDetails.accountId      = ship.FulfillmentOrder.OrderSummary.AccountId;
                 shipmentDetails.deliveryCount  = ship.FulfillmentOrder.FulfilledToCountry;
                 //shipmentDetails.lang  		   = ship.FulfillmentOrder.OrderSummary.language__c;
-                shipmentDetails.lang  		   = ship.FulfillmentOrder.OrderSummary.language__c != null ? ship.FulfillmentOrder.OrderSummary.language__c : generateLanguageSiteLabel(ship.FulfillmentOrder.FulfilledToCountry);
+                //shipmentDetails.lang  		   = ship.FulfillmentOrder.OrderSummary.language__c != null ? ship.FulfillmentOrder.OrderSummary.language__c : generateLanguageSiteLabel(ship.FulfillmentOrder.FulfilledToCountry);
                 shipmentDetailsByFOId.put(ship.FulfillmentOrderId, shipmentDetails);
             }
             if (shipmentConfirmationTemplateContentsMap.containsKey(ship.FulfillmentOrderId) && (!trackingNumberByFOId?.get(ship.FulfillmentOrderId).contains(ship.TrackingNumber))) {
@@ -82,7 +82,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             shipmentConfirmationTemplateContent.deliveryStreet     = ship.ShipToStreet;
             shipmentConfirmationTemplateContent.deliveryCity       = ship.ShipToCity;
             //shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.ShipToCountry); 
-            shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(shipmentDetailsByFOId.get(ship.fulfillmentOrderId).lang, ship.ShipToCountry); 
+            shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.FulfillmentOrder.OrderSummary.language__c, ship.ShipToCountry); 
             shipmentConfirmationTemplateContent.deliveryName       = ship.shipToName;
             shipmentConfirmationTemplateContent.deliveryPostalCode = ship.ShipToPostalCode;
             shipmentConfirmationTemplateContent.deliveryState      = ship.ShipToState;
@@ -106,7 +106,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             shipmentTransactionalEmail.EmailContent__c = JSON.serializePretty(shipmentConfirmationTemplateContentsMap.get(fulfillmentOrderId), true);
             shipmentTransactionalEmail.Email__c        = emailOfClient;
             shipmentTransactionalEmail.CountrySite__c  = shipmentDetailsByFOId.get(fulfillmentOrderId).deliveryCount;
-            shipmentTransactionalEmail.LanguageSite__c  = shipmentDetailsByFOId.get(fulfillmentOrderId).lang;
+            //shipmentTransactionalEmail.LanguageSite__c  = shipmentDetailsByFOId.get(fulfillmentOrderId).lang;
             shipmentTransactionalEmailsList.add(shipmentTransactionalEmail);
         }
         
@@ -165,8 +165,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTemplateContent.billingState     = fullOrder.OrderSummary.BillingState;
             //invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.BillingCountry);
             //ship.FulfillmentOrder.OrderSummary.language__c != null ? ship.FulfillmentOrder.OrderSummary.language__c : generateLanguageSiteLabel(ship.FulfillmentOrder.FulfilledToCountry);
-            invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.language__c != null ? fullOrder.OrderSummary.language__c : generateLanguageSiteLabel(fullOrder.OrderSummary.BillingCountry) , 
-                                                                                  fullOrder.OrderSummary.BillingCountry);
+            invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.language__c  , fullOrder.OrderSummary.BillingCountry);
             invoiceTemplateContent.billingStreet    = fullOrder.OrderSummary.BillingStreet;
             invoiceTemplateContent.billingZipcode   = fullOrder.OrderSummary.BillingPostalCode;
             invoiceTemplateContent.deliveryName     = fullOrder.FulfilledToName;
@@ -174,8 +173,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTemplateContent.deliveryState    = fullOrder.FulfilledToState;
             invoiceTemplateContent.deliveryZipcode  = fullOrder.FulfilledToPostalCode;
             //invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.FulfilledToCountry);
-            invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.OrderSummary.language__c != null ? fullOrder.OrderSummary.language__c : generateLanguageSiteLabel(fullOrder.FulfilledToCountry), 
-                                                                                  fullOrder.FulfilledToCountry);
+            invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.OrderSummary.language__c , fullOrder.FulfilledToCountry);
             invoiceTemplateContent.deliveryStreet   = fullOrder.FulfilledToStreet;
             invoiceTemplateContent.invoiceAmount    = fullOrder.Invoice.TotalAmountWithTax;
             invoiceTemplateContent.invoiceCurrency  = fullOrder.Invoice.CurrencyIsoCode;
@@ -191,7 +189,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTransactionalEmail.EmailContent__c = JSON.serializePretty(invoiceTemplateContent, true);
             invoiceTransactionalEmail.Email__c        = fullOrder.OrderSummary.BillingEmailAddress;
             invoiceTransactionalEmail.CountrySite__c  = fullOrder.FulfilledToCountry;
-            invoiceTransactionalEmail.LanguageSite__c = fullOrder.OrderSummary.language__c != null ? fullOrder.OrderSummary.language__c : generateLanguageSiteLabel(fullOrder.FulfilledToCountry);
+            //invoiceTransactionalEmail.LanguageSite__c = fullOrder.OrderSummary.language__c != null ? fullOrder.OrderSummary.language__c : generateLanguageSiteLabel(fullOrder.FulfilledToCountry);
             
             invoiceTransactionalEmailsList.add(invoiceTransactionalEmail);
         }
@@ -211,7 +209,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
-                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
+                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
                                               FROM OrderItemSummaries ORDER BY LineNumber ASC),
                                              (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
                                               FROM OrderDeliveryGroupSummaries)
@@ -221,8 +219,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             SOM_OrderConfirmationTemplateContent orderTemplateContent = new SOM_OrderConfirmationTemplateContent();
             orderTemplateContent.billingCity      = orderSumm.BillingCity;
             //orderTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.BillingCountry);
-            orderTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.BillingCountry),
-                                                                                orderSumm.BillingCountry);
+            orderTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c , orderSumm.BillingCountry);
             orderTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
             orderTemplateContent.billingLastName  = orderSumm.BillingContactLastName__c;
             orderTemplateContent.billingStreet    = orderSumm.BillingStreet;
@@ -252,8 +249,7 @@ orderTemplateContent.orderType		  = 'Ecom';
             if(!orderSumm.OrderDeliveryGroupSummaries?.isEmpty()){
                 orderTemplateContent.deliveryCity    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCity;
                 //orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
-                orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry), 
-                                                                                   orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
+                orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.language__c , orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 orderTemplateContent.deliveryName    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
                 orderTemplateContent.deliveryStreet  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 orderTemplateContent.deliveryZipcode = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -285,7 +281,9 @@ orderTemplateContent.PickupStoreName = '';
                     lineItem.amount          = orderItemSumm.TotalLineAmount;
                     lineItem.quantity        = orderItemSumm.Quantity;
                     lineItem.preorderMessage = orderItemSumm.PreOrder_message__c;
-                    lineItem.imageURL		 = orderItemSumm.Product2.ImageURL__c;
+                    //lineItem.imageURL		 = orderItemSumm.Product2.ImageURL__c;
+                    lineItem.imageURL		 = orderItemSumm.Product2.ImageUrl1__c != null ? orderItemSumm.Product2.ImageUrl1__c : orderItemSumm.Product2.ImageURL__c;
+           
                     //lineItem.isCC 			 = orderItemSumm.Tech_IsCC__c;
                     
                     /*Schema.Location location = (Schema.Location) orderItemSumm.ReservedAtLocation;
@@ -310,8 +308,7 @@ lineItem.isCC = false;
             orderTransactionalEmail.EmailContent__c = JSON.serializePretty(orderTemplateContent, true);
             orderTransactionalEmail.Email__c        = orderSumm.BillingEmailAddress;
             orderTransactionalEmail.CountrySite__c  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
-            orderTransactionalEmail.LanguageSite__c  = orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
-            //orderTransactionalEmail.LanguageSite__c  = generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
+            //orderTransactionalEmail.LanguageSite__c  = orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
             
             orderTransactionalEmailsList.add(orderTransactionalEmail);
         }
@@ -321,7 +318,7 @@ lineItem.isCC = false;
     public static List<TransactionalEmail__c> generateReturnReceptionTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber,OrderSummaryId, OrderSummary.language__c,OrderSummary.BillingContactFirstName__c,OrderSummary.BillingContactLastName__c,OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress ,
-                                          (SELECT Id,Product2.StockKeepingUnit,Product2.ImageURL__c, QuantityReceived, TotalAmount, Description, CurrencyIsoCode 
+                                          (SELECT Id,Product2.StockKeepingUnit,Product2.ImageURL__c, Product2.ImageUrl1__c, QuantityReceived, TotalAmount, Description, CurrencyIsoCode 
                                            FROM ReturnOrderLineItems)
                                           FROM ReturnOrder WHERE Id IN :recordIds];
         
@@ -349,7 +346,8 @@ lineItem.isCC = false;
                     lineItem.quantity = Integer.valueOf(returnLineItem.QuantityReceived);
                     lineItem.amount   = returnLineItem.TotalAmount;
                     lineItem.currencyCode = returnLineItem.CurrencyIsoCode;
-                    lineItem.imageURL		 = returnLineItem.Product2.ImageURL__c;
+                    //lineItem.imageURL		 = returnLineItem.Product2.ImageURL__c;
+                    lineItem.imageURL		 = returnLineItem.Product2.ImageUrl1__c != null ? returnLineItem.Product2.ImageUrl1__c : returnLineItem.Product2.ImageURL__c;
                     returnTemplateContent.items.add(lineItem);
                 } 
             }
@@ -362,7 +360,7 @@ lineItem.isCC = false;
             returnTransactionalEmail.EmailContent__c = JSON.serializePretty(returnTemplateContent, true);
             returnTransactionalEmail.Email__c        = retOrder.OrderSummary.BillingEmailAddress;
             returnTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry;
-            returnTransactionalEmail.LanguageSite__c  = retOrder.OrderSummary.language__c != null ? retOrder.OrderSummary.language__c : generateLanguageSiteLabel(orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry) ;
+            //returnTransactionalEmail.LanguageSite__c  = retOrder.OrderSummary.language__c != null ? retOrder.OrderSummary.language__c : generateLanguageSiteLabel(orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry) ;
             
             returnTransactionalEmailsList.add(returnTransactionalEmail);
         }
@@ -390,8 +388,7 @@ lineItem.isCC = false;
             
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
-                adress.country    = generateCountryMappingLabel(orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry) , 
-                                                                orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
+                adress.country    = generateCountryMappingLabel(orderSum.language__c , orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 adress.name       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToName;
                 adress.street     = orderSum.OrderDeliveryGroupSummaries[0].DeliverToStreet;
                 adress.postalCode = orderSum.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -416,7 +413,7 @@ lineItem.isCC = false;
             pickUpTransactionalEmail.EmailContent__c = JSON.serializePretty(orderReadyForPickupTemplateContent, true);
             pickUpTransactionalEmail.Email__c        = orderSum.BillingEmailAddress;
             pickUpTransactionalEmail.CountrySite__c  = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry;
-            pickUpTransactionalEmail.LanguageSite__c = orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
+            //pickUpTransactionalEmail.LanguageSite__c = orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry);
             
             OrderReadyForPickupTransactionalEmailsList.add(pickUpTransactionalEmail);
             
@@ -454,7 +451,7 @@ lineItem.isCC = false;
             returnCreationTransactionalEmail.EmailContent__c = JSON.serializePretty(returnCreationTemplateContent, true);
             returnCreationTransactionalEmail.Email__c        = retOrder.OrderSummary.BillingEmailAddress;
             returnCreationTransactionalEmail.CountrySite__c  = orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry ;
-            returnCreationTransactionalEmail.LanguageSite__c = retOrder.OrderSummary.language__c != null ? retOrder.OrderSummary.language__c : generateLanguageSiteLabel(orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry);
+            //returnCreationTransactionalEmail.LanguageSite__c = retOrder.OrderSummary.language__c != null ? retOrder.OrderSummary.language__c : generateLanguageSiteLabel(orderSummariesMap.get(retOrder.OrderSummaryId).OrderDeliveryGroupSummaries[0].DeliverToCountry);
             
             returnTransactionalEmailsList.add(returnCreationTransactionalEmail);
         }
@@ -469,13 +466,13 @@ lineItem.isCC = false;
         
         
         List<CreditMemo> creditMemos = [SELECT Id, Refund__c, Refund__r.CurrencyIsoCode, Refund__r.Amount,CreditDate, CreditMemoNumber, ReferenceEntityId, CurrencyIsoCode, 
-                                        (SELECT Id, TaxRate, RelatedLine.RelatedLine.ReferenceEntityItemId, RelatedLine.RelatedLine.Product2.ImageURL__c , RelatedLine.RelatedLine.Product2.Name, 
+                                        (SELECT Id, TaxRate, RelatedLine.RelatedLine.ReferenceEntityItemId, RelatedLine.RelatedLine.Product2.ImageURL__c , RelatedLine.RelatedLine.Product2.ImageUrl1__c, RelatedLine.RelatedLine.Product2.Name, 
                                          RelatedLine.RelatedLine.CurrencyIsoCode, RelatedLine.AdjustmentAmountWithTax, RelatedLine.AdjustmentTaxAmount, RelatedLine.AdjustmentAmount,
                                          RelatedLine.ChargeAmountWithTax, RelatedLine.ChargeTaxAmount, RelatedLine.ChargeAmount,RelatedLine.ReturnOrderLineItem__r.QuantityReceived,
                                          RelatedLine.RelatedLine.Product2.StockKeepingUnit, RelatedLine.RelatedLine.Name, ReturnOrderLineItem__c, Product2.StockKeepingUnit, 
                                          ReturnOrderLineItem__r.QuantityReceived,
-                                         RelatedLine.Product2.Name,RelatedLine.Product2.ImageURL__c,RelatedLine.Product2.StockKeepingUnit,RelatedLine.CurrencyIsoCode,
-                                         Product2.Name, ChargeTaxAmount,Product2.ImageURL__c, ChargeAmount, ChargeAmountWithTax , CurrencyIsoCode, TYPEOF RelatedLine.ReferenceEntityItem
+                                         RelatedLine.Product2.Name,RelatedLine.Product2.ImageURL__c,RelatedLine.Product2.ImageUrl1__c, RelatedLine.Product2.StockKeepingUnit,RelatedLine.CurrencyIsoCode,
+                                         Product2.Name, ChargeTaxAmount,Product2.ImageURL__c,Product2.ImageUrl1__c, ChargeAmount, ChargeAmountWithTax , CurrencyIsoCode, TYPEOF RelatedLine.ReferenceEntityItem
                                          WHEN OrderItemSummary THEN Id,TaxRate__c END
                                          FROM CreditMemoLines WHERE Type = :SOM_Constants.INVOICE_LINE_TYPE_TAX) 
                                         FROM CreditMemo WHERE Refund__c IN :recordIds];
@@ -515,8 +512,7 @@ lineItem.isCC = false;
             }
             refundValidationTemplateContent.billingCity      = orderSumm.BillingCity;
             //refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.BillingCountry);
-            refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.billingCountry),
-                                                                                           orderSumm.billingCountry);
+            refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c , orderSumm.billingCountry);
             refundValidationTemplateContent.billingStreet    = orderSumm.BillingStreet;
             refundValidationTemplateContent.billingZipcode   = orderSumm.BillingPostalCode;
             refundValidationTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
@@ -529,8 +525,7 @@ lineItem.isCC = false;
             refundValidationTemplateContent.refundCurrency   = creditNote.Refund__r.CurrencyIsoCode;
             refundValidationTemplateContent.deliveryCity     = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCity;
             //refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
-            refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry), 
-                                                                                           orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry );
+            refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.language__c , orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry );
             refundValidationTemplateContent.deliveryName     = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
             refundValidationTemplateContent.deliveryStreet   = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
             refundValidationTemplateContent.deliveryZipcode  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
@@ -544,12 +539,14 @@ lineItem.isCC = false;
                         lineItem.name         = creditMemoLine.RelatedLine.RelatedLine.Product2.Name;
                         lineItem.sku          = creditMemoLine.RelatedLine.RelatedLine.Product2.StockKeepingUnit;
                         lineItem.currencyCode = creditMemoLine.RelatedLine.RelatedLine.CurrencyIsoCode;
-                        lineItem.imageURL                = creditMemoLine.RelatedLine.RelatedLine.Product2.ImageURL__c;
+                        //lineItem.imageURL                = creditMemoLine.RelatedLine.RelatedLine.Product2.ImageURL__c;
+                        lineItem.imageURL                = creditMemoLine.RelatedLine.RelatedLine.Product2.ImageUrl1__c != null ? creditMemoLine.RelatedLine.RelatedLine.Product2.ImageUrl1__c : creditMemoLine.RelatedLine.RelatedLine.Product2.ImageURL__c;
                     } else{
                         lineItem.name         = creditMemoLine.RelatedLine.Product2.Name;
                         lineItem.sku          = creditMemoLine.RelatedLine.Product2.StockKeepingUnit;
                         lineItem.currencyCode = creditMemoLine.RelatedLine.CurrencyIsoCode;
-                        lineItem.imageURL                = creditMemoLine.RelatedLine.Product2.ImageURL__c;
+                        //lineItem.imageURL                = creditMemoLine.RelatedLine.Product2.ImageURL__c;
+                        lineItem.imageURL                = creditMemoLine.RelatedLine.Product2.ImageUrl1__c != null ? creditMemoLine.RelatedLine.Product2.ImageUrl1__c : creditMemoLine.RelatedLine.Product2.ImageURL__c;
                     }
                     
                     
@@ -581,7 +578,7 @@ lineItem.taxRate = item.TaxRate__c;
             refundValidationTransactionalEmail.EmailContent__c = JSON.serializePretty(refundValidationTemplateContent, true);
             refundValidationTransactionalEmail.Email__c        = orderSumm.BillingEmailAddress;
             refundValidationTransactionalEmail.CountrySite__c  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
-            refundValidationTransactionalEmail.LanguageSite__c = orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
+            //refundValidationTransactionalEmail.LanguageSite__c = orderSumm.language__c != null ? orderSumm.language__c : generateLanguageSiteLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
             
             refundValidationTransactionalEmailsList.add(refundValidationTransactionalEmail);
         }
@@ -601,7 +598,7 @@ lineItem.taxRate = item.TaxRate__c;
                                                                            BillingStreet,BillingState, SalesChannel.SalesChannelName, language__c,
                                                                            (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToState, DeliverToName FROM OrderDeliveryGroupSummaries), 
                                                                            (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status = :SOM_Constants.INVOICE_POSTED),
-                                                                           (SELECT Id, Product2.StockKeepingUnit, Product2.Name, Product2.ImageURL__c, CurrencyIsoCode, QuantityCanceled, TaxRate__c, OriginalOrderItem.Quantity, OriginalOrderItem.UnitPrice, OriginalOrderItem.TotalTaxAmount, 
+                                                                           (SELECT Id, Product2.StockKeepingUnit, Product2.Name, Product2.ImageURL__c,Product2.ImageUrl1__c, CurrencyIsoCode, QuantityCanceled, TaxRate__c, OriginalOrderItem.Quantity, OriginalOrderItem.UnitPrice, OriginalOrderItem.TotalTaxAmount, 
                                                                             OriginalOrderItem.TotalAmtWithTax FROM OrderItemSummaries WHERE QuantityCanceled > 0) FROM OrderSummary WHERE Id IN :orderSummaryIds]);
         for (Refund refund:refunds) {
             SOM_RefundWithoutCreditMemoTemplateContent refundWithoutCreditMemoEmail = new SOM_RefundWithoutCreditMemoTemplateContent();
@@ -614,15 +611,13 @@ lineItem.taxRate = item.TaxRate__c;
             refundWithoutCreditMemoEmail.billingLastName  = orderSum.BillingContactLastName__c;
             refundWithoutCreditMemoEmail.billingCity      = orderSum.BillingCity;
             //refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.BillingCountry);
-            refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.billingCountry), 
-                                                                                        orderSum.billingCountry);
+            refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.language__c, orderSum.billingCountry);
             refundWithoutCreditMemoEmail.billingStreet    = orderSum.BillingStreet;
             refundWithoutCreditMemoEmail.billingState     = orderSum.BillingState;
             refundWithoutCreditMemoEmail.billingZipcode   = orderSum.BillingPostalCode;
             refundWithoutCreditMemoEmail.deliveryCity     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCity;
             //refundWithoutCreditMemoEmail.deliveryCountry  = generateCountryMappingLabel(orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
-            refundWithoutCreditMemoEmail.deliveryCountry  = generateCountryMappingLabel(orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry), 
-                                                                                        orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
+            refundWithoutCreditMemoEmail.deliveryCountry  = generateCountryMappingLabel(orderSum.language__c , orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
             refundWithoutCreditMemoEmail.deliveryName     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToName;
             refundWithoutCreditMemoEmail.deliveryState    = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToState;
             refundWithoutCreditMemoEmail.deliveryStreet   = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToStreet;
@@ -640,7 +635,8 @@ lineItem.taxRate = item.TaxRate__c;
                 item.subtotal          = orderItemSum.OriginalOrderItem.UnitPrice * orderItemSum.QuantityCanceled;
                 item.tax               = ((orderItemSum.OriginalOrderItem.TotalTaxAmount/orderItemSum.OriginalOrderItem.Quantity) * orderItemSum.QuantityCanceled).setScale(2); 
                 item.total             = ((orderItemSum.OriginalOrderItem.TotalAmtWithTax/orderItemSum.OriginalOrderItem.Quantity) * orderItemSum.QuantityCanceled).setScale(2); 
-                item.imageURL	   	   = orderItemSum.Product2.ImageURL__c;
+                //item.imageURL	   	   = orderItemSum.Product2.ImageURL__c;
+                item.imageURL	   	   = orderItemSum.Product2.ImageUrl1__c != null ? orderItemSum.Product2.ImageUrl1__c : orderItemSum.Product2.ImageURL__c;
                 refundWithoutCreditMemoEmail.items.add(item);
             }
             
@@ -652,7 +648,7 @@ lineItem.taxRate = item.TaxRate__c;
             refundWithoutCreditEmail.Email__c        = orderSum.BillingEmailAddress;
             refundWithoutCreditEmail.EmailContent__c = JSON.serializePretty(refundWithoutCreditMemoEmail, true);
             refundWithoutCreditEmail.CountrySite__c  = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry;
-            refundWithoutCreditEmail.LanguageSite__c = orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
+            //refundWithoutCreditEmail.LanguageSite__c = orderSum.language__c != null ? orderSum.language__c : generateLanguageSiteLabel(orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
             
             transactionalEmails.add(refundWithoutCreditEmail);
         }
@@ -680,7 +676,7 @@ lineItem.taxRate = item.TaxRate__c;
         }
     } 
     
-    public static String generateLanguageSiteLabel(String CountryLabel) {
+    /*public static String generateLanguageSiteLabel(String CountryLabel) {
         try {
             if (CountryLabel != null && CountryLabel != ''){
         		List<CountryMapping__mdt> listMet = [SELECT DefaultCountryLabel__c ,CountryLabel__c,LanguageISOcode__c FROM CountryMapping__mdt WHERE DefaultCountryLabel__c =: true AND CoutryISOcode__c =: CountryLabel];
@@ -694,7 +690,7 @@ lineItem.taxRate = item.TaxRate__c;
         } catch (Exception e) {
             return 'Language' ;
         }
-    } 
+    } */
     
     public class SOM_GenerateTransactionalEmailInput{
         @InvocableVariable(label='Template Name' description='Template of the email' required=true)
@@ -751,7 +747,6 @@ lineItem.taxRate = item.TaxRate__c;
         public String orderSummaryId;
         public String accountId;
         public String deliveryCount;
-        public String lang;
     }
     
     public class SOM_OrderConfirmationTemplateContent{
