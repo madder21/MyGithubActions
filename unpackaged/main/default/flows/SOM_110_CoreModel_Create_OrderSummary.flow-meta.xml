@@ -116,8 +116,8 @@
     <decisions>
         <name>Check_SalesChannel</name>
         <label>Check SalesChannel</label>
-        <locationX>1696</locationX>
-        <locationY>320</locationY>
+        <locationX>1693</locationX>
+        <locationY>329</locationY>
         <defaultConnector>
             <targetReference>Update_Order_Summary_Capture_Status</targetReference>
         </defaultConnector>
@@ -133,7 +133,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Order_Summary_Capture_Status_0</targetReference>
+                <targetReference>Get_Language</targetReference>
             </connector>
             <label>Is From CEGID</label>
         </rules>
@@ -222,7 +222,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -290,6 +289,34 @@
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderSummary</object>
         <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Language</name>
+        <label>Get Language</label>
+        <locationX>1363</locationX>
+        <locationY>793</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Order_Summary_Capture_Status_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DefaultCountryLabel__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CoutryISOcode__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CountryMapping__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -417,7 +444,7 @@
     <recordUpdates>
         <name>Update_Order_Summary_Capture_Status_0</name>
         <label>Update Order Summary Capture Status</label>
-        <locationX>1358</locationX>
+        <locationX>1533</locationX>
         <locationY>793</locationY>
         <connector>
             <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
@@ -458,6 +485,12 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>language__c</field>
+            <value>
+                <elementReference>Get_Language.LanguageISOcode__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
