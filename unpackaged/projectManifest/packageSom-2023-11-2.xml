@@ -21,7 +21,6 @@
 
 	<members>SOM_TransactionalEmailHandler</members>
 	<members>SOM_TransactionalEmailHandler_Test</members>
-	<members>SOM_USWeeklyReportSchedule</members>
 	<name>ApexClass</name>
 </types>
 
@@ -31,7 +30,11 @@
 	<members>SOM_720_Refund_ManualValidateRefund</members>
 	<members>SOM_110_CoreModel_Create_OrderSummary</members>
 	<members>SOM_460_Discount_Flow</members>
+	<members>SOM_810_Reship_Order_Flow</members> 
+	<members>SOM_Close_Return_Order</members>
 	<members>SOM_610_Core_Model_Create_ReturnOrder</members>
+	<members>SOM_410_Credit_Memo_Insert_RCU</members>
+	<members>SOM_410_Invoice_Insert_RCU</members>
 	<name>Flow</name>
 </types>
 
@@ -40,6 +43,8 @@
 	<members>Refund.PE_was_identified__c</members>
 	<members>TransactionalEmail__c.LanguageSite__c</members>
 	<members>Refund.RefundedBy__c</members>
+	<members>Product2.isSecondHand__c</members>
+	<members>Product2.masterSku__c</members>
 	<name>CustomField</name>
 
 </types>
@@ -61,6 +66,7 @@
 
 <types>
 	<members>Refund-Refund Layout</members>
+	<members>Product2-Product Layout</members>
     <name>Layout</name>
 </types>
 	

@@ -18,6 +18,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_masterSku</name>
+        <label>Assign masterSku</label>
+        <locationX>951</locationX>
+        <locationY>1148</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_over_products.StockKeepingUnit</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_over_products.masterSku__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Products_To_Be_Updated</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_over_products</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_over_products</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Increment_Line_Number</name>
         <label>Increment Line Number</label>
         <locationX>2108</locationX>
@@ -43,6 +66,13 @@
             <operator>Add</operator>
             <value>
                 <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0.ReferenceEntityItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_ProductIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0.Product2.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -537,6 +567,31 @@
             <label>Is Not Empty</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>If_is_secondhand</name>
+        <label>If is secondhand</label>
+        <locationX>1222</locationX>
+        <locationY>1155</locationY>
+        <defaultConnector>
+            <targetReference>Loop_over_products</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>is_secondhand</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_over_products.isSecondHand__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_masterSku</targetReference>
+            </connector>
+            <label>is secondhand</label>
+        </rules>
+    </decisions>
     <formulas>
         <name>ExclTaxAmount</name>
         <dataType>Number</dataType>
@@ -604,6 +659,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_over_products</name>
+        <label>Loop over products</label>
+        <locationX>1102</locationX>
+        <locationY>950</locationY>
+        <collectionReference>Get_Products</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>If_is_secondhand</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_products</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_ShipmentItems</name>
         <label>Loop ShipmentItems</label>
         <locationX>2345</locationX>
@@ -651,6 +720,9 @@
         <label>Create Transaction Payment</label>
         <locationX>1276</locationX>
         <locationY>947</locationY>
+        <connector>
+            <targetReference>Loop_over_products</targetReference>
+        </connector>
         <inputAssignments>
             <field>Client__c</field>
             <value>
@@ -775,6 +847,29 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Products</name>
+        <label>Get Products</label>
+        <locationX>1905</locationX>
+        <locationY>474</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_ProductIds</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Product2</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Saleschannel_Mapping</name>
         <label>Get Saleschannel Mapping</label>
         <locationX>628</locationX>
@@ -798,11 +893,11 @@
     <recordLookups>
         <name>Get_Shipment_Items</name>
         <label>Get Shipment Items</label>
-        <locationX>1913</locationX>
-        <locationY>411</locationY>
+        <locationX>1905</locationX>
+        <locationY>316</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type</targetReference>
+            <targetReference>Get_Products</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -846,6 +941,13 @@
         <object>Store__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_products</name>
+        <label>Update products</label>
+        <locationX>886</locationX>
+        <locationY>954</locationY>
+        <inputReference>C_Products_To_Be_Updated</inputReference>
+    </recordUpdates>
     <start>
         <locationX>201</locationX>
         <locationY>45</locationY>
@@ -856,6 +958,21 @@
         <triggerType>PlatformEvent</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>C_ProductIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Products_To_Be_Updated</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product2</objectType>
+    </variables>
     <variables>
         <name>COL_TransactionItem</name>
         <dataType>SObject</dataType>
