@@ -3,7 +3,7 @@
     <!-- footer -->
     <div id="footer_content">
         <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:20px;" url="{!URLFOR($Resource.InvoiceRessources, 'Logos/Monogram/Rimowa-Monogram.png')}" width="35" height="45" alt="RIMOWA"/>
-        <apex:outputText value="{!invoiceConfigs['PDF_LABEL_REGISTER']}"/>&nbsp;<apex:outputText value="{!invoiceConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!invoiceConfigs['PDF_LABEL_COURT']}"/>&#44;&nbsp;<apex:outputText value="{!invoiceConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!invoiceConfigs['PDF_MANAGING_DIRECTOR']}"/>&nbsp;&#45;&nbsp;<apex:outputText value="{!invoiceConfigs['PDF_VAT_ID']}"/> 
+        <apex:outputText value="{!invoiceConfigs['PDF_LABEL_REGISTER']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_REGISTER_CITY']),' ','')}<apex:outputText value="{!invoiceConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!invoiceConfigs['PDF_LABEL_COURT']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_REGISTER']),', ','')}<apex:outputText value="{!invoiceConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!invoiceConfigs['PDF_MANAGING_DIRECTOR']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_VAT_ID']),' - ','')}<apex:outputText value="{!invoiceConfigs['PDF_VAT_ID']}"/> 
     </div>
     <!-- header -->
     
