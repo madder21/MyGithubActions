@@ -2,6 +2,7 @@ public without sharing class SOM_TransactionalEmailHandler {
     
     @InvocableMethod(label='Generate Transactional Email' description='Generate a Transactional Email record to send an email by SFMC')
     public static void generateTransactionalEmail(List<SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputs){
+        Boolean CheckIsGlobalE = checkIsGlobalE(generateTransactionalEmailInputs[0].recordId);
         Map<String, Set<String>> inputByTemplateMap = new Map<String, Set<String>>();
         List<TransactionalEmail__c> transactionalEmailsToPersist = new List<TransactionalEmail__c>();
         for(SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput:generateTransactionalEmailInputs) {
@@ -15,27 +16,29 @@ public without sharing class SOM_TransactionalEmailHandler {
             );
         }
         System.debug('map templates :::: ' + inputByTemplateMap);
-        for (String templateName:inputByTemplateMap.keySet()) {
-            if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION) {
-                transactionalEmailsToPersist.addAll(generateShipmentConfirmationTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE) {
-                transactionalEmailsToPersist.addAll(generateInvoiceTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED) {
-                transactionalEmailsToPersist.addAll(generateOrderTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED) {
-                transactionalEmailsToPersist.addAll(generateReturnReceptionTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP) {
-                transactionalEmailsToPersist.addAll(generateOrderReadyForPickupTransactionalEmails(inputByTemplateMap.get(templateName)));
-            }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED) {
-                transactionalEmailsToPersist.addAll(generateReturnOrderCreationTransactionalEmails(inputByTemplateMap.get(templateName)));
-            }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION) {
-                transactionalEmailsToPersist.addAll(generateRefundValidationTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT) {
-                transactionalEmailsToPersist.addAll(generateRefundWithoutCreditMemoTransactionalEmails(inputByTemplateMap.get(templateName)));
-            } else {
-                System.debug('Template name: ' + templateName + ' is not supported.');
+        if (!CheckIsGlobalE){
+            for (String templateName:inputByTemplateMap.keySet()) {
+                if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION) {
+                    transactionalEmailsToPersist.addAll(generateShipmentConfirmationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE) {
+                    transactionalEmailsToPersist.addAll(generateInvoiceTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED) {
+                    transactionalEmailsToPersist.addAll(generateOrderTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED) {
+                    transactionalEmailsToPersist.addAll(generateReturnReceptionTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP) {
+                    transactionalEmailsToPersist.addAll(generateOrderReadyForPickupTransactionalEmails(inputByTemplateMap.get(templateName)));
+                }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED) {
+                    transactionalEmailsToPersist.addAll(generateReturnOrderCreationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION) {
+                    transactionalEmailsToPersist.addAll(generateRefundValidationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT) {
+                    transactionalEmailsToPersist.addAll(generateRefundWithoutCreditMemoTransactionalEmails(inputByTemplateMap.get(templateName)));
+                } else {
+                    System.debug('Template name: ' + templateName + ' is not supported.');
+                }
+                System.debug('transactionalEmailsToPersist :::: ' + transactionalEmailsToPersist);
             }
-            System.debug('transactionalEmailsToPersist :::: ' + transactionalEmailsToPersist);
         }
         if (!transactionalEmailsToPersist.isEmpty()) insert transactionalEmailsToPersist;
     }
@@ -674,6 +677,33 @@ lineItem.taxRate = item.TaxRate__c;
         } catch (Exception e) {
             return CountryIso ;
         }
+    } 
+    
+    public static Boolean checkIsGlobalE (Id recordId) {
+        Boolean Check = false;
+        if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME){
+            CorrectiveInvoice__c  cInvoice = [SELECT Id,OriginalInvoiceId__c  FROM CorrectiveInvoice__c WHERE Id = :recordId];
+			return Check = [SELECT id , IsGlobalE__c,(SELECT id , OrderDeliveryMethod.isHomeDelivery__c FROM OrderDeliveryGroupSummaries LIMIT 1) 
+                                             FROM OrderSummary 
+                                             WHERE 
+                                             ID IN (SELECT ReferenceEntityId FROM invoice WHERE Id =: cInvoice.OriginalInvoiceId__c)].IsGlobalE__c;
+
+         }else if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.INVOICE_SOBJECT_TYPE_NAME){
+          	return Check = [SELECT id , IsGlobalE__c,(SELECT id , OrderDeliveryMethod.isHomeDelivery__c FROM OrderDeliveryGroupSummaries LIMIT 1) 
+                                             FROM OrderSummary 
+                                             WHERE 
+                                             ID IN (SELECT ReferenceEntityId FROM invoice WHERE Id =: recordId)].IsGlobalE__c;
+
+         }else if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.SHIPMENT_SOBJECT_TYPE_NAME){
+        	 return Check = [SELECT  FulfillmentOrder.OrderSummary.IsGlobalE__c FROM Shipment WHERE Id =: recordId].FulfillmentOrder.OrderSummary.IsGlobalE__c;             
+         }else if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.ORDER_SUMMARY_SOBJECT_TYPE_NAME){
+        	 return Check = [SELECT  IsGlobalE__c FROM OrderSummary WHERE Id =: recordId].IsGlobalE__c;
+         }else if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.RETURN_ORDER_SOBJECT_TYPE_NAME){
+        	 return Check = [SELECT OrderSummary.IsGlobalE__c FROM ReturnOrder WHERE Id =: recordId].OrderSummary.IsGlobalE__c;
+         }else if(recordId.getSObjectType().getDescribe().getName() == SOM_Constants.REFUND_SOBJECT_TYPE_NAME){
+        	 return Check = [SELECT  OrderPaymentSummary.OrderSummary.IsGlobalE__c FROM Refund WHERE Id =: recordId].OrderPaymentSummary.OrderSummary.IsGlobalE__c;
+         }
+        return false;
     } 
     
     /*public static String generateLanguageSiteLabel(String CountryLabel) {
