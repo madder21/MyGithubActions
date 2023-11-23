@@ -201,6 +201,54 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
+    <actionCalls>
+        <name>Generate_Refund_Validation_Transactional_Email</name>
+        <label>Generate Refund Validation Transactional Email</label>
+        <locationX>1544</locationX>
+        <locationY>1460</locationY>
+        <actionName>SOM_TransactionalEmailHandler</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Update_PE_0</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateName</name>
+            <value>
+                <elementReference>TransactionalEmailRefundWithCreditMemoTemp</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Generate_Refund_Validation_Transactional_Email_0</name>
+        <label>Generate Refund Validation Transactional Email</label>
+        <locationX>1318</locationX>
+        <locationY>1470</locationY>
+        <actionName>SOM_TransactionalEmailHandler</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Update_PE_0</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>templateName</name>
+            <value>
+                <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Set_Refund_Values_to_Update_CC</name>
@@ -355,11 +403,57 @@
             <targetReference>Get_PE</targetReference>
         </connector>
     </assignments>
+    <constants>
+        <name>TransactionalEmailRefundWithCreditMemoTemp</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>RefundConfirmation</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>TransactionalEmailRefundWithoutCreditMemoTemp</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>RefundValidationMissingProduct</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Check_Refund_Origin_to_Launch_Email</name>
+        <label>Check Refund Origin to Launch Email</label>
+        <locationX>1422</locationX>
+        <locationY>1354</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Refund_Validation_Transactional_Email_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Refund Without Credit Memo</defaultConnectorLabel>
+        <rules>
+            <name>Refund_With_Credit_Memo</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId.RefundOrigin__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Appeasement</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recordId.RefundOrigin__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Return</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_Refund_Validation_Transactional_Email</targetReference>
+            </connector>
+            <label>Refund With Credit Memo</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Create_Or_Update_PE</name>
         <label>Create Or Update PE</label>
-        <locationX>877</locationX>
-        <locationY>1163</locationY>
+        <locationX>823</locationX>
+        <locationY>1215</locationY>
         <defaultConnector>
             <targetReference>Screen1_0_0</targetReference>
         </defaultConnector>
@@ -500,8 +594,8 @@
     <decisions>
         <name>Update_PE_0</name>
         <label>Update PE</label>
-        <locationX>1394</locationX>
-        <locationY>1164</locationY>
+        <locationX>1427</locationX>
+        <locationY>1609</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>UpdatePE</name>
@@ -565,8 +659,8 @@
     <recordCreates>
         <name>Create_PE</name>
         <label>Create PE</label>
-        <locationX>677</locationX>
-        <locationY>1093</locationY>
+        <locationX>533</locationX>
+        <locationY>1213</locationY>
         <connector>
             <targetReference>Screen1_0_0</targetReference>
         </connector>
@@ -595,6 +689,53 @@
             </value>
         </inputAssignments>
         <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Refund_Line_Payment</name>
+        <label>Create Refund Line Payment</label>
+        <locationX>1426</locationX>
+        <locationY>1213</locationY>
+        <connector>
+            <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>recordId.Amount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasBeenUnapplied</field>
+            <value>
+                <stringValue>No</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PaymentId</field>
+            <value>
+                <elementReference>Get_Payment.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RefundId</field>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Applied</stringValue>
+            </value>
+        </inputAssignments>
+        <object>RefundLinePayment</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
@@ -726,8 +867,8 @@
     <recordUpdates>
         <name>Update_PE</name>
         <label>Update PE</label>
-        <locationX>1555</locationX>
-        <locationY>1155</locationY>
+        <locationX>1430</locationX>
+        <locationY>1788</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>AttachedToId</field>
@@ -754,8 +895,8 @@
     <recordUpdates>
         <name>Update_Refund</name>
         <label>Update Refund</label>
-        <locationX>1140</locationX>
-        <locationY>1162</locationY>
+        <locationX>1163</locationX>
+        <locationY>1210</locationY>
         <connector>
             <targetReference>Screen1_0</targetReference>
         </connector>
@@ -814,8 +955,8 @@
     <recordUpdates>
         <name>Update_Refund_0</name>
         <label>Update Refund</label>
-        <locationX>795</locationX>
-        <locationY>1044</locationY>
+        <locationX>674</locationX>
+        <locationY>1205</locationY>
         <connector>
             <targetReference>Create_PE</targetReference>
         </connector>
@@ -896,13 +1037,13 @@
     <screens>
         <name>Screen1_0</name>
         <label>Screen1</label>
-        <locationX>1278</locationX>
-        <locationY>1163</locationY>
+        <locationX>1290</locationX>
+        <locationY>1210</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Update_PE_0</targetReference>
+            <targetReference>Create_Refund_Line_Payment</targetReference>
         </connector>
         <fields>
             <name>DisplayText_0</name>
@@ -915,8 +1056,8 @@
     <screens>
         <name>Screen1_0_0</name>
         <label>Screen1</label>
-        <locationX>727</locationX>
-        <locationY>1268</locationY>
+        <locationX>679</locationX>
+        <locationY>1326</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
