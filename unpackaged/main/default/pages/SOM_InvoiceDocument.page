@@ -132,22 +132,10 @@
                     <tr class="lineIem">
                         <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
                         <td><apex:outputText value="{!lineItem.quantity}"/></td>
-                        
-                        <td><apex:outputText value="{0, number, {!AmountsFormat}}">
-                        <apex:param value="{!lineItem.netAmount}"/>
-                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                        
-                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
-                        <apex:param value="{!lineItem.grossAmount}"/>
-                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                        
-                        <td class="align-right" ><apex:outputText value="{0, number, {!AmountsFormat}}">
-                        <apex:param value="{!lineItem.total}"/>
-                    	</apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                        
-                        <!--<td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                                                
+                        <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                         <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                     </tr>
                     <tr>
                         <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -171,20 +159,14 @@
             <tbody>
                 <tr>
                     <td width="100%" class="border_top" style="padding-top:2px;">SUBTOTAL (NET):</td>
-                    <!--<td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
-                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
-                        <apex:param value="{!invoiceDoc.netSubTotal}"/>
-                        </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
                 <!-- loop over vat rate -->
 
             <apex:repeat value="{!invoiceTaxLineItems}" var="key">
                 <tr>
                     <td width="100%" class="" style="padding-top: 3px;">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> %:</td>
-                    <!--<td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
-                    <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{0, number, {!AmountsFormat}}">
-                        <apex:param value="{!invoiceTaxLineItems[key]}"/>
-                        </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
                 <!-- end loop-->
@@ -193,10 +175,7 @@
                 </tr> 
                 <tr>
                     <td class="border_top" width="100%" style="padding-top:2px;">TOTAL INCL. TAX:</td>
-                    <!--<td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>-->
-                    <td  class="align-right border_top"><apex:outputText value="{0, number, {!AmountsFormat}}">
-                    <apex:param value="{!invoiceDoc.totalWithTax}"/>
-                    </apex:outputText>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                     
                 </tr>
             </tbody>  
