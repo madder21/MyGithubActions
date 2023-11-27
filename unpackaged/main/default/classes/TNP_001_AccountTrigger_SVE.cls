@@ -16,7 +16,7 @@ public with sharing class TNP_001_AccountTrigger_SVE {
     public static void preventClientInfoDeletion(List<Account> accList, Map<Id, SObject> oldSObjectMap) {
         System.debug('*** TNP_001_AccountTrigger_SVE - preventClientInfoDeletion - START ***');
         String userName = UserInfo.getName();
-        if(userName.contains(Label.R360_Integration_User_Name)) {//create another user for the API between CEGID -> Mulesoft -> SFDC
+        if(userName.contains(Label.R360_GCP_Integration_User_Name)) {//create another user for the API between CEGID -> Mulesoft -> SFDC
             for(Account acc : accList) {
                 Account oldAccount = (Account)oldSObjectMap.get(acc.Id);
                 acc.ClientType__pc = (acc.ClientType__pc!=null || !String.isEmpty(acc.ClientType__pc))?acc.ClientType__pc:oldAccount.ClientType__pc;
