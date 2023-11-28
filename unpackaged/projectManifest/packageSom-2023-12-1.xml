@@ -5,24 +5,13 @@
 	<members>SOM_TransactionalEmailHandler</members>
 	<members>SOM_Constants</members>
 	<members>SOM_Batch_CustomerTokenDeletion</members>
-	<members>SOM_InvoiceManagement</members>
 	<name>ApexClass</name>
 </types>
 <types>
 	  <members>SOM_110_CoreModel_Create_OrderSummary</members>
 	  <members>SOM_Automatic_refund_in_Cybersource</members>
 	  <members>SOM_610_Core_Model_Create_ReturnOrder</members>
-
 		<members>SOM_660_Manual_Return_Reception</members>
-  <members>SOM_200_StoreToWeb_Manual_Order_Create_FulfillementOrder_Order</members>
-  <members>SOM_960_Exchange_Manual_Order_Creation</members>
-	 
-
-	  <members>SOM_410_Credit_Memo_Insert_RCU</members>
-	  <members>SOM_410_Invoice_Insert_RCU</members>
-
-
-
 	  <name>Flow</name>
 </types>
 <types>
@@ -32,7 +21,6 @@
 	  <members>OrderItem.isGiftWrap__c</members>
 	  <members>OrderItemSummary.hasGiftMessage__c</members>
 	  <members>OrderItemSummary.isGiftWrap__c</members>
-	  <members>Invoice.Is_Anonymized_Account__c</members>
 	  <name>CustomField</name>
 </types>
 	
@@ -41,7 +29,6 @@
 	  <members>Order-Order Layout</members>
 	  <members>OrderItemSummary-Order Product Summary Layout</members>
 	  <members>OrderItem-Order Product Layout</members>
-	  <members>Invoice-Invoice Layout</members>
 	  <name>Layout</name>
 </types>
 
@@ -55,11 +42,6 @@
 	<name>ValidationRule</name>
 </types>
 
-  <types>
-	<members>Ecom_operation_homepage</members>
-	<name>FlexiPage</name>
-</types>
-  
 <types> 
 	<members>Customer_service_Center</members>
 	<name>PermissionSet</name>
@@ -71,37 +53,6 @@
 </types>
 
 <types>
-	<members>SOMDashboardReportsEcomOperations/Non_closed_returns_G6I</members>  
-    <members>SOMDashboardReportsEcomOperations/Orders_in_fulfillingpartial_fulfilled_ne5</members>  
-    <members>SOMDashboardReportsEcomOperations/CC_orders_not_shipped_more_than_5_days_JTM</members>  
-    <members>SOMDashboardReportsEcomOperations/Unvalidate_refunds_Ht0</members> 
-    <members>SOMDashboardReportsEcomOperations/Unresolve_PE_due_to_payment_ybS</members>
-    <members>SOMDashboardReportsEcomOperations/CC_orders_not_validated_more_than_1_day_Bo8</members> 
-    <members>SOMDashboardReportsEcomOperations/Unresesolve_PE_due_to_stock_vRM</members>
-	<name>Report</name>        
-</types>
-
-<types>
-	<members>Order_summary_with_payment</members>  
-	
-	<members>SOM_PE_ReportType</members>  
-	<name>ReportType</name>
-</types>
-
-<types>
-	<members>SOMDashboardReportsEcomOperations</members>  
-	<name>ReportFolder</name>
-</types>
-
-
-
-
-<types>
-	<members>standard__OMConsole</members>  
-	<name>CustomApplication</name>
-</types>
-
-<types>
 	<members>CSC_Permission</members>
 	<name>CustomPermission</name>
 </types>
@@ -109,11 +60,6 @@
 	<members>SOM_CreditMemoDocument</members>
 	<members>SOM_InvoiceDocument</members>
 	<name>ApexPage</name>
-</types>
-
-<types>
-	<members>Invoice_Record_Page</members>
-	<name>FlexiPage</name>
 </types>
 
 <version>54.0</version>
