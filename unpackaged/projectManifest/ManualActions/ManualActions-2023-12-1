@@ -1,44 +1,9 @@
-* Ticket : SOM-791
-    - TransactionalEmail__c.LanguageSite__c : Edit access for all profiles
-    
 * Ticket : SOM-813 
     - Make sure the value DinersClub was added to the picklist Card Payment method:CardType on DEV, INT and UAT.
 
-* Ticket : SOM-796
-    - OrderItem.giftMessage__c : Edit access for all profiles
-    - OrderItem.gift__c : Edit access for all profiles
-    - OrderItemSummary.giftMessage__c : Edit access for all profiles
-    - OrderItemSummary.gift__c : Edit access for all profiles
-    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
-      -> OrderItem.giftMessage__c : Read Access + Edit Access
-      -> OrderItem.gift__c : Read Access + Edit Access
-      -> OrderItemSummary.giftMessage__c : Read Access + Edit Access
-      -> OrderItemSummary.gift__c : Read Access + Edit Access
-    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
-      -> OrderItem.giftMessage__c : Read Access + Edit Access
-      -> OrderItem.gift__c : Read Access + Edit Access
-      -> OrderItemSummary.giftMessage__c : Read Access + Edit Access
-      -> OrderItemSummary.gift__c : Read Access + Edit Access
-
-
-* Ticket : SOM-834 
-    - Create a payment gateway provider record that points to the adapter class GatewayProviderAdapterClass on PROD.
-    - In Setup, define a named credential that contains the gateway provider’s authentication and login information.
-        The adapter class callout definition calls the named credential.
-        URL: https://www.salesforce.com/
-        Identity Type : Anonymous
-        Authentication Protocol : No Authentication
-    - To link the payment gateway provider record and the named credential, create a payment gateway record.
-    - It is already done on UAT, INT and DEV. 
 
 * Ticket : SOM-789 
     - Add missing values to th picklist Card Payment method:CardType on PROD.
-
-* Ticket : SOM-778 
-    - Add a new value = Refud to the picklist of ProcessException.Category. 
-    - Create a named credentials 'Refunds' and define the URL, the client_id/Username and the client_secret/password 
-    - Refund.OrderPaymentSummaryType__c Permissions : Edit access for all profiles
-    - Refund.PE_was_identified__c Permissions : Edit access for all profiles
 
 
 * Ticket : SOM-737 
@@ -61,4 +26,20 @@
 * Ticket : SOM-859 
     - Order.geOrderNumber__c  -> Sys Admin : Read + Edit access
                               -> Profiles Ecom Operations and Finance : Read only
+
+    - Update the permission set SOM Additional Permissions (SOM_Additional_Permissions):
+      -> Order.geOrderNumber__c        : Read Access + Edit Access
+
+    - Update the permission set Order Management B2C Service (sfdc_ccordermanagement):
+      -> Order.geOrderNumber__c        : Read Access + Edit Access
+
+* Ticket : SOM-860
+
+    - OrderSummary.IsGlobalE__c : Edit access for all profiles
+
+
+* Ticket : SOM-868
+    - Edit Compact Layout Assignment -> Primary Compact Layout:	Refund Compact Layouts
+
+    - OrderSummary.IsGlobalE__c : Edit access for all profiles, make the field visible from Field Level Security.
 

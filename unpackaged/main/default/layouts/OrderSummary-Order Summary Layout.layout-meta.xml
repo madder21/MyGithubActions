@@ -47,10 +47,6 @@
                 <field>DeliverySignature__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>Tech_OrderItemSummaries_Count__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>passedFraudScreening__c</field>
             </layoutItems>
@@ -77,14 +73,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OriginalReturnOrder__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>tech_os_store_shipping_method__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>tech_PE_Fulfillment_Count__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -282,11 +270,6 @@
     <platformActionList>
         <actionListContext>Record</actionListContext>
         <platformActionListItems>
-            <actionName>OrderSummary.Create_Refund</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>0</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
             <actionName>OrderSummary.Return_Items</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>1</sortOrder>
@@ -310,6 +293,11 @@
             <actionName>FeedItem.TextPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>5</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>OrderSummary.Create_Refund</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>0</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <quickActionList>
