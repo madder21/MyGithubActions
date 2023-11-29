@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>53.0</apiVersion>
+    <actionCalls>
+        <name>send_Account_Data_to_Mulsoft</name>
+        <label>send Account Data to Mulsoft</label>
+        <locationX>182</locationX>
+        <locationY>1322</locationY>
+        <actionName>ManageDbleConsentInvocableClass</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Get_ContactPointTypeConsent</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>account</name>
+            <value>
+                <elementReference>ReturnedAccount</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>consent</name>
+            <value>
+                <elementReference>ContactPointConsentRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ManageDbleConsentInvocableClass</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <name>Account_Assignement</name>
         <label>Account Assignement</label>
-        <locationX>59</locationX>
-        <locationY>200</locationY>
+        <locationX>468</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>ReturnedAccount</assignToReference>
             <operator>Assign</operator>
@@ -20,8 +46,8 @@
     <assignments>
         <name>Account_Not_eixst</name>
         <label>Account Not eixst</label>
-        <locationX>385</locationX>
-        <locationY>33</locationY>
+        <locationX>1018</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Assign</operator>
@@ -38,10 +64,26 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>Assign_Optin_ContactPointTypeConsent</name>
+        <label>Assign_Optin_ContactPointTypeConsent</label>
+        <locationX>50</locationX>
+        <locationY>1646</locationY>
+        <assignmentItems>
+            <assignToReference>Get_ContactPointTypeConsent.PrivacyConsentStatus</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>OptIn</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_ContactPointTypeConsent</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_OutPut_response</name>
         <label>Assign OutPut response</label>
-        <locationX>826</locationX>
-        <locationY>516</locationY>
+        <locationX>182</locationX>
+        <locationY>1946</locationY>
         <assignmentItems>
             <assignToReference>VerificationResponse.accountId</assignToReference>
             <operator>Assign</operator>
@@ -81,8 +123,8 @@
     <assignments>
         <name>Id_or_email_Not_Valid</name>
         <label>Id or email Not Valid</label>
-        <locationX>1063</locationX>
-        <locationY>198</locationY>
+        <locationX>1546</locationX>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
             <operator>Assign</operator>
@@ -101,8 +143,8 @@
     <assignments>
         <name>No_consent_Exist</name>
         <label>No consent Exist</label>
-        <locationX>174</locationX>
-        <locationY>547</locationY>
+        <locationX>490</locationX>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>VerificationResponse.isValid</assignToReference>
             <operator>Assign</operator>
@@ -114,8 +156,8 @@
     <assignments>
         <name>Update_Consent_fields</name>
         <label>Update Consent fields</label>
-        <locationX>477</locationX>
-        <locationY>345</locationY>
+        <locationX>182</locationX>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>ContactPointConsentRecord.PrivacyConsentStatus</assignToReference>
             <operator>Assign</operator>
@@ -144,8 +186,8 @@
     <decisions>
         <name>Check_Account_if_exist</name>
         <label>Check Account if exist</label>
-        <locationX>387</locationX>
-        <locationY>202</locationY>
+        <locationX>875</locationX>
+        <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Account_exist</name>
@@ -181,8 +223,8 @@
     <decisions>
         <name>Check_Consent_record_if_empty</name>
         <label>Check Consent record if empty</label>
-        <locationX>277</locationX>
-        <locationY>350</locationY>
+        <locationX>468</locationX>
+        <locationY>674</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Consent_Not_Empty</name>
@@ -216,10 +258,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>check_if_ContactPointTypeConsent_is_found</name>
+        <label>check if ContactPointTypeConsent is found</label>
+        <locationX>182</locationX>
+        <locationY>1538</locationY>
+        <defaultConnector>
+            <targetReference>Assign_OutPut_response</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_ContactPointTypeConsent</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Optin_ContactPointTypeConsent</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Verify_Account_Id</name>
         <label>Verify Account Id</label>
-        <locationX>825</locationX>
-        <locationY>198</locationY>
+        <locationX>1342</locationX>
+        <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>AccountId_Not_Null</name>
@@ -280,6 +347,9 @@
             <label>Inputs Are Not Valid</label>
         </rules>
     </decisions>
+    <description>Double Optin Verification End Point. Called by SFCC to optin a Double Optin consent Client.
+Optin the contact Point Consent and Contact Point Consent. Create a CommSubscriptionConsent and Optin the Client</description>
+    <environments>Default</environments>
     <interviewLabel>DoubleOptInHashVerification {!$Flow.CurrentDateTime}</interviewLabel>
     <label>DoubleOptInHashVerification</label>
     <processMetadataValues>
@@ -291,7 +361,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -304,8 +374,8 @@
     <recordCreates>
         <name>Create_commSubscriptionConsent_Record</name>
         <label>Create commSubscriptionConsent Record</label>
-        <locationX>1059</locationX>
-        <locationY>342</locationY>
+        <locationX>182</locationX>
+        <locationY>1106</locationY>
         <connector>
             <targetReference>Udpate_Account_OptIn_Emailing</targetReference>
         </connector>
@@ -357,8 +427,8 @@
     <recordLookups>
         <name>Get_Account_Record</name>
         <label>Get Account Record</label>
-        <locationX>603</locationX>
-        <locationY>201</locationY>
+        <locationX>875</locationX>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Account_if_exist</targetReference>
@@ -385,8 +455,8 @@
     <recordLookups>
         <name>Get_comm</name>
         <label>Get CommSubscriptionChannelType record</label>
-        <locationX>824</locationX>
-        <locationY>343</locationY>
+        <locationX>182</locationX>
+        <locationY>998</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_commSubscriptionConsent_Record</targetReference>
@@ -408,8 +478,8 @@
     <recordLookups>
         <name>Get_Consent_record</name>
         <label>Get Consent record</label>
-        <locationX>59</locationX>
-        <locationY>348</locationY>
+        <locationX>468</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Consent_record_if_empty</targetReference>
@@ -446,16 +516,53 @@
         <queriedFields>DoubleOptInHash__c</queriedFields>
         <queriedFields>ContactPointId</queriedFields>
         <queriedFields>CaptureDate</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>CaptureSource</queriedFields>
         <sortField>LastModifiedDate</sortField>
         <sortOrder>Desc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ContactPointTypeConsent</name>
+        <label>Get ContactPointTypeConsent</label>
+        <locationX>182</locationX>
+        <locationY>1430</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>check_if_ContactPointTypeConsent_is_found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Account_Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CaptureDate</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ContactPointConsentRecord.CaptureDate</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ContactPointConsentRecord.Name</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ContactPointTypeConsent</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
         <name>Udpate_Account_OptIn_Emailing</name>
         <label>Udpate Account OptIn Emailing</label>
-        <locationX>1055</locationX>
-        <locationY>518</locationY>
+        <locationX>182</locationX>
+        <locationY>1214</locationY>
         <connector>
-            <targetReference>Assign_OutPut_response</targetReference>
+            <targetReference>send_Account_Data_to_Mulsoft</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -482,16 +589,27 @@
     <recordUpdates>
         <name>Udpate_Consent_Record</name>
         <label>Udpate Consent Record</label>
-        <locationX>661</locationX>
-        <locationY>344</locationY>
+        <locationX>182</locationX>
+        <locationY>890</locationY>
         <connector>
             <targetReference>Get_comm</targetReference>
         </connector>
         <inputReference>ContactPointConsentRecord</inputReference>
     </recordUpdates>
+    <recordUpdates>
+        <name>Update_ContactPointTypeConsent</name>
+        <label>Update ContactPointTypeConsent</label>
+        <locationX>50</locationX>
+        <locationY>1754</locationY>
+        <connector>
+            <targetReference>Assign_OutPut_response</targetReference>
+        </connector>
+        <inputReference>Get_ContactPointTypeConsent</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>706</locationX>
-        <locationY>30</locationY>
+        <locationX>1216</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>Verify_Account_Id</targetReference>
         </connector>
@@ -501,7 +619,7 @@
         <name>ContactPointConsentRecord</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>ContactPointConsent</objectType>
     </variables>
