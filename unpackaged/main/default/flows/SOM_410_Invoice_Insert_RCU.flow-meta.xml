@@ -18,26 +18,51 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_masterSku</name>
-        <label>Assign masterSku</label>
-        <locationX>951</locationX>
-        <locationY>1148</locationY>
+        <name>Assign_current_Product</name>
+        <label>Assign current Product</label>
+        <locationX>3064</locationX>
+        <locationY>729</locationY>
         <assignmentItems>
-            <assignToReference>Loop_over_products.StockKeepingUnit</assignToReference>
+            <assignToReference>S_Current_Product</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Loop_over_products.masterSku__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>C_Products_To_Be_Updated</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Loop_over_products</elementReference>
+                <elementReference>Loop_over_Filter_product</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Loop_over_products</targetReference>
+            <targetReference>Loop_over_Filter_product</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Product</name>
+        <label>Assign Product</label>
+        <locationX>2614</locationX>
+        <locationY>836</locationY>
+        <assignmentItems>
+            <assignToReference>REC_TransactionItem.Product__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type.Product2Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Filter_Shipment_Items</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Product_with_master_SKU</name>
+        <label>Assign Product with master SKU</label>
+        <locationX>2835</locationX>
+        <locationY>944</locationY>
+        <assignmentItems>
+            <assignToReference>REC_TransactionItem.Product__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>S_Current_Product.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Filter_Shipment_Items</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -69,10 +94,10 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>C_ProductIds</assignToReference>
+            <assignToReference>C_Products</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0.Product2.Id</elementReference>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type_0.Product2.masterSku__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -82,8 +107,8 @@
     <assignments>
         <name>Set_SerialNum</name>
         <label>Set SerialNum</label>
-        <locationX>2330</locationX>
-        <locationY>1158</locationY>
+        <locationX>2356</locationX>
+        <locationY>1276</locationY>
         <assignmentItems>
             <assignToReference>SerialNum</assignToReference>
             <operator>Assign</operator>
@@ -98,8 +123,8 @@
     <assignments>
         <name>Set_Transaction_Item_Record_Values</name>
         <label>Set Transaction Item Record Values</label>
-        <locationX>2000</locationX>
-        <locationY>806</locationY>
+        <locationX>2464</locationX>
+        <locationY>589</locationY>
         <assignmentItems>
             <assignToReference>REC_TransactionItem.CurrencyIsoCode</assignToReference>
             <operator>Assign</operator>
@@ -119,13 +144,6 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>Sale</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_TransactionItem.Product__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type.Product2Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -185,7 +203,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Filter_Shipment_Items</targetReference>
+            <targetReference>If_second_hand</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -223,8 +241,8 @@
     <assignments>
         <name>Set_Transaction_Item_Store</name>
         <label>Set Transaction Item Store</label>
-        <locationX>2373</locationX>
-        <locationY>853</locationY>
+        <locationX>2369</locationX>
+        <locationY>783</locationY>
         <assignmentItems>
             <assignToReference>REC_TransactionItem.Store__c</assignToReference>
             <operator>Assign</operator>
@@ -381,12 +399,12 @@
         <label>Filter Invoice Lines With Charge Type</label>
         <locationX>1742</locationX>
         <locationY>571</locationY>
-        <assignNextValueToReference>currentItem_Filter_Invoice_Lines_With_Charge_Type</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_Invoice_Lines_With_Charge_Type_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Invoice_Lines</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Invoice_Lines_With_Charge_Type.Type</leftValueReference>
+            <leftValueReference>currentItem_Filter_Invoice_Lines_With_Charge_Type_0.Type</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <stringValue>Charge</stringValue>
@@ -397,11 +415,32 @@
         </connector>
     </collectionProcessors>
     <collectionProcessors>
+        <name>Filter_Product</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Product</label>
+        <locationX>2827</locationX>
+        <locationY>595</locationY>
+        <assignNextValueToReference>currentItem_Filter_Product_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Products</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Product_0.StockKeepingUnit</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Iterate_Over_Invoice_Lines_With_Charge_Type.Product2.masterSku__c</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_over_Filter_product</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
         <name>Filter_Shipment_Items</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Shipment Items</label>
-        <locationX>2150</locationX>
-        <locationY>958</locationY>
+        <locationX>2616</locationX>
+        <locationY>1110</locationY>
         <assignNextValueToReference>currentItem_Filter_Shipment_Items_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Shipment_Items</collectionReference>
@@ -520,8 +559,8 @@
     <decisions>
         <name>Check_Store</name>
         <label>Check Store</label>
-        <locationX>2373</locationX>
-        <locationY>580</locationY>
+        <locationX>2252</locationX>
+        <locationY>576</locationY>
         <defaultConnector>
             <targetReference>Set_Transaction_Item_Record_Values</targetReference>
         </defaultConnector>
@@ -568,28 +607,28 @@
         </rules>
     </decisions>
     <decisions>
-        <name>If_is_secondhand</name>
-        <label>If is secondhand</label>
-        <locationX>1222</locationX>
-        <locationY>1155</locationY>
+        <name>If_second_hand</name>
+        <label>If second hand</label>
+        <locationX>2606</locationX>
+        <locationY>587</locationY>
         <defaultConnector>
-            <targetReference>Loop_over_products</targetReference>
+            <targetReference>Assign_Product</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>is_secondhand</name>
+            <name>Second_hand</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Loop_over_products.isSecondHand__c</leftValueReference>
+                <leftValueReference>Iterate_Over_Invoice_Lines_With_Charge_Type.Product2.isSecondHand__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_masterSku</targetReference>
+                <targetReference>Filter_Product</targetReference>
             </connector>
-            <label>is secondhand</label>
+            <label>Second hand</label>
         </rules>
     </decisions>
     <formulas>
@@ -659,24 +698,24 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
-        <name>Loop_over_products</name>
-        <label>Loop over products</label>
-        <locationX>1102</locationX>
-        <locationY>950</locationY>
-        <collectionReference>Get_Products</collectionReference>
+        <name>Loop_over_Filter_product</name>
+        <label>Loop over Filter product</label>
+        <locationX>2835</locationX>
+        <locationY>738</locationY>
+        <collectionReference>Filter_Product</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>If_is_secondhand</targetReference>
+            <targetReference>Assign_current_Product</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_products</targetReference>
+            <targetReference>Assign_Product_with_master_SKU</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
         <name>Loop_ShipmentItems</name>
         <label>Loop ShipmentItems</label>
-        <locationX>2345</locationX>
-        <locationY>988</locationY>
+        <locationX>2349</locationX>
+        <locationY>1108</locationY>
         <collectionReference>Filter_Shipment_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -720,9 +759,6 @@
         <label>Create Transaction Payment</label>
         <locationX>1276</locationX>
         <locationY>947</locationY>
-        <connector>
-            <targetReference>Loop_over_products</targetReference>
-        </connector>
         <inputAssignments>
             <field>Client__c</field>
             <value>
@@ -849,18 +885,18 @@
     <recordLookups>
         <name>Get_Products</name>
         <label>Get Products</label>
-        <locationX>1905</locationX>
-        <locationY>474</locationY>
+        <locationX>1908</locationX>
+        <locationY>456</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Invoice_Lines_With_Charge_Type</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>StockKeepingUnit</field>
             <operator>In</operator>
             <value>
-                <elementReference>C_ProductIds</elementReference>
+                <elementReference>C_Products</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -893,8 +929,8 @@
     <recordLookups>
         <name>Get_Shipment_Items</name>
         <label>Get Shipment Items</label>
-        <locationX>1905</locationX>
-        <locationY>316</locationY>
+        <locationX>1911</locationX>
+        <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Products</targetReference>
@@ -941,13 +977,6 @@
         <object>Store__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <name>Update_products</name>
-        <label>Update products</label>
-        <locationX>886</locationX>
-        <locationY>954</locationY>
-        <inputReference>C_Products_To_Be_Updated</inputReference>
-    </recordUpdates>
     <start>
         <locationX>201</locationX>
         <locationY>45</locationY>
@@ -959,19 +988,11 @@
     </start>
     <status>Active</status>
     <variables>
-        <name>C_ProductIds</name>
+        <name>C_Products</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <name>C_Products_To_Be_Updated</name>
-        <dataType>SObject</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-        <objectType>Product2</objectType>
     </variables>
     <variables>
         <name>COL_TransactionItem</name>
@@ -990,12 +1011,20 @@
         <objectType>InvoiceLine</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_Invoice_Lines_With_Charge_Type</name>
+        <name>currentItem_Filter_Invoice_Lines_With_Charge_Type_0</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>InvoiceLine</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Product_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product2</objectType>
     </variables>
     <variables>
         <name>currentItem_Filter_Shipment_Items_0</name>
@@ -1004,6 +1033,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ShipmentItem</objectType>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product2</objectType>
     </variables>
     <variables>
         <name>InvoiceLineIds</name>
@@ -1027,6 +1064,14 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>TransactionItem__c</objectType>
+    </variables>
+    <variables>
+        <name>S_Current_Product</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Product2</objectType>
     </variables>
     <variables>
         <name>SerialNum</name>
