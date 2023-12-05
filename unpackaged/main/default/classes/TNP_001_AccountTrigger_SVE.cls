@@ -16,11 +16,19 @@ public with sharing class TNP_001_AccountTrigger_SVE {
     public static void preventClientInfoDeletion(List<Account> accList, Map<Id, SObject> oldSObjectMap) {
         System.debug('*** TNP_001_AccountTrigger_SVE - preventClientInfoDeletion - START ***');
         String userName = UserInfo.getName();
-        if(userName.contains(Label.R360_Integration_User_Name)) {
+        if(userName.contains(Label.R360_GCP_Integration_User_Name)) {//create another user for the API between CEGID -> Mulesoft -> SFDC
             for(Account acc : accList) {
                 Account oldAccount = (Account)oldSObjectMap.get(acc.Id);
                 acc.ClientType__pc = (acc.ClientType__pc!=null || !String.isEmpty(acc.ClientType__pc))?acc.ClientType__pc:oldAccount.ClientType__pc;
                 acc.ContactableByEmail__pc = oldAccount.ContactableByEmail__pc;
+                acc.OptinCalling__pc = acc.OptinCalling__pc!=null?acc.OptinCalling__pc:oldAccount.OptinCalling__pc;
+                acc.OptinEmailing__pc = acc.OptinEmailing__pc!=null?acc.OptinEmailing__pc:oldAccount.OptinEmailing__pc;
+                acc.OptinInstantMessaging__pc = acc.OptinInstantMessaging__pc!=null?acc.OptinInstantMessaging__pc:oldAccount.OptinInstantMessaging__pc;
+                acc.OptinMailing__pc = acc.OptinMailing__pc!=null?acc.OptinMailing__pc:oldAccount.OptinMailing__pc;
+                acc.LastUpdateOptinCalling__pc = acc.LastUpdateOptinCalling__pc!=null?acc.LastUpdateOptinCalling__pc:oldAccount.LastUpdateOptinCalling__pc;
+                acc.LastUpdateOptinEmailing__pc = acc.LastUpdateOptinEmailing__pc!=null?acc.LastUpdateOptinEmailing__pc:oldAccount.LastUpdateOptinEmailing__pc;
+                acc.LastUpdateOptinInstantMessaging__pc = acc.LastUpdateOptinInstantMessaging__pc!=null?acc.LastUpdateOptinInstantMessaging__pc:oldAccount.LastUpdateOptinInstantMessaging__pc;
+                acc.LastUpdateOptinMailing__pc = acc.LastUpdateOptinMailing__pc!=null?acc.LastUpdateOptinMailing__pc:oldAccount.LastUpdateOptinMailing__pc;
             }
         }
         System.debug('*** TNP_001_AccountTrigger_SVE - preventClientInfoDeletion - END ***');
@@ -88,8 +96,8 @@ public with sharing class TNP_001_AccountTrigger_SVE {
                     clientSource.Client__c = acc.Id;
                     clientSource.Source__c = '001';
                     clientSource.SourceCode__c = acc.Other_sources_ID__c;
-                    clientSource.SourceCreationDate__c = System.today();
-                    clientSource.SourceLastUpdateDate__c = System.today();
+                    clientSource.SourceCreationDate__c = System.now();
+                    clientSource.SourceLastUpdateDate__c = System.now();
                     clientSourceList.add(clientSource);
                 }
             }
