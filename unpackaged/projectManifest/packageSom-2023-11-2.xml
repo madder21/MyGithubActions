@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-	    <members>SOM_TransactionalEmailHandler</members>
-	<members>SOM_TransactionalEmailHandler_Test</members>
+		<members>SOM_SalesAndPaymentsReportSchedule</members>
+		<members>SOM_SalesAndPaymentsReportUKSchedule</members>
 	<members>WS_SOM_AutomaticRefundInCybersource</members>
 	<members>WS_SOM_AutomaticRefundInCybersourceTest</members>
 	<members>SOM_Constants</members>
-	    <members>SOM_AutomatedEmailWithProcessEXBatch</members>
-	    <members>SOM_AutomatedEmailWithProcess_Test</members>
-	    <members>SOM_BatchAnonymization_5</members>
-	
 
+
+	<members>SOM_TransactionalEmailHandler</members>
+
+	<members>SOM_TransactionalEmailHandler_Test</members>
+	<members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_AutomatedEmailWithProcess_Test</members>
+
+	<members>SOM_BatchAnonymization_5</members>
+
+
+	<members>SOM_AutomatedEmailWithProcessEXBatch</members>
+
+	<members>SOM_TransactionalEmailHandler</members>
+	<members>SOM_TransactionalEmailHandler_Test</members>
 	<name>ApexClass</name>
 </types>
 
 <types>
-	<members>SOM_460_Discount_Flow</members>
-	 <members>SOM_810_Reship_Order_Flow</members>
 	<members>SOM_Automatic_refund_in_Cybersource</members>
-	<members>SOM_110_CoreModel_Create_OrderSummary</members>
-        <members>SOM_940_Resolve_Ignore_Process_Exception</members>
+	<members>SOM_940_Resolve_Ignore_Process_Exception</members>
 	<members>SOM_720_Refund_ManualValidateRefund</members>
-
+	<members>SOM_110_CoreModel_Create_OrderSummary</members>
+	<members>SOM_460_Discount_Flow</members>
+	<members>SOM_810_Reship_Order_Flow</members> 
+	<members>SOM_Close_Return_Order</members>
+	<members>SOM_610_Core_Model_Create_ReturnOrder</members>
+	<members>SOM_410_Credit_Memo_Insert_RCU</members>
+	<members>SOM_410_Invoice_Insert_RCU</members>
 	<name>Flow</name>
 </types>
 
 <types>
-	<members>Refund.RefundedBy__c</members>
-	<members>TransactionalEmail__c.LanguageSite__c</members>
 	<members>Refund.OrderPaymentSummaryType__c</members>
 	<members>Refund.PE_was_identified__c</members>
 	<members>Product2.isSecondHand__c</members>
@@ -38,13 +49,11 @@
 
 <types>
 	<members>Refund_Record_Page</members> 
-	
+	<members>B2C_Account_Record_Page</members> 
+	<members>Fulfillment_Order_Record_Page</members> 
+	<members>Order_Summary_Record_Page</members> 
+	<members>Return_Order_Record_Page</members>  
 	<name>FlexiPage</name>
-</types>
-<types>
-	<members>SOM_CreditMemoDocument</members>
-	<members>SOM_InvoiceDocument</members>
-	<name>ApexPage</name>
 </types>
 
 <types>
@@ -52,17 +61,17 @@
 	<members>Refund.AutomaticRefund</members>
     <name>QuickAction</name>
 </types>
-<types>
-	<members>somLwcDisplayFoliAvailableToShip</members>
-	<name>LightningComponentBundle</name>
-</types>
+
 <types>
 	<members>Refund-Refund Layout</members>
+	<members>Product2-Product Layout</members>
     <name>Layout</name>
 </types>
+
 <types>
 	<members>somLwcDisplayFoliAvailableToShip</members>
 	<name>LightningComponentBundle</name>
 </types>	
+  
 <version>54.0</version>
 </Package> 

@@ -25,8 +25,8 @@
     <actionCalls>
         <name>Generate_Order_Creation_Transactional_Email</name>
         <label>Generate Order Creation Transactional Email</label>
-        <locationX>1706</locationX>
-        <locationY>793</locationY>
+        <locationX>1717</locationX>
+        <locationY>1128</locationY>
         <actionName>SOM_TransactionalEmailHandler</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -173,6 +173,31 @@
                 </rightValue>
             </conditions>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>If_Global_e_Order_Number_not_null</name>
+        <label>If Global-e Order Number not null</label>
+        <locationX>1699</locationX>
+        <locationY>796</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Null</defaultConnectorLabel>
+        <rules>
+            <name>Not_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OrderRecord.geOrderNumber__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Order_Summary_Number</targetReference>
+            </connector>
+            <label>Not null</label>
         </rules>
     </decisions>
     <decisions>
@@ -393,7 +418,7 @@
         <locationX>1706</locationX>
         <locationY>612</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -447,7 +472,7 @@
         <locationX>1533</locationX>
         <locationY>793</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -496,12 +521,42 @@
         <object>OrderSummary</object>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_Order_Summary_Number</name>
+        <label>Update Order Summary Number</label>
+        <locationX>1609</locationX>
+        <locationY>974</locationY>
+        <connector>
+            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>IsGlobalE__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OrderNumber</field>
+            <value>
+                <elementReference>OrderRecord.geOrderNumber__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_Order_Summary_Status</name>
         <label>Update Order Summary Status</label>
         <locationX>1886</locationX>
         <locationY>793</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>

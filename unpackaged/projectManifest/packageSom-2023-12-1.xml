@@ -1,51 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>Future_Stock__c.CheckQuantity</members>
-        <name>ValidationRule</name>
-    </types>
+<types>
+	 <members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_SalesAndPaymentsReportSchedule</members>
+	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
+	<members>SOM_TransactionalEmailHandler</members>
+	<members>SOM_Constants</members>
+		
+	<members>SOM_USReportMonthSchedule</members>
+	
+	<name>ApexClass</name>
+</types>
+<types>
+	  <members>SOM_110_CoreModel_Create_OrderSummary</members>
+	 
+	  <members>SOM_610_Core_Model_Create_ReturnOrder</members>
+	<members>SOM_960_Exchange_Manual_Order_Creation</members>
+	 <members>SOM_200_StoreToWeb_Manual_Order_Create_FulfillementOrder_Order</members>
+	<members>SOM_410_Credit_Memo_Insert_RCU</members>
+	<members>SOM_410_Invoice_Insert_RCU</members>
+	<members>SOM_660_Manual_Return_Reception</members>
+	  <name>Flow</name>
+	
+</types>
+<types>
+	  <members>OrderSummary.IsGlobalE__c</members>
+	  <members>Order.geOrderNumber__c</members>
+	  <members>OrderItem.hasGiftMessage__c</members>
+	  <members>OrderItem.isGiftWrap__c</members>
+	  <members>OrderItemSummary.hasGiftMessage__c</members>
+	  <members>OrderItemSummary.isGiftWrap__c</members>
+	  <name>CustomField</name>
+</types>
+	
+<types>
+	  <members>OrderSummary-Order Summary Layout</members>
+	  
+	  <members>OrderItemSummary-Order Product Summary Layout</members>
+	  <members>OrderItem-Order Product Layout</members>
+	  <members>OrderSummary-Order Summary Layout</members>
+	  <name>Layout</name>
+</types>
 
-    <types>
-        <members>OrderItem.giftMessage__c</members>
-        <members>OrderItem.gift__c</members>
-        <members>OrderItemSummary.giftMessage__c</members>
-        <members>OrderItemSummary.gift__c</members>
-        <members>Refund.OrderPaymentSummaryType__c</members>
-          <members>Refund.PE_was_identified__c</members>
-        <name>CustomField</name>
-    </types>
+<types>
+	<members>Refund.Refund_Compact_Layouts</members>
+	<name>CompactLayout</name>
+</types>
+	
 
-    <types>
-        <members>OrderItemSummary-Order Product Summary Layout</members>
-        <members>OrderItem-Order Product Layout</members>
-        <name>Layout</name>
-    </types>
+<types>
+	<members>SOM_CreditMemoDocument</members>
+	<members>SOM_InvoiceDocument</members>
+	<name>ApexPage</name>
+</types>
+	<types>
+	
+	<members>Refund_Record_Page</members>
+	<name>FlexiPage</name>
+</types>
 
-    <types>
-        <members>SOM_810_Reship_Order_Flow</members>
-        <members>SOM_Automatic_refund_in_Cybersource</members>
-        <members>SOM_940_Resolve_Ignore_Process_Exception</members>
-        <name>Flow</name>
-    </types>
+<types>
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_US</members>   
+	<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>   
+	
+	<members>ReportsforSOM/Refunds_Report_US_79u</members>   
+	<name>Report</name>        
+</types>
 
-    <types>
-        <members>WS_SOM_AutomaticRefundInCybersource</members>
-        <members>WS_SOM_AutomaticRefundInCybersourceTest</members>
-        <members>SOM_Constants</members>
-        <members>SOM_BatchAnonymization_5</members>
-        <name>ApexClass</name>
-    </types>
-
-    <types>
-        <members>Refund_Record_Page</members> 
-        <name>FlexiPage</name>
-    </types>
-
-    <types>
-        <members>Refund.ValidateRefund</members>
-        <members>Refund.AutomaticRefund</members>
-        <name>QuickAction</name>
-    </types>
 
 <version>54.0</version>
-</Package>
+</Package> 

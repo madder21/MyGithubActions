@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Create_Return_Order</name>
         <label>Create Return Order</label>
-        <locationX>2351</locationX>
+        <locationX>2858</locationX>
         <locationY>488</locationY>
         <actionName>createReturnOrder</actionName>
         <actionType>createReturnOrder</actionType>
@@ -25,7 +25,7 @@
     <actionCalls>
         <name>Return_Order_Item_Summaries_Preview</name>
         <label>Return Order Item Summaries Preview</label>
-        <locationX>2075</locationX>
+        <locationX>2582</locationX>
         <locationY>223</locationY>
         <actionName>returnOrderItemSummariesPreview</actionName>
         <actionType>returnOrderItemSummariesPreview</actionType>
@@ -55,25 +55,64 @@
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
+        <name>Add_single_country</name>
+        <label>Add single country</label>
+        <locationX>50</locationX>
+        <locationY>475</locationY>
+        <assignmentItems>
+            <assignToReference>C_Custom_Countries_After_Split</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FX_Single_Country</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Other_Countries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>If_One_Custom_Country</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Collection_of_Locations</name>
         <label>Assign Collection of Locations</label>
-        <locationX>181</locationX>
-        <locationY>586</locationY>
+        <locationX>879</locationX>
+        <locationY>703</locationY>
         <assignmentItems>
             <assignToReference>C_Locations</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>Get_Locations</elementReference>
+                <elementReference>Filter_Location</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>isValid</targetReference>
+            <targetReference>Loop_over_custom_countries</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_custom_countries</name>
+        <label>Assign custom countries</label>
+        <locationX>263</locationX>
+        <locationY>291</locationY>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group.DeliverToCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>If_One_Custom_Country</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Other_RO_Data</name>
         <label>Assign Other RO Data</label>
-        <locationX>2336</locationX>
+        <locationX>2843</locationX>
         <locationY>224</locationY>
         <assignmentItems>
             <assignToReference>S_RO_InputRepresentation.status</assignToReference>
@@ -103,7 +142,7 @@
     <assignments>
         <name>Assign_RO_Data_To_Call_Subflow</name>
         <label>Assign RO Data To Call Subflow</label>
-        <locationX>2686</locationX>
+        <locationX>3193</locationX>
         <locationY>389</locationY>
         <assignmentItems>
             <assignToReference>S_RO_To_Send.Id</assignToReference>
@@ -140,7 +179,7 @@
     <assignments>
         <name>Assign_ROLIs_Collection</name>
         <label>Assign ROLIs Collection</label>
-        <locationX>2538</locationX>
+        <locationX>3045</locationX>
         <locationY>223</locationY>
         <assignmentItems>
             <assignToReference>C_ROLI_Records</assignToReference>
@@ -156,7 +195,7 @@
     <assignments>
         <name>Assign_Single_Roli_Data</name>
         <label>Assign Single Roli Data</label>
-        <locationX>2523</locationX>
+        <locationX>3030</locationX>
         <locationY>886</locationY>
         <assignmentItems>
             <assignToReference>S_ROLI_Record.Id</assignToReference>
@@ -193,8 +232,8 @@
     <assignments>
         <name>Assign_warehouse_Id_default_value_for_screen</name>
         <label>Assign warehouse Id default value for screen</label>
-        <locationX>50</locationX>
-        <locationY>466</locationY>
+        <locationX>422</locationX>
+        <locationY>70</locationY>
         <assignmentItems>
             <assignToReference>V_warehouseIdDefaultValue</assignToReference>
             <operator>Assign</operator>
@@ -207,9 +246,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assigne_Existing_Country</name>
+        <label>Assigne Existing Country</label>
+        <locationX>445</locationX>
+        <locationY>465</locationY>
+        <assignmentItems>
+            <assignToReference>C_Custom_Countries_After_Split</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>S_Custom_Countries_Before_Split</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Change_Input_Representation</name>
         <label>Change Input Representation</label>
-        <locationX>1381</locationX>
+        <locationX>1888</locationX>
         <locationY>313</locationY>
         <assignmentItems>
             <assignToReference>changeInputRepresentation.changeItems</assignToReference>
@@ -232,7 +287,7 @@
     <assignments>
         <name>Change_Item_Assignment</name>
         <label>Change Item Assignment</label>
-        <locationX>958</locationX>
+        <locationX>1465</locationX>
         <locationY>958</locationY>
         <assignmentItems>
             <assignToReference>changeItem.orderItemSummaryId</assignToReference>
@@ -294,7 +349,7 @@
     <assignments>
         <name>Change_Item_Input_Representation_Assignment</name>
         <label>Change Item Input Representation Assignment</label>
-        <locationX>1248</locationX>
+        <locationX>1755</locationX>
         <locationY>622</locationY>
         <assignmentItems>
             <assignToReference>changeItemInputRepresentation.orderItemSummaryId</assignToReference>
@@ -359,7 +414,7 @@
     <assignments>
         <name>Change_Item_List_Assignment</name>
         <label>Change Item List Assignment</label>
-        <locationX>1247</locationX>
+        <locationX>1754</locationX>
         <locationY>967</locationY>
         <assignmentItems>
             <assignToReference>changeItems</assignToReference>
@@ -382,7 +437,7 @@
     <assignments>
         <name>Datatable_Collections_Assignment</name>
         <label>Datatable Collections Assignment</label>
-        <locationX>1578</locationX>
+        <locationX>2085</locationX>
         <locationY>427</locationY>
         <assignmentItems>
             <assignToReference>OIS_size</assignToReference>
@@ -405,7 +460,7 @@
     <assignments>
         <name>Filtered_Lignes_Count_Assignement_from_changeItem</name>
         <label>Filtered Lignes Count Assignement from changeItem</label>
-        <locationX>1804</locationX>
+        <locationX>2311</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>FilteredChangeItems_Count</assignToReference>
@@ -421,7 +476,7 @@
     <assignments>
         <name>Invocable_Action_Error_Message</name>
         <label>Invocable Action Error Message</label>
-        <locationX>2182</locationX>
+        <locationX>2689</locationX>
         <locationY>1470</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -451,7 +506,7 @@
     <assignments>
         <name>No_Items_Error_Message</name>
         <label>No Items Error Message</label>
-        <locationX>727</locationX>
+        <locationX>1234</locationX>
         <locationY>1351</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -481,7 +536,7 @@
     <assignments>
         <name>OIS_Data_Assignment</name>
         <label>OIS Data Assignment</label>
-        <locationX>1641</locationX>
+        <locationX>2148</locationX>
         <locationY>545</locationY>
         <assignmentItems>
             <assignToReference>L60_Loop_Over_Old_OIS.Tech_ReturnedQuantity__c</assignToReference>
@@ -511,7 +566,7 @@
     <assignments>
         <name>Set_Datatable_Error_Message</name>
         <label>Set Datatable Error Message</label>
-        <locationX>1679</locationX>
+        <locationX>2186</locationX>
         <locationY>247</locationY>
         <assignmentItems>
             <assignToReference>DatatableErrorMessage</assignToReference>
@@ -527,7 +582,7 @@
     <assignments>
         <name>Set_Datatable_Reason_Error_Message</name>
         <label>Set Datatable Reason Error Message</label>
-        <locationX>1942</locationX>
+        <locationX>2449</locationX>
         <locationY>123</locationY>
         <assignmentItems>
             <assignToReference>DatatableErrorMessage</assignToReference>
@@ -543,7 +598,7 @@
     <assignments>
         <name>Set_stage_to_part_1</name>
         <label>Set stage to part 1</label>
-        <locationX>730</locationX>
+        <locationX>1237</locationX>
         <locationY>595</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -559,7 +614,7 @@
     <assignments>
         <name>Set_stage_to_part_2</name>
         <label>Set stage to part 2</label>
-        <locationX>966</locationX>
+        <locationX>1473</locationX>
         <locationY>285</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -575,7 +630,7 @@
     <assignments>
         <name>Set_Stage_To_Stage_3</name>
         <label>Set Stage To Stage 3</label>
-        <locationX>1134</locationX>
+        <locationX>1641</locationX>
         <locationY>122</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -591,7 +646,7 @@
     <assignments>
         <name>Set_Stage_To_Stage_4</name>
         <label>Set Stage To Stage 4</label>
-        <locationX>2231</locationX>
+        <locationX>2738</locationX>
         <locationY>224</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -614,7 +669,7 @@
     <assignments>
         <name>Set_Stage_To_Stage_5</name>
         <label>Set Stage To Stage 5</label>
-        <locationX>2850</locationX>
+        <locationX>3357</locationX>
         <locationY>239</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
@@ -637,7 +692,7 @@
     <assignments>
         <name>Set_Unmanaged_Order_Error_Message</name>
         <label>Set Unmanaged Order Error Message</label>
-        <locationX>155</locationX>
+        <locationX>662</locationX>
         <locationY>1048</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -667,7 +722,7 @@
     <assignments>
         <name>Set_Wrong_Entity_Error_Message</name>
         <label>Set Wrong Entity Error Message</label>
-        <locationX>323</locationX>
+        <locationX>830</locationX>
         <locationY>1074</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
@@ -697,7 +752,7 @@
     <assignments>
         <name>Stack_ROLI_to_update</name>
         <label>Stack ROLI to update</label>
-        <locationX>2518</locationX>
+        <locationX>3025</locationX>
         <locationY>729</locationY>
         <assignmentItems>
             <assignToReference>C_ROLI_To_Update</assignToReference>
@@ -711,10 +766,31 @@
         </connector>
     </assignments>
     <collectionProcessors>
+        <name>Filter_Location</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Location</label>
+        <locationX>880</locationX>
+        <locationY>494</locationY>
+        <assignNextValueToReference>currentItem_Filter_Location_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Locations</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Location_0.CustomCountry__c</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Loop_over_custom_countries</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Assign_Collection_of_Locations</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
         <name>Filter_Reason_from_changeItem</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Reason from changeItem</label>
-        <locationX>1805</locationX>
+        <locationX>2312</locationX>
         <locationY>591</locationY>
         <assignNextValueToReference>currentItem_Filter_Reason_from_changeItem_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
@@ -783,7 +859,7 @@
     <decisions>
         <name>Are_Any_Items_To_Return</name>
         <label>Are Any Items To Return</label>
-        <locationX>718</locationX>
+        <locationX>1225</locationX>
         <locationY>829</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -820,7 +896,7 @@
     <decisions>
         <name>Check_Datatable_Output_Collection_Size</name>
         <label>Check Datatable Output Collection Size</label>
-        <locationX>1924</locationX>
+        <locationX>2431</locationX>
         <locationY>1036</locationY>
         <defaultConnector>
             <targetReference>Set_Datatable_Error_Message</targetReference>
@@ -845,7 +921,7 @@
     <decisions>
         <name>Check_Datatable_Repayment_Method</name>
         <label>Check Datatable Repayment Method</label>
-        <locationX>1932</locationX>
+        <locationX>2439</locationX>
         <locationY>385</locationY>
         <defaultConnector>
             <targetReference>L05_Loop_Over_OIs</targetReference>
@@ -892,7 +968,7 @@
     <decisions>
         <name>Check_If_OIS_Is_Match_ChangeItem</name>
         <label>Check If OIS Is Match ChangeItem</label>
-        <locationX>1467</locationX>
+        <locationX>1974</locationX>
         <locationY>1048</locationY>
         <defaultConnector>
             <targetReference>L60_Loop_Over_Old_OIS</targetReference>
@@ -917,7 +993,7 @@
     <decisions>
         <name>Check_If_ROLI_Have_OIS</name>
         <label>Check If ROLI Have OIS</label>
-        <locationX>2650</locationX>
+        <locationX>3157</locationX>
         <locationY>904</locationY>
         <defaultConnector>
             <targetReference>L20_Loop_Over_OIS</targetReference>
@@ -940,10 +1016,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>If_One_Custom_Country</name>
+        <label>If One Custom Country</label>
+        <locationX>257</locationX>
+        <locationY>469</locationY>
+        <defaultConnector>
+            <targetReference>Add_single_country</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>One_Country</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_Number_Of_Countries</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assigne_Existing_Country</targetReference>
+            </connector>
+            <label>One Country</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_location_type_Warehouse</name>
         <label>Is location type Warehouse?</label>
-        <locationX>193</locationX>
-        <locationY>459</locationY>
+        <locationX>655</locationX>
+        <locationY>82</locationY>
         <defaultConnector>
             <targetReference>L10_FOs</targetReference>
         </defaultConnector>
@@ -967,7 +1068,7 @@
     <decisions>
         <name>isValid</name>
         <label>isValid</label>
-        <locationX>149</locationX>
+        <locationX>656</locationX>
         <locationY>828</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1047,18 +1148,33 @@
         <picklistField>ReasonForReturn</picklistField>
         <picklistObject>ReturnOrderLineItem</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <formulas>
         <name>FX_ChangeItem_Reason</name>
         <dataType>String</dataType>
         <expression>{!changeItem.reason}</expression>
+    </formulas>
+    <formulas>
+        <name>FX_Number_Of_Countries</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!S_Custom_Countries_Before_Split})-LEN(SUBSTITUTE({!S_Custom_Countries_Before_Split}, &apos;;&apos;, &apos;&apos;)) + 1</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_Other_Countries</name>
+        <dataType>String</dataType>
+        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
+    </formulas>
+    <formulas>
+        <name>FX_Single_Country</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
     </formulas>
     <interviewLabel>SOM 610 - Core Model - Create ReturnOrder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 610 - Core Model - Create ReturnOrder</label>
     <loops>
         <name>Change_Item_Assignment_Loop</name>
         <label>Change Item Assignment Loop</label>
-        <locationX>963</locationX>
+        <locationX>1470</locationX>
         <locationY>633</locationY>
         <assignNextValueToReference>selectedOrderItem</assignNextValueToReference>
         <collectionReference>selectedOrderItemSummaries</collectionReference>
@@ -1073,7 +1189,7 @@
     <loops>
         <name>Change_Item_Representation_Loop</name>
         <label>Change Item Representation Loop</label>
-        <locationX>1131</locationX>
+        <locationX>1638</locationX>
         <locationY>312</locationY>
         <assignNextValueToReference>changeItem</assignNextValueToReference>
         <collectionReference>changeItems</collectionReference>
@@ -1088,7 +1204,7 @@
     <loops>
         <name>L05_Loop_Over_OIs</name>
         <label>L05 Loop Over OIs</label>
-        <locationX>2047</locationX>
+        <locationX>2554</locationX>
         <locationY>716</locationY>
         <collectionReference>C_OutPut_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1102,8 +1218,8 @@
     <loops>
         <name>L10_FOs</name>
         <label>L10 FOs</label>
-        <locationX>433</locationX>
-        <locationY>458</locationY>
+        <locationX>678</locationX>
+        <locationY>273</locationY>
         <collectionReference>Get_Fulfilled_FO_for_OS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1116,7 +1232,7 @@
     <loops>
         <name>L10_Loop_Over_ROLIs</name>
         <label>L10 Loop Over ROLIs</label>
-        <locationX>2530</locationX>
+        <locationX>3037</locationX>
         <locationY>499</locationY>
         <collectionReference>Get_Inserted_ROLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1130,7 +1246,7 @@
     <loops>
         <name>L20_Loop_Over_OIS</name>
         <label>L20 Loop Over OIS</label>
-        <locationX>2661</locationX>
+        <locationX>3168</locationX>
         <locationY>632</locationY>
         <collectionReference>C_OutPut_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1144,7 +1260,7 @@
     <loops>
         <name>L60_Loop_Over_Old_OIS</name>
         <label>L60 Loop Over Old OIS</label>
-        <locationX>1393</locationX>
+        <locationX>1900</locationX>
         <locationY>615</locationY>
         <collectionReference>C_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1153,6 +1269,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Change_Input_Representation</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_over_custom_countries</name>
+        <label>Loop over custom countries</label>
+        <locationX>637</locationX>
+        <locationY>633</locationY>
+        <collectionReference>C_Custom_Countries_After_Split</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Filter_Location</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>isValid</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1177,7 +1307,7 @@
     <recordLookups>
         <name>Get_Fulfilled_FO_for_OS</name>
         <label>Get Fulfilled FO for OS</label>
-        <locationX>433</locationX>
+        <locationX>940</locationX>
         <locationY>266</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1205,7 +1335,7 @@
     <recordLookups>
         <name>Get_Inserted_Ro</name>
         <label>Get Inserted Ro</label>
-        <locationX>2440</locationX>
+        <locationX>2947</locationX>
         <locationY>222</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1226,7 +1356,7 @@
     <recordLookups>
         <name>Get_Inserted_ROLIs</name>
         <label>Get Inserted ROLIs</label>
-        <locationX>2445</locationX>
+        <locationX>2952</locationX>
         <locationY>490</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1247,20 +1377,13 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>386</locationX>
-        <locationY>586</locationY>
+        <locationX>629</locationX>
+        <locationY>462</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Collection_of_Locations</targetReference>
+            <targetReference>Loop_over_custom_countries</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>CustomCountry__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_Order_Delivery_Group.DeliverToCountry</elementReference>
-            </value>
-        </filters>
         <filters>
             <field>LocationType</field>
             <operator>EqualTo</operator>
@@ -1275,11 +1398,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group</name>
         <label>Get Order Delivery Group</label>
-        <locationX>591</locationX>
-        <locationY>576</locationY>
+        <locationX>422</locationX>
+        <locationY>282</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Locations</targetReference>
+            <targetReference>Assign_custom_countries</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1296,7 +1419,7 @@
     <recordLookups>
         <name>Get_Order_Item_Summary</name>
         <label>Get Order Item Summary</label>
-        <locationX>479</locationX>
+        <locationX>986</locationX>
         <locationY>821</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1332,7 +1455,7 @@
         <description>Get OrderSummary for the record Id passed</description>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>589</locationX>
+        <locationX>1096</locationX>
         <locationY>267</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1353,7 +1476,7 @@
     <recordUpdates>
         <name>Update_ReturnOrder_Origin</name>
         <label>Update ReturnOrder Origin</label>
-        <locationX>2746</locationX>
+        <locationX>3253</locationX>
         <locationY>240</locationY>
         <connector>
             <targetReference>Set_Stage_To_Stage_5</targetReference>
@@ -1363,7 +1486,7 @@
     <recordUpdates>
         <name>Update_ROLIs</name>
         <label>Update ROLIs</label>
-        <locationX>2636</locationX>
+        <locationX>3143</locationX>
         <locationY>235</locationY>
         <connector>
             <targetReference>Assign_RO_Data_To_Call_Subflow</targetReference>
@@ -1373,7 +1496,7 @@
     <screens>
         <name>Confirmation</name>
         <label>Confirmation</label>
-        <locationX>2848</locationX>
+        <locationX>3355</locationX>
         <locationY>390</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1413,7 +1536,7 @@
     <screens>
         <name>DataTable_Preview</name>
         <label>DataTable Preview</label>
-        <locationX>2268</locationX>
+        <locationX>2775</locationX>
         <locationY>409</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1540,7 +1663,7 @@
     <screens>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>146</locationX>
+        <locationX>653</locationX>
         <locationY>1464</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1561,7 +1684,7 @@
     <screens>
         <name>PreviewChanges</name>
         <label>PreviewChanges</label>
-        <locationX>2224</locationX>
+        <locationX>2731</locationX>
         <locationY>536</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1645,7 +1768,7 @@
     <screens>
         <name>Product_Selection</name>
         <label>Product Selection</label>
-        <locationX>856</locationX>
+        <locationX>1363</locationX>
         <locationY>51</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1725,7 +1848,7 @@
     <screens>
         <name>Reasons_Selection</name>
         <label>Reasons Selection</label>
-        <locationX>1126</locationX>
+        <locationX>1633</locationX>
         <locationY>626</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1791,7 +1914,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ReasonsSelectionHeading</name>
@@ -1868,7 +1990,7 @@
     <screens>
         <name>ROLI_Data_Table</name>
         <label>ROLI DataTable</label>
-        <locationX>1629</locationX>
+        <locationX>2136</locationX>
         <locationY>121</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -2033,7 +2155,7 @@
     <screens>
         <name>Selector_OIS_Sreen1</name>
         <label>Selector_OIS_Sreen1</label>
-        <locationX>728</locationX>
+        <locationX>1235</locationX>
         <locationY>291</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -2198,7 +2320,7 @@
         <stageOrder>5</stageOrder>
     </stages>
     <start>
-        <locationX>463</locationX>
+        <locationX>970</locationX>
         <locationY>116</locationY>
         <connector>
             <targetReference>Get_Order_Summary</targetReference>
@@ -2208,7 +2330,7 @@
     <subflows>
         <name>Update_Return_Order</name>
         <label>Update Return Order</label>
-        <locationX>2252</locationX>
+        <locationX>2759</locationX>
         <locationY>88</locationY>
         <flowName>SOM_create_order_dry_subflow</flowName>
     </subflows>
@@ -2254,6 +2376,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>C_Custom_Countries_After_Split</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>C_Global_OIS_Data</name>
@@ -2387,6 +2516,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_Location_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Reason_from_changeItem_0</name>
         <apexClass>runtime_commerce_oms__ChangeItem</apexClass>
         <dataType>Apex</dataType>
@@ -2493,6 +2630,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>S_Custom_Countries_Before_Split</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>S_OIS</name>
