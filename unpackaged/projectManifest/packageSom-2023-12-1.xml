@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+<!-- SOM-739-->
 <types>
+	<members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_USWeeklyReportSchedule_Test</members>
+	<members>SOM_USReportMonthSchedule</members>
+	<members>SOM_USReportMonthSchedule_Test</members>
+	<name>ApexClass</name>
+</types>
+	
+	<types>
+	<members>Order_summary_with_payment</members>  
+	
+	<members>SOM_PE_ReportType</members>  
+	<name>ReportType</name>
+</types>
+
+<types>
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_US</members>   
+	<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>   
+	<members>ReportsforSOM/Payments_Report_US</members>   
+	<members>ReportsforSOM/Shipments_Report_Finance_US</members>   
+	<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
+	<members>ReportsforSOM/Refunds_Report_US_79u</members>    
+	
+	<name>Report</name>        
+</types>
+
+
+
+	
+<!-- this is the good version
+	<types>
 	 <members>SOM_USWeeklyReportSchedule</members>
 	<members>SOM_SalesAndPaymentsReportSchedule</members>
 	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
@@ -79,7 +111,7 @@
 	
 	<name>Report</name>        
 </types>
-
+-->
 
 <version>54.0</version>
 </Package> 
