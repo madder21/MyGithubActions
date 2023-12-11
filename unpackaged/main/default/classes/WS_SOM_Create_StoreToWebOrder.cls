@@ -153,18 +153,18 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     //create OrderItemTaxLineItem
                     Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.HALF_EVEN) / 100;
                     Decimal taxDiff = Math.abs(((orderProduct.amount-orderProduct.orderProductTax.vat)*taxRateScaled) - orderProduct.orderProductTax.vat);
-                    if (taxDiff > TAX_DIFF) {
+                    /*if (taxDiff > TAX_DIFF) {
                         //rise error and quite
                         throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber: ' + storeToWebOrder.orderSummaryNumber + 
                                                     ', Product SKU: '+orderProduct.productSKU + ', Amount: ' + orderProduct.amount + 
                                                     ', TaxRate: ' + orderProduct.orderProductTax.vatRate + 
                                                     ', TaxAmount: ' + orderProduct.orderProductTax.vat);
-                    }
+                    }*/
                     OrderItemTaxLineItem orderItemTax = new OrderItemTaxLineItem();
                     orderItemTax.Name                 = orderProduct.productSKU+ORDER_ITEM_TAX_NAME_SUFFIX;
                     orderItemTax.Type                 = SOM_Constants.ORDER_ITEM_TAX_TYPE_ESTIMATED;
                     orderItemTax.Amount               = orderProduct.orderProductTax.vat;
-                    orderItemTax.Rate                 = taxRateScaled;
+                    orderItemTax.Rate                 = orderProduct.orderProductTax.vatRate;
                     orderItemTax.TaxEffectiveDate     = Date.today();
                     //----set OrderItemId
                     orderItemsTaxMap.put(j, orderItemTax);
