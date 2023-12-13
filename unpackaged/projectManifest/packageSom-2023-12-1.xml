@@ -1,6 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+<!-- SOM-739/SOM-860/SOM-880-->
 <types>
+	<members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_USWeeklyReportSchedule_Test</members>
+	<members>SOM_USReportMonthSchedule</members>
+	<members>SOM_USReportMonthSchedule_Test</members>
+	<members>WS_SOM_Create_StoreToWebOrder</members>
+	<name>ApexClass</name>
+</types>
+	
+	<types>
+	<members>Order_summary_with_payment</members>  
+	
+	<members>SOM_PE_ReportType</members>  
+	<name>ReportType</name>
+</types>
+
+<types>
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_US</members>   
+	<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>   
+	<members>ReportsforSOM/Payments_Report_US</members>   
+	<members>ReportsforSOM/Shipments_Report_Finance_US</members>   
+	<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
+	<members>ReportsforSOM/Refunds_Report_US_79u</members>    
+	
+	<name>Report</name>        
+</types>
+<types>
+	<members>SOM_110_CoreModel_Create_OrderSummary</members>
+	<name>Flow</name>
+</types>
+  <types>
+  <members>OrderSummary.IsGlobalE__c</members>
+	<name>CustomField</name>
+</types>
+  <types>
+  <members>OrderSummary-Order Summary Layout</members>
+    <name>Layout</name>
+</types>
+
+
+	
+<!-- this is the good version
+	<types>
 	 <members>SOM_USWeeklyReportSchedule</members>
 	<members>SOM_SalesAndPaymentsReportSchedule</members>
 	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
@@ -10,6 +54,7 @@
 	<members>SOM_USReportMonthSchedule_Test</members>
 	<members>SOM_USReportMonthSchedule</members>
 	<members>SOM_Batch_CustomerTokenDeletion</members>
+	
 	<name>ApexClass</name>
 </types>
 <types>
@@ -59,10 +104,7 @@
 	<members>Refund_Record_Page</members>
 	<name>FlexiPage</name>
 </types>
-	<types>
-	<members>SOMDashboardReportsEcomOperations</members>  
-	<name>ReportFolder</name>
-</types>
+	
 	<types>
 	<members>Order_summary_with_payment</members>  
 	
@@ -81,7 +123,7 @@
 	
 	<name>Report</name>        
 </types>
-
+-->
 
 <version>54.0</version>
 </Package> 
