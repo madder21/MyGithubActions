@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-<!-- SOM-739-->
+<!-- SOM-739/SOM-860/SOM-880-->
 <types>
 	<members>SOM_USWeeklyReportSchedule</members>
 	<members>SOM_USWeeklyReportSchedule_Test</members>
 	<members>SOM_USReportMonthSchedule</members>
 	<members>SOM_USReportMonthSchedule_Test</members>
+	<members>WS_SOM_Create_StoreToWebOrder</members>
 	<members>WS_SOM_CapturePaymentAction</members>
 	<name>ApexClass</name>
 </types>
@@ -28,7 +29,18 @@
 	
 	<name>Report</name>        
 </types>
-
+<types>
+	<members>SOM_110_CoreModel_Create_OrderSummary</members>
+	<name>Flow</name>
+</types>
+  <types>
+  <members>OrderSummary.IsGlobalE__c</members>
+	<name>CustomField</name>
+</types>
+  <types>
+  <members>OrderSummary-Order Summary Layout</members>
+    <name>Layout</name>
+</types>
 
 
 	
