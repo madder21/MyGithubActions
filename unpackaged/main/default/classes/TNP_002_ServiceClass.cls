@@ -141,8 +141,8 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             clientMap.put ('Source',source);
             clientMap.put ('Country',CountryIso3Code);
             String currentUserName = UserInfo.getName();
-            if (currentUserName.contains('ECO')){
-                clientMap.put ('B2CDateCreated',accountInput.LastModifiedDate);
+            if (currentUserName.contains('ECO') && accountInput.B2C_Date_Created__pc == null){
+                clientMap.put('B2CDateCreated',DateTime.now());
             }
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'clientMap'+clientMap);
             JsonMap.put('Client',clientMap);         
