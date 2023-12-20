@@ -115,7 +115,9 @@ public with sharing class B2CIACustomerResolution_TestHelper {
         output = new Map<String, Object>();
 
         // Retrieve the collection of resolved contacts and processing results
+        System.debug('PLM-19-10-23 : ' + testContact);
         contactResolvedListContainer = B2CIACustomerResolution.resolve(new List<Contact>{testContact});
+        System.debug('PLM-18-10-23 : ' + contactResolvedListContainer);
         resolutionResults = contactResolvedListContainer.get(0);
 
         // Audit an error -- if one was caught
