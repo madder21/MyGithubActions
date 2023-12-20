@@ -11,7 +11,7 @@
  * 2.0		|	2023-02-17			|	.AS				|	.CI-74					|	.Devoteam : Method ConnectorBToCNewLogic() => changing the logic of matching contacts + Upgrade Version 57
  * 2.1		|	2023-03-20			|	.PLM			|	.CI-163					|	.Rimowa : Query of ConnectorBToCNewLogic modified to remove null possibilities and remove all return case, by on return at the end of the method + add comments
  * 2.2		|	2023-04-27			|	.PLM			|	.CI-166					|	.Modify the process to avoir vulnerability to SOQL Injection. 2 new methods : getMatchingContacts()	getNonNullableContactsQueryLocator()
- *			|						|	.				|	.						|	.	
+ * 2.3		|	2023-10-18			|	.PLM			|	.CI-211					|	.Add OtherEmail in the binding
 */
 public inherited sharing class B2CIACustomerResolution {
 
@@ -137,8 +137,9 @@ public inherited sharing class B2CIACustomerResolution {
      *
      * @param contactToResolve A Contact Object with fields to be query in it
      * @return A QueryLocator object containing the matching Contacts.
+     * LastUpdate : 18/10/2023 - CI-211 Add OtherEmail in the binding
      */
-	public static Database.QueryLocator getNonNullableContactsQueryLocator(Contact contactToResolve) {
+    public static Database.QueryLocator getNonNullableContactsQueryLocator(Contact contactToResolve) {
     	// Create list to hold the query conditions
         List<String> conditions = new List<String>();
     
@@ -156,21 +157,23 @@ public inherited sharing class B2CIACustomerResolution {
     
         // Add conditions for non-null Email and Phone
         if (String.isNotEmpty(contactToResolve.Email) && String.isNotEmpty(contactToResolve.Phone)) {
-            conditions.add('(Email = :email OR Phone = :phone)');
+            conditions.add('(Email = :email OR Phone = :phone OR OtherEmail__c = :email)');
         } else if (String.isNotEmpty(contactToResolve.Email)) {
             // Add condition for non-null Email
-            conditions.add('Email = :email');
+            // #CI-211 : Add Other Email in the binding
+            conditions.add('(Email = :email OR OtherEmail__c = :email)');
         } else if (String.isNotEmpty(contactToResolve.Phone)) {
             // Add condition for non-null Phone
             conditions.add('Phone = :phone');
-        } else {
+        } 
+        else {
             // Return null if neither Email nor Phone is present
             return null;
         }
     
         // Construct the SOQL query string using the conditions
         String soqlQuery = 'SELECT Id, AccountId, B2C_CustomerList__c, B2C_CustomerList_ID__c, B2C_Customer_ID__c, B2C_Customer_No__c, ' +
-                           'FirstName, LastName, Email, Phone, B2C_Disable_Integration__c, B2C_Date_Last_Modified__c ' +
+                           'FirstName, LastName, Email, OtherEmail__c, Phone, B2C_Disable_Integration__c, B2C_Date_Last_Modified__c ' +
                            'FROM Contact WHERE ' + String.join(conditions, ' AND ') + ' ORDER BY CreatedDate DESC';
         System.debug('B2CIACustomerResolution.getNonNullableContactsQueryLocator() soqlQuery = ' + soqlQuery);
     

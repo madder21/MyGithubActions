@@ -1,48 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
-    <assignments>
-        <description>... attempt to create the name for the Account based on the existence of first / lastName on the source Contact.</description>
-        <name>asn_accountNameViaFormula</name>
-        <label>Assign the Account Name</label>
-        <locationX>182</locationX>
-        <locationY>830</locationY>
-        <assignmentItems>
-            <assignToReference>var_accountName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>fla_createAccountName</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_wasAccountNameCalculated</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>... default the accountName using the configured default value.</description>
-        <name>asn_defaultAccountName</name>
-        <label>Default the Account Name</label>
-        <locationX>314</locationX>
-        <locationY>1070</locationY>
-        <assignmentItems>
-            <assignToReference>var_accountName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_defaultAccountName</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <description>... assign the firstName to a local variable so that it can be leveraged by a formula to calculate the accountName.</description>
         <name>asn_firstNameToLocal</name>
         <label>Assign FirstName to Local Variable</label>
-        <locationX>50</locationX>
-        <locationY>278</locationY>
+        <locationX>628</locationX>
+        <locationY>505</locationY>
         <assignmentItems>
-            <assignToReference>var_firstName</assignToReference>
+            <assignToReference>Account.FirstName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.FirstName</elementReference>
+                <elementReference>CorrectFirstNameFormat</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -53,27 +22,290 @@
         <description>... assign the firstName to a local variable so that it can be leveraged by a formula to calculate the accountName.</description>
         <name>asn_lastNameToLocal</name>
         <label>Assign LastName to Local Variable</label>
-        <locationX>50</locationX>
-        <locationY>614</locationY>
+        <locationX>637</locationX>
+        <locationY>760</locationY>
         <assignmentItems>
-            <assignToReference>var_lastName</assignToReference>
+            <assignToReference>Account.LastName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.LastName</elementReference>
+                <elementReference>CorrectLastNameFormat</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>asn_accountNameViaFormula</targetReference>
+            <targetReference>Does_B2C_Cust_ID_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_Cust_ID</name>
+        <label>Assign B2C Cust ID</label>
+        <locationX>1083</locationX>
+        <locationY>589</locationY>
+        <assignmentItems>
+            <assignToReference>Account.B2C_Customer_ID__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_B2C_Cust_No_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_Cust_List</name>
+        <label>Assign B2C Default Value</label>
+        <locationX>1238</locationX>
+        <locationY>296</locationY>
+        <assignmentItems>
+            <assignToReference>Account.B2C_CustomerList__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.B2C_CustomerList_ID__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.B2C_Date_Created__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.B2C_Date_Last_Modified__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_Full_Account_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_Cust_No</name>
+        <label>Assign B2C Cust No</label>
+        <locationX>1079</locationX>
+        <locationY>388</locationY>
+        <assignmentItems>
+            <assignToReference>Account.B2C_Customer_No__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_B2C_Cust_List</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Birthdate</name>
+        <label>Assign Birthdate</label>
+        <locationX>2420</locationX>
+        <locationY>265</locationY>
+        <assignmentItems>
+            <assignToReference>Account.Birthday__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthday__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.Birthmonth__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthmonth__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.Birthyear__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthyear__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Assign_Country</name>
+        <label>Assign Country and Mailing Country</label>
+        <locationX>1416</locationX>
+        <locationY>760</locationY>
+        <assignmentItems>
+            <assignToReference>Account.Country__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Country__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Account.PersonMailingCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.MailingCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Website_country_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Email</name>
+        <label>Assign Email</label>
+        <locationX>1422</locationX>
+        <locationY>331</locationY>
+        <assignmentItems>
+            <assignToReference>Account.PersonEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Phone_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_FirstName_default_Value</name>
+        <label>Assign FirstName default Value</label>
+        <locationX>929</locationX>
+        <locationY>506</locationY>
+        <assignmentItems>
+            <assignToReference>Account.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_defaultFirstName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assign_Full_Account_value</name>
+        <label>assign Full Account value</label>
+        <locationX>1077</locationX>
+        <locationY>147</locationY>
+        <assignmentItems>
+            <assignToReference>Account.FullAccount__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.FullAccount__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Email_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_LastName_default_value</name>
+        <label>Assign LastName default value</label>
+        <locationX>928</locationX>
+        <locationY>758</locationY>
+        <assignmentItems>
+            <assignToReference>Account.LastName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_defaultLastName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_B2C_Cust_ID_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Phone</name>
+        <label>Assign Phone</label>
+        <locationX>1416</locationX>
+        <locationY>520</locationY>
+        <assignmentItems>
+            <assignToReference>Account.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Country_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Salutation</name>
+        <label>Assign Salutation</label>
+        <locationX>633</locationX>
+        <locationY>268</locationY>
+        <assignmentItems>
+            <assignToReference>Account.Salutation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Salutation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_firstNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Website_country</name>
+        <label>Assign Website country</label>
+        <locationX>2085</locationX>
+        <locationY>632</locationY>
+        <assignmentItems>
+            <assignToReference>Account.WebsiteCountry__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteCountry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Website_language</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Website_Language</name>
+        <label>Assign Website Language</label>
+        <locationX>2069</locationX>
+        <locationY>439</locationY>
+        <assignmentItems>
+            <assignToReference>Account.WebsiteLanguage__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteLanguage__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Website_locale</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Website_local</name>
+        <label>Assign Website local</label>
+        <locationX>1854</locationX>
+        <locationY>167</locationY>
+        <assignmentItems>
+            <assignToReference>Account.WebsiteLocale__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteLocale__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Birth_dates_exist</targetReference>
         </connector>
     </assignments>
     <decisions>
         <description>... does the firstName exist on the sourceContact</description>
         <name>dec_firstNameExists</name>
         <label>Does FirstName Exist?</label>
-        <locationX>182</locationX>
-        <locationY>158</locationY>
+        <locationX>768</locationX>
+        <locationY>396</locationY>
         <defaultConnector>
-            <targetReference>dec_lastNameExists</targetReference>
+            <targetReference>Assign_FirstName_default_Value</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
         <rules>
@@ -86,6 +318,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>asn_firstNameToLocal</targetReference>
             </connector>
@@ -96,10 +335,10 @@
         <description>... does the lastName exist on the sourceContact</description>
         <name>dec_lastNameExists</name>
         <label>Does LastName Exist?</label>
-        <locationX>182</locationX>
-        <locationY>494</locationY>
+        <locationX>779</locationX>
+        <locationY>583</locationY>
         <defaultConnector>
-            <targetReference>asn_accountNameViaFormula</targetReference>
+            <targetReference>Assign_LastName_default_value</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
         <rules>
@@ -112,6 +351,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>asn_lastNameToLocal</targetReference>
             </connector>
@@ -119,37 +365,385 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluate if an Account Name was successfully calculated -- or if a fallback is required.</description>
-        <name>dec_wasAccountNameCalculated</name>
-        <label>Was an Account Name Calculated?</label>
-        <locationX>182</locationX>
-        <locationY>950</locationY>
+        <name>Does_B2C_Cust_ID_exist</name>
+        <label>Does B2C Cust ID exist</label>
+        <locationX>1233</locationX>
+        <locationY>765</locationY>
         <defaultConnector>
-            <targetReference>asn_defaultAccountName</targetReference>
+            <targetReference>Does_B2C_Cust_No_exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was not Calculated</defaultConnectorLabel>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
         <rules>
-            <name>decOut_accountNameWasCalculated</name>
+            <name>decout_B2C_Cust_ID_exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_accountName</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <label>Was Calculated</label>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_Cust_ID</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_B2C_Cust_No_exist</name>
+        <label>Does B2C Cust No exist</label>
+        <locationX>1236</locationX>
+        <locationY>520</locationY>
+        <defaultConnector>
+            <targetReference>Assign_B2C_Cust_List</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_B2C_Cust_No_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_Cust_No</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Birth_dates_exist</name>
+        <label>Does Birth dates exist ?</label>
+        <locationX>2272</locationX>
+        <locationY>176</locationY>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Birth_dates_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Birthday__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthday__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthmonth__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthmonth__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthyear__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthyear__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Birthdate</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Country_exist</name>
+        <label>Does Country exist</label>
+        <locationX>1538</locationX>
+        <locationY>633</locationY>
+        <defaultConnector>
+            <targetReference>Does_Website_country_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Country_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Country</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Email_exist</name>
+        <label>Does Email exist</label>
+        <locationX>1549</locationX>
+        <locationY>211</locationY>
+        <defaultConnector>
+            <targetReference>Does_Phone_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Email_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Email</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Phone_exist</name>
+        <label>Does Phone exist</label>
+        <locationX>1546</locationX>
+        <locationY>406</locationY>
+        <defaultConnector>
+            <targetReference>Does_Country_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Phone_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Phone</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Salutation_exist</name>
+        <label>Does Salutation exist ?</label>
+        <locationX>776</locationX>
+        <locationY>182</locationY>
+        <defaultConnector>
+            <targetReference>dec_firstNameExists</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_SalutationExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Salutation</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Salutation</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Salutation</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Website_country_exist</name>
+        <label>Does Website country exist</label>
+        <locationX>1880</locationX>
+        <locationY>749</locationY>
+        <defaultConnector>
+            <targetReference>Does_Website_language</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Website_country_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Website_country</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Website_language</name>
+        <label>Does Website language exist?</label>
+        <locationX>1880</locationX>
+        <locationY>537</locationY>
+        <defaultConnector>
+            <targetReference>Does_Website_locale</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Website_language_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLanguage__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLanguage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Website_Language</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Website_locale</name>
+        <label>Does Website locale exist?</label>
+        <locationX>1879</locationX>
+        <locationY>351</locationY>
+        <defaultConnector>
+            <targetReference>Does_Birth_dates_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Website_locale_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLocale__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLocale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Website_local</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Full_Account_exist</name>
+        <label>is Full Account exist?</label>
+        <locationX>1230</locationX>
+        <locationY>173</locationY>
+        <defaultConnector>
+            <targetReference>Does_Email_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>doesn&#39;t exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_yes_is_Full_Account_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.FullAccount__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_Full_Account_value</targetReference>
+            </connector>
+            <label>does exist</label>
         </rules>
     </decisions>
     <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a new Account object for future processing.</description>
     <formulas>
-        <description>... this formula concatenates a first-pass as an accountName for the specified contact based on first / last name properties.</description>
-        <name>fla_createAccountName</name>
+        <name>CorrectFirstNameFormat</name>
         <dataType>String</dataType>
-        <expression>TRIM(
-IF(ISBLANK({!var_firstName}), &quot;&quot;, {!var_firstName}) &amp;
-IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
-)</expression>
+        <expression>IF({!sourceContact.FirstName}=={!var_defaultFirstName}, {!sourceContact.FirstName},INITCAP({!sourceContact.FirstName}))</expression>
+    </formulas>
+    <formulas>
+        <name>CorrectLastNameFormat</name>
+        <dataType>String</dataType>
+        <expression>IF({!sourceContact.LastName}=={!var_defaultLastName}, {!sourceContact.LastName},INITCAP({!sourceContact.LastName}))</expression>
     </formulas>
     <interviewLabel>B2C Commerce: Account Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Assignment Helper: Accounts</label>
@@ -162,7 +756,7 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -172,14 +766,23 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>56</locationX>
-        <locationY>0</locationY>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
         <connector>
-            <targetReference>dec_firstNameExists</targetReference>
+            <targetReference>Does_Salutation_exist</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>Account</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
+    </variables>
     <variables>
         <description>... represents the source Contact to process.</description>
         <name>sourceContact</name>
@@ -198,27 +801,19 @@ IF(ISBLANK({!var_lastName}), &quot;&quot;, &quot; &quot; &amp; {!var_lastName})
         <isOutput>true</isOutput>
     </variables>
     <variables>
-        <description>... represents the default accountName to leverage when creating an Account.</description>
-        <name>var_defaultAccountName</name>
+        <description>... represents the Contact firstName used to describe the Account.</description>
+        <name>var_defaultFirstName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>... represents the Contact firstName used to describe the Account.</description>
-        <name>var_firstName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
         <description>... represents the Contact lastName used to describe the parent Account.</description>
-        <name>var_lastName</name>
+        <name>var_defaultLastName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
