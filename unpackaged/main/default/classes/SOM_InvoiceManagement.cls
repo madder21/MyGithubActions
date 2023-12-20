@@ -4,7 +4,7 @@ public with sharing class SOM_InvoiceManagement {
     public static void UpdateInvoicesNumber (Map<Id,Invoice> newInvMap, Map<Id,Invoice> oldInvMap) {
         //GET Max invoice Number By Country Code
         Map<string,string> maxInvoiceByCountryMap= new  Map<string,string>();
-        AggregateResult[] groupedInvoiceByCountry=  [SELECT  FulfilledToCountry, max(Invoice.DocumentNumber__c) FROM FulfillmentOrder  WHERE Invoice.DocumentNumber__c!=null AND FulfilledToCountry !=null AND OrderSummary.SalesChannelName__c !='CEGID' AND OrderSummary.cegidCustomerId__c =null AND invoice.DocumentNumber__c LIKE 'I0%' AND Type!='Store' GROUP by FulfilledToCountry];        
+        AggregateResult[] groupedInvoiceByCountry=  [SELECT  FulfilledToCountry, max(Invoice.DocumentNumber__c) FROM FulfillmentOrder  WHERE Invoice.DocumentNumber__c!=null AND FulfilledToCountry !=null AND OrderSummary.SalesChannelName__c !='CEGID' AND invoice.DocumentNumber__c LIKE 'I0%' AND Type!='Store' GROUP by FulfilledToCountry];        
         for (AggregateResult gr : groupedInvoiceByCountry)  {
             System.debug('FulfilledToCountry' + gr.get('FulfilledToCountry'));
             System.debug('Max Invoice Number' + gr.get('expr0'));
