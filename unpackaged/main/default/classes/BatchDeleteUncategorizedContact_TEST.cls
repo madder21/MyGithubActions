@@ -8,6 +8,7 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|25052023			|.PLM		|.					|.
+ * 
 */
 
 @Istest
@@ -66,7 +67,7 @@ public with sharing class BatchDeleteUncategorizedContact_TEST {
         }
         
         Test.startTest();
-        	BatchDeleteUncategorizedContact batchclass = new BatchDeleteUncategorizedContact(System.today()+1);
+        	BatchDeleteUncategorizedContact batchclass = new BatchDeleteUncategorizedContact();
         	Id batchInstanceId = Database.executeBatch(batchclass);
         Test.stopTest();
         
