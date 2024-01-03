@@ -771,13 +771,13 @@
         <label>Filter Location</label>
         <locationX>880</locationX>
         <locationY>494</locationY>
-        <assignNextValueToReference>currentItem_Filter_Location_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_Location</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Location_0.CustomCountry__c</leftValueReference>
-            <operator>EqualTo</operator>
+            <leftValueReference>currentItem_Filter_Location.CustomCountry__c</leftValueReference>
+            <operator>Contains</operator>
             <rightValue>
                 <elementReference>Loop_over_custom_countries</elementReference>
             </rightValue>
@@ -2516,7 +2516,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>currentItem_Filter_Location_0</name>
+        <name>currentItem_Filter_Location</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
