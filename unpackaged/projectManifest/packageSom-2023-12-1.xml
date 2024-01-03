@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-<!-- SOM-739/SOM-860/SOM-880-->
+<!-- SOM-739/SOM-860/SOM-880
 <types>
 	<members>SOM_USWeeklyReportSchedule</members>
 	<members>SOM_USWeeklyReportSchedule_Test</members>
@@ -42,23 +42,32 @@
     <name>Layout</name>
 </types>
 
-
+-->
 	
-<!-- this is the good version
+
 	<types>
-	 <members>SOM_USWeeklyReportSchedule</members>
+	
 	<members>SOM_SalesAndPaymentsReportSchedule</members>
 	<members>SOM_SalesAndPaymentsReportUKSchedule</members>
-	<members>SOM_USWeeklyReportSchedule_Test</members>
+	<members>SOM_InvoiceManagement</members>
 	<members>SOM_TransactionalEmailHandler</members>
 	<members>SOM_Constants</members>
 	<members>SOM_USReportMonthSchedule_Test</members>
 	<members>SOM_USReportMonthSchedule</members>
 	<members>SOM_Batch_CustomerTokenDeletion</members>
-	
+	<members>SOM_USWeeklyReportSchedule</members>
+	<members>SOM_USWeeklyReportSchedule_Test</members>
+	<members>SOM_USReportMonthSchedule</members>
+	<members>SOM_USReportMonthSchedule_Test</members>
+	<members>WS_SOM_Create_StoreToWebOrder</members>
+	<members>WS_SOM_CapturePaymentAction</members>
 	<name>ApexClass</name>
 </types>
 <types>
+	 <members>SOM_810_Reship_Return_Order_Flow</members>
+	  <members>SOM_820_Reship_On_Return_Order</members>
+	  <members>SOM_830_Close_Return_Order</members>
+	<members>SOM_Close_Return_Order</members>
 	  <members>SOM_110_CoreModel_Create_OrderSummary</members>
 	 
 	  <members>SOM_610_Core_Model_Create_ReturnOrder</members>
@@ -70,13 +79,14 @@
 	  <name>Flow</name>
 	
 </types>
-<types>
+<types><members>ReturnOrderLineItem.Tech_Reshiped_Qty__c</members>
 	  <members>OrderSummary.IsGlobalE__c</members>
 	  <members>Order.geOrderNumber__c</members>
 	  <members>OrderItem.hasGiftMessage__c</members>
 	  <members>OrderItem.isGiftWrap__c</members>
 	  <members>OrderItemSummary.hasGiftMessage__c</members>
 	  <members>OrderItemSummary.isGiftWrap__c</members>
+	  <members>FulfillmentOrder.sentToEdicom__c</members>
 	  <name>CustomField</name>
 </types>
 	
@@ -86,6 +96,7 @@
 	  <members>OrderItemSummary-Order Product Summary Layout</members>
 	  <members>OrderItem-Order Product Layout</members>
 	  <members>OrderSummary-Order Summary Layout</members>
+	  <members>FulfillmentOrder-Fulfillment Order Layout</members>
 	  <name>Layout</name>
 </types>
 
@@ -107,6 +118,7 @@
 </types>
 	
 	<types>
+	
 	<members>Order_summary_with_payment</members>  
 	
 	<members>SOM_PE_ReportType</members>  
@@ -121,10 +133,16 @@
 	<members>ReportsforSOM/Shipments_Report_Finance_US</members>   
 	<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
 	<members>ReportsforSOM/Refunds_Report_US_79u</members>   
-	
+	<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>  
+	<members>ReportsforSOM/Sales_Report_Invoice_US</members>   
+	<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>   
+	<members>ReportsforSOM/Payments_Report_US</members>   
+	<members>ReportsforSOM/Shipments_Report_Finance_US</members>   
+	<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
+	<members>ReportsforSOM/Refunds_Report_US_79u</members>    
 	<name>Report</name>        
 </types>
--->
+
 
 <version>54.0</version>
 </Package> 
