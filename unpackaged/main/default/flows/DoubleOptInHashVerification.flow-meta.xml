@@ -573,6 +573,12 @@ Optin the contact Point Consent and Contact Point Consent. Create a CommSubscrip
             </value>
         </filters>
         <inputAssignments>
+            <field>B2C_Date_Last_Modified__pc</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>LastUpdateOptinEmailing__pc</field>
             <value>
                 <elementReference>$Flow.CurrentDateTime</elementReference>

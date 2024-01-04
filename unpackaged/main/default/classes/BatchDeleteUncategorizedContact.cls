@@ -8,22 +8,25 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|25052023			|.PLM		|.					|.
+ * 0.1		|20122023			|.PLM		|.CI-233			|.Add the exclusion of CSC Integration User
 */
 public with sharing class BatchDeleteUncategorizedContact implements Database.Batchable<sObject>, Database.Stateful {
     
-    private Date week = System.today();
     
-    public BatchDeleteUncategorizedContact(Date week) {
-        this.week = week;
+    public BatchDeleteUncategorizedContact() {
     }
     
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        return Database.getQueryLocator(
-            'SELECT Id, FirstName, LastName, LastModifiedDate, OptinEmailing__pc '
+        string dateQuery = 'LAST_N_WEEKS:2';
+        if(Test.isRunningTest()){
+            dateQuery = 'TODAY';
+        }
+        String query =  'SELECT Id, FirstName, LastName, LastModifiedDate, OptinEmailing__pc '
             +'FROM Account WHERE OptinEmailing__pc = false '
             +'AND FirstName = \'no firstname\' AND LastName = \'no lastname\' '
-            +'AND LastModifiedDate <= :week ORDER BY LastModifiedDate DESC'
-        );
+            +'AND LastModifiedDate <= '+ dateQuery +' AND CreatedBy.Name != \'' +  Label.SFSC_Integration_User + '\' ORDER BY LastModifiedDate DESC';
+        
+        return Database.getQueryLocator(query);
     }
     
 	/*

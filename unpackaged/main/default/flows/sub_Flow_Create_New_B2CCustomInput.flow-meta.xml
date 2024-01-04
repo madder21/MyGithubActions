@@ -4,7 +4,7 @@
         <name>Convert_String_to_String_Collection</name>
         <label>Convert String to String Collection</label>
         <locationX>50</locationX>
-        <locationY>1550</locationY>
+        <locationY>1742</locationY>
         <actionName>ConvertStringToStringCollection</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -28,13 +28,29 @@
             <name>stringCollection</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
+    <assignments>
+        <name>Assign_Account_to_B2C_Custom_Input</name>
+        <label>Assign Account to B2C Custom Input</label>
+        <locationX>92</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>B2CInput.AccountId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>accountID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Number_Of_Subscription</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <description>Attempt B2CCustomInput record creation is failed</description>
         <name>Assign_isSuccess_to_false_from_loop</name>
         <label>Assign isSuccess to false from loop</label>
         <locationX>402</locationX>
-        <locationY>1982</locationY>
+        <locationY>2174</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -48,7 +64,7 @@
         <name>isSuccess_to_false</name>
         <label>Assign isSuccess to false</label>
         <locationX>794</locationX>
-        <locationY>1766</locationY>
+        <locationY>1958</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -62,7 +78,7 @@
         <name>isSuccess_to_true</name>
         <label>Assign isSuccess to true</label>
         <locationX>290</locationX>
-        <locationY>2390</locationY>
+        <locationY>2582</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -74,8 +90,8 @@
     <assignments>
         <name>Populate_AddressConsent</name>
         <label>Populate AddressConsent</label>
-        <locationX>158</locationX>
-        <locationY>542</locationY>
+        <locationX>356</locationX>
+        <locationY>650</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.AddressConsent__c</assignToReference>
             <operator>Assign</operator>
@@ -90,8 +106,8 @@
     <assignments>
         <name>Populate_B2CInput_record</name>
         <label>Populate B2CInput record</label>
-        <locationX>290</locationX>
-        <locationY>1334</locationY>
+        <locationX>488</locationX>
+        <locationY>1442</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.AccountId__c</assignToReference>
             <operator>Assign</operator>
@@ -170,7 +186,7 @@
         <name>Populate_B2CInput_with_SubscriptionName</name>
         <label>Populate B2CInput with SubscriptionName</label>
         <locationX>530</locationX>
-        <locationY>1550</locationY>
+        <locationY>1742</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.SubscriptionName__c</assignToReference>
             <operator>Assign</operator>
@@ -186,7 +202,7 @@
         <name>Populate_B2CInput_with_SubscriptionName_from_loop</name>
         <label>Populate B2CInput with SubscriptionName from loop</label>
         <locationX>138</locationX>
-        <locationY>1766</locationY>
+        <locationY>1958</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.SubscriptionName__c</assignToReference>
             <operator>Assign</operator>
@@ -201,8 +217,8 @@
     <assignments>
         <name>Populate_EmailConsent_field</name>
         <label>Populate EmailConsent field</label>
-        <locationX>158</locationX>
-        <locationY>242</locationY>
+        <locationX>356</locationX>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.EmailConsent__c</assignToReference>
             <operator>Assign</operator>
@@ -217,8 +233,8 @@
     <assignments>
         <name>Populate_Marketing_Partner</name>
         <label>Populate Marketing Partner</label>
-        <locationX>158</locationX>
-        <locationY>1142</locationY>
+        <locationX>356</locationX>
+        <locationY>1250</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.OptinMarketingPartner__c</assignToReference>
             <operator>Assign</operator>
@@ -233,8 +249,8 @@
     <assignments>
         <name>Populate_OptinCGI</name>
         <label>Populate OptinCGI</label>
-        <locationX>158</locationX>
-        <locationY>842</locationY>
+        <locationX>356</locationX>
+        <locationY>950</locationY>
         <assignmentItems>
             <assignToReference>B2CInput.OptinCGI__c</assignToReference>
             <operator>Assign</operator>
@@ -249,8 +265,8 @@
     <decisions>
         <name>AddressConsent_is_it_null</name>
         <label>AddressConsent is it null?</label>
-        <locationX>290</locationX>
-        <locationY>434</locationY>
+        <locationX>488</locationX>
+        <locationY>542</locationY>
         <defaultConnector>
             <targetReference>CGIConsent_is_it_null</targetReference>
         </defaultConnector>
@@ -274,8 +290,8 @@
     <decisions>
         <name>CGIConsent_is_it_null</name>
         <label>CGIConsent is it null?</label>
-        <locationX>290</locationX>
-        <locationY>734</locationY>
+        <locationX>488</locationX>
+        <locationY>842</locationY>
         <defaultConnector>
             <targetReference>MarketingPartnerConsent_is_null</targetReference>
         </defaultConnector>
@@ -299,8 +315,8 @@
     <decisions>
         <name>EmailConsent_is_it_null</name>
         <label>EmailConsent is it null?</label>
-        <locationX>290</locationX>
-        <locationY>134</locationY>
+        <locationX>488</locationX>
+        <locationY>242</locationY>
         <defaultConnector>
             <targetReference>AddressConsent_is_it_null</targetReference>
         </defaultConnector>
@@ -322,10 +338,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>is_QA_enable</name>
+        <label>is QA enable?</label>
+        <locationX>290</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>EmailConsent_is_it_null</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No QA disabled</defaultConnectorLabel>
+        <rules>
+            <name>yes_QA_Enabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>B2CInput</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Account_to_B2C_Custom_Input</targetReference>
+            </connector>
+            <label>yes QA Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>MarketingPartnerConsent_is_null</name>
         <label>MarketingPartnerConsent is null?</label>
-        <locationX>290</locationX>
-        <locationY>1034</locationY>
+        <locationX>488</locationX>
+        <locationY>1142</locationY>
         <defaultConnector>
             <targetReference>Populate_B2CInput_record</targetReference>
         </defaultConnector>
@@ -350,7 +391,7 @@
         <name>Number_Of_Subscription</name>
         <label>Number Of Subscription</label>
         <locationX>290</locationX>
-        <locationY>1442</locationY>
+        <locationY>1634</locationY>
         <defaultConnector>
             <targetReference>Populate_B2CInput_with_SubscriptionName</targetReference>
         </defaultConnector>
@@ -383,7 +424,7 @@
         <name>Loop_Subscription_Name</name>
         <label>Loop Subscription Name</label>
         <locationX>50</locationX>
-        <locationY>1658</locationY>
+        <locationY>1850</locationY>
         <collectionReference>subscriptionNames</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -416,7 +457,7 @@
         <name>B2CCustomInput</name>
         <label>Create B2CCustomInput record</label>
         <locationX>530</locationX>
-        <locationY>1658</locationY>
+        <locationY>1850</locationY>
         <connector>
             <targetReference>isSuccess_to_true</targetReference>
         </connector>
@@ -429,7 +470,7 @@
         <name>Create_B2CCustomInput_record_from_loop</name>
         <label>Create B2CCustomInput record from loop</label>
         <locationX>138</locationX>
-        <locationY>1874</locationY>
+        <locationY>2066</locationY>
         <connector>
             <targetReference>Loop_Subscription_Name</targetReference>
         </connector>
@@ -438,11 +479,12 @@
         </faultConnector>
         <inputReference>B2CInput</inputReference>
     </recordCreates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>164</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>EmailConsent_is_it_null</targetReference>
+            <targetReference>is_QA_enable</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -457,7 +499,7 @@
         <name>B2CInput</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
-        <isInput>false</isInput>
+        <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>B2CCustomInput__c</objectType>
     </variables>
