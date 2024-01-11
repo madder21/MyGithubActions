@@ -44,7 +44,6 @@
 
 	  <members>SOM_Cancel_Order_Summary</members>
 	  <members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
-	  <members>SOM_Resend_to_WMS</members>
 
 	  <name>Flow</name>
 
@@ -63,7 +62,6 @@
 	  <members>Refund.IsGlobalE__c</members>
 	  <members>FulfillmentOrder.sentToEdicom__c</members>
 	  <members>ReturnOrderLineItem.Tech_Reshiped_Qty__c</members>
-	  <members>FulfillmentOrder.duplicates__c</members>
 	  <name>CustomField</name>
 </types>
 	
@@ -74,6 +72,7 @@
 	  <members>OrderItem-Order Product Layout</members>
 	  <members>Invoice-Invoice Layout</members>
 	  <members>FulfillmentOrder-Fulfillment Order Layout</members>
+	  <members>OrderPaymentSummary-Finance%2FEcomOperations Order Payment Summary Layout</members>
 	  <name>Layout</name>
 </types>
 
@@ -163,15 +162,8 @@
 
 <types>
 	<members>Invoice_Record_Page</members>
-	<members>Fulfillment_Order_Record_Page</members>
 	<name>FlexiPage</name>
 </types>
-
-<types>
-	<members>FulfillmentOrder.Resend_to_WMS</members>
-    <name>QuickAction</name>
-</types>
-
   
  
 <version>54.0</version>
