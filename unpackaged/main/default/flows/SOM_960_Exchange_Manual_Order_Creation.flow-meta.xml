@@ -80,8 +80,8 @@
     <assignments>
         <name>Assign_Id_for_URL</name>
         <label>Assign Id for URL</label>
-        <locationX>1271</locationX>
-        <locationY>1380</locationY>
+        <locationX>1801</locationX>
+        <locationY>1369</locationY>
         <assignmentItems>
             <assignToReference>V_URLorderSummary</assignToReference>
             <operator>Assign</operator>
@@ -270,6 +270,29 @@
         </assignmentItems>
         <connector>
             <targetReference>L10_Loop_over_OutputLines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Remove_reserved_at_location_Id</name>
+        <label>Remove reserved at location Id</label>
+        <locationX>1504</locationX>
+        <locationY>1535</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Over_new_Order_Product_Summaries.ReservedAtLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Order_Product_Summaries_To_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_new_Order_Product_Summaries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -714,6 +737,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Over_new_Order_Product_Summaries</name>
+        <label>Loop Over new Order Product Summaries</label>
+        <locationX>1500</locationX>
+        <locationY>1373</locationY>
+        <collectionReference>Get_Order_Product_Summaries_newly_created</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Remove_reserved_at_location_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Product_Summaries</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_Over_Products</name>
         <label>Loop Over Products</label>
         <locationX>1774</locationX>
@@ -792,6 +829,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Product_Summaries_newly_created</name>
+        <label>Get Order Product Summaries newly created</label>
+        <locationX>1330</locationX>
+        <locationY>1373</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS_Newly_created.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_OS_from_RO</name>
         <label>Get OS from RO</label>
         <locationX>940</locationX>
@@ -821,7 +879,7 @@
         <locationY>1379</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Id_for_URL</targetReference>
+            <targetReference>Get_Order_Product_Summaries_newly_created</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -896,6 +954,16 @@
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Order_Product_Summaries</name>
+        <label>Update Order Product Summaries</label>
+        <locationX>1656</locationX>
+        <locationY>1372</locationY>
+        <connector>
+            <targetReference>Assign_Id_for_URL</targetReference>
+        </connector>
+        <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
+    </recordUpdates>
     <screens>
         <name>Billing_Shipping_Info</name>
         <label>Billing Shipping Info</label>
@@ -1043,8 +1111,8 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>1428</locationX>
-        <locationY>1381</locationY>
+        <locationX>1948</locationX>
+        <locationY>1369</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1116,6 +1184,14 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Order_Product_Summaries_To_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>C_OrderItems</name>

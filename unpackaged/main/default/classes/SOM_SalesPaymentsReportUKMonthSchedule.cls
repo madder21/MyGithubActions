@@ -10,7 +10,7 @@ public with sharing class SOM_SalesPaymentsReportUKMonthSchedule Implements Sche
         DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
         String firstDay = firstDayOfLastMonth.format('MM/dd/YYYY');
         
-        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
 
         DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
         String lastDay = lastDayOfLastMonth.format('MM/dd/YYYY');

@@ -14,7 +14,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
         List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
         List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
                                     DeveloperName IN :reportsDeveloperNamesMap.keySet()];
-        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'noreply@rimowa.com' limit 1];
         if (!ProcessExceptionRecords.isEmpty()){
             for(Report singleReport : reportList){
                 String country = singleReport.DeveloperName.right(2) == 'GB' ? 'UK' : singleReport.DeveloperName.right(2) ; 
