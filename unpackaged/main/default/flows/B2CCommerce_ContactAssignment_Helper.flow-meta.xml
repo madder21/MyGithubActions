@@ -18,10 +18,12 @@
                 <elementReference>sourceContact.WebsiteCountry__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>CountryNameManager</nameSegment>
         <outputParameters>
             <assignToReference>ContactToUpdate.MailingCountry</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
@@ -45,7 +47,7 @@
         <name>asn_defaultAuditOCAPIFlag</name>
         <label>Default the Audit OCAPI flag</label>
         <locationX>600</locationX>
-        <locationY>4634</locationY>
+        <locationY>5234</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Audit_OCAPI_API_Response__c</assignToReference>
             <operator>Assign</operator>
@@ -58,7 +60,7 @@
         </connector>
     </assignments>
     <assignments>
-        <description>...assign the sourceContact&#39;s firstName to the resolved contact.</description>
+        <description>...assign the sourceContact&apos;s firstName to the resolved contact.</description>
         <name>asn_FistnameToAssignedContact</name>
         <label>Assign the FirstName and reset second alphabet</label>
         <locationX>314</locationX>
@@ -82,7 +84,7 @@
         </connector>
     </assignments>
     <assignments>
-        <description>...assign the sourceContact&#39;s lastName to the resolved contact.</description>
+        <description>...assign the sourceContact&apos;s lastName to the resolved contact.</description>
         <name>asn_LastNameToAssignedContact</name>
         <label>Assign the LastName and reset second alphabet</label>
         <locationX>314</locationX>
@@ -118,20 +120,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>ContactToUpdate.B2C_Customer_ID__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_CustomerList__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -143,6 +131,38 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_B2C_ID_Exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_ID</name>
+        <label>Assign B2C ID</label>
+        <locationX>600</locationX>
+        <locationY>4334</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_B2C_No_Exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_No</name>
+        <label>Assign B2C No</label>
+        <locationX>600</locationX>
+        <locationY>4634</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -183,7 +203,7 @@
         <name>Assign_Created_Date_B2C</name>
         <label>Assign Created Date B2C</label>
         <locationX>820</locationX>
-        <locationY>4334</locationY>
+        <locationY>4934</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_Date_Created__c</assignToReference>
             <operator>Assign</operator>
@@ -452,7 +472,7 @@
         <name>Success</name>
         <label>Success</label>
         <locationX>732</locationX>
-        <locationY>4826</locationY>
+        <locationY>5426</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -554,7 +574,7 @@
         <name>dec_auditB2COCAPIResponses</name>
         <label>Has Audit OCAPI Responses Been Set?</label>
         <locationX>732</locationX>
-        <locationY>4526</locationY>
+        <locationY>5126</locationY>
         <defaultConnector>
             <targetReference>Success</targetReference>
         </defaultConnector>
@@ -653,6 +673,84 @@
                 <targetReference>asn_LastNameToAssignedContact</targetReference>
             </connector>
             <label>Exists</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_B2C_ID_Exist</name>
+        <label>Does B2C ID Exist</label>
+        <locationX>732</locationX>
+        <locationY>4226</locationY>
+        <defaultConnector>
+            <targetReference>Does_B2C_No_Exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>yes_Does_B2C_ID_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_ID</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_B2C_No_Exist</name>
+        <label>Does B2C No Exist</label>
+        <locationX>732</locationX>
+        <locationY>4526</locationY>
+        <defaultConnector>
+            <targetReference>is_B2C_Created_Date_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>yes_Does_B2C_No_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_No</targetReference>
+            </connector>
+            <label>yes</label>
         </rules>
     </decisions>
     <decisions>
@@ -943,7 +1041,7 @@
         <name>is_B2C_Created_Date_exist</name>
         <label>is B2C Created Date exist</label>
         <locationX>732</locationX>
-        <locationY>4226</locationY>
+        <locationY>4826</locationY>
         <defaultConnector>
             <targetReference>Assign_Created_Date_B2C</targetReference>
         </defaultConnector>
@@ -1064,7 +1162,7 @@
             <connector>
                 <targetReference>Assign_phone2</targetReference>
             </connector>
-            <label>Phone exist and is different and phone 2 doesn&#39;t exist in DB</label>
+            <label>Phone exist and is different and phone 2 doesn&apos;t exist in DB</label>
         </rules>
         <rules>
             <name>Phone_and_phone_2_exist_and_is_different</name>
@@ -1345,6 +1443,7 @@
         </rules>
     </decisions>
     <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a resolved Contact for future processing.</description>
+    <environments>Default</environments>
     <formulas>
         <name>CorrectFirstNameFormat</name>
         <dataType>String</dataType>
