@@ -143,10 +143,10 @@
         <locationX>600</locationX>
         <locationY>4334</locationY>
         <assignmentItems>
-            <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
+            <assignToReference>ContactToUpdate.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
+                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -688,21 +688,21 @@
             <name>yes_Does_B2C_ID_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue></stringValue>
@@ -727,21 +727,21 @@
             <name>yes_Does_B2C_No_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ContactToUpdate.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue></stringValue>
