@@ -7,9 +7,6 @@
         <locationY>554</locationY>
         <actionName>returnReturnOrderItems</actionName>
         <actionType>returnReturnOrderItems</actionType>
-        <connector>
-            <targetReference>Update_Return_Order_Status_To_Closed</targetReference>
-        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>returnItemsInput</name>
@@ -29,7 +26,7 @@
     <assignments>
         <name>Add_Return_Order_Item_Input_Representation_To_List</name>
         <label>Add Return Order Item Input Representation To List</label>
-        <locationX>1346</locationX>
+        <locationX>1347</locationX>
         <locationY>644</locationY>
         <assignmentItems>
             <assignToReference>COL_ReturnOrderItemInputRepresentation</assignToReference>
@@ -45,8 +42,8 @@
     <assignments>
         <name>Set_Return_Items_Input_Representation</name>
         <label>Set Return Items Input Representation</label>
-        <locationX>1380</locationX>
-        <locationY>439</locationY>
+        <locationX>1377</locationX>
+        <locationY>437</locationY>
         <assignmentItems>
             <assignToReference>REC_ReturnItemsInputRepresentation.returnOrderItems</assignToReference>
             <operator>Assign</operator>
@@ -215,9 +212,6 @@
         <label>Check Return Items Input Representation</label>
         <locationX>1490</locationX>
         <locationY>406</locationY>
-        <defaultConnector>
-            <targetReference>Update_Return_Order_Status_To_Closed</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Is empty</defaultConnectorLabel>
         <rules>
             <name>Is_not_Empty</name>
@@ -252,12 +246,11 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Filter_ROLI_Different_to_Refund</targetReference>
+                <targetReference>Update_Return_Order_Status_To_Closed</targetReference>
             </connector>
             <label>Close</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM 830 - Close Return Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 830 - Close Return Order</label>
     <loops>
@@ -365,8 +358,8 @@
     <recordUpdates>
         <name>Update_Return_Order_Status_To_Closed</name>
         <label>Update Return Order Status To Closed</label>
-        <locationX>1813</locationX>
-        <locationY>407</locationY>
+        <locationX>1811</locationX>
+        <locationY>345</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Attached_To_This_Return</targetReference>
         </connector>

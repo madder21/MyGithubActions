@@ -2,6 +2,45 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
     <assignments>
+        <name>Assign_CustomCountries</name>
+        <label>Assign CustomCountries</label>
+        <locationX>651</locationX>
+        <locationY>1601</locationY>
+        <assignmentItems>
+            <assignToReference>C_Custom_Countries_After_Split</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FX_Single_Country</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Other_Countries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Custom_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_CustomCountry</name>
+        <label>Assign CustomCountry</label>
+        <locationX>463</locationX>
+        <locationY>1249</locationY>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Locations.CustomCountry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Custom_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Fields</name>
         <label>Assign Fields</label>
         <locationX>334</locationX>
@@ -41,8 +80,8 @@
     <assignments>
         <name>Assign_Id_for_URL</name>
         <label>Assign Id for URL</label>
-        <locationX>468</locationX>
-        <locationY>1514</locationY>
+        <locationX>1801</locationX>
+        <locationY>1369</locationY>
         <assignmentItems>
             <assignToReference>V_URLorderSummary</assignToReference>
             <operator>Assign</operator>
@@ -52,6 +91,22 @@
         </assignmentItems>
         <connector>
             <targetReference>screen_success</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_LocationsIds</name>
+        <label>Assign_LocationsIds</label>
+        <locationX>809</locationX>
+        <locationY>1245</locationY>
+        <assignmentItems>
+            <assignToReference>LocationsIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Locations.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Locations</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -215,6 +270,29 @@
         </assignmentItems>
         <connector>
             <targetReference>L10_Loop_over_OutputLines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Remove_reserved_at_location_Id</name>
+        <label>Remove reserved at location Id</label>
+        <locationX>1504</locationX>
+        <locationY>1535</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Over_new_Order_Product_Summaries.ReservedAtLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Order_Product_Summaries_To_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_new_Order_Product_Summaries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -454,6 +532,60 @@
         </connector>
     </collectionProcessors>
     <decisions>
+        <name>Check_Custom_Locations</name>
+        <label>Check_Custom_Locations</label>
+        <locationX>639</locationX>
+        <locationY>1432</locationY>
+        <defaultConnector>
+            <targetReference>Assign_CustomCountries</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Unique_Country</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>S_Custom_Countries_Before_Split</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>v_ODGOutput.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FX_Single_Country</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>v_ODGOutput.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_LocationsIds</targetReference>
+            </connector>
+            <label>Unique Country</label>
+        </rules>
+        <rules>
+            <name>Check_Digits</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_Digits</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>S_Custom_Countries_Before_Split</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>v_ODGOutput.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Locations</targetReference>
+            </connector>
+            <label>Check Digits</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_from_RO</name>
         <label>is from RO</label>
         <locationX>513</locationX>
@@ -517,10 +649,26 @@
     </decisions>
     <description>2 decimal places</description>
     <formulas>
+        <name>FX_Digits</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!S_Custom_Countries_Before_Split})</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
         <name>FX_LineSubtotal</name>
         <dataType>Number</dataType>
         <expression>{!FX_UnitPriceWithoutTax} * {!L10_Loop_over_OutputLines.quantity}</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_Other_Countries</name>
+        <dataType>String</dataType>
+        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
+    </formulas>
+    <formulas>
+        <name>FX_Single_Country</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
     </formulas>
     <formulas>
         <name>FX_SuccessMsg</name>
@@ -575,6 +723,34 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Locations</name>
+        <label>Loop Locations</label>
+        <locationX>648</locationX>
+        <locationY>1245</locationY>
+        <collectionReference>Get_Locations_0</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_CustomCountry</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Locations</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_new_Order_Product_Summaries</name>
+        <label>Loop Over new Order Product Summaries</label>
+        <locationX>1500</locationX>
+        <locationY>1373</locationY>
+        <collectionReference>Get_Order_Product_Summaries_newly_created</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Remove_reserved_at_location_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Product_Summaries</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_Over_Products</name>
         <label>Loop Over Products</label>
         <locationX>1774</locationX>
@@ -610,18 +786,18 @@
     <recordLookups>
         <name>Get_Locations</name>
         <label>Get Locations</label>
-        <locationX>669</locationX>
-        <locationY>1090</locationY>
+        <locationX>721</locationX>
+        <locationY>1092</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Product_SKU</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>CustomCountry__c</field>
-            <operator>EqualTo</operator>
+            <field>Id</field>
+            <operator>In</operator>
             <value>
-                <elementReference>V_Input_CountryCode</elementReference>
+                <elementReference>LocationsIds</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -629,6 +805,48 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>ExternalReference</queriedFields>
         <queriedFields>CustomCountry__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Locations_0</name>
+        <label>Get Locations</label>
+        <locationX>549</locationX>
+        <locationY>1086</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Locations</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CustomCountry__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Location</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Product_Summaries_newly_created</name>
+        <label>Get Order Product Summaries newly created</label>
+        <locationX>1330</locationX>
+        <locationY>1373</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS_Newly_created.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -657,11 +875,11 @@
     <recordLookups>
         <name>Get_OS_Newly_created</name>
         <label>Get OS Newly created</label>
-        <locationX>616</locationX>
-        <locationY>1514</locationY>
+        <locationX>1126</locationX>
+        <locationY>1379</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Id_for_URL</targetReference>
+            <targetReference>Get_Order_Product_Summaries_newly_created</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -701,7 +919,7 @@
     <recordLookups>
         <name>Get_Product_SKU</name>
         <label>Get Products SKU</label>
-        <locationX>804</locationX>
+        <locationX>833</locationX>
         <locationY>1090</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -736,6 +954,16 @@
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Order_Product_Summaries</name>
+        <label>Update Order Product Summaries</label>
+        <locationX>1656</locationX>
+        <locationY>1372</locationY>
+        <connector>
+            <targetReference>Assign_Id_for_URL</targetReference>
+        </connector>
+        <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
+    </recordUpdates>
     <screens>
         <name>Billing_Shipping_Info</name>
         <label>Billing Shipping Info</label>
@@ -812,13 +1040,13 @@
     <screens>
         <name>Screen_Items</name>
         <label>Display Items</label>
-        <locationX>522</locationX>
-        <locationY>1090</locationY>
+        <locationX>418</locationX>
+        <locationY>1084</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Get_Locations</targetReference>
+            <targetReference>Get_Locations_0</targetReference>
         </connector>
         <fields>
             <name>displayExistingLines</name>
@@ -883,46 +1111,14 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>468</locationX>
-        <locationY>1322</locationY>
+        <locationX>1948</locationX>
+        <locationY>1369</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
             <name>success_mesg</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;{!FX_SuccessMsg}&lt;/span&gt;&lt;a href=&quot;/{!V_URLorderSummary}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 16px;&quot;&gt;{!v_NewOrderSummaryNumber}&lt;/a&gt;  &lt;span style=&quot;font-size: 16px;&quot;&gt;is successfully created.&lt;/span&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>testou</name>
-        <label>test</label>
-        <locationX>21</locationX>
-        <locationY>563</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>test</name>
-            <fieldText>&lt;p&gt;iddddddddddd {!v_ODMOutput.Id}&lt;/p&gt;&lt;p&gt;-------------&lt;/p&gt;&lt;p&gt;os {!v_orderOutput}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adress {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingAddress}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;street {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingStreet}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;postal {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingPostalCode}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;city {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingCity}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;country {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingCountry}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;email address {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingEmailAddress}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;phone {!v_orderOutput.BillingPhoneNumber}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;name {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingContactFirstName__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;last name {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.BillingContactLastName__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;pricebook {&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.Pricebook2Id}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;account Id&amp;nbsp;{&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;!v_orderOutput&lt;/span&gt;.AccountId}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;---------------------------&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;odm {!v_ODMOutput}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;name {!v_ODMOutput.Name}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;-------------------------&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;odg {!v_ODGOutput}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;description {!v_ODGOutput.Description}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;email {!v_ODGOutput.EmailAddress}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;phone {!v_ODGOutput.PhoneNumber}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;name {!v_ODGOutput.DeliverToName}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adrese {!v_ODGOutput.DeliverToAddress}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adress street {!v_ODGOutput.DeliverToStreet}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adress zip {!v_ODGOutput.DeliverToPostalCode}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adress city {!v_ODGOutput.DeliverToCity}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;adress country {!v_ODGOutput.DeliverToCountry}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>TestScren</name>
-        <label>TestScren</label>
-        <locationX>278</locationX>
-        <locationY>1206</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>tee</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;OrderItems Count : &lt;/strong&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!test_var}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -939,8 +1135,8 @@
     <subflows>
         <name>Create_the_Order</name>
         <label>Create the Order</label>
-        <locationX>770</locationX>
-        <locationY>1515</locationY>
+        <locationX>973</locationX>
+        <locationY>1381</locationY>
         <connector>
             <targetReference>Get_OS_Newly_created</targetReference>
         </connector>
@@ -975,12 +1171,27 @@
         </outputAssignments>
     </subflows>
     <variables>
+        <name>C_Custom_Countries_After_Split</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>C_IpnutDisplayLineItems</name>
         <apexClass>SOM_Wr_DisplayLineItem</apexClass>
         <dataType>Apex</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Order_Product_Summaries_To_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>C_OrderItems</name>
@@ -1031,6 +1242,13 @@
         <objectType>Product2</objectType>
     </variables>
     <variables>
+        <name>LocationsIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>OsId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -1049,6 +1267,13 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>S_Custom_Countries_Before_Split</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
