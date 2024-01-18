@@ -136,6 +136,10 @@ global with sharing class SOM_Constants {
     public static final String CREDIT_MEMO_SOBJECT_TYPE_NAME = 'CreditMemo';
     public static final String INVOICE_SOBJECT_TYPE_NAME     = 'Invoice';
     public static final String CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME     = 'CorrectiveInvoice__c';
+    public static final String SHIPMENT_SOBJECT_TYPE_NAME = 'Shipment';
+    public static final String ORDER_SUMMARY_SOBJECT_TYPE_NAME = 'OrderSummary';
+    public static final String RETURN_ORDER_SOBJECT_TYPE_NAME = 'ReturnOrder';
+    public static final String REFUND_SOBJECT_TYPE_NAME = 'Refund';
 
     public static final String SALES_CHANNEL_CEGID = 'CEGID';
     public static final String SALES_CHANNEL_MANUAL = 'Manual Order';

@@ -4,7 +4,7 @@
         <name>Convert_DateTime_To_Selected_TimeZone</name>
         <label>Convert DateTime To Selected TimeZone</label>
         <locationX>847</locationX>
-        <locationY>403</locationY>
+        <locationY>911</locationY>
         <actionName>SOM_DateTimeHelper</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -30,10 +30,49 @@
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
+        <name>Assign_CustomCountries</name>
+        <label>Assign CustomCountries</label>
+        <locationX>861</locationX>
+        <locationY>14</locationY>
+        <assignmentItems>
+            <assignToReference>C_Custom_Countries_After_Split</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FX_Single_Country</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Other_Countries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Custom_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_CustomCountry</name>
+        <label>Assign CustomCountry</label>
+        <locationX>828</locationX>
+        <locationY>347</locationY>
+        <assignmentItems>
+            <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Locations.CustomCountry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Custom_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Error_Data_Validity</name>
         <label>Assign Error Data Validity</label>
         <locationX>1294</locationX>
-        <locationY>308</locationY>
+        <locationY>816</locationY>
         <assignmentItems>
             <assignToReference>V_Error_Message</assignToReference>
             <operator>Assign</operator>
@@ -46,10 +85,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_LocationsIds</name>
+        <label>Assign LocationsIds</label>
+        <locationX>657</locationX>
+        <locationY>460</locationY>
+        <assignmentItems>
+            <assignToReference>LocationsId</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Locations.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Single_ROLI</name>
         <label>Assign Single ROLI</label>
         <locationX>492</locationX>
-        <locationY>41</locationY>
+        <locationY>549</locationY>
         <assignmentItems>
             <assignToReference>S_ReturnOrderLineItem</assignToReference>
             <operator>Assign</operator>
@@ -65,7 +120,7 @@
         <name>Empty_Error_Variable</name>
         <label>Empty Error Variable</label>
         <locationX>989</locationX>
-        <locationY>637</locationY>
+        <locationY>1145</locationY>
         <assignmentItems>
             <assignToReference>V_Error_Message</assignToReference>
             <operator>Assign</operator>
@@ -91,10 +146,64 @@
         </value>
     </choices>
     <decisions>
+        <name>Check_Custom_Locations</name>
+        <label>Check Custom Locations</label>
+        <locationX>851</locationX>
+        <locationY>204</locationY>
+        <defaultConnector>
+            <targetReference>Assign_CustomCountries</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Unique_Country</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>S_Custom_Countries_Before_Split</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_OrderDeliveryGroupSummary.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FX_Single_Country</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_OrderDeliveryGroupSummary.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_LocationsIds</targetReference>
+            </connector>
+            <label>Unique Country</label>
+        </rules>
+        <rules>
+            <name>Check_Digits</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_Digits</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>2.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>S_Custom_Countries_Before_Split</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_OrderDeliveryGroupSummary.DeliverToCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Locations</targetReference>
+            </connector>
+            <label>Check Digits</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Return_Data_Validity</name>
         <label>Check Return Data Validity</label>
         <locationX>1095</locationX>
-        <locationY>418</locationY>
+        <locationY>926</locationY>
         <defaultConnector>
             <targetReference>Assign_Error_Data_Validity</targetReference>
         </defaultConnector>
@@ -130,18 +239,29 @@
         </rules>
     </decisions>
     <dynamicChoiceSets>
+        <name>Location_Choices</name>
+        <collectionReference>get_Locations_0</collectionReference>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <object>Location</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
+    <dynamicChoiceSets>
         <name>Locations_for_picklist</name>
         <dataType>String</dataType>
         <displayField>Name</displayField>
         <filterLogic>and</filterLogic>
         <filters>
             <field>CustomCountry__c</field>
-            <operator>EqualTo</operator>
+            <operator>Contains</operator>
             <value>
                 <elementReference>Get_OrderDeliveryGroupSummary.DeliverToCountry</elementReference>
             </value>
         </filters>
+        <limit>10</limit>
         <object>Location</object>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
         <valueField>Id</valueField>
     </dynamicChoiceSets>
     <dynamicChoiceSets>
@@ -152,7 +272,14 @@
         <picklistField>TimeZoneSidKey</picklistField>
         <picklistObject>User</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
+    <dynamicChoiceSets>
+        <name>TEST</name>
+        <collectionReference>get_Locations_0</collectionReference>
+        <dataType>String</dataType>
+        <displayField>Name</displayField>
+        <object>Location</object>
+        <valueField>Id</valueField>
+    </dynamicChoiceSets>
     <formulas>
         <name>FX_Calculated_ErrorMsg</name>
         <dataType>String</dataType>
@@ -166,6 +293,28 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <expression>if( ISBLANK({!Get_Return_Order.DestinationLocationId}) , {!Get_FOLI.FulfillmentOrder.FulfilledFromLocationId} , {!Get_Return_Order.DestinationLocationId})</expression>
     </formulas>
     <formulas>
+        <name>FX_Digits</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!S_Custom_Countries_Before_Split})</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_Number_Of_Countries</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!S_Custom_Countries_Before_Split})-LEN(SUBSTITUTE({!S_Custom_Countries_Before_Split}, &apos;;&apos;, &apos;&apos;)) + 1</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_Other_Countries</name>
+        <dataType>String</dataType>
+        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
+    </formulas>
+    <formulas>
+        <name>FX_Single_Country</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
+    </formulas>
+    <formulas>
         <name>FX_User_Default_TimeZone</name>
         <dataType>String</dataType>
         <expression>TEXT({!$User.TimeZoneSidKey})</expression>
@@ -176,7 +325,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>L10_Loop_Over_ROLI</name>
         <label>L10 Loop Over ROLI</label>
         <locationX>486</locationX>
-        <locationY>216</locationY>
+        <locationY>724</locationY>
         <collectionReference>Get_ReturnOrder_LineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -184,6 +333,20 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Get_FOLI</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Locations</name>
+        <label>Loop Locations</label>
+        <locationX>1040</locationX>
+        <locationY>460</locationY>
+        <collectionReference>get_Locations</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_CustomCountry</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>get_Locations_0</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -209,7 +372,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Get_FOLI</name>
         <label>Get FOLI</label>
         <locationX>700</locationX>
-        <locationY>220</locationY>
+        <locationY>728</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_OrderDeliveryGroupSummary</targetReference>
@@ -227,13 +390,57 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_OrderDeliveryGroupSummary</name>
-        <label>Get OrderDeliveryGroupSummary</label>
-        <locationX>864</locationX>
-        <locationY>219</locationY>
+        <name>get_Locations</name>
+        <label>get Locations</label>
+        <locationX>860</locationX>
+        <locationY>594</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Locations</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CustomCountry__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Location</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>get_Locations_0</name>
+        <label>get Locations</label>
+        <locationX>1179</locationX>
+        <locationY>572</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Return_Order_Details</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>LocationsId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Location</object>
+        <sortField>Name</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_OrderDeliveryGroupSummary</name>
+        <label>Get OrderDeliveryGroupSummary</label>
+        <locationX>864</locationX>
+        <locationY>727</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>get_Locations</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -251,7 +458,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Get_Return_Order</name>
         <label>Get Return Order</label>
         <locationX>177</locationX>
-        <locationY>217</locationY>
+        <locationY>725</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_ReturnOrder_LineItems</targetReference>
@@ -272,7 +479,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Get_ReturnOrder_LineItems</name>
         <label>Get ReturnOrder LineItems</label>
         <locationX>342</locationX>
-        <locationY>217</locationY>
+        <locationY>725</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L10_Loop_Over_ROLI</targetReference>
@@ -293,7 +500,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Update_Return_Order</name>
         <label>Update Return Order</label>
         <locationX>521</locationX>
-        <locationY>403</locationY>
+        <locationY>911</locationY>
         <connector>
             <targetReference>Update_ROLI_Records</targetReference>
         </connector>
@@ -329,7 +536,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Update_ROLI_Records</name>
         <label>Update ROLI Records</label>
         <locationX>347</locationX>
-        <locationY>404</locationY>
+        <locationY>912</locationY>
         <connector>
             <targetReference>Finish_Screen</targetReference>
         </connector>
@@ -339,7 +546,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Finish_Screen</name>
         <label>Finish_Screen</label>
         <locationX>345</locationX>
-        <locationY>581</locationY>
+        <locationY>1089</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -355,7 +562,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Return_Order_Details</name>
         <label>Return Order Details</label>
         <locationX>1099</locationX>
-        <locationY>218</locationY>
+        <locationY>726</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -398,7 +605,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Return_Order_Details_Section2</name>
@@ -458,7 +664,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Return_Order_Details_Section3</name>
@@ -468,7 +673,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Location</name>
-                    <choiceReferences>Locations_for_picklist</choiceReferences>
+                    <choiceReferences>Location_Choices</choiceReferences>
                     <dataType>String</dataType>
                     <defaultValue>
                         <elementReference>FX_CalculatedLocation</elementReference>
@@ -508,7 +713,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Return_Order_Details_Section4</name>
@@ -530,7 +734,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -573,7 +776,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>Screen_Validation_Reception</name>
         <label>Screen Validation Reception</label>
         <locationX>658</locationX>
-        <locationY>406</locationY>
+        <locationY>914</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -626,7 +829,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Screen_Validation_Reception_Section2</name>
@@ -757,7 +959,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Validate Return Reception</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -765,12 +966,19 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     </screens>
     <start>
         <locationX>50</locationX>
-        <locationY>52</locationY>
+        <locationY>560</locationY>
         <connector>
             <targetReference>Get_Return_Order</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>C_Custom_Countries_After_Split</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>C_Edited_ROLI</name>
         <dataType>SObject</dataType>
@@ -788,9 +996,24 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
+        <name>currentItemFromSourceCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
+    <variables>
         <name>IsSuccess</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>LocationsId</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
@@ -799,6 +1022,13 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>S_Custom_Countries_Before_Split</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>

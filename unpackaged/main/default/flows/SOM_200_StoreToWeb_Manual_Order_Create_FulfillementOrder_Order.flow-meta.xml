@@ -1,57 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>54.0</apiVersion>
-    <assignments>
-        <name>Set_Order_Delivery_Groups_Count</name>
-        <label>Set Order Delivery Groups Count</label>
-        <locationX>1135</locationX>
-        <locationY>273</locationY>
-        <assignmentItems>
-            <assignToReference>VAR_OrderDeliveryGroupSummaryCount</assignToReference>
-            <operator>AssignCount</operator>
-            <value>
-                <elementReference>Filter_Order_Delivery_Groups_With_Country_GB</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_Fulfillment_Order_Decision</targetReference>
-        </connector>
-    </assignments>
-    <collectionProcessors>
-        <name>Filter_Order_Delivery_Groups_With_Country_GB</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter Order Delivery Groups With Country GB</label>
-        <locationX>893</locationX>
-        <locationY>274</locationY>
-        <assignNextValueToReference>currentItem_Filter_Order_Delivery_Groups_With_Country_GB_0</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_Order_Delivery_Group_Summaries</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_Order_Delivery_Groups_With_Country_GB_0.DeliverToCountry</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <stringValue>UK</stringValue>
-            </rightValue>
-        </conditions>
-        <conditions>
-            <leftValueReference>currentItem_Filter_Order_Delivery_Groups_With_Country_GB_0.DeliverToCountry</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <stringValue>GB</stringValue>
-            </rightValue>
-        </conditions>
-        <conditions>
-            <leftValueReference>currentItem_Filter_Order_Delivery_Groups_With_Country_GB_0.DeliverToCountry</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <stringValue>AE</stringValue>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Set_Order_Delivery_Groups_Count</targetReference>
-        </connector>
-    </collectionProcessors>
     <constants>
         <name>SalesChanned_Cegid</name>
         <dataType>String</dataType>
@@ -94,13 +43,6 @@
             <name>Create_FO_With_OCI_Reservation</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>VAR_OrderDeliveryGroupSummaryCount</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>OrderSummaryRecord.RetryAllocationProcessed__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
@@ -115,13 +57,6 @@
         <rules>
             <name>Create_FO_Without_OCI_Reservation</name>
             <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>VAR_OrderDeliveryGroupSummaryCount</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
             <conditions>
                 <leftValueReference>OrderSummaryRecord.RetryAllocationProcessed__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -160,11 +95,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summaries</name>
         <label>Get Order Delivery Group Summaries</label>
-        <locationX>720</locationX>
-        <locationY>274</locationY>
+        <locationX>1140</locationX>
+        <locationY>278</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Filter_Order_Delivery_Groups_With_Country_GB</targetReference>
+            <targetReference>Create_Fulfillment_Order_Decision</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -204,8 +139,8 @@
         <object>OrderSummary</object>
     </recordUpdates>
     <start>
-        <locationX>229</locationX>
-        <locationY>256</locationY>
+        <locationX>572</locationX>
+        <locationY>260</locationY>
         <connector>
             <targetReference>Get_Order_Delivery_Group_Summaries</targetReference>
         </connector>
@@ -312,7 +247,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>currentItem_Filter_Order_Delivery_Groups_With_Country_GB_0</name>
+        <name>currentItem_Filter_Order_Delivery_Groups_With_Country_GB</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

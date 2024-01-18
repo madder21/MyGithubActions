@@ -8,13 +8,14 @@ public with sharing class SOM_SalesAndPaymentsReportUKSchedule Implements Schedu
     @future(callout=true)
     public static void weekExportTEST() {
         
-        DateTime previousMondayDate = (DateTime)System.Today().addDays(-7);
-        String previousMonday = previousMondayDate.format('MM/dd/YYYY');
+        date myDate = date.today();
+		DateTime weekStart = myDate.toStartofWeek().addDays(-7);
+        String previousMonday = weekStart.format('MM/dd/YYYY');
         
-        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
+        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
         
-        DateTime previousSundayDate = (DateTime)System.Today().addDays(-1);
-        String previousSunday = previousSundayDate.format('MM/dd/YYYY');
+        DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
+		String previousSunday = previousSundayDate.format('MM/dd/YYYY');
         
         List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
         

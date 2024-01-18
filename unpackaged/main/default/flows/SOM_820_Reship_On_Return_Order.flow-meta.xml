@@ -29,7 +29,7 @@
         <locationY>235</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Reship_Order_Items</targetReference>
+            <targetReference>Reship_Return_Order_Flow</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -47,37 +47,6 @@
         <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <name>Update_Return_Order_Line_Items_To_Processed</name>
-        <label>Update Return Order Line Items To Processed</label>
-        <locationX>991</locationX>
-        <locationY>234</locationY>
-        <connector>
-            <targetReference>Close_Return_Order_After_Reship</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>RepaymentMethod</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Reship</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>ReturnOrderId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>FollowUpProcessed__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>ReturnOrderLineItem</object>
-    </recordUpdates>
     <start>
         <locationX>543</locationX>
         <locationY>48</locationY>
@@ -85,7 +54,7 @@
             <targetReference>Get_Return_Order</targetReference>
         </connector>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <subflows>
         <name>Close_Return_Order_After_Reship</name>
         <label>Close Return Order After Reship</label>
@@ -100,14 +69,14 @@
         </inputAssignments>
     </subflows>
     <subflows>
-        <name>Reship_Order_Items</name>
-        <label>Reship Order Items</label>
-        <locationX>842</locationX>
-        <locationY>234</locationY>
+        <name>Reship_Return_Order_Flow</name>
+        <label>Reship Return Order Flow</label>
+        <locationX>884</locationX>
+        <locationY>236</locationY>
         <connector>
-            <targetReference>Update_Return_Order_Line_Items_To_Processed</targetReference>
+            <targetReference>Close_Return_Order_After_Reship</targetReference>
         </connector>
-        <flowName>SOM_810_Reship_Order_Flow</flowName>
+        <flowName>SOM_810_Reship_Return_Order_Flow</flowName>
         <inputAssignments>
             <name>recordId</name>
             <value>
