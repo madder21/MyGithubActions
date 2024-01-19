@@ -1,33 +1,32 @@
-public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Schedulable{
+public with sharing class SOM_SalesPaymentsReportMonthAUSchedule Implements Schedulable{
     public void execute(SchedulableContext sc){
         monthExport();
     }
     
-     @future(callout=true)
+    @future(callout=true)
     public static void monthExport() {
-
-
-        DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
-        String firstDay = firstDayOfLastMonth.format('MM/dd/YYYY');
-        
-        OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' limit 1];
-
-        DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
-        String lastDay = lastDayOfLastMonth.format('MM/dd/YYYY');
-
-        System.debug('firstDay' + firstDay + 'lastDay' + lastDay);
-        
-        List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
-
-        Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='UAE' ];
-        
-
-            List<Report> invoiceRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Invoice_Wom'];
-            List<Report> creditMemoRep = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Credit_Memo_huW'];
-            List<Report> paymentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Payments_report_5w3'];
-            List<Report> shipmentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName = 'Shipments_Report_a6T'];
-            List<Report> returnOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Return_Orders_Finance_3My'];
-            List<Report> refundOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Order_Summary_with_Refunds_Report_ekT'];
+                    
+            DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
+            String firstDay = firstDayOfLastMonth.format('MM/dd/YYYY');
+            
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
+            
+            DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
+            String lastDay = lastDayOfLastMonth.format('MM/dd/YYYY');
+            
+            System.debug('firstDay' + firstDay + 'lastDay' + lastDay);
+            
+            List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
+            
+            Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='AU' ];
+            
+            
+            List<Report> invoiceRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Invoice_AU'];
+            List<Report> creditMemoRep = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Credit_Memo_AU'];
+            List<Report> paymentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Payments_Report_AU'];
+            List<Report> shipmentRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName = 'Shipments_Report_Finance_AU'];
+            List<Report> returnOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Return_Orders_Report_Finance_AU'];
+            List<Report> refundOrdersRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Refunds_Report_AU'];
             
             
             String invoiceReportId = (String)invoiceRep.get(0).get('Id');
@@ -35,59 +34,59 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
             String paymentReportId = (String)paymentRep.get(0).get('Id');
             String shipmentReportId = (String)shipmentRep.get(0).get('Id');
             String returnOrdersReportId = (String)returnOrdersRep.get(0).get('Id');
-        	String refundOrdersReportId = (String)refundOrdersRep.get(0).get('Id');
-
-
-            String urlFilters = '?&pv0=' + firstDay + '&pv1=' + lastDay + '&csv=1&exp=1&enc=UTF-8&isdtp=p1';
-        
+            String refundOrdersReportId = (String)refundOrdersRep.get(0).get('Id');
             
-         
+            
+            String urlFilters = '?&pv0=' + firstDay + '&pv1=' + lastDay + '&csv=1&exp=1&enc=UTF-8&isdtp=p1';
+            
+            
+            
             Messaging.EmailFileAttachment invoiceAttachment    = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment creditMemoAttachment = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment paymentAttachment    = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment shipmentAttachment    = new Messaging.EmailFileAttachment();
             Messaging.EmailFileAttachment returnOrdersAttachment    = new Messaging.EmailFileAttachment();
-        	Messaging.EmailFileAttachment refundOrdersAttachment    = new Messaging.EmailFileAttachment();
+            Messaging.EmailFileAttachment refundOrdersAttachment    = new Messaging.EmailFileAttachment();
             
-
-
+            
+            
             ApexPages.PageReference invoiceReport;
             ApexPages.PageReference creditMemoReport;
             ApexPages.PageReference paymentReport;
             ApexPages.PageReference shipmentReport;
             ApexPages.PageReference returnOrdersReport;
-        	ApexPages.PageReference refundOrdersReport;
-			
+            ApexPages.PageReference refundOrdersReport;
+            
             
             if(!invoiceRep.isEmpty()){
                 invoiceReport    = new ApexPages.PageReference('/'+invoiceReportId + urlFilters);
-
+                
             }
             if(!creditMemoRep.isEmpty()){
                 creditMemoReport = new ApexPages.PageReference('/'+creditMemoReportId + urlFilters);
-
+                
             }
             if(!paymentRep.isEmpty()){
                 paymentReport    = new ApexPages.PageReference('/'+paymentReportId + urlFilters);
-
+                
             }
             if(!shipmentRep.isEmpty()){
-                    shipmentReport    = new ApexPages.PageReference('/'+shipmentReportId + urlFilters);
-    
-                }
+                shipmentReport    = new ApexPages.PageReference('/'+shipmentReportId + urlFilters);
+                
+            }
             if(!returnOrdersRep.isEmpty()){
-                    returnOrdersReport    = new ApexPages.PageReference('/'+returnOrdersReportId + urlFilters);
-    
-                }
-        	if(!refundOrdersRep.isEmpty()){
-                    refundOrdersReport    = new ApexPages.PageReference('/'+refundOrdersReportId + urlFilters);
-    
-                }
-        
-
+                returnOrdersReport    = new ApexPages.PageReference('/'+returnOrdersReportId + urlFilters);
+                
+            }
+            if(!refundOrdersRep.isEmpty()){
+                refundOrdersReport    = new ApexPages.PageReference('/'+refundOrdersReportId + urlFilters);
+                
+            }
+            
+            
             Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
             List<Messaging.EmailFileAttachment> attchs = new List<Messaging.EmailFileAttachment>();
-
+            
             if(Test.isRunningTest()) { 
                 invoiceAttachment.setBody(Blob.valueOf('UnitInvoice.Test'));
                 creditMemoAttachment.setBody(Blob.valueOf('UnitCM.Test'));
@@ -134,7 +133,7 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
                     attchs.add(refundOrdersAttachment);
                 }
             }
-
+            
             email.setFileAttachments(attchs);
             
             String subject ='[SOM] Monthly extraction of payments and sales for ' + reportSetting.Country_List__c;
@@ -143,13 +142,13 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
             email.setOrgWideEmailAddressId(owa.id);
             String[] toAddresses = new list<string>();
             toAddresses.addAll(reportSetting.Distribution_List__c.split(','));
-        	System.debug('toAddresses' + toAddresses);
+            System.debug('toAddresses' + toAddresses);
             email.setToAddresses( toAddresses );
             emails.add(email);
-
-        Messaging.sendEmail(emails);
-
+            
+            Messaging.sendEmail(emails);
+                    
     }   
     
-   
+    
 }
