@@ -8,15 +8,19 @@ global with sharing class SOM_CreateCreditMemoPDFFileAction {
         
         OrderSummary ordSummary = (OrderSummary) creditMemoRecords[0].ReferenceEntity;
         OrderDeliveryGroupSummary odg = [SELECT Id, OrderSummaryId, deliverToCountry FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: ordSummary.Id];
-        page.getParameters().put('template', odg.deliverToCountry);
-        if(odg.deliverToCountry == 'AE') page = new PageReference('/apex/SOM_CreditMemoArabicDocument');
+        if(odg.deliverToCountry == 'AE'){
+            page = new PageReference('/apex/SOM_CreditMemoArabicDocument');
+        }else if(odg.deliverToCountry == 'KR'){
+            page = new PageReference('/apex/SOM_CreditMemoKoreaDocument');
+        }
         page.getParameters().put('creditMemoId', creditMemoRecords[0].Id);
+        page.getParameters().put('template', odg.deliverToCountry);
         Attachment attachment = new Attachment();
         if(Test.isRunningTest()) { 
             attachment.Body = blob.valueOf('Unit.Test');
-          } else {
+        } else {
             attachment.Body = page.getContent();
-          }
+        }
         attachment.IsPrivate  = false;
         attachment.ParentId   = creditMemoRecords[0].Id;
         attachment.Name       = getFileName(creditMemoRecords[0]);
@@ -24,13 +28,13 @@ global with sharing class SOM_CreateCreditMemoPDFFileAction {
         //update credit memo
         creditMemoRecords[0].PDFGenerationStatus__c = SOM_Constants.PDF_GENERATION_STATUS_GENERATED;
         CreditMemoList.add(creditMemoRecords[0]);
-    
+        
         if(!attachmentList.isEmpty()) {
             insert attachmentList;
             update CreditMemoList ;
         }
     }
-
+    
     global static String getFileName(CreditMemo creditMemo){
         if (creditMemo.ReferenceEntity instanceOf OrderSummary) {
             OrderSummary ordSummary = (OrderSummary) creditMemo.ReferenceEntity;
