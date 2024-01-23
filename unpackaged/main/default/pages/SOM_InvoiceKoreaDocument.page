@@ -32,7 +32,7 @@
                 </tr>
             </table>
             <div class="div2">
-                <h3> TAX INVOICE </h3> 
+                <h3> 인보이스 </h3> 
             </div>
            
     <div class="content">
@@ -40,8 +40,9 @@
             <tr>
                 <!-- Billing contact information -->
                 <td class="Bill_Contact_Inf">
-                    BILLING CONTACT 
-                    <br/>
+                <div style="font-size: 13px; padding: 3px 0px;">
+                결제 주소
+                </div>
                     <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
@@ -79,7 +80,10 @@
                 </td>
                 <!-- Delivery contact information -->
                 <td class="Invoice_Inf">
-                    DELIVERY CONTACT <br/>
+                <div style="font-size: 13px; padding: 3px 0px;">
+                배송 주소
+                </div>
+                     
                     <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
@@ -98,7 +102,7 @@
         <br/>
         <br/>
         <div class="invoiceLine">
-            TRACKING NUMBERS :&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
+            <NOBR style="font-size: 13px; padding: 3px 0px;">운송장 번호 :</NOBR>&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
         </div>
         <div class="spacer">&nbsp;</div>
         <table class="articles">

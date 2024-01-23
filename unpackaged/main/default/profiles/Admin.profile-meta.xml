@@ -1667,6 +1667,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>SOM_CreditMemoKoreaDocument</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>SOM_InvoiceArabicDocument</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -1676,6 +1680,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>SOM_InvoiceDownloadContent</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>SOM_InvoiceKoreaDocument</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <applicationVisibilities>
@@ -5710,6 +5718,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>FulfillmentOrder.TotalProductAmount</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>FulfillmentOrder.duplicates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

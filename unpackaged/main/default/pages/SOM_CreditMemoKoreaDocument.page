@@ -30,7 +30,7 @@
                 </tr>
             </table>
             <div class="div2">
-                <h3> TAX CREDIT NOTE</h3> 
+                <h3> 크레딧 노트</h3> 
             </div>
             
     <div class="content">
@@ -38,8 +38,9 @@
             <tr>
                 <!-- Billing contact information -->
                 <td class="Bill_Contact_Inf">
-                    BILLING CONTACT 
-                    <br/>
+                <div style="font-size: 13px; padding: 3px 0px;">
+                결제 주소
+                </div>
                     <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
@@ -73,7 +74,9 @@
                 </td>
                 <!-- Delivery contact information -->
                 <td class="Invoice_Inf">
-                    DELIVERY CONTACT <br/>
+                <div style="font-size: 13px; padding: 3px 0px;">
+                배송 주소
+                </div>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
