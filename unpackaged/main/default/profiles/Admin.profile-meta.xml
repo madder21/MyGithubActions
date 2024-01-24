@@ -1069,6 +1069,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Logs</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MakeApexCallout</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1270,6 +1274,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SOM_InvoiceDocumentController_test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SOM_InvoiceManagement</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SOM_InvoiceManagement_Test</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6161,8 +6173,13 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Log__c.Class_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Debug_message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6183,6 +6200,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Log__c.Is_Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.LineNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.LogLevel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9711,6 +9738,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>LocationGroupAssignment-Location Group Assignment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>LogLevel__mdt-Log Level Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Log__c-Log Layout</layout>
