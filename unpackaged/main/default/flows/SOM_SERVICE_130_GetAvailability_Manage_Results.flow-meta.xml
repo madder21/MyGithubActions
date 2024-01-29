@@ -742,6 +742,11 @@
         <expression>{!$Flow.CurrentDateTime}-30</expression>
     </formulas>
     <formulas>
+        <name>Fx_before_30_Day</name>
+        <dataType>DateTime</dataType>
+        <expression>{!$Flow.CurrentDateTime}-30</expression>
+    </formulas>
+    <formulas>
         <name>FX_OnHand_minus_AlreadyAllocated</name>
         <dataType>Number</dataType>
         <expression>{!L11_Full_Results.OCI_OnHand} - {!L11_Full_Results.quantityAlreadyAllocated}</expression>
