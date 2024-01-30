@@ -18,6 +18,7 @@
                 <elementReference>var_contactToResolve</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>B2CIACustomerResolution</nameSegment>
         <outputParameters>
             <assignToReference>var_recColResolvedContacts</assignToReference>
             <name>contactList</name>
@@ -30,6 +31,7 @@
             <assignToReference>var_resolutionError</assignToReference>
             <name>isError</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
@@ -405,6 +407,7 @@
         </rules>
     </decisions>
     <description>... encapsulates the Contact Resolution logic for re-use and implementation simplification.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: Contact Resolution Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Contact Resolution Helper</label>
     <loops>
