@@ -300,7 +300,7 @@ private class B2CIACustomerResolution_Test {
      * a Contact record 
      */
     @IsTest
-    private static void testResolveByMatchedLastNameFirstNameEmailNoMatchedB2CIDOneResultFromOne() {
+     private static void testResolveByMatchedLastNameFirstNameEmailNoMatchedB2CIDOneResultFromOne() {
 
         // Initialize local variables
         Map<String, Object> flowResults;

@@ -717,7 +717,7 @@
         <defaultConnector>
             <targetReference>Does_Email_exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>doesn&#39;t exist</defaultConnectorLabel>
+        <defaultConnectorLabel>doesn&apos;t exist</defaultConnectorLabel>
         <rules>
             <name>decout_yes_is_Full_Account_exist</name>
             <conditionLogic>and</conditionLogic>
@@ -735,6 +735,7 @@
         </rules>
     </decisions>
     <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a new Account object for future processing.</description>
+    <environments>Default</environments>
     <formulas>
         <name>CorrectFirstNameFormat</name>
         <dataType>String</dataType>

@@ -67,7 +67,7 @@
         <defaultConnector>
             <targetReference>ERROR</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>don&#39;t exist</defaultConnectorLabel>
+        <defaultConnectorLabel>don&apos;t exist</defaultConnectorLabel>
         <rules>
             <name>exist</name>
             <conditionLogic>and</conditionLogic>
@@ -145,6 +145,7 @@
         </rules>
     </decisions>
     <description>... Verify the Capture source of the Custom Input sent by the B2CContactProcessFlow, and return a boolean flag to allow the update of Personal info</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: Allow Update Personal Identifier Information {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Allow Update Personal Identifier Information</label>
     <processMetadataValues>

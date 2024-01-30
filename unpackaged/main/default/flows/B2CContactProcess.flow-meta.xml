@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Get_Country_Name</name>
         <label>Get Country Name</label>
-        <locationX>1337</locationX>
+        <locationX>1722</locationX>
         <locationY>650</locationY>
         <actionName>CountryNameManager</actionName>
         <actionType>apex</actionType>
@@ -17,16 +17,18 @@
                 <elementReference>sourceContact.Country__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>CountryNameManager</nameSegment>
         <outputParameters>
             <assignToReference>sourceContact.MailingCountry</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>send_Account_Data_to_Mulsoft</name>
         <label>send Account Data to Mulesoft</label>
-        <locationX>314</locationX>
-        <locationY>7250</locationY>
+        <locationX>754</locationX>
+        <locationY>7658</locationY>
         <actionName>TNP_001_InvocableClassAccount</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -42,13 +44,15 @@
                 <elementReference>CustomInput</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>TNP_001_InvocableClassAccount</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
         <name>Account_Login_Success</name>
         <label>Account Login Success</label>
         <locationX>50</locationX>
-        <locationY>7034</locationY>
+        <locationY>7442</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -68,7 +72,7 @@
         <description>... assign the AccountId and Contact Id to the source Contact.</description>
         <name>asn_B2CCustomerListIDToSourceContact</name>
         <label>Assign the Binding Values to SourceContact</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>1274</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.Id</assignToReference>
@@ -92,7 +96,7 @@
         <description>... assign the retrieved B2C CustomerList to a local variable for future use.</description>
         <name>asn_b2cCustomerListToLocalVariable_create</name>
         <label>Assign the CustomerList to a Local Variable</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5396</locationY>
         <assignmentItems>
             <assignToReference>var_b2cCustomerList</assignToReference>
@@ -109,7 +113,7 @@
         <description>... throw an error explaining that multiple Contacts were resolved.</description>
         <name>asn_ErrorMultipleContactsResolved_Assignment</name>
         <label>Error: Multiple Contacts Resolved</label>
-        <locationX>677</locationX>
+        <locationX>919</locationX>
         <locationY>6518</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -137,7 +141,7 @@
         <description>... throw an error that no B2C CustomerList ID was provided.</description>
         <name>asn_ErrorNoCustomerListProvided</name>
         <label>Error: No B2C CustomerList ID Provided</label>
-        <locationX>1755</locationX>
+        <locationX>2151</locationX>
         <locationY>950</locationY>
         <assignmentItems>
             <assignToReference>errors</assignToReference>
@@ -165,7 +169,7 @@
         <description>... record the resolutionError and expose it to the caller.</description>
         <name>asn_resolutionError</name>
         <label>Resolution Error</label>
-        <locationX>149</locationX>
+        <locationX>391</locationX>
         <locationY>6518</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
@@ -183,9 +187,27 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <description>...When a contact exist in SFCC but not in SFDC, and the contact want to Login, its like a creation for Salesforce, so an Account Creation Touchpoint should be set in the R360 Query Call</description>
+        <name>assign_Account_Creation_Source_to_CustomInput</name>
+        <label>assign Account Creation Source to CustomInput</label>
+        <locationX>314</locationX>
+        <locationY>7550</locationY>
+        <assignmentItems>
+            <assignToReference>CustomInput.CaptureSource</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Label.LABS_B2C_AccountCreation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Create_B2CCustomInput_Records_ExistingContact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assign_B2C_Cust_List_to_source_contact</name>
         <label>assign B2C Cust List to source contact</label>
-        <locationX>732</locationX>
+        <locationX>974</locationX>
         <locationY>4820</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
@@ -199,10 +221,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assign_B2C_Cust_List_to_source_contact_for_existing_contact</name>
+        <label>assign B2C Cust List to source contact</label>
+        <locationX>1359</locationX>
+        <locationY>6842</locationY>
+        <assignmentItems>
+            <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>rec_GetCustomerListForExistingContact.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sub_B2C_Update_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>assign b2c customer list from original contact to source contact</description>
         <name>assign_B2C_Customer_List</name>
         <label>assign B2C Customer List</label>
-        <locationX>600</locationX>
+        <locationX>908</locationX>
         <locationY>2672</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
@@ -220,7 +258,7 @@
         <description>assign B2C Customer List from original contact to source contact</description>
         <name>assign_B2C_Customer_List_from_original_contact</name>
         <label>assign B2C Customer List from original contact</label>
-        <locationX>600</locationX>
+        <locationX>908</locationX>
         <locationY>1598</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
@@ -238,7 +276,7 @@
         <description>assign B2C Customer List to Source Contact from original contact found by AccountId</description>
         <name>assign_B2C_Customer_List_to_Source_Contact</name>
         <label>assign B2C Customer List to Source Contact</label>
-        <locationX>600</locationX>
+        <locationX>908</locationX>
         <locationY>3746</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.B2C_CustomerList__c</assignToReference>
@@ -256,7 +294,7 @@
         <description>... assign the the contact ID to the source Contact.</description>
         <name>Assign_Contact_Found_By_AccountId</name>
         <label>Assign Contact Found By AccountId</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>3422</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.Id</assignToReference>
@@ -273,7 +311,7 @@
         <description>... assign the account id to the source Contact found by Contact ID</description>
         <name>Assign_Contact_Found_By_ContactId</name>
         <label>Assign Account Found By Contact Id</label>
-        <locationX>864</locationX>
+        <locationX>1106</locationX>
         <locationY>4496</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.AccountId</assignToReference>
@@ -287,10 +325,10 @@
         </connector>
     </assignments>
     <assignments>
-        <description>assign &#39;no lastname&#39; to the empty LastName</description>
+        <description>assign &apos;no lastname&apos; to the empty LastName</description>
         <name>Assign_DefaultLastName</name>
         <label>Assign_DefaultLastName</label>
-        <locationX>699</locationX>
+        <locationX>1051</locationX>
         <locationY>5936</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.LastName</assignToReference>
@@ -304,10 +342,10 @@
         </connector>
     </assignments>
     <assignments>
-        <description>assign &#39;no lastname&#39; to the empty LastName and &#39;no firstname&#39; to empty FirstName</description>
+        <description>assign &apos;no lastname&apos; to the empty LastName and &apos;no firstname&apos; to empty FirstName</description>
         <name>Assign_DefaultLastNameAndFirstName</name>
         <label>Assign_DefaultLastNameAndFirstName</label>
-        <locationX>1227</locationX>
+        <locationX>1579</locationX>
         <locationY>5936</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.LastName</assignToReference>
@@ -329,10 +367,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assign_flag_isNewContact</name>
+        <label>assign flag isNewContact</label>
+        <locationX>655</locationX>
+        <locationY>6626</locationY>
+        <assignmentItems>
+            <assignToReference>isNewContact</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>are_Contact_and_Account_Resolved</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>...Assign the original existing contact</description>
         <name>Assign_Original_contact</name>
         <label>Assign Original contact</label>
-        <locationX>864</locationX>
+        <locationX>1106</locationX>
         <locationY>4604</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -349,7 +403,7 @@
         <description>... assign the AccountId and Contact Id to the source Contact.</description>
         <name>Assign_the_Binding_Values_to_SourceContact_CustNo</name>
         <label>Assign the Binding Values to SourceContact</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>2348</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.Id</assignToReference>
@@ -370,10 +424,10 @@
         </connector>
     </assignments>
     <assignments>
-        <description>assign &#39;no firstname&#39; to the empty FirstName</description>
+        <description>assign &apos;no firstname&apos; to the empty FirstName</description>
         <name>Copy_1_of_Assign_DefaultFirstName</name>
         <label>Assign_DefaultFirstName</label>
-        <locationX>963</locationX>
+        <locationX>1315</locationX>
         <locationY>5936</locationY>
         <assignmentItems>
             <assignToReference>sourceContact.FirstName</assignToReference>
@@ -389,7 +443,7 @@
     <assignments>
         <name>Create_original_Contaact_Found_by_B2C_Cust_No</name>
         <label>Create original Contaact Found by B2C Cust No</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>2456</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -405,7 +459,7 @@
     <assignments>
         <name>Create_original_contact_found_by_B2C_Customer_ID</name>
         <label>Create original contact found by B2C Customer ID</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>1382</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -421,7 +475,7 @@
     <assignments>
         <name>CreateOriginal_contact_Found_By_Account_Id</name>
         <label>CreateOriginal contact Found By Account Id</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>3530</locationY>
         <assignmentItems>
             <assignToReference>var_originalContact</assignToReference>
@@ -438,8 +492,8 @@
         <description>... throw an error explaining the Custom Input is not provided</description>
         <name>Error_No_custom_input_in_the_query_call_ExistingContact</name>
         <label>Error: No custom input in the query call</label>
-        <locationX>578</locationX>
-        <locationY>7142</locationY>
+        <locationX>468</locationX>
+        <locationY>8042</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -459,7 +513,7 @@
         <description>... record the resolutionError and expose it to the caller.</description>
         <name>FullName_and_Media_Error</name>
         <label>FullName and Media Error</label>
-        <locationX>1205</locationX>
+        <locationX>1623</locationX>
         <locationY>6302</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
@@ -479,8 +533,8 @@
     <decisions>
         <name>are_Contact_and_Account_Resolved</name>
         <label>are Contact and Account Resolved ?</label>
-        <locationX>545</locationX>
-        <locationY>6818</locationY>
+        <locationX>831</locationX>
+        <locationY>7226</locationY>
         <defaultConnectorLabel>no they are not resolved</defaultConnectorLabel>
         <rules>
             <name>decout_yes_Contact_and_Account_Resolved</name>
@@ -507,7 +561,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>is_Account_Login</targetReference>
+                <targetReference>should_it_be_sent_to_R360</targetReference>
             </connector>
             <label>yes both are resolved</label>
         </rules>
@@ -516,7 +570,7 @@
         <description>... evaluate if a B2C Commerce CustomerList was provided; do not allow Contact Processing to continue if a CustomerList was not provided.</description>
         <name>dec_B2CCustomerListNotProvidedAndThrowError</name>
         <label>Throw an Error if No CustomerList Exists?</label>
-        <locationX>1469</locationX>
+        <locationX>1854</locationX>
         <locationY>842</locationY>
         <defaultConnector>
             <targetReference>asn_ErrorNoCustomerListProvided</targetReference>
@@ -542,7 +596,7 @@
         <description>... evaluate if we can resolve the Contact record using the identifiers provided.</description>
         <name>dec_CanWeResolveThisContact</name>
         <label>Was a Contact Resolved?</label>
-        <locationX>545</locationX>
+        <locationX>831</locationX>
         <locationY>6410</locationY>
         <defaultConnector>
             <targetReference>sub_B2CCommerce_AllowUpdatePII</targetReference>
@@ -616,10 +670,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>dec_CustomInput_exist_forAccountLoginNewContact</name>
+        <label>is CustomInput exist?</label>
+        <locationX>446</locationX>
+        <locationY>7442</locationY>
+        <defaultConnector>
+            <targetReference>Error_No_custom_input_in_the_query_call_ExistingContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No CustomInput</defaultConnectorLabel>
+        <rules>
+            <name>decout_it_Exist_forAccountLoginNewContact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CustomInput</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_Account_Creation_Source_to_CustomInput</targetReference>
+            </connector>
+            <label>it Exist</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluate if the FullName and Media values provided are valid</description>
         <name>dec_isContactPIIValid</name>
         <label>Are FullName and Media are Valid ?</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>6194</locationY>
         <defaultConnector>
             <targetReference>FullName_and_Media_Error</targetReference>
@@ -694,7 +773,7 @@
         <description>... evaluate if QA Mode is enabled -- and act accordingly.</description>
         <name>dec_isQAModeEnabled</name>
         <label>Is QA Mode Enabled?</label>
-        <locationX>1469</locationX>
+        <locationX>1854</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>If_COuntry_exist</targetReference>
@@ -720,7 +799,7 @@
         <description>... evaluate if a B2C CustomerID was specified on the sourceContact</description>
         <name>dec_wasB2CCustomerIDSpecified</name>
         <label>Was a B2C CustomerID set?</label>
-        <locationX>1183</locationX>
+        <locationX>1557</locationX>
         <locationY>950</locationY>
         <defaultConnector>
             <targetReference>decout_Was_a_B2C_CustomerNo_set</targetReference>
@@ -760,7 +839,7 @@
         <description>... evaluate if a ContactID was included with the sourceContact definition.</description>
         <name>dec_wasContactIDSet</name>
         <label>Was a ContactID Set?</label>
-        <locationX>1183</locationX>
+        <locationX>1557</locationX>
         <locationY>4172</locationY>
         <defaultConnector>
             <targetReference>is_Original_Contact_Found</targetReference>
@@ -793,7 +872,7 @@
         <description>... evaluate if a B2C Customer No was specified on the sourceContact</description>
         <name>decout_Was_a_B2C_CustomerNo_set</name>
         <label>Was a B2C Customer No set?</label>
-        <locationX>1183</locationX>
+        <locationX>1557</locationX>
         <locationY>2024</locationY>
         <defaultConnector>
             <targetReference>Was_an_AccountId_Set</targetReference>
@@ -830,9 +909,48 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Does_B2C_Customer_List_exist</name>
+        <label>Does B2C Customer List exist ?</label>
+        <locationX>1271</locationX>
+        <locationY>6626</locationY>
+        <defaultConnector>
+            <targetReference>rec_GetCustomerListForExistingContact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>yes_does_B2C_Customer_List_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sub_B2C_Update_Contact</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>If_COuntry_exist</name>
         <label>If COuntry exist</label>
-        <locationX>1469</locationX>
+        <locationX>1854</locationX>
         <locationY>542</locationY>
         <defaultConnector>
             <targetReference>dec_B2CCustomerListNotProvidedAndThrowError</targetReference>
@@ -862,35 +980,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>is_Account_Login</name>
-        <label>is Account Login ?</label>
-        <locationX>248</locationX>
-        <locationY>6926</locationY>
-        <defaultConnector>
-            <targetReference>is_CustomInput_exist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>no</defaultConnectorLabel>
-        <rules>
-            <name>decout_yes_is_Account_Login</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>var_isAccountLogin</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Account_Login_Success</targetReference>
-            </connector>
-            <label>yes</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>is B2C Cust List to Source contact, found with Contact Id, from Original contact</description>
         <name>is_B2C_Cust_List_exist_from_found_contact</name>
         <label>is B2C Cust List exist from found contact?</label>
-        <locationX>864</locationX>
+        <locationX>1106</locationX>
         <locationY>4712</locationY>
         <defaultConnector>
             <targetReference>is_Original_Contact_Found</targetReference>
@@ -922,7 +1015,7 @@
     <decisions>
         <name>is_B2C_Customer_List_exist_in_original_contact</name>
         <label>is B2C Customer List exist in original contact</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>1490</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
@@ -955,7 +1048,7 @@
     <decisions>
         <name>is_B2C_Customer_List_exist_in_original_contact_ByAccountID</name>
         <label>is B2C Customer List exist in original contact ?</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>3638</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
@@ -988,7 +1081,7 @@
     <decisions>
         <name>is_Contact_Resolved_by_AccountId</name>
         <label>is Contact Resolved by AccountId</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>3314</locationY>
         <defaultConnector>
             <targetReference>dec_wasContactIDSet</targetReference>
@@ -1013,7 +1106,7 @@
     <decisions>
         <name>is_Contact_resolved_by_B2C_Customer_ID</name>
         <label>is Contact resolved by B2C Customer ID?</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>1166</locationY>
         <defaultConnector>
             <targetReference>decout_Was_a_B2C_CustomerNo_set</targetReference>
@@ -1038,7 +1131,7 @@
     <decisions>
         <name>is_Contact_Resolved_by_B2C_Customer_No</name>
         <label>is Contact Resolved by B2C Customer No</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>2240</locationY>
         <defaultConnector>
             <targetReference>Was_an_AccountId_Set</targetReference>
@@ -1063,7 +1156,7 @@
     <decisions>
         <name>is_Contact_Resolved_by_ContactId</name>
         <label>is Contact Resolved by ContactId</label>
-        <locationX>1018</locationX>
+        <locationX>1260</locationX>
         <locationY>4388</locationY>
         <defaultConnector>
             <targetReference>is_Original_Contact_Found</targetReference>
@@ -1088,7 +1181,7 @@
     <decisions>
         <name>is_Customer_List_exist_in_original_contact</name>
         <label>is Customer List exist in original contact ?</label>
-        <locationX>732</locationX>
+        <locationX>1040</locationX>
         <locationY>2564</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
@@ -1121,8 +1214,8 @@
     <decisions>
         <name>is_CustomInput_exist</name>
         <label>is CustomInput exist?</label>
-        <locationX>446</locationX>
-        <locationY>7034</locationY>
+        <locationX>886</locationX>
+        <locationY>7442</locationY>
         <defaultConnector>
             <targetReference>Error_No_custom_input_in_the_query_call_ExistingContact</targetReference>
         </defaultConnector>
@@ -1147,7 +1240,7 @@
         <description>... verify if the FirstName is Set in the Payload</description>
         <name>Is_FullName_valid</name>
         <label>Is FullName valid ?</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5828</locationY>
         <defaultConnector>
             <targetReference>Assign_DefaultLastNameAndFirstName</targetReference>
@@ -1252,7 +1345,7 @@
         <description>...Verify if the Binding on Cust Id, Cust No, Account Id or Id worked. If not find dupes by Apex</description>
         <name>is_Original_Contact_Found</name>
         <label>is Original Contact Found?</label>
-        <locationX>1183</locationX>
+        <locationX>1557</locationX>
         <locationY>5180</locationY>
         <defaultConnector>
             <isGoTo>true</isGoTo>
@@ -1272,14 +1365,68 @@
             <connector>
                 <targetReference>recGet_creCustomerList</targetReference>
             </connector>
-            <label>isn&#39;t found</label>
+            <label>isn&apos;t found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>should_it_be_sent_to_R360</name>
+        <label>should it be sent to R360 ?</label>
+        <locationX>468</locationX>
+        <locationY>7334</locationY>
+        <defaultConnector>
+            <targetReference>is_CustomInput_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>decout_no_AccountLoginForExistingContact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_isAccountLogin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>isNewContact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Account_Login_Success</targetReference>
+            </connector>
+            <label>No it&apos;s an Account login for existing contact</label>
+        </rules>
+        <rules>
+            <name>decout_Yes_AccountLoginForNewContact</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_isAccountLogin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>isNewContact</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_CustomInput_exist_forAccountLoginNewContact</targetReference>
+            </connector>
+            <label>Yes it&apos;s an Account Login for a new contact</label>
         </rules>
     </decisions>
     <decisions>
         <description>... evaluate if an Account ID was included with the sourceContact definition.</description>
         <name>Was_an_AccountId_Set</name>
         <label>Was an AccountId Set?</label>
-        <locationX>1183</locationX>
+        <locationX>1557</locationX>
         <locationY>3098</locationY>
         <defaultConnector>
             <targetReference>dec_wasContactIDSet</targetReference>
@@ -1309,13 +1456,14 @@
         </rules>
     </decisions>
     <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and create or update a Contact record within the Salesforce Platform. When do so, a Custom input is created and a Mulesoft Flow is Called</description>
+    <environments>Default</environments>
     <formulas>
         <name>var_isAccountLogin</name>
         <dataType>Boolean</dataType>
         <expression>{!CustomInput.CaptureSource} == {!$Label.LABS_B2C_AccountLogin}</expression>
     </formulas>
     <interviewLabel>B2C Commerce: Process: Create Or Update Contact V2 {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>B2C Commerce: Process: Create Or Update Contact V2</label>
+    <label>B2C Commerce: Process: Create Or Update Contact V3</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -1336,10 +1484,32 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
+        <description>... retrieves the customerList based on the property value included in the Contact Request.</description>
+        <name>rec_GetCustomerListForExistingContact</name>
+        <label>Retrieve the CustomerList</label>
+        <locationX>1359</locationX>
+        <locationY>6734</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assign_B2C_Cust_List_to_source_contact_for_existing_contact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>B2C_CustomerList__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <description>... retrieve the Contact record by the B2C CustomerID to validate the CustomerList relationship</description>
         <name>recGet_ContactByB2CCustomerID</name>
         <label>Retrieve the Contact by B2C Customer ID</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>1058</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1367,7 +1537,7 @@
         <description>... retrieves the customerList based on the property value included in the Contact Request.</description>
         <name>recGet_creCustomerList</name>
         <label>Retrieve the CustomerList</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5288</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1389,7 +1559,7 @@
         <description>... retrieve the defaultConfiguration for the current b2c-crm-sync instance.</description>
         <name>recGet_defaultConfiguration</name>
         <label>Get the Default Configuration</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5720</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1411,7 +1581,7 @@
         <description>... identify which b2c-crm-sync configuration profile is being used as the default.</description>
         <name>recGet_IdentifyDefaultConfiguration</name>
         <label>Identify the Default Configuration</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5612</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1425,7 +1595,7 @@
         <description>... retrieve the Contact record by the AccountId to validate the Binding</description>
         <name>recGet_retrieveContactBy_AccountID</name>
         <label>Retrieve the Contact by AccountID</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>3206</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1453,7 +1623,7 @@
         <description>... retrieve the Contact record by the B2C Customer No to validate the Binding</description>
         <name>recGet_retrieveContactBy_B2CCustomerNo</name>
         <label>Retrieve the Contact by B2C Customer No</label>
-        <locationX>886</locationX>
+        <locationX>1238</locationX>
         <locationY>2132</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1480,12 +1650,16 @@
     <recordLookups>
         <name>recGet_retrieveContactBy_ContactId</name>
         <label>Retrieve the Contact by Contact Id</label>
-        <locationX>1018</locationX>
+        <locationX>1260</locationX>
         <locationY>4280</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>is_Contact_Resolved_by_ContactId</targetReference>
         </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>is_Original_Contact_Found</targetReference>
+        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -1500,7 +1674,7 @@
     </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>1343</locationX>
+        <locationX>1728</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>dec_isQAModeEnabled</targetReference>
@@ -1510,8 +1684,8 @@
     <subflows>
         <name>Create_B2CCustomInput_Records_ExistingContact</name>
         <label>Create B2CCustomInput Records</label>
-        <locationX>314</locationX>
-        <locationY>7142</locationY>
+        <locationX>754</locationX>
+        <locationY>7550</locationY>
         <connector>
             <targetReference>send_Account_Data_to_Mulsoft</targetReference>
         </connector>
@@ -1537,7 +1711,7 @@
         <description>... evaluate the configuration of the specified CustomerList and sourceContact to determine if integration should be enabled.</description>
         <name>sub_allowIntegrationHelper_NoContactID</name>
         <label>Evaluate Integration Configuration</label>
-        <locationX>875</locationX>
+        <locationX>1227</locationX>
         <locationY>5504</locationY>
         <connector>
             <targetReference>recGet_IdentifyDefaultConfiguration</targetReference>
@@ -1570,10 +1744,10 @@
         <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and create a Contact record within the Salesforce Platform.</description>
         <name>sub_B2C_Create_Contact</name>
         <label>B2C Create Contact</label>
-        <locationX>413</locationX>
+        <locationX>655</locationX>
         <locationY>6518</locationY>
         <connector>
-            <targetReference>are_Contact_and_Account_Resolved</targetReference>
+            <targetReference>assign_flag_isNewContact</targetReference>
         </connector>
         <flowName>B2C_Commerce_Process_Create_Contact</flowName>
         <inputAssignments>
@@ -1609,8 +1783,8 @@
         <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and update a Contact record within the Salesforce Platform.</description>
         <name>sub_B2C_Update_Contact</name>
         <label>B2C Update Contact</label>
-        <locationX>941</locationX>
-        <locationY>6626</locationY>
+        <locationX>1271</locationX>
+        <locationY>7034</locationY>
         <connector>
             <targetReference>are_Contact_and_Account_Resolved</targetReference>
         </connector>
@@ -1660,10 +1834,10 @@
         <description>... Verify the Capture source of the Custom Input sent by the B2CContactProcessFlow, and return a boolean flag to allow the update of Personal info</description>
         <name>sub_B2CCommerce_AllowUpdatePII</name>
         <label>Allow Update Personal Identifier Information</label>
-        <locationX>941</locationX>
+        <locationX>1271</locationX>
         <locationY>6518</locationY>
         <connector>
-            <targetReference>sub_B2C_Update_Contact</targetReference>
+            <targetReference>Does_B2C_Customer_List_exist</targetReference>
         </connector>
         <flowName>B2C_Commerce_Process_AllowUpdatePII</flowName>
         <inputAssignments>
@@ -1685,7 +1859,7 @@
         <description>... leverage the Contact Resolution Helper to attempt to resolve the sourceContact.</description>
         <name>sub_contactResolutionHelper</name>
         <label>Attempt to Resolve the Contact</label>
-        <locationX>545</locationX>
+        <locationX>831</locationX>
         <locationY>6302</locationY>
         <connector>
             <targetReference>dec_CanWeResolveThisContact</targetReference>
@@ -1718,7 +1892,7 @@
         <description>... use the QA Helper to override the contact being processed with configurable values.</description>
         <name>sub_overrideTheContact</name>
         <label>Override the Contact</label>
-        <locationX>1337</locationX>
+        <locationX>1722</locationX>
         <locationY>242</locationY>
         <connector>
             <targetReference>sub_overrideTheCustomInput</targetReference>
@@ -1823,7 +1997,7 @@
         <description>...use the QA Mode CustomInput to override the custom input being processed with configurable values</description>
         <name>sub_overrideTheCustomInput</name>
         <label>Override the Custom Input</label>
-        <locationX>1337</locationX>
+        <locationX>1722</locationX>
         <locationY>350</locationY>
         <connector>
             <targetReference>If_COuntry_exist</targetReference>
@@ -1962,6 +2136,16 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>isNewContact</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>isSuccess</name>
@@ -2196,7 +2380,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>... placeholder variable for the contact&#39;s lastName.</description>
+        <description>... placeholder variable for the contact&apos;s lastName.</description>
         <name>var_qaLastName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>

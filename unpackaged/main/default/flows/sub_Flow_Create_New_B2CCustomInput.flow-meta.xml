@@ -23,10 +23,12 @@
                 <elementReference>customInput.SubscriptionName</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ConvertStringToStringCollection</nameSegment>
         <outputParameters>
             <assignToReference>subscriptionNames</assignToReference>
             <name>stringCollection</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
@@ -413,6 +415,7 @@
         </rules>
     </decisions>
     <description>This flow attempts to create a new B2CCustomInput record, it takes accountID and B2CContactProcessCustomInput as inputs and returns whether true when the record was successfully created or false when the creation was failed - By Abdelkhalek SAIDI</description>
+    <environments>Default</environments>
     <formulas>
         <name>isSplittable</name>
         <dataType>Boolean</dataType>
