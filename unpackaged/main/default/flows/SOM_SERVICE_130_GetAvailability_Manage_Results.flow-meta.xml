@@ -23,10 +23,12 @@
                 <elementReference>C_Full_Results</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_AdaptReservations</nameSegment>
         <outputParameters>
             <assignToReference>C_Full_Results</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -447,12 +449,12 @@
         <label>Filter OIS</label>
         <locationX>2247</locationX>
         <locationY>876</locationY>
-        <assignNextValueToReference>currentItem_Filter_OIS_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_OIS</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_All_Ordered_OIS</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_OIS_0.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_OIS.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L14_OIS_Input_Reps.orderItemSummaryId</elementReference>
@@ -468,19 +470,19 @@
         <label>Filter OIS by Id</label>
         <locationX>481</locationX>
         <locationY>573</locationY>
-        <assignNextValueToReference>currentItem_Filter_OIS_by_Id_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_OIS_by_Id</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_All_Ordered_OIS</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_OIS_by_Id_0.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_OIS_by_Id.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L18_Ois_Ids</elementReference>
             </rightValue>
         </conditions>
         <conditions>
-            <leftValueReference>currentItem_Filter_OIS_by_Id_0.Type</leftValueReference>
+            <leftValueReference>currentItem_Filter_OIS_by_Id.Type</leftValueReference>
             <operator>NotEqualTo</operator>
             <rightValue>
                 <stringValue>Delivery Charge</stringValue>
@@ -733,6 +735,12 @@
             <label>✅ Pass</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>Fx_before_30_Day</name>
+        <dataType>DateTime</dataType>
+        <expression>{!$Flow.CurrentDateTime}-30</expression>
+    </formulas>
     <formulas>
         <name>FX_OnHand_minus_AlreadyAllocated</name>
         <dataType>Number</dataType>
@@ -962,6 +970,13 @@
                 <stringValue>ORDERED</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>CreatedDate</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <elementReference>Fx_before_30_Day</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1124,7 +1139,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <name>currentItem_Filter_OIS_0</name>
+        <name>currentItem_Filter_OIS</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -1132,7 +1147,7 @@
         <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_OIS_by_Id_0</name>
+        <name>currentItem_Filter_OIS_by_Id</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
