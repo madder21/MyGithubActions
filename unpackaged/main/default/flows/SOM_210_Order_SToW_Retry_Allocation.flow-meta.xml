@@ -17,10 +17,12 @@
                 <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_FlowUtils_UuidGenerator</nameSegment>
         <outputParameters>
             <assignToReference>UuidValue</assignToReference>
             <name>value</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Uuid_Value_For_Reservation</name>
@@ -39,10 +41,12 @@
                 <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_FlowUtils_UuidGenerator</nameSegment>
         <outputParameters>
             <assignToReference>UuidValue</assignToReference>
             <name>value</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>OCI_Create_Reservation</name>
@@ -61,10 +65,12 @@
                 <elementReference>REC_OCICreateReservationInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociCreateReservation</nameSegment>
         <outputParameters>
             <assignToReference>REC_OCICreateReservationOutputRepresentation</assignToReference>
             <name>ociCreateReservationOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Release_OCI_Reservation</name>
@@ -83,7 +89,9 @@
                 <elementReference>REC_OCIReleaseReservationInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociReleaseReservation</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -342,6 +350,52 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Return_Back_Location</name>
+        <label>Return Back Location</label>
+        <locationX>1520</locationX>
+        <locationY>229</locationY>
+        <assignmentItems>
+            <assignToReference>L91.ReservedAtLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L91.OriginalOrderItem.ReservedAtLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Order_Product_Summaries_Return_Locations</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L91</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L91</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Return_Back_Location1</name>
+        <label>Return Back Location 1</label>
+        <locationX>1601</locationX>
+        <locationY>1859</locationY>
+        <assignmentItems>
+            <assignToReference>L71.ReservedAtLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L71.OriginalOrderItem.ReservedAtLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Order_Product_Summaries_Return_Locations</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L71</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L71</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Collection_Size</name>
         <label>Set Collection Size</label>
         <locationX>1835</locationX>
@@ -524,6 +578,13 @@
             <operator>Add</operator>
             <value>
                 <elementReference>L80_OIS_out_of_Stock_0.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Remove_ReservedAtLocation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
@@ -735,27 +796,6 @@
         </connector>
     </assignments>
     <collectionProcessors>
-        <name>fil</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>fil</label>
-        <locationX>857</locationX>
-        <locationY>565</locationY>
-        <assignNextValueToReference>currentItem_fil_0</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_OIS_with_Skus_Exception</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_fil_0.Id</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <elementReference>Loop_Get_PE.AttachedToId</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Get_PE</targetReference>
-        </connector>
-    </collectionProcessors>
-    <collectionProcessors>
         <name>Filter_COL_SingleInputRepresentationSkuDuplicate</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter COL_SingleInputRepresentationSkuDuplicate</label>
@@ -803,12 +843,12 @@
         <label>Filter Locations By OIS Location</label>
         <locationX>443</locationX>
         <locationY>734</locationY>
-        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_Id_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_0.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_Id_0.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L80_OIS_out_of_Stock.ReservedAtLocationId</elementReference>
@@ -824,15 +864,15 @@
         <label>Filter Locations By OIS Location Id</label>
         <locationX>3136</locationX>
         <locationY>178</locationY>
-        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_Locations_By_OIS_Location_Id_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_0.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_Locations_By_OIS_Location_Id_0.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
-                <elementReference>Iterate_Over_Order_Item_Summaries.ReservedAtLocationId</elementReference>
+                <elementReference>Iterate_Over_Order_Item_Summaries.OriginalOrderItem.ReservedAtLocationId</elementReference>
             </rightValue>
         </conditions>
         <connector>
@@ -1026,8 +1066,8 @@
     <decisions>
         <name>Exist_0</name>
         <label>Exist?</label>
-        <locationX>1286</locationX>
-        <locationY>1186</locationY>
+        <locationX>1185</locationX>
+        <locationY>1248</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -1068,6 +1108,28 @@
                 <targetReference>Stack_SKU_out_of_Stock</targetReference>
             </connector>
             <label>With Error</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Remove_ReservedAtLocationId</name>
+        <label>Remove ReservedAtLocationId ?</label>
+        <locationX>1358</locationX>
+        <locationY>1429</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Remove</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Remove_ReservedAtLocation</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Order_Product_Summaries</targetReference>
+            </connector>
+            <label>Remove</label>
         </rules>
     </decisions>
     <decisions>
@@ -1120,6 +1182,7 @@
             <label>SKU Duplicate</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -1282,6 +1345,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>L71</name>
+        <label>L71</label>
+        <locationX>1596</locationX>
+        <locationY>1696</locationY>
+        <collectionReference>Get_Order_Item_Summaries</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Return_Back_Location1</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Product_Summary1</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>L80_OIS_out_of_Stock</name>
         <label>L80 OIS out of Stock</label>
         <locationX>1192</locationX>
@@ -1324,23 +1401,18 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
-        <name>Loop_Get_PE</name>
-        <label>Loop Get PE</label>
-        <locationX>728</locationX>
-        <locationY>605</locationY>
-        <collectionReference>Get_PE</collectionReference>
+        <name>L91</name>
+        <label>L91</label>
+        <locationX>1323</locationX>
+        <locationY>229</locationY>
+        <collectionReference>Get_Order_Item_Summaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>fil</targetReference>
+            <targetReference>Return_Back_Location</targetReference>
         </nextValueConnector>
-    </loops>
-    <loops>
-        <name>Loop_PE_Assignment</name>
-        <label>Loop PE Assignment</label>
-        <locationX>879</locationX>
-        <locationY>1081</locationY>
-        <collectionReference>OISwithSkusExceptionIDS</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Product_Summary</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -1418,66 +1490,13 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
-        <name>Create_Process_Exception_0</name>
-        <label>Create Process Exception</label>
-        <locationX>1441</locationX>
-        <locationY>977</locationY>
-        <inputAssignments>
-            <field>AttachedToId</field>
-            <value>
-                <elementReference>L80_OIS_out_of_Stock.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Category</field>
-            <value>
-                <stringValue>Fulfillment</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Description</field>
-            <value>
-                <elementReference>PEDescription</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Message</field>
-            <value>
-                <stringValue>Insufficient Stock</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>OrderSummaryId</field>
-            <value>
-                <elementReference>OrderSummaryRecord.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Priority</field>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Severity</field>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </inputAssignments>
-        <object>ProcessException</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
         <name>Create_Process_Exception_0_0</name>
         <label>Create Process Exception</label>
-        <locationX>1463</locationX>
-        <locationY>1142</locationY>
+        <locationX>1192</locationX>
+        <locationY>1435</locationY>
+        <connector>
+            <targetReference>Remove_ReservedAtLocationId</targetReference>
+        </connector>
         <inputReference>CollectionPE_ToCreate</inputReference>
     </recordCreates>
     <recordLookups>
@@ -1720,10 +1739,48 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_Order_Product_Summaries</name>
+        <label>Update Order Product Summaries</label>
+        <locationX>1361</locationX>
+        <locationY>1244</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryRecord.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>ReservedAtLocationId</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <object>OrderItemSummary</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order_Product_Summary</name>
+        <label>Update Order Product Summary</label>
+        <locationX>1323</locationX>
+        <locationY>37</locationY>
+        <inputReference>C_Order_Product_Summaries_Return_Locations</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order_Product_Summary1</name>
+        <label>Update Order Product Summary 1</label>
+        <locationX>1828</locationX>
+        <locationY>1693</locationY>
+        <inputReference>C_Order_Product_Summaries_Return_Locations</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_PEs_to_Resolved</name>
         <label>Update PEs to Resolved</label>
         <locationX>1152</locationX>
         <locationY>228</locationY>
+        <connector>
+            <targetReference>L91</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>OrderSummaryId</field>
@@ -1759,6 +1816,9 @@
         <label>Update PEs To Resolved</label>
         <locationX>1591</locationX>
         <locationY>1533</locationY>
+        <connector>
+            <targetReference>L71</targetReference>
+        </connector>
         <inputReference>C_PEsToUpdate</inputReference>
     </recordUpdates>
     <start>
@@ -1782,6 +1842,14 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Order_Product_Summaries_Return_Locations</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>C_PEsToUpdate</name>
@@ -1878,7 +1946,7 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_Locations_By_OIS_Location_0</name>
+        <name>currentItem_Filter_Locations_By_OIS_Location_Id_0</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -2047,6 +2115,16 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Remove_ReservedAtLocation</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>Size_GET_PE</name>

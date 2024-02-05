@@ -17,10 +17,12 @@
                 <elementReference>REC_OCIGetInventoryAvailabilityInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociGetAvailability</nameSegment>
         <outputParameters>
             <assignToReference>REC_OCIGetInventoryAvailabilityOutputRepresentation</assignToReference>
             <name>ociGetAvailabilityOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -735,6 +737,7 @@
             <label>Create New Process Exception</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -792,7 +795,7 @@
     </loops>
     <loops>
         <name>L22_Allocated_OSLIs</name>
-        <label>L22&apos; Allocated OSLIs</label>
+        <label>L22&#39; Allocated OSLIs</label>
         <locationX>2090</locationX>
         <locationY>526</locationY>
         <collectionReference>Filter_Allocated_OSLIs</collectionReference>
