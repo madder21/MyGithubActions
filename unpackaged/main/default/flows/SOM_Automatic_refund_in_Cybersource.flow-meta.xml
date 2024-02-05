@@ -65,7 +65,9 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Automatic_Refund_In_Cybersource_0</name>
@@ -132,7 +134,9 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Automatic_Refund_In_Cybersource_0_0</name>
@@ -199,7 +203,9 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Refund_Validation_Transactional_Email</name>
@@ -224,6 +230,8 @@
                 <elementReference>TransactionalEmailRefundWithCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Refund_Validation_Transactional_Email_0</name>
@@ -248,6 +256,8 @@
                 <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -417,6 +427,31 @@
             <stringValue>RefundValidationMissingProduct</stringValue>
         </value>
     </constants>
+    <decisions>
+        <name>Check_Payment_Balance</name>
+        <label>Check Payment Balance</label>
+        <locationX>1424</locationX>
+        <locationY>950</locationY>
+        <defaultConnector>
+            <targetReference>Create_Refund_Line_Payment_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Create RefundLinePayment - Balance</defaultConnectorLabel>
+        <rules>
+            <name>Create_RefundLinePayment_Amount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId.Amount</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Payment.Balance</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Refund_Line_Payment</targetReference>
+            </connector>
+            <label>Create RefundLinePayment - Amount</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_Refund_Origin_to_Launch_Email</name>
         <label>Check Refund Origin to Launch Email</label>
@@ -635,6 +670,7 @@
             <label>Confirm</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM - Automatic refund in Cybersource {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Automatic refund in Cybersource</label>
     <processMetadataValues>
@@ -694,8 +730,8 @@
     <recordCreates>
         <name>Create_Refund_Line_Payment</name>
         <label>Create Refund Line Payment</label>
-        <locationX>1426</locationX>
-        <locationY>1213</locationY>
+        <locationX>1555</locationX>
+        <locationY>1192</locationY>
         <connector>
             <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
         </connector>
@@ -703,6 +739,53 @@
             <field>Amount</field>
             <value>
                 <elementReference>recordId.Amount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasBeenUnapplied</field>
+            <value>
+                <stringValue>No</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PaymentId</field>
+            <value>
+                <elementReference>Get_Payment.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RefundId</field>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Applied</stringValue>
+            </value>
+        </inputAssignments>
+        <object>RefundLinePayment</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Refund_Line_Payment_0</name>
+        <label>Create Refund Line Payment</label>
+        <locationX>1431</locationX>
+        <locationY>1155</locationY>
+        <connector>
+            <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>Get_Payment.Balance</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1043,7 +1126,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Create_Refund_Line_Payment</targetReference>
+            <targetReference>Check_Payment_Balance</targetReference>
         </connector>
         <fields>
             <name>DisplayText_0</name>

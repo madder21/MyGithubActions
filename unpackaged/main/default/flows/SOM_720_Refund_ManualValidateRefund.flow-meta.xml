@@ -23,6 +23,8 @@
                 <elementReference>CONST_TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Refund_Without_Credit_Memo_Email</name>
@@ -47,6 +49,8 @@
                 <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
@@ -176,6 +180,31 @@
                 <targetReference>Get_Payment_Method</targetReference>
             </connector>
             <label>No_Payment_Way</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Payment_Balance</name>
+        <label>Check Payment Balance</label>
+        <locationX>952</locationX>
+        <locationY>1300</locationY>
+        <defaultConnector>
+            <targetReference>Create_Refund_Line_Payment_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Create_RefundLinePayment_Amount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Refund.Amount</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Payment_from_PaymentMethod.Balance</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Refund_Line_Payment</targetReference>
+            </connector>
+            <label>Create RefundLinePayment - Amount</label>
         </rules>
     </decisions>
     <decisions>
@@ -321,11 +350,12 @@
     <dynamicChoiceSets>
         <name>RefundMethodChoiceSet</name>
         <dataType>Picklist</dataType>
-        <displayField xsi:nil="true"/>
-        <object xsi:nil="true"/>
+        <displayField xsi:nil="true" />
+        <object xsi:nil="true" />
         <picklistField>RefundMethod__c</picklistField>
         <picklistObject>Refund</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <interviewLabel>SOM 720 Refund ManualValidateRefund {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 720 Refund ManualValidateRefund</label>
     <processMetadataValues>
@@ -350,8 +380,8 @@
     <recordCreates>
         <name>Create_Refund_Line_Payment</name>
         <label>Create Refund Line Payment</label>
-        <locationX>966</locationX>
-        <locationY>1401</locationY>
+        <locationX>752</locationX>
+        <locationY>1372</locationY>
         <connector>
             <targetReference>Get_Credit_Memo_Linked_To_refund</targetReference>
         </connector>
@@ -359,6 +389,53 @@
             <field>Amount</field>
             <value>
                 <elementReference>Get_Refund.Amount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <elementReference>Get_Refund.CurrencyIsoCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>HasBeenUnapplied</field>
+            <value>
+                <stringValue>No</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>PaymentId</field>
+            <value>
+                <elementReference>Get_Payment_from_PaymentMethod.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RefundId</field>
+            <value>
+                <elementReference>Get_Refund.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>Applied</stringValue>
+            </value>
+        </inputAssignments>
+        <object>RefundLinePayment</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Refund_Line_Payment_0</name>
+        <label>Create Refund Line Payment</label>
+        <locationX>731</locationX>
+        <locationY>1150</locationY>
+        <connector>
+            <targetReference>Get_Credit_Memo_Linked_To_refund</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>Get_Payment_from_PaymentMethod.Balance</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -437,7 +514,7 @@
         <locationY>1108</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Create_Refund_Line_Payment</targetReference>
+            <targetReference>Check_Payment_Balance</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -604,6 +681,7 @@
             <dataType>String</dataType>
             <fieldText>Gateway Reference Number</fieldText>
             <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -648,6 +726,7 @@
             <fieldText>Reconciliation Id</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Transaction Reference Number on the Credit transaction in Cybersource EBC.&lt;/span&gt;&lt;/p&gt;</helpText>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -692,6 +771,7 @@
             <dataType>String</dataType>
             <fieldText>Refund Method</fieldText>
             <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
