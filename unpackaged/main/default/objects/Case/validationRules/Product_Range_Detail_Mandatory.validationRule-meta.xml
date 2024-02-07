@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Range_Detail_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    $Permission.ByPassVR = FALSE,
+    NOT(ISPICKVAL(Hub_Origin__c,&#39;DEUKO1&#39;)),
+    OR(
+        ISPICKVAL( SubType__c , &#39;Product&#39;)&amp;&amp;
+        (OR(
+           ISPICKVAL( Contact_reason__c , &#39;Stock availability e-com&#39;), ISPICKVAL( Contact_reason__c ,&#39;Stock availability retail&#39;),ISPICKVAL( Contact_reason__c ,&#39;Features&#39;),ISPICKVAL( 
+           Contact_reason__c ,&#39;Limited editions &amp; Collaborations&#39;),        
+           ISPICKVAL( Contact_reason__c , &#39;Store reservation&#39;))
+
+            ),
+        ISPICKVAL( SubType__c, &#39;Order&#39;),ISPICKVAL( SubType__c,&#39;Quality&#39;),ISPICKVAL( SubType__c,&#39;Delivery&#39;),ISPICKVAL( SubType__c,&#39;Lock issue&#39;),ISPICKVAL( SubType__c,&#39;Repair need&#39;),
+        (ISPICKVAL( SubType__c, &#39;Exchange &amp; return&#39;) &amp;&amp; 
+        NOT(ISPICKVAL( Contact_reason__c , &#39;Terms &amp; conditions&#39;)))
+       
+         ),
+     ISBLANK( ProductRangeDetail__c)
+ 
+
+)</errorConditionFormula>
+    <errorDisplayField>ProductRangeDetail__c</errorDisplayField>
+    <errorMessage>Please complete the &quot;Product Range Detail&quot; field.</errorMessage>
+</ValidationRule>

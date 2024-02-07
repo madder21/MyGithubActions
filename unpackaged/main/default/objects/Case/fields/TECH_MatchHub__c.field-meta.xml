@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_MatchHub__c</fullName>
+    <description>This formula checks Case&#39;s Hub Origin or Case&#39;s HUB Handle is matching with the User&#39;s Hub in order to display New Cases according to the User Hub</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    OR(
+        AND(
+        /* Hub Handle and Hub Origin has default value set to &#39;OO&#39; to prevent the user to be blocked when manually creating Cases */
+            OR(NOT(ISBLANK(TEXT(HUB_Handle__c))),NOT(TEXT(HUB_Handle__c) = &#39;00&#39; )),
+            TEXT(HUB_Handle__c) = TEXT($User.Hub__c)
+        ),
+
+        AND(
+        /* Hub Handle and Hub Origin has default value set to &#39;OO&#39; to prevent the user to be blocked when manually creating Cases */
+            OR(NOT(ISBLANK(TEXT(HUB_Handle__c))),NOT(TEXT(HUB_Handle__c) = &#39;00&#39; )),
+            OR(NOT(ISBLANK(TEXT(Hub_Origin__c))), NOT(TEXT(Hub_Origin__c) = &#39;00&#39; )),
+            TEXT(Hub_Origin__c) = TEXT($User.Hub__c)
+        )
+    ),
+true,
+false)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>This field is checked if the Case&#39;s Hub Origin or the Case&#39;s HUB Handle is matching with the User&#39;s Hub</inlineHelpText>
+    <label>TECH_MatchHub</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

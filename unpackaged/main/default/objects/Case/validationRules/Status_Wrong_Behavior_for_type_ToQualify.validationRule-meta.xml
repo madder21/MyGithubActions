@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status_Wrong_Behavior_for_type_ToQualify</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+$Permission.ByPassVR = FALSE,
+
+ISPICKVAL( Type , &#39;To Qualify&#39;),
+NOT(ISPICKVAL( Status , &#39;New&#39;)),
+ISNEW()
+)</errorConditionFormula>
+    <errorMessage>The status field cannot be edited when the Type is set to &#39;To Qualify&#39;.</errorMessage>
+</ValidationRule>

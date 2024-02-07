@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Channel__c</fullName>
+    <description>Display an image for each Case Origin values</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISPICKVAL(Origin,&#39;Email&#39;), IMAGE(&#39;/resource/1692888696000/Origin_Email&#39;,&#39;Email error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Phone&#39;), IMAGE(&#39;/resource/1692888713000/Origin_Call?&#39;,&#39;Phone error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Web&#39;), IMAGE(&#39;/resource/1692888781000/Origin_Web?&#39;,&#39;Web error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Chat&#39;), IMAGE(&#39;/resource/1692888735000/Origin_Chat?&#39;,&#39;Chat error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Voicemail&#39;), IMAGE(&#39;/resource/1692888791000/Origin_Voicemail?&#39;,&#39;Voicemail error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Chat-to-case&#39;), IMAGE(&#39;/resource/1692888809000/Origin_ChatToCase?&#39;,&#39;Chat to case error&#39;, -1, -1)
+    ,
+IF(
+    ISPICKVAL(Origin,&#39;Twitter&#39;), IMAGE(&#39;/resource/1692888801000/Origin_Twitter?&#39;,&#39;Twitter error&#39;, 30, 40)
+   ,
+IMAGE(&#39;/resource/1692888817000/Origin_Case?&#39;, &#39;Image error&#39;, -1, -1)
+)
+)
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Channel</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

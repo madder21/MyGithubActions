@@ -80,8 +80,8 @@
     <assignments>
         <name>Assign_Id_for_URL</name>
         <label>Assign Id for URL</label>
-        <locationX>1271</locationX>
-        <locationY>1380</locationY>
+        <locationX>1801</locationX>
+        <locationY>1369</locationY>
         <assignmentItems>
             <assignToReference>V_URLorderSummary</assignToReference>
             <operator>Assign</operator>
@@ -156,8 +156,8 @@
     <assignments>
         <name>Assign_OrderItem_Data</name>
         <label>Assign OrderItem Data</label>
-        <locationX>1400</locationX>
-        <locationY>968</locationY>
+        <locationX>1446</locationX>
+        <locationY>908</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -184,6 +184,92 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>Order Product</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.LineNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.lineNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.PricebookEntryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.pbEntryId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.TotalLineAmount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_LineSubtotal</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.UnitPrice</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_UnitPriceWithoutTax</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>V_Input_CurrencyCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.Exchanged_from_ROLI__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.roliID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.GrossUnitPrice</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.unitPrice</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Filter_Product_by_productId</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_OrderItem_Data_0</name>
+        <label>Assign OrderItem Data</label>
+        <locationX>1317</locationX>
+        <locationY>991</locationY>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.Product2Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.productId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.Quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.quantity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Loop_over_OutputLines.description</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_OrderItem.Type</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Delivery Charge</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -270,6 +356,29 @@
         </assignmentItems>
         <connector>
             <targetReference>L10_Loop_over_OutputLines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Remove_reserved_at_location_Id</name>
+        <label>Remove reserved at location Id</label>
+        <locationX>1504</locationX>
+        <locationY>1535</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Over_new_Order_Product_Summaries.ReservedAtLocationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Order_Product_Summaries_To_Update</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_new_Order_Product_Summaries</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -563,6 +672,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Product_Family</name>
+        <label>Check Product Family</label>
+        <locationX>1260</locationX>
+        <locationY>865</locationY>
+        <defaultConnector>
+            <targetReference>Assign_OrderItem_Data</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Delivery</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Loop_over_OutputLines.family</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>210</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_OrderItem_Data_0</targetReference>
+            </connector>
+            <label>Delivery</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_from_RO</name>
         <label>is from RO</label>
         <locationX>513</locationX>
@@ -625,6 +759,7 @@
         </rules>
     </decisions>
     <description>2 decimal places</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Digits</name>
         <dataType>Number</dataType>
@@ -640,12 +775,12 @@
     <formulas>
         <name>FX_Other_Countries</name>
         <dataType>String</dataType>
-        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
+        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&#39;;&#39;, {!S_Custom_Countries_Before_Split}))</expression>
     </formulas>
     <formulas>
         <name>FX_Single_Country</name>
         <dataType>String</dataType>
-        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
+        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&#39;;&#39;,{!S_Custom_Countries_Before_Split})-1)</expression>
     </formulas>
     <formulas>
         <name>FX_SuccessMsg</name>
@@ -696,7 +831,7 @@
             <targetReference>Set_OrderItem_LocationId</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Assign_OrderItem_Data</targetReference>
+            <targetReference>Check_Product_Family</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -711,6 +846,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Get_Locations</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_new_Order_Product_Summaries</name>
+        <label>Loop Over new Order Product Summaries</label>
+        <locationX>1500</locationX>
+        <locationY>1373</locationY>
+        <collectionReference>Get_Order_Product_Summaries_newly_created</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Remove_reserved_at_location_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Order_Product_Summaries</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -792,6 +941,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Product_Summaries_newly_created</name>
+        <label>Get Order Product Summaries newly created</label>
+        <locationX>1330</locationX>
+        <locationY>1373</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS_Newly_created.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_OS_from_RO</name>
         <label>Get OS from RO</label>
         <locationX>940</locationX>
@@ -821,7 +991,7 @@
         <locationY>1379</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Id_for_URL</targetReference>
+            <targetReference>Get_Order_Product_Summaries_newly_created</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -896,6 +1066,16 @@
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Order_Product_Summaries</name>
+        <label>Update Order Product Summaries</label>
+        <locationX>1656</locationX>
+        <locationY>1372</locationY>
+        <connector>
+            <targetReference>Assign_Id_for_URL</targetReference>
+        </connector>
+        <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
+    </recordUpdates>
     <screens>
         <name>Billing_Shipping_Info</name>
         <label>Billing Shipping Info</label>
@@ -1043,8 +1223,8 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>1428</locationX>
-        <locationY>1381</locationY>
+        <locationX>1948</locationX>
+        <locationY>1369</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1116,6 +1296,14 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>C_Order_Product_Summaries_To_Update</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>C_OrderItems</name>

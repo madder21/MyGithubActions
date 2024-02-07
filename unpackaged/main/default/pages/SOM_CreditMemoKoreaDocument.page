@@ -1,0 +1,170 @@
+<apex:page renderAs="pdf" controller="SOM_CreditMemoDocumentController">
+    <apex:stylesheet value="{!URLFOR($Resource.SOMInvoiceDocumentStyle, 'invoiceDocument.css')}"/>
+    <!-- footer -->
+    <div id="footer_content">
+        <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:20px;" url="{!URLFOR($Resource.InvoiceLogos, 'Logos/Monogram/Rimowa-Monogram.png')}" width="35" height="45" alt="RIMOWA"/>
+        <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_REGISTER']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_REGISTER_CITY']),' ','')}<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_COURT']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_REGISTER']),', ','')}<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_MANAGING_DIRECTOR']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_VAT_ID']),' - ','')}<apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID']}"/> 
+    </div>
+    <!-- header -->
+        <div id="header"> 
+            <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:auto;margin-top:70px;" url="{!URLFOR($Resource.InvoiceLogos, 'Logos/RIMOWA/RIMOWA.jpg')}" width="200" height="60" alt="RIMOWA"/>
+            <!-- <div class="spacer">&nbsp;</div>
+            <div class="logo_header"></div> -->
+        </div>
+        <div class="div1"></div>
+        
+            <table class="head" >
+                <tr>
+                    <!-- Company Information-->
+                    <td class="Comp_Inf">
+                        <apex:outputText value="{!creditMemoConfigs['PDF_COMPANY']}"/><br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_ADDRESS_1']}"/>&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_ADDRESS_2']}"/><br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_COUNTRY']}"/>
+                    </td>
+                    <td class="Comp_Inf">
+                        <apex:outputText value="{!creditMemoConfigs['PDF_PHONE']}"/><br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_MAIL']}"/><br/>
+                        RIMOWA.COM | @RIMOWA<br/>
+                        <apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID_COUNTRY']}"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="div2">
+                <h3> 크레딧 노트</h3> 
+            </div>
+            
+    <div class="content">
+        <table class="billing_contact_importer">
+            <tr>
+                <!-- Billing contact information -->
+                <td class="Bill_Contact_Inf">
+                <div style="font-size: 13px; padding: 3px 0px;">
+                결제 주소
+                </div>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
+                </td>
+                <td class="Bill_Contact_Inf">
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TITLE']}"/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_3']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_VALUE_LINE_4']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TAX_NO_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(creditMemoConfigs['IMPORTER_TAX_NO_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!creditMemoConfigs['IMPORTER_TAX_NO_VALUE']}"/><br/>
+                    <apex:outputText value="{!creditMemoConfigs['EORI_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(creditMemoConfigs['EORI_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!creditMemoConfigs['EORI_VALUE']}"/><br/>
+                </td>
+            </tr>
+        </table>
+        <div class="spacer">&nbsp;</div>
+        <table class="metadata_delivery_contact">
+            <tr>
+                <!-- Invoice information -->
+                <td class="Invoice_Inf">
+                    <span class="fett">환불 번호:&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoNumber}"/></span><br/>
+                    인보이스 번호:&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
+                    환불 일자:&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
+                    주문번호:&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
+                </td>
+                <!-- Delivery contact information -->
+                <td class="Invoice_Inf">
+                <div style="font-size: 13px; padding: 3px 0px;">
+                배송 주소
+                </div>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
+                </td>
+            </tr>
+        </table>
+        <div class="spacer">&nbsp;</div>
+        <table class="articles">
+            <!-- Invoice line items-->
+            <thead>
+                <tr>
+                    <th width="50px">품목명</th>
+                    <th width="20px">수량</th>
+                    <th width="27px" class="align-right">판매가(부가세제외)</th>
+                    <th width="27px" class="align-right">판매가(부가세포함)</th>
+                    <th width="27px" class="align-right">총액</th>
+                </tr>
+                <tr>
+                    <th width="70px" colspan="2">품목번호</th>
+                    <th width="27px">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th colspan="5">시리얼번호</th>
+                </tr>
+                <tr>
+                    <th colspan="5" class="border_bottom"></th>
+                </tr>
+
+            </thead>
+            <tbody class="InvoiceLineItem">
+                <!-- loop invoice line items-->
+                <apex:repeat value="{!creditMemoDocument.lineItems}" var="lineItem">
+                    <tr class="lineIem">
+                        <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
+                        <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                                                
+                        <td class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.serialNumber}"/>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCode) > 0, TRUE, FALSE)}"  value=" {!lineItem.hsCode},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCodeDescription) > 0, TRUE, FALSE)}" value="{!lineItem.hsCodeDescription},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.coo) > 0, TRUE, FALSE)}" value="COO: {!lineItem.coo}"/>&nbsp;
+                        </td>
+                    </tr>
+
+                </apex:repeat>
+                <!-- end loop-->
+            </tbody>
+        </table>
+        <table class="sum" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td width="100px" class="border_top" style="padding-top:2px;">합계(부가세제외)&nbsp;:</td>
+                    <td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+                <!-- loop over vat rate -->
+
+            <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
+                <tr>
+                    <td width="80px" class="">부가세&nbsp;<apex:outputText value="{!key}"/> % :</td>
+                    <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+            </apex:repeat>
+                <!-- end loop-->
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr> 
+                <tr>
+                    <td class="border_top" width="100px" style="padding-top:2px;">총판매금액(부가세포함)&nbsp;:</td>
+                    <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                </tr>
+            </tbody>  
+        </table>
+        <div class="footer_text"> 
+            <span class="paymentType">
+                결제수단 &nbsp;<apex:outputText value="{!creditMemoDocument.paymentType}"/>.
+            </span><br/>
+        </div>
+    </div>
+</apex:page>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Mandatory_Delivery_issue_investigation</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    $Permission.ByPassVR = FALSE,
+     ISPICKVAL(Status  , &#39;Closed&#39;),
+     NOT(ISBLANK( ClaimNumber__c)),
+     OR(
+          ISPICKVAL(InvestigationStatus__c , &#39;&#39;),
+          ISBLANK( OpeningDateCarrier__c),
+          ISBLANK (ClosingDateCarrier__c )
+         )
+     )</errorConditionFormula>
+    <errorMessage>If &quot;Claim Number&quot; is filled, all the other fields in the &quot;Delivery Issues Investigation&quot; should be filled too, except &quot;Investigation Closed SME&quot; that can be empty.</errorMessage>
+</ValidationRule>

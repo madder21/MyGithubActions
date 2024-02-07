@@ -1,0 +1,208 @@
+<apex:page renderAs="pdf" controller="SOM_InvoiceDocumentController">
+    <apex:stylesheet value="{!URLFOR($Resource.SOMInvoiceDocumentStyle, 'invoiceDocument.css')}"/>
+    <!-- footer -->
+    <div id="footer_content">
+        <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:20px;" url="{!URLFOR($Resource.InvoiceRessources, 'Logos/Monogram/Rimowa-Monogram.png')}" width="35" height="45" alt="RIMOWA"/>
+        <apex:outputText value="{!invoiceConfigs['PDF_LABEL_REGISTER']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_REGISTER_CITY']),' ','')}<apex:outputText value="{!invoiceConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!invoiceConfigs['PDF_LABEL_COURT']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_REGISTER']),', ','')}<apex:outputText value="{!invoiceConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!invoiceConfigs['PDF_MANAGING_DIRECTOR']}"/>{!IF(ISBLANK(invoiceConfigs['PDF_VAT_ID']),' - ','')}<apex:outputText value="{!invoiceConfigs['PDF_VAT_ID']}"/> 
+    </div>
+    <!-- header -->
+    
+        <div id="header"> 
+            <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:auto;margin-top:70px;" url="{!URLFOR($Resource.InvoiceRessources, 'Logos/RIMOWA/RIMOWA.jpg')}" width="200" height="60" alt="RIMOWA"/>
+            <!-- <div class="spacer">&nbsp;</div>
+            <div class="logo_header"></div> -->
+        </div>
+        <div class="div1"></div>
+        
+            <table class="head" >
+     
+                <tr>
+                    <!-- Company Information-->
+                    <td class="Comp_Inf">
+                        <apex:outputText value="{!invoiceConfigs['PDF_COMPANY']}"/><br/>
+                        <apex:outputText value="{!invoiceConfigs['PDF_ADDRESS_1']}"/>&nbsp;<apex:outputText value="{!invoiceConfigs['PDF_ADDRESS_2']}"/><br/>
+                        <apex:outputText value="{!invoiceConfigs['PDF_COUNTRY']}"/>
+                    </td>
+                    <td class="Comp_Inf">
+                        <apex:outputText value="{!invoiceConfigs['PDF_PHONE']}"/><br/>
+                        <apex:outputText value="{!invoiceConfigs['PDF_MAIL']}"/><br/>
+                        RIMOWA.COM | @RIMOWA<br/>
+                        <apex:outputText value="{!invoiceConfigs['PDF_VAT_ID_COUNTRY']}"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="div2">
+                <h3> 인보이스 </h3> 
+            </div>
+           
+    <div class="content">
+        <table class="billing_contact_importer">
+            <tr>
+                <!-- Billing contact information -->
+                <td class="Bill_Contact_Inf">
+                <div style="font-size: 13px; padding: 3px 0px;">
+                결제 주소
+                </div>
+                    <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.billingContact.country}"/>
+                </td>
+                <td class="Bill_Contact_Inf">
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_TITLE']}"/>
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_1']}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_2']}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_3']}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_VALUE_LINE_4']}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_TAX_NO_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(invoiceConfigs['IMPORTER_TAX_NO_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!invoiceConfigs['IMPORTER_TAX_NO_VALUE']}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['EORI_TITLE']}"/>
+                    <apex:outputText rendered="{!IF(len(invoiceConfigs['EORI_TITLE']) > 0, TRUE, FALSE)}" value=":"/>&nbsp;
+                    <apex:outputText value="{!invoiceConfigs['EORI_VALUE']}"/><br/>
+                </td>
+            </tr>
+        </table>
+        <div class="spacer">&nbsp;</div>
+        <table class="metadata_delivery_contact">
+            <tr>
+                <!-- Invoice information -->
+                <td class="Invoice_Inf">
+                    <span class="fett">대한민국 :&nbsp;  <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
+                    <br/>
+                    인보이스 일자 :&nbsp; <apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
+                    주문번호 :&nbsp; <apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
+                    <apex:outputText value="{!invoiceConfigs['CUSTOMER_VAT_ID_IDENTIFIER']}"/> <!-- To verify 'VAT_ID_CUSTOMER' key --><br/>
+                    <br/>
+                    
+                   
+                </td>
+                <!-- Delivery contact information -->
+                <td class="Invoice_Inf">
+                <div style="font-size: 13px; padding: 3px 0px;">
+                배송 주소
+                </div>
+                     
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
+                </td>
+            </tr>
+        </table>
+        <div id="correctiveInvoiceMessage">
+            <apex:outputPanel rendered="{!correctiveInvoiceHeaderMessage != null}">
+                <apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/>
+            </apex:outputPanel>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="invoiceLine">
+            <NOBR style="font-size: 13px; padding: 3px 0px;">운송장 번호 :</NOBR>&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
+        </div>
+        <div class="spacer">&nbsp;</div>
+        <table class="articles">
+            <!-- Invoice line items-->
+            <thead>
+                <tr>
+                    <th width="50px">품목명</th>
+                    <th width="20px">수량 </th>
+                    <th width="27px">판매가(부가세제외) </th>
+                    <th width="27px" class="align-right">판매가(부가세포함) </th>
+                    <th width="27px" class="align-right">총액 </th>
+                </tr>
+                <tr>
+                    <th width="70px" colspan="2">품목번호 </th>
+                    <th width="27px" class="align-right">&nbsp;</th>
+                    <th width="27px" class="align-right">&nbsp;</th>
+                    <th width="27px">&nbsp;</th>
+                </tr>
+                <tr>
+                    <th colspan="5">시리얼번호  &nbsp;</th>
+                </tr>
+                <tr>
+                    <th colspan="5" class="border_bottom"></th>
+                </tr>
+
+            </thead>
+            <tbody class="InvoiceLineItem">
+                <!-- loop invoice line items-->
+                <apex:repeat value="{!invoiceDoc.lineItems}" var="lineItem">
+                    <tr class="lineIem">
+                        <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
+                        <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                                                
+                        <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.grossAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"><apex:outputText value="{!lineItem.serialNumber}"/>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCode) > 0, TRUE, FALSE)}"  value=" {!lineItem.hsCode},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.hsCodeDescription) > 0, TRUE, FALSE)}" value="{!lineItem.hsCodeDescription},"/>&nbsp;
+                            <apex:outputText rendered="{!IF(len(lineItem.coo) > 0, TRUE, FALSE)}" value="COO: {!lineItem.coo}"/>&nbsp;
+                        </td>
+                    </tr>
+
+                </apex:repeat>
+                <!-- end loop-->
+            </tbody>
+        </table>
+        <table class="sum" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td width="100%" class="border_top" style="padding-top:2px;">합계(부가세제외):</td>
+                    <td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                </tr>
+                <!-- loop over vat rate -->
+
+            <apex:repeat value="{!invoiceTaxLineItems}" var="key">
+                <tr>
+                    <td width="100%" class="" style="padding-top: 3px;">부가세&nbsp;<apex:outputText value="{!key}"/> %:</td>
+                    <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                </tr>
+            </apex:repeat>
+                <!-- end loop-->
+                <tr>
+                    <td colspan="2">&nbsp;</td>
+                </tr> 
+                <tr>
+                    <td class="border_top" width="100%" style="padding-top:2px;">총판매금액(부가세포함):</td>
+                    <td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    
+                </tr>
+            </tbody>  
+        </table>
+        <div class="footer_text"> 
+            <div class="paymentType">
+                총판매금액은 &nbsp;<apex:outputText value="{!invoiceDoc.paymentType}"/>로 결제되었습니다. 인보이스 일자는 구매일자와 상이할 수 있습니다.
+                <br/>
+            </div><br/><br/>
+            
+            <div class="paymentType"> 
+                교환 및 반품은 30일 이내에 고객센터로 문의 주시기 바랍니다 (일부 품목은 교환 및 반품 기간이 상이할 수 있습니다). <br/>
+                
+            </div>
+            <div> 
+                인보이스는 제품 보증서로 사용되므로, 동 인보이스를 구매일로부터 5년간 보관하시기 바랍니다. 궁금하신 사항은 아래 리모와 고객센터로 연락주시기 바랍니다:<br/>
+               
+            </div> <br/>
+            <div class="paymentType">
+                <apex:outputText value="{!invoiceConfigs['PDF_PHONE_SERVICE']}"/><br/>
+                <apex:outputText value="{!invoiceConfigs['PDF_MAIL_SERVICE']}"/><br/>
+                <br/>
+                저희 리모와 제품을 구매해주셔서 감사합니다<br/>
+            </div>
+        </div>
+    </div>
+</apex:page>

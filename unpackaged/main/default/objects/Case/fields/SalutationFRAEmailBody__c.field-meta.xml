@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalutationFRAEmailBody__c</fullName>
+    <description>Used as merge fields in email template</description>
+    <externalId>false</externalId>
+    <formula>IF( 
+AND( 
+Account.IsPersonAccount, 
+text(Account.Salutation)&lt;&gt;&quot;&quot; 
+), 
+CASE(text(Account.Salutation), 
+&quot;Mr.&quot;, &quot;Monsieur &quot; + Account.LastName, 
+&quot;Mrs.&quot;, &quot;Madame &quot; + Account.LastName, 
+&quot;Ms.&quot;, &quot;Madame &quot; + Account.LastName, 
+&quot;&quot;), 
+&quot;Bonjour &quot; + Account.FirstName + &quot; &quot; + Account.LastName
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Salutation FRA Email Body</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

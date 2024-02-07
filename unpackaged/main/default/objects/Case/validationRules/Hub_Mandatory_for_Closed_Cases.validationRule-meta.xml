@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hub_Mandatory_for_Closed_Cases</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+$Permission.ByPassVR = FALSE,
+ ISPICKVAL( Status , &#39;Closed&#39;),
+ ISPICKVAL(Hub_Origin__c , &#39;&#39;)
+)</errorConditionFormula>
+    <errorDisplayField>Hub_Origin__c</errorDisplayField>
+    <errorMessage>Hub origin should be filled.</errorMessage>
+</ValidationRule>

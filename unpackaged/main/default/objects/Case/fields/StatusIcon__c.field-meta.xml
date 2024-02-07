@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StatusIcon__c</fullName>
+    <description>Image corresponding to the status value</description>
+    <externalId>false</externalId>
+    <formula>IF(ISPICKVAL(Status,&#39;New&#39;)
+,
+IMAGE(&#39;/resource/1692887792000/Status_New?&#39;, &#39;New error&#39;, -1, -1)
+,
+IF(ISPICKVAL(Status,&#39;Working&#39;)
+,
+IMAGE(&#39;/resource/1692887889000/Status_Working?&#39;, &#39;Working error&#39;, -1, -1)
+,
+IF(ISPICKVAL(Status,&#39;Waiting for Client&#39;)
+,
+IMAGE(&#39;/resource/1692887848000/Status_Waiting?&#39;, &#39;Waiting error&#39;, -1, -1)
+,
+IF(ISPICKVAL(Status,&#39;Waiting for SME&#39;)
+,
+IMAGE(&#39;/resource/1692887872000/Status_WaitingSME?&#39;, &#39;SME error&#39;, -1, -1)
+,
+IF(ISPICKVAL(Status,&#39;New email&#39;)
+,
+IMAGE(&#39;/resource/1692887836000/Status_NewEmail?&#39;, &#39;New email error&#39;, -1, -1)
+,
+IF(ISPICKVAL(Status,&#39;Closed&#39;)
+,
+IMAGE(&#39;/resource/1692887881000/Status_Closed?&#39;, &#39;Closed error&#39;, -1, -1)
+,
+&#39;&#39;
+))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

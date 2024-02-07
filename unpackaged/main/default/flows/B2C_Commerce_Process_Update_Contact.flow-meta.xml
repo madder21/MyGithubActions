@@ -17,10 +17,12 @@
                 <elementReference>sourceContact.Country__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>CountryNameManager</nameSegment>
         <outputParameters>
             <assignToReference>sourceContact.MailingCountry</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <description>... this action remove the read-only PersonAccount properties attached to a Contact from the Contact -- so that the Contact record can be independently updated.</description>
@@ -40,10 +42,12 @@
                 <elementReference>Contact</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>B2CIARemovePAPropertiesFromContact</nameSegment>
         <outputParameters>
             <assignToReference>Contact</assignToReference>
             <name>processedContact</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
@@ -135,7 +139,7 @@
         <defaultConnector>
             <targetReference>Assign_Fields_Value_to_Update</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>doest not exist of PII shouldn&#39;t be update</defaultConnectorLabel>
+        <defaultConnectorLabel>doest not exist of PII shouldn&apos;t be update</defaultConnectorLabel>
         <rules>
             <name>decout_Country_exist</name>
             <conditionLogic>and</conditionLogic>
@@ -167,6 +171,7 @@
         </rules>
     </decisions>
     <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and update a Contact record within the Salesforce Platform.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce : Process : Update Contact {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce : Process : Update Contact</label>
     <processMetadataValues>
@@ -777,7 +782,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>... placeholder variable for the contact&#39;s lastName.</description>
+        <description>... placeholder variable for the contact&apos;s lastName.</description>
         <name>var_qaLastName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Cannot_Edit_When_Owner_is_a_queue</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$Permission.ByPassVR = FALSE,
+CONTAINS($UserRole.Name, &#39;CS&#39;),
+ NOT(ISCHANGED( OwnerId )),
+ TECH_IsQueue__c = true,
+NOT(CONTAINS(Owner:Queue.QueueName,&#39;SPAM&#39;)) 
+)</errorConditionFormula>
+    <errorMessage>You cannot edit a case when the owner is a queue.</errorMessage>
+</ValidationRule>

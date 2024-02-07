@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Limit_on_Case_without_Account_or_Contact</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    /* Check if the status is changed */
+    ISCHANGED(Status),
+    
+    /* Check if the status is equals to &quot;Closed&quot; or &quot;Waiting for client&quot; */
+    OR(
+        ISPICKVAL(Status, &#39;Closed&#39;),
+        ISPICKVAL(Status, &#39;Waiting for client&#39;)
+    ),
+    
+    /* Check if the case origin is not set with &quot;Phone&quot; or &quot;Chat&quot; */
+    NOT(OR(
+        ISPICKVAL(Origin, &#39;Phone&#39;),
+        ISPICKVAL(Origin, &#39;Chat&#39;)
+    )),
+    
+    /* Check if the AccountId and ContactId are null */
+    ISBLANK(AccountId),
+    ISBLANK(ContactId),
+    
+    /* Check if the case owner isn&#39;t the SPAM Queue */
+    NOT(Owner:Queue.QueueName = &#39;SPAM&#39;),
+
+    /* Check if the User hasn&#39;t the ByPassVR permission */
+    $Permission.ByPassVR = false,
+    
+    /* Check if it&#39;s not an admin case */
+    Admin_Case__c = false
+)</errorConditionFormula>
+    <errorMessage>You cannot update a Case if it is not related to an Account or a Contact.</errorMessage>
+</ValidationRule>

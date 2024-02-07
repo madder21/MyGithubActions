@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>OrderSummary$Name</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$ReturnOrder</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$Name</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$Sku__c</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$OrderItemSummary</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$SerialNumber__c</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.ReturnOrders.ReturnOrderLineItems$QuantityReturned</field>
+    </columns>
+    <columns>
+        <field>OrderSummary$Tech_ShippingCountry__c</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>OrderSummary.ReturnOrders$ReturnDate__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>greaterOrEqual</operator>
+            <value>9/13/2023 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary.ReturnOrders$ReturnDate__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>lessOrEqual</operator>
+            <value>10/31/2023 12:00 AM</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>KR</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>Return Orders Report Finance KR</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>OS_Return_Orders__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>OrderSummary.ReturnOrders$ReturnDate__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

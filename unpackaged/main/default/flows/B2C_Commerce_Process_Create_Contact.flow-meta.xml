@@ -17,10 +17,12 @@
                 <elementReference>sourceContact.Country__c</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>CountryNameManager</nameSegment>
         <outputParameters>
             <assignToReference>sourceContact.MailingCountry</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>58.0</apiVersion>
     <assignments>
@@ -48,7 +50,7 @@
         </connector>
     </assignments>
     <assignments>
-        <description>... throw an error explaining the Contact&#39;s attributes must include a LastName if a CustomerList / CustomerNo are not provided.</description>
+        <description>... throw an error explaining the Contact&apos;s attributes must include a LastName if a CustomerList / CustomerNo are not provided.</description>
         <name>asn_ErrorContactLastNameMissing_Assignment</name>
         <label>Error: Contact LastName is Missing</label>
         <locationX>50</locationX>
@@ -64,7 +66,7 @@
             <assignToReference>errors</assignToReference>
             <operator>Add</operator>
             <value>
-                <stringValue>Contact lastname isn&#39;t set, please verify default B2C Configuration</stringValue>
+                <stringValue>Contact lastname isn&apos;t set, please verify default B2C Configuration</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -123,7 +125,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sub_contactProcessPlatformEventHelper</targetReference>
+            <targetReference>Success_Message</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -151,7 +153,7 @@
         <name>Success_Message</name>
         <label>Success Message</label>
         <locationX>314</locationX>
-        <locationY>2138</locationY>
+        <locationY>2030</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -292,6 +294,7 @@
         </rules>
     </decisions>
     <description>... this flow is used to execute Contact Processing requests from B2C Commerce -- and create a Contact record within the Salesforce Platform.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: Create Contact {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Create Contact</label>
     <processMetadataValues>
@@ -475,36 +478,6 @@
             <assignToReference>Account</assignToReference>
             <name>Account</name>
         </outputAssignments>
-    </subflows>
-    <subflows>
-        <description>... generate the Contact Process Platform Event.</description>
-        <name>sub_contactProcessPlatformEventHelper</name>
-        <label>Create the Contact Process Platform Event</label>
-        <locationX>314</locationX>
-        <locationY>2030</locationY>
-        <connector>
-            <targetReference>Success_Message</targetReference>
-        </connector>
-        <flowName>sub_contactProcessPlatformEventHelper</flowName>
-        <inputAssignments>
-            <name>var_contactToProcess</name>
-            <value>
-                <elementReference>Contact</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_customerList</name>
-            <value>
-                <elementReference>var_b2cCustomerList</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>var_platformEventProcess</name>
-            <value>
-                <stringValue>retrieve</stringValue>
-            </value>
-        </inputAssignments>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
         <description>... use the QA Helper to override the contact being processed with configurable values.</description>
@@ -976,7 +949,7 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
-        <description>... placeholder variable for the contact&#39;s lastName.</description>
+        <description>... placeholder variable for the contact&apos;s lastName.</description>
         <name>var_qaLastName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>InvestigationStatus__c</fullName>
+    <externalId>false</externalId>
+    <label>Investigation Status</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Open</fullName>
+                <default>false</default>
+                <label>Open</label>
+            </value>
+            <value>
+                <fullName>In progress</fullName>
+                <default>false</default>
+                <label>In progress</label>
+            </value>
+            <value>
+                <fullName>Investigation closed - Reimbursed</fullName>
+                <default>false</default>
+                <label>Investigation closed - Reimbursed</label>
+            </value>
+            <value>
+                <fullName>Investigation closed - Waiting SME</fullName>
+                <default>false</default>
+                <label>Investigation closed - Waiting SME</label>
+            </value>
+            <value>
+                <fullName>Investigation closed - Waiting for client</fullName>
+                <default>false</default>
+                <label>Investigation closed - Waiting for client</label>
+            </value>
+            <value>
+                <fullName>Investigation closed - Denied</fullName>
+                <default>false</default>
+                <label>Investigation closed - Denied</label>
+            </value>
+            <value>
+                <fullName>Investigation closed - New product sent</fullName>
+                <default>false</default>
+                <label>Investigation closed - New product sent</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
