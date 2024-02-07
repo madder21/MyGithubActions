@@ -23,8 +23,6 @@
                 <elementReference>CONST_TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Refund_Without_Credit_Memo_Email</name>
@@ -49,8 +47,6 @@
                 <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
@@ -350,12 +346,11 @@
     <dynamicChoiceSets>
         <name>RefundMethodChoiceSet</name>
         <dataType>Picklist</dataType>
-        <displayField xsi:nil="true" />
-        <object xsi:nil="true" />
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
         <picklistField>RefundMethod__c</picklistField>
         <picklistObject>Refund</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <interviewLabel>SOM 720 Refund ManualValidateRefund {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 720 Refund ManualValidateRefund</label>
     <processMetadataValues>
@@ -681,7 +676,6 @@
             <dataType>String</dataType>
             <fieldText>Gateway Reference Number</fieldText>
             <fieldType>InputField</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -726,7 +720,6 @@
             <fieldText>Reconciliation Id</fieldText>
             <fieldType>InputField</fieldType>
             <helpText>&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;Transaction Reference Number on the Credit transaction in Cybersource EBC.&lt;/span&gt;&lt;/p&gt;</helpText>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>false</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -771,7 +764,6 @@
             <dataType>String</dataType>
             <fieldText>Refund Method</fieldText>
             <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Validate</nextOrFinishButtonLabel>
