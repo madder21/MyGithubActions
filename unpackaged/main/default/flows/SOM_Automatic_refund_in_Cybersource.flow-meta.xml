@@ -65,9 +65,7 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Automatic_Refund_In_Cybersource_0</name>
@@ -134,9 +132,7 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Automatic_Refund_In_Cybersource_0_0</name>
@@ -203,9 +199,7 @@
                 <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Refund_Validation_Transactional_Email</name>
@@ -230,8 +224,6 @@
                 <elementReference>TransactionalEmailRefundWithCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Refund_Validation_Transactional_Email_0</name>
@@ -256,8 +248,6 @@
                 <elementReference>TransactionalEmailRefundWithoutCreditMemoTemp</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
@@ -670,7 +660,6 @@
             <label>Confirm</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM - Automatic refund in Cybersource {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Automatic refund in Cybersource</label>
     <processMetadataValues>
