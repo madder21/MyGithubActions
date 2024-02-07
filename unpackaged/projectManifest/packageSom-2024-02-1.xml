@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+	<types>
+         <members>SOM_CreateCreditMemoPDFFileAction </members>
+	<members>SOM_CreateInvoicePDFFileAction </members>
+
+	<members>SOM_SalesAndPaymentsReportAUSchedule</members>
+	<members>SOM_SalesPaymentsReportMonthAUSchedule</members>
+	<members>SOM_SalesPaymentAUMonthSchedule_Test</members>
+	<members>SOM_SalesPaymentsReportAUSchedule_Test</members>
+		<members>SOM_SalesAndPaymentsReportKRSchedule</members>
+	<members>SOM_SalesPaymentsReportMonthKRSchedule</members>
+	<members>SOM_SalesPaymentKRMonthSchedule_Test</members>
+	<members>SOM_SalesPaymentsReportKRSchedule_Test</members>
+	<name>ApexClass</name>
+</types>
+
+	<types>
+	<members>SOM_CreditMemoDocument</members>
+	<members>SOM_InvoiceDocument</members>
+	<members>SOM_CreditMemoKoreaDocument</members>
+	<members>SOM_InvoiceKoreaDocument</members>
+	<name>ApexPage</name>
+</types>
+
+	<types>
+		<members>SOM_720_Refund_ManualValidateRefund</members>
+		<members>SOM_Automatic_refund_in_Cybersource</members>
+		<name>Flow</name>
+	</types>
+
+  <types>
+		<members>ReportsforSOM/New_Order_Summary_with_product_Report_YVZ</members>
+		<members>ReportsforSOM/Order_export_US_Y8J</members>
+		<members>ReportsforSOM/Shipped_articles_PRT</members> 
+
+	  <members>ReportsforSOM/Sales_Report_Credit_Memo_AU</members>
+	<members>ReportsforSOM/Sales_Report_Invoice_AU</members>
+	<members>ReportsforSOM/Refunds_Report_AU</members>
+	<members>ReportsforSOM/Payments_Report_AU</members>
+	<members>ReportsforSOM/Return_Orders_Report_Finance_AU</members>
+	<members>ReportsforSOM/Shipments_Report_Finance_AU</members>
+        <members>ReportsforSOM/Sales_Report_Credit_Memo_KR</members>
+	<members>ReportsforSOM/Sales_Report_Invoice_KR</members>
+	<members>ReportsforSOM/Refunds_Report_KR</members>
+	<members>ReportsforSOM/Payments_Report_KR</members>
+	<members>ReportsforSOM/Return_Orders_Report_Finance_KR</members>
+	<members>ReportsforSOM/Shipments_Report_Finance_KR</members>
+	  <members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_AU</members>
+	<name>Report</name>        
+    </types>
+<types>
+	 
+	  <members>OrderPaymentSummary-Finance%2FEcomOperations Order Payment Summary Layout</members>
+	  <name>Layout</name>
+</types>
+	<types>
+      	<members>Order_Summary_with_product</members>  
+      	<members>Order_Summary_with_Shipping_address</members>  
+        <name>ReportType</name>
+  	</types>
+<version>54.0</version>
+</Package>
