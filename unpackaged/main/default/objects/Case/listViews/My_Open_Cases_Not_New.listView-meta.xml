@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>My_Open_Cases_Not_New</fullName>
+    <booleanFilter>1 AND (2 OR 4) AND 3</booleanFilter>
+    <columns>CASES.CASE_NUMBER</columns>
+    <columns>SLAFlag__c</columns>
+    <columns>Hub_Origin__c</columns>
+    <columns>CASES.STATUS</columns>
+    <columns>Language__c</columns>
+    <columns>Channel__c</columns>
+    <columns>CASES.SUBJECT</columns>
+    <columns>SuppliedEmail__c</columns>
+    <columns>CASES.EMAIL</columns>
+    <columns>Phone__c</columns>
+    <columns>CASES.CREATED_DATE</columns>
+    <columns>CASES.LAST_UPDATE_DATE_ONLY</columns>
+    <columns>CORE.USERS.ALIAS</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>TECH_MatchHub__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <filters>
+        <field>OWNER_NAME</field>
+        <operation>startsWith</operation>
+        <value>EU</value>
+    </filters>
+    <filters>
+        <field>CASES.STATUS</field>
+        <operation>notEqual</operation>
+        <value>New,Closed</value>
+    </filters>
+    <filters>
+        <field>TECH_IsQueue__c</field>
+        <operation>equals</operation>
+        <value>1</value>
+    </filters>
+    <label>My Open Cases Not New</label>
+</ListView>

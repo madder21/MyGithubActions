@@ -1,0 +1,52 @@
+<aura:component controller="emailTemplateFilterController" implements="flexipage:availableForRecordHome,force:lightningQuickAction,force:hasRecordId,force:hasSObjectName">
+    <ltng:require styles="{!$Resource.cssRadioButton}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:quickActionAPI aura:id="quickActionAPI"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="picklistDisabled" type="Boolean" />
+    <aura:attribute name="selectedRadio" type="String" />
+    <aura:attribute name="picklistOptions" type="List" />
+    <aura:attribute name="radioOptions" type="List" />
+    <aura:attribute name="selectedPicklist" type="String" />
+    <aura:attribute name="htmlBody" type="String" />
+    <aura:attribute name="subject" type="String" />
+    <aura:attribute name="ParentId" type="String" />
+    <aura:attribute name="LetterheadFooter" type="String" />
+    
+	<aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="caseRecord" type="Object"/>
+
+	<force:recordData aura:id="caseRecordLoader"
+                      recordId="{!v.recordId}"
+                      layoutType="FULL"
+                      targetFields="{!v.caseRecord}"
+                      fields="Type, SubType__c, Contact_reason__c"
+                      mode="VIEW"
+                      recordUpdated="{!c.onRecordUpdated}"/>
+
+
+  
+<div class="THIS">
+    <div class="radio-group">
+        <lightning:radioGroup name="radioGroup" class="radioGroupCustom" id="testId"
+            options="{!v.radioOptions}"
+            value="{!v.selectedRadio}"
+            type="radio"
+            onchange="{!c.handleRadioChange}"/>
+    </div>
+
+
+    <div class="input-group">
+        <lightning:combobox
+            name="progress"
+            label="Email Template"
+            value="{!v.selectedPicklist}"
+            placeholder="Select Template"
+            options="{!v.picklistOptions}"
+            onchange="{!c.handleChange}" 
+            disabled="{!v.picklistDisabled}">
+        </lightning:combobox>
+        <lightning:button  label="Create Draft" onclick="{!c.fillEmailBody}" />
+    </div>
+</div>
+</aura:component>

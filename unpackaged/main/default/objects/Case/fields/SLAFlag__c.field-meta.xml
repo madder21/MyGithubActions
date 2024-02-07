@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SLAFlag__c</fullName>
+    <description>Image that dispays a priority value, for agent in order to pick the right case</description>
+    <externalId>false</externalId>
+    <formula>IF(
+    (TechCaseOpenHours__c  = 2 ), 
+    IMAGE(&#39;/resource/1692887644000/SLAYellow?&#39;, &#39;SLA yellow error&#39;, -1, -1),
+
+IF(
+    (TechCaseOpenHours__c  = 4), 
+    IMAGE(&#39;/resource/1692887654000/SLAOrange?&#39;, &#39;SLA orange error&#39;, -1, -1)
+,
+IF(
+     (TechCaseOpenHours__c  = 12),
+    IMAGE(&#39;/resource/1692887610000/SLARed?&#39;, &#39;SLA red error&#39;, -1, -1),
+  IMAGE(&#39;/resource/1692887627000/SLAGreen?&#39;, &#39;SLA green error&#39;, -1, -1)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>SLA Flag</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

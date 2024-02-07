@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalutationEmailThai__c</fullName>
+    <description>Used as merge fields in email template</description>
+    <externalId>false</externalId>
+    <formula>IF(
+AND(
+Account.IsPersonAccount,
+text(Account.Salutation)&lt;&gt;&quot;&quot;
+),
+CASE(text(Account.Salutation),
+&quot;Mr.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Monsieur&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;M.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Mrs.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Madame&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Mstr.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Ms.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Dr.&quot;, &quot;ดอกเตอร์ &quot; + Account.FirstName,
+&quot;Miss.&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Mx&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;1&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;2&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;3&quot;, &quot;คุณ&quot;,
+&quot;001&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;002&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;003&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;004&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;005&quot;, &quot;คุณ &quot; + Account.FirstName,
+&quot;Prefer not to say&quot;, &quot;Dear &quot; + Account.FirstName + &quot; &quot; + Account.LastName,
+&quot;&quot;),
+&quot;Hello &quot; + Account.FirstName + &quot; &quot; + Account.LastName
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Salutation Email Thai</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

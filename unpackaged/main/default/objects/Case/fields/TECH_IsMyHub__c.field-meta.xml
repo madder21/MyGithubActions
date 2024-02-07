@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_IsMyHub__c</fullName>
+    <description>Checked if the User hub is equal to the case Hub Origin</description>
+    <externalId>false</externalId>
+    <formula>TEXT($User.Hub__c) = TEXT(Hub_Origin__c)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>TECH_IsMyHub</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Product_Reference_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$Permission.ByPassVR = FALSE,
+NOT(ISPICKVAL(Hub_Origin__c,&#39;DEUKO1&#39;)),
+OR(ISPICKVAL(Contact_reason__c , &#39;Store reservation&#39;),ISPICKVAL(Contact_reason__c , &#39;Order on behalf converted&#39;)),
+ISBLANK(Productreference__c)  
+)</errorConditionFormula>
+    <errorDisplayField>Productreference__c</errorDisplayField>
+    <errorMessage>Please complete the &quot;Product reference&quot; field.</errorMessage>
+</ValidationRule>

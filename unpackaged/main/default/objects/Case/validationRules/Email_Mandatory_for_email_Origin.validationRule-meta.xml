@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Email_Mandatory_for_email_Origin</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+      $Permission.ByPassVR = FALSE,
+      ISPICKVAL( Origin , &#39;Email&#39;) ,
+      NOT (OR(
+               ISPICKVAL( Type, &#39;SPAM&#39;), 
+              (Owner:Queue.DeveloperName =&#39;SPAM&#39;)
+               ) ),
+      ISBLANK(  CustomerEmail__c ),
+      ISBLANK( SuppliedEmail )
+)</errorConditionFormula>
+    <errorDisplayField>CustomerEmail__c</errorDisplayField>
+    <errorMessage>You must inform this field.</errorMessage>
+</ValidationRule>

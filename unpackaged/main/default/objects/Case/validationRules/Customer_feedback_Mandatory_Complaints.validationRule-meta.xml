@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Customer_feedback_Mandatory_Complaints</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$Permission.ByPassVR = FALSE,
+NOT(ISPICKVAL(Hub_Origin__c,&#39;DEUKO1&#39;)), 
+ISPICKVAL(Contact_reason__c, &#39;Quality complaints&#39;), 
+(AND( NegativeFeedback__c = false, PositiveFeedback__c = false) ||  ISBLANK(CustomerFeedback__c) )
+)</errorConditionFormula>
+    <errorDisplayField>CustomerFeedback__c</errorDisplayField>
+    <errorMessage>You have selected &quot;Quality complaints&quot; as Contact Reason, please complete the &quot;Customer Satisfaction&quot; section.</errorMessage>
+</ValidationRule>

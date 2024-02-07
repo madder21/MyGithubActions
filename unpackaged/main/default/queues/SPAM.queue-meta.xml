@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>SPAM</name>
+    <queueMembers>
+        <roleAndSubordinates>
+            <roleAndSubordinate>RIMOWA_AMERICA</roleAndSubordinate>
+            <roleAndSubordinate>RIMOWA_APAC</roleAndSubordinate>
+            <roleAndSubordinate>RIMOWA_EMEA</roleAndSubordinate>
+        </roleAndSubordinates>
+        <roles>
+            <role>CS_RIMOWA</role>
+        </roles>
+        <users>
+            <user>csc.integration@rimowa.com</user>
+            <user>ecointegration@rimowa.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

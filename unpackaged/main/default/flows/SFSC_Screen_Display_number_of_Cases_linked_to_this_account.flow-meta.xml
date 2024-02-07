@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>Count_Number_of_cases</name>
+        <label>Count Number of cases</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>CasesCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>Get_Case_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Has_Multiple_open_Cases</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Does this case has an associated account ?
+If not by pass all flow, is yes then show the number of open cases related to the account.</description>
+        <name>Has_Linked_Account</name>
+        <label>Has Linked Account</label>
+        <locationX>380</locationX>
+        <locationY>134</locationY>
+        <defaultConnectorLabel>❌ No</defaultConnectorLabel>
+        <rules>
+            <name>HasAccount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CaseId.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Case_Number</targetReference>
+            </connector>
+            <label>✅ Has Account</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Has_Multiple_open_Cases</name>
+        <label>Has Multiple open Cases</label>
+        <locationX>182</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>DisplayNothingScreen</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>❌ No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CasesCount</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Show_Number_of_Open_Cases</targetReference>
+            </connector>
+            <label>✅ Yes</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>CaseLinkFormula</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_550}, FIND( &#39;/services&#39;, {!$Api.Partner_Server_URL_550})) &amp; {!CaseId.Id}</expression>
+    </formulas>
+    <formulas>
+        <name>FormulaTest</name>
+        <dataType>String</dataType>
+        <expression>&quot;https://rimowa--devsfsc.sandbox.lightning.force.com/lightning/r/Account/&quot;&amp;{!CaseId.Account.Id}&amp;&quot;/related/Cases/view?ws=%2Flightning%2Fr%2FAccount%2F&quot;&amp;{!CaseId.Account.Id}&amp;&quot;%2Fview&quot;</expression>
+    </formulas>
+    <interviewLabel>SFSC - {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Screen - Display number of Cases linked to this account</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <description>Get all Open cases related to the shown Case&#39;s Account</description>
+        <name>Get_Case_Number</name>
+        <label>Get Case Number</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Count_Number_of_cases</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CaseId.AccountId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>CaseId.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>DisplayNothingScreen</name>
+        <label>DisplayNothingScreen</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>Show_Number_of_Open_Cases</name>
+        <label>Show Number of Open Cases</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>Screen_NumberOfCases</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(231, 14, 14);&quot;&gt;WARNING :&lt;/strong&gt; This client already has {!CasesCount} open cases  &lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;a href=&quot;https://rimowa--devsfsc.sandbox.lightning.force.com/lightning/r/Account/{!CaseId.Account.Id}/related/Cases/view?ws=%2Flightning%2Fr%2FAccount%2F{!CaseId.Account.Id}%2Fview&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;Click Here&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Has_Linked_Account</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>TextTemplateTest</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;a href=&quot;{!FormulaTest}&quot; target=&quot;_self&quot;&gt;&lt;/a&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>CaseId</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>CasesCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>
