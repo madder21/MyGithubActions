@@ -22,11 +22,12 @@ global with sharing class SOM_GetAvailability_BatchSubClass {
             osIds.add(os.Id);
         }
 
-        List<OrderItemSummary> ois = [SELECT ID, ReservedAtLocationId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END, StockKeepingUnit, OrderSummary.SalesChannel.SalesChannelName, Quantity FROM OrderItemSummary WHERE orderSummaryId IN :osIds AND Type =: SOM_Constants.ORDER_ITEM_TYPE_ORDER_PRODUCT AND Status =: SOM_Constants.Status_Ordered AND ( IsPreOrder__c =: false OR (IsPreOrder__c =: true AND DeliveryStartDate__c <=: system.now()))];
+        List<OrderItemSummary> ois = [SELECT ID, OriginalOrderItem.ReservedAtLocationId, ReservedAtLocationId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END, StockKeepingUnit, OrderSummary.SalesChannel.SalesChannelName, Quantity FROM OrderItemSummary WHERE orderSummaryId IN :osIds AND Type =: SOM_Constants.ORDER_ITEM_TYPE_ORDER_PRODUCT AND Status =: SOM_Constants.Status_Ordered AND ( IsPreOrder__c =: false OR (IsPreOrder__c =: true AND DeliveryStartDate__c <=: system.now()))];
         for (OrderItemSummary orderItemSum : ois) {
+            orderItemSum.ReservedAtLocationId = orderItemSum.OriginalOrderItem.ReservedAtLocationId;
             oisIds.add(orderItemSum.Id);
             skus.add(orderItemSum.StockKeepingUnit);
-            locationIds.add(orderItemSum.ReservedAtLocationId);
+            locationIds.add(orderItemSum.OriginalOrderItem.ReservedAtLocationId);
         }
         
         if(skus != null && !skus.isEmpty()){
