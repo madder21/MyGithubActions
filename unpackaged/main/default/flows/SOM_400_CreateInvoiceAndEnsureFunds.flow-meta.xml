@@ -46,6 +46,52 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
+        <name>Assign_Location</name>
+        <label>Assign Location</label>
+        <locationX>2274</locationX>
+        <locationY>47</locationY>
+        <assignmentItems>
+            <assignToReference>Locations</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_OIS.ReservedAtLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_OIS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Location_SKU</name>
+        <label>Assign Location &amp; SKU</label>
+        <locationX>2036</locationX>
+        <locationY>469</locationY>
+        <assignmentItems>
+            <assignToReference>SKUs</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_InvoiceLines.Product2.StockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OIS_Ids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_InvoiceLines.ReferenceEntityItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Currency</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_InvoiceLines.CurrencyIsoCode</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_InvoiceLines</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Ensure_Funds_Input_Representation_Assignement</name>
         <label>Ensure Funds Input Representation Assignement</label>
         <locationX>716</locationX>
@@ -59,6 +105,29 @@
         </assignmentItems>
         <connector>
             <targetReference>Ensure_Funds_Async</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Records_to_update</name>
+        <label>Records to update</label>
+        <locationX>1840</locationX>
+        <locationY>722</locationY>
+        <assignmentItems>
+            <assignToReference>Loop2_InvoiceLine.WAPP__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop1_WAPP.WAPP__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InvoiceLinesToUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop2_InvoiceLine</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop2_InvoiceLine</targetReference>
         </connector>
     </assignments>
     <constants>
@@ -76,10 +145,35 @@
         </value>
     </constants>
     <decisions>
+        <name>Check_SKU</name>
+        <label>Check SKU</label>
+        <locationX>1838</locationX>
+        <locationY>519</locationY>
+        <defaultConnector>
+            <targetReference>Loop2_InvoiceLine</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>SKU</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop2_InvoiceLine.Product2.StockKeepingUnit</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop1_WAPP.SKU__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Records_to_update</targetReference>
+            </connector>
+            <label>SKU</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Order_Type</name>
         <label>Order Type</label>
         <locationX>1352</locationX>
-        <locationY>322</locationY>
+        <locationY>271</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Cegid</name>
@@ -193,6 +287,62 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     </formulas>
     <interviewLabel>SOM 400 - Create invoice and ensure funds {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 400 - Create invoice and ensure funds</label>
+    <loops>
+        <name>Loop1_WAPP</name>
+        <label>Loop1 WAPP</label>
+        <locationX>2278</locationX>
+        <locationY>624</locationY>
+        <collectionReference>Get_WeightedAveragePrice</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Loop2_InvoiceLine</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_InvoiceLines</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop2_InvoiceLine</name>
+        <label>Loop2 InvoiceLine</label>
+        <locationX>2053</locationX>
+        <locationY>625</locationY>
+        <collectionReference>Get_Invoice_Lines</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop1_WAPP</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_InvoiceLines</name>
+        <label>Loop Over InvoiceLines</label>
+        <locationX>2035</locationX>
+        <locationY>257</locationY>
+        <collectionReference>Get_Invoice_Lines</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Location_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Locations</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_OIS</name>
+        <label>Loop Over OIS</label>
+        <locationX>2311</locationX>
+        <locationY>254</locationY>
+        <collectionReference>Get_Locations</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_Location</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_WeightedAveragePrice</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -215,8 +365,8 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordCreates>
         <name>Publish_Invoice_PDF_Generation_Event</name>
         <label>Publish Invoice PDF Generation Event</label>
-        <locationX>1007</locationX>
-        <locationY>934</locationY>
+        <locationX>1359</locationX>
+        <locationY>580</locationY>
         <connector>
             <targetReference>Publish_NEW_INVOICE_FOR_CEGID_Event</targetReference>
         </connector>
@@ -232,8 +382,11 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordCreates>
         <name>Publish_NEW_INVOICE_FOR_CEGID_Event</name>
         <label>Publish NEW INVOICE FOR CEGID Event</label>
-        <locationX>816</locationX>
-        <locationY>933</locationY>
+        <locationX>1673</locationX>
+        <locationY>452</locationY>
+        <connector>
+            <targetReference>Get_Invoice_Lines</targetReference>
+        </connector>
         <inputAssignments>
             <field>InvoiceId__c</field>
             <value>
@@ -244,10 +397,33 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
+        <name>Get_Invoice_Lines</name>
+        <label>Get Invoice Lines</label>
+        <locationX>1915</locationX>
+        <locationY>256</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_InvoiceLines</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>InvoiceId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>InvoiceLine</object>
+        <sortField>Id</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Last_Invoice_Record</name>
         <label>Get Last Invoice Record</label>
-        <locationX>1163</locationX>
-        <locationY>539</locationY>
+        <locationX>612</locationX>
+        <locationY>292</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <filterLogic>and</filterLogic>
         <filters>
@@ -263,6 +439,27 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <queriedFields>DocumentNumber__c</queriedFields>
         <sortField>DocumentNumber__c</sortField>
         <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Locations</name>
+        <label>Get Locations</label>
+        <locationX>2192</locationX>
+        <locationY>254</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_OIS</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OIS_Ids</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -310,8 +507,8 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordLookups>
         <name>Get_Shipment</name>
         <label>Get Shipment</label>
-        <locationX>978</locationX>
-        <locationY>311</locationY>
+        <locationX>1572</locationX>
+        <locationY>337</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Invoice_Custom_Fields</targetReference>
@@ -330,11 +527,49 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_WeightedAveragePrice</name>
+        <label>Get WeightedAveragePrice</label>
+        <locationX>2280</locationX>
+        <locationY>455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop1_WAPP</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Location__c</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>Locations</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SKU__c</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>SKUs</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CurrencyIsoCode</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Currency</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>WeightedAveragePurchasePrice__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Invoice_Custom_Fields</name>
         <label>Update Invoice Custom Fields</label>
-        <locationX>799</locationX>
-        <locationY>309</locationY>
+        <locationX>1727</locationX>
+        <locationY>258</locationY>
+        <connector>
+            <targetReference>Get_Invoice_Lines</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -366,8 +601,8 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordUpdates>
         <name>Update_Invoice_Custom_Fields_0</name>
         <label>Update Invoice Custom Fields</label>
-        <locationX>1008</locationX>
-        <locationY>704</locationY>
+        <locationX>1357</locationX>
+        <locationY>433</locationY>
         <connector>
             <targetReference>Publish_Invoice_PDF_Generation_Event</targetReference>
         </connector>
@@ -390,8 +625,11 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordUpdates>
         <name>Update_Invoice_Custom_PDFGenerationStatus_Field</name>
         <label>Update Invoice Custom PDFGenerationStatus Field</label>
-        <locationX>1515</locationX>
-        <locationY>312</locationY>
+        <locationX>1621</locationX>
+        <locationY>140</locationY>
+        <connector>
+            <targetReference>Get_Invoice_Lines</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -407,6 +645,13 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
             </value>
         </inputAssignments>
         <object>Invoice</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_InvoiceLines</name>
+        <label>Update InvoiceLines</label>
+        <locationX>2059</locationX>
+        <locationY>764</locationY>
+        <inputReference>InvoiceLinesToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_OS_Report_Fields</name>
@@ -486,6 +731,13 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         </value>
     </variables>
     <variables>
+        <name>Currency</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>CurrentInvoiceNumber</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -508,6 +760,14 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>InvoiceLinesToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>InvoiceLine</objectType>
+    </variables>
+    <variables>
         <name>InvoiceNumber</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -521,6 +781,20 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Location</objectType>
+    </variables>
+    <variables>
+        <name>Locations</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OIS_Ids</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>S_FulfillmentGroupInputRepresentation</name>
@@ -543,6 +817,13 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <apexClass>ConnectApi__OrderItemSummaryInputRepresentation</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SKUs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
