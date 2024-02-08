@@ -146,7 +146,7 @@
 
             <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
                 <tr>
-                    <td width="80px" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % :</td>
+                    <td width="80px" class="">PLUS &nbsp;<apex:outputText value="{!creditMemoConfigs['TAX_TITLE']}"/>&nbsp;<apex:outputText value="{!key}"/> % :</td>
                     <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
@@ -155,7 +155,7 @@
                     <td colspan="2">&nbsp;</td>
                 </tr> 
                 <tr>
-                    <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. TAX:</td>
+                    <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. &nbsp;<apex:outputText value="{!creditMemoConfigs['TAX_TITLE']}"/>:</td>
                     <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </tbody>  

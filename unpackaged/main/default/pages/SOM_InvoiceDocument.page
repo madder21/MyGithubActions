@@ -165,7 +165,7 @@
 
             <apex:repeat value="{!invoiceTaxLineItems}" var="key">
                 <tr>
-                    <td width="100%" class="" style="padding-top: 3px;">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> %:</td>
+                    <td width="100%" class="" style="padding-top: 3px;">PLUS &nbsp;<apex:outputText value="{!invoiceConfigs['TAX_TITLE']}"/>&nbsp;<apex:outputText value="{!key}"/> %:</td>
                     <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
@@ -174,7 +174,7 @@
                     <td colspan="2">&nbsp;</td>
                 </tr> 
                 <tr>
-                    <td class="border_top" width="100%" style="padding-top:2px;">TOTAL INCL. TAX:</td>
+                    <td class="border_top" width="100%" style="padding-top:2px;">TOTAL INCL. &nbsp;<apex:outputText value="{!invoiceConfigs['TAX_TITLE']}"/>:</td>
                     <td class="align-right border_top"><apex:outputText value="{!invoiceDoc.totalWithTax}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                     
                 </tr>
