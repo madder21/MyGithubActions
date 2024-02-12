@@ -58,34 +58,52 @@ public with sharing class SOM_SalesPaymentsReportMonthKRSchedule Implements Sche
             ApexPages.PageReference refundOrdersReport;
             
             
+            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+            List<Messaging.EmailFileAttachment> attchs = new List<Messaging.EmailFileAttachment>();
+            
+            
             if(!invoiceRep.isEmpty()){
                 invoiceReport    = new ApexPages.PageReference('/'+invoiceReportId + urlFilters);
-                
+                invoiceAttachment.setFileName('Sales Invoice Report.csv');
+                //invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
+                invoiceAttachment.setContentType('text/csv');
+                attchs.add(invoiceAttachment);
             }
             if(!creditMemoRep.isEmpty()){
                 creditMemoReport = new ApexPages.PageReference('/'+creditMemoReportId + urlFilters);
-                
+                creditMemoAttachment.setFileName('Sales Credit Memo Report.csv');
+                //creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
+                creditMemoAttachment.setContentType('text/csv');
+                attchs.add(creditMemoAttachment);
             }
             if(!paymentRep.isEmpty()){
                 paymentReport    = new ApexPages.PageReference('/'+paymentReportId + urlFilters);
-                
+                paymentAttachment.setFileName('Payment Report.csv');
+                //paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
+                paymentAttachment.setContentType('text/csv');
+                attchs.add(paymentAttachment);
             }
             if(!shipmentRep.isEmpty()){
                 shipmentReport    = new ApexPages.PageReference('/'+shipmentReportId + urlFilters);
-                
+                shipmentAttachment.setFileName('Shipment Report.csv');
+                //shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
+                shipmentAttachment.setContentType('text/csv');
+                attchs.add(shipmentAttachment);
             }
             if(!returnOrdersRep.isEmpty()){
                 returnOrdersReport    = new ApexPages.PageReference('/'+returnOrdersReportId + urlFilters);
-                
+                returnOrdersAttachment.setFileName('Return Orders Report.csv');
+                //returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
+                returnOrdersAttachment.setContentType('text/csv');
+                attchs.add(returnOrdersAttachment);
             }
             if(!refundOrdersRep.isEmpty()){
                 refundOrdersReport    = new ApexPages.PageReference('/'+refundOrdersReportId + urlFilters);
-                
+                refundOrdersAttachment.setFileName('Refund Orders Report.csv');
+                //refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
+                refundOrdersAttachment.setContentType('text/csv');
+                attchs.add(refundOrdersAttachment);
             }
-            
-            
-            Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
-            List<Messaging.EmailFileAttachment> attchs = new List<Messaging.EmailFileAttachment>();
             
             if(Test.isRunningTest()) { 
                 invoiceAttachment.setBody(Blob.valueOf('UnitInvoice.Test'));
@@ -94,46 +112,27 @@ public with sharing class SOM_SalesPaymentsReportMonthKRSchedule Implements Sche
                 shipmentAttachment.setBody(Blob.valueOf('Unitshipment.Test'));
                 returnOrdersAttachment.setBody(Blob.valueOf('UnitreturnOrders.Test'));
                 refundOrdersAttachment.setBody(Blob.valueOf('UnitrefundOrders.Test'));
-            } 
-            else{
+            }else{
                 if(!invoiceRep.isEmpty()){
-                    invoiceAttachment.setFileName('Sales Invoice Report.csv');
                     invoiceAttachment.setBody(Blob.valueof(invoiceReport.getContent().toString()));
-                    invoiceAttachment.setContentType('text/csv');
-                    attchs.add(invoiceAttachment);
                 }
                 if(!creditMemoRep.isEmpty()){
-                    creditMemoAttachment.setFileName('Sales Credit Memo Report.csv');
                     creditMemoAttachment.setBody(Blob.valueof(creditMemoReport.getContent().toString()));
-                    creditMemoAttachment.setContentType('text/csv');
-                    attchs.add(creditMemoAttachment);
                 }
                 if(!paymentRep.isEmpty()){
-                    paymentAttachment.setFileName('Payment Report.csv');
                     paymentAttachment.setBody(Blob.valueof(paymentReport.getContent().toString()));
-                    paymentAttachment.setContentType('text/csv');
-                    attchs.add(paymentAttachment);
                 }
                 if(!shipmentRep.isEmpty()){
-                    shipmentAttachment.setFileName('Shipment Report.csv');
                     shipmentAttachment.setBody(Blob.valueof(shipmentReport.getContent().toString()));
-                    shipmentAttachment.setContentType('text/csv');
-                    attchs.add(shipmentAttachment);
                 }
                 if(!returnOrdersRep.isEmpty()){
-                    returnOrdersAttachment.setFileName('Return Orders Report.csv');
                     returnOrdersAttachment.setBody(Blob.valueof(returnOrdersReport.getContent().toString()));
-                    returnOrdersAttachment.setContentType('text/csv');
-                    attchs.add(returnOrdersAttachment);
                 }
                 if(!refundOrdersRep.isEmpty()){
-                    refundOrdersAttachment.setFileName('Refund Orders Report.csv');
                     refundOrdersAttachment.setBody(Blob.valueof(refundOrdersReport.getContent().toString()));
-                    refundOrdersAttachment.setContentType('text/csv');
-                    attchs.add(refundOrdersAttachment);
                 }
-            }
-            
+            } 
+                        
             email.setFileAttachments(attchs);
             
             String subject ='[SOM] Monthly extraction of payments and sales for ' + reportSetting.Country_List__c;
