@@ -3,19 +3,48 @@
 	<types>
 
 		<members>SOM_WS_ShipmentHandler</members>
-
-		<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+                <members>SOM_Resend_to_WMS</members>
+		
 		<name>Flow</name>
 	</types>
 	<types>
 		<members>SOM_GetAvailability_BatchSubClass</members>
-		<members>SOM_Retry_Allocation</members>
-
+		
+                <members>WS_SOM_CreateReturnOrderEndpoint</members>
 		<name>ApexClass</name>
 	</types>
-	<types> 
+	<types>
+		<members>FulfillmentOrder.duplicates__c</members>
 		<members>OrderDeliveryMethod.wmsCode__c</members>
         <name>CustomField</name>
     </types>
+	 <types>
+	<members>Ecom_operation_homepage</members>
+	<members>Refund_Record_Page</members>
+	<members>Order_Summary_Record_Page</members>
+        <members>Fulfillment_Order_Record_Page</members>
+        <members>Corrective_Invoice_Record_Page</members>
+	<members>Credit_Memo_Record_Page</members>
+	<members>Fulfillment_Order_Record_Page</members>
+	<members>Invoice_Record_Page</members>
+	<members>Process_Exception_Record_Page</members>
+	<members>Return_Order_Record_Page</members>
+	<name>FlexiPage</name>
+</types>
+	<types>
+      	<members>Order_Summary_with_product</members>  
+      	<members>Order_Summary_with_Shipping_address</members>  
+        <name>ReportType</name>
+  	</types>
+	<types>
+		<members>ReportsforSOM/New_Order_Summary_with_product_Report_YVZ</members>
+		<members>ReportsforSOM/Order_export_US_Y8J</members>
+		<members>ReportsforSOM/Shipped_articles_PRT</members> 
+		<name>Report</name>        
+    </types>
+  <types>
+	<members>FulfillmentOrder.Resend_to_WMS</members>
+    <name>QuickAction</name>
+</types>
 <version>54.0</version>
 </Package>
