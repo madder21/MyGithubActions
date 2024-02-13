@@ -722,7 +722,7 @@
             <name>X0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Order_Product_Summary.UnitPrice</leftValueReference>
+                <leftValueReference>Get_Order_Product_Summary.TotalAmtWithTax</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <numberValue>0.0</numberValue>
@@ -759,7 +759,6 @@
             <label>Exist</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -1873,7 +1872,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>List_of_Items_To_refund_Section2</name>
@@ -1932,7 +1930,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Refund</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
