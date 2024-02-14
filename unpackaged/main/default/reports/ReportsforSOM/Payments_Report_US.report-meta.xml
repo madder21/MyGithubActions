@@ -27,6 +27,7 @@
     </columns>
     <currency>EUR</currency>
     <filter>
+        <booleanFilter>1 AND 2 AND 4 AND 5 AND 8 AND (3 OR 6 OR 7)</booleanFilter>
         <criteriaItems>
             <column>OrderSummary$OrderedDate</column>
             <columnToColumn>false</columnToColumn>
@@ -61,6 +62,27 @@
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
             <value>Paid in store</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>CA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>MX</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary.OrderPaymentSummaries.Payments$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>PR</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
