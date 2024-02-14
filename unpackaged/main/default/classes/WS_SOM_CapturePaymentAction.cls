@@ -191,8 +191,8 @@ global with sharing class WS_SOM_CapturePaymentAction {
         return paymentMethodInfo;
     }
 
-    global static Double getTotalAmount(List<LineItem> lineItems){
-        Double totalAmount = 0;
+    global static Decimal getTotalAmount(List<LineItem> lineItems){
+        Decimal totalAmount = 0;
         for (LineItem lineItem : lineItems) {
             totalAmount += lineItem.totalAmount;
         }
@@ -224,9 +224,9 @@ global with sharing class WS_SOM_CapturePaymentAction {
         public String productName;
         public String productSKU;
         public Integer quantity;
-        public Double unitPrice;
-        public Double totalAmount; 
-        public Double taxAmount;
+        public Decimal unitPrice;
+        public Decimal totalAmount; 
+        public Decimal taxAmount;
     }
 
     //OrderInformation
