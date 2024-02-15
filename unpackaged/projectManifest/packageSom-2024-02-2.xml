@@ -11,6 +11,7 @@
 		<members>SOM_GetAvailability_BatchSubClass</members>
 		<members>SOM_WS_ShipmentHandler</members>
                 <members>WS_SOM_CreateReturnOrderEndpoint</members>
+		<members>WS_SOM_CapturePaymentAction</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -20,7 +21,7 @@
         <name>CustomField</name>
     </types>
 	 <types>
-
+	
 	<members>Refund_Record_Page</members>
 	<members>Order_Summary_Record_Page</members>
         <members>Fulfillment_Order_Record_Page</members>
@@ -44,14 +45,14 @@
 		<members>ReportsforSOM/Shipped_articles_PRT</members> 
 		<name>Report</name>        
     </types>
+  <types>
+	<members>FulfillmentOrder.Resend_to_WMS</members>
+    <name>QuickAction</name>
+</types>
 	<types>
 	 
 	  <members>FulfillmentOrder-Fulfillment Order Layout</members>
 	  <name>Layout</name>
-</types>
-  <types>
-	<members>FulfillmentOrder.Resend_to_WMS</members>
-    <name>QuickAction</name>
 </types>
 <version>54.0</version>
 </Package>
