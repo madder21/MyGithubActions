@@ -26,10 +26,11 @@
         <field>Shipment.ShipmentItems$Quantity</field>
     </columns>
     <columns>
-        <field>Shipment$ShipToCountry</field>
+        <field>Shipment$OrderSummary.Tech_ShippingCountry__c</field>
     </columns>
     <currency>EUR</currency>
     <filter>
+        <booleanFilter>1 AND 2 AND (3 OR 4 OR 5)</booleanFilter>
         <criteriaItems>
             <column>Shipment$DispatchDate__c</column>
             <columnToColumn>false</columnToColumn>
@@ -45,11 +46,25 @@
             <value>3/19/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Shipment$ShipToCountry</column>
+            <column>Shipment$OrderSummary.Tech_ShippingCountry__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>US</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Shipment$OrderSummary.Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>CA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Shipment$OrderSummary.Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>MX</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
