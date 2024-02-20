@@ -9,8 +9,7 @@
     
         <div id="header"> 
             <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:auto;margin-top:70px;" url="{!URLFOR($Resource.InvoiceRessources, 'Logos/RIMOWA/RIMOWA.jpg')}" width="200" height="60" alt="RIMOWA"/>
-            <!-- <div class="spacer">&nbsp;</div>
-            <div class="logo_header"></div> -->
+            <!--<div class="logo_header"></div> -->
         </div>
         <div class="div1"></div>
         
@@ -63,23 +62,22 @@
                 </td>
             </tr>
         </table>
-        <div class="spacer">&nbsp;</div>
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
                 <td class="Invoice_Inf">
-                    <span class="fett">INVOICE NUMBER :&nbsp;  <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
                     <br/>
+                    <br/>
+                    <span class="fett">INVOICE NUMBER :&nbsp;  <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
                     INVOICE DATE :&nbsp; <apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
                     ORDER NUMBER :&nbsp; <apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
                     TERM OF DELIVERY :&nbsp; <apex:outputText value="{!invoiceConfigs['TERM_OF_DELIVERY_VALUE']}"/><br/>
                     <apex:outputText value="{!invoiceConfigs['CUSTOMER_VAT_ID_IDENTIFIER']}"/> <!-- To verify 'VAT_ID_CUSTOMER' key --><br/>
-                    <br/>
                     
                    
                 </td>
                 <!-- Delivery contact information -->
-                <td class="Invoice_Inf">
+                <td class="Invoice_Inf" style="text-align: left;margin-left:-20px; padding-left: 80px">
                     DELIVERY CONTACT <br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
@@ -94,14 +92,13 @@
                 <apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/>
             </apex:outputPanel>
         </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
+		  <br/>
         <div class="invoiceLine">
             TRACKING NUMBERS :&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
         </div>
-        <div class="spacer">&nbsp;</div>
+        <br/>
+        <br/>
+        <br/>
         <table class="articles">
             <!-- Invoice line items-->
             <thead>
@@ -182,6 +179,8 @@
         </table>
         <div class="footer_text"> 
             <div class="paymentType">
+                 <br/>
+                 <br/>
                 THE TOTAL AMOUNT HAS BEEN PAID VIA&nbsp;<apex:outputText value="{!invoiceDoc.paymentType}"/>. THE INVOICE DATE IS THE SAME AS THE DATE OF THE SERVICE.
                 <br/>
             </div><br/><br/>
