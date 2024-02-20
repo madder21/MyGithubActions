@@ -44,7 +44,7 @@
                         <valueListItems>
                             <value>Invoice.CreateCorrectiveInvoice</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.isCorrectiveInvoiceElligible__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -54,11 +54,6 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Finance</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Is_Anonymized_Account__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
