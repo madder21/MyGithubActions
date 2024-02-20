@@ -23,12 +23,10 @@
                 <elementReference>C_Full_Results</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_AdaptReservations</nameSegment>
         <outputParameters>
             <assignToReference>C_Full_Results</assignToReference>
             <name>output</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -735,12 +733,6 @@
             <label>✅ Pass</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
-    <formulas>
-        <name>Fx_before_30_Day</name>
-        <dataType>DateTime</dataType>
-        <expression>{!$Flow.CurrentDateTime}-30</expression>
-    </formulas>
     <formulas>
         <name>Fx_before_30_Day</name>
         <dataType>DateTime</dataType>
