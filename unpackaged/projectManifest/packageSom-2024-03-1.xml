@@ -1,27 +1,79 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+ <types>
 	
 
-	
-
-	
-
+        <members>SOM_BatchAnonymization_5</members>
+        <name>ApexClass</name>
+    </types>
     <types>
         <members>SOM_700_Refund_Create_Refund</members>
 	     <members>SOM_SERVICE_130_GetAvailability_Manage_Results</members>
-	    
+	      <members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
+	    <members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+	    <members>SOM_410_Credit_Memo_Insert_RCU</members>
         <name>Flow</name>
     </types>
+<types>
+  	<members>WeightedAveragePurchasePrice__c</members>
+		<name>CustomObject</name>
+</types>
+     <types>
+		<members>Invoice_Record_Page</members>
+   	<members>Fulfillment_Order_Record_Page</members>
+	     <members>Order_Summary_Record_Page</members>
 
-    	
-
-
+	     <members>SOM_InvoiceKoreaDocument</members>
+		<members>SOM_InvoiceArabicDocument</members>
+		<members>SOM_InvoiceDocument</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+	  <members>WeightedAveragePurchasePrice__c.LastUploadDate__c</members>
+	  <members>WeightedAveragePurchasePrice__c.Location__c</members>
+	  <members>WeightedAveragePurchasePrice__c.SKU__c</members>
+	  <members>WeightedAveragePurchasePrice__c.WAPP__c</members>
+		<members>InvoiceLine.WAPP__c</members>
+		<members>CreditMemoLine.WAPP__c</members>
+	  <name>CustomField</name>
+</types>
+	<types>
+	<members>WeightedAveragePurchasePrice__c</members>
+	<name>CustomTab</name>
+</types>
+	<types>
+		<members>standard__OMConsole</members>  
+		<name>CustomApplication</name>
+	</types>
+ <types>
+	 
+	  <members>Invoice-Invoice Layout</members>
+	   <members>WeightedAveragePurchasePrice__c-Weighted Average Purchase Price Layout</members>
+	 <members>InvoiceLine-Invoice Line Layout</members>
+	 <members>CreditMemoLine-Credit Memo Line Layout</members>
+	  <name>Layout</name>
+</types>
+<types>
+		<members>WeightedAveragePurchasePrice__c.SKU_and_WAPP</members>
+		<name>ListView</name>
+	</types>
     <types>
         <members>Country</members>
         <name>GlobalValueSet</name>
     </types>
+<types>
+		<members>ReportsforSOM/Shipments_Report_Finance_AU</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_GB</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_KR</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_US</members>
+		<members>ReportsforSOM/Shipments_Report_a6T</members>
 
+		<name>Report</name>        
+    </types>
+<types>
+    
+		  <members>Shipments</members> 
 
-
+        <name>ReportType</name>
 <version>54.0</version>
 </Package>
