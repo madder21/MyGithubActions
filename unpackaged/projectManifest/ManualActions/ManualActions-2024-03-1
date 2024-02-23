@@ -1,0 +1,19 @@
+* Ticket : SOM-924
+    - WeightedAveragePurchasePrice__c.LastUploadDate__c : Visible for Sys amin + Ecom Operation + Finance  
+    - WeightedAveragePurchasePrice__c.Location__c : Visible for Sys amin + Ecom Operation + Finance  
+    - WeightedAveragePurchasePrice__c.SKU__c :Visible for Sys amin + Ecom Operation + Finance  
+    - WeightedAveragePurchasePrice__c.WAPP__c :Visible for Sys amin + Ecom Operation + Finance 
+
+    - Object WeightedAveragePurchasePrice__c :  Sys amin + Ecom Operation ( Read + Create + Edit + View All) + Change the tab to Default On.
+    - Object WeightedAveragePurchasePrice__c :  Finance ( Read + View All) + Change the tab to Default On.
+    
+* Ticket : SOM-871
+Delete Invoice.Is_Anonymized_Account__c
+* Ticket : SOM-925
+    - InvoiceLine.WAPP__c : Visible access for all profiles.
+
+* Ticket : SOM-927
+    - CreditMemoLine.WAPP__c : Visible access for all profiles.
+* Ticket : SOM-878
+    - TransactionalEmail__c : uncheck "Allow Search".
+    - From Setup => Search Manager, add new "Search Configurations" for the object "Order", for SOM profiles (Sys Admin, Ecom operations, CS advisor, CS team lead, Finance), take DEV as example.

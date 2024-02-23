@@ -17,8 +17,11 @@ public with sharing class SOM_Retry_Allocation{
                 oisProcessException.put(pe.AttachedToId, pe);
             }
         }
+
+        List<Schema.Location> allLocations = [SELECT Id, ExternalReference FROM Location];
+        Map<Id, Schema.Location> allLocationsMap = new Map<Id, Schema.Location>(allLocations);
         
-        List<OrderItemSummary> oisAllocated = [SELECT Id, stockKeepingUnit, ReservedAtLocationId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END, QuantityAllocated FROM OrderItemSummary WHERE Status =: SOM_Constants.ALLOCATED];
+        List<OrderItemSummary> oisAllocated = [SELECT Id, stockKeepingUnit, OriginalOrderItem.ReservedAtLocationId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END, QuantityAllocated FROM OrderItemSummary WHERE Status =: SOM_Constants.ALLOCATED];
         if(!oisAllocated.isEmpty() && oisAllocated != null){
             for(OrderItemSummary ois : oisAllocated){
                 Decimal qtyAllocated = ois.QuantityAllocated;
@@ -68,8 +71,8 @@ public with sharing class SOM_Retry_Allocation{
             
             for(OrderItemSummary ois : oisList){
                 ProcessException pe = oisProcessException.get(ois.Id);
-                Schema.Location location = (Schema.Location) ois.ReservedAtLocation;
-                
+                //Schema.Location location = (Schema.Location) ois.ReservedAtLocation;
+                Schema.Location location = (Schema.Location) allLocationsMap.get(ois.ReservedAtLocationId);
                 if(allocatedItemsMap.get(location.ExternalReference + ois.stockKeepingUnit) == null) {
                     allocatedItemsMap.put(location.ExternalReference + ois.stockKeepingUnit, 0);
                 }

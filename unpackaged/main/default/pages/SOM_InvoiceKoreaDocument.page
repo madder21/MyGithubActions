@@ -9,8 +9,7 @@
     
         <div id="header"> 
             <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:auto;margin-top:70px;" url="{!URLFOR($Resource.InvoiceRessources, 'Logos/RIMOWA/RIMOWA.jpg')}" width="200" height="60" alt="RIMOWA"/>
-            <!-- <div class="spacer">&nbsp;</div>
-            <div class="logo_header"></div> -->
+            <!-- <div class="logo_header"></div> -->
         </div>
         <div class="div1"></div>
         
@@ -40,9 +39,10 @@
             <tr>
                 <!-- Billing contact information -->
                 <td class="Bill_Contact_Inf">
-                <div style="font-size: 13px; padding: 3px 0px;">
+                <div style="font-size: 13px; padding: 4px 0px;">
                 결제 주소
                 </div>
+                    <br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
                     <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
@@ -64,22 +64,21 @@
                 </td>
             </tr>
         </table>
-        <div class="spacer">&nbsp;</div>
         <table class="metadata_delivery_contact">
             <tr>
                 <!-- Invoice information -->
                 <td class="Invoice_Inf">
-                    <span class="fett">대한민국 :&nbsp;  <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
                     <br/>
+                    <br/>
+                    <span class="fett">대한민국 :&nbsp;  <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
                     인보이스 일자 :&nbsp; <apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
                     주문번호 :&nbsp; <apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
                     <apex:outputText value="{!invoiceConfigs['CUSTOMER_VAT_ID_IDENTIFIER']}"/> <!-- To verify 'VAT_ID_CUSTOMER' key --><br/>
-                    <br/>
                     
                    
                 </td>
                 <!-- Delivery contact information -->
-                <td class="Invoice_Inf">
+                <td class="Invoice_Inf" style="text-align: left;margin-left:-20px; padding-left: 80px" >
                 <div style="font-size: 13px; padding: 3px 0px;">
                 배송 주소
                 </div>
@@ -97,9 +96,6 @@
                 <apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/>
             </apex:outputPanel>
         </div>
-        <br/>
-        <br/>
-        <br/>
         <br/>
         <div class="invoiceLine">
             <NOBR style="font-size: 13px; padding: 3px 0px;">운송장 번호 :</NOBR>&nbsp;<apex:outputText style="text-transform: uppercase;" value="{!invoiceDoc.trackingNumbers}"/>
@@ -185,6 +181,9 @@
         </table>
         <div class="footer_text"> 
             <div class="paymentType">
+                <br/>
+                <br/>
+                
                 총판매금액은 &nbsp;<apex:outputText value="{!invoiceDoc.paymentType}"/>로 결제되었습니다. 인보이스 일자는 구매일자와 상이할 수 있습니다.
                 <br/>
             </div><br/><br/>

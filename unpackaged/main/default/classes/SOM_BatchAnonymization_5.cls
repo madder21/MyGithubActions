@@ -16,6 +16,7 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
     PrivacyRequest__c privacyReq = new PrivacyRequest__c();
     List<PrivacyRequest__c> privacyRequestsToInsert = new List<PrivacyRequest__c>();
     List<Account> clientsToBeUpdated = new List<Account>();
+    List<Invoice> InvoiceToBeUpdated = new List<Invoice>();
     Boolean isSuccess = true;
 
     public SOM_BatchAnonymization_5(List<String> paymentMethodIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
@@ -73,6 +74,14 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
                 clientsToBeUpdated.add(cli);
             }
             update clientsToBeUpdated;
+            
+            List<Invoice> InvoiceList = [SELECT isCorrectiveInvoiceElligible__c FROM Invoice where BillingAccountId IN :cls];
+            for(Invoice Inv : InvoiceList){
+                Inv.isCorrectiveInvoiceElligible__c  = false;
+                InvoiceToBeUpdated.add(Inv);
+            }
+            update InvoiceToBeUpdated;
+            
             String anonymLogToSend = string.valueof(ordNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
             List<OrderSummary> nonAnomizedList = [SELECT Id, Status, OrderNumber FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
             List<String> nonAnonymOrdNumbers = new List<String>();

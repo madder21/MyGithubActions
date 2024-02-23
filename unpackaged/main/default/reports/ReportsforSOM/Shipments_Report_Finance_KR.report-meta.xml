@@ -25,7 +25,7 @@
         <field>Shipment.ShipmentItems$Quantity</field>
     </columns>
     <columns>
-        <field>Shipment$ShipToCountry</field>
+        <field>Shipment$OrderSummary.Tech_ShippingCountry__c</field>
     </columns>
     <currency>EUR</currency>
     <filter>
@@ -44,7 +44,7 @@
             <value>10/18/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Shipment$ShipToCountry</column>
+            <column>Shipment$OrderSummary.Tech_ShippingCountry__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>

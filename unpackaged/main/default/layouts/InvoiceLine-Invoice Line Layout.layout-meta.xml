@@ -48,6 +48,10 @@
                 <behavior>Required</behavior>
                 <field>Type</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>WAPP__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -83,14 +87,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ChargeTaxAmount</field>
+                <field>TaxAmount</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>TaxAmount</field>
+                <field>ChargeAmountWithTax</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns />
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
@@ -98,8 +102,8 @@
         <detailHeading>true</detailHeading>
         <editHeading>true</editHeading>
         <label>InvoiceLineAddressInformation</label>
-        <layoutColumns />
-        <layoutColumns />
+        <layoutColumns/>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <layoutSections>
