@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>US_Orders</fullName>
+    <columns>Name</columns>
+    <columns>Account</columns>
+    <columns>GrandTotalAmount</columns>
+    <columns>OrderedDate</columns>
+    <columns>Status</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>CurrencyIsoCode</field>
+        <operation>equals</operation>
+        <value>GBP</value>
+    </filters>
+    <filters>
+        <field>Status</field>
+        <operation>equals</operation>
+        <value>Fulfilling</value>
+    </filters>
+    <label>UK Orders</label>
+</ListView>
