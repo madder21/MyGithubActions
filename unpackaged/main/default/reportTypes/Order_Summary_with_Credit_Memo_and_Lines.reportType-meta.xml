@@ -490,6 +490,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ecom or C&amp;C</displayNameOverride>
             <field>tech_os_store_shipping_method__c</field>
             <table>OrderSummary</table>
         </columns>
@@ -511,6 +512,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>BillingPostalCode</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsGlobalE__c</field>
             <table>OrderSummary</table>
         </columns>
         <masterLabel>Order Summaries</masterLabel>
@@ -669,6 +675,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>TotalAmountWithTax</field>
+            <table>OrderSummary.CreditMemos</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Credit_Memo_Date__c</field>
             <table>OrderSummary.CreditMemos</table>
         </columns>
         <masterLabel>Credit Memos</masterLabel>
