@@ -73,8 +73,13 @@ global with sharing class SOM_CreateInvoicePDFFileAction {
                 OrderCountry    = maporiginalInvoiceIds.get(correctiveInvoice.OriginalInvoiceId__c).FulfillmentOrders.get(0).FulfilledToCountry;
                 listCinvoices.add(new CorrectiveInvoice__c(Id = inv,PDFGenerationStatus__c = SOM_Constants.PDF_GENERATION_STATUS_GENERATED));
             
-                if(OrderCountry == 'AE') page = new PageReference('/apex/SOM_InvoiceArabicDocument');
-                else page = new PageReference('/apex/SOM_InvoiceDocument');
+                if(OrderCountry == 'AE'){
+                    page = new PageReference('/apex/SOM_InvoiceArabicDocument');
+                }else if(OrderCountry == 'KR'){
+                    page = new PageReference('/apex/SOM_InvoiceKoreaDocument');
+                }else{
+                    page = new PageReference('/apex/SOM_InvoiceDocument');
+                }
                 page.getParameters().put('invoiceId', inv);
                 page.getParameters().put('template', OrderCountry);
 
