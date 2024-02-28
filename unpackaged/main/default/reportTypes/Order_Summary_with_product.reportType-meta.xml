@@ -4,7 +4,6 @@
     <category>activities</category>
     <deployed>true</deployed>
     <description>Order Summary with product</description>
-    
     <join>
         <outerJoin>false</outerJoin>
         <relationship>OrderItemSummaries</relationship>
@@ -489,6 +488,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>BillingPostalCode</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderedDate__c</field>
             <table>OrderSummary</table>
         </columns>
         <masterLabel>Order Summaries</masterLabel>
