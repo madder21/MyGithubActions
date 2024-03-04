@@ -31,6 +31,7 @@ global with sharing class SOM_InvoiceDocumentController {
     }
 
     public void setInvoiceData(){
+        String templateCode = ApexPages.currentPage().getParameters().get('template');
         InvoiceDocument invDoc        = new InvoiceDocument();
         InvoiceContact invCtr         = new InvoiceContact();
         CorrectiveInvoice__c cInvoice = null;
@@ -40,7 +41,11 @@ global with sharing class SOM_InvoiceDocumentController {
             cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate, Corrective_Invoice_Date__c FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
             Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
             String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
-            this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
+            if(templateCode == 'KR'){
+            	this.correctiveInvoiceHeaderMessage = '이 인보이스는 기존 인보이스 '+ previousInv +' 를 취소하고 대체합니다.';
+            }else {
+            	this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
+            }
             invoiceId = originalInvoice.Id;        
         }
         

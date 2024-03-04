@@ -460,6 +460,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Ecom or C&amp;C</displayNameOverride>
             <field>tech_os_store_shipping_method__c</field>
             <table>OrderSummary</table>
         </columns>
@@ -511,6 +512,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Tech_VAT_Id_Customer__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsGlobalE__c</field>
             <table>OrderSummary</table>
         </columns>
         <masterLabel>Order Summaries</masterLabel>
@@ -672,6 +678,11 @@
             <field>isCorrectiveInvoiceElligible__c</field>
             <table>OrderSummary.Invoices</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Invoice_Timezone_Date__c</field>
+            <table>OrderSummary.Invoices</table>
+        </columns>
         <masterLabel>Invoices</masterLabel>
     </sections>
     <sections>
@@ -809,6 +820,16 @@
             <checkedByDefault>false</checkedByDefault>
             <displayNameOverride>SKU</displayNameOverride>
             <field>Product2.StockKeepingUnit</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2.Name</field>
+            <table>OrderSummary.Invoices.InvoiceLines</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2.isSerialized__c</field>
             <table>OrderSummary.Invoices.InvoiceLines</table>
         </columns>
         <masterLabel>Invoice Lines</masterLabel>
