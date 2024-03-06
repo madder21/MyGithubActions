@@ -8,9 +8,30 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|07062023			|.PLM		|.					|.
+ * 0.1		|01032024			|.PLM		|.CI-303			|.Creation of 2 new methods: rejectOptinWithoutEmail(List<Account>)  
+ * 			|					|			|					|							 rejectOptinWithoutEmail((Map<Id,sObject> newAccounts, Map<Id,sObject> oldAccounts))
 */
 
 public without sharing class AccountConsent_SVE {
+    
+    /*
+    * @param newAccounts : New account from trigger.New
+    * @param oldAccounts : Existing account from trigger.Update
+    * @return void
+    */
+    
+    public static void checkKPIFieldsValues(List<Account> newAccounts, Map<id, Account> oldAccounts) {
+        
+        for(Account acc: newAccounts) {
+            Account oldAcc = oldAccounts.get(acc.Id);
+            acc.ClientAdvisor__pc = (acc.ClientAdvisor__pc == null) ? oldAcc.ClientAdvisor__pc : null;
+            acc.MainStore__pc = (acc.MainStore__pc == null) ? oldAcc.MainStore__pc : null; 
+        } 
+        System.debug('*** newAccounts ***: '+newAccounts);
+    }
+    
+   
+    
     
     /*
     * @description Create B2CCustomInput For Retail trouchpoints (DDC & CEGID)
@@ -20,12 +41,13 @@ public without sharing class AccountConsent_SVE {
     * @return void
     */
     public static void createB2CCustomInputForRetail(Map<id, sObject> newAccounts, Map<id, sObject> oldAccounts) {
+        System.debug('PLM TRACK : I m here createB2CCustomInputForRetail');
         Boolean isNew = oldAccounts?.isEmpty()? true : false;
         List<B2CCustomInput__c> customInputs= new List<B2CCustomInput__c> ();
         List<Account> accounts = new List<Account>();
 		
-        //if we are in Trigger context New : just take in consideration newAccounts Map, if we are in Update context check if there are changes in the Accounts
-        accounts = isNew? (List<Account>)newAccounts.Values() : filterOnUpdatedAccount(newAccounts,oldAccounts);        
+        //if we are in Trigger context New : just take in consideration newAccounts Map, if we are in Update context check if there are changes in the Accounts 
+        accounts = isNew? (List<Account>)newAccounts.Values() : filterOnUpdatedAccount(newAccounts, oldAccounts);        
         
         ConsentSource__mdt consentSource = ConsentSource__mdt.getInstance(System.Label.LABS_ConsentSourceName_Retail);
         
@@ -36,10 +58,12 @@ public without sharing class AccountConsent_SVE {
                 }
             }
             if (!customInputs.isEmpty()) {
+                System.debug('PLM TRACK : Cust input to create : ' + customInputs);
                insert customInputs; 
             }
         }
     }
+    
     
     /*
     * @description Create a B2CCustomInput record for a given account
@@ -54,7 +78,6 @@ public without sharing class AccountConsent_SVE {
             customInput.AccountId__c = client.Id;
             customInput.CaptureContactPointType__c = consentSource.capturePointType__c;
             customInput.CaptureSource__c = consentSource.captureSource__c;
-            customInput.contactPointType__c = null;
             customInput.CustomContactPointType__c = consentSource.TypeSource__c;
             customInput.EmailConsent__c = client.OptinEmailing__pc;
             customInput.OptinCGI__c = client.OptinCGI__c;
@@ -113,4 +136,47 @@ public without sharing class AccountConsent_SVE {
                 client.OptinMarketingPartner__c;
         return status;
     }
+    
+    /**
+     * @description This method iterates over a list of accounts and sets the OptinEmailing__pc field to false
+     * for accounts that do not have a personEmail value.
+     * @param accountList List of Account records to process.
+     * @return the accountList in the trigger context
+     */
+    public static void rejectOptinWithoutEmail(List<Account> accountList) {
+        for(Account acc : accountList) {
+            if(String.isBlank(acc.personEmail)) {
+                acc.OptinEmailing__pc = false;
+            }
+        }
+    }
+    
+    /**
+     * This method compares new and old account records to determine if the opt-in status has changed
+     * and if the email address is missing. If the opt-in status has changed and there is no email address,
+     * it updates the opt-in status to false and records the timestamp of the update.
+     * @param newAccounts Map containing new Account records, where the key is the account ID.
+     * @param oldAccounts Map containing old Account records, where the key is the account ID.
+     * @return the accounts into the map in the trigger context
+     */
+    public static void rejectOptinWithoutEmail(Map<Id, sObject> newAccounts, Map<Id, sObject> oldAccounts) {
+        for (sObject obj : newAccounts.values()) {
+            Account newAccount = (Account)obj;
+            Account oldAccount = (Account)oldAccounts.get(newAccount.Id);
+            
+            Boolean contactIsOptin = newAccount.optinEmailing__pc;
+            Boolean optinEmailingHasChanged = newAccount.optinEmailing__pc != oldAccount.optinEmailing__pc;
+            Boolean emailIsExist = String.isNotBlank(newAccount.personEmail);
+            
+            if (contactIsOptin && !emailIsExist) {
+                if (optinEmailingHasChanged) {
+                    newAccount.optinEmailing__pc = false;
+                    newAccount.lastUpdateOptinEmailing__pc = System.now();
+                } else {
+                    newAccount.optinEmailing__pc = false;
+                }
+            }
+        }
+    }
+
 }
