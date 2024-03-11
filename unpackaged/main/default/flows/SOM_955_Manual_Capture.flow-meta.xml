@@ -288,10 +288,38 @@
                 <stringValue>Failed</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>OrderPaymentSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Payment_Summary.Id</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Payment</object>
         <sortField>CreatedDate</sortField>
         <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Payment_Summary</name>
+        <label>Get Order Payment Summary</label>
+        <locationX>319</locationX>
+        <locationY>363</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Last_Payment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderPaymentSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -460,7 +488,7 @@
         <allowPause>false</allowPause>
         <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Get_Last_Payment</targetReference>
+            <targetReference>Get_Order_Payment_Summary</targetReference>
         </connector>
         <fields>
             <name>confirmMsg</name>
