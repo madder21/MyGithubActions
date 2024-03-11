@@ -60,6 +60,13 @@
                     <stringValue>CEGID</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Account.isPurged__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Invoices</targetReference>
             </connector>
@@ -144,7 +151,7 @@
         <connector>
             <targetReference>is_OS_Fulfilled</targetReference>
         </connector>
-        <filterLogic>( 1 OR 2 OR 3 OR 4 OR 5 OR 6 OR 7 ) AND 8</filterLogic>
+        <filterLogic>or</filterLogic>
         <filters>
             <field>BillingContactFirstName__c</field>
             <operator>IsChanged</operator>
@@ -194,16 +201,9 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
-        <filters>
-            <field>BillingPhoneNumber</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </filters>
         <object>OrderSummary</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
 </Flow>
