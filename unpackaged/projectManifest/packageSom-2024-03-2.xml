@@ -17,6 +17,8 @@
 		<members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
 		<members>SOM_Cancel_OIS_and_Release_Reservation</members>
 	        <members>SOM_Fraud_FraudAnalysisHandler</members>
+		 <members>SOM_Automatic_refund_in_Cybersource</members>
+		 members>SOM_955_Manual_Capture</members>
 	        <name>Flow</name>
 	    </types>
 	 <types>
@@ -24,6 +26,10 @@
 		  <members>OrderSummary-Order Summary Layout</members>
 		  
 		  <name>Layout</name>
+	</types>
+	<types>
+		<members>Order_Payment_Summary_Record_Page</members>  
+		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>somLwcDisplayFoliAvailableToShip</members>
@@ -39,7 +45,9 @@
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_AU</members>
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_KR</members>
 		<members>ReportsforSOM/Sales_Report_Invoice_US</members>
-	
+	<members>ReportsforSOM/Order_Summary_with_Refunds_Report_ekT</members>
+	<members>ReportsforSOM/Refunds_Report_UK_R41</members>
+		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
 		<name>Report</name>        
 </types>
 <types>

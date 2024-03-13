@@ -202,6 +202,140 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <actionCalls>
+        <name>Automatic_Refund_In_Cybersource_0_0_0</name>
+        <label>Automatic Refund In Cybersource</label>
+        <locationX>1308</locationX>
+        <locationY>767</locationY>
+        <actionName>WS_SOM_AutomaticRefundInCybersource</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Set_Refund_Values_to_Update_ACC</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>amount_currency</name>
+            <value>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>captureRequestID</name>
+            <value>
+                <elementReference>Get_Payment.GatewayRefNumber</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>grandTotalAmount</name>
+            <value>
+                <elementReference>recordId.Amount</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>merchantId</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>merchantReferenceCode</name>
+            <value>
+                <elementReference>recordId.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Password</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RefundId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RefundMethod</name>
+            <value>
+                <stringValue>ACC</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>url</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Automatic_Refund_In_Cybersource_0_0_0_0</name>
+        <label>Automatic Refund In Cybersource</label>
+        <locationX>692</locationX>
+        <locationY>793</locationY>
+        <actionName>WS_SOM_AutomaticRefundInCybersource</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Set_Refund_Values_to_Update_RBT</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>amount_currency</name>
+            <value>
+                <elementReference>recordId.CurrencyIsoCode</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>captureRequestID</name>
+            <value>
+                <elementReference>Get_Payment.GatewayRefNumber</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>grandTotalAmount</name>
+            <value>
+                <elementReference>recordId.Amount</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>merchantId</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>merchantReferenceCode</name>
+            <value>
+                <elementReference>recordId.OrderPaymentSummary.OrderSummary.OrderNumber</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>Password</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RefundId</name>
+            <value>
+                <elementReference>recordId.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RefundMethod</name>
+            <value>
+                <stringValue>RBT</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>url</name>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Generate_Refund_Validation_Transactional_Email</name>
         <label>Generate Refund Validation Transactional Email</label>
         <locationX>1544</locationX>
@@ -250,6 +384,57 @@
         </inputParameters>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>Set_Refund_Values_to_Update_ACC</name>
+        <label>Set Refund Values to Update ACC</label>
+        <locationX>1312</locationX>
+        <locationY>1022</locationY>
+        <assignmentItems>
+            <assignToReference>RefundStatus</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Processed</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundGatewayRefNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0.requestID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundRefundMethod</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>KCP_ACC</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundValidationDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0.requestDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundReconciliationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0.reconciliationID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundDecision</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0.decision</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_PE</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>Set_Refund_Values_to_Update_CC</name>
         <label>Set Refund Values to Update CC</label>
@@ -403,6 +588,57 @@
             <targetReference>Get_PE</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Set_Refund_Values_to_Update_RBT</name>
+        <label>Set Refund Values to Update RBT</label>
+        <locationX>692</locationX>
+        <locationY>979</locationY>
+        <assignmentItems>
+            <assignToReference>RefundStatus</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Processed</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundGatewayRefNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0_0.requestID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundRefundMethod</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>KCP_RBT</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundValidationDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0_0.requestDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundReconciliationId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0_0.reconciliationID</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundDecision</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Automatic_Refund_In_Cybersource_0_0_0_0.decision</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_PE</targetReference>
+        </connector>
+    </assignments>
     <constants>
         <name>TransactionalEmailRefundWithCreditMemoTemp</name>
         <dataType>String</dataType>
@@ -417,31 +653,6 @@
             <stringValue>RefundValidationMissingProduct</stringValue>
         </value>
     </constants>
-    <decisions>
-        <name>Check_Payment_Balance</name>
-        <label>Check Payment Balance</label>
-        <locationX>1424</locationX>
-        <locationY>950</locationY>
-        <defaultConnector>
-            <targetReference>Create_Refund_Line_Payment_0</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Create RefundLinePayment - Balance</defaultConnectorLabel>
-        <rules>
-            <name>Create_RefundLinePayment_Amount</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>recordId.Amount</leftValueReference>
-                <operator>LessThanOrEqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Payment.Balance</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_Refund_Line_Payment</targetReference>
-            </connector>
-            <label>Create RefundLinePayment - Amount</label>
-        </rules>
-    </decisions>
     <decisions>
         <name>Check_Refund_Origin_to_Launch_Email</name>
         <label>Check Refund Origin to Launch Email</label>
@@ -615,6 +826,50 @@
             </connector>
             <label>PM DW KLARNA</label>
         </rules>
+        <rules>
+            <name>PM_DW_KCP_ACC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1DW</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>KCP_ACC</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Automatic_Refund_In_Cybersource_0_0_0</targetReference>
+            </connector>
+            <label>PM DW KCP_ACC</label>
+        </rules>
+        <rules>
+            <name>PM_DW_KCP_RBT</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1DW</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>KCP_RBT</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Automatic_Refund_In_Cybersource_0_0_0_0</targetReference>
+            </connector>
+            <label>PM DW KCP_RBT</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Update_PE_0</name>
@@ -719,8 +974,8 @@
     <recordCreates>
         <name>Create_Refund_Line_Payment</name>
         <label>Create Refund Line Payment</label>
-        <locationX>1555</locationX>
-        <locationY>1192</locationY>
+        <locationX>1426</locationX>
+        <locationY>1213</locationY>
         <connector>
             <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
         </connector>
@@ -728,53 +983,6 @@
             <field>Amount</field>
             <value>
                 <elementReference>recordId.Amount</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>CurrencyIsoCode</field>
-            <value>
-                <elementReference>recordId.CurrencyIsoCode</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>HasBeenUnapplied</field>
-            <value>
-                <stringValue>No</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>PaymentId</field>
-            <value>
-                <elementReference>Get_Payment.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>RefundId</field>
-            <value>
-                <elementReference>recordId.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <stringValue>Applied</stringValue>
-            </value>
-        </inputAssignments>
-        <object>RefundLinePayment</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_Refund_Line_Payment_0</name>
-        <label>Create Refund Line Payment</label>
-        <locationX>1431</locationX>
-        <locationY>1155</locationY>
-        <connector>
-            <targetReference>Check_Refund_Origin_to_Launch_Email</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Amount</field>
-            <value>
-                <elementReference>Get_Payment.Balance</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1115,7 +1323,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Check_Payment_Balance</targetReference>
+            <targetReference>Create_Refund_Line_Payment</targetReference>
         </connector>
         <fields>
             <name>DisplayText_0</name>
