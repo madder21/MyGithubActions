@@ -1,24 +1,3 @@
-* Ticket : SOM-924
-    - WeightedAveragePurchasePrice__c.LastUploadDate__c : Visible for Sys amin + Ecom Operation + Finance +  Technical Profil
-    - WeightedAveragePurchasePrice__c.Location__c : Visible for Sys amin + Ecom Operation + Finance  + Technical Profil
-    - WeightedAveragePurchasePrice__c.SKU__c :Visible for Sys amin + Ecom Operation + Finance + Technical Profil
-    - WeightedAveragePurchasePrice__c.WAPP__c :Visible for Sys amin + Ecom Operation + Finance + Technical Profil
-
-    - Object WeightedAveragePurchasePrice__c :  Sys amin + Ecom Operation ( Read + Create + Edit + View All) + Change the tab settigs to Tab Hidden for all profiles.
-    - Object WeightedAveragePurchasePrice__c :  Finance ( Read + View All) + Change the tab settigs to Tab Hidden for all profiles.
-    - Give the user API Fivetran read access to the object
-
-* Ticket : SOM-944
-    - Make sure this values are created for the custom metada type : SOM Invoice Settings
-            Label	        SOM Invoice Setting Name	      Template	         Value
-        -> TAX_TITLE	        TAX_TITLE_AU	 	            AU	              GST
-        -> TAX_TITLE	        TAX_TITLE_US	 	            US	              TAX
-        -> TAX_TITLE	        TITLE_CoreModel	 	          CoreModel	          TAX 
-* Ticket : SOM-822
-    -We need to Program the scope = 1  for the batch SOM_Retry_Allocation_Batch.
- -System.schedule('SOM_Scheduled_BatchRetryAllocation 1   test 12','00 00 * * * ?',new SOM_Scheduled_BatchRetryAllocation ());
- -System.schedule('SOM_Scheduled_BatchRetryAllocation 2  test 12','00 20 * * * ?',new SOM_Scheduled_BatchRetryAllocation ());
- -System.schedule('SOM_Scheduled_BatchRetryAllocation 3   test 12','00 40 * * * ?',new SOM_Scheduled_BatchRetryAllocation ());
 
 * Ticket : SOM-917
     - Refund.RefundMethod__c : add "KCP_ACC" and "KCP_RBT" values to the picklist
