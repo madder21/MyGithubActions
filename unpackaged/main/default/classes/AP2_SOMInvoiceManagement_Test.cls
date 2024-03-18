@@ -19,6 +19,7 @@
  * SOM_GetAssetIdByCustomerKeyInSFMC| 	getAssetIdSFMCError				|	Test of Catch error when API parameters are not correctly set, the seeAllData = false permit to not set the Custom Settings which lead to an Error 400
  * SOM_DeleteInSFMCAsset			|	deleteAssetInSFMCSuccess		|	Test of success deletion of asset from API Call
  * SOM_DeleteInSFMCAsset			|	deleteAssetInSFMCError			|	Test of Catch error deletion of asset from API Call
+ * SOM_getInvoiceDetail				|	getInvoiceDetail_Test			|	Test of json reading and returning the good variable : Id, Name, Url, Currency and Amount from the invoice inside the EmailContent JSON
  * 
  * ****************************************************************************************************************************************************************
  * @Version : 
@@ -26,11 +27,34 @@
  * 0.0		|2023/03/03			|.PLM			|.						|.original version
  * 0.1		|2023/03/08			|.PLM			|.						|.add testSetup, Add Test Method for Deletion of asset, Add Test Method for Asset ID querying
  * 0.2		|2023/04/18			|.PLM			|.						|.Modification of All Assert, replace System.assertEquals by Assert Class, Modification of serverAzureConnectionSuccess() test method
+ * 0.3		|2024/03/09			|.PLM			|.CI-319				|.Add global test variable : EmailContent, add test method getInvoiceDetail_Test for SOM_getInvoiceDetail, 
+ * 																		  modification of generateOneInvoiceInSFMCSuccess to include EmailContent
 */
 @IsTest
 public with sharing class AP2_SOMInvoiceManagement_Test {
     public static OrderSummary os = new OrderSummary();
-    
+    public static String emailContent = '{\n'+
+        '"orderNumber" : "DV400001203",\n'+
+        '"orderCivility" : "2",\n'+
+        '"invoiceURL" : "https://api-nprd.rimowa.com/qa/som-eapi/v1/invoices/3tt0D0000008QQcQAM",\n'+
+        '"invoiceNumber" : "I000000079US",\n'+
+        '"invoiceCurrency" : "USD",\n'+
+        '"invoiceAmount" : 2511.00,\n'+
+        '"deliveryZipcode" : "13905-4575",\n'+
+        '"deliveryStreet" : "78 Chapin St Apt 1",\n'+
+        '"deliveryState" : "NY",\n'+
+        '"deliveryName" : "Maha Meghras",\n'+
+        '"deliveryCountry" : "United States of America",\n'+
+        '"deliveryCity" : "Binghamton",\n'+
+        '"channel" : "Rimowa",\n'+
+        '"billingZipcode" : "13905-4575",\n'+
+        '"billingStreet" : "78 Chapin St Apt 1",\n'+
+        '"billingState" : "NY",\n'+
+        '"billingLastName" : "Meghras",\n'+
+        '"billingFirstName" : "Maha",\n'+
+        '"billingCountry" : "United States of America",\n'+
+        '"billingCity" : "Binghamton"\n'+
+        '}';
     public static void testSetup(){        
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,3);
         os = los[0];
@@ -169,15 +193,17 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                                                          email__c = accTest.PersonEmail, 
                                                                          OrderSummary__c = os.Id, 
                                                                          Status__c = SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_TO_SEND, 
-                                                                         Template__c = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE);
+                                                                         Template__c = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,
+                                                                         EmailContent__c = emailContent);
         
 		insert transacEmail;
         Test.stopTest();
-        TransactionalEmail__c transEmail= [SELECT ID,Name,email__c,TECH_GenerateInvoice__c,OrderSummary__c,Client__c,TECH_CustomerKey__c from TransactionalEmail__c
-                                 WHERE Template__c = :SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE
-                                	AND Status__c = :SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_TO_SEND
-                                           AND email__c = :accTest.PersonEmail
-                                           AND Client__c = :accTest.Id AND OrderSummary__c = :os.Id LIMIT 1];
+        TransactionalEmail__c transEmail= [SELECT ID, Name, EmailContent__c, email__c, TECH_GenerateInvoice__c, OrderSummary__c, Client__c, TECH_CustomerKey__c 
+                                           FROM TransactionalEmail__c
+                                 		   WHERE Template__c = :SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE
+                                			AND Status__c = :SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_TO_SEND
+                                            AND email__c = :accTest.PersonEmail
+                                            AND Client__c = :accTest.Id AND OrderSummary__c = :os.Id LIMIT 1];
         System.debug('**AP2 TEST : generateOneInvoiceInSFMCSuccess : ' + transEmail);
         Assert.isTrue(transEmail.TECH_GenerateInvoice__c);
         Assert.areNotEqual('Error',transEmail.TECH_CustomerKey__c);
@@ -209,5 +235,18 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Assert.isNull(trEmail.TECH_CustomerKey__c);
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,trEmail.Template__c);
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_SENT,trEmail.Status__c);
+    }
+     @isTest (seeAllData = false)
+    static void getInvoiceDetail_Test(){
+        
+        Map<String,String> invoice = new Map<String,String>();
+        Test.startTest();
+            invoice= AP2_SOMInvoiceManagement.SOM_getInvoiceDetail(emailContent);
+        Test.stopTest();
+        Assert.AreEqual('https://api-nprd.rimowa.com/qa/som-eapi/v1/invoices/3tt0D0000008QQcQAM', invoice.get('Url'));
+        Assert.AreEqual('3tt0D0000008QQcQAM',invoice.get('Id'));
+        Assert.AreEqual('I000000079US',invoice.get('Name'));
+        Assert.AreEqual('USD',invoice.get('Currency'));
+        Assert.AreEqual('2511.00',invoice.get('Amount'));    
     }
 }
