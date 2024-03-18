@@ -6,12 +6,32 @@
 		<members>SOM_SalesPaymentsReportMonthAUSchedule</members>
 		<members>SOM_SalesPaymentsReportMonthKRSchedule</members>
 		<members>SOM_USReportMonthSchedule</members>
-		<members>SOM_InvoiceManagement</members>
+	      
+		<!--members>SOM_InvoiceManagement</members-->
 		<members>SOM_CreateInvoicePDFFileAction</members>
 		<members>SOM_InvoiceDocumentController</members>
 		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
 		<members>SOM_AutomatedEmailWithProcess_Test</members>
+	        <members>Logs</members>
+		<members>Logs_Test</members>
 		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Log__c.Debug_message__c</members>
+		<members>Log__c.LineNumber__c</members>
+		<members>Log__c.LogLevel__c</members>
+		<members>LogLevel__mdt.Level__c</members>
+
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>Log__c.Log</members>
+		<name>RecordType</name>
+	</types>
+	<types>
+		<members>Log__c</members>
+		<members>LogLevel__mdt</members>
+		<name>CustomObject</name>
 	</types>
 	 <types>
 		<members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
@@ -25,7 +45,8 @@
 	 <types>
 	 
 		  <members>OrderSummary-Order Summary Layout</members>
-		  
+		  <members>Log__c-Log__c-Log Layout</members>
+			<members>LogLevel__mdt-Log Level Layout</members>
 		  <name>Layout</name>
 	</types>
 	<types>
