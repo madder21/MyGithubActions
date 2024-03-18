@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 <types>
-		<!--members>SOM_SalesAndPaymentsReportMonthSchedule</members>
+		<members>SOM_SalesAndPaymentsReportMonthSchedule</members>
 		<members>SOM_SalesPaymentsReportUKMonthSchedule</members>
 		<members>SOM_SalesPaymentsReportMonthAUSchedule</members>
 		<members>SOM_SalesPaymentsReportMonthKRSchedule</members>
-		<members>SOM_USReportMonthSchedule</members-->
+		<members>SOM_USReportMonthSchedule</members>
 	      
 		<!--members>SOM_InvoiceManagement</members-->
-		<!--members>SOM_CreateInvoicePDFFileAction</members>
+		<members>SOM_CreateInvoicePDFFileAction</members>
 		<members>SOM_InvoiceDocumentController</members>
 		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
-		<members>SOM_AutomatedEmailWithProcess_Test</members-->
-	        <!--members>Logs</members-->
-		<!--members>Logs_Test</members-->
+		<members>SOM_AutomatedEmailWithProcess_Test</members>
+	        <members>Logs</members>
+		<members>Logs_Test</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -33,7 +33,7 @@
 		<members>LogLevel__mdt</members>
 		<name>CustomObject</name>
 	</types>
-	 <!--types>
+	 <types>
 		<members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
 		<members>SOM_Cancel_OIS_and_Release_Reservation</members>
 	        <members>SOM_Fraud_FraudAnalysisHandler</members>
@@ -41,23 +41,23 @@
 		<members>SOM_955_Manual_Capture</members>
 		   
 	        <name>Flow</name>
-	    </types-->
-	 <!--types>
+	    </types>
+	 <types>
 	 
-		 <members>OrderSummary-Order Summary Layout</members>
+		<members>OrderSummary-Order Summary Layout</members>
 		  <members>Log__c-Log Layout</members>
 			<members>LogLevel__mdt-Log Level Layout</members>
 		  <name>Layout</name>
-	</types-->
-	<!--types>
+	</types>
+	<types>
 		<members>Order_Payment_Summary_Record_Page</members>  
 		<name>FlexiPage</name>
-	</types-->
-	<!--types>
+	</types>
+	<types>
 		<members>somLwcDisplayFoliAvailableToShip</members>
 		<name>LightningComponentBundle</name>
-	</types-->
-	<!--types>
+	</types>
+	<types>
 	<members>ReportsforSOM/Payments_Report_KR</members>
 		<members>ReportsforSOM/Payments_Report_AU</members>
 		<members>ReportsforSOM/Refunds_Report_AU</members>
@@ -71,19 +71,18 @@
 	<members>ReportsforSOM/Refunds_Report_UK_R41</members>
 		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
 		<name>Report</name>        
-</types-->
+</types>
 <types>
 	<members>Order_Summary_with_Credit_Memo_and_Lines</members> 
 	<members>Order_Summary_with_Refunds</members>
 	<members>Order_Summary_with_Invoices_and_Invoice_Lines</members>
 	<members>Order_Summary_With_Payments</members>  
-	
   <name>ReportType</name>
 </types>
-	<!--types>
+	<types>
 	<members>somLwcDisplayFoliAvailableToShip</members>
 	<name>LightningComponentBundle</name>
-</types-->
+</types>
 	<types> 
         <members>SOM_CSC_Refund_Creation</members>
         <name>PermissionSet</name>
