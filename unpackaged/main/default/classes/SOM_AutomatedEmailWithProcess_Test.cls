@@ -9,7 +9,6 @@ public with sharing class SOM_AutomatedEmailWithProcess_Test {
 
           scheduler.execute(null);
 
-          Test.stopTest();
           System.assertEquals(1,1); 
     	  Test.stopTest();
    }
