@@ -11,6 +11,7 @@
  * 0.0		|2023/03/03			|.PLM		|.					|.original version with method SOM_ServerConnect, SOM_AuthSMFCAccessToken and SOM_UploadInSFMCAsset						
  * 0.1		|2023/03/08			|.PLM		|.					|.Add method to find Asset ID in SFMC by querying the customer Key, Add methods to delete Asset by Asset ID.	
  * 0.2		|2023/04/18			|.PLM		|.					|.Modification of SOM_ServerConnect method to use the Name credential "Invoice Document Mulesoft Endpoint", by using the class SOM_DownloadInvoiceDocumentController
+ * 0.3		|2024/03/09			|.PLM		|.CI-319			|.Add method : SOM_getInvoiceDetail to return invoice id from the Json EmailContent, modification of SOM_GenerateInvoicesInSFMC in the method call, send the emailcontent instead of the orderSummaryId
 */
 public with sharing class AP2_SOMInvoiceManagement {
 	
@@ -22,7 +23,7 @@ public with sharing class AP2_SOMInvoiceManagement {
      */	
     public static void SOM_GenerateInvoicesInSFMC(List<TransactionalEmail__c> transacEmails){
         for(TransactionalEmail__c transacEmail : transacEmails){
-            SOM_GenerateInvoiceInSFMC(transacEmail.Id, transacEmail.OrderSummary__c);	
+            SOM_GenerateInvoiceInSFMC(transacEmail.Id, transacEmail.EmailContent__c);	
         }  
     }
     /*
@@ -33,20 +34,22 @@ public with sharing class AP2_SOMInvoiceManagement {
      * @RETURN 	: void
      */	
     @future (callout=true)
-    public static void SOM_GenerateInvoiceInSFMC(String transacEmailId,String orderSummaryId){
+    public static void SOM_GenerateInvoiceInSFMC(String transacEmailId,String emailContent){
         
         /*STEP 1 : Find Invoice ID for each Transactional Emails*/ 
-        Invoice invoiceToPdf = [SELECT ID,ReferenceEntityId,ReferenceEntity.Name FROM Invoice where ReferenceEntityId = :orderSummaryId LIMIT 1];
+        Map<String,String> invoice = SOM_getInvoiceDetail(emailContent);
+        String invoiceId = invoice.get('Id');
+        String invoiceName = invoice.get('Name');
             /*STEP 2 : Download Invoices from SOM SERVER*/ 
-        if(invoiceToPdf != null){
-            String invoiceDocument = SOM_ServerConnect(invoiceToPdf.Id);
+        if(String.isNotBlank(invoiceId)){
+            String invoiceDocument = SOM_ServerConnect(invoiceId);
             if(Test.isRunningTest()){invoiceDocument = 'myTestBlob';}
             if(String.isNotEmpty(invoiceDocument)){
                 /*STEP 3 : REST Auth API from SFMC*/
                 String oAUTHAccessToken = SOM_AuthSFMCAccessToken();
                 if(oAUTHAccessToken != 'Error'){
                     /*STEP 4 : Upload into SFMC Content Builder the BLOB as PDF*/
-                    String fileName = 'Invoice-'+ invoiceToPdf.ReferenceEntity.Name;
+                    String fileName = 'Invoice-'+ invoiceName;
                     String customerKey = SOM_UploadInSFMCAsset(invoiceDocument, fileName, oAUTHAccessToken);
                     if(customerKey != 'Error'){
                         /*STEP 5 : Update TransactionalEmail*/
@@ -56,7 +59,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                 }
                 else System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Error on oAUTHAccessToken, impossible to Authorize SFMC Org, please verify custom Settings : SFMCAPISetting__c');
             }
-            else System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceToPdf.Id);
+            else System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId);
         }
         else System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Invoice not found');
     }
@@ -274,5 +277,23 @@ public with sharing class AP2_SOMInvoiceManagement {
             responseBody = 'Bad request';
         }
         return responseBody;
+    }
+    
+    /*
+     * @METHOD 	: SOM_getInvoiceDetail
+     * @DESC 	: decompose Content Email field from the transaction Email and return a map with all information from the Invoice
+     * @PARAM 	: String contentEmail : content email Json from Transaction Email
+     * @RETURN 	: Map<String,String>  invoice : Get Id, Name, Url, Currency, Amout from it
+     */	
+    public static Map<String,String> SOM_getInvoiceDetail(String emailContent){
+        Map<String,String>  invoice = new Map<String,String> ();
+        Map<String, Object> contentEmailMap = (Map<String, Object>)JSON.deserializeUntyped(emailContent);
+        String invoiceUrl = (String)contentEmailMap.get('invoiceURL');
+        invoice.put('Id', invoiceUrl.right(18));
+        invoice.put('Name', (String)contentEmailMap.get('invoiceNumber'));
+        invoice.put('Url', invoiceUrl);
+        invoice.put('Currency', (String)contentEmailMap.get('invoiceCurrency'));
+        invoice.put('Amount', (String)contentEmailMap.get('invoiceAmount').ToString());
+        return invoice;
     }
 }

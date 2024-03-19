@@ -6,7 +6,7 @@
  * @LastModifiedDate: 9/22/2023 : P.L.M : Before insert and before update trigger modified for SMFC Sync
  * @LastModifiedDate: 02/10/23 : E.B : modification to avoid runtime test error when deploying
  * @LastModifiedDate : 10/10/2023 : U.N.N : Modification for CDP Integration + China customers
- * 
+ * @LastModifiedDate : 01/02/2024 : P.L.M : CI-303 : Modification of before update and insert : do not optin email contact without an email
  */
 public class AccountTriggerHandler implements ITriggerHandler {
 	/* 
@@ -34,12 +34,16 @@ public class AccountTriggerHandler implements ITriggerHandler {
   	public void BeforeInsert(List<SObject> newItems) {
         //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
         AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems);
+        //#CI-303 :01/03/2024: Do not optin client without an email
+        AccountConsent_SVE.rejectOptinWithoutEmail(newItems);
     }
 
   	public void BeforeUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) {
     	TNP_001_AccountTrigger_SVE.preventClientInfoDeletion(newItems.values(), oldItems);
         //#CI-202 :22/09/2023: Update the SFMC Synchronisation field for flag a record to be sync in SFMC
-         AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems.Values());
+        AP3_SFMCSynchronisation.manageSynchronisations((List<Account>)newItems.Values());
+        //#CI-303 :01/03/2024: Do not optin client without an email
+        AccountConsent_SVE.rejectOptinWithoutEmail(newItems, oldItems);
     }
     
   	public void BeforeDelete(Map<Id, SObject> oldItems) {}

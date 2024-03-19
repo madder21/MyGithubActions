@@ -9,8 +9,11 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|25052023			|.PLM		|.					|.
+ * 0.1	    |10102023			|.PLM		|.CI-219			|.Modification of method : setEmailConsentFields() to not let the client being optin in case of double Optin
+ * 0.2		|01032024			|.PLM		|.CI-303			|.Modification of method : setEmailConsentFields() to not create an optin email when the email is empty
 */
 public without sharing class ConsentManagementHelper {
+    
     /*
     * @Description Creates a list of consentWrapper from B2CCustominput sObject
     *
@@ -92,20 +95,40 @@ public without sharing class ConsentManagementHelper {
         return oldAccounts;
     }
     
-    /*
-    * @Description Updates the content of consents
-    *
-    * @param consentListInput list of ConsentWrapper to be updated
-    * @return list of consentWrapper updated
-    */
+    /**
+     * @Description : Updates consent wrapper objects with email consent-related fields.
+     * This method sets the OptinEmailing__pc and LastUpdateOptinEmailing__pc fields based on the 
+     * provided consent information and whether the contact has provided an email address.
+     * It also checks for double opt-in scenarios and updates the consent accordingly.
+     * Additionally, it determines whether the client needs to be updated based on their subscription status.
+     * @param : consentListInput List of ConsentWrapper objects to process.
+     * @return : List of updated ConsentWrapper objects with email consent fields modified.
+     */
     public static List<ConsentWrapper> setEmailConsentFields(List<consentWrapper> consentListInput){            
         List<ConsentWrapper>  OutputConsentList = new List<consentWrapper>();
         for (ConsentWrapper consent : consentListInput){
             // Update the current consent with :
             consent.doubleOptin = checkIsDoubleOptin(consent);
-            consent.client.OptinEmailing__pc = consent.customInput.EmailConsent__c;
-            consent.client.LastUpdateOptinEmailing__pc = consent.optDate;
-            //Client is only updated when they have subscribed to the newsletter and unsubscribed
+            
+            //CI-219 : Modification for not optin the contact in case of doubleOptin
+            //CI-304 : Exception when OptinEmailing__pc = true && personEmail = null
+            Boolean oldOptinEmailingValueFromExistingClient = consent.client.OptinEmailing__pc;
+            if (String.isEmpty(consent.client.personEmail)) {
+                consent.client.LastUpdateOptinEmailing__pc = (consent.client.OptinEmailing__pc && consent.client.LastUpdateOptinEmailing__pc != null) ? 
+                    consent.optDate : consent.client.LastUpdateOptinEmailing__pc;
+                consent.client.OptinEmailing__pc = false;
+            } else {
+                Boolean newOptinValue;
+                if (consent.doubleOptin) {
+                    newOptinValue = oldOptinEmailingValueFromExistingClient;
+                } else {
+                    newOptinValue = consent.customInput.EmailConsent__c;
+                }
+                consent.client.OptinEmailing__pc = newOptinValue;
+                consent.client.LastUpdateOptinEmailing__pc = (newOptinValue) ? 
+                    consent.optDate : consent.client.LastUpdateOptinEmailing__pc;
+            }
+            //Clients are only updated when they have subscribed to the newsletter or unsubscribed
             consent.clientToUpdate = consent.customInput.SubscriptionName__c?.equalsIgnoreCase(Label.LABS_ComSubscriptionChannelType_Newsletter)? true : false;
             OutputConsentList.add(consent);
         }
@@ -315,7 +338,11 @@ public without sharing class ConsentManagementHelper {
     * @param channelType sObject
     * @return list of consentWrapper updated with CommSubscriptionConsent
     */
-    public static List<ConsentWrapper> getCommSubscriptionConsents(List<ConsentWrapper> consentListInput, Set<Id> accountIdSet, commSubscriptionChannelType channelType) {
+    public static List<ConsentWrapper> getCommSubscriptionConsents(List<ConsentWrapper> consentListInput, Set<Id> accountIdSet, commSubscriptionChannelType channelType) {  
+        //11-10-2023 PLM : Prevent from having no channelType
+        if(channelType == null){
+            channelType = getChannelTypeMap().get('SpecialEvent');
+        }
         List<consentWrapper> outputConsents = new List<consentWrapper>();
         Map<Id, CommSubscriptionConsent> commSubscriptionConsentMap = new Map<Id, CommSubscriptionConsent>();
         for(CommSubscriptionConsent commSubscriptionConsent : [SELECT Id, Name, ContactPointId, AccountId__c, EffectiveFromDate, EffectiveToDate, 
@@ -361,11 +388,17 @@ public without sharing class ConsentManagementHelper {
     */
     public static Map<String, CommSubscriptionChannelType> getChannelTypeMap(){
         Map<String, commSubscriptionChannelType> channelTypeMap = new Map<String, commSubscriptionChannelType>();
+
         //Create a map that contains all the existing channel types with their subscriptionName as key
         String query = 'Select Id, Name From CommSubscriptionChannelType';
         for (commSubscriptionChannelType channelType : Database.query(query, AccessLevel.SYSTEM_MODE)) {
             channelTypeMap.put(channelType.Name, channelType);
         }
+        //11-10-2023 PLM : Prevent test class to not have commSubscriptionChannelType
+        if (Test.isRunningTest() && channelTypeMap.isEmpty()) {
+    		ConsentManagement_TestDataFactory.createCommSubscriptionChannelType();
+            for (commSubscriptionChannelType channelType : Database.query(query, AccessLevel.SYSTEM_MODE))channelTypeMap.put(channelType.Name, channelType);
+		}
         return channelTypeMap;
     }
     
@@ -675,8 +708,4 @@ public without sharing class ConsentManagementHelper {
  
     }
     
-    //EBU 2023July24th  -  Retro compatibility ONLY for deploy
-    public static void migrateConsentGlobalMethod(List<Account> accounts,Map<Id,B2CContactProcessCustomInput> customInputsByAccountId, Boolean isFromMigrationJob)
-    {
-    }   
 }
