@@ -4,8 +4,8 @@
         <description>... If no country was provided by B2C Flow, assign the mailing country from the website country</description>
         <name>get_Country_name</name>
         <label>get Country name</label>
-        <locationX>798</locationX>
-        <locationY>3842</locationY>
+        <locationX>886</locationX>
+        <locationY>3950</locationY>
         <actionName>CountryNameManager</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -25,12 +25,12 @@
         </outputParameters>
         <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>58.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Asgn_Upd_email</name>
         <label>Update email</label>
         <locationX>578</locationX>
-        <locationY>1550</locationY>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Email</assignToReference>
             <operator>Assign</operator>
@@ -47,7 +47,7 @@
         <name>asn_defaultAuditOCAPIFlag</name>
         <label>Default the Audit OCAPI flag</label>
         <locationX>600</locationX>
-        <locationY>5234</locationY>
+        <locationY>5342</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Audit_OCAPI_API_Response__c</assignToReference>
             <operator>Assign</operator>
@@ -60,11 +60,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>...assign the sourceContact&apos;s firstName to the resolved contact.</description>
+        <description>...assign the sourceContact&#39;s firstName to the resolved contact.</description>
         <name>asn_FistnameToAssignedContact</name>
         <label>Assign the FirstName and reset second alphabet</label>
         <locationX>314</locationX>
-        <locationY>1250</locationY>
+        <locationY>1058</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -84,11 +84,11 @@
         </connector>
     </assignments>
     <assignments>
-        <description>...assign the sourceContact&apos;s lastName to the resolved contact.</description>
+        <description>...assign the sourceContact&#39;s lastName to the resolved contact.</description>
         <name>asn_LastNameToAssignedContact</name>
         <label>Assign the LastName and reset second alphabet</label>
         <locationX>314</locationX>
-        <locationY>950</locationY>
+        <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.LastName</assignToReference>
             <operator>Assign</operator>
@@ -111,7 +111,7 @@
         <name>Assign_B2C_Fields</name>
         <label>Assign B2C Fields</label>
         <locationX>732</locationX>
-        <locationY>4118</locationY>
+        <locationY>4226</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_Date_Last_Modified__c</assignToReference>
             <operator>Assign</operator>
@@ -141,7 +141,7 @@
         <name>Assign_B2C_ID</name>
         <label>Assign B2C ID</label>
         <locationX>600</locationX>
-        <locationY>4334</locationY>
+        <locationY>4442</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -157,7 +157,7 @@
         <name>Assign_B2C_No</name>
         <label>Assign B2C No</label>
         <locationX>600</locationX>
-        <locationY>4634</locationY>
+        <locationY>4742</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -173,7 +173,7 @@
         <name>Assign_BirthDates</name>
         <label>Assign BirthDates</label>
         <locationX>314</locationX>
-        <locationY>2150</locationY>
+        <locationY>1958</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Birthday__c</assignToReference>
             <operator>Assign</operator>
@@ -196,6 +196,22 @@
             </value>
         </assignmentItems>
         <connector>
+            <targetReference>Country_exist_and_is_different</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Country</name>
+        <label>Assign Country</label>
+        <locationX>600</locationX>
+        <locationY>2342</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Country__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Country__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
             <targetReference>Website_country_exist_and_is_different</targetReference>
         </connector>
     </assignments>
@@ -203,7 +219,7 @@
         <name>Assign_Created_Date_B2C</name>
         <label>Assign Created Date B2C</label>
         <locationX>820</locationX>
-        <locationY>4934</locationY>
+        <locationY>5042</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.B2C_Date_Created__c</assignToReference>
             <operator>Assign</operator>
@@ -219,7 +235,7 @@
         <name>Assign_email</name>
         <label>Assign email</label>
         <locationX>50</locationX>
-        <locationY>1550</locationY>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Email</assignToReference>
             <operator>Assign</operator>
@@ -235,7 +251,7 @@
         <name>Assign_Full_Account</name>
         <label>Assign Full Account</label>
         <locationX>600</locationX>
-        <locationY>3434</locationY>
+        <locationY>3542</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.FullAccount__c</assignToReference>
             <operator>Assign</operator>
@@ -250,8 +266,8 @@
     <assignments>
         <name>Assign_Ids_from_existing_Contact</name>
         <label>Assign Ids from existing Contact</label>
-        <locationX>864</locationX>
-        <locationY>242</locationY>
+        <locationX>732</locationX>
+        <locationY>134</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Id</assignToReference>
             <operator>Assign</operator>
@@ -266,27 +282,18 @@
                 <elementReference>originalExistingContact.AccountId</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>PII_to_Udpate</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Ids_From_SourceContact</name>
-        <label>Assign Ids From SourceContact</label>
-        <locationX>600</locationX>
-        <locationY>242</locationY>
         <assignmentItems>
-            <assignToReference>ContactToUpdate.Id</assignToReference>
+            <assignToReference>sourceContact.Id</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.Id</elementReference>
+                <elementReference>originalExistingContact.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>ContactToUpdate.AccountId</assignToReference>
+            <assignToReference>sourceContact.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.AccountId</elementReference>
+                <elementReference>originalExistingContact.AccountId</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -297,7 +304,7 @@
         <name>Assign_other_email</name>
         <label>Assign other email</label>
         <locationX>314</locationX>
-        <locationY>1550</locationY>
+        <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.OtherEmail__c</assignToReference>
             <operator>Assign</operator>
@@ -320,8 +327,8 @@
         <description>assign person mailing country</description>
         <name>Assign_PersonMailingCountry</name>
         <label>Assign PersonMailingCountry</label>
-        <locationX>534</locationX>
-        <locationY>3734</locationY>
+        <locationX>446</locationX>
+        <locationY>3842</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.MailingCountry</assignToReference>
             <operator>Assign</operator>
@@ -337,7 +344,7 @@
         <name>Assign_phone</name>
         <label>Assign phone</label>
         <locationX>50</locationX>
-        <locationY>1850</locationY>
+        <locationY>1658</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Phone</assignToReference>
             <operator>Assign</operator>
@@ -354,7 +361,7 @@
         <name>Assign_phone2</name>
         <label>Assign Phone and backup phone2</label>
         <locationX>314</locationX>
-        <locationY>1850</locationY>
+        <locationY>1658</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Phone</assignToReference>
             <operator>Assign</operator>
@@ -378,7 +385,7 @@
         <name>Assign_Phone_and_backup_phone3</name>
         <label>Assign Phone and backup phone3</label>
         <locationX>578</locationX>
-        <locationY>1850</locationY>
+        <locationY>1658</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Phone</assignToReference>
             <operator>Assign</operator>
@@ -408,7 +415,7 @@
         <name>Assign_Salutation</name>
         <label>Assign Salutation</label>
         <locationX>314</locationX>
-        <locationY>650</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.Salutation</assignToReference>
             <operator>Assign</operator>
@@ -424,7 +431,7 @@
         <name>assign_website_language</name>
         <label>Assign WebsiteLanguage</label>
         <locationX>600</locationX>
-        <locationY>2834</locationY>
+        <locationY>2942</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.WebsiteLanguage__c</assignToReference>
             <operator>Assign</operator>
@@ -440,7 +447,7 @@
         <name>Assign_WebsiteCountry</name>
         <label>Assign WebsiteCountry</label>
         <locationX>600</locationX>
-        <locationY>2534</locationY>
+        <locationY>2642</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.WebsiteCountry__c</assignToReference>
             <operator>Assign</operator>
@@ -456,7 +463,7 @@
         <name>Assign_WebsiteLocale</name>
         <label>Assign WebsiteLocale</label>
         <locationX>600</locationX>
-        <locationY>3134</locationY>
+        <locationY>3242</locationY>
         <assignmentItems>
             <assignToReference>ContactToUpdate.WebsiteLocale__c</assignToReference>
             <operator>Assign</operator>
@@ -472,7 +479,7 @@
         <name>Success</name>
         <label>Success</label>
         <locationX>732</locationX>
-        <locationY>5426</locationY>
+        <locationY>5534</locationY>
         <assignmentItems>
             <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -484,7 +491,7 @@
             <assignToReference>Error</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Assignement Successfully donne</stringValue>
+                <stringValue>Assignement Successfully done</stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -492,9 +499,9 @@
         <name>Birthdate_exist</name>
         <label>Birthday dates exist and is different ?</label>
         <locationX>446</locationX>
-        <locationY>2042</locationY>
+        <locationY>1850</locationY>
         <defaultConnector>
-            <targetReference>Website_country_exist_and_is_different</targetReference>
+            <targetReference>Country_exist_and_is_different</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Does not exist</defaultConnectorLabel>
         <rules>
@@ -570,11 +577,57 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Country_exist_and_is_different</name>
+        <label>Country exist and is different ?</label>
+        <locationX>732</locationX>
+        <locationY>2234</locationY>
+        <defaultConnector>
+            <targetReference>Website_country_exist_and_is_different</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Country_exist_and_is_different_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Country__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Country</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>... evaluate if the audit-responses flag has been set</description>
         <name>dec_auditB2COCAPIResponses</name>
         <label>Has Audit OCAPI Responses Been Set?</label>
         <locationX>732</locationX>
-        <locationY>5126</locationY>
+        <locationY>5234</locationY>
         <defaultConnector>
             <targetReference>Success</targetReference>
         </defaultConnector>
@@ -600,7 +653,7 @@
         <name>dec_firstNameExists</name>
         <label>Does FirstName Exist and Diferrent from Original?</label>
         <locationX>446</locationX>
-        <locationY>1142</locationY>
+        <locationY>950</locationY>
         <defaultConnector>
             <targetReference>Email_case</targetReference>
         </defaultConnector>
@@ -640,7 +693,7 @@
         <name>dec_lastNameExists</name>
         <label>Does LastName Exist and Diferrent from Original?</label>
         <locationX>446</locationX>
-        <locationY>842</locationY>
+        <locationY>650</locationY>
         <defaultConnector>
             <targetReference>dec_firstNameExists</targetReference>
         </defaultConnector>
@@ -679,7 +732,7 @@
         <name>Does_B2C_ID_Exist</name>
         <label>Does B2C ID Exist</label>
         <locationX>732</locationX>
-        <locationY>4226</locationY>
+        <locationY>4334</locationY>
         <defaultConnector>
             <targetReference>Does_B2C_No_Exist</targetReference>
         </defaultConnector>
@@ -718,7 +771,7 @@
         <name>Does_B2C_No_Exist</name>
         <label>Does B2C No Exist</label>
         <locationX>732</locationX>
-        <locationY>4526</locationY>
+        <locationY>4634</locationY>
         <defaultConnector>
             <targetReference>is_B2C_Created_Date_exist</targetReference>
         </defaultConnector>
@@ -757,7 +810,7 @@
         <name>Does_Full_account_exist</name>
         <label>Does Full account exist</label>
         <locationX>732</locationX>
-        <locationY>3326</locationY>
+        <locationY>3434</locationY>
         <defaultConnector>
             <targetReference>Does_PersonMailingCountry_exist</targetReference>
         </defaultConnector>
@@ -779,62 +832,16 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Does_Id_exist</name>
-        <label>Does Ids exist ?</label>
-        <locationX>732</locationX>
-        <locationY>134</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Ids_from_existing_Contact</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
-        <rules>
-            <name>decout_Id_exist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.Id</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.Id</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue></stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>sourceContact.AccountId</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue></stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Ids_From_SourceContact</targetReference>
-            </connector>
-            <label>exist</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Does_PersonMailingCountry_exist</name>
         <label>Does PersonMailingCountry exist ?</label>
         <locationX>732</locationX>
-        <locationY>3626</locationY>
+        <locationY>3734</locationY>
         <defaultConnector>
             <targetReference>Website_country_exist_and_is_different_mailingcountryEmpty</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <defaultConnectorLabel>doesn&#39;t exist</defaultConnectorLabel>
         <rules>
-            <name>yes_decout_PersonMailingCountry_exist</name>
+            <name>yeschanged_decout_PersonMailingCountry_exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>sourceContact.MailingCountry</leftValueReference>
@@ -867,14 +874,50 @@
             <connector>
                 <targetReference>Assign_PersonMailingCountry</targetReference>
             </connector>
-            <label>yes</label>
+            <label>yes it exist and it changed</label>
+        </rules>
+        <rules>
+            <name>yesdoesntchanged_decout_PersonMailingCountry_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.MailingCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_Fields</targetReference>
+            </connector>
+            <label>yes it exist and it doesn&#39;t changed</label>
         </rules>
     </decisions>
     <decisions>
         <name>Email_case</name>
         <label>Email case ?</label>
         <locationX>446</locationX>
-        <locationY>1442</locationY>
+        <locationY>1250</locationY>
         <defaultConnector>
             <targetReference>Phone_exist</targetReference>
         </defaultConnector>
@@ -1041,7 +1084,7 @@
         <name>is_B2C_Created_Date_exist</name>
         <label>is B2C Created Date exist</label>
         <locationX>732</locationX>
-        <locationY>4826</locationY>
+        <locationY>4934</locationY>
         <defaultConnector>
             <targetReference>Assign_Created_Date_B2C</targetReference>
         </defaultConnector>
@@ -1066,7 +1109,7 @@
         <name>Phone_exist</name>
         <label>Phone case ?</label>
         <locationX>446</locationX>
-        <locationY>1742</locationY>
+        <locationY>1550</locationY>
         <defaultConnector>
             <targetReference>Birthdate_exist</targetReference>
         </defaultConnector>
@@ -1162,7 +1205,7 @@
             <connector>
                 <targetReference>Assign_phone2</targetReference>
             </connector>
-            <label>Phone exist and is different and phone 2 doesn&apos;t exist in DB</label>
+            <label>Phone exist and is different and phone 2 doesn&#39;t exist in DB</label>
         </rules>
         <rules>
             <name>Phone_and_phone_2_exist_and_is_different</name>
@@ -1233,9 +1276,9 @@
         <name>PII_to_Udpate</name>
         <label>PII to Udpate ?</label>
         <locationX>732</locationX>
-        <locationY>434</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Website_country_exist_and_is_different</targetReference>
+            <targetReference>Country_exist_and_is_different</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>NO</defaultConnectorLabel>
         <rules>
@@ -1258,7 +1301,7 @@
         <name>Salutation_exist</name>
         <label>Salutation exist and different from original?</label>
         <locationX>446</locationX>
-        <locationY>542</locationY>
+        <locationY>350</locationY>
         <defaultConnector>
             <targetReference>dec_lastNameExists</targetReference>
         </defaultConnector>
@@ -1297,7 +1340,7 @@
         <name>Website_country_exist_and_is_different</name>
         <label>Website country exist and is different ?</label>
         <locationX>732</locationX>
-        <locationY>2426</locationY>
+        <locationY>2534</locationY>
         <defaultConnector>
             <targetReference>Website_Language_exist_and_is_different</targetReference>
         </defaultConnector>
@@ -1335,8 +1378,8 @@
     <decisions>
         <name>Website_country_exist_and_is_different_mailingcountryEmpty</name>
         <label>Website country exist and is different ?</label>
-        <locationX>930</locationX>
-        <locationY>3734</locationY>
+        <locationX>1018</locationX>
+        <locationY>3842</locationY>
         <defaultConnector>
             <targetReference>Assign_B2C_Fields</targetReference>
         </defaultConnector>
@@ -1368,7 +1411,7 @@
         <name>Website_Language_exist_and_is_different</name>
         <label>Website Language exist and is different ?</label>
         <locationX>732</locationX>
-        <locationY>2726</locationY>
+        <locationY>2834</locationY>
         <defaultConnector>
             <targetReference>Website_Local_exist_and_is_different</targetReference>
         </defaultConnector>
@@ -1407,7 +1450,7 @@
         <name>Website_Local_exist_and_is_different</name>
         <label>Website Local exist and is different ?</label>
         <locationX>732</locationX>
-        <locationY>3026</locationY>
+        <locationY>3134</locationY>
         <defaultConnector>
             <targetReference>Does_Full_account_exist</targetReference>
         </defaultConnector>
@@ -1480,7 +1523,7 @@
         <locationX>606</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Does_Id_exist</targetReference>
+            <targetReference>Assign_Ids_from_existing_Contact</targetReference>
         </connector>
     </start>
     <status>Active</status>

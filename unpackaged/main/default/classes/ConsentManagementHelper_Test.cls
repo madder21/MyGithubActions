@@ -9,6 +9,7 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|25052023			|.PLM		|.					|.
+ * 0.1		|01042024			|.PLM		|.CI-303			|.Modification of setEmailConsentFields_UnitTest and setEmailConsentFields_MassTest with adding a email to accounts
 */
 @isTest
 public class ConsentManagementHelper_Test {
@@ -153,6 +154,10 @@ public class ConsentManagementHelper_Test {
 
         //Create a test account record
         List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 1);
+        for(Account acc : testAccList){
+            acc.personEmail = 'test@test.com';
+        }
+        update testAccList;
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput
@@ -186,6 +191,10 @@ public class ConsentManagementHelper_Test {
 
         //Create a test account record
         List<Account> testAccList = ConsentManagement_TestDataFactory.createAccounts(true, 2);
+        for(Account acc : testAccList){
+            acc.personEmail = 'test@test.com';
+        }
+        update testAccList;
         //Create a test B2CCustomInput record
         List<B2CCustomInput__c> testcustomInputs = ConsentManagement_TestDataFactory.createB2CCustomInputs(true, testAccList);
         //Update B2CCustomInput

@@ -41,7 +41,6 @@ public without sharing class AccountConsent_SVE {
     * @return void
     */
     public static void createB2CCustomInputForRetail(Map<id, sObject> newAccounts, Map<id, sObject> oldAccounts) {
-        System.debug('PLM TRACK : I m here createB2CCustomInputForRetail');
         Boolean isNew = oldAccounts?.isEmpty()? true : false;
         List<B2CCustomInput__c> customInputs= new List<B2CCustomInput__c> ();
         List<Account> accounts = new List<Account>();
@@ -166,12 +165,13 @@ public without sharing class AccountConsent_SVE {
             
             Boolean contactIsOptin = newAccount.optinEmailing__pc;
             Boolean optinEmailingHasChanged = newAccount.optinEmailing__pc != oldAccount.optinEmailing__pc;
+            Boolean lastUpdateOptinEmailingDidExist = oldAccount.lastUpdateOptinEmailing__pc != null;
             Boolean emailIsExist = String.isNotBlank(newAccount.personEmail);
             
             if (contactIsOptin && !emailIsExist) {
                 if (optinEmailingHasChanged) {
                     newAccount.optinEmailing__pc = false;
-                    newAccount.lastUpdateOptinEmailing__pc = System.now();
+                    newAccount.lastUpdateOptinEmailing__pc = lastUpdateOptinEmailingDidExist? System.now() : null;
                 } else {
                     newAccount.optinEmailing__pc = false;
                 }

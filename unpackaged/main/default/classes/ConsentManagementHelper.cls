@@ -72,11 +72,11 @@ public without sharing class ConsentManagementHelper {
                     accountHistoryList.add(accHistory);
                 }
             }
-            for (AccountHistory accountHisorty : accountHistoryList) {
+            for (AccountHistory accountHistory : accountHistoryList) {
                 
-                accountID = accountHisorty.AccountId;
-                newPersonEmail = (String)accountHisorty?.NewValue ;
-                oldPersonEmail = isTestContext? 'fromTestContext@gmail.com' : (String)accountHisorty?.OldValue ;
+                accountID = accountHistory.AccountId;
+                newPersonEmail = (String)accountHistory?.NewValue ;
+                oldPersonEmail = isTestContext? 'fromTestContext@gmail.com' : (String)accountHistory?.OldValue ;
                 //IF account doesn't exist and its newPersonEmail is null & oldPersonEmail not null
                 if (!oldAccounts.containsKey(accountId) && String.isBlank(newPersonEmail) 
                     && String.isNotBlank(oldPersonEmail)) {
@@ -85,7 +85,7 @@ public without sharing class ConsentManagementHelper {
                 //IF account exists 
                 else { 
                     // Retrieve the most recent update for the old accounts
-                    if (accountHisorty?.CreatedDate > oldAccounts.get(accountId)?.CreatedDate 
+                    if (accountHistory?.CreatedDate > oldAccounts.get(accountId)?.CreatedDate 
                         && String.isNotBlank(oldPersonEmail)  && String.isBlank(newPersonEmail) ) {
                         oldAccounts.put(accountId, new Account(Id = accountId, PersonEmail= oldPersonEmail));
                     }
