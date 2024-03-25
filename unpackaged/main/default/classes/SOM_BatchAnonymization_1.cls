@@ -30,7 +30,7 @@ global with sharing class SOM_BatchAnonymization_1 implements Database.Batchable
     global Database.QueryLocator start(Database.BatchableContext BC) {
         String query = 'SELECT Id, AccountId, OrderNumber, Status, OriginalOrderId, BillingPostalCode, BillingStreet, BillingEmailAddress, '
         +'BillingPhoneNumber, BillingContactFirstName__c, BillingContactLastName__c, (SELECT Id, FullName, PaymentMethodId FROM OrderPaymentSummaries), '
-        +'(SELECT Id, FulfilledToName, FulfilledToEmailAddress, FulfilledToPhone, FulfilledToPostalCode, FulfilledToStreet FROM FulfillmentOrders), '
+        +'(SELECT Id, FulfilledToName, FulfilledToEmailAddress, FulfilledToPhone, FulfilledToStreet FROM FulfillmentOrders), '
         +'(SELECT Id, DeliverToPostalCode, DeliverToStreet, EmailAddress, PhoneNumber, CLICKCOLLECT_pickup_email__c, CLICKCOLLECT_pickup_phone__c, '
         +'CLICKCOLLECT_pickup_firstName__c, CLICKCOLLECT_pickup_lastName__c FROM OrderDeliveryGroupSummaries), (SELECT Id, ShipToName, ShipToStreet, '
         +'ShipToPostalCode FROM Shipments) FROM OrderSummary WHERE AccountId IN :cls AND Status IN '
@@ -71,7 +71,6 @@ global with sharing class SOM_BatchAnonymization_1 implements Database.Batchable
                 fo.FulfilledToName         = stringOperator;
                 fo.FulfilledToEmailAddress = emailOperator;
                 fo.FulfilledToPhone        = stringOperator;
-                fo.FulfilledToPostalCode   = stringOperator;
                 fo.FulfilledToStreet       = stringOperator;
                 objectsToUpdate.add(fo);
                 objectClientId.put(fo.Id, ordSumm.AccountId);
@@ -93,7 +92,6 @@ global with sharing class SOM_BatchAnonymization_1 implements Database.Batchable
             for(Shipment ship : ordSumm.Shipments){
                 ship.ShipToName       = stringOperator;
                 ship.ShipToStreet     = stringOperator;
-                ship.ShipToPostalCode = stringOperator;
                 objectsToUpdate.add(ship);
                 objectClientId.put(ship.Id, ordSumm.AccountId);
             }

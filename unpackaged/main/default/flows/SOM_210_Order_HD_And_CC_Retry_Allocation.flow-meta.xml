@@ -309,6 +309,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>set_sku_location_collection</name>
+        <label>set sku_location collection</label>
+        <locationX>1025</locationX>
+        <locationY>819</locationY>
+        <assignmentItems>
+            <assignToReference>SkuCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_over_order_product_summary.StockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ReservedLocationIdCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_over_order_product_summary.ReservedAtLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Iterate_over_order_product_summary</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_success_variable</name>
         <label>Set success variable</label>
         <locationX>1353</locationX>
@@ -752,6 +775,20 @@
     <interviewLabel>SOM 210 - Order HD And CC Retry Allocation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 210 - Order HD And CC Retry Allocation</label>
     <loops>
+        <name>Iterate_over_order_product_summary</name>
+        <label>Iterate over order product summary</label>
+        <locationX>1065</locationX>
+        <locationY>676</locationY>
+        <collectionReference>Get_Order_Item_Summaries</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>set_sku_location_collection</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_All_Allocated_OSLIs</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>L10_Iterate_Over_Order_Item_Summaries</name>
         <label>L10 - Iterate Over Order Item Summaries</label>
         <locationX>1537</locationX>
@@ -937,6 +974,20 @@
                 <stringValue>ALLOCATED</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>StockKeepingUnit</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>SkuCollection</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ReservedAtLocationId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>ReservedLocationIdCollection</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
         <sortField>CreatedDate</sortField>
@@ -1005,7 +1056,7 @@
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_All_Allocated_OSLIs</targetReference>
+            <targetReference>Iterate_over_order_product_summary</targetReference>
         </connector>
         <filterLogic>(1 AND 2 AND 3 AND 6) OR (1 AND 2 AND 4 AND 5 AND 6)</filterLogic>
         <filters>
@@ -1271,6 +1322,20 @@
         <value>
             <booleanValue>true</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>ReservedLocationIdCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SkuCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>V_Count_PEs</name>
