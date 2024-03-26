@@ -139,9 +139,9 @@
                                     <rightValue>0</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -180,9 +180,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -231,9 +231,9 @@
                                     <rightValue>CS - Team Lead</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
@@ -282,9 +282,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -318,9 +318,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -354,9 +354,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -390,9 +390,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -431,9 +431,9 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -472,9 +472,9 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -503,9 +503,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -539,9 +539,9 @@
                                     <rightValue>SOM CSC</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -613,7 +613,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>
