@@ -22,8 +22,8 @@
     <actionCalls>
         <name>Generate_Second_UUID</name>
         <label>Generate Second UUID</label>
-        <locationX>2200</locationX>
-        <locationY>1893</locationY>
+        <locationX>2305</locationX>
+        <locationY>2071</locationY>
         <actionName>SOM_FlowUtils_UuidGenerator</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -48,8 +48,8 @@
     <actionCalls>
         <name>Release_Wrongful_Reservations</name>
         <label>Release Wrongful Reservations</label>
-        <locationX>1944</locationX>
-        <locationY>2293</locationY>
+        <locationX>1977</locationX>
+        <locationY>2448</locationY>
         <actionName>ociReleaseReservation</actionName>
         <actionType>ociReleaseReservation</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -458,8 +458,8 @@
     <assignments>
         <name>Assign_wrongful_reservations</name>
         <label>Assign wrongful reservations</label>
-        <locationX>2200</locationX>
-        <locationY>2036</locationY>
+        <locationX>2308</locationX>
+        <locationY>2241</locationY>
         <assignmentItems>
             <assignToReference>S60_ReleaseReservationSingle_IR.locationIdentifier</assignToReference>
             <operator>Assign</operator>
@@ -605,8 +605,8 @@
     <assignments>
         <name>Stack_Wrongful_Reservations</name>
         <label>Stack Wrongful Reservations</label>
-        <locationX>2200</locationX>
-        <locationY>2194</locationY>
+        <locationX>2303</locationX>
+        <locationY>2407</locationY>
         <assignmentItems>
             <assignToReference>C60_ReleaseReservation_IR.releaseRecords</assignToReference>
             <operator>Add</operator>
@@ -776,8 +776,8 @@
     <decisions>
         <name>Generate_Process_Exceptions</name>
         <label>Generate Process Exceptions ?</label>
-        <locationX>1675</locationX>
-        <locationY>1778</locationY>
+        <locationX>1613</locationX>
+        <locationY>1906</locationY>
         <defaultConnector>
             <targetReference>Need_to_release_reservations</targetReference>
         </defaultConnector>
@@ -792,10 +792,53 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>OrderSummaryReship</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_Process_Exceptions</targetReference>
             </connector>
             <label>Yes create PEs</label>
+        </rules>
+        <rules>
+            <name>Update_Existing_PE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>C_ProcessExceptions</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>OrderSummaryReship</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_PE_to_Closed</targetReference>
+            </connector>
+            <label>Update Existing PE</label>
         </rules>
     </decisions>
     <decisions>
@@ -990,8 +1033,8 @@
     <decisions>
         <name>Need_to_release_reservations</name>
         <label>Need to release reservations ?</label>
-        <locationX>1675</locationX>
-        <locationY>2029</locationY>
+        <locationX>1548</locationX>
+        <locationY>2282</locationY>
         <defaultConnectorLabel>✅ No errors</defaultConnectorLabel>
         <rules>
             <name>Need_to_release</name>
@@ -1060,7 +1103,7 @@
             <targetReference>L33_Reservations</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Generate_Process_Exceptions</targetReference>
+            <targetReference>Get_PE</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -1080,8 +1123,8 @@
     <loops>
         <name>L44_To_release_wrongful_reservations</name>
         <label>L44 - To release wrongful reservations</label>
-        <locationX>1944</locationX>
-        <locationY>2031</locationY>
+        <locationX>2005</locationX>
+        <locationY>2244</locationY>
         <collectionReference>C50_OKs_On_Reservation</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1169,8 +1212,8 @@
     <recordCreates>
         <name>Create_Process_Exceptions</name>
         <label>Create Process Exceptions</label>
-        <locationX>1468</locationX>
-        <locationY>1901</locationY>
+        <locationX>1439</locationX>
+        <locationY>2066</locationY>
         <connector>
             <targetReference>Need_to_release_reservations</targetReference>
         </connector>
@@ -1253,6 +1296,41 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_PE</name>
+        <label>Get PE</label>
+        <locationX>1677</locationX>
+        <locationY>1718</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Generate_Process_Exceptions</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_OrderItemSummaryIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfillment</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_RO</name>
         <label>Get RO</label>
         <locationX>813</locationX>
@@ -1273,6 +1351,44 @@
         <object>ReturnOrder</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_PE_to_Closed</name>
+        <label>Update PE to Closed</label>
+        <locationX>1770</locationX>
+        <locationY>2038</locationY>
+        <connector>
+            <targetReference>Need_to_release_reservations</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_OrderItemSummaryIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfillment</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </inputAssignments>
+        <object>ProcessException</object>
+    </recordUpdates>
     <start>
         <locationX>50</locationX>
         <locationY>994</locationY>
@@ -1397,6 +1513,23 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderItemIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderSummaryReship</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>PE_Description</name>

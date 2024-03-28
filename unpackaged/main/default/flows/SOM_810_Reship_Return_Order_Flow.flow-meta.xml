@@ -2663,30 +2663,14 @@
                 <name>SCREEN_OCI_Error_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>TXT_10_01</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 48px;&quot;&gt;⚠&lt;/span&gt;&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>4</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>SCREEN_OCI_Error_Section1_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
                     <name>TXT_10_02</name>
-                    <fieldText>&lt;p&gt;&lt;strong&gt;Inventory issue&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This Flow will now stop : no reservations were saved in OCI, no Fulfillment Order was created.&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 36px;&quot;&gt;⚠&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 48px;&quot;&gt; &lt;/span&gt;&lt;strong&gt;Inventory issue&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;No stock is available for this SKU, you cannot reship the product. No reservation is done in OCI and no fulfilment order is created.&lt;/p&gt;&lt;p&gt;Please create an exchange order ‘follow-up = Exchange&apos; with the same or different SKU that will be allocated automatically when the SKU is back in stock.&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>8</stringValue>
+                        <stringValue>12</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -3056,6 +3040,12 @@
             <name>C00_FulfillItems</name>
             <value>
                 <elementReference>fulfillItems</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>OrderSummaryReship</name>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <inputAssignments>

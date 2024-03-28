@@ -14,19 +14,33 @@
 		<name>CustomField</name>
 	</types>
 	<types>
+		<members>ByPassVR</members>
+		<name>CustomPermission</name>
+	</types>
+	<types> 
+        <members>SOM_CSC_Refund_Creation</members>
+        <name>PermissionSet</name>
+       </types>
+	<types>
 		<members>Order_Payment_Summary_Record_Page</members>
 		<members>Invoice_Record_Page</members>  
 		<name>FlexiPage</name>
 	</types>
 <types>
+
 		<members>Order_Summary_with_Shipping_address</members>
 		<members>Order_Summary_with_product</members>
+
 		<name>ReportType</name>
 	</types>
 <types>
 
 	<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
-  	
+  	<members>SOM_814_OCI_Create_Reservation</members>
+       <members>SOM_810_Reship_Return_Order_Flow</members>
+        <members>SOM_810_Reship_Order_Flow</members>
+      
+      
 	<name>Flow</name>
 
 </types>
@@ -39,5 +53,14 @@
 </types>
 
 
+	<types>
+			<members>Payment_Methods_Mapping.KAKAO_PAY_EN</members>
+			<members>Payment_Methods_Mapping.KAKAO_PAY_KO</members>	
+			<members>Payment_Methods_Mapping.KCP_ACC_EN</members>
+			<members>Payment_Methods_Mapping.KCP_ACC_KO</members>	
+			<members>Payment_Methods_Mapping.KCP_RBT_EN</members>
+			<members>Payment_Methods_Mapping.KCP_RBT_KO</members>	
+	<name>CustomMetadata</name>
+</types>
 <version>58.0</version>
 </Package>
