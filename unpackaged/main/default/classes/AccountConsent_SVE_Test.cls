@@ -9,6 +9,7 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|07062023			|.PLM		|.					|.
+ * 0.1		|05032024			|.PLM		|.CI-303			|.Creation of a new test class : RejectOptinWithoutEmail_test
 */
 @isTest
 public without sharing class AccountConsent_SVE_Test {
@@ -177,5 +178,37 @@ public without sharing class AccountConsent_SVE_Test {
         Assert.isNotNull([SELECT Id FROM commSubscriptionConsent WHERE Name = 'Newsletter' AND PrivacyConsentStatus = 'Optout' AND AccountId__c =: testAccList[0].Id]?.Id);
         Assert.isNotNull([SELECT Id FROM commSubscriptionConsent WHERE Name = 'Newsletter' AND PrivacyConsentStatus = 'Optout' AND AccountId__c =: testAccList[1].Id]?.Id);
     }
-
+	
+    @isTest
+    static void RejectOptinWithoutEmail_test() {
+        // Create test data
+        String uniqueUserName = 'sysadmin' + DateTime.now().getTime() + '@rimowa.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator'];
+        User testuser = new User(Alias = 'sysadmin', Email='sysadmin@rimowa.com',
+        					EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        					LocaleSidKey='en_US', ProfileId = p.Id,
+        					TimeZoneSidKey='America/Los_Angeles',
+         					UserName=uniqueUserName);
+        
+        System.runAs(testuser) {
+            Account accountToInsert = new Account(LastName = 'Account 1', OptinEmailing__pc = true, personEmail = 'test@example.com');
+            Account accountToUpdate = new Account(LastName = 'Account 2');
+            insert accountToUpdate;	
+            Test.startTest();
+                insert accountToInsert;
+                accountToUpdate.OptinEmailing__pc = true;
+                update accountToUpdate;
+            Test.stopTest();
+        
+            // Retrieve the updated records
+            Account accountInserted = [SELECT Id, optinEmailing__pc, LastUpdateOptinEmailing__pc FROM Account WHERE Id = :accountToInsert.Id];
+            Account accountUpdated =  [SELECT Id, optinEmailing__pc, LastUpdateOptinEmailing__pc FROM Account WHERE Id = :accountToUpdate.Id];
+            // Assert the changes made by the method
+            Assert.isTrue(accountInserted.optinEmailing__pc, 'optinEmailing__pc should be true');
+            Assert.isNotNull(accountInserted.LastUpdateOptinEmailing__pc, 'lastUpdateOptinEmailing__pc should not be null');
+            Assert.isFalse(accountUpdated.optinEmailing__pc, 'optinEmailing__pc should be false');
+            Assert.isNull(accountUpdated.LastUpdateOptinEmailing__pc, 'lastUpdateOptinEmailing__pc should be null');
+        }
+    }
 }
