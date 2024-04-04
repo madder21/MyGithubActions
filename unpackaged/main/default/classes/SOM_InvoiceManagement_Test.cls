@@ -16,9 +16,7 @@ public with sharing class SOM_InvoiceManagement_Test {
                     FROM FulfillmentOrder WHERE OrderSummaryId = :los[0].id];
         Map<Id, FulfillmentOrder> fotest = new Map<Id, FulfillmentOrder>(lFO);
         Map<Id,Shipment> test = SOM_testDataFactory.createShipments(fotest);
-        System.debug('ltest' + test);
-        System.debug('fotest' + fotest);
-        Invoice invoice = [SELECT Id , ReferenceEntityId , PDFGenerationStatus__c,InvoiceNumber__c , CurrencyIsoCode from Invoice where ReferenceEntity.type =: SOM_Constants.ORDER_SUMMARY_NAME AND ReferenceEntityId = :los[0].Id];
+        Invoice invoice = [SELECT Id , ReferenceEntityId , PDFGenerationStatus__c,InvoiceNumber__c ,DocumentNumber__c, CurrencyIsoCode from Invoice where ReferenceEntity.type =: SOM_Constants.ORDER_SUMMARY_NAME AND ReferenceEntityId = :los[0].Id];
         Map<Id,Invoice> mapInvoice = new Map<Id,Invoice>();
         Map<Id,Invoice> New_mapInvoice = new Map<Id,Invoice>();
         invoice.PDFGenerationStatus__c = 'Not started';
@@ -27,9 +25,9 @@ public with sharing class SOM_InvoiceManagement_Test {
         invoice.PDFGenerationStatus__c = 'Posted To BLOB Storage';
         Update invoice; 
         New_mapInvoice.put(invoice.Id , invoice);
-        SOM_InvoiceManagement.UpdateInvoicesNumber(New_mapInvoice,mapInvoice);
-        System.debug('invoice1' + New_mapInvoice);
-        System.debug('invoice2' + mapInvoice);
+        SOM_InvoiceManagement.UpdateInvoicesNumber(invoice,invoice);
+        System.assertNotEquals(invoice.DocumentNumber__c,null, 'DocumentNumber__c Updated');
+
     }
     
     
