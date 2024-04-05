@@ -9,16 +9,10 @@
                         <valueListItems>
                             <value>CustomButton.CorrectiveInvoice__c.DownloadCorrectiveInvoice</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.PDFGenerationStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Posted To BLOB Storage</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

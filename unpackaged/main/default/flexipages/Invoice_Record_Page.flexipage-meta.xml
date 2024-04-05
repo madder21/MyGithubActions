@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>CustomButton.Invoice.Download_Invoice</value>
                             <visibilityRule>
-                                <booleanFilter>(1 AND 3 AND NOT 4) OR (2 AND 3 AND NOT 4)</booleanFilter>
+                                <booleanFilter>(1 OR 2) AND 3 AND NOT 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.PDFGenerationStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -28,6 +28,11 @@
                                     <leftValue>{!Record.DocumentNumber__c}</leftValue>
                                     <operator>CONTAINS</operator>
                                     <rightValue>DOC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Display_Button}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -56,9 +61,9 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
