@@ -247,6 +247,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <description>Update for the new attributs in custom metadata Sales Channel Mapping</description>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -372,7 +373,7 @@
         <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_SalesChannel</targetReference>
+            <targetReference>Get_SalesChannelMapping</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -410,6 +411,27 @@
         <queriedFields>Id</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_SalesChannelMapping</name>
+        <label>Get SalesChannelMapping</label>
+        <locationX>1245</locationX>
+        <locationY>320</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_SalesChannel</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Sales_Channel_Mapping__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
@@ -453,6 +475,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>OrderSummaryStatus</elementReference>
@@ -462,6 +490,12 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
@@ -501,6 +535,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>OrderSummaryStatus</elementReference>
@@ -510,6 +550,12 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -585,6 +631,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>OriginalOrderSummary__c</field>
             <value>
                 <elementReference>Get_Original_Order_Summary.Id</elementReference>
@@ -600,6 +652,12 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
