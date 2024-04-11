@@ -86,6 +86,14 @@
                 <behavior>Edit</behavior>
                 <field>ShouldSyncWithOci</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EdicomDestination__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>EdicomSchemaSuffix__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -128,6 +136,10 @@
         <fields>Quantity__c</fields>
         <fields>Date_of_Release__c</fields>
         <relatedList>Future_Stock__c.Location__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>WeightedAveragePurchasePrice__c.Location__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentLocationId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

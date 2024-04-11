@@ -1,62 +1,61 @@
 public with sharing class SOM_InvoiceManagement {
     
     //Update Invoice Document Number / Increment by Country
-    public static void UpdateInvoicesNumber (Map<Id,Invoice> newInvMap, Map<Id,Invoice> oldInvMap) {
+    public static void UpdateInvoicesNumber (Invoice newInvMap, Invoice oldInvMap) {
+        try{
             //GET Max invoice Number By Country Code
             Map<string,string> maxInvoiceByCountryMap= new  Map<string,string>();
-            AggregateResult[] groupedInvoiceByCountry=  [SELECT  FulfilledToCountry, max(Invoice.DocumentNumber__c) FROM FulfillmentOrder  WHERE Invoice.DocumentNumber__c!=null AND FulfilledToCountry !=null AND OrderSummary.SalesChannelName__c !='CEGID' AND invoice.DocumentNumber__c LIKE 'I0%' AND Type!='Store' GROUP by FulfilledToCountry];        
-            for (AggregateResult gr : groupedInvoiceByCountry)  {
-                maxInvoiceByCountryMap.put((String)gr.get('FulfilledToCountry'),(String)gr.get('expr0'));
-            }
+            Invoice InvDataMap  = [SELECT Id,DocumentNumber__c,DocumentNumber,InvoiceNumber__c,TYPEOF ReferenceEntity WHEN OrderSummary THEN Id,SalesChannelName__c END,(SELECT FulfilledToCountry FROM FulfillmentOrders  LIMIT 1)  
+                                   FROM Invoice WHERE Id =:newInvMap.Id];   
             
+            String countryCode = InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+            FulfillmentOrder groupedInvoiceByCountry=  [SELECT  FulfilledToCountry, Invoice.DocumentNumber__c FROM FulfillmentOrder  WHERE Invoice.DocumentNumber__c!=null AND FulfilledToCountry !=null AND OrderSummary.SalesChannelName__c !='CEGID' AND invoice.DocumentNumber__c LIKE 'I0%' AND Type!='Store' and FulfilledToCountry=:countryCode order by Invoice.DocumentNumber__c desc limit 1];        
             //Get Info Home Delivery method
             Map<Id,Boolean> oDGMap = new  Map<Id,Boolean>();
             for ( OrderSummary Os:[SELECT id , (SELECT id , OrderDeliveryMethod.isHomeDelivery__c FROM OrderDeliveryGroupSummaries LIMIT 1) 
                                    FROM OrderSummary 
                                    WHERE 
-                                   ID IN (SELECT ReferenceEntityId FROM invoice WHERE ReferenceEntity.type ='OrderSummary' AND ID IN :newInvMap.keyset())]){
+                                   ID IN (SELECT ReferenceEntityId FROM invoice WHERE ReferenceEntity.type ='OrderSummary' AND ID  =:newInvMap.Id)]){
                                        
                                        oDGMap.put(Os.Id, Os.OrderDeliveryGroupSummaries[0].OrderDeliveryMethod.isHomeDelivery__c);
                                    }
             
             //Invoice related DATA
-            Map<Id,Invoice> InvDataMap= new Map<Id,Invoice>();  
-            for (invoice inv:[SELECT Id,DocumentNumber__c,DocumentNumber,InvoiceNumber__c,TYPEOF ReferenceEntity WHEN OrderSummary THEN Id,SalesChannelName__c END,(SELECT FulfilledToCountry FROM FulfillmentOrders  LIMIT 1)  
-                              FROM Invoice WHERE Id IN:newInvMap.keyset()]){   
-                                  InvDataMap.put(inv.id, inv);                 
-                              }
             
-            for(Invoice inv : newInvMap.values()){
-                OrderSummary objOrderSummary = InvDataMap.get(inv.Id).ReferenceEntity;
-                if (objOrderSummary.SalesChannelName__c == 'CEGID') {
-                        // Set InvoiceNumber__c and DocumentNumber__c equal to DocumentNumber
-                        inv.InvoiceNumber__c = inv.DocumentNumber;
-                        inv.DocumentNumber__c = inv.DocumentNumber; 
-                    }else if((newInvMap.get(inv.Id).PDFGenerationStatus__c != oldInvMap.get(inv.Id).PDFGenerationStatus__c) && newInvMap.get(inv.Id).PDFGenerationStatus__c =='Not started'){  
-                    
-                    String NextDocumentNumberInvoice;
-                   if(
-                        (objOrderSummary.SalesChannelName__c == 'Rimowa' || objOrderSummary.SalesChannelName__c == 'Manual Order') 
-                        && oDGMap.get(objOrderSummary.Id)!= null 
-                        && oDGMap.get(objOrderSummary.Id)== true){
-                            if( InvDataMap.get(inv.Id) !=null && InvDataMap.get(inv.Id).FulfillmentOrders.size()>0 ){
-                                if(maxInvoiceByCountryMap.get(invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry)!=null ){
-                                    String MaxNumberInvoice = maxInvoiceByCountryMap.get(invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry).substring(1,10);
-                                    integer MaxNumber = integer.valueof(MaxNumberInvoice)+1;
-                                    NextDocumentNumberInvoice = 'I0' + String.valueOf(MaxNumber).leftPad(8, '0') + invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry;
-                                    inv.DocumentNumber__c = NextDocumentNumberInvoice;
-                                    inv.InvoiceNumber__c  = NextDocumentNumberInvoice;
-                                    maxInvoiceByCountryMap.put(invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry,NextDocumentNumberInvoice);
-                                }
-                                else{
-                                    NextDocumentNumberInvoice = 'I000000001' + invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry;
-                                    inv.DocumentNumber__c = NextDocumentNumberInvoice;
-                                    inv.InvoiceNumber__c  = NextDocumentNumberInvoice;
-                                    maxInvoiceByCountryMap.put(invDataMap.get(inv.Id).FulfillmentOrders[0].FulfilledToCountry,NextDocumentNumberInvoice);
-                                }
-                            } 
+            OrderSummary objOrderSummary = InvDataMap.ReferenceEntity;
+            if (objOrderSummary.SalesChannelName__c == 'CEGID') {
+                // Set InvoiceNumber__c and DocumentNumber__c equal to DocumentNumber
+                newInvMap.InvoiceNumber__c = newInvMap.DocumentNumber;
+                newInvMap.DocumentNumber__c = newInvMap.DocumentNumber; }
+            else if((newInvMap.PDFGenerationStatus__c != oldInvMap.PDFGenerationStatus__c) && newInvMap.PDFGenerationStatus__c =='Not started'){  
+                String NextDocumentNumberInvoice;
+                if(
+                    (objOrderSummary.SalesChannelName__c == 'Rimowa' || objOrderSummary.SalesChannelName__c == 'Manual Order') 
+                    && oDGMap.get(objOrderSummary.Id)!= null 
+                    && oDGMap.get(objOrderSummary.Id)== true){
+                        if( InvDataMap !=null && InvDataMap.FulfillmentOrders.size()>0 ){
+                            if(groupedInvoiceByCountry.Invoice.DocumentNumber__c!=null ){
+                                String MaxNumberInvoice = groupedInvoiceByCountry.Invoice.DocumentNumber__c.substring(1,10);
+                                integer MaxNumber = integer.valueof(MaxNumberInvoice)+1;
+                                NextDocumentNumberInvoice = 'I0' + String.valueOf(MaxNumber).leftPad(8, '0') + InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+                                newInvMap.DocumentNumber__c = NextDocumentNumberInvoice;
+                                newInvMap.InvoiceNumber__c  = NextDocumentNumberInvoice;
+                                
+                            }
+                            else{
+                                NextDocumentNumberInvoice = 'I000000001' + InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+                                newInvMap.DocumentNumber__c = NextDocumentNumberInvoice;
+                                newInvMap.InvoiceNumber__c  = NextDocumentNumberInvoice;
+                            }
+                        } 
                     }
-                }
             }
+            
+            Logs.debug('Invoice Management','SOM_InvoiceManagement','UpdateInvoicesNumber','',''); 
+            Logs.info('Invoice Management','SOM_InvoiceManagement','UpdateInvoicesNumber','','');
+            
+        } catch(Exception e){
+            Logs.error(e,'SOM_InvoiceManagement','UpdateInvoicesNumber','','');   
+        } 
     }   
 }

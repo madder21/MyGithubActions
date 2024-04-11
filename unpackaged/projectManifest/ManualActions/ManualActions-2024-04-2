@@ -1,0 +1,16 @@
+* SOM-822
+ Uncheck 'Resume at a specific time of day' on SOM_Batch_RetryAllocation flow
+
+* Ticket : SOM-956
+    - Profil Identity profile : Tab Hidden for Order Payment Summaries
+    - To test this ticket, the user should have : 
+        + Profil : Identity profile 
+        + Permission Set : SOM Identity & SOM warehousePS
+
+    - Add Invoice Document Mulesoft Endpoint external Named Credentials to  SOM_PS_NamedCredentials ,SOM_warehousePS and SOM_Identity_Profile permission set 
+    - restore clientId and ClientSecret
+
+
+* Ticket : SOM-1018
+    - Location.EdicomDestination__c : Visible for all profils
+    - Location.EdicomSchemaSuffix__c : Visible for all profils
