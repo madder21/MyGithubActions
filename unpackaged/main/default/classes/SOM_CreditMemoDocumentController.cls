@@ -7,12 +7,20 @@ global with sharing class SOM_CreditMemoDocumentController {
     public String                quantityColumnName {get; set;}
     public String                SerialNumberColumnName {get; set;}
     public String                AmountsFormat {get; set; }
+    public CreditMemoAddress        creditMemoAddress { get; set;}
+    
     public SOM_CreditMemoDocumentController() {
+        try{ 
             this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
             this.setCreditMemoDocumentConfigs();
-            this.setCreditMemoData(); 
+            this.setCreditMemoData();
+
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','SOM_CreditMemoDocumentController','','');   
+        } 
     }
     public void setCreditMemoDocumentConfigs(){
+        try{
             this.creditMemoConfigs = new Map<String, String>();
             String templateCode    = ApexPages.currentPage().getParameters().get('template');
             List<SOM_Invoice_Setting__mdt> invoiceSettings = [SELECT MasterLabel, Value__c, Template__c FROM SOM_Invoice_Setting__mdt WHERE Template__c = :templateCode OR Template__c = : SOM_Constants.TEMPLATE_CoreModel];
@@ -24,14 +32,17 @@ global with sharing class SOM_CreditMemoDocumentController {
                         creditMemoConfigs.put(invoiceSetting.MasterLabel, invoiceSetting.Value__c);
                     }
                 }
-                
-            }        
+            }  
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoDocumentConfigs','','');   
+        } 
     }
     public void setCreditMemoData(){
-       // try{
+        try{
             CreditMemoDocument creditMemoDoc = new CreditMemoDocument();
             CreditMemoContact billingContact = new CreditMemoContact();
             CreditMemoContact deliveryContact = new CreditMemoContact();
+            CreditMemoAddress cmAddress       = new CreditMemoAddress();
             String creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
             String templateCode = ApexPages.currentPage().getParameters().get('template');
             creditMemoDoc.Template = templateCode;
@@ -43,7 +54,10 @@ global with sharing class SOM_CreditMemoDocumentController {
             for(CreditMemo cm : CreditMemo ){
                 setIds.add(cm.ReferenceEntityId) ;
             }
-            List<fulfillmentOrder> fulfillmentsOrders = [ Select Id,FulfilledToCountry,OrderSummaryId FROM fulfillmentOrder Where OrderSummaryId IN: setIds];
+            List<fulfillmentOrder> fulfillmentsOrders = [ Select Id,FulfilledToCountry,OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c FROM fulfillmentOrder Where OrderSummaryId IN: setIds];
+            cmAddress = setCreditMemoAddress (fulfillmentsOrders.get(0).OrderSummary.Legal_Entity__c);
+        	cmAddress.VATID = fulfillmentsOrders.get(0).OrderSummary.VAT_ID__c;
+
             Map<Id,fulfillmentOrder> foMap = new Map<Id,fulfillmentOrder>();
             for (fulfillmentOrder fo : fulfillmentsOrders){
                 foMap.put(fo.OrderSummaryId, fo);
@@ -159,45 +173,63 @@ global with sharing class SOM_CreditMemoDocumentController {
                 //set credit memo line taxes
                 this.creditMemoTaxLineItems = getCreditMemoTaxLineItems(creditMemo.get(0), creditMemoProductType);
                 this.creditMemoDocument     = creditMemoDoc;
-            }
-            /*Logs.debug('Credit Memo Document','SOM_CreditMemoDocumentController','setCreditMemoData','','');   
-            Logs.info('Credit Memo Document','SOM_CreditMemoDocumentController','setCreditMemoData','','');   
+
+                this.CreditMemoAddress     = cmAddress;
+
+            }  
         }catch(Exception e){
             Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoData','','');   
-        } */
- 
+        } 
+
     }
- 
+    
     public String getCreditMemoProductType(CreditMemo creditMemo){
+        try{  
             if (creditMemo.Refund__r.RefundOrigin__c == SOM_Constants.REFUND_ORIGIN_APPEASEMENT )
                 return SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT;
-            
             return SOM_Constants.INVOICE_LINE_TYPE_CHARGE;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoProductType','','');   
+        }
+        return null;
     }
     public Decimal getAmount(CreditMemoLine creditMemoLine){
+        try{
             if (creditMemoLine.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                 return creditMemoLine.AdjustmentAmount;
             }
-            
-            return creditMemoLine.ChargeAmount;        
+            return creditMemoLine.ChargeAmount;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getAmount','','');   
+        }
+        return null;
     }
     public Decimal getVAT(CreditMemoLine creditMemoLine){
+        try{
             if (creditMemoLine.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                 return creditMemoLine.AdjustmentTaxAmount;
             }
-            
             return creditMemoLine.ChargeTaxAmount;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getVAT','','');   
+        }
+        return null;
     }
     public Decimal getAmountWithTax(CreditMemoLine creditMemoLine){
+        try{
             if (creditMemoLine.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) ) {
                 return creditMemoLine.AdjustmentAmountWithTax;
             }
-            
             return creditMemoLine.ChargeAmountWithTax;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getAmountWithTax','','');   
+        }
+        return null;
     }
     public Map<Decimal,String> getCreditMemoTaxLineItems(CreditMemo creditMemo, String creditMemoProductType){
         Map<Decimal, Decimal> creditMemoTaxes       = new Map<Decimal, Decimal>();
         Map<Decimal, String> creditMemoTaxesSorted = new Map<Decimal, String>();
+        try{
             for (CreditMemoLine lineItem:creditMemo.CreditMemoLines) {
                 if (lineItem.Type.equalsIgnoreCase(creditMemoProductType) || ( creditMemo.ReturnOrder__r.Tech_ShippingFeeRefund__c == true && lineItem.Type == SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT)) {
                     Decimal taxRate = 0;
@@ -206,21 +238,19 @@ global with sharing class SOM_CreditMemoDocumentController {
                             if (lineItem.RelatedLineId == creditMemoLineCharge.Id && creditMemoLineCharge.ReferenceEntityItem instanceOf OrderItemSummary) {
                                 OrderItemSummary orderItem = (OrderItemSummary)creditMemoLineCharge.ReferenceEntityItem;
                                 taxRate = orderItem.TaxRate__c;
-                                break; 
+                                break;
                             }
                         }
                     } else if (lineItem.ReferenceEntityItem instanceOf OrderItemSummary) {
                         OrderItemSummary orderItem = (OrderItemSummary)lineItem.ReferenceEntityItem;
                         taxRate = orderItem.TaxRate__c;
                     }
-                    
                     Decimal taxAmount = lineItem.Type.equalsIgnoreCase(SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT) ? lineItem.AdjustmentTaxAmount : lineItem.ChargeTaxAmount;
                     if (creditMemoTaxes.containsKey(taxRate)) {
                         creditMemoTaxes.put(taxRate, creditMemoTaxes.get(taxRate)+taxAmount);
                     } else {
                         creditMemoTaxes.put(taxRate, taxAmount);
                     }
-                    
                 }
             }
             List<Decimal> sortedTaxes = new List<Decimal>();
@@ -228,34 +258,64 @@ global with sharing class SOM_CreditMemoDocumentController {
             sortedTaxes.sort();
             for(Decimal taxRate: sortedTaxes){
                 creditMemoTaxesSorted.put((taxRate),SOM_Utils.getTotalFormatted(creditMemoTaxes.get(taxRate),AmountsFormat));
-            }
+            }   
             return creditMemoTaxesSorted;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoTaxLineItems','','');   
+        }  
+        return null;
     }
-    
-    
+
     
     public String getPaymentMethod(Id orderSummaryId){
         //Get order payment summary
+        try{   
             List<OrderPaymentSummary> paymentSummary = [SELECT Type, PaymentMethodId, PaymentMethod.ImplementorType FROM OrderPaymentSummary WHERE OrderSummaryId = :orderSummaryId];
+            OrderSummary os = [SELECT Id , language__c FROM OrderSummary WHERE Id =: orderSummaryId LIMIT 1];
             if (paymentSummary != null && !paymentSummary.isEmpty()) {
-                if (paymentSummary.get(0).PaymentMethod.ImplementorType.equalsIgnoreCase(SOM_Constants.CARD_PAYMENT_METHOD)) {
-                    CardPaymentMethod cardPaymentMethod = [SELECT CardCategory FROM CardPaymentMethod WHERE Id = :paymentSummary.get(0).PaymentMethodId];
-                    return cardPaymentMethod.CardCategory;
+                List<Payment_Methods_Mapping__mdt> paymentMethodsMapping = [SELECT Id, Value__c, Translation__c, Is_Card_Payment_Method__c FROM Payment_Methods_Mapping__mdt WHERE Value__c = :paymentSummary.get(0).Type AND Language__c = :os.language__c];
+                if (paymentMethodsMapping != null && !paymentMethodsMapping.isEmpty()) {
+                    return paymentMethodsMapping.get(0).Translation__c;
                 } else {
                     return paymentSummary.get(0).Type;
                 }
             }
-        
+
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','getPaymentMethod','','');   
+        }  
         return '';
     }
     public String setAmountsFormat(String CountryIso) {
-       // try{
-        //    Logs.debug('Credit Memo Document','SOM_CreditMemoDocumentController','setAmountsFormat','','');   
-        //    Logs.info('Credit Memo Document','SOM_CreditMemoDocumentController','setAmountsFormat','','');   
+        try{  
             Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
             return AmountsFormat.AmountsFormat__c;
+        }catch(Exception e){
+            Logs.error(e,'SOM_CreditMemoDocumentController','setAmountsFormat','','');   
+        }  
+        return null;
     }
- 
+    
+    public CreditMemoAddress setCreditMemoAddress(String CountryIso) {
+        CreditMemoAddress CredMeAddress     = new CreditMemoAddress();
+        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Name , City__c,Address__c,ZipCode__c,  CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Country__c = :CountryIso];
+        CredMeAddress.name = LegalEntity.Name; 
+        CredMeAddress.address = LegalEntity.Address__c ;  
+        CredMeAddress.countryLabel = LegalEntity.CountryLabel__c; 
+        CredMeAddress.FooterBilling = LegalEntity.FooterBilling__c; 
+        return CredMeAddress;
+    } 
+    
+    
+    global with sharing class CreditMemoAddress{
+        public String                name {get; set;} //Invoice: DocumentNumber
+        public String                address {get; set;} //Invoice : InvoiceDate
+        public String                countryLabel {get; set;} //OrderSummary : OrderNumber
+        public String                VATID {get; set;} //FO : currency
+        public String                FooterBilling {get; set;}
+    }
+    
+    
     global with sharing class CreditMemoDocument{
         public String                   creditMemoNumber {get; set;}
         public String                   invoiceNumber {get; set;}
@@ -268,7 +328,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   netSubTotal {get; set;}
         public String                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
-        public String                	Template {get; set;}
+        public String                   Template {get; set;}
     }
     global with sharing class CreditMemoContact{
         public String name {get; set;}
@@ -292,8 +352,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String  grossAmount {get; set;}
         public String  total {get; set;}
         //add number LineNumber
-        public Integer  lineNumber {get; set;} 
-        
+        public Integer  lineNumber {get; set;}
         public Integer compareTo(Object compareTo) {
             // Cast argument to InvoiceLineItem
             CreditMemoLineItem compareToOppy = (CreditMemoLineItem)compareTo;
@@ -317,6 +376,5 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
             return returnValue;
         }
-        
     }
 }
