@@ -5,7 +5,7 @@ global with sharing class SOM_CreateInvoicePDFFileAction {
         List<Attachment> Listattachment = new List<Attachment>();
         List<Invoice> listInvoices = new List<Invoice>();
         List<CorrectiveInvoice__c> listCinvoices = new List<CorrectiveInvoice__c>();
-        PageReference page;
+        PageReference page = new PageReference('/apex/SOM_InvoiceDocumentTemplate');
         String OrderCountry;
 
         map<Id,invoice> mapInvoices = new map<Id,invoice>([SELECT Id, DocumentNumber, InvoiceNumber__c, 
@@ -39,13 +39,13 @@ global with sharing class SOM_CreateInvoicePDFFileAction {
                 OrderCountry    = mapInvoices.get(inv).FulfillmentOrders.get(0).FulfilledToCountry;
                 listInvoices.add(new invoice(Id = inv,PDFGenerationStatus__c = SOM_Constants.PDF_GENERATION_STATUS_GENERATED));
 
-                if(OrderCountry == 'AE'){
+                /*if(OrderCountry == 'AE'){
                     page = new PageReference('/apex/SOM_InvoiceArabicDocument');
                 }else if(OrderCountry == 'KR'){
                     page = new PageReference('/apex/SOM_InvoiceKoreaDocument');
                 }else{
                     page = new PageReference('/apex/SOM_InvoiceDocument');
-                }
+                }*/
                 page.getParameters().put('invoiceId', inv);
                 page.getParameters().put('template', OrderCountry);
 
@@ -72,14 +72,7 @@ global with sharing class SOM_CreateInvoicePDFFileAction {
                 attachment.Name = getInvoiceName(mapCorrectiveInvoice.get(inv).Name, maporiginalInvoiceIds.get(correctiveInvoice.OriginalInvoiceId__c).FulfillmentOrders.get(0).OrderSummary.OrderNumber);
                 OrderCountry    = maporiginalInvoiceIds.get(correctiveInvoice.OriginalInvoiceId__c).FulfillmentOrders.get(0).FulfilledToCountry;
                 listCinvoices.add(new CorrectiveInvoice__c(Id = inv,PDFGenerationStatus__c = SOM_Constants.PDF_GENERATION_STATUS_GENERATED));
-            
-                if(OrderCountry == 'AE'){
-                    page = new PageReference('/apex/SOM_InvoiceArabicDocument');
-                }else if(OrderCountry == 'KR'){
-                    page = new PageReference('/apex/SOM_InvoiceKoreaDocument');
-                }else{
-                    page = new PageReference('/apex/SOM_InvoiceDocument');
-                }
+                page = new PageReference('/apex/SOM_InvoiceDocumentTemplate');
                 page.getParameters().put('invoiceId', inv);
                 page.getParameters().put('template', OrderCountry);
 
