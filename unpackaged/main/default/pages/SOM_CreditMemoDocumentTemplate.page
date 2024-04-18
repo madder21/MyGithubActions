@@ -168,7 +168,7 @@
                 
                 <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
                     <tr> 
-                        <td width="100%" class=""><apex:outputText value="{!creditMemoConfigs['TAX']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:outputText value="{!key}"/> % <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel>:</td>
+                        <td width="100%" class=""><apex:outputText value="{!creditMemoConfigs['TAX']}"/>&nbsp;<apex:outputText value="{!key}"/> % <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel>:</td>
                         <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                     </tr>
                 </apex:repeat>

@@ -185,7 +185,7 @@
                 
                 <apex:repeat value="{!invoiceTaxLineItems}" var="key">
                     <tr>
-                        <td width="100%" class="" style="padding-top: 3px;"><apex:outputText value="{!invoiceConfigs['TAX']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:outputText value="{!key}"/> % <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel>:</td>
+                        <td width="100%" class="" style="padding-top: 3px;"><apex:outputText value="{!invoiceConfigs['TAX']}"/>&nbsp;<apex:outputText value="{!key}"/> %<apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"> <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/PlusTax.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel>:</td>
                         <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                     </tr>
                 </apex:repeat>
