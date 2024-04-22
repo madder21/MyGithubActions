@@ -174,7 +174,9 @@ global with sharing class SOM_CreditMemoDocumentController {
                 this.creditMemoTaxLineItems = getCreditMemoTaxLineItems(creditMemo.get(0), creditMemoProductType);
                 this.creditMemoDocument     = creditMemoDoc;
 
+
                 this.CreditMemoAddress     = cmAddress;
+
 
             }  
         }catch(Exception e){
@@ -353,6 +355,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String  total {get; set;}
         //add number LineNumber
         public Integer  lineNumber {get; set;}
+
         public Integer compareTo(Object compareTo) {
             // Cast argument to InvoiceLineItem
             CreditMemoLineItem compareToOppy = (CreditMemoLineItem)compareTo;
@@ -376,5 +379,6 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
             return returnValue;
         }
+
     }
 }
