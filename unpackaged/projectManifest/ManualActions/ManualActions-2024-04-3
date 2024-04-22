@@ -1,4 +1,24 @@
+* Ticket : SOM-1020
+Activate tab for Legal Entity sys admin default on
 
+    Legal_Entity__c.Address__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.City__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.Code__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.Country__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.CountryLabel__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.FooterBilling__c: Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.State__c : Visible for Sys admin + Ecom Operation
+    Legal_Entity__c.ZipCode__c : Visible for Sys admin + Ecom Operation
+
+Enable Read for the profile Ecom Operation for the object Legal_Entity
+SOM_InvoiceDocumentTemplate	: Visualforce Page  Access for Sys admin + Ecom Operation
+SOM_CreditMemoDocumentTemplate :Visualforce Page Access  Sys admin + Ecom Operation
+
+* Ticket : SOM-1008
+    - TaxCodeConfiguration__c.deliverToCountry__c : Visible for all profils
+    - TaxCodeConfiguration__c.taxRate__c : Visible for all profils
+    - TaxCodeConfiguration__c.taxCode__c : Visible for all profils
+    - create the records mentioned in the ticket
 
 
 
