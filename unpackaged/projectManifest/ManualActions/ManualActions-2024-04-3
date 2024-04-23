@@ -21,7 +21,7 @@ RDD :esport/import all data from UAT
     - TaxCodeConfiguration__c.taxRate__c : Visible for all profils
     - TaxCodeConfiguration__c.taxCode__c : Visible for all profils
     - create the records mentioned in the ticket
-
+     Object TaxCodeConfiguration__c : Read + Create + Edit + ViewAll (Sys Admin + Ecom Operations)
     RDD :select CurrencyIsoCode,deliverToCountry__c,taxCode__c, taxRate__c from TaxCodeConfiguration__c limit 200 
 
 
