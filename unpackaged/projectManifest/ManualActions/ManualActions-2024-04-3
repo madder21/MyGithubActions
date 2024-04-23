@@ -20,6 +20,7 @@ SOM_CreditMemoDocumentTemplate :Visualforce Page Access  Sys admin + Ecom Operat
     - TaxCodeConfiguration__c.taxCode__c : Visible for all profils
     - create the records mentioned in the ticket
 
+    RDD :select CurrencyIsoCode,deliverToCountry__c,taxCode__c, taxRate__c from TaxCodeConfiguration__c limit 200 
 
 
 
