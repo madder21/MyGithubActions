@@ -320,6 +320,16 @@
             <field>ExchangeROLI__c</field>
             <table>ReturnOrder</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderSummary.Tech_ShippingCountry__c</field>
+            <table>ReturnOrder</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>expectedPackages__c</field>
+            <table>ReturnOrder</table>
+        </columns>
         <masterLabel>Return Orders</masterLabel>
     </sections>
     <sections>
@@ -541,6 +551,21 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>TotalWithTaxFormula__c</field>
+            <table>ReturnOrder.ReturnOrderLineItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2.StockKeepingUnit</field>
+            <table>ReturnOrder.ReturnOrderLineItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2.Name</field>
+            <table>ReturnOrder.ReturnOrderLineItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Product2.Description</field>
             <table>ReturnOrder.ReturnOrderLineItems</table>
         </columns>
         <masterLabel>Return Order Line Items</masterLabel>
