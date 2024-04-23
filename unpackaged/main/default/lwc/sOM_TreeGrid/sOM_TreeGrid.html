@@ -1,0 +1,70 @@
+<template>
+  <div class="slds-clearfix">
+   <lightning-button label="New Store Origin" variant="brand" onclick={openNewRecord} class="slds-float_right"></lightning-button>
+</div>
+<br>
+    <div>
+        <lightning-tree-grid columns={gridColumns} data={gridData} is-loading={isLoading} key-field="Id"
+            ontoggle={handleOnToggle} onrowaction={callRowAction}></lightning-tree-grid>
+    </div>
+    
+
+    <template if:true={isShowModal}>
+
+
+<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+   <div class="slds-modal__container">
+    <!-- modal header start -->
+      <header class="slds-modal__header">
+         <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={hideModalBox}>
+            <lightning-icon icon-name="utility:close"
+               alternative-text="close"
+               variant="inverse"
+               size="small" ></lightning-icon>
+            <span class="slds-assistive-text">Close</span>
+         </button>
+         <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">STW Nuremberg Delivery Method</h2>
+      </header>
+  
+      <!-- modal body start -->
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+         <lightning-record-edit-form object-api-name={accountObject} onsuccess={handleAccountCreated}>
+            <lightning-messages></lightning-messages>
+            <div class="slds-grid">
+              <div class="slds-col slds-size_1-of-1">
+                <lightning-input-field if:true={showStoreOrigin} required="true" field-name={storeOrigin} value={rec.storeOrigin} onchange={handlestoreOriginChange}></lightning-input-field>
+                <lightning-input-field if:true={showCountry} required="true" field-name={country} value={rec.country} onchange={handlecountryChange}></lightning-input-field>
+                <lightning-input-field if:true={showDelivery} required="true" field-name={postalCode} value={rec.postalCode} onchange={handlepostalCodeChange}></lightning-input-field>
+                <!-- <lightning-input-field if:true={showDelivery} field-name={deliveryMethod} value=""></lightning-input-field> -->
+               
+                <lightning-combobox if:true={showDelivery} required="true"  access-key={rec.deliveryMethod} name="locationVal" label="deliveryMethod"
+                  value={rec.deliveryMethod} placeholder="Select deliveryMethod"
+                  options={locationPicklist} onchange={handledeliveryMethodChange} class="picklistStyle">
+               </lightning-combobox>
+
+
+
+
+    
+              </div>
+              <div class="slds-col slds-size_1-of-2">
+                <!-- More lightning-input-field components here -->
+              </div>
+            </div>
+            <!-- <lightning-button type="submit" variant="brand" label="Create Account"></lightning-button> -->
+          </lightning-record-edit-form>
+          
+        </div>
+      <!-- modal footer start-->
+      <footer class="slds-modal__footer">
+         <button class="slds-button slds-button_neutral" onclick={hideModalBox}>Cancel</button>
+         <button class="slds-button slds-button_neutral" onclick={handleClick}>Save</button>
+      </footer>
+   
+   </div>
+</section>
+<div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+
+    
+</template>
