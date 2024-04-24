@@ -45,7 +45,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Set<String> OrderDeliveryMethodListIds          = new Set<String>();
             List<OrderDeliveryMethod> orderDeliveryMethods = new List<OrderDeliveryMethod>();
             List<String> STWpostalCodeList = new List<String>();
-            List<STWNurembergDeliveryMethod__c> STWListEX = new List<STWNurembergDeliveryMethod__c>();
+            List<STWDeliveryMethod__c> STWListEX = new List<STWDeliveryMethod__c>();
             
             Boolean isStockAvailable = true;
             for (StoreToWebOrder storeToWebOrder:request.orders) {
@@ -66,12 +66,12 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             System.debug('PostalCode' + PostalCodes);
             if(PostalCodes != null && PostalCodes.size() !=0 ){
                 STWListEX = [SELECT ID, storeOrigin__c, country__c, postalCode__c, parentId__r.parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
-                             FROM STWNurembergDeliveryMethod__c 
+                             FROM STWDeliveryMethod__c 
                              WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c = 'DE22'];            
                 OrderDeliveryMethod STorderDeliveryMethod = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber = 'standard_DE'];
                 OrderDeliveryMethodListIds.add(STorderDeliveryMethod.Id);
                 if(STWListEX != null){ 
-                    for(STWNurembergDeliveryMethod__c stw : STWListEX){
+                    for(STWDeliveryMethod__c stw : STWListEX){
                         OrderDeliveryMethodListIds.add(stw.deliveryMethodId__c);
                         STWpostalCodeList.add(stw.postalCode__c);
                     }

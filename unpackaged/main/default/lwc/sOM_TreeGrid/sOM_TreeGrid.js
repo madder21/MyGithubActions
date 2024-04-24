@@ -4,12 +4,11 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { RefreshEvent } from 'lightning/refresh';
 import {refreshApex} from '@salesforce/apex';
 
-import ACCOUNT_OBJECT from "@salesforce/schema/STWNurembergDeliveryMethod__c";
-import COUNTRY_FIELD from "@salesforce/schema/STWNurembergDeliveryMethod__c.country__c";
-import POSTALCODE_FIELD from "@salesforce/schema/STWNurembergDeliveryMethod__c.postalCode__c";
-import STOREORIGIN_FIELD from "@salesforce/schema/STWNurembergDeliveryMethod__c.storeOrigin__c";
-import DELIVERYMETHOD_FIELD from "@salesforce/schema/STWNurembergDeliveryMethod__c.deliveryMethodId__c";
-import DdeliveryMethod_FIELD from "@salesforce/schema/STWNurembergDeliveryMethod__c.deliveryMethod__c";
+import ACCOUNT_OBJECT from "@salesforce/schema/STWDeliveryMethod__c";
+import COUNTRY_FIELD from "@salesforce/schema/STWDeliveryMethod__c.country__c";
+import POSTALCODE_FIELD from "@salesforce/schema/STWDeliveryMethod__c.postalCode__c";
+import STOREORIGIN_FIELD from "@salesforce/schema/STWDeliveryMethod__c.storeOrigin__c";
+import DELIVERYMETHOD_FIELD from "@salesforce/schema/STWDeliveryMethod__c.deliveryMethodId__c";
 
 
 
@@ -71,7 +70,7 @@ export default class DynamicTreeGrid extends NavigationMixin(LightningElement) {
   	@track rec = {};
 	@track locationPicklist;
 
-	
+	@track storeOriginError;
 
 	gridColumns = COLS;
 	isLoading = true;
@@ -357,42 +356,57 @@ getCreateRecordLevel() {
 	  }
 
 	handleClick() {
-		console.log("JSON.stringify(this.rec)",JSON.stringify(this.rec));
-		console.log("(this.rec)",this.rec);
-        createSTW({ recordToCreate : JSON.stringify(this.rec) })
-            .then(result => {
-                /*this.message = result;
-                this.error = undefined;
-                if(this.message !== undefined) {
-                    this.dispatchEvent(
-                        new ShowToastEvent({
-                            title: 'Success',
-                            message: 'Account created',
-                            variant: 'success',
-                        }),
-                    );
-                }
-                */
-				
-				this.isShowModal = false;
-				this.showDelivery = false;
-				this.showCountry = false;
-				this.showStoreOrigin = false;
-                console.log(JSON.stringify(result));
+
+		if( (this.showStoreOrigin === true && this.rec.storeOrigin === undefined) 
+			|| (this.showCountry === true && this.rec.country === undefined)
+			|| (this.showDelivery === true && (this.rec.postalCode === undefined || this.rec.deliveryMethod === undefined)) ){
 				this.dispatchEvent(
 					new ShowToastEvent({
-						title: "Create Record",
-						message: "The record is succefully created.",
-						variant: "success"
-					})
-				);
+					title: "Complete this field.",
+					message: "This field is required.",
+					variant: "error"
+					}),
+				);	
+		}else{
 
-				setTimeout(()=>{
-
-					window.location.reload(true);
-				  
-				  }, 1000);
-
+			console.log("JSON.stringify(this.rec)",JSON.stringify(this.rec));
+			console.log("(this.rec)",this.rec);
+			createSTW({ recordToCreate : JSON.stringify(this.rec) })
+				.then(result => {
+					/*this.message = result;
+					this.error = undefined;
+					if(this.message !== undefined) {
+						this.dispatchEvent(
+							new ShowToastEvent({
+								title: 'Success',
+								message: 'Account created',
+								variant: 'success',
+							}),
+						);
+					}
+					*/
+					
+					this.isShowModal = false;
+					this.showDelivery = false;
+					this.showCountry = false;
+					this.showStoreOrigin = false;
+					console.log(JSON.stringify(result));
+					this.dispatchEvent(
+						new ShowToastEvent({
+							title: "Create Record",
+							message: "The record is succefully created.",
+							variant: "success"
+						})
+					);
+	
+					setTimeout(()=>{
+	
+						window.location.reload(true);
+					  
+					  }, 1000);
+	
+				
+				
                 //console.log("result", this.message);
             })
             .catch(error => {
@@ -407,6 +421,7 @@ getCreateRecordLevel() {
                 );
                 console.log("error", JSON.stringify(this.error));
             });
+		}
     }
 
 	openNewRecord(){
@@ -416,4 +431,5 @@ getCreateRecordLevel() {
 		this.showStoreOrigin = true;
 		console.log("this.showStoreOrigin", this.showStoreOrigin);
 	}
+
 }

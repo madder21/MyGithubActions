@@ -17,12 +17,12 @@ public class SOM_DynamicTreeGridControllerTEST {
         OrderDeliveryMethod odm = SOM_testDataFactory.createOrderDeliveryMethod('standard_GB', prd0.Id, 'standard_GB');
         insert odm;
         odmID = odm.Id;
-        STWNurembergDeliveryMethod__c storeOrigin = SOM_testDataFactory.createStoreOrigin('StoreOrigin');
+        STWDeliveryMethod__c storeOrigin = SOM_testDataFactory.createStoreOrigin('StoreOrigin');
         storeOriginID = storeOrigin.Id;
-        STWNurembergDeliveryMethod__c Country 	  = SOM_testDataFactory.createStwCountry('AE',storeOriginID ); 
+        STWDeliveryMethod__c Country 	  = SOM_testDataFactory.createStwCountry('AE',storeOriginID ); 
         System.debug('Country' + Country);
         CountryID = Country.Id;
-        STWNurembergDeliveryMethod__c postalCode  = SOM_testDataFactory.createStwPostalCode('AE',odm.id,storeOriginID );   
+        STWDeliveryMethod__c postalCode  = SOM_testDataFactory.createStwPostalCode('AE',odm.id,storeOriginID );   
         postalCodeID = postalCode.Id;
     }
     
@@ -31,7 +31,7 @@ public class SOM_DynamicTreeGridControllerTEST {
     public static void getAllParentCasesTest() {
         makeData();
         Test.startTest();
-        List<STWNurembergDeliveryMethod__c> stwList = SOM_DynamicTreeGridController.getAllParentCases();
+        List<STWDeliveryMethod__c> stwList = SOM_DynamicTreeGridController.getAllParentCases();
         System.assertNotEquals(stwList, null, 'STWNurembergDeliveryMethod Generated');
         Test.stopTest(); 
     }
@@ -40,7 +40,7 @@ public class SOM_DynamicTreeGridControllerTEST {
     public static void getChildCasesTest() {
         Test.startTest();
         makeData();
-        List<STWNurembergDeliveryMethod__c> stwList = SOM_DynamicTreeGridController.getChildCases(storeOriginID);
+        List<STWDeliveryMethod__c> stwList = SOM_DynamicTreeGridController.getChildCases(storeOriginID);
         System.assertNotEquals(stwList, null, 'STWNurembergDeliveryMethod Generated');
         Test.stopTest(); 
     }
@@ -50,7 +50,7 @@ public class SOM_DynamicTreeGridControllerTEST {
         Test.startTest();
         makeData();
         SOM_DynamicTreeGridController.delSTW(storeOriginID);
-        List<STWNurembergDeliveryMethod__c> stwListDeleted = [Select id from  STWNurembergDeliveryMethod__c where id=: storeOriginID ];
+        List<STWDeliveryMethod__c> stwListDeleted = [Select id from  STWDeliveryMethod__c where id=: storeOriginID ];
         System.assertEquals(stwListDeleted.size(), 0, 'STWNurembergDeliveryMethod Deleted');
         Test.stopTest(); 
     }
@@ -86,7 +86,7 @@ public class SOM_DynamicTreeGridControllerTEST {
         SOM_DynamicTreeGridController.createSTW(recordToCreate1);
         SOM_DynamicTreeGridController.createSTW(recordToCreate2);
         SOM_DynamicTreeGridController.createSTW(recordToCreate3);
-        List<STWNurembergDeliveryMethod__c> recordToCreated = [Select id from  STWNurembergDeliveryMethod__c ];
+        List<STWDeliveryMethod__c> recordToCreated = [Select id from  STWDeliveryMethod__c ];
         System.assertNotEquals(recordToCreated.size(), 0 );
         Test.stopTest(); 
     }

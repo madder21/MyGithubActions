@@ -1,17 +1,17 @@
 public with sharing class SOM_DynamicTreeGridController {
     
     @AuraEnabled(cacheable=true)
-    public static List<STWNurembergDeliveryMethod__c> getAllParentCases() {
+    public static List<STWDeliveryMethod__c> getAllParentCases() {
         return [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
-                FROM STWNurembergDeliveryMethod__c 
+                FROM STWDeliveryMethod__c 
                 WHERE parentId__c = NULL ];
     }
     
     @AuraEnabled
-    public static List<STWNurembergDeliveryMethod__c> getChildCases(String parentId) {
+    public static List<STWDeliveryMethod__c> getChildCases(String parentId) {
         return [
             SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c
-            FROM STWNurembergDeliveryMethod__c
+            FROM STWDeliveryMethod__c
             WHERE parentId__c = :parentId
         ];
     }
@@ -19,20 +19,20 @@ public with sharing class SOM_DynamicTreeGridController {
     @AuraEnabled
     public static void delSTW(String recordIdToDelete) {
         List<Id> IdList = new List<Id>();
-        List<STWNurembergDeliveryMethod__c> firstListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
-                                                            FROM STWNurembergDeliveryMethod__c
+        List<STWDeliveryMethod__c> firstListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
+                                                            FROM STWDeliveryMethod__c
                                                             WHERE Id = :recordIdToDelete
                                                            ];
-        List<STWNurembergDeliveryMethod__c> secondListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
-                                                             FROM STWNurembergDeliveryMethod__c
+        List<STWDeliveryMethod__c> secondListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
+                                                             FROM STWDeliveryMethod__c
                                                              WHERE parentId__c = :firstListToD[0].Id
                                                             ];
-        FOR(STWNurembergDeliveryMethod__c stw :secondListToD ){
+        FOR(STWDeliveryMethod__c stw :secondListToD ){
             IdList.add(stw.id);
         }
         
-        List<STWNurembergDeliveryMethod__c> thirdListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
-                                                            FROM STWNurembergDeliveryMethod__c
+        List<STWDeliveryMethod__c> thirdListToD = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
+                                                            FROM STWDeliveryMethod__c
                                                             WHERE parentId__c IN :IdList
                                                            ];
         delete firstListToD;
@@ -44,8 +44,8 @@ public with sharing class SOM_DynamicTreeGridController {
     @AuraEnabled
     public static String getCreateRecordLevel(String recId) {
         String Level = 'L0';
-        STWNurembergDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
-                                             FROM STWNurembergDeliveryMethod__c
+        STWDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c
+                                             FROM STWDeliveryMethod__c
                                              WHERE Id = :recId
                                             ];
         if(stw.country__c!= '' && stw.country__c!= null){
@@ -63,8 +63,8 @@ public with sharing class SOM_DynamicTreeGridController {
         
         System.debug('gridData'  + stwList);
         
-        STWNurembergDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
-                                             FROM STWNurembergDeliveryMethod__c 
+        STWDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
+                                             FROM STWDeliveryMethod__c 
                                              WHERE Id =: stwList];
         
         
@@ -105,16 +105,16 @@ public with sharing class SOM_DynamicTreeGridController {
     
     @AuraEnabled
     public static Void createSTW(String recordToCreate) {
-        STWNurembergDeliveryMethod__c STW_ToCreate = new STWNurembergDeliveryMethod__c();
+        STWDeliveryMethod__c STW_ToCreate = new STWDeliveryMethod__c();
         system.debug('acc'+recordToCreate);
         STWWrapper wrapper=(STWWrapper)JSON.deserialize(recordToCreate,STWWrapper.class);
         if(wrapper.recordID == null || wrapper.recordID ==''){
-            STW_ToCreate.storeOrigin__c = wrapper.storeOrigin;
+            STW_ToCreate.storeOrigin__c = wrapper.storeOrigin; 
             
             
         }else {
-            STWNurembergDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
-                                                 FROM STWNurembergDeliveryMethod__c 
+            STWDeliveryMethod__c stw = [SELECT Id, storeOrigin__c, country__c, postalCode__c, parentId__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
+                                                 FROM STWDeliveryMethod__c 
                                                  WHERE Id =: wrapper.recordID];
             if(wrapper.country!= '' && wrapper.country!= null){
                 STW_ToCreate.country__c = wrapper.country;
