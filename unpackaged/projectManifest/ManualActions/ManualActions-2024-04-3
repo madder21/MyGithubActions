@@ -14,12 +14,15 @@ Enable Read for the profile Ecom Operation for the object Legal_Entity
 SOM_InvoiceDocumentTemplate	: Visualforce Page  Access for Sys admin + Ecom Operation
 SOM_CreditMemoDocumentTemplate :Visualforce Page Access  Sys admin + Ecom Operation
 
+RDD :esport/import all data from UAT
+
 * Ticket : SOM-1008
     - TaxCodeConfiguration__c.deliverToCountry__c : Visible for all profils
     - TaxCodeConfiguration__c.taxRate__c : Visible for all profils
     - TaxCodeConfiguration__c.taxCode__c : Visible for all profils
     - create the records mentioned in the ticket
-
+     Object TaxCodeConfiguration__c : Read + Create + Edit + ViewAll (Sys Admin + Ecom Operations)
+    RDD :select CurrencyIsoCode,deliverToCountry__c,taxCode__c, taxRate__c from TaxCodeConfiguration__c limit 200 
 
 
 
