@@ -23,7 +23,11 @@ public class AccountTriggerHandler implements ITriggerHandler {
   	*/
   	public Boolean IsDisabled() {
         /*Use the option below if you set up Custom Settings to controll Triggers*/
-        //return TriggerSettings__c.AccountTriggerDisabled__c ?true : TriggerDisabled;
+        BypassTrigger__c bypassOrgDef = BypassTrigger__c.getOrgDefaults();
+        BypassTrigger__c bypassUser = BypassTrigger__c.getInstance(UserInfo.getUserId());
+        if(bypassOrgDef.Account__c == true || bypassUser.Account__c == true) {
+            TriggerDisabled = true;
+        }
         return TriggerDisabled;
   	}
     
