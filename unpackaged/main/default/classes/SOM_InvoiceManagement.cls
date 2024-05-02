@@ -47,8 +47,8 @@ public with sharing class SOM_InvoiceManagement {
                             newInvMap.InvoiceNumber__c = NextDocumentNumberInvoice;
                         } else {
                             // Set default values for InvoiceNumber__c and DocumentNumber__c
-                            newInvMap.InvoiceNumber__c = 'I000000001';
-                            newInvMap.DocumentNumber__c = 'I000000001';
+                             newInvMap.InvoiceNumber__c = 'I000000001'+InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+                            newInvMap.DocumentNumber__c = 'I000000001'+InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
                         }
                     } 
                 }
