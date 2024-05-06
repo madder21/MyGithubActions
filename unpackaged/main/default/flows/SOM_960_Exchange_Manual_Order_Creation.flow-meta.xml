@@ -5,7 +5,7 @@
         <name>Assign_CustomCountries</name>
         <label>Assign CustomCountries</label>
         <locationX>651</locationX>
-        <locationY>1601</locationY>
+        <locationY>1652</locationY>
         <assignmentItems>
             <assignToReference>C_Custom_Countries_After_Split</assignToReference>
             <operator>Add</operator>
@@ -28,7 +28,7 @@
         <name>Assign_CustomCountry</name>
         <label>Assign CustomCountry</label>
         <locationX>463</locationX>
-        <locationY>1249</locationY>
+        <locationY>1300</locationY>
         <assignmentItems>
             <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
             <operator>Assign</operator>
@@ -44,7 +44,7 @@
         <name>Assign_Fields</name>
         <label>Assign Fields</label>
         <locationX>334</locationX>
-        <locationY>599</locationY>
+        <locationY>650</locationY>
         <assignmentItems>
             <assignToReference>v_ODGOutput.OrderDeliveryMethodId</assignToReference>
             <operator>Assign</operator>
@@ -80,8 +80,8 @@
     <assignments>
         <name>Assign_Id_for_URL</name>
         <label>Assign Id for URL</label>
-        <locationX>1801</locationX>
-        <locationY>1369</locationY>
+        <locationX>1904</locationX>
+        <locationY>1410</locationY>
         <assignmentItems>
             <assignToReference>V_URLorderSummary</assignToReference>
             <operator>Assign</operator>
@@ -97,7 +97,7 @@
         <name>Assign_LocationsIds</name>
         <label>Assign_LocationsIds</label>
         <locationX>809</locationX>
-        <locationY>1245</locationY>
+        <locationY>1296</locationY>
         <assignmentItems>
             <assignToReference>LocationsIds</assignToReference>
             <operator>Add</operator>
@@ -113,7 +113,7 @@
         <name>Assign_Order_Product_Tax_Line_Item</name>
         <label>Assign Order Product Tax Line Item</label>
         <locationX>1568</locationX>
-        <locationY>1090</locationY>
+        <locationY>1141</locationY>
         <assignmentItems>
             <assignToReference>S_OrderTaxLineItem.Name</assignToReference>
             <operator>Assign</operator>
@@ -157,7 +157,7 @@
         <name>Assign_OrderItem_Data</name>
         <label>Assign OrderItem Data</label>
         <locationX>1446</locationX>
-        <locationY>908</locationY>
+        <locationY>959</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -243,7 +243,7 @@
         <name>Assign_OrderItem_Data_0</name>
         <label>Assign OrderItem Data</label>
         <locationX>1317</locationX>
-        <locationY>991</locationY>
+        <locationY>1042</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -329,7 +329,7 @@
         <name>Assign_Product_SKU</name>
         <label>Assign Product SKU</label>
         <locationX>1995</locationX>
-        <locationY>1027</locationY>
+        <locationY>1078</locationY>
         <assignmentItems>
             <assignToReference>ProductSKU</assignToReference>
             <operator>Assign</operator>
@@ -345,7 +345,7 @@
         <name>Clear_Data</name>
         <label>Clear Data</label>
         <locationX>1098</locationX>
-        <locationY>1090</locationY>
+        <locationY>1141</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem</assignToReference>
             <operator>Assign</operator>
@@ -361,8 +361,8 @@
     <assignments>
         <name>Remove_reserved_at_location_Id</name>
         <label>Remove reserved at location Id</label>
-        <locationX>1504</locationX>
-        <locationY>1535</locationY>
+        <locationX>1503</locationX>
+        <locationY>1587</locationY>
         <assignmentItems>
             <assignToReference>Loop_Over_new_Order_Product_Summaries.ReservedAtLocationId</assignToReference>
             <operator>Assign</operator>
@@ -385,7 +385,7 @@
         <name>Set_fields</name>
         <label>Set fields</label>
         <locationX>719</locationX>
-        <locationY>599</locationY>
+        <locationY>650</locationY>
         <assignmentItems>
             <assignToReference>v_ODGOutput.OrderDeliveryMethodId</assignToReference>
             <operator>Assign</operator>
@@ -429,7 +429,7 @@
         <name>Set_Initial_Data_for_ListItems_Screen</name>
         <label>Set Initial Data for ListItems Screen</label>
         <locationX>522</locationX>
-        <locationY>841</locationY>
+        <locationY>892</locationY>
         <assignmentItems>
             <assignToReference>V_Input_CountryCode</assignToReference>
             <operator>Assign</operator>
@@ -445,7 +445,7 @@
         <name>Set_OrderItem_LocationId</name>
         <label>Set OrderItem LocationId</label>
         <locationX>1659</locationX>
-        <locationY>764</locationY>
+        <locationY>815</locationY>
         <assignmentItems>
             <assignToReference>S_OrderItem.ReservedAtLocationId</assignToReference>
             <operator>Assign</operator>
@@ -461,7 +461,7 @@
         <name>Set_OS_id</name>
         <label>Set OS id</label>
         <locationX>940</locationX>
-        <locationY>422</locationY>
+        <locationY>473</locationY>
         <assignmentItems>
             <assignToReference>OsId</assignToReference>
             <operator>Assign</operator>
@@ -505,7 +505,7 @@
         <name>Set_OS_Id2</name>
         <label>Set OS Id</label>
         <locationX>167</locationX>
-        <locationY>421</locationY>
+        <locationY>472</locationY>
         <assignmentItems>
             <assignToReference>OsId</assignToReference>
             <operator>Assign</operator>
@@ -548,8 +548,8 @@
     <assignments>
         <name>Stack_Order_Items</name>
         <label>Stack Order Items</label>
-        <locationX>1401</locationX>
-        <locationY>1090</locationY>
+        <locationX>1402</locationX>
+        <locationY>1140</locationY>
         <assignmentItems>
             <assignToReference>C_OrderItems</assignToReference>
             <operator>Add</operator>
@@ -580,7 +580,7 @@
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Location by ExternlReference</label>
         <locationX>1126</locationX>
-        <locationY>764</locationY>
+        <locationY>815</locationY>
         <assignNextValueToReference>currentItem_Filter_Location_by_ExternlReference_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
@@ -601,7 +601,7 @@
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Product by productId</label>
         <locationX>1570</locationX>
-        <locationY>968</locationY>
+        <locationY>1019</locationY>
         <assignNextValueToReference>currentItem_Filter_Product_by_productId</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Product_SKU</collectionReference>
@@ -621,7 +621,7 @@
         <name>Check_Custom_Locations</name>
         <label>Check_Custom_Locations</label>
         <locationX>639</locationX>
-        <locationY>1432</locationY>
+        <locationY>1483</locationY>
         <defaultConnector>
             <targetReference>Assign_CustomCountries</targetReference>
         </defaultConnector>
@@ -675,7 +675,7 @@
         <name>Check_Product_Family</name>
         <label>Check Product Family</label>
         <locationX>1260</locationX>
-        <locationY>865</locationY>
+        <locationY>916</locationY>
         <defaultConnector>
             <targetReference>Assign_OrderItem_Data</targetReference>
         </defaultConnector>
@@ -700,7 +700,7 @@
         <name>is_from_RO</name>
         <label>is from RO</label>
         <locationX>513</locationX>
-        <locationY>599</locationY>
+        <locationY>650</locationY>
         <defaultConnector>
             <targetReference>Set_fields</targetReference>
         </defaultConnector>
@@ -725,7 +725,7 @@
         <name>OS_or_RO</name>
         <label>OS or RO</label>
         <locationX>519</locationX>
-        <locationY>206</locationY>
+        <locationY>261</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>OS</name>
@@ -758,8 +758,7 @@
             <label>RO</label>
         </rules>
     </decisions>
-    <description>2 decimal places</description>
-    <environments>Default</environments>
+    <description>Update VAT and Legal Entity On based on the original OS</description>
     <formulas>
         <name>FX_Digits</name>
         <dataType>Number</dataType>
@@ -775,12 +774,12 @@
     <formulas>
         <name>FX_Other_Countries</name>
         <dataType>String</dataType>
-        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&#39;;&#39;, {!S_Custom_Countries_Before_Split}))</expression>
+        <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
     </formulas>
     <formulas>
         <name>FX_Single_Country</name>
         <dataType>String</dataType>
-        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&#39;;&#39;,{!S_Custom_Countries_Before_Split})-1)</expression>
+        <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
     </formulas>
     <formulas>
         <name>FX_SuccessMsg</name>
@@ -810,7 +809,7 @@
         <name>L10_Loop_over_OutputLines</name>
         <label>L10 Loop over OutputLines</label>
         <locationX>970</locationX>
-        <locationY>1090</locationY>
+        <locationY>1141</locationY>
         <collectionReference>C_Output_Items</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -824,7 +823,7 @@
         <name>L20_Loop_Over_Filtered_Locations</name>
         <label>L20 Loop Over Filtered Locations</label>
         <locationX>1401</locationX>
-        <locationY>764</locationY>
+        <locationY>815</locationY>
         <collectionReference>Filter_Location_by_ExternlReference</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -838,7 +837,7 @@
         <name>Loop_Locations</name>
         <label>Loop Locations</label>
         <locationX>648</locationX>
-        <locationY>1245</locationY>
+        <locationY>1296</locationY>
         <collectionReference>Get_Locations_0</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -852,7 +851,7 @@
         <name>Loop_Over_new_Order_Product_Summaries</name>
         <label>Loop Over new Order Product Summaries</label>
         <locationX>1500</locationX>
-        <locationY>1373</locationY>
+        <locationY>1424</locationY>
         <collectionReference>Get_Order_Product_Summaries_newly_created</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -866,7 +865,7 @@
         <name>Loop_Over_Products</name>
         <label>Loop Over Products</label>
         <locationX>1774</locationX>
-        <locationY>1026</locationY>
+        <locationY>1077</locationY>
         <collectionReference>Filter_Product_by_productId</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -899,7 +898,7 @@
         <name>Get_Locations</name>
         <label>Get Locations</label>
         <locationX>721</locationX>
-        <locationY>1092</locationY>
+        <locationY>1143</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Product_SKU</targetReference>
@@ -923,7 +922,7 @@
         <name>Get_Locations_0</name>
         <label>Get Locations</label>
         <locationX>549</locationX>
-        <locationY>1086</locationY>
+        <locationY>1137</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Locations</targetReference>
@@ -944,7 +943,7 @@
         <name>Get_Order_Product_Summaries_newly_created</name>
         <label>Get Order Product Summaries newly created</label>
         <locationX>1330</locationX>
-        <locationY>1373</locationY>
+        <locationY>1424</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Over_new_Order_Product_Summaries</targetReference>
@@ -965,7 +964,7 @@
         <name>Get_OS_from_RO</name>
         <label>Get OS from RO</label>
         <locationX>940</locationX>
-        <locationY>203</locationY>
+        <locationY>254</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_OS_id</targetReference>
@@ -988,7 +987,7 @@
         <name>Get_OS_Newly_created</name>
         <label>Get OS Newly created</label>
         <locationX>1126</locationX>
-        <locationY>1379</locationY>
+        <locationY>1430</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Product_Summaries_newly_created</targetReference>
@@ -1008,8 +1007,8 @@
     <recordLookups>
         <name>Get_OS_record</name>
         <label>Get OS record</label>
-        <locationX>167</locationX>
-        <locationY>206</locationY>
+        <locationX>169</locationX>
+        <locationY>258</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_OS_Id2</targetReference>
@@ -1032,7 +1031,7 @@
         <name>Get_Product_SKU</name>
         <label>Get Products SKU</label>
         <locationX>833</locationX>
-        <locationY>1090</locationY>
+        <locationY>1141</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>L10_Loop_over_OutputLines</targetReference>
@@ -1047,7 +1046,7 @@
         <name>Get_RO</name>
         <label>Get RO</label>
         <locationX>771</locationX>
-        <locationY>203</locationY>
+        <locationY>254</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_OS_from_RO</targetReference>
@@ -1070,17 +1069,47 @@
         <name>Update_Order_Product_Summaries</name>
         <label>Update Order Product Summaries</label>
         <locationX>1656</locationX>
-        <locationY>1372</locationY>
+        <locationY>1425</locationY>
+        <connector>
+            <targetReference>Update_VAT_AND_Legal_Entity_Field</targetReference>
+        </connector>
+        <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_VAT_AND_Legal_Entity_Field</name>
+        <label>Update VAT AND Legal Entity Field</label>
+        <locationX>1784</locationX>
+        <locationY>1424</locationY>
         <connector>
             <targetReference>Assign_Id_for_URL</targetReference>
         </connector>
-        <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS_Newly_created.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_OS_record.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_OS_record.VAT_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
     </recordUpdates>
     <screens>
         <name>Billing_Shipping_Info</name>
         <label>Billing Shipping Info</label>
         <locationX>520</locationX>
-        <locationY>421</locationY>
+        <locationY>472</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1153,7 +1182,7 @@
         <name>Screen_Items</name>
         <label>Display Items</label>
         <locationX>418</locationX>
-        <locationY>1084</locationY>
+        <locationY>1135</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1223,8 +1252,8 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>1948</locationX>
-        <locationY>1369</locationY>
+        <locationX>2051</locationX>
+        <locationY>1413</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1237,8 +1266,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>401</locationX>
-        <locationY>48</locationY>
+        <locationX>406</locationX>
+        <locationY>50</locationY>
         <connector>
             <targetReference>OS_or_RO</targetReference>
         </connector>
@@ -1248,7 +1277,7 @@
         <name>Create_the_Order</name>
         <label>Create the Order</label>
         <locationX>973</locationX>
-        <locationY>1381</locationY>
+        <locationY>1432</locationY>
         <connector>
             <targetReference>Get_OS_Newly_created</targetReference>
         </connector>
