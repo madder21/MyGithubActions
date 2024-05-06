@@ -165,13 +165,14 @@
         </rules>
     </decisions>
     <description>With handling of SSO Suffix from custom metadata type (better handling of metadata type)</description>
+    <environments>Default</environments>
     <formulas>
         <name>RecordIsNew</name>
         <dataType>Boolean</dataType>
         <expression>isNew()</expression>
     </formulas>
     <interviewLabel>User_BeforeInsertUpdate {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>User_BeforeInsertUpdate</label>
+    <label>User - BeforeInsertUpdate - Set User&#39;s FederationID for this instance</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
