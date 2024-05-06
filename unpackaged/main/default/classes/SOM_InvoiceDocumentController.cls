@@ -55,7 +55,7 @@ global with sharing class SOM_InvoiceDocumentController {
                                                    OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
-
+        System.debug('fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c ' + fulfillmentOrder.get(0).OrderSummary.VAT_ID__c);
         
         invAddress = setInvoiceAddress (fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c);
         invAddress.VATID = fulfillmentOrder.get(0).OrderSummary.VAT_ID__c;
@@ -281,8 +281,9 @@ global with sharing class SOM_InvoiceDocumentController {
         public String                paymentType {get; set;}
         public String                Template {get; set;} 
         public String                TaxID {get; set;} 
-
-	}
+        public String 				 CROSS_BORDER { get; set; }
+    }
+    
     
     
     global with sharing class InvoiceAddress{
@@ -293,7 +294,6 @@ global with sharing class SOM_InvoiceDocumentController {
         public String                FooterBilling {get; set;}
     }
     
-
     global with sharing class InvoiceContact{
         public String name {get; set;}
         public String company {get; set;} //mapping of the field??
@@ -347,7 +347,5 @@ global with sharing class SOM_InvoiceDocumentController {
         }
         
         
-    
-}
-
+    }
 }
