@@ -1,15 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-        <types>
+	<types>
 		<members>SOM_InvoiceManagement</members>
+		<members>SOM_LWC_DisplayOrderItems_Controller</members>
+		<members>SOM_DynamicTreeGridController</members>
+		<members>SOM_DynamicTreeGridControllerTEST</members>
+		<members>SOM_testDataFactory</members>
+		<members>WS_SOM_Create_StoreToWebOrder</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
+		<members>SOM_Automatic_refund_in_Cybersource</members>
+		<members>SOM_820_Reship_On_Return_Order</members>
+		<members>SOM_960_Exchange_Manual_Order_Creation</members>
+		<members>SOM_UpdateStateOS</members>
+		<members>SOM_Batch_RetryAllocation</members>
+		<members>SOM_210_Order_SToW_Retry_Allocation</members>
+		<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+		<members>SOM_810_Reship_Order_Flow</members>
+		<members>SOM_Cancel_Order_Summary</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod__c.DeliveryMethodName__c</members>
+		<members>STWDeliveryMethod__c.country__c</members>
+		<members>STWDeliveryMethod__c.deliveryMethodId__c</members>
+		<members>STWDeliveryMethod__c.parentId__c</members>
+		<members>STWDeliveryMethod__c.postalCode__c</members>
+		<members>STWDeliveryMethod__c.storeOrigin__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod__c-STW delivery method Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>somLwcDisplayOrderItems</members>
+		<members>sOM_TreeGrid</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<members>STW_delivery_method_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>SOM_InvoiceDocumentTemplate</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>SOM_Invoice_Setting.PDF_PHONE_AT</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_CH</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_DE</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_ES</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_FR</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_IT</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_LI</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_LU</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_MS</members>
 		<members>SOM_Invoice_Setting.CREDIT_MEMO_DATE_FR</members>
 		<members>SOM_Invoice_Setting.CREDIT_MEMO_NUMBER_FR</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_CH</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_Coremodel</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_LI</members>
+		<members>SOM_Invoice_Setting.CROSS_BORDER_NO</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_GB</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_LI</members>
@@ -63,14 +129,13 @@
 		<members>Sales_Channel_Mapping.Sales_Channel_US</members>
 		<name>CustomMetadata</name>
 	</types>
-
-   <types>
+	<types>
 		<members>ReportsforSOM/Payments_report_5w3</members>
 		<members>ReportsforSOM/Payments_Report_US</members>
-		<members>ReportsforSOM/Payments_Report_AU</members> 
+		<members>ReportsforSOM/Payments_Report_AU</members>
 		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
 		<members>ReportsforSOM/Payments_Report_KR</members>
-		<name>Report</name>        
-    </types>
+		<name>Report</name>
+	</types>
 	<version>58.0</version>
 </Package>
