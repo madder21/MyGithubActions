@@ -54,14 +54,11 @@ public with sharing class SOM_InvoiceManagement {
                 }
             }
             
-
             Logs.debug('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', ''); 
             Logs.info('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '');
             
         } catch (Exception e) {
             Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '');   
-
-        
         } 
     }   
 }

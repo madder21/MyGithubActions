@@ -121,6 +121,37 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.Country__c</fieldItem>
+                <identifier>RecordCountry_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <name>Facet-125f5d26-b0e8-4ee1-8def-069aca3c9497</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.CurrencyIsoCode</fieldItem>
+                <identifier>RecordCurrencyIsoCodeField</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.City__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>x1x1x</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.FooterBilling__c</fieldItem>
                 <identifier>RecordFooterBilling_cField</identifier>
             </fieldInstance>
@@ -141,39 +172,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Country__c</fieldItem>
-                <identifier>RecordCountry_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <name>Facet-125f5d26-b0e8-4ee1-8def-069aca3c9497</name>
-        <type>Facet</type>
-    </flexiPageRegions>
-    <flexiPageRegions>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.OwnerId</fieldItem>
                 <identifier>RecordOwnerIdField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.CurrencyIsoCode</fieldItem>
-                <identifier>RecordCurrencyIsoCodeField</identifier>
-                <visibilityRule>
-                    <criteria>
-                        <leftValue>{!Record.City__c}</leftValue>
-                        <operator>EQUAL</operator>
-                        <rightValue>x1x1x</rightValue>
-                    </criteria>
-                </visibilityRule>
             </fieldInstance>
         </itemInstances>
         <name>Facet-2a52e854-1be0-48f7-9d67-a42db3a8925c</name>

@@ -1,12 +1,12 @@
 @RestResource(urlMapping='/CreateStoreToWebOrderEndpoint/*')
 global with sharing class WS_SOM_Create_StoreToWebOrder {
-
+    
     public static final String PAYMENT_METHOD_NICKNAME_PAID_IN_STORE = 'Paid in Store';
     public static final String ORDER_ITEM_TAX_NAME_SUFFIX            = ' - Tax';
     public static final Decimal TAX_DIFF                             = 0.01;
     public static final String CHAR_CONCAT                           = '_';
     public static final String UUID_CHAR_CONCAT                      = '-';
-
+    
     @HttpPost
     global static StoreToWebResponse createOrder(StoreToWebRequest request){
         StoreToWebResponse response = new StoreToWebResponse();
@@ -33,7 +33,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<String, PricebookEntry> pricebookEntriesMap         = new Map<String, PricebookEntry>();
             Map<String, SalesChannel> salesChannelsMap              = new Map<String, SalesChannel>();
             Map<String, SObject> locationsMap                       = new Map<String, SObject>();
-
+            
             Set<String> orderReferenceNumbers               = new Set<String>(); 
             Set<String> orderDeliveryMethodReferenceNumbers = new Set<String>();
             Set<String> productsSKU                         = new Set<String>();
@@ -41,6 +41,12 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Set<String>     accountIds                          = new Set<String>();
             Set<String> salesChannelRefNumbers              = new Set<String>();
             Set<String> locationsExternalRef                = new Set<String>();
+            List<String> PostalCodes               			= new List<String>();
+            Set<String> OrderDeliveryMethodListIds          = new Set<String>();
+            List<OrderDeliveryMethod> orderDeliveryMethods = new List<OrderDeliveryMethod>();
+            List<String> STWpostalCodeList = new List<String>();
+            List<STWDeliveryMethod__c> STWListEX = new List<STWDeliveryMethod__c>();
+            
             Boolean isStockAvailable = true;
             for (StoreToWebOrder storeToWebOrder:request.orders) {
                 if (storeToWebOrder.orderDeliveryMethodReferenceNumber != null) orderDeliveryMethodReferenceNumbers.add(storeToWebOrder.orderDeliveryMethodReferenceNumber);
@@ -52,6 +58,29 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     if (orderProduct.productSKU != null) productsSKU.add(orderProduct.productSKU);
                     if (orderProduct.locationExternalReference != null) locationsExternalRef.add(orderProduct.locationExternalReference);
                 }
+                if ( storeToWebOrder.deliveryContact.postalCode != null && storeToWebOrder.storeOrigin =='DE22' && storeToWebOrder.deliveryContact.country =='DE' ){
+                    PostalCodes.add(storeToWebOrder.deliveryContact.postalCode);
+                }
+                
+            }
+            System.debug('PostalCode' + PostalCodes);
+            if(PostalCodes != null && PostalCodes.size() !=0 ){
+                STWListEX = [SELECT ID, storeOrigin__c, country__c, postalCode__c, parentId__r.parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
+                             FROM STWDeliveryMethod__c 
+                             WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c = 'DE22'];            
+                OrderDeliveryMethod STorderDeliveryMethod = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber = 'standard_DE'];
+                OrderDeliveryMethodListIds.add(STorderDeliveryMethod.Id);
+                if(STWListEX != null){ 
+                    for(STWDeliveryMethod__c stw : STWListEX){
+                        OrderDeliveryMethodListIds.add(stw.deliveryMethodId__c);
+                        STWpostalCodeList.add(stw.postalCode__c);
+                    }
+                    System.debug('OrderDeliveryMethodListIds' + OrderDeliveryMethodListIds);
+                    orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ID IN :OrderDeliveryMethodListIds];
+                    System.debug('orderDeliveryMethods' + orderDeliveryMethods);
+                }
+            }else{
+                orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers];
             }
             //check order
             List<Order> orders = [SELECT ID, OrderReferenceNumber FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
@@ -63,11 +92,10 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 throw new StoreToWebException('We cannot process your request, the following Order Summary Numbers already exist in Salesforce : '+duplicateOrderNumbers);
             }
             
-            //order delivery methods
-            List<OrderDeliveryMethod> orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers];
             for (OrderDeliveryMethod odm:orderDeliveryMethods) {
                 orderDeliveryMethodMap.put(odm.ReferenceNumber, odm);
             }
+            System.debug('orderDeliveryMethodMap' + orderDeliveryMethodMap);
             //products
             Map<Id, Product2> productsByIdMap = new Map<Id, Product2>([SELECT ID, StockKeepingUnit FROM Product2 WHERE StockKeepingUnit IN :productsSKU]);
             for (Id prdId:productsByIdMap.keySet()) {
@@ -96,7 +124,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 if (accountsMap.get(storeToWebOrder.accountId) == null) 
                     throw new StoreToWebException('Account with Id '+storeToWebOrder.accountId+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check order delivery method
-                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null) 
+                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null && storeToWebOrder.storeOrigin != 'DE22'  && storeToWebOrder.deliveryContact.country != 'DE') 
                     throw new StoreToWebException('Order Delivery Method with reference number '+storeToWebOrder.orderDeliveryMethodReferenceNumber+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check saleschannel
                 if (salesChannelsMap.get(storeToWebOrder.salesChannelNumber) == null) 
@@ -106,7 +134,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 Order order = createStoreToWebOrder(storeToWebOrder, pricebooks, salesChannelsMap);
                 ordersToPersistMap.put(i, order);
                 //Create OrderDeliveryGroup
-                OrderDeliveryGroup odg = createOrderDeliveryGroup(storeToWebOrder, orderDeliveryMethodMap);
+                OrderDeliveryGroup odg = createOrderDeliveryGroup(storeToWebOrder, orderDeliveryMethodMap, STWpostalCodeList);
                 //-----set order id
                 orderDeliveryGroupToPersistMap.put(i, odg);
                 //Create order Items
@@ -149,17 +177,17 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     //----set orderDeliveryGroupId
                     //----Set Order Id
                     orderItemsMap.put(j, orderItem);
-
+                    
                     //create OrderItemTaxLineItem
                     Decimal taxRateScaled = orderProduct.orderProductTax.vatRate.setScale(1, RoundingMode.HALF_EVEN) / 100;
                     Decimal taxDiff = Math.abs(((orderProduct.amount-orderProduct.orderProductTax.vat)*taxRateScaled) - orderProduct.orderProductTax.vat);
                     /*if (taxDiff > TAX_DIFF) {
-                        //rise error and quite
-                        throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber: ' + storeToWebOrder.orderSummaryNumber + 
-                                                    ', Product SKU: '+orderProduct.productSKU + ', Amount: ' + orderProduct.amount + 
-                                                    ', TaxRate: ' + orderProduct.orderProductTax.vatRate + 
-                                                    ', TaxAmount: ' + orderProduct.orderProductTax.vat);
-                    }*/
+//rise error and quite
+throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber: ' + storeToWebOrder.orderSummaryNumber + 
+', Product SKU: '+orderProduct.productSKU + ', Amount: ' + orderProduct.amount + 
+', TaxRate: ' + orderProduct.orderProductTax.vatRate + 
+', TaxAmount: ' + orderProduct.orderProductTax.vat);
+}*/
                     OrderItemTaxLineItem orderItemTax = new OrderItemTaxLineItem();
                     orderItemTax.Name                 = orderProduct.productSKU+ORDER_ITEM_TAX_NAME_SUFFIX;
                     orderItemTax.Type                 = SOM_Constants.ORDER_ITEM_TAX_TYPE_ESTIMATED;
@@ -191,7 +219,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 //----set payment authorization id
                 paymentsToPersistMap.put(i, py);
             }
-
+            
             //start persisting objects
             //1-persist orders
             insert ordersToPersistMap.values();
@@ -267,10 +295,10 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
         }
-
+        
         return response;
     }
-
+    
     public static Order createStoreToWebOrder(StoreToWebOrder storeToWebOrder, List<Pricebook2> pricebooks, Map<String, SalesChannel> salesChannelsMap){
         Order order                = new Order();
         order.Status               = SOM_Constants.ORDER_DRAFT_STATUS;
@@ -296,11 +324,11 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         order.passedFraudScreening__c = true;
         order.captureAtShipment__c    = false;
         order.DeliverySignature__c    = true;
-
+        
         return order;
     }
-
-    public static OrderDeliveryGroup createOrderDeliveryGroup(StoreToWebOrder storeToWebOrder, Map<String, OrderDeliveryMethod> orderDeliveryMethodMap){
+    
+    public static OrderDeliveryGroup createOrderDeliveryGroup(StoreToWebOrder storeToWebOrder, Map<String, OrderDeliveryMethod> orderDeliveryMethodMap, List<String> STWpostalCodeList){
         OrderDeliveryGroup odg    = new OrderDeliveryGroup();
         odg.EmailAddress          = storeToWebOrder.deliveryContact.email;
         odg.DeliverToCity         = storeToWebOrder.deliveryContact.city;
@@ -310,11 +338,17 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         odg.DeliverToState        = storeToWebOrder.deliveryContact.state;
         odg.DeliverToStreet       = storeToWebOrder.deliveryContact.street;
         odg.PhoneNumber           = storeToWebOrder.deliveryContact.phone;
-        odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber).Id;
-
+        if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ){
+            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('Express_DE').Id;
+        } else if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && !(STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode))){
+            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('standard_DE').Id;
+        }else{
+            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber).Id;
+        }
+        
         return odg;
     }
-
+    
     public static AlternativePaymentMethod createPaymentMethod(StoreToWebOrder storeToWebOrder){
         AlternativePaymentMethod apm = new AlternativePaymentMethod();
         apm.AccountId                = storeToWebOrder.accountId;
@@ -322,7 +356,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         apm.ProcessingMode           = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
         apm.NickName                 = PAYMENT_METHOD_NICKNAME_PAID_IN_STORE;
         apm.RI_PaymentMethodId__c    = storeToWebOrder.paymentMethodCode;
-
+        
         return apm;
     }
     
@@ -334,10 +368,10 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         pa.Amount                = getTotalAmount(storeToWebOrder);
         pa.GatewayRefNumber      = storeToWebOrder.paymentReference;
         pa.CurrencyIsoCode       = storeToWebOrder.currencyCode;
-
+        
         return pa;
     }
-
+    
     public static Payment createPayment(StoreToWebOrder storeToWebOrder){
         Payment py         = new Payment();
         py.AccountId       = storeToWebOrder.accountId;
@@ -347,39 +381,39 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         py.ProcessingMode  = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
         py.Type            = SOM_Constants.PAYMENT_TYPE_CAPTURE;
         py.Date    		   = System.now();
-
-
+        
+        
         return py;
     }
-
+    
     public static Decimal getTotalAmount(StoreToWebOrder storeToWebOrder){
         Decimal amount = 0;
         for (OrderProduct orderProduct:storeToWebOrder.orderProducts) {
             amount += orderProduct.amount;
         }
-
+        
         return amount;
     }
-
+    
     public static String generateUUID(){
         String h = EncodingUtil.ConvertTohex(Crypto.GenerateAESKey(128));
         return h.SubString(0,8)+ UUID_CHAR_CONCAT + h.SubString(8,12) + 
-               UUID_CHAR_CONCAT + h.SubString(12,16) + UUID_CHAR_CONCAT + 
-               h.SubString(16,20) + UUID_CHAR_CONCAT + h.substring(20);
+            UUID_CHAR_CONCAT + h.SubString(12,16) + UUID_CHAR_CONCAT + 
+            h.SubString(16,20) + UUID_CHAR_CONCAT + h.substring(20);
     }
-
+    
     public class StoreToWebException extends Exception {}
-
+    
     global with sharing class StoreToWebResponse{
         public String errorMessage;
         public String status;
         public String orderNumber;
     }
-
+    
     global with sharing class StoreToWebRequest {
         public List<StoreToWebOrder> orders;
     }
-
+    
     public class StoreToWebOrder{
         public String storeOrigin; //Order.storeOrigin__c
         public String storeOriginName; //Order.storeOriginName__c
@@ -399,7 +433,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         //billing contact
         public OrderContact billingContact;
     }
-
+    
     public class OrderProduct{
         public String          productSKU; //if code sku doesn't exist => create new product with new pricebook entry
         public Integer         quantity; //OrderItem.Quantity
@@ -410,12 +444,12 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
         public String          type;
         public OrderProductTax orderProductTax;
     }
-
+    
     public class OrderProductTax{
         public Decimal vat; //OrderItemTaxLineItem.Amount
         public Decimal vatRate; //OrderItemTaxLineItem.Rate
     }
-
+    
     public class OrderContact{
         public String lastName;
         public String firstName;

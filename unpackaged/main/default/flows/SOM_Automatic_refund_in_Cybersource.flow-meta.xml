@@ -1014,8 +1014,11 @@
     <decisions>
         <name>Update_PE_0</name>
         <label>Update PE</label>
-        <locationX>1427</locationX>
-        <locationY>1609</locationY>
+        <locationX>1425</locationX>
+        <locationY>1660</locationY>
+        <defaultConnector>
+            <targetReference>Screen1_0</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>UpdatePE</name>
@@ -1055,6 +1058,7 @@
             <label>Confirm</label>
         </rules>
     </decisions>
+    <description>Updated</description>
     <interviewLabel>SOM - Automatic refund in Cybersource {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Automatic refund in Cybersource</label>
     <processMetadataValues>
@@ -1296,8 +1300,11 @@
     <recordUpdates>
         <name>Update_PE</name>
         <label>Update PE</label>
-        <locationX>1430</locationX>
-        <locationY>1788</locationY>
+        <locationX>1221</locationX>
+        <locationY>1768</locationY>
+        <connector>
+            <targetReference>Screen1_0</targetReference>
+        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>AttachedToId</field>
@@ -1327,7 +1334,7 @@
         <locationX>1163</locationX>
         <locationY>1210</locationY>
         <connector>
-            <targetReference>Screen1_0</targetReference>
+            <targetReference>Create_Refund_Line_Payment</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1466,19 +1473,17 @@
     <screens>
         <name>Screen1_0</name>
         <label>Screen1</label>
-        <locationX>1290</locationX>
-        <locationY>1210</locationY>
+        <locationX>1433</locationX>
+        <locationY>1905</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
-        <connector>
-            <targetReference>Create_Refund_Line_Payment</targetReference>
-        </connector>
         <fields>
             <name>DisplayText_0</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The refund is successfuly done in Cybersource.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
+        <nextOrFinishButtonLabel>Finish</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>

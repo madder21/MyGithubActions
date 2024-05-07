@@ -15,6 +15,33 @@ public class SOM_testDataFactory {
     **/
 
     public enum OrderType {MIXTE, STANDARD, PREORDER}
+    
+    public static STWDeliveryMethod__c createStoreOrigin(string storeOrigin) {
+			STWDeliveryMethod__c stw = new STWDeliveryMethod__c();
+			stw.storeOrigin__c = storeOrigin;
+			insert stw;
+			return stw;
+	}
+    
+    public static STWDeliveryMethod__c createStwCountry(string country, string ParentId ) {
+			STWDeliveryMethod__c stw = new STWDeliveryMethod__c();
+			stw.country__c = country;
+			stw.parentId__c = ParentId;
+			insert stw;
+			return stw;
+	}
+    
+    public static STWDeliveryMethod__c createStwPostalCode(string postalCode, string deliveryMethodId, string ParentId ) {
+			STWDeliveryMethod__c stw = new STWDeliveryMethod__c();
+			stw.deliveryMethodId__c = deliveryMethodId;
+			stw.postalCode__c = postalCode;
+			stw.parentId__c = ParentId;
+			insert stw;
+			return stw;
+	}
+
+
+
 
     public static Account createAccount(string email) {
 		List<Account> accounts = [SELECT Id, FirstName, LastName , PersonEmail FROM Account WHERE PersonEmail =: email];
