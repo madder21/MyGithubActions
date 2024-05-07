@@ -122,6 +122,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Add_orderItemsSummary_to_alreadyAddedOrderItemList_0</name>
+        <label>Add orderItemsSummary to alreadyAddedOrderItemList</label>
+        <locationX>3325</locationX>
+        <locationY>1632</locationY>
+        <assignmentItems>
+            <assignToReference>alreadyAddedOrderItemList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_1.orderItemSummaryId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_1</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Add_to_Available_Delivery_Groups</name>
         <label>Add to Available Delivery Groups</label>
         <locationX>1162</locationX>
@@ -317,8 +333,8 @@
     <assignments>
         <name>Fulfillment_Order_To_Create</name>
         <label>Fulfillment Order To Create</label>
-        <locationX>3721</locationX>
-        <locationY>1165</locationY>
+        <locationX>3608</locationX>
+        <locationY>1271</locationY>
         <assignmentItems>
             <assignToReference>V_Fulfillment_Order_To_Create.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -1124,12 +1140,37 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_for_LocationIds_Match_0</name>
+        <label>Check for LocationIds Match</label>
+        <locationX>3206</locationX>
+        <locationY>1431</locationY>
+        <defaultConnector>
+            <targetReference>Loop_1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LocationIdsDoNotMatch</defaultConnectorLabel>
+        <rules>
+            <name>LocationIdsMatch_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>outerLoopLocationId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_1.locationId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_orderItemsSummary_to_alreadyAddedOrderItemList_0</targetReference>
+            </connector>
+            <label>LocationIdsMatch</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_if_OrderItemSummary_processed</name>
         <label>Check if OrderItemSummary processed</label>
-        <locationX>3477</locationX>
-        <locationY>1239</locationY>
+        <locationX>3325</locationX>
+        <locationY>1175</locationY>
         <defaultConnector>
-            <targetReference>Fulfillment_Order_To_Create</targetReference>
+            <targetReference>Loop_1</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Already OrderItemSummary Not Processed</defaultConnectorLabel>
         <rules>
@@ -1370,6 +1411,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Create_Fulfillment_Order</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_1</name>
+        <label>Loop 1</label>
+        <locationX>3485</locationX>
+        <locationY>1427</locationY>
+        <collectionReference>fulfillItems</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_for_LocationIds_Match_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Fulfillment_Order_To_Create</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -2105,6 +2160,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>TABLE_Success_OCI</name>
