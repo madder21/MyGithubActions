@@ -58,6 +58,10 @@
                 <behavior>Edit</behavior>
                 <field>DeliveryInstructions</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RI_TAX_ID__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>
@@ -156,10 +160,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>TotalTaxAmount</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>RI_TAX_ID__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
