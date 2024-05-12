@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TaxRate_Controlle</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    NOT(ISBLANK(taxRate__c)),
+    OR(
+        taxRate__c &lt; 0, 
+        taxRate__c &gt; 1
+    )
+)</errorConditionFormula>
+    <errorMessage>The value should be between 0 and 1 or empty.</errorMessage>
+</ValidationRule>
