@@ -40,4 +40,6 @@ public with sharing class SOM_Wr_DisplayLineItem {
     public Decimal totalLines;
     @AuraEnabled
     public String family;
+    @AuraEnabled
+    public String function;
 }
