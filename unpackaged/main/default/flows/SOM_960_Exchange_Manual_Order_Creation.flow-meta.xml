@@ -730,7 +730,7 @@
             <name>Delivery</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>L10_Loop_over_OutputLines.family</leftValueReference>
+                <leftValueReference>L10_Loop_over_OutputLines.function</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
                     <stringValue>DELIVERY</stringValue>
@@ -842,7 +842,6 @@
         </rules>
     </decisions>
     <description>Update VAT and Legal Entity On based on the original OS</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_Digits</name>
         <dataType>Number</dataType>
