@@ -465,6 +465,7 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 this.customData[this.lineIndex].description = responseData.description;
                 this.customData[this.lineIndex].skuExchange = responseData.skuExchange;
                 this.customData[this.lineIndex].family = responseData.family;
+                this.customData[this.lineIndex].function = responseData.function;
 
                 this.customDataDisplay[this.lineIndex].ats = responseData.ats;
                 this.customDataDisplay[this.lineIndex].pbEntryId = responseData.pbEntryId;
@@ -592,6 +593,7 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
             pbEntryId: null,
             productId: '',
             family: '',
+            function: '',
             quantity: 1,
             taxType: true,
             unitPrice: 0,

@@ -80,8 +80,8 @@
     <assignments>
         <name>Assign_Id_for_URL</name>
         <label>Assign Id for URL</label>
-        <locationX>1904</locationX>
-        <locationY>1410</locationY>
+        <locationX>2259</locationX>
+        <locationY>1412</locationY>
         <assignmentItems>
             <assignToReference>V_URLorderSummary</assignToReference>
             <operator>Assign</operator>
@@ -91,6 +91,52 @@
         </assignmentItems>
         <connector>
             <targetReference>screen_success</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Legal_And_VATId_RO</name>
+        <label>Assign Legal And VATId RO</label>
+        <locationX>2061</locationX>
+        <locationY>1589</locationY>
+        <assignmentItems>
+            <assignToReference>VATId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_from_RO.VAT_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>LegalEntity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_from_RO.Legal_Entity__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_VAT_AND_Legal_Entity_Field</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_LegalEntity_AND_VATId_OS</name>
+        <label>Assign LegalEntity AND VATId OS</label>
+        <locationX>2042</locationX>
+        <locationY>1296</locationY>
+        <assignmentItems>
+            <assignToReference>VATId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_record.VAT_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>LegalEntity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_OS_record.Legal_Entity__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_VAT_AND_Legal_Entity_Field</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -428,8 +474,8 @@
     <assignments>
         <name>Set_Initial_Data_for_ListItems_Screen</name>
         <label>Set Initial Data for ListItems Screen</label>
-        <locationX>522</locationX>
-        <locationY>892</locationY>
+        <locationX>562</locationX>
+        <locationY>976</locationY>
         <assignmentItems>
             <assignToReference>V_Input_CountryCode</assignToReference>
             <operator>Assign</operator>
@@ -684,10 +730,10 @@
             <name>Delivery</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>L10_Loop_over_OutputLines.family</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>L10_Loop_over_OutputLines.function</leftValueReference>
+                <operator>Contains</operator>
                 <rightValue>
-                    <stringValue>210</stringValue>
+                    <stringValue>DELIVERY</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -756,6 +802,43 @@
                 <targetReference>Get_RO</targetReference>
             </connector>
             <label>RO</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Updating_VAT_and_LegalEntity_OS_RO</name>
+        <label>Updating VAT and LegalEntity OS/RO</label>
+        <locationX>1801</locationX>
+        <locationY>1426</locationY>
+        <defaultConnectorLabel>Defaultoutcome</defaultConnectorLabel>
+        <rules>
+            <name>OS_outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OS_or_RO</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <elementReference>OS</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_LegalEntity_AND_VATId_OS</targetReference>
+            </connector>
+            <label>OS_Outcome</label>
+        </rules>
+        <rules>
+            <name>RO_Outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OS_or_RO</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <elementReference>RO</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Legal_And_VATId_RO</targetReference>
+            </connector>
+            <label>RO_Outcome</label>
         </rules>
     </decisions>
     <description>Update VAT and Legal Entity On based on the original OS</description>
@@ -1068,18 +1151,18 @@
     <recordUpdates>
         <name>Update_Order_Product_Summaries</name>
         <label>Update Order Product Summaries</label>
-        <locationX>1656</locationX>
+        <locationX>1688</locationX>
         <locationY>1425</locationY>
         <connector>
-            <targetReference>Update_VAT_AND_Legal_Entity_Field</targetReference>
+            <targetReference>Updating_VAT_and_LegalEntity_OS_RO</targetReference>
         </connector>
         <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_VAT_AND_Legal_Entity_Field</name>
         <label>Update VAT AND Legal Entity Field</label>
-        <locationX>1784</locationX>
-        <locationY>1424</locationY>
+        <locationX>2049</locationX>
+        <locationY>1426</locationY>
         <connector>
             <targetReference>Assign_Id_for_URL</targetReference>
         </connector>
@@ -1094,13 +1177,34 @@
         <inputAssignments>
             <field>Legal_Entity__c</field>
             <value>
-                <elementReference>Get_OS_record.Legal_Entity__c</elementReference>
+                <elementReference>LegalEntity</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>VAT_ID__c</field>
             <value>
-                <elementReference>Get_OS_record.VAT_ID__c</elementReference>
+                <elementReference>VATId</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_VAT_AND_Legal_Entity_Field_RO</name>
+        <label>Update VAT AND Legal Entity Field RO</label>
+        <locationX>1974</locationX>
+        <locationY>1725</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_OS_Newly_created.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Update_VAT_AND_Legal_Entity_Field</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
@@ -1252,8 +1356,8 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>2051</locationX>
-        <locationY>1413</locationY>
+        <locationX>2394</locationX>
+        <locationY>1408</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1381,6 +1485,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Product2</objectType>
+    </variables>
+    <variables>
+        <name>LegalEntity</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>LocationsIds</name>
@@ -1549,6 +1660,13 @@
     </variables>
     <variables>
         <name>V_URLorderSummary</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>VATId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
