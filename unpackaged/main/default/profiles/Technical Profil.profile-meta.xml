@@ -1820,6 +1820,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.LocaleDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <readable>false</readable>
         <field>ClientListMember__c.Status__c</field>
@@ -8606,6 +8611,12 @@
         <recordType>Account.BusinessAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AppointmentRessource__c-Ressource Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentService__c-Service Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>B2CCustomInput__c-B2CCustomInput Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -8628,6 +8639,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientList__c-Client List Layout</layout>
@@ -8664,6 +8678,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>DDUEWebService_Setting__mdt-DDUE WebService Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+        <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event__c-Event Layout</layout>
@@ -9249,6 +9267,24 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>AppointmentRessource__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AppointmentService__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>B2CCustomInput__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -9277,6 +9313,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Case</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ClientBooking__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10777,6 +10822,11 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Event.AppointmentBooking</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Log__c.Log</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -10791,6 +10841,18 @@
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentRessource__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>ClientBooking__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Client_Consent__c</tab>
         <visibility>DefaultOn</visibility>

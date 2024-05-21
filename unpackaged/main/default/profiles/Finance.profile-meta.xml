@@ -270,6 +270,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ClientBooking__c.LocaleDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CommSubscriptionConsent.ClientAdvisor__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5150,6 +5155,12 @@
         <recordType>Account.BusinessAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AppointmentRessource__c-Ressource Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentService__c-Service Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AsyncOperationLog-Async Operation Log Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5157,6 +5168,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseInteraction-Case Feed Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ConsentSource__mdt-Consent Source Layout</layout>
@@ -5181,6 +5195,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>DigitalWallet-Digital Wallet Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+        <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FulfillmentOrder-Fulfillment Order Layout</layout>
@@ -6463,6 +6481,11 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Event.AppointmentBooking</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Log__c.Log</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -6476,6 +6499,18 @@
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentRessource__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>ClientBooking__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Future_Stock__c</tab>
         <visibility>DefaultOn</visibility>

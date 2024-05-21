@@ -1008,6 +1008,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ClientBooking__c.LocaleDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ClientList__c.External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5331,6 +5336,12 @@
         <layout>AlternativePaymentMethod-Alternative Payment Method Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AppointmentRessource__c-Ressource Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentService__c-Service Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Asset-Asset Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5458,6 +5469,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientAddress__c-Address Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientListMember__c-Client List Member Layout</layout>
@@ -5593,6 +5607,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+        <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event__c-Event Layout</layout>
@@ -5950,6 +5968,11 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Event.AppointmentBooking</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -5977,6 +6000,14 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Accessory_type_Translation__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentRessource__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentService__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -6029,6 +6060,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>ClientAddress__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>ClientBooking__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
