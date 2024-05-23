@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ProfileForCancelButton__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF((NOT(ISPICKVAL(OrderLifeCycleType, &quot;Unmanaged&quot;)) &amp;&amp;
+$Profile.Name != &apos;Finance&apos; &amp;&amp;
+$Permission.Identity_profile = false &amp;&amp;
+($Permission.PS_CSC_Cancel = true || ($Permission.CSC_Permission = false &amp;&amp; $Permission.PS_CSC_Cancel = false)) ),TRUE,FALSE)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>ProfileForCancelButton</label>
+    <type>Checkbox</type>
+</CustomField>

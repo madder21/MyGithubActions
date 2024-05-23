@@ -117,7 +117,7 @@
                         <valueListItems>
                             <value>OrderSummary.Return_Items</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 ) AND (6 OR ( 7 AND 8 ))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.OrderLifeCycleType}</leftValue>
                                     <operator>NE</operator>
@@ -143,12 +143,27 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Create_Refund</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 AND 6 ) AND (7 OR (8 AND 9))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -175,12 +190,22 @@
                                     <rightValue>0</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <leftValue>{!$Permission.CustomPermission.ByPassVR}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.ByPassVR}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
@@ -291,7 +316,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -313,14 +338,19 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
-                                </criteria>
-                                <criteria>
                                     <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS  - Team Lead</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS - Advisor</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -363,7 +393,7 @@
                         <valueListItems>
                             <value>OrderSummary.Manual_capture_update</value>
                             <visibilityRule>
-                                <booleanFilter>(1 OR 2) AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>(1 OR 2) AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.CaptureStatus__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -385,21 +415,26 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
-                                </criteria>
-                                <criteria>
                                     <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS - Advisor</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS  - Team Lead</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Hold</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7) AND (8 OR (9 AND 10))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -435,12 +470,27 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Unhold</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7) AND (8 OR (9 AND 10))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -476,12 +526,27 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.New_manual_order</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND ( 5 OR ( 6 AND 7 ))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.tech_os_store_shipping_method__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -498,12 +563,22 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
@@ -512,7 +587,7 @@
                         <valueListItems>
                             <value>OrderSummary.Validate_Order</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5) AND (6 OR (7 AND 8))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.SalesChannelName__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -534,12 +609,22 @@
                                     <rightValue>Finance</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
