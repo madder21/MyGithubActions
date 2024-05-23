@@ -413,18 +413,25 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
         ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
-        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId]; 
+        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit, RepaymentMethod FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId];
+        List<ReturnOrderLineItem> roliToUpdateFollowUp = new List<ReturnOrderLineItem>(); 
         for(ReturnOrderItemCreateUpdate reqItem : returnItems){
             for(Integer i=0; i<createdROLIs.size(); i++){
             	ReturnOrderLineItem singleROLI = createdROLIs.get(i);
-                if( singleROLI.Product2.StockKeepingUnit == reqItem.sku && singleROLI.reasonForReturn == reqItem.reasonCode ){
+                //if( singleROLI.Product2.StockKeepingUnit == reqItem.sku && singleROLI.reasonForReturn == reqItem.reasonCode ){
                     // Fill the Map : returnOrderItemsRequest
                     returnOrderItemsRequest.put(singleROLI.Id, reqItem);
+                    if(req.type == SOM_Constants.RMA_RETURN_TYPE){ // If req.type = 1 => FollowUp = Refund
+                        singleROLI.RepaymentMethod = SOM_Constants.RETURN_LINE_ITEM_FOLLOW_UP_REFUND;
+                        roliToUpdateFollowUp.add(singleROLI);
+                    }
                     createdROLIs.remove(i);
                     break;
-                }
+                //}
             }
         }
+
+        if( roliToUpdateFollowUp.size() > 0 ) update roliToUpdateFollowUp;
 
         /****end metrics****/
         returnOrderToUpdateMap.put(returnOrderOutput.returnOrderId, req);

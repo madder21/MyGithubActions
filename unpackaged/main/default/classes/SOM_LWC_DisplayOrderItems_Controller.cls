@@ -42,7 +42,7 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         
         //case when component is running in OrderSummary context
         if(isFromRo){
-            for(ReturnOrderLineItem roli : [SELECT Id, Product2.StockKeepingUnit, QuantityReceived, Product2.Name, Product2Id, 
+            for(ReturnOrderLineItem roli : [SELECT Id, Product2.StockKeepingUnit, QuantityReceived, Product2.Name, Product2.Family,Product2.function__c, Product2Id, 
                                             OrderItemSummary.ReservedAtLocationId, OrderItemSummary.PricebookEntryId, OrderItemSummary.LineNumber,
                                             TYPEOF OrderItemSummary.ReservedAtLocation WHEN Location THEN ExternalReference END 
                                             FROM ReturnOrderLineItem 
@@ -56,6 +56,8 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                 lineItem.pbEntryId = roli.OrderItemSummary.PricebookEntryId;
                 lineItem.lineNumber = roli.OrderItemSummary.LineNumber;
                 lineItem.description = roli.Product2.Name;
+                lineItem.function = roli.Product2.function__c;
+                lineItem.family = roli.Product2.Family;
                 lineItem.roliID = roli.Id;
                 lineItem.taxType = true;
                 lineItem.amountId = roli.Product2.StockKeepingUnit + '001';
@@ -80,7 +82,7 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
         }
         //case when component is running in ReturnOrder context
         if(!isFromRo){
-            for(OrderItemSummary orderItemSumm : [SELECT Id, Product2.StockKeepingUnit, Quantity, Product2.Name, ReservedAtLocationId, Product2Id, 
+            for(OrderItemSummary orderItemSumm : [SELECT Id, Product2.StockKeepingUnit, Quantity,Product2.Family,Product2.function__c ,Product2.Name, ReservedAtLocationId, Product2Id, 
                                                 LineNumber, PricebookEntryId, TYPEOF ReservedAtLocation WHEN Location THEN ExternalReference END
                                                 FROM OrderItemSummary 
                                                 WHERE Type =:SOM_Constants.ORDER_ITEM_TYPE_ORDER_PRODUCT AND OrderSummaryId =:orderSumId]){
@@ -91,6 +93,8 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                 lineItem.pbEntryId = orderItemSumm.PricebookEntryId;
                 lineItem.lineNumber = orderItemSumm.LineNumber;
                 lineItem.description = orderItemSumm.Product2.Name;
+                lineItem.function = orderItemSumm.Product2.function__c;
+                lineItem.family = orderItemSumm.Product2.Family;
                 lineItem.quantity = Integer.valueOf(orderItemSumm.Quantity);
                 lineItem.taxType = true;
                 lineItem.originalQuantity = Integer.valueOf(orderItemSumm.Quantity);
@@ -104,7 +108,6 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                     lineItem.location
                     ));
             }
-            
         }
         if(listLocationsBySku.isEmpty()){
             return null;
@@ -203,7 +206,7 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
             return null;
         }
         SOM_Wr_DisplayLineItem productInput = (SOM_Wr_DisplayLineItem) JSON.deserialize(productLine, SOM_Wr_DisplayLineItem.class);
-        List<PricebookEntry> pbEntries = [SELECT Id, Name, Pricebook2Id, Product2Id, Product2.StockKeepingUnit ,Product2.Name
+        List<PricebookEntry> pbEntries = [SELECT Id, Name, Pricebook2Id, Product2Id, Product2.Family,Product2.function__c, Product2.StockKeepingUnit ,Product2.Name
                                                 FROM PricebookEntry
                                                 WHERE Pricebook2Id =: priceBookId AND CurrencyIsoCode =: currencyCode AND Product2Id =: productInput.productId
                                                 LIMIT 1
@@ -230,9 +233,10 @@ public with sharing class SOM_LWC_DisplayOrderItems_Controller {
                 productLineOutput.location = inventoryLine.location;
                 productLineOutput.description = pbEntry.Product2.Name;
                 productLineOutput.skuExchange = pbEntry.Product2.stockKeepingUnit;
+                productLineOutput.function = pbEntry.Product2.function__c;
+                productLineOutput.family = pbEntry.Product2.Family;
             }
         }
-        
         if(productLineOutput == null){
             return null;
         }

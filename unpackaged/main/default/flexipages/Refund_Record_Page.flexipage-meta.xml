@@ -4,12 +4,82 @@
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
+                    <name>iconName</name>
+                    <value>info</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>isShown</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>message</name>
+                    <value>One active process exception was identified for this refund.</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>theme</name>
+                    <value>warning</value>
+                </componentInstanceProperties>
+                <componentName>mockcomp:ltng_mockupAlert</componentName>
+                <identifier>mockcomp_ltng_mockupAlert</identifier>
+                <visibilityRule>
+                    <criteria>
+                        <leftValue>{!Record.PE_was_identified__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
+                    </criteria>
+                </visibilityRule>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
                     <name>actionNames</name>
                     <valueList>
                         <valueListItems>
+                            <value>Refund.AutomaticRefund</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Draft</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>COD</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Paid in Store</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>No Payment</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Finance</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.IsGlobalE__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Identity profile</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Refund.ValidateRefund</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -19,6 +89,16 @@
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Finance</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM CSC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Identity profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

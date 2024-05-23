@@ -26,6 +26,7 @@
             <label>is Not Null</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>Transaction Manage UCRInternalID Field Value {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Transaction Manage UCRInternalID Field Value</label>
     <processMetadataValues>
@@ -66,9 +67,21 @@
         <locationX>506</locationX>
         <locationY>384</locationY>
         <inputAssignments>
+            <field>UCRCreationDate__c</field>
+            <value>
+                <elementReference>$Record.CreatedDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>UCRInternalId__c</field>
             <value>
                 <elementReference>$Record.R360ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UCRLastUpdateDate__c</field>
+            <value>
+                <elementReference>$Record.CreatedDate</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -94,5 +107,5 @@
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

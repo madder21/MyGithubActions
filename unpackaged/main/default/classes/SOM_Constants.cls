@@ -8,6 +8,10 @@ global with sharing class SOM_Constants {
     public static final String  FULFILLMENT_ORDER_TO_CAPTURE_STATUS = 'To capture';
     public static final String  RI_REPAYMENT_METHOD_C_KLARNA        = 'C_KLARNA';
     public static final String  RI_REPAYMENT_METHOD_C_CREDIT_CARD   = 'C_CC';
+    
+    public static final String REFUND_METHOD_CC			            = 'CC';
+    public static final String REFUND_METHOD_PPL			        = 'PPL';
+    public static final String REFUND_METHOD_KLI			        = 'KLI';
 
     public static final String EXCHANGE			             		= 'Exchange';
     public static final String FULFILLING			             	= 'Fulfilling';
@@ -132,6 +136,10 @@ global with sharing class SOM_Constants {
     public static final String CREDIT_MEMO_SOBJECT_TYPE_NAME = 'CreditMemo';
     public static final String INVOICE_SOBJECT_TYPE_NAME     = 'Invoice';
     public static final String CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME     = 'CorrectiveInvoice__c';
+    public static final String SHIPMENT_SOBJECT_TYPE_NAME = 'Shipment';
+    public static final String ORDER_SUMMARY_SOBJECT_TYPE_NAME = 'OrderSummary';
+    public static final String RETURN_ORDER_SOBJECT_TYPE_NAME = 'ReturnOrder';
+    public static final String REFUND_SOBJECT_TYPE_NAME = 'Refund';
 
     public static final String SALES_CHANNEL_CEGID = 'CEGID';
     public static final String SALES_CHANNEL_MANUAL = 'Manual Order';
@@ -148,5 +156,5 @@ global with sharing class SOM_Constants {
     public static final String  EMAIL_OPERATOR_ANONYMIZATION = 'XXXXXXXXXX@XXX.XXX';
     public static final Integer INTEGER_OPERATOR_ANONYMIZATION = 999999999;
 
-    public static final String FULFILLMENT      = 'Fulfillment';
+    public static final String FULFILLMENT = 'Fulfillment';
 }

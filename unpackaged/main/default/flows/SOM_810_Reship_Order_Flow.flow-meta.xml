@@ -122,6 +122,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Add_orderItemsSummary_to_alreadyAddedOrderItemList_0</name>
+        <label>Add orderItemsSummary to alreadyAddedOrderItemList</label>
+        <locationX>3325</locationX>
+        <locationY>1632</locationY>
+        <assignmentItems>
+            <assignToReference>alreadyAddedOrderItemList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_1.orderItemSummaryId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_1</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Add_to_Available_Delivery_Groups</name>
         <label>Add to Available Delivery Groups</label>
         <locationX>1162</locationX>
@@ -297,6 +313,13 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_Line_Item_To_Create.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary_Object.CurrencyIsoCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>C_Fulfillment_Order_Line_Item_To_Create</assignToReference>
             <operator>Add</operator>
             <value>
@@ -310,8 +333,8 @@
     <assignments>
         <name>Fulfillment_Order_To_Create</name>
         <label>Fulfillment Order To Create</label>
-        <locationX>3721</locationX>
-        <locationY>1165</locationY>
+        <locationX>3608</locationX>
+        <locationY>1271</locationY>
         <assignmentItems>
             <assignToReference>V_Fulfillment_Order_To_Create.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -443,6 +466,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>L60_FulfillItems_Outer_Loop.locationType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Fulfillment_Order_To_Create.CurrencyIsoCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary_Object.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1110,12 +1140,37 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_for_LocationIds_Match_0</name>
+        <label>Check for LocationIds Match</label>
+        <locationX>3206</locationX>
+        <locationY>1431</locationY>
+        <defaultConnector>
+            <targetReference>Loop_1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>LocationIdsDoNotMatch</defaultConnectorLabel>
+        <rules>
+            <name>LocationIdsMatch_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>outerLoopLocationId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_1.locationId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_orderItemsSummary_to_alreadyAddedOrderItemList_0</targetReference>
+            </connector>
+            <label>LocationIdsMatch</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_if_OrderItemSummary_processed</name>
         <label>Check if OrderItemSummary processed</label>
-        <locationX>3477</locationX>
-        <locationY>1239</locationY>
+        <locationX>3325</locationX>
+        <locationY>1175</locationY>
         <defaultConnector>
-            <targetReference>Fulfillment_Order_To_Create</targetReference>
+            <targetReference>Loop_1</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Already OrderItemSummary Not Processed</defaultConnectorLabel>
         <rules>
@@ -1268,6 +1323,7 @@
             <label>❌ OCI Error</label>
         </rules>
     </decisions>
+    <description>Message Display changes for OCI And OrderSummaryReship</description>
     <interviewLabel>SOM_Reship Order Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 810 Reship Order Flow</label>
     <loops>
@@ -1355,6 +1411,20 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Create_Fulfillment_Order</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_1</name>
+        <label>Loop 1</label>
+        <locationX>3485</locationX>
+        <locationY>1427</locationY>
+        <collectionReference>fulfillItems</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_for_LocationIds_Match_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Fulfillment_Order_To_Create</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -2077,35 +2147,20 @@
                 <name>SCREEN_OCI_Error_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>TXT_10_01</name>
-                    <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 48px;&quot;&gt;⚠&lt;/span&gt;&lt;/p&gt;</fieldText>
-                    <fieldType>DisplayText</fieldType>
-                </fields>
-                <inputParameters>
-                    <name>width</name>
-                    <value>
-                        <stringValue>4</stringValue>
-                    </value>
-                </inputParameters>
-                <isRequired>false</isRequired>
-            </fields>
-            <fields>
-                <name>SCREEN_OCI_Error_Section1_Column2</name>
-                <fieldType>Region</fieldType>
-                <fields>
                     <name>TXT_10_02</name>
-                    <fieldText>&lt;p&gt;&lt;strong&gt;Inventory issue&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;This Flow will now stop : no reservations were saved in OCI, no Fulfillment Order was created.&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 36px; color: rgb(68, 68, 68);&quot;&gt;⚠&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 48px; color: rgb(68, 68, 68);&quot;&gt; &lt;/span&gt;&lt;strong&gt;Inventory issue&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;No stock is available for this SKU, you cannot reship the product. No reservation is done in OCI and no fulfilment order is created.&lt;/p&gt;&lt;p&gt;Please create a new manual order with the same or different SKU that will be allocated automatically when the SKU is back in stock.&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>8</stringValue>
+                        <stringValue>12</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>TABLE_Success_OCI</name>
@@ -2470,6 +2525,12 @@
             <name>C00_FulfillItems</name>
             <value>
                 <elementReference>fulfillItems</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>OrderSummaryReship</name>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </inputAssignments>
         <inputAssignments>

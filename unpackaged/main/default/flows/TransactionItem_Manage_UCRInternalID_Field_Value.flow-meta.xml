@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
+    <environments>Default</environments>
     <interviewLabel>TransactionItem Manage UCRInternalID Field Value {!$Flow.CurrentDateTime}</interviewLabel>
     <label>TransactionItem Manage UCRInternalID Field Value</label>
     <processMetadataValues>
@@ -23,14 +24,26 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
-        <name>Copy_1_of_Update_TransactionITem_UCR_Internal</name>
-        <label>Copy 1 of Update TransactionITem UCR Internal</label>
+        <name>Update_TransactionITem_UCR_Internal</name>
+        <label>Update TransactionITem UCR Internal</label>
         <locationX>308</locationX>
         <locationY>276</locationY>
+        <inputAssignments>
+            <field>UCRCreationDate__c</field>
+            <value>
+                <elementReference>$Record.CreatedDate</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>UCRInternalId__c</field>
             <value>
                 <elementReference>$Record.R360ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UCRLastUpdateDate__c</field>
+            <value>
+                <elementReference>$Record.CreatedDate</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -50,11 +63,11 @@
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>Copy_1_of_Update_TransactionITem_UCR_Internal</targetReference>
+                <targetReference>Update_TransactionITem_UCR_Internal</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
 </Flow>

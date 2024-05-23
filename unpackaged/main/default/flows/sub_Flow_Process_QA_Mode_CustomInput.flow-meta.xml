@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <name>Populate_AddressConsent</name>
         <label>Populate AddressConsent</label>
@@ -8,6 +8,13 @@
         <locationY>542</locationY>
         <assignmentItems>
             <assignToReference>customInput.AddressConsent__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>addressConsent</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.AddressConsent</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>addressConsent</elementReference>
@@ -86,7 +93,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>optOutContactPointType</assignToReference>
+            <assignToReference>customInput.OptOutContactPointType__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>optOutContactPointType</elementReference>
@@ -99,6 +106,69 @@
                 <elementReference>subscriptionName</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.CaptureSource</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>captureSource</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.Company</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>company</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.Warehouse</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>warehouse</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.SaleChannel</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>saleChannel</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.Store</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>store</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.CustomContactPointType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>customContactPointType</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.SubscriptionName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>subscriptionName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.BackInStockSubscriptionSKU</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>backInStockSubscriptionSKU</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.CaptureContactPointType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>captureContactPointType</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <assignments>
         <name>Populate_EmailConsent_field</name>
@@ -107,6 +177,13 @@
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>customInput.EmailConsent__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>emailConsent</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.EmailConsent</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>emailConsent</elementReference>
@@ -123,6 +200,13 @@
         <locationY>842</locationY>
         <assignmentItems>
             <assignToReference>customInput.OptinCGI__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>CGIConsent</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>B2CContactProcessCustomInput.CGIConsent</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>CGIConsent</elementReference>
@@ -207,6 +291,8 @@
             <label>EmailConsent is not null</label>
         </rules>
     </decisions>
+    <description>...Overide the B2C Custom Input for QA mode</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: QA Mode CustomInput {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: QA Mode CustomInput</label>
     <processMetadataValues>
@@ -228,6 +314,7 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>56</locationX>
         <locationY>0</locationY>
@@ -235,7 +322,7 @@
             <targetReference>EmailConsent_is_it_null</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>accountID</name>
         <dataType>String</dataType>
@@ -249,6 +336,14 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>B2CContactProcessCustomInput</name>
+        <apexClass>B2CContactProcessCustomInput</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>backInStockSubscriptionSKU</name>

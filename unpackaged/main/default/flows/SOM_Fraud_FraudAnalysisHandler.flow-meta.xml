@@ -208,14 +208,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_Order_Summary</targetReference>
+            <targetReference>SOM_Cancel_OIS_and_Release_Reservation</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_Success_Fraud_Response</name>
         <label>Set Success Fraud Response</label>
-        <locationX>174</locationX>
-        <locationY>1169</locationY>
+        <locationX>34</locationX>
+        <locationY>1134</locationY>
         <assignmentItems>
             <assignToReference>FraudAnalysisResponse.orderSummaryNumber</assignToReference>
             <operator>Assign</operator>
@@ -594,8 +594,8 @@
     <recordUpdates>
         <name>Update_Order_Summary</name>
         <label>Update Order Summary</label>
-        <locationX>480</locationX>
-        <locationY>1166</locationY>
+        <locationX>412</locationX>
+        <locationY>1124</locationY>
         <connector>
             <targetReference>Set_Success_Fraud_Response</targetReference>
         </connector>
@@ -619,6 +619,22 @@
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>SOM_Cancel_OIS_and_Release_Reservation</name>
+        <label>SOM_Cancel_OIS_and_Release_Reservation</label>
+        <locationX>387</locationX>
+        <locationY>932</locationY>
+        <connector>
+            <targetReference>Set_Success_Fraud_Response</targetReference>
+        </connector>
+        <flowName>SOM_Cancel_OIS_and_Release_Reservation</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>Get_Order_Summary</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <variables>
         <name>Current_Order_Summary_Status</name>
         <dataType>String</dataType>

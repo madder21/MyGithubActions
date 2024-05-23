@@ -62,6 +62,13 @@
             <operator>notEqual</operator>
             <value>Paid in store</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary.OrderPaymentSummaries.Payments$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>PR</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>Payments Report UAE</name>

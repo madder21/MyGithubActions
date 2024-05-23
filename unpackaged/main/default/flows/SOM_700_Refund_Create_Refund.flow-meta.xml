@@ -722,7 +722,7 @@
             <name>X0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_Order_Product_Summary.UnitPrice</leftValueReference>
+                <leftValueReference>Get_Order_Product_Summary.TotalAmtWithTax</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <numberValue>0.0</numberValue>
@@ -759,7 +759,6 @@
             <label>Exist</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>

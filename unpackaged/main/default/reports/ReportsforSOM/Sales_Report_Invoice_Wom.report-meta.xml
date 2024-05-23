@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <columns>
-        <field>OrderSummary.Invoices$Name</field>
+        <field>OrderSummary.Invoices*Invoice$DocumentNumber__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Name</field>
@@ -58,6 +58,9 @@
     </columns>
     <columns>
         <field>OrderSummary.Invoices.InvoiceLines$Type</field>
+    </columns>
+    <columns>
+        <field>OrderSummary$OriginalOrderSummary__c</field>
     </columns>
     <currency>EUR</currency>
     <filter>

@@ -377,6 +377,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Store_SKU</name>
+        <label>Store SKU</label>
+        <locationX>474</locationX>
+        <locationY>1393</locationY>
+        <assignmentItems>
+            <assignToReference>C_SKU</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Order_Product_Summaries.StockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Order_Product_Summaries</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Sum_Allocated_OSLIs</name>
         <label>Sum Allocated OSLIs</label>
         <locationX>1288</locationX>
@@ -400,13 +416,13 @@
         <locationY>1533</locationY>
         <assignNextValueToReference>currentItem_Filter_Allocated_OSLI_0</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_OSLI_0</collectionReference>
+        <collectionReference>Get_OSLI_with_SKU</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
             <leftValueReference>currentItem_Filter_Allocated_OSLI_0.StockKeepingUnit</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
-                <elementReference>currentItem_Filter_OSLI.StockKeepingUnit</elementReference>
+                <elementReference>OSLI_Assigned_Rec.StockKeepingUnit</elementReference>
             </rightValue>
         </conditions>
         <conditions>
@@ -454,12 +470,12 @@
         <label>Filter Location Group</label>
         <locationX>1645</locationX>
         <locationY>420</locationY>
-        <assignNextValueToReference>currentItem_Filter_Location_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Filter_Location_Group</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>GetLocationGroup_0</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Location_0.Id</leftValueReference>
+            <leftValueReference>currentItem_Filter_Location_Group.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L111_FGroups.fulfilledFromLocationId</elementReference>
@@ -716,6 +732,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Over_Order_Product_Summaries</name>
+        <label>Loop Over Order Product Summaries</label>
+        <locationX>473</locationX>
+        <locationY>1191</locationY>
+        <collectionReference>Get_OSLI_0</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Store_SKU</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_OSLI_with_SKU</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>OSLI_Loop</name>
         <label>OSLI Loop</label>
         <locationX>2282</locationX>
@@ -807,11 +837,11 @@
     <recordLookups>
         <name>Get_OSLI_0</name>
         <label>Get OSLI</label>
-        <locationX>409</locationX>
-        <locationY>935</locationY>
+        <locationX>227</locationX>
+        <locationY>1190</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>GetLocation_0</targetReference>
+            <targetReference>Loop_Over_Order_Product_Summaries</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -825,6 +855,34 @@
         <object>OrderItemSummary</object>
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_OSLI_with_SKU</name>
+        <label>Get OSLI with SKU</label>
+        <locationX>699</locationX>
+        <locationY>1192</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>GetLocation_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>StockKeepingUnit</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>C_SKU</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Order Product</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -982,6 +1040,13 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>C_SKU</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>Current_Allocated_Qty</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
@@ -1035,7 +1100,7 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_Location_0</name>
+        <name>currentItem_Filter_Location_Group</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -1044,6 +1109,14 @@
     </variables>
     <variables>
         <name>currentItem_Filter_OSLI</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_filter_test</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

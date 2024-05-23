@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Close_Return_Order</name>
         <label>Close Return Order</label>
-        <locationX>1096</locationX>
-        <locationY>751</locationY>
+        <locationX>922</locationX>
+        <locationY>754</locationY>
         <actionName>returnReturnOrderItems</actionName>
         <actionType>returnReturnOrderItems</actionType>
         <connector>
-            <targetReference>Update_ROLI_FollowupProcessed_to_True</targetReference>
+            <targetReference>Update_Return_Order</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -45,8 +45,8 @@
     <assignments>
         <name>Add_REC_ReturnOrderItemInputRepresentation_To_Collection</name>
         <label>Add_REC_ReturnOrderItemInputRepresentation_To_Collection</label>
-        <locationX>1919</locationX>
-        <locationY>988</locationY>
+        <locationX>1852</locationX>
+        <locationY>849</locationY>
         <assignmentItems>
             <assignToReference>collection_REC</assignToReference>
             <operator>Add</operator>
@@ -55,7 +55,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_ROLI_to_be_updated_to_FollowupProcessed_True</targetReference>
+            <targetReference>Loop_Received_ROLI</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -115,13 +115,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityToCancel</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Received_ROLI.QuantityRejected</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>REC_ReturnOrderItemInputRepresentation.reasonForRejection</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -135,31 +128,15 @@
                 <elementReference>Loop_Received_ROLI.Id</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>Add_REC_ReturnOrderItemInputRepresentation_To_Collection</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ROLI_to_be_updated_to_FollowupProcessed_True</name>
-        <label>Assign ROLI to be updated to FollowupProcessed True</label>
-        <locationX>1915</locationX>
-        <locationY>753</locationY>
         <assignmentItems>
-            <assignToReference>Loop_Received_ROLI.FollowUpProcessed__c</assignToReference>
+            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityToCancel</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>C_ROLIsToUpdate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Loop_Received_ROLI</elementReference>
+                <elementReference>Loop_Received_ROLI.QuantityRejected</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Loop_Received_ROLI</targetReference>
+            <targetReference>Add_REC_ReturnOrderItemInputRepresentation_To_Collection</targetReference>
         </connector>
     </assignments>
     <collectionProcessors>
@@ -214,6 +191,13 @@
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Return_Order_Line_Items</collectionReference>
         <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Get_Received_Roli_0.FollowUpProcessed__c</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <booleanValue>false</booleanValue>
+            </rightValue>
+        </conditions>
         <conditions>
             <leftValueReference>currentItem_Get_Received_Roli_0.QuantityReceived</leftValueReference>
             <operator>GreaterThan</operator>
@@ -294,7 +278,6 @@
             <label>OK</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM_Close_Return_Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM_Close_Return_Order</label>
     <loops>
@@ -420,16 +403,6 @@
             </value>
         </inputAssignments>
         <object>ReturnOrder</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_ROLI_FollowupProcessed_to_True</name>
-        <label>Update ROLI FollowupProcessed to True</label>
-        <locationX>896</locationX>
-        <locationY>750</locationY>
-        <connector>
-            <targetReference>Update_Return_Order</targetReference>
-        </connector>
-        <inputReference>C_ROLIsToUpdate</inputReference>
     </recordUpdates>
     <screens>
         <name>Close_Order</name>

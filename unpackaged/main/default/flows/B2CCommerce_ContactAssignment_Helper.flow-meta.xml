@@ -1,213 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <description>... attempt to synchronize the remaining sourceContact properties that do not exist on the target Contact record.</description>
-        <name>ia_synchronizeContactProperties</name>
-        <label>Synchronize Remaining Contact Properties</label>
-        <locationX>336</locationX>
-        <locationY>4718</locationY>
-        <actionName>B2CIASynchronizeContact</actionName>
+        <description>... If no country was provided by B2C Flow, assign the mailing country from the website country</description>
+        <name>get_Country_name</name>
+        <label>get Country name</label>
+        <locationX>886</locationX>
+        <locationY>3950</locationY>
+        <actionName>CountryNameManager</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>dec_auditB2COCAPIResponses</targetReference>
+            <targetReference>Assign_B2C_Fields</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>sourceContact</name>
+            <name>isoCode</name>
             <value>
-                <elementReference>sourceContact</elementReference>
+                <elementReference>sourceContact.WebsiteCountry__c</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>targetContact</name>
-            <value>
-                <elementReference>assignedContact</elementReference>
-            </value>
-        </inputParameters>
+        <nameSegment>CountryNameManager</nameSegment>
         <outputParameters>
-            <assignToReference>assignedContact</assignToReference>
-            <name>synchronizedTargetContact</name>
+            <assignToReference>ContactToUpdate.MailingCountry</assignToReference>
+            <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
-        <description>...assign the sourceContact&#39;s B2C CustomerID to the resolved contact.</description>
-        <name>asn_b2cCustomerIDToAssignedContact</name>
-        <label>Assign the B2C CustomerID</label>
-        <locationX>204</locationX>
-        <locationY>842</locationY>
+        <name>Asgn_Upd_email</name>
+        <label>Update email</label>
+        <locationX>578</locationX>
+        <locationY>1358</locationY>
         <assignmentItems>
-            <assignToReference>assignedContact.B2C_Customer_ID__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_b2cCustomerListExist</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>...assign the sourceContact&#39;s B2C CustomerList ID to the resolved contact.</description>
-        <name>asn_B2CCustomerListIDToAssignedContact</name>
-        <label>Assign the B2C CustomerList ID</label>
-        <locationX>204</locationX>
-        <locationY>1442</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.B2C_CustomerList_ID__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_b2cCustomerNoExist</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>...assign the sourceContact&#39;s B2C CustomerList Object association to the resolved contact.</description>
-        <name>asn_B2CCustomerListToAssignedContact</name>
-        <label>Assign the B2C CustomerList</label>
-        <locationX>204</locationX>
-        <locationY>1142</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.B2C_CustomerList__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_CustomerList__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_b2cCustomerListIDExist</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>...assign the sourceContact&#39;s B2C Customer No to the resolved contact.</description>
-        <name>asn_B2CCustomerNoToAssignedContact</name>
-        <label>Assign the B2C Customer No</label>
-        <locationX>204</locationX>
-        <locationY>1742</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.B2C_Customer_No__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>dec_EmailAddressExist</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>... default the audit OCAPI flag value (set to false).</description>
-        <name>asn_defaultAuditOCAPIFlag</name>
-        <label>Default the Audit OCAPI flag</label>
-        <locationX>204</locationX>
-        <locationY>4934</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.Audit_OCAPI_API_Response__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
-        <description>... assign the default Contact name value to the lastName of the assignedContact.</description>
-        <name>asn_defaultContactName_0_0</name>
-        <label>Assign the Default Contact Name</label>
-        <locationX>204</locationX>
-        <locationY>4226</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.LastName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>var_defaultContactName</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Set_the_default_FirstName_decision</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
-        <name>asn_defaultContactName_AssignmentCListCNo</name>
-        <label>Set the Default Contact Name Assignment Flag</label>
-        <locationX>50</locationX>
-        <locationY>3542</locationY>
-        <assignmentItems>
-            <assignToReference>var_setDefaultContactName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Was_FirstName_Assigned_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>... flip the flag managing the assignment of the default Contact name value to the lastName of the assignedContact.</description>
-        <name>asn_defaultContactName_AssignmentEmail</name>
-        <label>Set the Default Contact Name Assignment Flag</label>
-        <locationX>50</locationX>
-        <locationY>2750</locationY>
-        <assignmentItems>
-            <assignToReference>var_setDefaultContactName</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Was_FirstName_Assigned</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <description>...assign the sourceContact&#39;s emailAddress to the assigned contact.</description>
-        <name>asn_EmailAddressToAssignedContact</name>
-        <label>Assign the Email Address</label>
-        <locationX>204</locationX>
-        <locationY>2042</locationY>
-        <assignmentItems>
-            <assignToReference>assignedContact.Email</assignToReference>
+            <assignToReference>ContactToUpdate.Email</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>sourceContact.Email</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Does_the_Phone_Address_Exist</targetReference>
+            <targetReference>Phone_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... default the audit OCAPI flag value (set to false).</description>
+        <name>asn_defaultAuditOCAPIFlag</name>
+        <label>Default the Audit OCAPI flag</label>
+        <locationX>600</locationX>
+        <locationY>5342</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Audit_OCAPI_API_Response__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Success</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>...assign the sourceContact&#39;s firstName to the resolved contact.</description>
         <name>asn_FistnameToAssignedContact</name>
-        <label>Assign the FirstName</label>
-        <locationX>204</locationX>
-        <locationY>542</locationY>
+        <label>Assign the FirstName and reset second alphabet</label>
+        <locationX>314</locationX>
+        <locationY>1058</locationY>
         <assignmentItems>
-            <assignToReference>assignedContact.FirstName</assignToReference>
+            <assignToReference>ContactToUpdate.FirstName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.FirstName</elementReference>
+                <elementReference>CorrectFirstNameFormat</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.SecondAlphabetFirstname__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_b2cCustomerIDExist</targetReference>
+            <targetReference>Email_case</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>...assign the sourceContact&#39;s lastName to the resolved contact.</description>
         <name>asn_LastNameToAssignedContact</name>
-        <label>Assign the LastName</label>
-        <locationX>204</locationX>
-        <locationY>242</locationY>
+        <label>Assign the LastName and reset second alphabet</label>
+        <locationX>314</locationX>
+        <locationY>758</locationY>
         <assignmentItems>
-            <assignToReference>assignedContact.LastName</assignToReference>
+            <assignToReference>ContactToUpdate.LastName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sourceContact.LastName</elementReference>
+                <elementReference>CorrectLastNameFormat</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.SecondAlphabetLastname__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -215,122 +108,535 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_default_FirstName_to_contact</name>
-        <label>Assign default FirstName to contact</label>
-        <locationX>204</locationX>
-        <locationY>4526</locationY>
+        <name>Assign_B2C_Fields</name>
+        <label>Assign B2C Fields</label>
+        <locationX>732</locationX>
+        <locationY>4226</locationY>
         <assignmentItems>
-            <assignToReference>assignedContact.FirstName</assignToReference>
+            <assignToReference>ContactToUpdate.B2C_Date_Last_Modified__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>var_defaultContactFirstName</elementReference>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_CustomerList__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_CustomerList_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_CustomerList_ID__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>ia_synchronizeContactProperties</targetReference>
+            <targetReference>Does_B2C_ID_Exist</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <description>...assign the sourceContact&#39;s emailAddress to the assigned contact.</description>
-        <name>Assign_the_Phone</name>
-        <label>Assign the Phone</label>
-        <locationX>204</locationX>
+        <name>Assign_B2C_ID</name>
+        <label>Assign B2C ID</label>
+        <locationX>600</locationX>
+        <locationY>4442</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_Customer_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_B2C_No_Exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_B2C_No</name>
+        <label>Assign B2C No</label>
+        <locationX>600</locationX>
+        <locationY>4742</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_Customer_No__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.B2C_Customer_No__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_B2C_Created_Date_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_BirthDates</name>
+        <label>Assign BirthDates</label>
+        <locationX>314</locationX>
+        <locationY>1958</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Birthday__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthday__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Birthmonth__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthmonth__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Birthyear__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Birthyear__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Country_exist_and_is_different</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Country</name>
+        <label>Assign Country</label>
+        <locationX>600</locationX>
         <locationY>2342</locationY>
         <assignmentItems>
-            <assignToReference>assignedContact.Phone</assignToReference>
+            <assignToReference>ContactToUpdate.Country__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Country__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Website_country_exist_and_is_different</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Created_Date_B2C</name>
+        <label>Assign Created Date B2C</label>
+        <locationX>820</locationX>
+        <locationY>5042</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.B2C_Date_Created__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_auditB2COCAPIResponses</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_email</name>
+        <label>Assign email</label>
+        <locationX>50</locationX>
+        <locationY>1358</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Phone_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Full_Account</name>
+        <label>Assign Full Account</label>
+        <locationX>600</locationX>
+        <locationY>3542</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.FullAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.FullAccount__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_PersonMailingCountry_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Ids_from_existing_Contact</name>
+        <label>Assign Ids from existing Contact</label>
+        <locationX>732</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.AccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sourceContact.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sourceContact.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.AccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>PII_to_Udpate</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_other_email</name>
+        <label>Assign other email</label>
+        <locationX>314</locationX>
+        <locationY>1358</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.OtherEmail__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Email</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Phone_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>assign person mailing country</description>
+        <name>Assign_PersonMailingCountry</name>
+        <label>Assign PersonMailingCountry</label>
+        <locationX>446</locationX>
+        <locationY>3842</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.MailingCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.MailingCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_B2C_Fields</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_phone</name>
+        <label>Assign phone</label>
+        <locationX>50</locationX>
+        <locationY>1658</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Phone</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>sourceContact.Phone</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
+            <targetReference>Birthdate_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
-        <name>Set_the_default_FirstName</name>
-        <label>Set the default FirstName</label>
-        <locationX>50</locationX>
-        <locationY>3050</locationY>
+        <description>Assign phone with source Contact and Backup Original phone in Phone2</description>
+        <name>Assign_phone2</name>
+        <label>Assign Phone and backup phone2</label>
+        <locationX>314</locationX>
+        <locationY>1658</locationY>
         <assignmentItems>
-            <assignToReference>var_setDefaultContactFirstName</assignToReference>
+            <assignToReference>ContactToUpdate.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Phone2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Birthdate_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign phone with source Contact and Backup Original phone in Phone3</description>
+        <name>Assign_Phone_and_backup_phone3</name>
+        <label>Assign Phone and backup phone3</label>
+        <locationX>578</locationX>
+        <locationY>1658</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Phone2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Phone</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Phone3__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>originalExistingContact.Phone2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Birthdate_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Salutation</name>
+        <label>Assign Salutation</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.Salutation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.Salutation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_lastNameExists</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assign_website_language</name>
+        <label>Assign WebsiteLanguage</label>
+        <locationX>600</locationX>
+        <locationY>2942</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.WebsiteLanguage__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteLanguage__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Website_Local_exist_and_is_different</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_WebsiteCountry</name>
+        <label>Assign WebsiteCountry</label>
+        <locationX>600</locationX>
+        <locationY>2642</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.WebsiteCountry__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteCountry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Website_Language_exist_and_is_different</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_WebsiteLocale</name>
+        <label>Assign WebsiteLocale</label>
+        <locationX>600</locationX>
+        <locationY>3242</locationY>
+        <assignmentItems>
+            <assignToReference>ContactToUpdate.WebsiteLocale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sourceContact.WebsiteLocale__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Full_account_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Success</name>
+        <label>Success</label>
+        <locationX>732</locationX>
+        <locationY>5534</locationY>
+        <assignmentItems>
+            <assignToReference>isSuccess</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_the_default_FirstName_0</name>
-        <label>Set the default FirstName</label>
-        <locationX>50</locationX>
-        <locationY>3842</locationY>
         <assignmentItems>
-            <assignToReference>var_setDefaultContactFirstName</assignToReference>
+            <assignToReference>Error</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>true</booleanValue>
+                <stringValue>Assignement Successfully done</stringValue>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>dec_setDefaultContactName</targetReference>
-        </connector>
     </assignments>
     <decisions>
-        <description>... evaluates if the B2C Commerce CustomerList / CustomerNo were assigned -- in order to evaluate if a LastName exists on the Contact.</description>
-        <name>dec_areB2CCustomerListCustomerNoAssigned</name>
-        <label>ere the B2C CustomerList / CustomerNo Assigned?</label>
-        <locationX>336</locationX>
-        <locationY>3326</locationY>
+        <name>Birthdate_exist</name>
+        <label>Birthday dates exist and is different ?</label>
+        <locationX>446</locationX>
+        <locationY>1850</locationY>
         <defaultConnector>
-            <targetReference>dec_setDefaultContactName</targetReference>
+            <targetReference>Country_exist_and_is_different</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Were Not Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>Does not exist</defaultConnectorLabel>
         <rules>
-            <name>decOut_customerListCustomerNoAssigned</name>
+            <name>decout_birthdateExist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.B2C_CustomerList__c</leftValueReference>
+                <leftValueReference>sourceContact.Birthday__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>assignedContact.B2C_CustomerList_ID__c</leftValueReference>
+                <leftValueReference>sourceContact.Birthmonth__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>assignedContact.B2C_Customer_No__c</leftValueReference>
+                <leftValueReference>sourceContact.Birthyear__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthday__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthmonth__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthyear__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthday__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Birthday__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthmonth__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Birthmonth__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Birthyear__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Birthyear__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>dec_wasContactLastNameAssigned</targetReference>
+                <targetReference>Assign_BirthDates</targetReference>
             </connector>
-            <label>Were Assigned</label>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Country_exist_and_is_different</name>
+        <label>Country exist and is different ?</label>
+        <locationX>732</locationX>
+        <locationY>2234</locationY>
+        <defaultConnector>
+            <targetReference>Website_country_exist_and_is_different</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_Country_exist_and_is_different_Exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Country__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Country__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Country</targetReference>
+            </connector>
+            <label>exist</label>
         </rules>
     </decisions>
     <decisions>
         <description>... evaluate if the audit-responses flag has been set</description>
         <name>dec_auditB2COCAPIResponses</name>
         <label>Has Audit OCAPI Responses Been Set?</label>
-        <locationX>336</locationX>
-        <locationY>4826</locationY>
+        <locationX>732</locationX>
+        <locationY>5234</locationY>
+        <defaultConnector>
+            <targetReference>Success</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Set</defaultConnectorLabel>
         <rules>
             <name>Not_Set</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.Audit_OCAPI_API_Response__c</leftValueReference>
+                <leftValueReference>sourceContact.Audit_OCAPI_API_Response__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -343,143 +649,13 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... does the B2C CustomerID exist on the sourceContact</description>
-        <name>dec_b2cCustomerIDExist</name>
-        <label>Does the B2C CustomerID Exist?</label>
-        <locationX>336</locationX>
-        <locationY>734</locationY>
-        <defaultConnector>
-            <targetReference>dec_b2cCustomerListExist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>decOut_b2cCustomerIDExist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_b2cCustomerIDToAssignedContact</targetReference>
-            </connector>
-            <label>Exists</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... does the B2C CustomerList Object association exist on the sourceContact?</description>
-        <name>dec_b2cCustomerListExist</name>
-        <label>Does the B2C CustomerList Association Exist?</label>
-        <locationX>336</locationX>
-        <locationY>1034</locationY>
-        <defaultConnector>
-            <targetReference>dec_b2cCustomerListIDExist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>decOut_b2cCustomerListExist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_CustomerList__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_B2CCustomerListToAssignedContact</targetReference>
-            </connector>
-            <label>Exists</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... does the B2C CustomerListID exist on the sourceContact</description>
-        <name>dec_b2cCustomerListIDExist</name>
-        <label>Does the B2C CustomerListID Exist?</label>
-        <locationX>336</locationX>
-        <locationY>1334</locationY>
-        <defaultConnector>
-            <targetReference>dec_b2cCustomerNoExist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>decOut_b2cCustomerListIDExist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_CustomerList_ID__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_B2CCustomerListIDToAssignedContact</targetReference>
-            </connector>
-            <label>Exists</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... does the B2C CustomerNo exist on the sourceContact</description>
-        <name>dec_b2cCustomerNoExist</name>
-        <label>Does the B2C CustomerNo Exist?</label>
-        <locationX>336</locationX>
-        <locationY>1634</locationY>
-        <defaultConnector>
-            <targetReference>dec_EmailAddressExist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>decOut_b2cCustomerNoExist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_B2CCustomerNoToAssignedContact</targetReference>
-            </connector>
-            <label>Exists</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... does the Email Address exist on the sourceContact</description>
-        <name>dec_EmailAddressExist</name>
-        <label>Does the Email Address Exist?</label>
-        <locationX>336</locationX>
-        <locationY>1934</locationY>
-        <defaultConnector>
-            <targetReference>Does_the_Phone_Address_Exist</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>decOut_EmailAddressExist</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sourceContact.Email</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_EmailAddressToAssignedContact</targetReference>
-            </connector>
-            <label>Exists</label>
-        </rules>
-    </decisions>
-    <decisions>
         <description>... does the firstName exist on the sourceContact</description>
         <name>dec_firstNameExists</name>
-        <label>Does FirstName Exist?</label>
-        <locationX>336</locationX>
-        <locationY>434</locationY>
+        <label>Does FirstName Exist and Diferrent from Original?</label>
+        <locationX>446</locationX>
+        <locationY>950</locationY>
         <defaultConnector>
-            <targetReference>dec_b2cCustomerIDExist</targetReference>
+            <targetReference>Email_case</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
         <rules>
@@ -492,6 +668,20 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.FirstName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.FirstName</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>asn_FistnameToAssignedContact</targetReference>
             </connector>
@@ -501,9 +691,9 @@
     <decisions>
         <description>... does the lastName exist on the sourceContact</description>
         <name>dec_lastNameExists</name>
-        <label>Does LastName Exist?</label>
-        <locationX>336</locationX>
-        <locationY>134</locationY>
+        <label>Does LastName Exist and Diferrent from Original?</label>
+        <locationX>446</locationX>
+        <locationY>650</locationY>
         <defaultConnector>
             <targetReference>dec_firstNameExists</targetReference>
         </defaultConnector>
@@ -518,6 +708,20 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.LastName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.LastName</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>asn_LastNameToAssignedContact</targetReference>
             </connector>
@@ -525,136 +729,394 @@
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluates if the default Contact name should be set -- based on the combination of attributes present on the assigned Contact.</description>
-        <name>dec_setDefaultContactName</name>
-        <label>Set the Default Contact Name?</label>
-        <locationX>336</locationX>
-        <locationY>4118</locationY>
+        <name>Does_B2C_ID_Exist</name>
+        <label>Does B2C ID Exist</label>
+        <locationX>732</locationX>
+        <locationY>4334</locationY>
         <defaultConnector>
-            <targetReference>Set_the_default_FirstName_decision</targetReference>
+            <targetReference>Does_B2C_No_Exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Do Not Set</defaultConnectorLabel>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
-            <name>decOut_setDefaultContactName</name>
+            <name>yes_Does_B2C_ID_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_setDefaultContactName</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.B2C_Customer_ID__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_defaultContactName_0_0</targetReference>
+                <targetReference>Assign_B2C_ID</targetReference>
             </connector>
-            <label>Set the Default</label>
+            <label>yes</label>
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluate if a customerList and email address were assigned -- to determine if a default Contact name should be leveraged.</description>
-        <name>dec_wasB2CCustomerListEmailAssigned</name>
-        <label>Were a CustomerList / Email Assigned</label>
-        <locationX>336</locationX>
-        <locationY>2534</locationY>
+        <name>Does_B2C_No_Exist</name>
+        <label>Does B2C No Exist</label>
+        <locationX>732</locationX>
+        <locationY>4634</locationY>
         <defaultConnector>
-            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
+            <targetReference>is_B2C_Created_Date_exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Were Not Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
-            <name>decOut_b2cCustomerListEmailAssigned</name>
+            <name>yes_Does_B2C_No_Exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.B2C_CustomerList__c</leftValueReference>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>assignedContact.B2C_CustomerList_ID__c</leftValueReference>
-                <operator>WasSet</operator>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>assignedContact.Email</leftValueReference>
-                <operator>WasSet</operator>
+                <leftValueReference>sourceContact.B2C_Customer_No__c</leftValueReference>
+                <operator>NotEqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <stringValue></stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>dec_wasContactLastNameAssigned_Email</targetReference>
+                <targetReference>Assign_B2C_No</targetReference>
             </connector>
-            <label>Were Assigned</label>
+            <label>yes</label>
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
-        <name>dec_wasContactLastNameAssigned</name>
-        <label>Was a LastName Assigned?</label>
-        <locationX>182</locationX>
+        <name>Does_Full_account_exist</name>
+        <label>Does Full account exist</label>
+        <locationX>732</locationX>
         <locationY>3434</locationY>
         <defaultConnector>
-            <targetReference>Was_FirstName_Assigned_0</targetReference>
+            <targetReference>Does_PersonMailingCountry_exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>doest not exist</defaultConnectorLabel>
         <rules>
-            <name>decOut_contactLastNameWasNotAssigned</name>
+            <name>decout_Full_account_exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.LastName</leftValueReference>
+                <leftValueReference>sourceContact.FullAccount__c</leftValueReference>
                 <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Full_Account</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_PersonMailingCountry_exist</name>
+        <label>Does PersonMailingCountry exist ?</label>
+        <locationX>732</locationX>
+        <locationY>3734</locationY>
+        <defaultConnector>
+            <targetReference>Website_country_exist_and_is_different_mailingcountryEmpty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>doesn&#39;t exist</defaultConnectorLabel>
+        <rules>
+            <name>yeschanged_decout_PersonMailingCountry_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.MailingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>sourceContact.MailingCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_PersonMailingCountry</targetReference>
+            </connector>
+            <label>yes it exist and it changed</label>
+        </rules>
+        <rules>
+            <name>yesdoesntchanged_decout_PersonMailingCountry_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.MailingCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.MailingCountry</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_B2C_Fields</targetReference>
+            </connector>
+            <label>yes it exist and it doesn&#39;t changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Email_case</name>
+        <label>Email case ?</label>
+        <locationX>446</locationX>
+        <locationY>1250</locationY>
+        <defaultConnector>
+            <targetReference>Phone_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_New_email</name>
+            <conditionLogic>(1 OR 2) AND 3 AND 4</conditionLogic>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_email</targetReference>
+            </connector>
+            <label>Email not exist in DB</label>
+        </rules>
+        <rules>
+            <name>decout_New_other_email</name>
+            <conditionLogic>1 AND 2  AND 3 AND 4 AND 5 AND (6 OR 7)</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Email</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.OtherEmail__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.OtherEmail__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_other_email</targetReference>
+            </connector>
+            <label>Email exist and is different and Other email not Exist</label>
+        </rules>
+        <rules>
+            <name>decout_Update_email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.OtherEmail__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.OtherEmail__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Email</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.OtherEmail__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Asgn_Upd_email</targetReference>
+            </connector>
+            <label>Email exist and other email exist in DB And email are different</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_B2C_Created_Date_exist</name>
+        <label>is B2C Created Date exist</label>
+        <locationX>732</locationX>
+        <locationY>4934</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Created_Date_B2C</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>decout_is_B2C_Created_Date_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>originalExistingContact.B2C_Date_Created__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>asn_defaultContactName_AssignmentCListCNo</targetReference>
+                <targetReference>dec_auditB2COCAPIResponses</targetReference>
             </connector>
-            <label>Was Not Assigned</label>
+            <label>yes</label>
         </rules>
     </decisions>
     <decisions>
-        <description>... evaluates if a Contact LastName was assigned -- to determine if the default Contact Name should be used.</description>
-        <name>dec_wasContactLastNameAssigned_Email</name>
-        <label>Was a LastName Assigned?</label>
-        <locationX>182</locationX>
-        <locationY>2642</locationY>
+        <name>Phone_exist</name>
+        <label>Phone case ?</label>
+        <locationX>446</locationX>
+        <locationY>1550</locationY>
         <defaultConnector>
-            <targetReference>Was_FirstName_Assigned</targetReference>
+            <targetReference>Birthdate_exist</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>Does not exist</defaultConnectorLabel>
         <rules>
-            <name>decOut_contactLastNameWasNotAssigned_Email</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>assignedContact.LastName</leftValueReference>
-                <operator>WasSet</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>asn_defaultContactName_AssignmentEmail</targetReference>
-            </connector>
-            <label>Was Not Assigned</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <description>... does the Phone exist on the sourceContact</description>
-        <name>Does_the_Phone_Address_Exist</name>
-        <label>Does the Phone Exist?</label>
-        <locationX>336</locationX>
-        <locationY>2234</locationY>
-        <defaultConnector>
-            <targetReference>dec_wasB2CCustomerListEmailAssigned</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Does Not Exist</defaultConnectorLabel>
-        <rules>
-            <name>Exists</name>
-            <conditionLogic>and</conditionLogic>
+            <name>decout_phoneExist</name>
+            <conditionLogic>1 AND 2 AND (3 OR 4)</conditionLogic>
             <conditions>
                 <leftValueReference>sourceContact.Phone</leftValueReference>
                 <operator>WasSet</operator>
@@ -662,88 +1124,379 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Assign_the_Phone</targetReference>
+                <targetReference>Assign_phone</targetReference>
             </connector>
-            <label>Exists</label>
+            <label>Phone not exist in DB</label>
+        </rules>
+        <rules>
+            <name>Phone_exist_and_phone_2_doesn_t_exist_in_DB</name>
+            <conditionLogic>1 AND 2 AND 3 AND 4 AND 5 AND ( 6 OR 7)</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Phone</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone2__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone2__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_phone2</targetReference>
+            </connector>
+            <label>Phone exist and is different and phone 2 doesn&#39;t exist in DB</label>
+        </rules>
+        <rules>
+            <name>Phone_and_phone_2_exist_and_is_different</name>
+            <conditionLogic>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Phone</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone2__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.Phone2__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Phone</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Phone2__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Phone_and_backup_phone3</targetReference>
+            </connector>
+            <label>Phone and phone 2 exist and is different</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Set_the_default_FirstName_decision</name>
-        <label>Set the default FirstName decision</label>
-        <locationX>336</locationX>
-        <locationY>4418</locationY>
+        <name>PII_to_Udpate</name>
+        <label>PII to Udpate ?</label>
+        <locationX>732</locationX>
+        <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>ia_synchronizeContactProperties</targetReference>
+            <targetReference>Country_exist_and_is_different</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Do not set the dfault firstName</defaultConnectorLabel>
+        <defaultConnectorLabel>NO</defaultConnectorLabel>
         <rules>
-            <name>Yes_set_the_default_FirstName</name>
+            <name>Yes_PII_to_Udpate</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>var_setDefaultContactFirstName</leftValueReference>
+                <leftValueReference>var_PIItoUpdate</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_default_FirstName_to_contact</targetReference>
+                <targetReference>Salutation_exist</targetReference>
             </connector>
-            <label>Yes set the default FirstName</label>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Was_FirstName_Assigned</name>
-        <label>Was FirstName Assigned</label>
-        <locationX>182</locationX>
-        <locationY>2942</locationY>
+        <name>Salutation_exist</name>
+        <label>Salutation exist and different from original?</label>
+        <locationX>446</locationX>
+        <locationY>350</locationY>
         <defaultConnector>
-            <targetReference>dec_areB2CCustomerListCustomerNoAssigned</targetReference>
+            <targetReference>dec_lastNameExists</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
         <rules>
-            <name>Was_NotAssigned</name>
+            <name>decout_Salutationexist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.FirstName</leftValueReference>
+                <leftValueReference>sourceContact.Salutation</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Salutation</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.Salutation</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.Salutation</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_the_default_FirstName</targetReference>
+                <targetReference>Assign_Salutation</targetReference>
             </connector>
-            <label>Was Not Assigned</label>
+            <label>exist</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Was_FirstName_Assigned_0</name>
-        <label>Was FirstName Assigned</label>
-        <locationX>182</locationX>
-        <locationY>3734</locationY>
+        <name>Website_country_exist_and_is_different</name>
+        <label>Website country exist and is different ?</label>
+        <locationX>732</locationX>
+        <locationY>2534</locationY>
         <defaultConnector>
-            <targetReference>dec_setDefaultContactName</targetReference>
+            <targetReference>Website_Language_exist_and_is_different</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Was Assigned</defaultConnectorLabel>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
         <rules>
-            <name>Was_NotAssigned_0</name>
+            <name>decout_websitecountry_exist</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>assignedContact.FirstName</leftValueReference>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
                 <operator>WasSet</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>originalExistingContact.WebsiteCountry__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_the_default_FirstName_0</targetReference>
+                <targetReference>Assign_WebsiteCountry</targetReference>
             </connector>
-            <label>Was Not Assigned</label>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Website_country_exist_and_is_different_mailingcountryEmpty</name>
+        <label>Website country exist and is different ?</label>
+        <locationX>1018</locationX>
+        <locationY>3842</locationY>
+        <defaultConnector>
+            <targetReference>Assign_B2C_Fields</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_yes_Website_country_exist_and_is_different_mailingcountryEmpty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteCountry__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>get_Country_name</targetReference>
+            </connector>
+            <label>yes does exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Website_Language_exist_and_is_different</name>
+        <label>Website Language exist and is different ?</label>
+        <locationX>732</locationX>
+        <locationY>2834</locationY>
+        <defaultConnector>
+            <targetReference>Website_Local_exist_and_is_different</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not exist</defaultConnectorLabel>
+        <rules>
+            <name>decout_WebsiteLanguage_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLanguage__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLanguage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.WebsiteLanguage__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>sourceContact.WebsiteLanguage__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_website_language</targetReference>
+            </connector>
+            <label>exist</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Website_Local_exist_and_is_different</name>
+        <label>Website Local exist and is different ?</label>
+        <locationX>732</locationX>
+        <locationY>3134</locationY>
+        <defaultConnector>
+            <targetReference>Does_Full_account_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>does not equal</defaultConnectorLabel>
+        <rules>
+            <name>decout_WebsiteLocal_exist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLocale__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sourceContact.WebsiteLocale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>originalExistingContact.WebsiteLocale__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>sourceContact.WebsiteLocale__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_WebsiteLocale</targetReference>
+            </connector>
+            <label>exist</label>
         </rules>
     </decisions>
     <description>... this flow is used to abstract the incremental assignment of sourceContact attributes to a resolved Contact for future processing.</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>CorrectFirstNameFormat</name>
+        <dataType>String</dataType>
+        <expression>INITCAP({!sourceContact.FirstName})</expression>
+    </formulas>
+    <formulas>
+        <name>CorrectLastNameFormat</name>
+        <dataType>String</dataType>
+        <expression>INITCAP({!sourceContact.LastName})</expression>
+    </formulas>
     <interviewLabel>B2C Commerce: Contact Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Assignment Helper: Contacts</label>
     <processMetadataValues>
@@ -765,21 +1518,43 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>210</locationX>
+        <locationX>606</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>dec_lastNameExists</targetReference>
+            <targetReference>Assign_Ids_from_existing_Contact</targetReference>
         </connector>
     </start>
     <status>Active</status>
     <variables>
-        <description>... represents the Contact with assigned variables.</description>
-        <name>assignedContact</name>
+        <name>ContactToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+    <variables>
+        <name>Error</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>isSuccess</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>originalExistingContact</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>true</isOutput>
+        <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
     <variables>
@@ -788,20 +1563,12 @@
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
         <objectType>Contact</objectType>
     </variables>
     <variables>
-        <name>var_defaultContactFirstName</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>true</isInput>
-        <isOutput>false</isOutput>
-    </variables>
-    <variables>
-        <description>... represents the default Name to use for a Contact is one is not assigned or provided.</description>
-        <name>var_defaultContactName</name>
-        <dataType>String</dataType>
+        <name>var_PIItoUpdate</name>
+        <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>

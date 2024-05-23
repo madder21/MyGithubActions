@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>56.0</apiVersion>
+    <apiVersion>59.0</apiVersion>
     <assignments>
         <name>Add_Suffix_to_Record_Email</name>
         <label>Add Suffix to Record&#39;s Email</label>
-        <locationX>314</locationX>
-        <locationY>395</locationY>
+        <locationX>182</locationX>
+        <locationY>503</locationY>
         <assignmentItems>
             <assignToReference>EmailWithSSOSuffix</assignToReference>
             <operator>Add</operator>
@@ -21,6 +21,38 @@
             </value>
         </assignmentItems>
         <connector>
+            <targetReference>Assign_Email_to_FedID_variable</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Email_to_FedID_variable</name>
+        <label>Assign Email to FedID variable</label>
+        <locationX>182</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>FederationIDvalue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>EmailWithSSOSuffix</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>isNew</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_FedID_to_FedID_variable</name>
+        <label>Assign FedID to FedID variable</label>
+        <locationX>446</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>FederationIDvalue</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.FederationIdentifier</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
             <targetReference>isNew</targetReference>
         </connector>
     </assignments>
@@ -28,7 +60,7 @@
         <name>isNew</name>
         <label>isNew</label>
         <locationX>314</locationX>
-        <locationY>503</locationY>
+        <locationY>803</locationY>
         <defaultConnector>
             <targetReference>UserStatus</targetReference>
         </defaultConnector>
@@ -50,10 +82,42 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Test_if_Federation_ID_is_filled_in</name>
+        <label>Test if Federation ID is filled in</label>
+        <locationX>314</locationX>
+        <locationY>287</locationY>
+        <defaultConnector>
+            <targetReference>Assign_FedID_to_FedID_variable</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FedID filled</defaultConnectorLabel>
+        <rules>
+            <name>FedID_empty</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.FederationIdentifier</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.FederationIdentifier</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_SSO_Suffix_for_Instance</targetReference>
+            </connector>
+            <label>FedID empty</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>UserStatus</name>
         <label>UserStatus</label>
         <locationX>578</locationX>
-        <locationY>611</locationY>
+        <locationY>911</locationY>
         <defaultConnectorLabel>Not Changed</defaultConnectorLabel>
         <rules>
             <name>Is_Deactivated</name>
@@ -131,8 +195,8 @@
     <recordLookups>
         <name>Get_SSO_Suffix_for_Instance</name>
         <label>Get SSO Suffix for Instance</label>
-        <locationX>314</locationX>
-        <locationY>287</locationY>
+        <locationX>182</locationX>
+        <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Add_Suffix_to_Record_Email</targetReference>
@@ -155,7 +219,7 @@
         <name>Deactivate_User_Clean_FederationID</name>
         <label>Deactivate User-&gt;Clean FederationID</label>
         <locationX>314</locationX>
-        <locationY>1043</locationY>
+        <locationY>1343</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>IsActive</field>
@@ -183,7 +247,7 @@
         <name>Deactivate_User_Clean_StaffCode</name>
         <label>Deactivate User-&gt;Clean StaffCode</label>
         <locationX>314</locationX>
-        <locationY>719</locationY>
+        <locationY>1019</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_StoreCode</targetReference>
         </connector>
@@ -214,7 +278,7 @@
         <name>Deactivate_User_Clean_StoreCode</name>
         <label>Deactivate User-&gt;Clean StoreCode</label>
         <locationX>314</locationX>
-        <locationY>827</locationY>
+        <locationY>1127</locationY>
         <connector>
             <targetReference>Deactivate_User_CleanUCRID</targetReference>
         </connector>
@@ -245,7 +309,7 @@
         <name>Deactivate_User_CleanUCRID</name>
         <label>Deactivate User-&gt;Clean UCRID</label>
         <locationX>314</locationX>
-        <locationY>935</locationY>
+        <locationY>1235</locationY>
         <connector>
             <targetReference>Deactivate_User_Clean_FederationID</targetReference>
         </connector>
@@ -276,8 +340,8 @@
         <name>Set_Fed_ID_to_Email</name>
         <label>Set Fed ID to Email</label>
         <locationX>50</locationX>
-        <locationY>611</locationY>
-        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <locationY>911</locationY>
+        <filterLogic>(1 OR 2 OR (NOT 3)) AND 4</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
             <operator>IsNull</operator>
@@ -293,6 +357,13 @@
             </value>
         </filters>
         <filters>
+            <field>FederationIdentifier</field>
+            <operator>EndsWith</operator>
+            <value>
+                <elementReference>Get_SSO_Suffix_for_Instance</elementReference>
+            </value>
+        </filters>
+        <filters>
             <field>IsActive</field>
             <operator>EqualTo</operator>
             <value>
@@ -302,7 +373,7 @@
         <inputAssignments>
             <field>FederationIdentifier</field>
             <value>
-                <elementReference>EmailWithSSOSuffix</elementReference>
+                <elementReference>FederationIDvalue</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -311,8 +382,8 @@
         <name>Set_Fed_ID_to_Email_1</name>
         <label>Set Fed ID to Email</label>
         <locationX>578</locationX>
-        <locationY>719</locationY>
-        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <locationY>1019</locationY>
+        <filterLogic>(1 OR 2 OR (NOT 3)) AND 4</filterLogic>
         <filters>
             <field>FederationIdentifier</field>
             <operator>IsNull</operator>
@@ -328,6 +399,13 @@
             </value>
         </filters>
         <filters>
+            <field>FederationIdentifier</field>
+            <operator>EndsWith</operator>
+            <value>
+                <elementReference>Get_SSO_Suffix_for_Instance</elementReference>
+            </value>
+        </filters>
+        <filters>
             <field>IsActive</field>
             <operator>EqualTo</operator>
             <value>
@@ -337,7 +415,7 @@
         <inputAssignments>
             <field>FederationIdentifier</field>
             <value>
-                <elementReference>EmailWithSSOSuffix</elementReference>
+                <elementReference>FederationIDvalue</elementReference>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -346,7 +424,7 @@
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Get_SSO_Suffix_for_Instance</targetReference>
+            <targetReference>Test_if_Federation_ID_is_filled_in</targetReference>
         </connector>
         <object>User</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
@@ -362,6 +440,13 @@
         <value>
             <elementReference>$Record.Email</elementReference>
         </value>
+    </variables>
+    <variables>
+        <name>FederationIDvalue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>SSOsuffix</name>

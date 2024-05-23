@@ -48,6 +48,13 @@
             <operator>equals</operator>
             <value>AE</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary.OrderPaymentSummaries.Refunds$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>notEqual</operator>
+            <value>DR</value>
+        </criteriaItems>
     </filter>
     <format>Tabular</format>
     <name>Refunds Report UAE</name>

@@ -464,6 +464,8 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
                 this.customData[this.lineIndex].pbEntryId = responseData.pbEntryId;
                 this.customData[this.lineIndex].description = responseData.description;
                 this.customData[this.lineIndex].skuExchange = responseData.skuExchange;
+                this.customData[this.lineIndex].family = responseData.family;
+                this.customData[this.lineIndex].function = responseData.function;
 
                 this.customDataDisplay[this.lineIndex].ats = responseData.ats;
                 this.customDataDisplay[this.lineIndex].pbEntryId = responseData.pbEntryId;
@@ -501,11 +503,11 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
         for(let i=0; i<this.customData.length; i++){
             const lineItem = JSON.parse(JSON.stringify(this.customData[i]))
             const itemValid = this.verifyLineItemValidation(lineItem);
-            if(this.skusDelivery.includes(this.customData[i].skuExchange)){
+            /*if(this.skusDelivery.includes(this.customData[i].skuExchange)){
                 this.displayWarningMessage('shipping service products are not allowed','Warning');
                 this.endLoading(); 
                 return;
-            }
+            }*/
             if(!itemValid && !this.isFromReturn && countValidItem > 0 ){
                 this.displayWarningMessage('Select the missing Location or SKU, or delete the line.','Warning');
                 this.endLoading(); 
@@ -590,6 +592,8 @@ export default class SomLwcDisplayOrderItems extends LightningElement {
             originalQuantity: 1,
             pbEntryId: null,
             productId: '',
+            family: '',
+            function: '',
             quantity: 1,
             taxType: true,
             unitPrice: 0,

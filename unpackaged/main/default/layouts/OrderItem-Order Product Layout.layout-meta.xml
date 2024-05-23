@@ -78,6 +78,14 @@
                 <behavior>Edit</behavior>
                 <field>Exchanged_from_ROLI__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>hasGiftMessage__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isGiftWrap__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -124,8 +132,8 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Additional Information</label>
-        <layoutColumns />
-        <layoutColumns />
+        <layoutColumns/>
+        <layoutColumns/>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
     <multilineLayoutFields>Product2Id</multilineLayoutFields>
@@ -136,6 +144,9 @@
     <multilineLayoutFields>OrderId</multilineLayoutFields>
     <multilineLayoutFields>ProductCode</multilineLayoutFields>
     <multilineLayoutFields>TotalPrice</multilineLayoutFields>
+    <platformActionList>
+        <actionListContext>Record</actionListContext>
+    </platformActionList>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>

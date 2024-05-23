@@ -3,7 +3,7 @@
     <!-- footer -->
     <div id="footer_content">
         <apex:image style="display:block;margin-left:auto;margin-right:auto;margin-bottom:20px;" url="{!URLFOR($Resource.InvoiceLogos, 'Logos/Monogram/Rimowa-Monogram.png')}" width="35" height="45" alt="RIMOWA"/>
-        <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_REGISTER']}"/>&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_COURT']}"/>&#44;&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_MANAGING_DIRECTOR']}"/>&nbsp;&#45;&nbsp;<apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID']}"/> 
+        <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_REGISTER']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_REGISTER_CITY']),' ','')}<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER_CITY']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_LABEL_COURT']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_REGISTER']),', ','')}<apex:outputText value="{!creditMemoConfigs['PDF_REGISTER']}"/> <apex:outputText value="{!creditMemoConfigs['PDF_MANAGING_DIRECTOR']}"/>{!IF(ISBLANK(creditMemoConfigs['PDF_VAT_ID']),' - ','')}<apex:outputText value="{!creditMemoConfigs['PDF_VAT_ID']}"/> 
     </div>
     <!-- header -->
         <div id="header"> 
@@ -146,7 +146,7 @@
 
             <apex:repeat value="{!creditMemoTaxLineItems}" var="key">
                 <tr>
-                    <td width="80px" class="">PLUS TAX&nbsp;<apex:outputText value="{!key}"/> % :</td>
+                    <td width="80px" class="">PLUS &nbsp;<apex:outputText value="{!creditMemoConfigs['TAX_TITLE']}"/>&nbsp;<apex:outputText value="{!key}"/> % :</td>
                     <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
@@ -155,7 +155,7 @@
                     <td colspan="2">&nbsp;</td>
                 </tr> 
                 <tr>
-                    <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. TAX:</td>
+                    <td class="border_top" width="100px" style="padding-top:2px;">TOTAL INCL. &nbsp;<apex:outputText value="{!creditMemoConfigs['TAX_TITLE']}"/>:</td>
                     <td class="align-right border_top"><apex:outputText value="{!creditMemoDocument.totalWithTax}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                 </tr>
             </tbody>  

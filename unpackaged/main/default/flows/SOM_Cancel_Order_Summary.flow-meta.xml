@@ -28,12 +28,12 @@
     <actionCalls>
         <name>Cancel_Order_Item_Summaries</name>
         <label>Cancel Order Item Summaries</label>
-        <locationX>1411</locationX>
-        <locationY>1330</locationY>
+        <locationX>1491</locationX>
+        <locationY>951</locationY>
         <actionName>cancelOrderItemSummariesSubmit</actionName>
         <actionType>cancelOrderItemSummariesSubmit</actionType>
         <connector>
-            <targetReference>OCI_Release_Reservation_Decision</targetReference>
+            <targetReference>Get_Locations</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -56,8 +56,8 @@
     <actionCalls>
         <name>Generate_Uuid_Value</name>
         <label>Generate Uuid Value</label>
-        <locationX>1200</locationX>
-        <locationY>1051</locationY>
+        <locationX>1233</locationX>
+        <locationY>1300</locationY>
         <actionName>SOM_FlowUtils_UuidGenerator</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -78,8 +78,8 @@
     <actionCalls>
         <name>OCI_Release_Reservation</name>
         <label>OCI Release Reservation</label>
-        <locationX>709</locationX>
-        <locationY>816</locationY>
+        <locationX>798</locationX>
+        <locationY>731</locationY>
         <actionName>ociReleaseReservation</actionName>
         <actionType>ociReleaseReservation</actionType>
         <connector>
@@ -130,13 +130,20 @@
     <assignments>
         <name>Add_OCI_Single_Input_To_Collection</name>
         <label>Add OCI Single Input To Collection</label>
-        <locationX>744</locationX>
-        <locationY>1252</locationY>
+        <locationX>841</locationX>
+        <locationY>1145</locationY>
         <assignmentItems>
             <assignToReference>COL_OCIReleaseReservationSingleInputRepresentation</assignToReference>
             <operator>Add</operator>
             <value>
                 <elementReference>REC_OCIReleaseReservationSingleInputRepresentation</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Is_Unreservation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
@@ -254,8 +261,8 @@
     <assignments>
         <name>Set_Location_External_Reference</name>
         <label>Set Location External Reference</label>
-        <locationX>981</locationX>
-        <locationY>1511</locationY>
+        <locationX>836</locationX>
+        <locationY>1565</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationSingleInputRepresentation.locationIdentifier</assignToReference>
             <operator>Assign</operator>
@@ -270,8 +277,8 @@
     <assignments>
         <name>Set_OCI_Release_Reservation_Single_Input</name>
         <label>Set OCI Release Reservation Single Input</label>
-        <locationX>1082</locationX>
-        <locationY>1139</locationY>
+        <locationX>1225</locationX>
+        <locationY>1457</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationSingleInputRepresentation.actionRequestId</assignToReference>
             <operator>Assign</operator>
@@ -307,8 +314,8 @@
     <assignments>
         <name>Set_Order_Item_Summaries_To_Cancel</name>
         <label>Set Order Item Summaries To Cancel</label>
-        <locationX>741</locationX>
-        <locationY>954</locationY>
+        <locationX>800</locationX>
+        <locationY>905</locationY>
         <assignmentItems>
             <assignToReference>REC_OCIReleaseReservationInputRepresentation.releaseRecords</assignToReference>
             <operator>Assign</operator>
@@ -425,8 +432,8 @@
         <name>Filter_Locations</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Locations</label>
-        <locationX>1188</locationX>
-        <locationY>1264</locationY>
+        <locationX>1030</locationX>
+        <locationY>1446</locationY>
         <assignNextValueToReference>currentItem_Filter_Locations</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
@@ -491,7 +498,7 @@
     <decisions>
         <name>Check_Order_Summary_Status</name>
         <label>Check Order Summary Status</label>
-        <locationX>2146</locationX>
+        <locationX>2145</locationX>
         <locationY>366</locationY>
         <defaultConnector>
             <targetReference>Error_Screen_OS</targetReference>
@@ -528,6 +535,38 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_ReservedAtLocation</name>
+        <label>Check ReservedAtLocation</label>
+        <locationX>1221</locationX>
+        <locationY>1079</locationY>
+        <defaultConnector>
+            <targetReference>Iterate_Over_Order_Item_Summaries_To_Release_OCI</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No location</defaultConnectorLabel>
+        <rules>
+            <name>There_is_location</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Iterate_Over_Order_Item_Summaries_To_Release_OCI.ReservedAtLocationId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Iterate_Over_Order_Item_Summaries_To_Release_OCI.ReservedAtLocationId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_Uuid_Value</targetReference>
+            </connector>
+            <label>There is location</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Confirm_Delete</name>
         <label>Confirm Delete</label>
         <locationX>1899</locationX>
@@ -550,42 +589,28 @@
         </rules>
     </decisions>
     <decisions>
-        <name>OCI_Release_Reservation_Decision</name>
-        <label>OCI Release Reservation Decision</label>
-        <locationX>1503</locationX>
-        <locationY>851</locationY>
+        <name>If_No_unreservation</name>
+        <label>If No unreservation</label>
+        <locationX>1022</locationX>
+        <locationY>887</locationY>
         <defaultConnector>
-            <targetReference>Get_Locations</targetReference>
+            <targetReference>Set_Order_Item_Summaries_To_Cancel</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Release Reservation</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Do_Not_Release_Reservation</name>
-            <conditionLogic>1 AND ( 2 OR 3 )</conditionLogic>
+            <name>No_reservation</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>recordId.Status</leftValueReference>
+                <leftValueReference>Is_Unreservation</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Waiting for goods</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>recordId.SalesChannelName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>CEGID</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>recordId.SalesChannelName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Manual Order</stringValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
                 <targetReference>Set_OS_To_Canceled</targetReference>
             </connector>
-            <label>Do Not Release Reservation</label>
+            <label>No reservation</label>
         </rules>
     </decisions>
     <interviewLabel>SOM - Cancel Order Summary {!$Flow.CurrentDateTime}</interviewLabel>
@@ -593,8 +618,8 @@
     <loops>
         <name>Iterate_Over_Filtered_Locations</name>
         <label>Iterate Over Filtered Locations</label>
-        <locationX>982</locationX>
-        <locationY>1264</locationY>
+        <locationX>838</locationX>
+        <locationY>1348</locationY>
         <collectionReference>Filter_Locations</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -649,15 +674,15 @@
     <loops>
         <name>Iterate_Over_Order_Item_Summaries_To_Release_OCI</name>
         <label>Iterate Over Order Item Summaries To Release OCI</label>
-        <locationX>991</locationX>
-        <locationY>954</locationY>
+        <locationX>1005</locationX>
+        <locationY>1058</locationY>
         <collectionReference>Get_Order_Item_Summaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Generate_Uuid_Value</targetReference>
+            <targetReference>Check_ReservedAtLocation</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Set_Order_Item_Summaries_To_Cancel</targetReference>
+            <targetReference>If_No_unreservation</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -858,19 +883,12 @@
         <connector>
             <targetReference>Iterate_Over_Process_Exceptions</targetReference>
         </connector>
-        <filterLogic>1 AND 2 AND ( 3 OR 4 )</filterLogic>
+        <filterLogic>1 AND ( 2 OR 3 )</filterLogic>
         <filters>
             <field>OrderSummaryId</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>recordId.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Fulfillment</stringValue>
             </value>
         </filters>
         <filters>
@@ -1124,6 +1142,16 @@
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Is_Unreservation</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>OrderItemsToUpdate</name>

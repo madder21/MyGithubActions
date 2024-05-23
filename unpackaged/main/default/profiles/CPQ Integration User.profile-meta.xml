@@ -587,6 +587,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_IsMyHub__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Type</field>
         <readable>true</readable>
@@ -1887,6 +1892,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.FX_RecordTypeName_c__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Event.IsAllDayEvent</field>
         <readable>true</readable>
@@ -2104,6 +2114,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>FulfillmentOrder.OrderSummaryNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>FulfillmentOrder.duplicates__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2483,6 +2498,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Log__c.Class_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Debug_message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Log__c.Duration__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2499,6 +2524,16 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Log__c.Is_Manager__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.LineNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.LogLevel__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3114,6 +3149,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>OrderSummary.Invoices__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>OrderSummary.IsGlobalE__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3844,6 +3884,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>QuoteLineItem.TotalPrice</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Refund.IsGlobalE__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4607,6 +4652,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.FX_RecordTypeName_c__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.Related_Products_Details__c</field>
         <readable>true</readable>
@@ -5022,6 +5072,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>UserStore__c.gcp_to_sfdc_sync_id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>WishlistItem__c.Product__c</field>
         <readable>true</readable>
@@ -5405,6 +5460,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>LocationGroupAssignment-Location Group Assignment Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>LogLevel__mdt-Log Level Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Log__c-Log Layout</layout>

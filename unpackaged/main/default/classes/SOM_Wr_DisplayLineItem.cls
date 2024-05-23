@@ -32,10 +32,14 @@ public with sharing class SOM_Wr_DisplayLineItem {
     public Boolean taxType;
     @AuraEnabled
     public Decimal taxRate;
-    @AuraEnabled
+    @AuraEnabled 
     public Decimal taxValue;
     @AuraEnabled
     public Decimal lineTotal;
     @AuraEnabled
     public Decimal totalLines;
+    @AuraEnabled
+    public String family;
+    @AuraEnabled
+    public String function;
 }

@@ -2,7 +2,7 @@
 <ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
     <baseObject>OrderSummary</baseObject>
     <category>accounts</category>
-    <deployed>false</deployed>
+    <deployed>true</deployed>
     <description>Order Summary with Shipping address</description>
     <join>
         <outerJoin>false</outerJoin>
@@ -488,6 +488,16 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Tech_VAT_Id_Customer__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>IsGlobalE__c</field>
+            <table>OrderSummary</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderedDate__c</field>
             <table>OrderSummary</table>
         </columns>
         <masterLabel>Order Summaries</masterLabel>

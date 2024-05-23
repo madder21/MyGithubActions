@@ -9,7 +9,7 @@
                         <valueListItems>
                             <value>FulfillmentOrder.Cancel_Missing_Products</value>
                             <visibilityRule>
-                                <booleanFilter>( 1 OR 2 ) AND 3</booleanFilter>
+                                <booleanFilter>( 1 OR 2 ) AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -25,12 +25,32 @@
                                     <operator>NE</operator>
                                     <rightValue>Finance</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>SOM CSC</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS - Advisor</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS  - Team Lead</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>FulfillmentOrder.Create_shipment</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND (2 OR 3) AND 4 AND 5</booleanFilter>
+                                <booleanFilter>1 AND (2 OR 3) AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.OrderSummary.tech_os_store_shipping_method__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -56,6 +76,42 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
                                 </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS  - Team Lead</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS - Advisor</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>FulfillmentOrder.Resend_to_WMS</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND ( 2 OR 3 )</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Fulfilling</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>System Administrator</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Ecom Operations</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                     </valueList>
@@ -74,7 +130,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>hideChatterActions</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>numVisibleActions</name>

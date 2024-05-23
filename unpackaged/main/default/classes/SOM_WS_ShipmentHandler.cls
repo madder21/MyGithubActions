@@ -105,8 +105,8 @@ global with sharing class SOM_WS_ShipmentHandler {
                 if(!listShipmentsDataWithFoNumber.get(flmntOrder.FulfillmentOrderNumber)?.isEmpty()){
                     //Iterate over shipment requests of FO
                     for(WMS_ShipmentData shipmentDataLine : listShipmentsDataWithFoNumber.get(flmntOrder.FulfillmentOrderNumber)){
-                        if (shipmentDataLine.articles?.isEmpty() || shipmentsByWmsExternalId.containsKey(shipmentDataLine.WMSshipmentId)) {
-                            outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR, shipmentDataLine.articles?.isEmpty() ? 'Shipment should contain at least one article to ship' : 'Duplicated value '+ shipmentDataLine.WMSshipmentId +' of WMSshipmentId', flmntOrder.Id, null, null));
+                        if (shipmentDataLine.articles?.isEmpty()) {
+                            outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR, 'Shipment should contain at least one article to ship', flmntOrder.Id, null, null));
                             break;
                         }
                         Shipment shipment = createShipmentRecord(flmntOrder, shipmentDataLine, listLocationById);

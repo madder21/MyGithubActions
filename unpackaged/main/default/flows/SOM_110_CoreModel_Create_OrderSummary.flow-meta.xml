@@ -25,8 +25,8 @@
     <actionCalls>
         <name>Generate_Order_Creation_Transactional_Email</name>
         <label>Generate Order Creation Transactional Email</label>
-        <locationX>1706</locationX>
-        <locationY>793</locationY>
+        <locationX>1717</locationX>
+        <locationY>1128</locationY>
         <actionName>SOM_TransactionalEmailHandler</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -116,8 +116,8 @@
     <decisions>
         <name>Check_SalesChannel</name>
         <label>Check SalesChannel</label>
-        <locationX>1696</locationX>
-        <locationY>320</locationY>
+        <locationX>1693</locationX>
+        <locationY>329</locationY>
         <defaultConnector>
             <targetReference>Update_Order_Summary_Capture_Status</targetReference>
         </defaultConnector>
@@ -133,7 +133,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Order_Summary_Capture_Status_0</targetReference>
+                <targetReference>Get_Language</targetReference>
             </connector>
             <label>Is From CEGID</label>
         </rules>
@@ -173,6 +173,31 @@
                 </rightValue>
             </conditions>
             <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>If_Global_e_Order_Number_not_null</name>
+        <label>If Global-e Order Number not null</label>
+        <locationX>1699</locationX>
+        <locationY>796</locationY>
+        <defaultConnector>
+            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Null</defaultConnectorLabel>
+        <rules>
+            <name>Not_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OrderRecord.geOrderNumber__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Order_Summary_Number</targetReference>
+            </connector>
+            <label>Not null</label>
         </rules>
     </decisions>
     <decisions>
@@ -222,7 +247,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
+    <description>Update for the new attributs in custom metadata Sales Channel Mapping</description>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -293,6 +318,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Language</name>
+        <label>Get Language</label>
+        <locationX>1363</locationX>
+        <locationY>793</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Order_Summary_Capture_Status_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DefaultCountryLabel__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>CoutryISOcode__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CountryMapping__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_ODG</name>
         <label>Get ODG</label>
         <locationX>1026</locationX>
@@ -320,7 +373,7 @@
         <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_SalesChannel</targetReference>
+            <targetReference>Get_SalesChannelMapping</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -360,13 +413,34 @@
         <sortOrder>Asc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_SalesChannelMapping</name>
+        <label>Get SalesChannelMapping</label>
+        <locationX>1245</locationX>
+        <locationY>320</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_SalesChannel</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Sales_Channel_Mapping__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Order_Summary_Capture_Status</name>
         <label>Update Order Summary Capture Status</label>
         <locationX>1706</locationX>
         <locationY>612</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -401,6 +475,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>OrderSummaryStatus</elementReference>
@@ -412,15 +492,21 @@
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
             </value>
         </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
+            </value>
+        </inputAssignments>
         <object>OrderSummary</object>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Order_Summary_Capture_Status_0</name>
         <label>Update Order Summary Capture Status</label>
-        <locationX>1358</locationX>
+        <locationX>1533</locationX>
         <locationY>793</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -449,6 +535,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>OrderSummaryStatus</elementReference>
@@ -458,6 +550,48 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>language__c</field>
+            <value>
+                <elementReference>Get_Language.LanguageISOcode__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order_Summary_Number</name>
+        <label>Update Order Summary Number</label>
+        <locationX>1609</locationX>
+        <locationY>974</locationY>
+        <connector>
+            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>IsGlobalE__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OrderNumber</field>
+            <value>
+                <elementReference>OrderRecord.geOrderNumber__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
@@ -468,7 +602,7 @@
         <locationX>1886</locationX>
         <locationY>793</locationY>
         <connector>
-            <targetReference>Generate_Order_Creation_Transactional_Email</targetReference>
+            <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -494,6 +628,12 @@
             <field>CaptureStatus__c</field>
             <value>
                 <elementReference>FX_Capture_Status</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Legal_Entity__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -512,6 +652,12 @@
             <field>Tech_ShippingCountry__c</field>
             <value>
                 <elementReference>Get_ODG.DeliverToCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>VAT_ID__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.VAT_ID__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>asn_qaContactAssignCustomerID</name>
         <label>Assign the CustomerID</label>
         <locationX>50</locationX>
-        <locationY>1442</locationY>
+        <locationY>2942</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -23,7 +23,7 @@
         <name>asn_qaContactAssignCustomerList</name>
         <label>Assign the CustomerList</label>
         <locationX>50</locationX>
-        <locationY>1142</locationY>
+        <locationY>2642</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_CustomerList_ID__c</assignToReference>
             <operator>Assign</operator>
@@ -40,7 +40,7 @@
         <name>asn_qaContactAssignCustomerNo</name>
         <label>Assign the CustomerNo</label>
         <locationX>50</locationX>
-        <locationY>1742</locationY>
+        <locationY>3242</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.B2C_Customer_No__c</assignToReference>
             <operator>Assign</operator>
@@ -57,7 +57,7 @@
         <name>asn_qaContactAssignEmail</name>
         <label>Assign the Email</label>
         <locationX>50</locationX>
-        <locationY>842</locationY>
+        <locationY>2342</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.Email</assignToReference>
             <operator>Assign</operator>
@@ -74,7 +74,7 @@
         <name>asn_qaContactAssignFirstName</name>
         <label>Assign the FirstName</label>
         <locationX>50</locationX>
-        <locationY>542</locationY>
+        <locationY>2042</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.FirstName</assignToReference>
             <operator>Assign</operator>
@@ -91,7 +91,7 @@
         <name>asn_qaContactAssignLastName</name>
         <label>Assign the LastName</label>
         <locationX>50</locationX>
-        <locationY>242</locationY>
+        <locationY>1742</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.LastName</assignToReference>
             <operator>Assign</operator>
@@ -104,11 +104,91 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_the_AccountId</name>
+        <label>Assign the AccountId</label>
+        <locationX>50</locationX>
+        <locationY>542</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaAccountId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>was_Country_set</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_the_Country</name>
+        <label>Assign the Country</label>
+        <locationX>50</locationX>
+        <locationY>842</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Country__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>was_FullAccount_set</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_the_FullAccount</name>
+        <label>Assign the FullAccount</label>
+        <locationX>50</locationX>
+        <locationY>1142</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.FullAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaFullAccount</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>was_Salutation_set</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_the_FullAccount_false</name>
+        <label>Assign the FullAccount false</label>
+        <locationX>314</locationX>
+        <locationY>1142</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.FullAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>was_Salutation_set</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_the_Id</name>
+        <label>Assign the Id</label>
+        <locationX>50</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>was_AccountId_set</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>... set the QA Contact Properties to facilitate testing.</description>
         <name>Assign_the_Phone</name>
         <label>Assign the Phone</label>
         <locationX>50</locationX>
-        <locationY>2042</locationY>
+        <locationY>3542</locationY>
         <assignmentItems>
             <assignToReference>var_qaContact.Phone</assignToReference>
             <operator>Assign</operator>
@@ -116,12 +196,79 @@
                 <elementReference>var_qaPhone</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>Was_WebsiteCountry_Specified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_the_Salutation</name>
+        <label>Assign the Salutation</label>
+        <locationX>50</locationX>
+        <locationY>1442</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.Salutation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaSalutation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_wasQALastNameSpecified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>Assign_the_WebsiteCountry</name>
+        <label>Assign the WebsiteCountry</label>
+        <locationX>50</locationX>
+        <locationY>3842</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.WebsiteCountry__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaWebsiteCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Was_WebsiteLanguage_Specified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>Assign_the_WebsiteLanguage</name>
+        <label>Assign the WebsiteLanguage</label>
+        <locationX>50</locationX>
+        <locationY>4142</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.WebsiteLanguage__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaWebsiteLanguage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Was_WebsiteLocale_Specified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... set the QA Contact Properties to facilitate testing.</description>
+        <name>Assign_the_WebsiteLocale</name>
+        <label>Assign the WebsiteLocale</label>
+        <locationX>50</locationX>
+        <locationY>4442</locationY>
+        <assignmentItems>
+            <assignToReference>var_qaContact.WebsiteLocale__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_qaWebsiteLocale</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
     <decisions>
         <name>dec_wasQACustomerIDSpecified</name>
         <label>Was CustomerID Specified?</label>
         <locationX>182</locationX>
-        <locationY>1334</locationY>
+        <locationY>2834</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerNoSpecified</targetReference>
         </defaultConnector>
@@ -153,7 +300,7 @@
         <name>dec_wasQACustomerListSpecified</name>
         <label>Was CustomerList Specified?</label>
         <locationX>182</locationX>
-        <locationY>1034</locationY>
+        <locationY>2534</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerIDSpecified</targetReference>
         </defaultConnector>
@@ -185,7 +332,7 @@
         <name>dec_wasQACustomerNoSpecified</name>
         <label>Was CustomerNo Specified?</label>
         <locationX>182</locationX>
-        <locationY>1634</locationY>
+        <locationY>3134</locationY>
         <defaultConnector>
             <targetReference>Was_Phone_Specified</targetReference>
         </defaultConnector>
@@ -217,7 +364,7 @@
         <name>dec_wasQAEmailSpecified</name>
         <label>Was Email Specified?</label>
         <locationX>182</locationX>
-        <locationY>734</locationY>
+        <locationY>2234</locationY>
         <defaultConnector>
             <targetReference>dec_wasQACustomerListSpecified</targetReference>
         </defaultConnector>
@@ -249,7 +396,7 @@
         <name>dec_wasQAFirstNameSpecified</name>
         <label>Was FirstName Specified?</label>
         <locationX>182</locationX>
-        <locationY>434</locationY>
+        <locationY>1934</locationY>
         <defaultConnector>
             <targetReference>dec_wasQAEmailSpecified</targetReference>
         </defaultConnector>
@@ -281,7 +428,7 @@
         <name>dec_wasQALastNameSpecified</name>
         <label>Was LastName Specified?</label>
         <locationX>182</locationX>
-        <locationY>134</locationY>
+        <locationY>1634</locationY>
         <defaultConnector>
             <targetReference>dec_wasQAFirstNameSpecified</targetReference>
         </defaultConnector>
@@ -310,10 +457,134 @@
         </rules>
     </decisions>
     <decisions>
+        <name>was_AccountId_set</name>
+        <label>was AccountId set ?</label>
+        <locationX>182</locationX>
+        <locationY>434</locationY>
+        <defaultConnector>
+            <targetReference>was_Country_set</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_AccountId</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaAccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaAccountId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_AccountId</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>was_Country_set</name>
+        <label>was Country set ?</label>
+        <locationX>182</locationX>
+        <locationY>734</locationY>
+        <defaultConnector>
+            <targetReference>was_FullAccount_set</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_Country</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaCountry</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_Country</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>was_FullAccount_set</name>
+        <label>was FullAccount set ?</label>
+        <locationX>182</locationX>
+        <locationY>1034</locationY>
+        <defaultConnector>
+            <targetReference>Assign_the_FullAccount_false</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_FullAccount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaFullAccount</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_FullAccount</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>was_Id_set</name>
+        <label>was Id set ?</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>was_AccountId_set</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_Id</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_Id</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Was_Phone_Specified</name>
         <label>Was Phone Specified?</label>
         <locationX>182</locationX>
-        <locationY>1934</locationY>
+        <locationY>3434</locationY>
+        <defaultConnector>
+            <targetReference>Was_WebsiteCountry_Specified</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
         <rules>
             <name>PhoneWas_Specified</name>
@@ -338,7 +609,133 @@
             <label>Was Specified</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>was_Salutation_set</name>
+        <label>was Salutation set ?</label>
+        <locationX>182</locationX>
+        <locationY>1334</locationY>
+        <defaultConnector>
+            <targetReference>dec_wasQALastNameSpecified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_Salutation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaSalutation</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaSalutation</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_Salutation</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_WebsiteCountry_Specified</name>
+        <label>Was WebsiteCountry Specified?</label>
+        <locationX>182</locationX>
+        <locationY>3734</locationY>
+        <defaultConnector>
+            <targetReference>Was_WebsiteLanguage_Specified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_WebsiteCountry</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaWebsiteCountry</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaWebsiteCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_WebsiteCountry</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_WebsiteLanguage_Specified</name>
+        <label>Was WebsiteLanguage Specified?</label>
+        <locationX>182</locationX>
+        <locationY>4034</locationY>
+        <defaultConnector>
+            <targetReference>Was_WebsiteLocale_Specified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified_WebsiteLanguage</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaWebsiteLanguage</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaWebsiteLanguage</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_WebsiteLanguage</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_WebsiteLocale_Specified</name>
+        <label>Was WebsiteLocale Specified?</label>
+        <locationX>182</locationX>
+        <locationY>4334</locationY>
+        <defaultConnectorLabel>Not Specified</defaultConnectorLabel>
+        <rules>
+            <name>Was_Specified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_qaWebsiteLocale</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>var_qaWebsiteLocale</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_the_WebsiteLocale</targetReference>
+            </connector>
+            <label>Was Specified</label>
+        </rules>
+    </decisions>
     <description>... this flow accepts a collection of QA Mode attributes and produces a Contact record that can be used for flow validation.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: QA Mode Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: QA Mode Helper</label>
     <processMetadataValues>
@@ -360,14 +757,22 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>dec_wasQALastNameSpecified</targetReference>
+            <targetReference>was_Id_set</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>var_qaAccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <description>... represents the B2C Customer ID used to test the Customer Resolution sub-flow.</description>
         <name>var_qaB2CCustomerID</name>
@@ -402,6 +807,13 @@
         <objectType>Contact</objectType>
     </variables>
     <variables>
+        <name>var_qaCountry</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>... represents the emailAddress used to test the Customer Resolution sub-flow.</description>
         <name>var_qaEmailAddress</name>
         <dataType>String</dataType>
@@ -418,6 +830,20 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>var_qaFullAccount</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <description>... represents the lastName used to test the Customer Resolution sub-flow.</description>
         <name>var_qaLastName</name>
         <dataType>String</dataType>
@@ -427,6 +853,34 @@
     </variables>
     <variables>
         <name>var_qaPhone</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaSalutation</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaWebsiteCountry</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaWebsiteLanguage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_qaWebsiteLocale</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

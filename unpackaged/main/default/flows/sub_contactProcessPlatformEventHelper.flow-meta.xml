@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
     <decisions>
-        <description>... evaluate if a CustomerNo is present; if so, then let&#39;s trigger the Platform Event to synchronize the Contact record.</description>
+        <description>... evaluate if a CustomerNo is present; if so, then let&apos;s trigger the Platform Event to synchronize the Contact record.</description>
         <name>dec_IsB2CCustomerNoPresent</name>
         <label>Is a B2C CustomerNo Present?</label>
         <locationX>528</locationX>
@@ -32,6 +32,7 @@
         </rules>
     </decisions>
     <description>... encapsulates the Contact Processing Platform Event logic for re-use and implementation simplification.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: Platform Event Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Platform Event Helper</label>
     <processMetadataValues>
@@ -116,6 +117,7 @@
         </inputAssignments>
         <object>B2C_Commerce_ProcessCustomerDetails__e</object>
     </recordCreates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>410</locationX>
         <locationY>48</locationY>

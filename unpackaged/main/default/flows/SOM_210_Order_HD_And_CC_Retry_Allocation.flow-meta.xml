@@ -40,38 +40,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Add_Location_Identifer_To_Collection</name>
-        <label>Add Location Identifer To Collection</label>
-        <locationX>1988</locationX>
-        <locationY>169</locationY>
-        <assignmentItems>
-            <assignToReference>COL_LocationIdentifiers</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>L12_Iterate_Over_Filtered_Location.ExternalReference</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>L12_Iterate_Over_Filtered_Location</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Add_SKU_to_Collection</name>
-        <label>Add SKU to Collection</label>
-        <locationX>1695</locationX>
-        <locationY>503</locationY>
-        <assignmentItems>
-            <assignToReference>COL_SockKeepingUnit</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>L10_Iterate_Over_Order_Item_Summaries.StockKeepingUnit</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>L10_Iterate_Over_Order_Item_Summaries</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_PE</name>
         <label>Assign PE</label>
         <locationX>2459</locationX>
@@ -157,6 +125,22 @@
         </assignmentItems>
         <connector>
             <targetReference>L26_Iterate_Over_Collection_Inventory</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>flkezfnkezjf</name>
+        <label>flkezfnkezjf</label>
+        <locationX>972</locationX>
+        <locationY>1054</locationY>
+        <assignmentItems>
+            <assignToReference>COL_LocationIdentifiers</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Reserved_At_Location.ExternalReference</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>set_sku_location_collection</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -260,7 +244,7 @@
             <assignToReference>REC_OCIGetInventoryAvailabilityInputRepresentation.stockKeepingUnits</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>COL_SockKeepingUnit</elementReference>
+                <elementReference>SkuCollection</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -304,6 +288,29 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_Inventory_Records_Count</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>set_sku_location_collection</name>
+        <label>set sku_location collection</label>
+        <locationX>1083</locationX>
+        <locationY>958</locationY>
+        <assignmentItems>
+            <assignToReference>SkuCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_over_order_product_summary.StockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ReservedLocationIdCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Iterate_over_order_product_summary.ReservedAtLocationId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Reserved_At_Location</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -501,22 +508,22 @@
     <collectionProcessors>
         <name>Filter_Location_By_Reserved_Location_Id</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter Location By Reserved Location Id</label>
-        <locationX>1537</locationX>
-        <locationY>305</locationY>
-        <assignNextValueToReference>currentItem_Filter_Location_By_Reserved_Location_Id</assignNextValueToReference>
+        <label>Filter_Location_By_Reserved_Location_Id</label>
+        <locationX>897</locationX>
+        <locationY>741</locationY>
+        <assignNextValueToReference>currentItem_test_99</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Location_By_Reserved_Location_Id.Id</leftValueReference>
+            <leftValueReference>currentItem_test_99.Id</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
-                <elementReference>L10_Iterate_Over_Order_Item_Summaries.ReservedAtLocationId</elementReference>
+                <elementReference>Iterate_over_order_product_summary.ReservedAtLocationId</elementReference>
             </rightValue>
         </conditions>
         <connector>
-            <targetReference>L12_Iterate_Over_Filtered_Location</targetReference>
+            <targetReference>Loop_Over_Reserved_At_Location</targetReference>
         </connector>
     </collectionProcessors>
     <collectionProcessors>
@@ -591,28 +598,28 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Location_Collection</name>
-        <label>Check Location Collection</label>
-        <locationX>1690</locationX>
-        <locationY>50</locationY>
+        <name>efez</name>
+        <label>Is COL Empty Or Not</label>
+        <locationX>700</locationX>
+        <locationY>911</locationY>
         <defaultConnector>
-            <targetReference>Add_Location_Identifer_To_Collection</targetReference>
+            <targetReference>flkezfnkezjf</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Not Exist</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_Already_Exist</name>
+            <name>Yes2</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>COL_LocationIdentifiers</leftValueReference>
                 <operator>Contains</operator>
                 <rightValue>
-                    <elementReference>L12_Iterate_Over_Filtered_Location.ExternalReference</elementReference>
+                    <elementReference>Loop_Over_Reserved_At_Location.ExternalReference</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>L12_Iterate_Over_Filtered_Location</targetReference>
+                <targetReference>set_sku_location_collection</targetReference>
             </connector>
-            <label>Is Already Exist</label>
+            <label>Yes2</label>
         </rules>
     </decisions>
     <decisions>
@@ -637,8 +644,8 @@
     <decisions>
         <name>Records_Exist</name>
         <label>Records Exist</label>
-        <locationX>1346</locationX>
-        <locationY>505</locationY>
+        <locationX>1339</locationX>
+        <locationY>510</locationY>
         <defaultConnector>
             <targetReference>Set_success_variable</targetReference>
         </defaultConnector>
@@ -654,7 +661,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>L10_Iterate_Over_Order_Item_Summaries</targetReference>
+                <targetReference>Get_Existing_Process_Exception</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -735,6 +742,7 @@
             <label>Create New Process Exception</label>
         </rules>
     </decisions>
+    <description>Optimized Version 2</description>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -749,31 +757,17 @@
     <interviewLabel>SOM 210 - Order HD And CC Retry Allocation {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 210 - Order HD And CC Retry Allocation</label>
     <loops>
-        <name>L10_Iterate_Over_Order_Item_Summaries</name>
-        <label>L10 - Iterate Over Order Item Summaries</label>
-        <locationX>1537</locationX>
-        <locationY>503</locationY>
+        <name>Iterate_over_order_product_summary</name>
+        <label>Iterate over order product summary</label>
+        <locationX>1045</locationX>
+        <locationY>668</locationY>
         <collectionReference>Get_Order_Item_Summaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Filter_Location_By_Reserved_Location_Id</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Get_Existing_Process_Exception</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>L12_Iterate_Over_Filtered_Location</name>
-        <label>L12 - Iterate Over Filtered Location</label>
-        <locationX>1695</locationX>
-        <locationY>305</locationY>
-        <collectionReference>Filter_Location_By_Reserved_Location_Id</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Check_Location_Collection</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Add_SKU_to_Collection</targetReference>
+            <targetReference>Get_All_Allocated_OSLIs</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -875,6 +869,20 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Over_Reserved_At_Location</name>
+        <label>Loop Over Reserved At Location</label>
+        <locationX>995</locationX>
+        <locationY>829</locationY>
+        <collectionReference>Filter_Location_By_Reserved_Location_Id</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>efez</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Iterate_over_order_product_summary</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>LP4_Locations_by_current_Item</name>
         <label>LP4 Locations by current Item</label>
         <locationX>2249</locationX>
@@ -934,6 +942,20 @@
                 <stringValue>ALLOCATED</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>StockKeepingUnit</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>SkuCollection</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ReservedAtLocationId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>ReservedLocationIdCollection</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
         <sortField>CreatedDate</sortField>
@@ -944,7 +966,7 @@
         <name>Get_Existing_Process_Exception</name>
         <label>Get Existing Process Exception</label>
         <locationX>1535</locationX>
-        <locationY>866</locationY>
+        <locationY>735</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_Get_Inventory_Availability_Input_Values</targetReference>
@@ -1002,7 +1024,7 @@
         <locationY>503</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_All_Allocated_OSLIs</targetReference>
+            <targetReference>Iterate_over_order_product_summary</targetReference>
         </connector>
         <filterLogic>(1 AND 2 AND 3 AND 6) OR (1 AND 2 AND 4 AND 5 AND 6)</filterLogic>
         <filters>
@@ -1182,12 +1204,28 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
+        <name>currentItem_Filter_Location_By_Reserved_Location_Id_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Process_Exceptions</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_test_99</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Location</objectType>
     </variables>
     <variables>
         <name>InventoryRecordsCount</name>
@@ -1268,6 +1306,27 @@
         <value>
             <booleanValue>true</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>ReservedLocationIdCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>SkuCollection</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>textlocaiton</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>V_Count_PEs</name>

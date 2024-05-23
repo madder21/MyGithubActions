@@ -5,7 +5,7 @@
         <name>ia_resolveB2CCustomerProfile</name>
         <label>Attempt to Resolve the B2C Customer Profile</label>
         <locationX>413</locationX>
-        <locationY>1406</locationY>
+        <locationY>1250</locationY>
         <actionName>B2CIACustomerResolution</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -18,6 +18,7 @@
                 <elementReference>var_contactToResolve</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>B2CIACustomerResolution</nameSegment>
         <outputParameters>
             <assignToReference>var_recColResolvedContacts</assignToReference>
             <name>contactList</name>
@@ -30,14 +31,15 @@
             <assignToReference>var_resolutionError</assignToReference>
             <name>isError</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
-    <apiVersion>51.0</apiVersion>
+    <apiVersion>58.0</apiVersion>
     <assignments>
         <description>... add the Contact to resolve to the collection being processed.</description>
         <name>asn_contactToContactCollection</name>
         <label>Create the Resolution Collection</label>
         <locationX>413</locationX>
-        <locationY>494</locationY>
+        <locationY>434</locationY>
         <assignmentItems>
             <assignToReference>var_recColContactsToResolve</assignToReference>
             <operator>Add</operator>
@@ -54,7 +56,7 @@
         <name>asn_errorMultipleContacts</name>
         <label>Error: Multiple Contacts Resolved</label>
         <locationX>842</locationX>
-        <locationY>1886</locationY>
+        <locationY>1682</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -75,7 +77,7 @@
         <name>asn_errorNoContactResolved</name>
         <label>Error: No Contact Was Resolved</label>
         <locationX>578</locationX>
-        <locationY>2342</locationY>
+        <locationY>2090</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -103,7 +105,7 @@
         <name>asn_resolutionSuccessful</name>
         <label>Resolution Was Successful</label>
         <locationX>314</locationX>
-        <locationY>2462</locationY>
+        <locationY>2198</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -124,7 +126,7 @@
         <name>asn_ResolvedContactsCount</name>
         <label>Capture the Count of Resolution Contacts</label>
         <locationX>776</locationX>
-        <locationY>1646</locationY>
+        <locationY>1466</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContactCount</assignToReference>
             <operator>AssignCount</operator>
@@ -141,7 +143,7 @@
         <name>asn_resolvedContactToOutputVariable</name>
         <label>Assign First Resolved Contact</label>
         <locationX>534</locationX>
-        <locationY>2006</locationY>
+        <locationY>1790</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContact</assignToReference>
             <operator>Assign</operator>
@@ -158,7 +160,7 @@
         <name>Assign_Resolved_Contact_By_B2CCustomerID</name>
         <label>Assign Resolved Contact BY B2CCustomerID</label>
         <locationX>127</locationX>
-        <locationY>974</locationY>
+        <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>var_resolvedContact</assignToReference>
             <operator>Assign</operator>
@@ -185,7 +187,7 @@
         <name>Error_No_Contact_Resolved</name>
         <label>Error: No Contact Resolved</label>
         <locationX>1106</locationX>
-        <locationY>1886</locationY>
+        <locationY>1682</locationY>
         <assignmentItems>
             <assignToReference>var_isSuccess</assignToReference>
             <operator>Assign</operator>
@@ -205,7 +207,7 @@
         <name>Error_Resolution_Exception</name>
         <label>Error: Resolution Exception</label>
         <locationX>50</locationX>
-        <locationY>1646</locationY>
+        <locationY>1466</locationY>
         <assignmentItems>
             <assignToReference>var_errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -226,7 +228,7 @@
         <name>dec_doesResolvedContactHaveID</name>
         <label>Does the Contact Have an ID?</label>
         <locationX>446</locationX>
-        <locationY>2222</locationY>
+        <locationY>1982</locationY>
         <defaultConnector>
             <targetReference>asn_errorNoContactResolved</targetReference>
         </defaultConnector>
@@ -252,7 +254,7 @@
         <name>dec_isQAModeEnabled</name>
         <label>Is QA Mode Enabled?</label>
         <locationX>413</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <defaultConnector>
             <targetReference>asn_contactToContactCollection</targetReference>
         </defaultConnector>
@@ -278,7 +280,7 @@
         <name>dec_wasOneContactResolved</name>
         <label>Was Only One Contact Resolved?</label>
         <locationX>776</locationX>
-        <locationY>1766</locationY>
+        <locationY>1574</locationY>
         <defaultConnector>
             <targetReference>Error_No_Contact_Resolved</targetReference>
         </defaultConnector>
@@ -319,7 +321,7 @@
         <name>dec_wasResolutionErrorCaught</name>
         <label>Was An Error Caught During Resolution?</label>
         <locationX>413</locationX>
-        <locationY>1526</locationY>
+        <locationY>1358</locationY>
         <defaultConnector>
             <targetReference>asn_ResolvedContactsCount</targetReference>
         </defaultConnector>
@@ -344,7 +346,7 @@
         <name>is_B2C_Customer_ID</name>
         <label>is B2C Customer ID ?</label>
         <locationX>413</locationX>
-        <locationY>614</locationY>
+        <locationY>542</locationY>
         <defaultConnector>
             <targetReference>ia_resolveB2CCustomerProfile</targetReference>
         </defaultConnector>
@@ -366,6 +368,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>var_contactToResolve.B2C_Customer_ID__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>get_ContactBy_B2CCustomerID</targetReference>
             </connector>
@@ -376,7 +385,7 @@
         <name>IsContactFound_By_B2CCustomerID</name>
         <label>IsContactFound</label>
         <locationX>259</locationX>
-        <locationY>854</locationY>
+        <locationY>758</locationY>
         <defaultConnector>
             <targetReference>ia_resolveB2CCustomerProfile</targetReference>
         </defaultConnector>
@@ -398,6 +407,7 @@
         </rules>
     </decisions>
     <description>... encapsulates the Contact Resolution logic for re-use and implementation simplification.</description>
+    <environments>Default</environments>
     <interviewLabel>B2C Commerce: Process: Contact Resolution Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>B2C Commerce: Process: Contact Resolution Helper</label>
     <loops>
@@ -405,7 +415,7 @@
         <name>loop_retrieveResolvedContact</name>
         <label>Iterate and Retrieve the Resolved Contact</label>
         <locationX>446</locationX>
-        <locationY>1886</locationY>
+        <locationY>1682</locationY>
         <collectionReference>var_recColResolvedContacts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -438,7 +448,7 @@
         <name>get_ContactBy_B2CCustomerID</name>
         <label>get_ContactBy_B2CCustomerID</label>
         <locationX>259</locationX>
-        <locationY>734</locationY>
+        <locationY>650</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>IsContactFound_By_B2CCustomerID</targetReference>
@@ -460,7 +470,7 @@
         <name>recGet_resolvedContact</name>
         <label>Retrieve the Full Contact Details</label>
         <locationX>314</locationX>
-        <locationY>2342</locationY>
+        <locationY>2090</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>asn_resolutionSuccessful</targetReference>
@@ -477,6 +487,7 @@
         <object>Contact</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
         <locationX>287</locationX>
         <locationY>0</locationY>
@@ -490,7 +501,7 @@
         <name>sub_overwriteContactToResolve</name>
         <label>Overwrite the Contact to Resolve</label>
         <locationX>281</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <targetReference>asn_contactToContactCollection</targetReference>
         </connector>

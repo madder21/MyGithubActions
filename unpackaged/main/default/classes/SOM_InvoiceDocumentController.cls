@@ -7,14 +7,15 @@ global with sharing class SOM_InvoiceDocumentController {
     public Map<String,String>    countryMap {get;set;}
     public String                correctiveInvoiceHeaderMessage {get; set; }
     public String                AmountsFormat {get; set; }
+    public InvoiceAddress        invoiceAddress { get; set;}
     
-
+    
     public SOM_InvoiceDocumentController() {
         this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
         this.setInvoiceDocumentConfigs();
         this.setInvoiceData(); 
     }
-
+    
     public void setInvoiceDocumentConfigs(){
         this.invoiceConfigs = new Map<String,String>();
         String templateCode = ApexPages.currentPage().getParameters().get('template');
@@ -29,28 +30,39 @@ global with sharing class SOM_InvoiceDocumentController {
             }
         }
     }
-
+    
     public void setInvoiceData(){
+        String templateCode = ApexPages.currentPage().getParameters().get('template');
         InvoiceDocument invDoc        = new InvoiceDocument();
+        InvoiceAddress invAddress     = new InvoiceAddress();
         InvoiceContact invCtr         = new InvoiceContact();
         CorrectiveInvoice__c cInvoice = null;
         Id invoiceId = ApexPages.currentPage().getParameters().get('invoiceId');
         Boolean isCorrectiveInvoice = invoiceId.getSObjectType().getDescribe().getName() == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME;
+        String REPLACEMENT = invoiceConfigs.get('REPLACEMENT');
         if(isCorrectiveInvoice){
             cInvoice = [SELECT Id, Name,OriginalInvoiceId__c, PreviousCorrectiveInvoice__r.Name, CreatedDate, Corrective_Invoice_Date__c FROM CorrectiveInvoice__c WHERE Id = :invoiceId];
             Invoice originalInvoice = [SELECT Id, InvoiceNumber__c FROM Invoice WHERE Id = :cInvoice.OriginalInvoiceId__c];
             String previousInv      = String.isEmpty(cInvoice.PreviousCorrectiveInvoice__r.Name) ? originalInvoice.InvoiceNumber__c : cInvoice.PreviousCorrectiveInvoice__r.Name;
-            this.correctiveInvoiceHeaderMessage = 'This invoice cancels and replaces invoice ' + previousInv;
+            if(REPLACEMENT != null && REPLACEMENT != ''){
+                this.correctiveInvoiceHeaderMessage =  previousInv;
+            }
             invoiceId = originalInvoice.Id;        
         }
         
         List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.Invoice_Timezone_Date__c, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
-        FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
-        OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
+                                                   FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
+                                                   OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
+        
+        System.debug('fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c ' + fulfillmentOrder.get(0).OrderSummary.VAT_ID__c);
+        
+        invAddress = setInvoiceAddress (fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c);
+        invAddress.VATID = fulfillmentOrder.get(0).OrderSummary.VAT_ID__c;
         
         invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.Corrective_Invoice_Date__c.year(), cInvoice.Corrective_Invoice_Date__c.month(), cInvoice.Corrective_Invoice_Date__c.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.year(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.month(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.day()).format('yyyy-MM-dd');
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
+        invDoc.Template 	  = templateCode;
         
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             //AmountsFormat info
@@ -67,21 +79,23 @@ global with sharing class SOM_InvoiceDocumentController {
                 invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder));
                 this.invoiceTaxLineItems = new Map<Decimal, String>();
                 this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines);
-
+                
             }
             invDoc.paymentType     = this.getPaymentMethod(fulfillmentOrder.get(0));
             invDoc.billingContact  = this.getBillingContact(fulfillmentOrder.get(0));
             invDoc.deliveryContact = this.getDeliveryContact(fulfillmentOrder.get(0));
             invDoc.trackingNumbers = this.getTrackingNumbers(FulfillmentOrder);
+            invDoc.TaxID 		   = this.getOrderDeliveryGroupSummary(fulfillmentOrder.get(0).OrderSummaryId);
         } else {
             System.debug('FulfillmentOrder is empty, InvoiceId: ' + invoiceId);
         }
-
+        
         this.invoiceDoc = invDoc;
+        this.invoiceAddress = invAddress;
     }
     
-
-
+    
+    
     public Map<Id, List<String>> getSerialNumbers(List<FulfillmentOrder> fulfillmentOrders){
         //construct shipment ids
         List<Id> shipmentIds = new List<Id>();
@@ -93,7 +107,7 @@ global with sharing class SOM_InvoiceDocumentController {
                 }
             }
         }
-
+        
         //construct serial numbers map
         Map<Id, List<String>> serialNumbersMap = new Map<Id, List<String>>();
         List<ShipmentItem> shipmentItems = [SELECT Id, OrderItemSummaryId, SerialNumber__c FROM ShipmentItem WHERE ShipmentId IN :shipmentIds];
@@ -107,10 +121,10 @@ global with sharing class SOM_InvoiceDocumentController {
             }
             serialNumbersMap.put(shipItem.OrderItemSummaryId, serialNumbers);
         }
-
+        
         return serialNumbersMap;
     }
-
+    
     public String getTrackingNumbers(List<FulfillmentOrder> fulfillmentOrders){
         //shipment tracking numbers ==> One Invoice for all FOs
         Set<String> settrackingNumbers = new Set<String>();
@@ -122,10 +136,10 @@ global with sharing class SOM_InvoiceDocumentController {
                 }
             }
         }
-      
+        
         return String.join(new List<String>(settrackingNumbers), CONCAT_CHARACTER);
     }
-
+    
     public InvoiceContact getDeliveryContact(FulfillmentOrder fulfillmentOrder){
         InvoiceContact delivContact = new InvoiceContact();
         delivContact.name    = fulfillmentOrder.FulfilledToName;
@@ -134,10 +148,10 @@ global with sharing class SOM_InvoiceDocumentController {
         delivContact.address = fulfillmentOrder.FulfilledToStreet;
         delivContact.state   = fulfillmentOrder.FulfilledToState;
         delivContact.country = countryMap.containsKey(fulfillmentOrder.FulfilledToCountry) ? countryMap.get(fulfillmentOrder.FulfilledToCountry) : fulfillmentOrder.FulfilledToCountry;
-       
+        
         return delivContact;
     }
-
+    
     public InvoiceContact getBillingContact(FulfillmentOrder fulfillmentOrder){
         InvoiceContact billContact = new InvoiceContact();
         billContact.name    = fulfillmentOrder.OrderSummary.BillingContactFirstName__c + ' ' + fulfillmentOrder.OrderSummary.BillingContactLastName__c;
@@ -147,10 +161,10 @@ global with sharing class SOM_InvoiceDocumentController {
         billContact.state   = fulfillmentOrder.OrderSummary.BillingState;
         billContact.country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
         this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.FulfilledToCountry);
-
+        
         return billContact;
     }
-
+    
     public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap){
         List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
         for(InvoiceLine invoiceLine:invoiceLines) {
@@ -186,7 +200,7 @@ global with sharing class SOM_InvoiceDocumentController {
         }
         return lineItems;
     }
-
+    
     public String getPaymentMethod(FulfillmentOrder fulfillmentOrder){
         //Get order payment summary
         List<OrderPaymentSummary> paymentSummary = [SELECT Type, PaymentMethodId, PaymentMethod.ImplementorType FROM OrderPaymentSummary WHERE OrderSummaryId = :fulfillmentOrder.OrderSummaryId];
@@ -198,14 +212,23 @@ global with sharing class SOM_InvoiceDocumentController {
                 return paymentSummary.get(0).Type;
             }
         }
-
+        
         return '';
     }
-
+    
+    public String getOrderDeliveryGroupSummary(String OrderSumId){
+        List<OrderDeliveryGroupSummary> OrderDeliveryGroupSum = [SELECT RI_TAX_ID__c FROM OrderDeliveryGroupSummary WHERE OrderSummaryId = :OrderSumId];
+        if (OrderDeliveryGroupSum != null && !OrderDeliveryGroupSum.isEmpty()) {
+            return OrderDeliveryGroupSum.get(0).RI_TAX_ID__c;
+        }        
+        return '';
+    }
+    
+    
     public Map<Decimal,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
         Map<Decimal, Decimal> invoiceTaxes       = new Map<Decimal, Decimal>();
         Map<Decimal, String> invoiceTaxesSorted = new Map<Decimal, String>();
-
+        
         for (InvoiceLine lineItem:lineItems) {
             if (lineItem.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_TAX)) {
                 if (invoiceTaxes.containsKey(lineItem.TaxRate)) {
@@ -213,10 +236,10 @@ global with sharing class SOM_InvoiceDocumentController {
                 } else {
                     invoiceTaxes.put(lineItem.TaxRate, lineItem.TaxAmount);
                 }
-               
+                
             }
         } 
-
+        
         List<Decimal> sortedTaxes = new List<Decimal>();
         sortedTaxes.addAll(invoiceTaxes.keySet());
         sortedTaxes.sort();
@@ -225,18 +248,25 @@ global with sharing class SOM_InvoiceDocumentController {
         }
         return invoiceTaxesSorted;
     }
-
+    
     
     public String setAmountsFormat(String CountryIso) {
-            Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
-                return AmountsFormat.AmountsFormat__c;
+        Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
+        return AmountsFormat.AmountsFormat__c;
+    } 
+    
+    public InvoiceAddress setInvoiceAddress(String CountryIso) {
+        InvoiceAddress invAddress     = new InvoiceAddress();
+        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Name, Address__c, City__c, ZipCode__c, CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Country__c = :CountryIso];
+        invAddress.name = LegalEntity.Name; 
+        invAddress.address = LegalEntity.Address__c ; 
+        invAddress.countryLabel = LegalEntity.CountryLabel__c; 
+        invAddress.FooterBilling = LegalEntity.FooterBilling__c; 
+        return invAddress;
     } 
     
     
     
-    
-    
-
     global with sharing class InvoiceDocument{
         public String                documentNumber {get; set;} //Invoice: DocumentNumber
         public String                invoiceDate {get; set;} //Invoice : InvoiceDate
@@ -249,8 +279,21 @@ global with sharing class SOM_InvoiceDocumentController {
         public String                netSubTotal {get; set;}
         public String                totalWithTax {get; set;}
         public String                paymentType {get; set;}
+        public String                Template {get; set;} 
+        public String                TaxID {get; set;} 
+        public String 				 CROSS_BORDER { get; set; }
     }
-
+    
+    
+    
+    global with sharing class InvoiceAddress{
+        public String                name {get; set;} //Invoice: DocumentNumber
+        public String                address {get; set;} //Invoice : InvoiceDate
+        public String                countryLabel {get; set;} //OrderSummary : OrderNumber
+        public String                VATID {get; set;} //FO : currency
+        public String                FooterBilling {get; set;}
+    }
+    
     global with sharing class InvoiceContact{
         public String name {get; set;}
         public String company {get; set;} //mapping of the field??
@@ -276,7 +319,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public String  total {get; set;} //invoiceLine : TotalAmountWithTax
         //add number LineNumber
         public Integer lineNumber {get; set;}
-       
+        
         // compareTo method
         public Integer compareTo(Object compareTo) {
             // Cast argument to InvoiceLineItem
@@ -302,7 +345,7 @@ global with sharing class SOM_InvoiceDocumentController {
             } 
             return returnValue;
         }
-
-          
+        
+        
     }
 }
