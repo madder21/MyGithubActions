@@ -1116,6 +1116,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.OldNoteComboRuleCompleted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.OptinMarketingPartner__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1396,6 +1401,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Availability__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.CaseExternalID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1415,6 +1425,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Civility__c</field>
         <readable>true</readable>
@@ -1427,6 +1442,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Closed_date_CSC__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.ClosingDateCarrier__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1456,7 +1476,27 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.CustomerFeedback__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Description</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Email_formula_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.EngineeringReqNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.FirstNameSupplied__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1465,8 +1505,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.First_Name_formula_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.HUB_Handle__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.HasAccount__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1477,6 +1527,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Hub__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.InvestigationStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.IsDeleted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1495,8 +1555,33 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.LastNameSupplied__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.LastName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.LastReferencedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.LastViewedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Last_Name_formula_Template__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1507,6 +1592,36 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Market__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Market_zone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.MasterRecordId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.No_Trigger_DUE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.OOBorReservationOrigin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.OpeningDateCarrier__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.OrderNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1525,6 +1640,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Phone_formula_Template__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.PotentialLiability__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Case.Priority</field>
         <readable>true</readable>
@@ -1532,6 +1657,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.ProductRangeDetail__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1557,6 +1687,21 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Regional_Hub__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.SLAFlag__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.SLAViolation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.StatusIcon__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1606,6 +1751,51 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.SystemModstamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_CurrentCluster__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_IsMyHub__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_IsQueue__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_LightCurrentCluster__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_MatchHub__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_OwnerIsCurrentUser__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TEST__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TechCreationHours__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Type</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1615,8 +1805,23 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.isTransferred__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ClientAddress__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientAddress__c.R360_GCP_ExternalId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.LocaleDateTime__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1740,8 +1945,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientProduct__c.R360_GCP_ExternalId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ClientSource__c.R360ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientSource__c.R360_GCP_ExternalId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2951,6 +3166,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Event.FX_RecordTypeName_c__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <readable>false</readable>
         <field>Event.Gift__c</field>
     </fieldPermissions>
@@ -4056,6 +4276,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>OrderSummary.IsGlobalE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>OrderSummary.LaunchRetryAllocation__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4700,6 +4925,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Refund.IsGlobalE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Refund.RefundMethod__c</field>
         <readable>true</readable>
@@ -5048,6 +5278,11 @@
         <editable>false</editable>
         <readable>false</readable>
         <field>Task.Event__c</field>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.FX_RecordTypeName_c__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -8340,6 +8575,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>UserStore__c.gcp_to_sfdc_sync_id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>WishlistItem__c.Name__c</field>
         <readable>true</readable>
@@ -8371,6 +8611,12 @@
         <recordType>Account.BusinessAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AppointmentRessource__c-Ressource Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentService__c-Service Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>B2CCustomInput__c-B2CCustomInput Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -8393,6 +8639,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>CaseClose-Close Case Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientList__c-Client List Layout</layout>
@@ -8429,6 +8678,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>DDUEWebService_Setting__mdt-DDUE WebService Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+        <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event__c-Event Layout</layout>
@@ -9014,6 +9267,24 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>AppointmentRessource__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>AppointmentService__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>B2CCustomInput__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -9042,6 +9313,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Case</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>ClientBooking__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -10542,6 +10822,11 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>false</default>
+        <recordType>Event.AppointmentBooking</recordType>
+        <visible>false</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <default>false</default>
         <recordType>Log__c.Log</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
@@ -10556,6 +10841,18 @@
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentRessource__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>ClientBooking__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Client_Consent__c</tab>
         <visibility>DefaultOn</visibility>

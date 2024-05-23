@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>booxiStores</fullName>
+    <columns>NAME</columns>
+    <columns>AppointmentEnable__c</columns>
+    <columns>BooxiId__c</columns>
+    <columns>Email__c</columns>
+    <columns>Phone__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>BooxiId__c</field>
+        <operation>notEqual</operation>
+    </filters>
+    <label>booxi Stores</label>
+</ListView>

@@ -40,6 +40,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Hub__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Email_templates__c</field>
             </layoutItems>
             <layoutItems>
@@ -49,6 +53,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>LicenseCustom__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>GenesysID__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -64,6 +72,10 @@
                 <behavior>Edit</behavior>
                 <field>UCRInternalId__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>booxiId__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -72,9 +84,9 @@
         <detailHeading>true</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <relatedObjects>UserRoleId</relatedObjects>

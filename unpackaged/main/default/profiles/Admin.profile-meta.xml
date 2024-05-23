@@ -21,6 +21,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AP4_DateTimeHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AP4_DateTimeHelperTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AccountCDPQueuableCallout</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -845,6 +853,22 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClientBookingTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClientBooking_SVE</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClientBooking_SVE_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClientBooking_TestDataFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConsentManagementFlowInputs</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1078,6 +1102,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PAD</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PA_Availability</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PA_AvailabilityTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -2037,6 +2069,56 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>AlternativePaymentMethod.RI_PaymentMethodId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentRessource__c.AppointmentService__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentRessource__c.BooxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentRessource__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentRessource__c.Store__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.BookingMethod__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.BooxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.Duration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.MerchantId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>AppointmentService__c.Store__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3437,6 +3519,226 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ClientAddress__c.UCRLastUpdateDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.AccountId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Attendance__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.BookingMethod__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.BookingModificationUrl__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ClientCommunication__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ConfirmationNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.CreatedBy__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.CreatedOn__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Duration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Firstname__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Language__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Lastname__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.LocaleDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantAddressCity__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantAddressCountry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantAddressPostalCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantAddressState__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantAddressStreet__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.MerchantId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ModifiedBy__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ModifiedOn__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Origin__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.PhoneNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.RessourceId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Ressource__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Salutation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ServiceId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Service__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ClientBooking__c.StaffCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.StaffId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.StartsOn__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>ClientBooking__c.StoreCode__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.Store__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.TimeZone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.User__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.isCompleted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.isRescheduled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.isScheduled__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.sendCancellation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.sendReminder__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5327,6 +5629,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.ClientList__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Client_Booking__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8591,6 +8898,31 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Store__c.AppointmentBookingInterval__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.AppointmentDuration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.AppointmentEnable__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.AppointmentHours__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.BooxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Store__c.City__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8610,6 +8942,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Store__c.Ferme__c</field>
         <readable>true</readable>
@@ -8617,6 +8954,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Store__c.OpenDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Store__c.Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8717,6 +9059,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.ClientList__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Client_Booking__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -9250,6 +9597,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>User.booxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>UserStore__c.R360ID__c</field>
         <readable>true</readable>
@@ -9312,6 +9664,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>AlternativePaymentMethod-Alternative Payment Method Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentRessource__c-Ressource Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AppointmentService__c-Service Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Asset-Asset Layout</layout>
@@ -9441,6 +9799,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientAddress__c-Address Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientListMember__c-Client List Member Layout</layout>
@@ -9576,6 +9937,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Event-Event Layout</layout>
+        <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event__c-Event Layout</layout>
@@ -9933,6 +10298,12 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
+        <default>true</default>
+        <personAccountDefault>true</personAccountDefault>
+        <recordType>Event.AppointmentBooking</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
         <default>false</default>
         <recordType>Idea.InternalIdeasIdeaRecordType</recordType>
         <visible>false</visible>
@@ -9962,6 +10333,14 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Accessory_type_Translation__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentRessource__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>AppointmentService__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -10014,6 +10393,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>ClientAddress__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>ClientBooking__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
