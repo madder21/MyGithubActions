@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		
-		<members>SOM_960_Exchange_Manual_Order_Creation</members>
-
-		
-		<name>Flow</name>
-	</types>
+			<members>OrderSummary.ProfileForCancelButton__c</members>
+			<members>OrderSummary.StatusForCancelButton__c</members>
+			<name>CustomField</name>
+		</types>
+		<types>
+			<members>CSC_Permission</members>
+			<members>PS_CSC_Cancel</members>
+			<name>CustomPermission</name>
+		</types>
+		<types>
+			<members>Order_Summary_Record_Page</members>
+			<name>FlexiPage</name>
+		</types>
+		<types>
+			<members>SOM_Cancel_Order_Summary</members>
+			<members>SOM_Reset_ProcessException_Number</members>
+			<name>Flow</name>
+		</types>
+		<types>
+			<members>OrderSummary-Order Summary Layout</members>
+			<name>Layout</name>
+		</types>
+		<types>
+			<members>SOM_CSC_Order_cancelation</members>
+			<name>PermissionSet</name>
+		</types>
 	<version>58.0</version>
 </Package>
