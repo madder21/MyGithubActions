@@ -785,11 +785,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>OrderDeliveryGroupSummary.Name</field>
-            <table>OrderSummary.OrderItemSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>QuantityCanceled</field>
             <table>OrderSummary.OrderItemSummaries</table>
         </columns>
@@ -905,12 +900,32 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>OrderDeliveryGroupSummary.DeliverToCountry</field>
+            <table>OrderSummary.OrderItemSummaries</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderDeliveryGroupSummary.EmailAddress</field>
+            <table>OrderSummary.OrderItemSummaries</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>OrderDeliveryGroupSummary.DeliverToName</field>
             <table>OrderSummary.OrderItemSummaries</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>OrderDeliveryGroupSummary.DeliverToPostalCode</field>
+            <field>OrderDeliveryGroupSummary.Name</field>
+            <table>OrderSummary.OrderItemSummaries</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderDeliveryGroupSummary.PhoneNumber</field>
+            <table>OrderSummary.OrderItemSummaries</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderDeliveryGroupSummary.DeliverToAddress</field>
             <table>OrderSummary.OrderItemSummaries</table>
         </columns>
         <columns>
@@ -920,12 +935,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>OrderDeliveryGroupSummary.DeliverToCountry</field>
-            <table>OrderSummary.OrderItemSummaries</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>OrderDeliveryGroupSummary.EmailAddress</field>
+            <field>OrderDeliveryGroupSummary.DeliverToPostalCode</field>
             <table>OrderSummary.OrderItemSummaries</table>
         </columns>
         <masterLabel>Order Product Summaries</masterLabel>
