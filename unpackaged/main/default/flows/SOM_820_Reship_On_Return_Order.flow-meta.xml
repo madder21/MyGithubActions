@@ -25,7 +25,7 @@
     <recordLookups>
         <name>Get_Return_Order</name>
         <label>Get Return Order</label>
-        <locationX>670</locationX>
+        <locationX>669</locationX>
         <locationY>235</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -58,8 +58,8 @@
     <subflows>
         <name>Close_Return_Order_After_Reship</name>
         <label>Close Return Order After Reship</label>
-        <locationX>1131</locationX>
-        <locationY>234</locationY>
+        <locationX>1249</locationX>
+        <locationY>242</locationY>
         <flowName>SOM_830_Close_Return_Order</flowName>
         <inputAssignments>
             <name>recordId</name>
@@ -71,7 +71,7 @@
     <subflows>
         <name>Reship_Return_Order_Flow</name>
         <label>Reship Return Order Flow</label>
-        <locationX>884</locationX>
+        <locationX>883</locationX>
         <locationY>236</locationY>
         <connector>
             <targetReference>Close_Return_Order_After_Reship</targetReference>
@@ -93,6 +93,13 @@
     </subflows>
     <variables>
         <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ReturnOrderId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
