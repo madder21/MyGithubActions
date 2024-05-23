@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+	
+	
+	<members>SOM_BatchAnonymization_1</members>
+  <members>SOM_CreditMemoDocumentController</members>
+	<name>ApexClass</name>
+</types>
+	<types>
+		<members>OrderSummary.VR_CannootEdit_OS_Fields</members>
+		
+		<name>ValidationRule</name>
+	</types>
+	<types>
+		
+		<members>ReturnOrder.sentToEdicom__c</members>
+	        <members>OrderSummary.OrderedDate__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>ByPassVR</members>
+		<name>CustomPermission</name>
+	</types>
+	<types> 
+        <members>SOM_CSC_Refund_Creation</members>
+		<members>SOM-PS-NamedCredentials</members>
+        <name>PermissionSet</name>
+       </types>
+	<types>
+		<members>Order_Payment_Summary_Record_Page</members>
+		<members>Invoice_Record_Page</members>  
+		<name>FlexiPage</name>
+	</types>
+<types>
+
+		<members>Order_Summary_with_Shipping_address</members>
+		<members>Order_Summary_with_product</members>
+
+		<name>ReportType</name>
+	</types>
+<types>
+
+	<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+  	<members>SOM_814_OCI_Create_Reservation</members>
+       <members>SOM_810_Reship_Return_Order_Flow</members>
+        <members>SOM_810_Reship_Order_Flow</members>
+      
+      
+	<name>Flow</name>
+
+</types>
+<types>
+        <members>ReportsforSOM/New_Order_Summary_with_product_Report_YVZ</members>  
+	<members>ReportsforSOM/Order_export_US_Y8J</members>  
+	
+  	<members>ReportsforSOM/Shipments_Report_Finance_US</members>
+	<name>Report</name>
+</types>
+
+
+	<types>
+			<members>Payment_Methods_Mapping.KAKAO_PAY_EN</members>
+			<members>Payment_Methods_Mapping.KAKAO_PAY_KO</members>	
+			<members>Payment_Methods_Mapping.KCP_ACC_EN</members>
+			<members>Payment_Methods_Mapping.KCP_ACC_KO</members>	
+			<members>Payment_Methods_Mapping.KCP_RBT_EN</members>
+			<members>Payment_Methods_Mapping.KCP_RBT_KO</members>	
+	<name>CustomMetadata</name>
+</types>
+<version>58.0</version>
+</Package>

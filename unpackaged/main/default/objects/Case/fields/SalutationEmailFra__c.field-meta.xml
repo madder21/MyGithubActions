@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SalutationEmailFra__c</fullName>
+    <description>Used as merge fields in email template</description>
+    <externalId>false</externalId>
+    <formula>IF(
+AND(
+Account.IsPersonAccount,
+text(Account.Salutation)&lt;&gt;&quot;&quot;
+),
+CASE(text(Account.Salutation),
+&quot;Mr.&quot;, &quot;Cher Monsieur &quot; + Account.LastName,
+&quot;Mrs.&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;Ms.&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;Mme.&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;M.&quot;, &quot;Cher Monsieur &quot; + Account.LastName,
+&quot;Madame&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;Monsieur&quot;, &quot;Cher Monsieur &quot; + Account.LastName,
+&quot;1&quot;, &quot;Cher Monsieur &quot; + Account.LastName,
+&quot;2&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;3&quot;, &quot;Madame, Monsieur&quot;,
+&quot;001&quot;, &quot;Cher Monsieur &quot; + Account.LastName,
+&quot;002&quot;, &quot;Chers Messieurs &quot; + Account.LastName,
+&quot;003&quot;, &quot;Chère Madame &quot; + Account.LastName,
+&quot;004&quot;, &quot;Chères Mesdames &quot; + Account.LastName,
+&quot;005&quot;, &quot;Chère Famille &quot; + Account.LastName,
+&quot;Mx&quot;, &quot;Bonjour Mx &quot; + Account.LastName,
+&quot;Prefer not to say&quot;, &quot;Bonjour &quot; + Account.FirstName + &quot; &quot; + Account.LastName,
+&quot;&quot;),
+&quot;Bonjour &quot; + Account.FirstName + &quot; &quot; + Account.LastName
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Salutation Email Fra</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

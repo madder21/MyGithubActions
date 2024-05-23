@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>OOB_or_Reservation_Origin_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$Permission.ByPassVR = FALSE,
+NOT(ISPICKVAL(Hub_Origin__c,&#39;DEUKO1&#39;)),
+ISPICKVAL(Contact_reason__c , &#39;Order on behalf converted&#39;),
+ISPICKVAL(OOBorReservationOrigin__c, &#39;&#39;)
+)</errorConditionFormula>
+    <errorDisplayField>OOBorReservationOrigin__c</errorDisplayField>
+    <errorMessage>You have selected a typology concerning an Order on Behalf. Please complete the &quot;OOB or Reservation Origin&quot; field.</errorMessage>
+</ValidationRule>

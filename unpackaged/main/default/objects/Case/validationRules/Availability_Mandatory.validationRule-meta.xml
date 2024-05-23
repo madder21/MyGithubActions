@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Availability_Mandatory</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+$Permission.ByPassVR = FALSE,
+ISCHANGED(Status),
+ISPICKVAL(Status,&#39;Closed&#39;),
+NOT(ISPICKVAL(Hub_Origin__c,&#39;DEUKO1&#39;)),
+CONTAINS(TEXT(Contact_reason__c ),&#39;Stock availability&#39;) ,
+ISPICKVAL(Availability__c, &#39;&#39;)
+)</errorConditionFormula>
+    <errorDisplayField>Availability__c</errorDisplayField>
+    <errorMessage>You have selected a typology concerning an availability. Please complete the &quot;Availability&quot; field.</errorMessage>
+</ValidationRule>

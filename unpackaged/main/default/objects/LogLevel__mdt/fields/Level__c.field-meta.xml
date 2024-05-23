@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Level__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Level</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>error</fullName>
+                <default>true</default>
+                <label>error</label>
+            </value>
+            <value>
+                <fullName>info</fullName>
+                <default>false</default>
+                <label>info</label>
+            </value>
+            <value>
+                <fullName>debug</fullName>
+                <default>false</default>
+                <label>debug</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

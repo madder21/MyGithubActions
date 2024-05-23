@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AssignmentRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignmentRule>
+        <fullName>Case Assignment Rules</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <assignedTo>AUS_Customer_Care</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CC&#39;), ISPICKVAL(Hub_Origin__c, &#39;AUS&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>AUS_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(Hub_Origin__c, &#39;AUS&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>EU_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(Hub_Origin__c, &#39;EU&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>DEUKO1_Customer_Care</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CC&#39;), ISPICKVAL(Hub_Origin__c, &#39;DEUKO1&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>US_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND(ISNEW(),     ISPICKVAL(Activity__c, &#39;CS&#39;), 	ISPICKVAL(Hub_Origin__c, &#39;US&#39;) , 	NOT(ISPICKVAL(WebCountry__c, &#39;CA&#39;)), 	NOT(ISPICKVAL(WebCountry__c, &#39;MX&#39;)) 			)</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>USANY1_Customer_Care</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CC&#39;), ISPICKVAL(Hub_Origin__c, &#39;USANY1&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>USATO1_Customer_Care</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CC&#39;), ISPICKVAL(Hub_Origin__c, &#39;USATO1&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>US_MX_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(WebCountry__c , &#39;MX&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>US_CA_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(WebCountry__c , &#39;CA&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>EU_Customer_Service</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(Hub_Origin__c, &#39;DEUKO1&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>KOR_Customer_Service_Customer_Care</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Hub_Origin__c, &#39;KOR&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Rimowa_CS_JPN</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CS&#39;), ISPICKVAL(Hub_Origin__c, &#39;JPN&#39;) )</formula>
+        </ruleEntry>
+        <ruleEntry>
+            <assignedTo>Rimowa_CC_JAPOS1</assignedTo>
+            <assignedToType>Queue</assignedToType>
+            <formula>AND( ISNEW(), ISPICKVAL(Activity__c, &#39;CC&#39;), ISPICKVAL(Hub_Origin__c, &#39;JAPOS1&#39;) )</formula>
+        </ruleEntry>
+    </assignmentRule>
+</AssignmentRules>

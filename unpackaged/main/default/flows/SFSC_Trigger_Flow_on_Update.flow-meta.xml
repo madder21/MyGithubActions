@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>HasTheAccountChanged</name>
+        <label>Has The Account Changed ?</label>
+        <locationX>644</locationX>
+        <locationY>1031</locationY>
+        <defaultConnectorLabel>❌ Account Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>AccountHasChanged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Case_Set_Entitlement</targetReference>
+            </connector>
+            <label>✅ Account Has Changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>HasTheOwnerChanged</name>
+        <label>Has The Owner Changed ?</label>
+        <locationX>347</locationX>
+        <locationY>623</locationY>
+        <defaultConnector>
+            <targetReference>Is_Case_External_Id_null_1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>❌ Owner Not Changed</defaultConnectorLabel>
+        <rules>
+            <name>OwnerHasChanged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_the_owner_changed_to_a_Queue</targetReference>
+            </connector>
+            <label>✅ Owner has changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Case_External_Id_null</name>
+        <label>Is Case External Id null?</label>
+        <locationX>204</locationX>
+        <locationY>947</locationY>
+        <defaultConnector>
+            <targetReference>CaseMassUpdateAsSpam</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Case_External_Id_is_null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CaseExternalID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Case_Hub_Regional_Hub_Created_Date_CSC</targetReference>
+            </connector>
+            <label>Yes Case External Id is null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Case_External_Id_null_1</name>
+        <label>Is Case External Id null?</label>
+        <locationX>644</locationX>
+        <locationY>731</locationY>
+        <defaultConnector>
+            <targetReference>HasTheAccountChanged</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Case_External_Id_is_null_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CaseExternalID__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Case_Hub_Regional_Hub_Created_Date_CSC</targetReference>
+            </connector>
+            <label>Yes Case External Id is null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Case_related_to_an_Account</name>
+        <label>Is Case related to an Account?</label>
+        <locationX>347</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>HasTheOwnerChanged</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Case_is_not_related</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Phone__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Phone__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Link_Case_to_an_existing_account</targetReference>
+            </connector>
+            <label>Case is not related</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_owner_changed_to_a_Queue</name>
+        <label>Is the owner changed to a Queue</label>
+        <locationX>50</locationX>
+        <locationY>731</locationY>
+        <defaultConnector>
+            <targetReference>Set_Hub_Handle_to_case</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_Owner_is_Queue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>00G</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CaseMassUpdateAsSpam</targetReference>
+            </connector>
+            <label>Yes Owner is Queue</label>
+        </rules>
+    </decisions>
+    <description>V15 - Ulrich update</description>
+    <environments>Default</environments>
+    <interviewLabel>SFSC - Trigger Flow on Update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Record Trigger - AFTER Update - Case Trigger Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Hub_Handle_to_case</name>
+        <label>Set Hub Handle to case</label>
+        <locationX>204</locationX>
+        <locationY>839</locationY>
+        <connector>
+            <targetReference>Is_Case_External_Id_null</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>HUB_Handle__c</field>
+            <value>
+                <elementReference>$Record.Owner:User.Hub__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>221</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Case_related_to_an_Account</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Case_Hub_Regional_Hub_Created_Date_CSC</name>
+        <label>Case Hub, Regional Hub &amp; Created Date CSC</label>
+        <locationX>72</locationX>
+        <locationY>1055</locationY>
+        <connector>
+            <targetReference>CaseMassUpdateAsSpam</targetReference>
+        </connector>
+        <flowName>SFSC_Subflow_Assign_Case_Hub_Regional_Hub_and_Created_Date_CSC</flowName>
+        <inputAssignments>
+            <name>Case</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Case_Set_Entitlement</name>
+        <label>Case Set Entitlement</label>
+        <locationX>512</locationX>
+        <locationY>1139</locationY>
+        <flowName>SFSC_Subflow_Case_Set_Entitlement</flowName>
+        <inputAssignments>
+            <name>varCaseId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>CaseMassUpdateAsSpam</name>
+        <label>Case Mass Update As SPAM</label>
+        <locationX>50</locationX>
+        <locationY>1331</locationY>
+        <flowName>SFSC_Subflow_Case_Mass_Update_as_Spam</flowName>
+        <inputAssignments>
+            <name>varCaseId</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Copy_1_of_Case_Hub_Regional_Hub_Created_Date_CSC</name>
+        <label>Copy 1 of Case Hub, Regional Hub &amp; Created Date CSC</label>
+        <locationX>512</locationX>
+        <locationY>839</locationY>
+        <connector>
+            <targetReference>HasTheAccountChanged</targetReference>
+        </connector>
+        <flowName>SFSC_Subflow_Assign_Case_Hub_Regional_Hub_and_Created_Date_CSC</flowName>
+        <inputAssignments>
+            <name>Case</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Link_Case_to_an_existing_account</name>
+        <label>Link Case to an existing account</label>
+        <locationX>215</locationX>
+        <locationY>431</locationY>
+        <connector>
+            <targetReference>HasTheOwnerChanged</targetReference>
+        </connector>
+        <flowName>Subflow_Check_for_an_existing_Account_Key_1</flowName>
+        <inputAssignments>
+            <name>CaseId</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+</Flow>

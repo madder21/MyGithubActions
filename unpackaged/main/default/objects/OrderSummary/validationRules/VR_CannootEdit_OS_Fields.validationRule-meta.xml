@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR_CannootEdit_OS_Fields</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+				OR(ISCHANGED(Description),
+			    ISCHANGED(BusinessModel),ISCHANGED(captureAtShipment__c),
+			    ISCHANGED(CaptureStatus__c),ISCHANGED(DeliverySignature__c),
+			    ISCHANGED(Tech_OrderItemSummaries_Count__c),ISCHANGED(passedFraudScreening__c),
+			    ISCHANGED(StoreOrigin__c),ISCHANGED(StoreOriginName__c),
+			    ISCHANGED(FO_Capture_Error__c),ISCHANGED(OrderNumber),
+			    ISCHANGED(OriginalOrderSummary__c),ISCHANGED(tech_os_store_shipping_method__c),
+			    ISCHANGED(tech_PE_Fulfillment_Count__c),ISCHANGED(latestExpectedDeliveryDate__c),
+			    ISCHANGED(cegidCustomerId__c),ISCHANGED(language__c),
+			    ISCHANGED(isOrderOnBehalf__c),ISCHANGED(cegidOrderId__c),
+					 	ISCHANGED(OriginalReturnOrder__c)) , 
+ $Permission.CSC_Permission, not($Permission.ByPassVR) )</errorConditionFormula>
+    <errorMessage>You cannot edit this field.</errorMessage>
+</ValidationRule>

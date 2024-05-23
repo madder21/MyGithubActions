@@ -1,0 +1,26 @@
+* Ticket : SOM-778 
+    - Add a new value = Refud to the picklist of ProcessException.Category. 
+    - Create a named credentials 'Refunds' and define the URL, the client_id/Username and the client_secret/password 
+    - Refund.OrderPaymentSummaryType__c Permissions : Edit access for all profiles
+    - Refund.PE_was_identified__c Permissions : Edit access for all profiles
+
+* Ticket : SOM-836 
+    - Product2.ImageUrl1__c : Edit access for all profiles
+
+* Ticket : SOM-791
+    - Delete TransactionalEmail__c.LanguageSite__c ( Text(25) )
+    - Create TransactionalEmail__c.LanguageSite__c ( Formula (Text) ) and Add the Visible access for all profiles
+    - TransactionalEmail__c.LanguageSite__c : Visible access for all profiles
+    - add LanguageSite__c to layout
+
+
+* Ticket : SOM-850 
+    - Report type : "Order Summary with product", change the Deployment Status from "In Development" to "Deployed".
+
+* Ticket : SOM-849
+    - Refund.RefundedBy__c : -> Finance Profile : Read only
+                             -> Other Profiles : Edit access
+* Ticket : SOM-737 
+    - Create US records for "SOM_Invoice_Setting__mdt" custom metadata types, take Integrate as reference, done on DEV and INT.
+* Ticket : SOM-852 
+    - Execute the script in the ticket's comments, already done in DEV.

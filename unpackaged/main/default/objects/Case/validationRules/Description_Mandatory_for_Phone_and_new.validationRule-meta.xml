@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Description_Mandatory_for_Phone_and_new</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND (
+       $Permission.ByPassVR = FALSE,
+        ISPICKVAL( Origin , &#39;Phone&#39;) ,
+        ISPICKVAL(  Status , &#39;New&#39;),
+        ISBLANK( Description ) 
+        
+
+)</errorConditionFormula>
+    <errorDisplayField>Description</errorDisplayField>
+    <errorMessage>Please enter a description for this case.</errorMessage>
+</ValidationRule>

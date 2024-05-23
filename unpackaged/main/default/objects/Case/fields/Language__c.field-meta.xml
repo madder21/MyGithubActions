@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Language__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(
+    ISPICKVAL(CaseLanguage__c, &#39;it&#39;),
+        IMAGE(&#39;/resource/1692889823000/ItalianFlag&#39;, &#39;it_flag error&#39;, -1, -1)
+,
+IF(
+    ISPICKVAL(CaseLanguage__c, &#39;de&#39;),
+        IMAGE(&#39;/resource/1692889917000/GermanFlag&#39;,&#39;de_flag error&#39;, -1, -1)
+,
+IF(
+    ISPICKVAL(CaseLanguage__c, &#39;fr&#39;),
+        IMAGE(&#39;/resource/1692889850000/FrenchFlag&#39;,&#39;fr_flag error&#39;, -1, -1)
+,
+IF( 
+    ISPICKVAL(CaseLanguage__c, &#39;ko&#39;),
+        IMAGE(&#39;/resource/1692889888000/KoreanFlag&#39;,&#39;ko_flag error&#39;, -1, -1)
+,
+IF(
+    OR(ISPICKVAL(CaseLanguage__c, &#39;en&#39;),ISPICKVAL(CaseLanguage__c, &#39;gb&#39;)),
+        IMAGE(&#39;/resource/1692889862000/EnglishFlag&#39;,&#39;en_flag error&#39;, -1, -1)
+,
+IF(
+    OR(ISPICKVAL(CaseLanguage__c, &#39;ja&#39;),ISPICKVAL(CaseLanguage__c, &#39;jp&#39;)),
+        IMAGE(&#39;/resource/1692889833000/JapaneseFlag&#39;,&#39;jp_flag error&#39;, -1, -1)
+,
+IF(
+    ISPICKVAL(CaseLanguage__c, &#39;us&#39;),
+        IMAGE(&#39;/resource/1692889862000/EnglishFlag&#39;,&#39;us_flag error&#39;, -1, -1)
+,
+IF(
+    OR(ISPICKVAL(CaseLanguage__c, &#39;zh&#39;),ISPICKVAL(CaseLanguage__c, &#39;zh-Hant&#39;)),
+        IMAGE(&#39;/resource/1692889876000/ChinaFlag&#39;,&#39;zh_flag error&#39;, -1, -1)
+,
+IF(
+    ISPICKVAL(CaseLanguage__c, &#39;es&#39;),
+        IMAGE(&#39;/resource/1692889904000/SpanishFlag&#39;, &#39;es_Flag&#39;, -1, -1)
+,
+&#39;&#39;
+)))))))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Language</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
