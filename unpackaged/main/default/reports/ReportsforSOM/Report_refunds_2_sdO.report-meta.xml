@@ -5,16 +5,15 @@
         <backgroundColor2>#FFFFFF</backgroundColor2>
         <backgroundFadeDir>Diagonal</backgroundFadeDir>
         <chartSummaries>
+            <aggregate>Sum</aggregate>
             <axisBinding>y</axisBinding>
-            <column>RowCount</column>
+            <column>OrderPaymentSummary.Refunds$Amount</column>
         </chartSummaries>
-        <chartType>VerticalColumnStacked</chartType>
+        <chartType>VerticalColumn</chartType>
         <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>true</expandOthers>
         <groupingColumn>OrderPaymentSummary$CreatedDate</groupingColumn>
-        <legendPosition>Right</legendPosition>
         <location>CHART_BOTTOM</location>
-        <secondaryGroupingColumn>OrderPaymentSummary.Refunds$Status</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
@@ -27,6 +26,9 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
+        <field>OrderPaymentSummary$OrderSummary</field>
+    </columns>
+    <columns>
         <field>OrderPaymentSummary.Refunds$Account</field>
     </columns>
     <columns>
@@ -34,13 +36,13 @@
         <field>OrderPaymentSummary.Refunds$Amount</field>
     </columns>
     <columns>
+        <field>OrderPaymentSummary$Type</field>
+    </columns>
+    <columns>
         <field>OrderPaymentSummary.Refunds$CurrencyIsoCode</field>
     </columns>
     <columns>
-        <field>OrderPaymentSummary.Refunds$Type</field>
-    </columns>
-    <columns>
-        <field>OrderPaymentSummary$OrderSummary</field>
+        <field>OrderPaymentSummary$OrderSummary.Status</field>
     </columns>
     <currency>EUR</currency>
     <format>Summary</format>
@@ -49,15 +51,10 @@
         <field>OrderPaymentSummary$CreatedDate</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>OrderPaymentSummary.Refunds$Status</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Report refunds</name>
+    <name>E-Commerce Refunds</name>
     <params>
         <name>co</name>
-        <value>1</value>
+        <value>0</value>
     </params>
     <reportType>Order_Payment_Summary_with_refunds__c</reportType>
     <scope>organization</scope>
