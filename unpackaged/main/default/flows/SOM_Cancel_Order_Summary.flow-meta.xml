@@ -710,7 +710,7 @@
             <targetReference>Set_Unresolved_PEs_c_to_0</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_Order_Items</targetReference>
+            <targetReference>Success_Screen</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -961,9 +961,6 @@
         <label>Update Order Items</label>
         <locationX>50</locationX>
         <locationY>377</locationY>
-        <connector>
-            <targetReference>Success_Screen</targetReference>
-        </connector>
         <inputReference>OrderItemsToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
@@ -986,6 +983,7 @@
         </connector>
         <inputReference>ProcessExceptionList</inputReference>
     </recordUpdates>
+    <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Confirmation_Screen</name>
         <label>Confirmation Screen</label>
