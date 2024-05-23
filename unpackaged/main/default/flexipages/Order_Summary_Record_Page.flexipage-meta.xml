@@ -546,7 +546,7 @@
                         <valueListItems>
                             <value>OrderSummary.New_manual_order</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND ( 5 OR ( 6 AND 7 ))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.tech_os_store_shipping_method__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -568,21 +568,26 @@
                                     <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS - Advisor</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS  - Team Lead</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Validate_Order</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5) AND (6 OR (7 AND 8))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.SalesChannelName__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -609,14 +614,19 @@
                                     <rightValue>false</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS - Advisor</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS  - Team Lead</rightValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
