@@ -5201,7 +5201,13 @@
         <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Event__c-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>FulfillmentOrder-Fulfillment Order Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Gift__c-Gift Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Global-Global Layout</layout>
@@ -6512,8 +6518,16 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Event__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Future_Stock__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Gift__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Log__c</tab>
