@@ -15,14 +15,14 @@ public class SOM_SalesAndPaymentsReportEUSchedule Implements Schedulable{
             String previousMonday = weekStart.format('MM/dd/YYYY');
             
             
-            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'maha.meghras@viseo.com' limit 1];
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
             
             DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
             String previousSunday = previousSundayDate.format('MM/dd/YYYY');
             
             List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
             
-            Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='JP' ];
+            Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='EU' ];
             
             
             List<Report> invoiceRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Invoice_EU_IgA'];

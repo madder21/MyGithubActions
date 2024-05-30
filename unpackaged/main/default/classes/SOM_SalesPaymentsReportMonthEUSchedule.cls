@@ -9,7 +9,7 @@ public class SOM_SalesPaymentsReportMonthEUSchedule Implements Schedulable{
             DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1); 
             String firstDay = firstDayOfLastMonth.format('MM/dd/yyyy');
             
-            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' limit 1];
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'noreply@rimowa.com' limit 1];
             
             DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
             String lastDay = lastDayOfLastMonth.format('MM/dd/yyyy');
@@ -18,7 +18,7 @@ public class SOM_SalesPaymentsReportMonthEUSchedule Implements Schedulable{
             
             List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
             
-            Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='JP' ];
+            Reports_Setting__mdt reportSetting = [SELECT Countries__c, Country_List__c, Distribution_List__c FROM Reports_Setting__mdt where Country_List__c ='EU' ];
             
             
             List<Report> invoiceRep    = [SELECT Id, Name, DeveloperName FROM Report WHERE DeveloperName  = 'Sales_Report_Invoice_EU_IgA'];
