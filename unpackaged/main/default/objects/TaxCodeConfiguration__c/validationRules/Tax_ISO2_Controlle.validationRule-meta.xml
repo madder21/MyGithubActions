@@ -2,8 +2,9 @@
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Tax_ISO2_Controlle</fullName>
     <active>true</active>
-    <errorConditionFormula>AND(
-    NOT(ISBLANK(deliverToCountry__c)),
-    NOT(REGEX(deliverToCountry__c, &quot;^[A-Z]{2}$&quot;)) )</errorConditionFormula>
-    <errorMessage>The value should be in format ISO2</errorMessage>
+    <errorConditionFormula>OR(
+  ISBLANK(deliverToCountry__c),
+  NOT(REGEX(deliverToCountry__c, &quot;^[A-Z]{2}$&quot;))
+)</errorConditionFormula>
+    <errorMessage>The value should be in format ISO2 and should not be empty</errorMessage>
 </ValidationRule>
