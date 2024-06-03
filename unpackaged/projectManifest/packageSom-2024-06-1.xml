@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
+	<!-- already delivred cancel order)-->
+	<!--types>
 			<members>OrderSummary.ProfileForCancelButton__c</members>
 			<members>OrderSummary.StatusForCancelButton__c</members>
 			<name>CustomField</name>
@@ -27,6 +28,129 @@
 		<types>
 			<members>SOM_CSC_Order_cancelation</members>
 			<name>PermissionSet</name>
+		</types-->
+	<types>
+		<members>State_mapping__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+			
+			<members>SOM_820_Reship_On_Return_Order</members>
+		<members>SOM_Apply_unicity_on_Name_and_Reference_number</members>
+		<members>SOM_UpdateStateOS</members>
+			<name>Flow</name>
 		</types>
+	<types>
+		<members>SOM_SalesAndPaymentsReportEUSchedule</members>
+		<members>SOM_SalesPaymentEUMonthSchedule_Test</members>
+		<members>SOM_SalesPaymentsReportEUSchedule_Test</members>
+		<members>SOM_SalesPaymentsReportMonthEUSchedule</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Order_Summary_with_product</members>
+		<members>Order_Payment_Summary_with_refunds</members>
+		<name>ReportType</name>
+	</types>
+	<types>
+		<members>ReportsforSOM/Payments_Report_EU_3Xr</members>
+		<members>ReportsforSOM/Refunds_Report_EU_dRV</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_EU_ksT</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_EU_0DB</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_EU_IgA</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_EU_wf8</members>
+		<members>E_Commerce_Orders_with_products_Sold_MB</members>
+		<members>ReportsforSOM/Report_refunds_2_sdO</members>
+		<members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_EU</members>
+		<name>Report</name>
+	</types>
+	
+	
+	<types>
+
+		<members>OrderDeliveryMethod.Check_Name_and_Ref_number</members>
+		<name>ValidationRule</name>
+	</types>
+	<types>
+		
+		<members>State_mapping__mdt-State mapping Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		
+		<members>State_mapping__mdt.Full_name_state__c</members>
+		<members>State_mapping__mdt.Iso2_Code__c</members>
+		<name>CustomField</name>
+	</types>
+<types>
+	<members>State_mapping.NewYork</members>
+		<members>State_mapping.Nevada</members>
+		<members>State_mapping.Indiana</members>
+		<members>State_mapping.Vermont</members>
+		<members>State_mapping.Oklahoma</members>
+		<members>State_mapping.Ohio</members>
+		<members>State_mapping.Florida</members>
+		<members>State_mapping.New_Mexico</members>
+		<members>State_mapping.Illinois</members>
+		<members>State_mapping.Nebraska</members>
+		<members>State_mapping.North_Dakota</members>
+		<members>State_mapping.NorthCarolina</members>
+		<members>State_mapping.Tennessee</members>
+		<members>State_mapping.Maryland</members>
+		<members>State_mapping.North_Carolina</members>
+		<members>State_mapping.NewJersey</members>
+		<members>State_mapping.Montana</members>
+		<members>State_mapping.Kentucky</members>
+		<members>State_mapping.Wisconsin</members>
+		<members>State_mapping.WestVirginia</members>
+		<members>State_mapping.RhodeIsland</members>
+		<members>State_mapping.Rhode_Island</members>
+		<members>State_mapping.SouthCarolina</members>
+		<members>State_mapping.Hawaii</members>
+		<members>State_mapping.Massachusetts</members>
+		<members>State_mapping.Washington</members>
+		<members>State_mapping.Delaware</members>
+		<members>State_mapping.Michigan</members>
+		<members>State_mapping.Utah</members>
+		<members>State_mapping.Virginia</members>
+		<members>State_mapping.SouthDakota</members>
+		<members>State_mapping.South_Carolina</members>
+		<members>State_mapping.South_Dakota</members>
+		<members>State_mapping.Louisiana</members>
+		<members>State_mapping.Alabama</members>
+		<members>State_mapping.NYC</members>
+		<members>State_mapping.Missouri</members>
+		<members>State_mapping.Texas</members>
+		<members>State_mapping.Colorado</members>
+		<members>State_mapping.Kansas</members>
+		<members>State_mapping.New_Hampshire</members>
+		<members>State_mapping.NewMexico</members>
+		<members>State_mapping.Maine</members>
+		<members>State_mapping.New_Jersey</members>
+		<members>State_mapping.NewHampshire</members>
+		<members>State_mapping.Oregon</members>
+		<members>State_mapping.New_York</members>
+		<members>State_mapping.Minnesota</members>
+		<members>State_mapping.Wyoming</members>
+		<members>State_mapping.Georgia</members>
+		<members>State_mapping.Arkansas</members>
+		<members>State_mapping.Idaho</members>
+		<members>State_mapping.Connecticut</members>
+		<members>State_mapping.Arizona</members>
+		<members>State_mapping.Alaska</members>
+		<members>State_mapping.West_Virginie</members>
+		<members>State_mapping.NorthDakota</members>
+		<members>State_mapping.Mississippi</members>
+		<members>State_mapping.Pennsylvania</members>
+		<members>State_mapping.Iowa</members>
+		<members>State_mapping.California</members>
+		<members>SOM_Invoice_Setting.FONT</members>
+		<members>SOM_Invoice_Setting.FONT_JP</members>
+		<members>PE_Emails_Setting.PE_EU</members>
+	
+		<members>Reports_Setting.EU_setting</members>
+		
+		<name>CustomMetadata</name>
+	</types>
 	<version>58.0</version>
 </Package>
