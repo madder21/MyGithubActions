@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
 	<!-- already delivred cancel order)-->
+
 	<!--types>
 			<members>OrderSummary.ProfileForCancelButton__c</members>
 			<members>OrderSummary.StatusForCancelButton__c</members>
 			<name>CustomField</name>
 		</types>
 		<types>
-			<members>CSC_Permission</members>
+			<members>CSC_Permission</members>  
 			<members>PS_CSC_Cancel</members>
+			<members>Ecom_Operations</members>
 			<name>CustomPermission</name>
 		</types>
 		<types>
@@ -29,6 +32,7 @@
 			<members>SOM_CSC_Order_cancelation</members>
 			<name>PermissionSet</name>
 		</types-->
+
 	<types>
 		<members>State_mapping__mdt</members>
 		<name>CustomObject</name>
@@ -152,5 +156,6 @@
 		
 		<name>CustomMetadata</name>
 	</types>
+
 	<version>58.0</version>
 </Package>

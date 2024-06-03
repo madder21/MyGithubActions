@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Name__c</fullName>
-    <externalId>false</externalId>
     <label>Name</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
@@ -16,11 +15,6 @@
                 <label>SEIT 1898 TOKYO VIC Gift</label>
             </value>
             <value>
-                <fullName>Welcome</fullName>
-                <default>false</default>
-                <label>Welcome</label>
-            </value>
-            <value>
                 <fullName>Birthday</fullName>
                 <default>false</default>
                 <label>Birthday</label>
@@ -31,14 +25,9 @@
                 <label>Wedding</label>
             </value>
             <value>
-                <fullName>Other</fullName>
+                <fullName>CNY 2023</fullName>
                 <default>false</default>
-                <label>Other</label>
-            </value>
-            <value>
-                <fullName>Chinese New Year 2022</fullName>
-                <default>false</default>
-                <label>Chinese New Year 2022</label>
+                <label>CNY 2023</label>
             </value>
             <value>
                 <fullName>Holiday season 2022</fullName>
@@ -46,9 +35,16 @@
                 <label>Holiday season 2022</label>
             </value>
             <value>
-                <fullName>Mooncake box 2023</fullName>
+                <fullName>Other</fullName>
                 <default>false</default>
-                <label>Mooncake box 2023</label>
+                <isActive>false</isActive>
+                <label>Other</label>
+            </value>
+            <value>
+                <fullName>Welcome</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>Welcome</label>
             </value>
         </valueSetDefinition>
     </valueSet>

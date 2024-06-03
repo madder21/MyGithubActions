@@ -1049,6 +1049,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.Date_Last_interaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.Description</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1315,6 +1320,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.SystemModstamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_CaseWaitingForClient__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2274,6 +2284,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Client_Insight__c.LastReviewDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Client_Insight__c.MaritalStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2290,6 +2305,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Client_Insight__c.ProductCategory__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Client_Insight__c.ReviewedInformation__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3509,6 +3529,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.EventClientAttended__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.EventClientInvited__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.EventInvitedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.Event__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3520,6 +3555,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.GiftedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Gifted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6589,6 +6629,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.EventClientAttended__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.EventClientInvited__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.EventInvitedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Event__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6600,6 +6655,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.GiftedDate__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Gifted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7177,6 +7237,15 @@
         <layout>AlternativePaymentMethod-Alternative Payment Method Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AnonymizationField__mdt-AnonymizationField Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AnonymizationObject__mdt-AnonymizationProcess Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AnonymizationSFProcess__mdt-AnonymizationSFProcess Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AppointmentRessource__c-Ressource Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7721,6 +7790,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Story__c-Story Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SuppressionSFProcess__mdt-SuppressionSFProcess Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Task-Task Layout</layout>

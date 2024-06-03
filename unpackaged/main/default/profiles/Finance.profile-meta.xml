@@ -109,6 +109,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.Date_Last_interaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Case.Email_formula_Template__c</field>
         <readable>true</readable>
@@ -226,6 +231,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.SystemModstamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.TECH_CaseWaitingForClient__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5155,6 +5165,15 @@
         <recordType>Account.BusinessAccount</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>AnonymizationField__mdt-AnonymizationField Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AnonymizationObject__mdt-AnonymizationProcess Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>AnonymizationSFProcess__mdt-AnonymizationSFProcess Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AppointmentRessource__c-Ressource Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5171,6 +5190,12 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ClientBooking__c-Client Booking Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Client_Insight_History__c-Client Insight History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Client_Insight__c-Client Insight Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>ConsentSource__mdt-Consent Source Layout</layout>
@@ -5201,7 +5226,13 @@
         <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Event__c-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>FulfillmentOrder-Fulfillment Order Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Gift__c-Gift Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Global-Global Layout</layout>
@@ -5293,6 +5324,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>ShipmentItem-Shipment Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SuppressionSFProcess__mdt-SuppressionSFProcess Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>TransactionalEmail__c-Transactional Email Layout</layout>
@@ -6512,8 +6546,16 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>Event__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Future_Stock__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Gift__c</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Log__c</tab>
