@@ -1,19 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>Ecom_Operations</members>
-		<name>CustomPermission</name>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>SOM_InvoiceManagement</members>
+		<members>SOM_LWC_DisplayOrderItems_Controller</members>
+		<members>SOM_DynamicTreeGridController</members>
+		<members>SOM_DynamicTreeGridControllerTEST</members>
+		<members>SOM_testDataFactory</members>
+		<members>WS_SOM_Create_StoreToWebOrder</members>
+		<members>SOM_LWC_Display_OI_Controller_Test</members>
+		<members>SOM_Wr_DisplayLineItem</members>
+		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>AlternativePaymentMethod.Cash_On_Delivery</members>
-		<name>RecordType</name>
+		<members>SOM_Automatic_refund_in_Cybersource</members>
+		<members>SOM_820_Reship_On_Return_Order</members>
+		<members>SOM_960_Exchange_Manual_Order_Creation</members>
+		
+		<members>SOM_Batch_RetryAllocation</members>
+		<members>SOM_210_Order_SToW_Retry_Allocation</members>
+		<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+		<members>SOM_810_Reship_Order_Flow</members>
+		<members>SOM_Cancel_Order_Summary</members>
+		<name>Flow</name>
 	</types>
 	<types>
+		<members>STWDeliveryMethod__c.DeliveryMethodName__c</members>
+		<members>STWDeliveryMethod__c.country__c</members>
+		<members>STWDeliveryMethod__c.deliveryMethodId__c</members>
+		<members>STWDeliveryMethod__c.parentId__c</members>
+		<members>STWDeliveryMethod__c.postalCode__c</members>
+		<members>STWDeliveryMethod__c.storeOrigin__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod__c-STW delivery method Layout</members>
+		<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>somLwcDisplayOrderItems</members>
+		<members>sOM_TreeGrid</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>STWDeliveryMethod</members>
+		<members>STW_delivery_method_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>SOM_InvoiceDocumentTemplate</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>SOM_Invoice_Setting.PDF_PHONE_AT</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_CH</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_DE</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_ES</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_FR</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_IT</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_LI</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_LU</members>
+		
 		<members>SOM_Invoice_Setting.CREDIT_MEMO_DATE_FR</members>
 		<members>SOM_Invoice_Setting.CREDIT_MEMO_NUMBER_FR</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_CH</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_Coremodel</members>
 		<members>SOM_Invoice_Setting.CROSS_BORDER_LI</members>
+		<members>SOM_Invoice_Setting.CROSS_BORDER_NO</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_CoreModel</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_GB</members>
 		<members>SOM_Invoice_Setting.PDF_PHONE_LI</members>
@@ -65,140 +131,15 @@
 		<members>Sales_Channel_Mapping.Sales_Channel_SI</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_SK</members>
 		<members>Sales_Channel_Mapping.Sales_Channel_US</members>
-		<members>SOM_Invoice_Setting.CROSS_BORDER_CH</members>
-		<members>SOM_Invoice_Setting.CROSS_BORDER_Coremodel</members>
-		<members>SOM_Invoice_Setting.CROSS_BORDER_LI</members>
-		<members>SOM_Invoice_Setting.CROSS_BORDER_NO</members>
 		<name>CustomMetadata</name>
 	</types>
-	
 	<types>
-		<members>ReturnOrderController</members>
-		<members>SOM_InvoiceDocumentController</members>
-		<members>SOM_InvoiceManagement</members>
-		<members>SOM_DynamicTreeGridController</members>
-		<members>SOM_DynamicTreeGridControllerTEST</members>
-		<members>SOM_testDataFactory</members>
-		<members>WS_SOM_Create_StoreToWebOrder</members>
-		<name>ApexClass</name>
-	</types>
-	<types>
-		<members>OrderDeliveryGroupBeforeTrigger</members>
-		<name>ApexTrigger</name>
-	</types>
-	<types>
-		<members>SOM_Automatic_refund_in_Cybersource</members>
-		<members>SOM_820_Reship_On_Return_Order</members>
-		<members>SOM_960_Exchange_Manual_Order_Creation</members>
-
-		<members>SOM_UpdateStateOS</members> 
-
-		<members>SOM_Batch_RetryAllocation</members> 
-		<members>SOM_210_Order_SToW_Retry_Allocation</members>
-
-
-		<name>Flow</name>
-	</types>
-	<types>
-		<members>Ecom_operation_homepage</members>
-		<members>Order_Summary_Record_Page</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>CorrectiveInvoice__c</members>
-		<members>STWDeliveryMethod</members>
-		<name>CustomTab</name>
-	</types>
-	<types>
-		<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
-		<members>OrderSummary-Order Summary Layout</members>
-    <members>bypassCoutryValidationByPayementMethod__mdt-bypassCoutryValidationByPayementMethod Layout</members>
-		<name>Layout</name>
-	</types>
-	<types>
-		<members>SOMDashboardReportsEcomOperations/Non_closed_returns_G6I</members>
-		<members>SOMDashboardReportsEcomOperations/Orders_in_fulfillingpartial_fulfilled_ne5</members>
-		<members>SOMDashboardReportsEcomOperations/CC_orders_not_shipped_more_than_5_days_JTM</members>
-		<members>SOMDashboardReportsEcomOperations/Unvalidate_refunds_Ht0</members>
-		<members>SOMDashboardReportsEcomOperations/Unresolve_PE_due_to_payment_ybS</members>
-		<members>SOMDashboardReportsEcomOperations/CC_orders_not_validated_more_than_1_day_Bo8</members>
-		<members>SOMDashboardReportsEcomOperations/Unresesolve_PE_due_to_stock_vRM</members>
+		<members>ReportsforSOM/Payments_report_5w3</members>
+		<members>ReportsforSOM/Payments_Report_US</members>
+		<members>ReportsforSOM/Payments_Report_AU</members>
+		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
+		<members>ReportsforSOM/Payments_Report_KR</members>
 		<name>Report</name>
-	</types>
-	<types>
-		<members>Order_summary_with_payment</members>
-		<members>Return_Orders</members>
-		<members>SOM_PE_ReportType</members>
-		<name>ReportType</name>
-	</types>
-	<types>
-		<members>SOMDashboardReportsEcomOperations</members>
-		<name>ReportFolder</name>
-	</types>
-	<types>
-		<members>SOMEcomOperations</members>
-		<name>DashboardFolder</name>
-	</types>
-	<!--types>
-		<members>SOMEcomOperations/TmTFDLlycKasAQtKqtnvNqmrwSbutS</members>
-		<name>Dashboard</name>
-	</types-->
-	<types>
-		<members>standard__OMConsole</members>
-		<name>CustomApplication</name>
-	</types>
-	
-	<types>
-
-		<members>STWDeliveryMethod__c.DeliveryMethodName__c</members>
-		<members>STWDeliveryMethod__c.country__c</members>
-		<members>STWDeliveryMethod__c.deliveryMethodId__c</members>
-		<members>STWDeliveryMethod__c.parentId__c</members>
-		<members>STWDeliveryMethod__c.postalCode__c</members>
-		<members>STWDeliveryMethod__c.storeOrigin__c</members>
-		<members>STWDeliveryMethod__c.storeOrigin__c</members>
-		<members>OrderSummary.ProfileForCancelButton__c</members>
-		<members>OrderSummary.StatusForCancelButton__c</members>
-    <members>bypassCoutryValidationByPayementMethod__mdt.bypassValidationApplepayForUS__c</members>
-		<name>CustomField</name>
-	</types>
-	<types>
-		<members>STWDeliveryMethod__c</members>
-    <members>bypassCoutryValidationByPayementMethod__mdt</members>
-		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>STWDeliveryMethod</members>
-		<members>STW_delivery_method_Record_Page</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>STWDeliveryMethod__c-STW delivery method Layout</members>
-		<name>Layout</name>
-	</types>
-	<types>
-		<members>sOM_TreeGrid</members>
-		<name>LightningComponentBundle</name>
-	</types>
-	<types>
-		<members>OrderSummary.Cancel_product</members>
-		<name>QuickAction</name>
-	</types>
-	<types>
-		<members>SOM_CSC_Order_cancelation</members>
-		<!--members>SOM_Identity_Additional_Permissions</members>
-		<members>SOM_Identity_NameCredentials</members>
-		<members>SOM_OM_Ecom_Operations_rights</members-->
-		<name>PermissionSet</name>
-	</types>
-	<types>
-		<members>SOM_InvoiceDocumentTemplate</members>
-		<name>ApexPage</name>
-	</types>
-	<types>
-	<members>TaxCodeConfiguration__c.Tax_ISO2_Controlle</members>
-	<members>TaxCodeConfiguration__c.TaxCode_Controlle</members>
-	<members>TaxCodeConfiguration__c.TaxRate_Controlle</members>
 	</types>
 	<version>58.0</version>
 </Package>
