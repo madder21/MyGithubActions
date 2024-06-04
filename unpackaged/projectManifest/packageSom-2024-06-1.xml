@@ -63,7 +63,7 @@
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_EU_0DB</members>
 		<members>ReportsforSOM/Sales_Report_Invoice_EU_IgA</members>
 		<members>ReportsforSOM/Shipments_Report_Finance_EU_wf8</members>
-		<members>E_Commerce_Orders_with_products_Sold_MB</members>
+		<members>ReportsforSOM/E_Commerce_Orders_with_products_Sold_MB</members>
 		<members>ReportsforSOM/Report_refunds_2_sdO</members>
 		<members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_EU</members>
 		<name>Report</name>
@@ -71,7 +71,9 @@
 	
 	
 	<types>
-
+                        <members>TaxCodeConfiguration__c.TaxCode_Controlle</members>
+			<members>TaxCodeConfiguration__c.TaxRate_Controlle</members>
+			<members>TaxCodeConfiguration__c.Tax_ISO2_Controlle</members>
 		<members>OrderDeliveryMethod.Check_Name_and_Ref_number</members>
 		<name>ValidationRule</name>
 	</types>
