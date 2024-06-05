@@ -29,18 +29,18 @@
     <filter>
         <booleanFilter>1 AND 2 AND 4 AND 5 AND 8 AND (3 OR 6 OR 7)</booleanFilter>
         <criteriaItems>
-            <column>OrderSummary$OrderedDate</column>
+            <column>OrderSummary.OrderPaymentSummaries.Payments$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>6/8/2022 12:00 AM</value>
+            <value>6/3/2023 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary$OrderedDate</column>
+            <column>OrderSummary.OrderPaymentSummaries.Payments$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>3/29/2023 12:00 AM</value>
+            <value>6/3/2024 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$Tech_ShippingCountry__c</column>
