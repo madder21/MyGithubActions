@@ -4,13 +4,13 @@
     <assignments>
         <name>Updating_order_delivery_groupe</name>
         <label>Updating order delivery groupe</label>
-        <locationX>1673</locationX>
-        <locationY>615</locationY>
+        <locationX>1815</locationX>
+        <locationY>645</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group.DeliverToState</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_StateMapping.Iso2_Code__c</elementReference>
+                <elementReference>Get_State_Order_Delivery_Group.Iso2_Code__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -34,16 +34,41 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_StateMapping</targetReference>
+                <targetReference>Get_StateMapping_Order_Summary</targetReference>
             </connector>
             <label>CegidState</label>
         </rules>
     </decisions>
     <decisions>
+        <name>Decision_To_Update_Order_Delivery_Group</name>
+        <label>Decision To Update Order Delivery Group</label>
+        <locationX>1621</locationX>
+        <locationY>652</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_State_Order_Delivery_Group</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Updating_order_delivery_groupe</targetReference>
+            </connector>
+            <label>Yes2</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>To_Update_Billing_State_Or_Not</name>
         <label>To Update Billing State Or Not</label>
-        <locationX>1341</locationX>
-        <locationY>617</locationY>
+        <locationX>1350</locationX>
+        <locationY>649</locationY>
+        <defaultConnector>
+            <targetReference>Decision_To_Update_Order_Delivery_Group</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes1</name>
@@ -56,7 +81,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_StateMapping</leftValueReference>
+                <leftValueReference>Get_StateMapping_Order_Summary</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -111,13 +136,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_StateMapping</name>
-        <label>Get StateMapping</label>
-        <locationX>1114</locationX>
-        <locationY>646</locationY>
+        <name>Get_State_Order_Delivery_Group</name>
+        <label>Get State Order Delivery Group</label>
+        <locationX>1199</locationX>
+        <locationY>647</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>To_Update_Billing_State_Or_Not</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Full_name_state__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group.DeliverToState</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>State_mapping__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_StateMapping_Order_Summary</name>
+        <label>Get StateMapping Order Summary</label>
+        <locationX>1054</locationX>
+        <locationY>646</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_State_Order_Delivery_Group</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -155,23 +201,23 @@
     <recordUpdates>
         <name>Update_shipping</name>
         <label>Update shipping</label>
-        <locationX>1813</locationX>
-        <locationY>615</locationY>
+        <locationX>1978</locationX>
+        <locationY>645</locationY>
         <inputReference>Get_Order_Delivery_Group</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_the_billing_State</name>
         <label>Update the billing State</label>
-        <locationX>1539</locationX>
-        <locationY>617</locationY>
+        <locationX>1513</locationX>
+        <locationY>562</locationY>
         <connector>
-            <targetReference>Updating_order_delivery_groupe</targetReference>
+            <targetReference>Decision_To_Update_Order_Delivery_Group</targetReference>
         </connector>
         <inputAssignments>
             <field>BillingState</field>
             <value>
-                <elementReference>Get_StateMapping.Iso2_Code__c</elementReference>
-            </value> 
+                <elementReference>Get_StateMapping_Order_Summary.Iso2_Code__c</elementReference>
+            </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
