@@ -65,18 +65,18 @@
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
-            <column>OrderSummary.Invoices$CreatedDate</column>
+            <column>OrderSummary.Invoices$Invoice_Timezone_Date__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>3/1/2023 12:00 AM</value>
+            <value>3/1/2023</value>
         </criteriaItems>
         <criteriaItems>
-            <column>OrderSummary.Invoices$CreatedDate</column>
+            <column>OrderSummary.Invoices$Invoice_Timezone_Date__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>3/23/2023 12:00 AM</value>
+            <value>3/23/2023</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$SalesChannelName__c</column>

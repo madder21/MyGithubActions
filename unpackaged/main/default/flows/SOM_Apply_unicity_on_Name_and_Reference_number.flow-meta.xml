@@ -64,19 +64,12 @@
         <connector>
             <targetReference>Check_Unicity</targetReference>
         </connector>
-        <filterLogic>( 1 OR 2 ) AND 3</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
             <field>ReferenceNumber</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>$Record.ReferenceNumber</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Name</elementReference>
             </value>
         </filters>
         <filters>
