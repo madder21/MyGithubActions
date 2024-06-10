@@ -13,7 +13,7 @@
         <field>OrderSummary$Status</field>
     </columns>
     <columns>
-        <field>OrderSummary.Invoices$CreatedDate</field>
+        <field>OrderSummary.Invoices*Invoice$Invoice_Timezone_Date__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Tech_ShippingCountry__c</field>
@@ -35,6 +35,13 @@
     </columns>
     <columns>
         <field>OrderSummary.Invoices.InvoiceLines$Product2.StockKeepingUnit</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.Invoices.InvoiceLines$Product2</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>OrderSummary.Invoices.InvoiceLines$Product2.isSerialized__c</field>
     </columns>
     <columns>
         <field>OrderSummary.Invoices.InvoiceLines$Quantity</field>
