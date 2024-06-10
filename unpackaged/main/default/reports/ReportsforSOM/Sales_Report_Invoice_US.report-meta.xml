@@ -13,7 +13,7 @@
         <field>OrderSummary$Status</field>
     </columns>
     <columns>
-        <field>OrderSummary.Invoices$CreatedDate</field>
+        <field>OrderSummary.Invoices*Invoice$Invoice_Timezone_Date__c</field>
     </columns>
     <columns>
         <field>OrderSummary$Tech_ShippingCountry__c</field>
@@ -64,6 +64,7 @@
     </columns>
     <currency>EUR</currency>
     <filter>
+        <booleanFilter>1 AND 2 AND 3 AND (4 OR 5 OR 6)</booleanFilter>
         <criteriaItems>
             <column>OrderSummary.Invoices$Invoice_Timezone_Date__c</column>
             <columnToColumn>false</columnToColumn>
@@ -91,6 +92,20 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>US</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>CA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>MX</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
