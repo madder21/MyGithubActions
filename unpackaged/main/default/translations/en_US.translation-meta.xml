@@ -699,4 +699,129 @@
             <name>Cases</name>
         </sections>
     </reportTypes>
+    <flowDefinitions>
+        <flows>
+            <choices>
+                <name>Comma</name>
+            </choices>
+            <choices>
+                <name>SFClientDeletion</name>
+            </choices>
+            <choices>
+                <name>SFInternalAnonymization</name>
+            </choices>
+            <choices>
+                <name>SOMAnonymizationProcess</name>
+            </choices>
+            <choices>
+                <name>SOMProcess</name>
+            </choices>
+            <choices>
+                <name>SemiColon</name>
+            </choices>
+            <choices>
+                <name>Timestamp</name>
+            </choices>
+            <choices>
+                <name>UsualAnonymizValue</name>
+            </choices>
+            <screens>
+                <fields>
+                    <name>Anonymization_Format</name>
+                </fields>
+                <fields>
+                    <name>Anonymization_Process_Definition_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Anonymization_Process_Definition_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Anonymization_Process_Definition_Section1_Column2</name>
+                </fields>
+                <fields>
+                    <name>Put_your_Account_ID_here</name>
+                </fields>
+                <fields>
+                    <name>Select_the_separator</name>
+                </fields>
+                <fields>
+                    <name>TimestampInformation</name>
+                </fields>
+                <fields>
+                    <name>TimestampVal</name>
+                </fields>
+                <fields>
+                    <name>UsualFormatInformation</name>
+                </fields>
+                <name>Anonymization_Process_Definition</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Select_the_running_process</name>
+                </fields>
+                <name>Anonymization_Process_Step_1</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>ContentInformation</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>allOptionsStringFormat</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>disableReordering</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>selectedLabel</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>sourceLabel</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>useWhichObjectKeyForData</name>
+                        <value />
+                    </inputParameters>
+                    <inputParameters>
+                        <name>useWhichObjectKeyForLabel</name>
+                        <value />
+                    </inputParameters>
+                    <name>Testqscqcsq</name>
+                </fields>
+                <name>Check_Objects_concerned</name>
+            </screens>
+            <screens>
+                <fields>
+                    <name>Copy_1_of_Select_the_separator</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Anonymization_Process_Definition_Section1</name>
+                </fields>
+                <fields>
+                    <inputParameters>
+                        <name>width</name>
+                        <value />
+                    </inputParameters>
+                    <name>Copy_2_of_Anonymization_Process_Definition_Section1_Column1</name>
+                </fields>
+                <fields>
+                    <name>Copy_2_of_Put_your_Account_ID_here</name>
+                </fields>
+                <name>Copy_2_of_Anonymization_Process_Definition</name>
+            </screens>
+        </flows>
+        <fullName>SFDC_ClientAnonymization</fullName>
+    </flowDefinitions>
 </Translations>
