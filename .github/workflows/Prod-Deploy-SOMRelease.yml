@@ -42,4 +42,6 @@ jobs:
             # Deploy the entire branch to Integration org
             - name: 'Deploy the release to UAT org'
              # run: sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2023-10-1.xml" -u RimowaProdOrg
+
               run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2024-06-2.xml" --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2024-06.2.txt) -u RimowaProdOrg --json 
+
