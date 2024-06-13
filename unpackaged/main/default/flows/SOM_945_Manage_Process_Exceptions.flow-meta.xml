@@ -119,8 +119,8 @@
         <description>Order Summary Line Item</description>
         <name>Related_to_OSLI</name>
         <label>Related to OSLI ?</label>
-        <locationX>528</locationX>
-        <locationY>433</locationY>
+        <locationX>521</locationX>
+        <locationY>581</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes_related_to_OSLI</name>
@@ -211,7 +211,32 @@
             <label>Changed to unresolved</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
+    <decisions>
+        <name>Update_ISOCode</name>
+        <label>Update ISOCode</label>
+        <locationX>528</locationX>
+        <locationY>434</locationY>
+        <defaultConnector>
+            <targetReference>Related_to_OSLI</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsNewlyCreated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsCreated</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_OrderSummary</targetReference>
+            </connector>
+            <label>IsNewlyCreated</label>
+        </rules>
+    </decisions>
+    <description>Update CurrencyISOCode</description>
     <formulas>
         <name>FX_Isnew</name>
         <dataType>Boolean</dataType>
@@ -222,6 +247,11 @@
         <dataType>Number</dataType>
         <expression>+1</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>IsCreated</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
     </formulas>
     <interviewLabel>SOM 945 - Manage Process Exceptions {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 945 - Manage Process Exceptions</label>
@@ -258,6 +288,27 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_OrderSummary</name>
+        <label>Get OrderSummary</label>
+        <locationX>326</locationX>
+        <locationY>447</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Currency_Iso_Code</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_OSLI</name>
         <label>Get OSLI</label>
@@ -355,6 +406,22 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_Currency_Iso_Code</name>
+        <label>Update Currency Iso Code</label>
+        <locationX>326</locationX>
+        <locationY>577</locationY>
+        <connector>
+            <targetReference>Related_to_OSLI</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <elementReference>Get_OrderSummary.CurrencyIsoCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_OSLI</name>
         <label>Update OSLI</label>
         <locationX>2121</locationX>
@@ -389,7 +456,7 @@
         <locationX>410</locationX>
         <locationY>136</locationY>
         <connector>
-            <targetReference>Related_to_OSLI</targetReference>
+            <targetReference>Update_ISOCode</targetReference>
         </connector>
         <object>ProcessException</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
