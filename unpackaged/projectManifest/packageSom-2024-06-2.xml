@@ -1,5 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+<types>
+		<members>SOM_Constants</members>
+		<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_TransactionalEmailHandler_Test</members>
+		<members>SOM_testDataFactory</members>
+
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>C_C_order_Cancellation_and_Reminder.CC_order</members>
+		<name>CustomMetadata</name>
+	</types>
+
+	<types>
+		<members>C_C_order_Cancellation_and_Reminder__mdt</members>
+		<members>STW_URL__c</members>
+		<name>CustomObject</name>
+	</types>
+
+	<types>
+		<members>TransactionalEmail__c.Status__c</members>
+		<members>TransactionalEmail__c.Template__c</members>
+    	<members>TransactionalEmail__c.bccEmail__c</members>
+    	<members>C_C_order_Cancellation_and_Reminder__mdt.nbrOfDaysBeforeCancellation__c</members>
+		<members>C_C_order_Cancellation_and_Reminder__mdt.nbrOfDaysBeforeReminder__c</members>
+		<members>OrderSummary.TE_Created_Date__c</members>
+		<members>OrderSummary.TE_Cancellation_Date__c</members>
+		<members>STW_URL__c.STW_URL__c</members>
+		<members>Sales_Channel_Mapping__mdt.bcc_Invoice_Email__c</members>
+		<name>CustomField</name>
+	</types>
+	
+	<types>
+		<members>Order_Summary_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>TransactionalEmail__c-Transactional Email Layout</members>
+    	<members>C_C_order_Cancellation_and_Reminder__mdt-C%26C order - Cancellation and Reminder Layout</members>
+		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<name>Layout</name>
+	</types>
+<types>
+	<members>SOM_810_Reship_Return_Order_Flow</members>
+	 <members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
+	<members>SOM_Cancel_Order_Summary</members>
+    	<members>SOM_117_ReminderEmail</members>
+		<members>SOM_Cancel_C_C_Order_Summary</members>
+	<name>Flow</name>
+</types>
+<types>
+	<members>hiddenText</members>
+	<name>LightningComponentBundle</name>
+</types>
+<types>
+	<members>hiddenTextResource</members>
+	<name>StaticResource</name>
+</types>
+
 	<types>
 		<members>ReportsforSOM/Payments_Report_AU</members>
 		<members>ReportsforSOM/Payments_Report_EU_3Xr</members>
@@ -8,13 +68,31 @@
 		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
 		<members>ReportsforSOM/Payments_Report_US</members>
 		<members>ReportsforSOM/Payments_report_5w3</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_AU</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_EU_wf8</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_GB</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_JP</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_KR</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_US</members>
+		<members>ReportsforSOM/Shipments_Report_a6T</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_AU</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_EU_0DB</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_JP</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_KR</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_UK_vu7</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>
+		<members>ReportsforSOM/Return_Orders_Finance_3My</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_AU</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_EU_ksT</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_JP_5pZ</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_KR</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_UK_Dvk</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
 		<name>Report</name>
 	</types>
-	<types>
-		
-             <members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
-		<name>Flow</name>
-	</types>
+	
 	<version>60.0</version>
 </Package>
+
 

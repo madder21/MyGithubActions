@@ -230,7 +230,7 @@
                         <valueListItems>
                             <value>OrderSummary.Reship</value>
                             <visibilityRule>
-                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4 AND 5 AND 6 AND 7 AND 8</booleanFilter>
+                                <booleanFilter>( 1 OR 2 OR 3 ) AND 4 AND 5 AND 6 AND 7 AND 8 AND 9</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -264,12 +264,17 @@
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
                                     <operator>NE</operator>
-                                    <rightValue>SOM CSC</rightValue>
+                                    <rightValue>CS  - Team Lead</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>CS - Advisor</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>

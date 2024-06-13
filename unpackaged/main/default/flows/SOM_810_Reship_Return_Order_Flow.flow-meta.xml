@@ -23,7 +23,9 @@
                 <elementReference>REC_ReturnItemsInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>returnReturnOrderItems</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_ADV</name>
@@ -42,10 +44,12 @@
                 <elementReference>OCI_Reservation_SubFlow.C40_Errors_On_Reservation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TranslateReservation</nameSegment>
         <outputParameters>
             <assignToReference>C40_Errors_On_Reservation_TXT</assignToReference>
             <name>outputString</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_OK</name>
@@ -64,10 +68,12 @@
                 <elementReference>OCI_Reservation_SubFlow.C50_OKs_On_Reservation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TranslateReservation</nameSegment>
         <outputParameters>
             <assignToReference>C50_OKs_On_Reservation_TXT</assignToReference>
             <name>outputString</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -1592,6 +1598,7 @@
             <label>❌ OCI Error</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_QTY_Reshiped</name>
         <dataType>Number</dataType>
@@ -2195,8 +2202,8 @@
     <recordRollbacks>
         <name>Failure_Exit</name>
         <label>Failure Exit</label>
-        <locationX>1180</locationX>
-        <locationY>2013</locationY>
+        <locationX>1187</locationX>
+        <locationY>2030</locationY>
         <connector>
             <targetReference>Error_Message</targetReference>
         </connector>
@@ -2384,7 +2391,7 @@
     <screens>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>1182</locationX>
+        <locationX>1306</locationX>
         <locationY>2172</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -2396,7 +2403,7 @@
         </fields>
         <fields>
             <name>Error_Output_Message</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;{!errorMessageTitle}&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;{!errorMessage}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;{!errorMessageTitle}&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;{!errorMessage}ffffffffffffff &lt;/span&gt;{!recordId}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -2417,6 +2424,14 @@
             <name>selectFulfillLocationHeader</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 18px; background-color: rgb(255, 255, 255); color: rgb(62, 62, 60);&quot;&gt;Select the quantity to reship and a fulfillment location.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>HideThisText</name>
+            <extensionName>c:hiddenText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
         <fields>
             <name>fulfillLocationSelection</name>
