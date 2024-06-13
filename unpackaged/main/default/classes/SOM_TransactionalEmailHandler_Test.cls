@@ -156,6 +156,39 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Test.stopTest();
     }
 
+    @IsTest
+    public static void TestgenerateOrderCCAutomaticCancellationTransactionalEmails(){
+        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+
+
+        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+        Set<String> Ids = (new Map<String,OrderSummary>(lOS)).keySet();
+        List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>();
+        List<TransactionalEmail__c> trans1 = new List<TransactionalEmail__c>();
+		trans1 = SOM_TransactionalEmailHandler.generateOrderReadyForPickupTransactionalEmails(Ids);
+        Test.startTest();
+        trans = SOM_TransactionalEmailHandler.generateOrderCCAutomaticCancellationTransactionalEmails(Ids);
+        System.assertNotEquals(0,trans.size(), 'Transactional Email - Order CCAutomaticCancellation Generated' );
+        Test.stopTest();
+    }
+
+    @IsTest
+    public static void TestgenerateOrderCCReminderTransactionalEmails(){
+        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+
+
+        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+        Set<String> Ids = (new Map<String,OrderSummary>(lOS)).keySet();
+        List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>(); 
+        List<TransactionalEmail__c> trans1 = new List<TransactionalEmail__c>();
+		trans1 = SOM_TransactionalEmailHandler.generateOrderReadyForPickupTransactionalEmails(Ids);
+        Test.startTest();
+        trans = SOM_TransactionalEmailHandler.generateOrderCCReminderTransactionalEmails(Ids);
+        System.assertNotEquals(0,trans.size(), 'Transactional Email - Order CC Reminder Generated' );
+        Test.stopTest();
+    }
+
+
 
     @IsTest(seeAllData = true)
     public static void testGenerateOrderReadyForPickupTransactionalEmails(){
