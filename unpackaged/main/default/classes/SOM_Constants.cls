@@ -59,7 +59,6 @@ global with sharing class SOM_Constants {
     public static final String RETURN_ORDER_ITEM_TRIGGER_CONDITION_ID = 'ReturnOrderLineItemTriggerHandler-canUpdateReturnOrderLineItemConditionId';
     public static final String ORDER_SUMMARY_TRIGGER_ON_HOLD          = 'OrderSummaryTriggerHandler-canUpdateOrderSummaryOnHold';
     public static final String RETURN_ORDER_TRIGGER_STATUS            = 'ReturnOrderTriggerHandler-canUpdateReturnOrderStatus';
-    public static final String RETURN_LINE_ITEM_FOLLOW_UP_REFUND      = 'Refund';
 
     public static final String SHIPMENT_CREATED     = 'Created';
     public static final String SHIPMENT_SHIPPED    = 'Shipped';
@@ -119,19 +118,13 @@ global with sharing class SOM_Constants {
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE                = 'Invoice';
     public static final String TRANSACTIONAL_EMAIL_STATUS_TO_SEND                       = 'To send';
 	public static final String TRANSACTIONAL_EMAIL_STATUS_SENT                      	= 'Sent';
-    public static final String TRANSACTIONAL_EMAIL_STATUS_DRAFT                      	= 'Draft';
     
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED          = 'OrderCanceled';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED          = 'OrderCreated';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED        = 'ReturnReceived';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP = 'OrderReadyForPickup';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED         = 'ReturnCreated';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION    = 'RefundConfirmation';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT = 'RefundValidationMissingProduct';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL   = 'C&CAutomaticOrderCancellation';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER      = 'C&CReminder';
-	public static final String Rimowa_URL = 'https://rimowa.com/';
-	public static final String STORELOCATOR_URL = 'storelocator';
 
     public static final String INVOICE_POSTED  = 'Posted';
     public static final String CREDITMEMOLINE_CHARGE_TYPE = 'Charge';

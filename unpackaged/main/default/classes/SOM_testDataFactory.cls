@@ -14,7 +14,6 @@ public class SOM_testDataFactory {
     * @return Account 
     **/
 
-    
     public enum OrderType {MIXTE, STANDARD, PREORDER}
     
     public static STWDeliveryMethod__c createStoreOrigin(string storeOrigin) {
