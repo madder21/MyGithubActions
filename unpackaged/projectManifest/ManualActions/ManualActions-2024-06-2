@@ -1,0 +1,23 @@
+
+* Ticket : SOM-1056
+    - OrderSummary.TE_Created_Date__c : visible for all profiles
+    - OrderSummary.TE_Cancellation_Date__c : visible for all profiles
+    - Create Custom Setting : STW_URL__c
+    - Deactivate the FLOW SOM : 641 Order Ready for Pickup - Transactional Email
+
+
+
+* Ticket : SOM-955 
+    - Report's Folder :  E-Commerce Reports -> Edit the Share folder so that all internal users can have the access
+    - Edit the PS SOM - Identity - NameCredentials : External Credential Principal Access : InvoiceDocumentMulesoftEndpoint - SOM_Additional_Permissions_aaFtBWf1677178879928
+
+    - Make sure the Shring Settings are managed for Process exception Object:
+    Object	                    Default Internal            Access	Default External Access	            Grant Access Using Hierarchies
+-    Process Exception	         Public Read/Write	        Public Read/Write	                        Checked
+- Alternative Payment Method      Public Read/Write	        Public Read/Write	                        Checked
+- Activate Credit Memo Record Page for all Profiles
+
+* Ticket : SOM-851 
+    - TransactionalEmail__c.bccEmail__c : Visible for all profiles
+
+
