@@ -13,4 +13,7 @@ public with sharing class SOM_Wr_ShipmentTranslation {
     public Datetime dispatchDate;
     @AuraEnabled
     public String deliveryMethod;
+    @AuraEnabled
+    public String sku10Digits;
+
 }
