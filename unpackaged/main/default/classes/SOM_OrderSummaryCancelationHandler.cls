@@ -33,7 +33,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
         List<Id> seOfFulfillmentOrderIds = new List<Id>();
         Map<Id, Refund> refundToPrepareByOsId = new Map<Id, Refund>();
         Map<Id, OrderSummary> listosToUpdate = new Map<Id, OrderSummary>();
-        
+        Set<String> OrderSummaryNum = new Set<String>();
 
 
         //Get request data
@@ -250,6 +250,16 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                     
                 }
                 
+                //Generate Transactional Email 
+                for(PickupCancelResponse pickUpLine : listPickUpResponse ){
+                    if((pickUpLine.errorMessage == null || pickUpLine.errorMessage == '') && pickUpLine.orderSummaryStatus == 'Canceled'){
+                    	OrderSummaryNum.add(pickUpLine.orderSummaryNumber);    
+                    }
+                }
+                if( !OrderSummaryNum.isEmpty()){
+                	GenerateTransactionalEmail(OrderSummaryNum);
+                }
+                
                 response.statusCode = 200;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => listPickUpResponse
@@ -276,6 +286,22 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
         }
     }
 
+		/*
+            DESCRIPTION : this method used for creating transactional email of Canceling C&C orders in Cegid
+        */
+        public static void GenerateTransactionalEmail(Set<String> OrderSummaryNum) {
+        	Map<Id, OrderSummary> orderSummariesMap = new Map<Id, OrderSummary>([SELECT Id FROM OrderSummary WHERE OrderNumber IN :OrderSummaryNum]);
+            List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputsList = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
+            for (String OSId : orderSummariesMap.keySet()) {
+                SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
+                generateTransactionalEmailInput.templateName = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED;
+                generateTransactionalEmailInput.recordId     = OSId;
+                generateTransactionalEmailInputsList.add(generateTransactionalEmailInput);
+                
+            }
+            SOM_TransactionalEmailHandler.generateTransactionalEmail(generateTransactionalEmailInputsList);
+        }
+    
 
     
     public class PickupCancelRequest{
