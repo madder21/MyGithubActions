@@ -87,7 +87,7 @@
             <name>output</name>
         </outputParameters>
     </actionCalls>
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>61.0</apiVersion>
     <assignments>
         <name>Assign_Id_to_Collection</name>
         <label>Assign Id to Collection</label>
@@ -498,7 +498,7 @@
     <formulas>
         <name>SKU_Error</name>
         <dataType>Boolean</dataType>
-        <expression>IF(OR({!Sku_10_Digits} == null,LEN({!Sku_10_Digits}) != 10), true, false)</expression>
+        <expression>OR( ISBLANK({!Sku_10_Digits}), LEN({!Sku_10_Digits}) != 10 )</expression>
     </formulas>
     <interviewLabel>SOM 990 Manual Shipment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 990 Manual Shipment</label>
@@ -1043,38 +1043,6 @@
                     </rightValue>
                 </conditions>
             </visibilityRule>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>testtt</name>
-        <label>testtt</label>
-        <locationX>1023</locationX>
-        <locationY>1074</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>testwr</name>
-            <fieldText>&lt;p&gt;{!C_Wr_shipments}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;-----------------&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;{!V_translatedShip}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>testtttt</name>
-        <label>test</label>
-        <locationX>1111</locationX>
-        <locationY>1077</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>test</name>
-            <fieldText>&lt;p&gt;{!C_SelectedFOLIS}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
