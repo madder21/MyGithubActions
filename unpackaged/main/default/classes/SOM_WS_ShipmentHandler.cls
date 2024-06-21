@@ -324,7 +324,7 @@ global with sharing class SOM_WS_ShipmentHandler {
                                         List<FulfillmentOrderLineItem> foLineItems,
                                         WMS_Article wmsArticle,
                                         WMS_ShipmentData wmsShipmentLine){
-        if (wmsArticle.Sku10Digits == null || wmsArticle.Sku10Digits.length() !=10) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + '. The field sku10Digits is empty or contains more or less than 10 digits.';
+        if (!String.isBlank(wmsArticle.Sku10Digits) && wmsArticle.Sku10Digits.length() !=10) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + '. The field sku10Digits contains more or less than 10 digits.';
         if (foLineItems == null || foLineItems.isEmpty()) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' No product exist target SKU ' + wmsArticle.productSKU;
         if (foLineItems[0].OrderItemSummary.isSerialized__c && (wmsArticle.serialNumber == null || wmsArticle.serialNumber.isEmpty())) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'Missing serialNumbers for serialized product with this SKU ' + wmsArticle.productSKU; 
         if (!foLineItems[0].OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'No serialNumber should provided for a non serialized product with this SKU ' + wmsArticle.productSKU;
