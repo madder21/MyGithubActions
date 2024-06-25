@@ -87,7 +87,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
         List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> inputs = createInputs();
         SOM_TransactionalEmailHandler.generateTransactionalEmail(inputs);
-        List<TransactionalEmail__c> transactionalEmailsAfter = [SELECT Id FROM TransactionalEmail__c];
+        List<TransactionalEmail__c> transactionalEmailsAfter = [SELECT Id FROM TransactionalEmail__c limit 1];
         System.assertNotEquals(0,transactionalEmailsAfter.size(), 'Transactional Email Generated');
 
         Test.stopTest();
