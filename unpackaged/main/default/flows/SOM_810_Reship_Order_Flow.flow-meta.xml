@@ -1953,6 +1953,14 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
+            <name>HideThisText</name>
+            <extensionName>c:hiddenText</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
             <name>fulfillLocationSelection</name>
             <extensionName>runtime_commerce_oms:locationWrapper</extensionName>
             <fieldType>ComponentInstance</fieldType>

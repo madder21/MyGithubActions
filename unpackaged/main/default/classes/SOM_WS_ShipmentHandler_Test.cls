@@ -30,6 +30,7 @@ private class SOM_WS_ShipmentHandler_Test {
                 article.productSKU = foli.Product2.StockKeepingUnit;
                 article.qty = Integer.valueOf(foli.Quantity);
                 article.serialNumber = null;
+                article.Sku10Digits  = '1010101010';
                 if(foli.OrderItemSummary.isSerialized__c){
                     for(Integer i = 0; i<foli.Quantity; i++){
                         if(article.serialNumber != null){

@@ -23,6 +23,9 @@ public with sharing class SOM_Wr_ShipmentShipmentItems {
     @InvocableVariable @AuraEnabled
     public String osItemId;
     @InvocableVariable @AuraEnabled
-    public String serialNumber; // concatenated
+    public String serialNumber;         // concatenated
+    @InvocableVariable @AuraEnabled
+    public String sku10Digits;         
+
 
 }

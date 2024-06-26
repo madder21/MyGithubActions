@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata"> 
+	<types>
+	        <members>SOM_CreateShipment</members>
+		<members>SOM_TranslateShipment</members>
+		<members>SOM_Wr_ShipmentShipmentItems</members>
+		<members>SOM_Wr_ShipmentTranslation</members>
+		<members>SOM_WS_ShipmentHandler</members>
+		<members>SOM_WS_ShipmentHandler_Test</members>
+
+		<name>ApexClass</name>
+	</types>
+	<types>
+	
+		<members>SOM_810_Reship_Order_Flow</members>
+		<members>SOM_990_Manual_Shipment</members>
+		<members>SOM_945_Manage_Process_Exceptions</members>
+		<name>Flow</name>
+	</types>
+	<types>
+		
+		<members>ShipmentItem.Sku10Digits__c</members>
+		<name>CustomField</name>
+	</types>
+ 
+	<types>
+		
+		<members>ShipmentItem-Shipment Item Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+	  <members>ReportsforSOM/E_Commerce_Payment_Capture_Errors_JP</members>
+		<name>Report</name>        
+       </types>
+	<types>
+	<members>ProcessException.all_process_exceptions</members>
+	<name>ListView</name>
+</types>
+	
+  
+	<version>61.0</version>
+
+</Package>

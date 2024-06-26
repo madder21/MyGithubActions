@@ -141,11 +141,11 @@ global with sharing class SOM_WS_ShipmentHandler {
                     if(wmsArticle.serialNumber != null){
                         //Loop over serial Numbers
                         for(String serialNumber : wmsArticle.serialNumber){
-                            createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,Integer.valueOf(wmsArticle.qty/wmsArticle.serialNumber.size()), serialNumber, listShipItemToInsertByWmsExtrId);         
+                            createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,Integer.valueOf(wmsArticle.qty/wmsArticle.serialNumber.size()), serialNumber, listShipItemToInsertByWmsExtrId, wmsArticle.Sku10Digits);         
                         }
                         continue;                                  
                     }
-                    createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,wmsArticle.qty, null, listShipItemToInsertByWmsExtrId); 
+                    createShipmentItemAndPopulateMap(wmsShipmentLine, foliLines, totalExistingShipmentItemsByFoliId ,wmsArticle.qty, null, listShipItemToInsertByWmsExtrId, wmsArticle.Sku10Digits); 
                 }
                 //populate shipments to insert
                 shipmentToInsertBySpExternalId.put(wmsShipmentLine.WMSshipmentId, shipmentsByWmsExternalId.get(wmsShipmentLine.WMSshipmentId));
@@ -324,6 +324,7 @@ global with sharing class SOM_WS_ShipmentHandler {
                                         List<FulfillmentOrderLineItem> foLineItems,
                                         WMS_Article wmsArticle,
                                         WMS_ShipmentData wmsShipmentLine){
+        if (!String.isBlank(wmsArticle.Sku10Digits) && wmsArticle.Sku10Digits.length() !=10) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + '. The field sku10Digits contains more or less than 10 digits.';
         if (foLineItems == null || foLineItems.isEmpty()) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' No product exist target SKU ' + wmsArticle.productSKU;
         if (foLineItems[0].OrderItemSummary.isSerialized__c && (wmsArticle.serialNumber == null || wmsArticle.serialNumber.isEmpty())) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'Missing serialNumbers for serialized product with this SKU ' + wmsArticle.productSKU; 
         if (!foLineItems[0].OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'No serialNumber should provided for a non serialized product with this SKU ' + wmsArticle.productSKU;
@@ -495,7 +496,8 @@ global with sharing class SOM_WS_ShipmentHandler {
                                                 Map<Id, Integer> totalExistingShipmentItemsByFoliId, 
                                                 Integer quantity, 
                                                 String serialNumber,
-                                                Map<String, List<ShipmentItem>> listShipItemToInsertByWmsExtrId){
+                                                Map<String, List<ShipmentItem>> listShipItemToInsertByWmsExtrId,
+                                                String Sku10Digits){
         Integer quantityToProcess = quantity;
         List<ShipmentItem> shipmentLines = new List<ShipmentItem>();
         for(FulfillmentOrderLineItem foliLine: foliLines){
@@ -510,7 +512,7 @@ global with sharing class SOM_WS_ShipmentHandler {
                                             ? Integer.valueOf(foliLine.quantity - totalExistingShipmentQty)
                                             :quantityToProcess;
                 if(shipmentLineQty > 0){
-                    shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber));
+                    shipmentLines.add(createShipmentItemRecord(foliLine, shipmentLineQty, serialNumber,Sku10Digits ));
                     quantityToProcess = quantityToProcess - shipmentLineQty;
                     if(totalExistingShipmentItemsByFoliId.containskey(foliLine.Id)){
                         totalExistingShipmentItemsByFoliId.put(
@@ -542,13 +544,14 @@ global with sharing class SOM_WS_ShipmentHandler {
      * @param  serialNumber serialNumber     : serial number attached to shipment item
      * @return              return           : shipment item
      */
-    private static ShipmentItem createShipmentItemRecord(FulfillmentOrderLineItem foliLine, Integer quantity, String serialNumber){
+    private static ShipmentItem createShipmentItemRecord(FulfillmentOrderLineItem foliLine, Integer quantity, String serialNumber, String Sku10Digits){
         ShipmentItem shipmentLine               = new ShipmentItem();
         shipmentLine.Product2Id                 = foliLine.Product2Id;
         shipmentLine.Quantity                   = quantity;
         shipmentLine.FulfillmentOrderLineItemId = foliLine.Id;
         shipmentLine.SerialNumber__c            = serialNumber;
         shipmentLine.OrderItemSummaryId         = foliLine.OrderItemSummaryId;
+        shipmentLine.Sku10Digits__c         	= Sku10Digits;
 
         return shipmentLine;
     }
@@ -608,6 +611,7 @@ global with sharing class SOM_WS_ShipmentHandler {
 
     public class WMS_Article {
         public String productSKU;
+        public String Sku10Digits;
         public Integer qty;
         public List<String> serialNumber;
     }

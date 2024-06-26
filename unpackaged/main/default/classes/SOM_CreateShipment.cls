@@ -80,6 +80,7 @@ public with sharing class SOM_CreateShipment {
                     shipmentLine.Product2Id                 = input.productId;
                     shipmentLine.FulfillmentOrderLineItemId = input.foliId;
                     shipmentLine.OrderItemSummaryId         = input.osItemId; 
+                    shipmentLine.Sku10Digits__c         	= input.sku10Digits; 
                     if(mapExtShipItem.containsKey(input.trackingNumber + input.orderMethodId)){
                         mapExtShipItem.get(input.trackingNumber + input.orderMethodId).add(shipmentLine);
                     }else{
@@ -94,6 +95,7 @@ public with sharing class SOM_CreateShipment {
                 shipmentLine.FulfillmentOrderLineItemId = input.foliId;
                 shipmentLine.OrderItemSummaryId         = input.osItemId; 
                 shipmentLine.Quantity                   = input.quantity;  
+                shipmentLine.Sku10Digits__c             = input.sku10Digits;  
                 if(mapExtShipItem.containsKey(input.trackingNumber + input.orderMethodId)){
                     mapExtShipItem.get(input.trackingNumber + input.orderMethodId).add(shipmentLine);
                 }else{
