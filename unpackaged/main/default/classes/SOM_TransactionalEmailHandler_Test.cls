@@ -87,7 +87,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
         List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> inputs = createInputs();
         SOM_TransactionalEmailHandler.generateTransactionalEmail(inputs);
-        List<TransactionalEmail__c> transactionalEmailsAfter = [SELECT Id FROM TransactionalEmail__c];
+        List<TransactionalEmail__c> transactionalEmailsAfter = [SELECT Id FROM TransactionalEmail__c limit 1];
         System.assertNotEquals(0,transactionalEmailsAfter.size(), 'Transactional Email Generated');
 
         Test.stopTest();
@@ -120,45 +120,61 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Test.startTest();
         trans = SOM_TransactionalEmailHandler.generateOrderCanceledTransactionalEmails(Ids);
         System.assertNotEquals(0,trans.size(), 'Transactional Email - Order Generated' );
-        System.assertEquals('Draft',trans[0].Status__c, 'Transactional Email - Draft Status' );
+        System.assertEquals('To send',trans[0].Status__c, 'Transactional Email - To send Status' );
         Test.stopTest();
     }
     
-   
-   
-
-    @IsTest
+    @IsTest(seeAllData = true)
     public static void TestgenerateOrderCCAutomaticCancellationTransactionalEmails(){
-        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+       // createInputs();
+        //SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
 
 
-        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+       // List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+        
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,1);
+        FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
+        List<FulfillmentOrder> lFO = [SELECT Id,DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
+        FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
+        FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
+                    (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
+                    OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
+                    FROM FulfillmentOrder WHERE OrderSummaryId =: lOS[0].Id];
+
+         
+        
         Set<String> Ids = (new Map<String,OrderSummary>(lOS)).keySet();
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>();
         List<TransactionalEmail__c> trans1 = new List<TransactionalEmail__c>();
-		trans1 = SOM_TransactionalEmailHandler.generateOrderReadyForPickupTransactionalEmails(Ids);
-        Test.startTest();
+		Test.startTest();
+        trans1 = SOM_TransactionalEmailHandler.generateOrderReadyForPickupTransactionalEmails(Ids);
+        insert trans1;
         trans = SOM_TransactionalEmailHandler.generateOrderCCAutomaticCancellationTransactionalEmails(Ids);
         System.assertNotEquals(0,trans.size(), 'Transactional Email - Order CCAutomaticCancellation Generated' );
         Test.stopTest();
     }
 
-    @IsTest
+    @IsTest(seeAllData = true)
     public static void TestgenerateOrderCCReminderTransactionalEmails(){
-        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
-
-
-        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,1);
+        FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
+        List<FulfillmentOrder> lFO = [SELECT Id,DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
+        FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
+        FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
+                    (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
+                    OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
+                    FROM FulfillmentOrder WHERE OrderSummaryId =: lOS[0].Id];
         Set<String> Ids = (new Map<String,OrderSummary>(lOS)).keySet();
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>(); 
         List<TransactionalEmail__c> trans1 = new List<TransactionalEmail__c>();
 		trans1 = SOM_TransactionalEmailHandler.generateOrderReadyForPickupTransactionalEmails(Ids);
+        System.debug('trans1' + trans1);
         Test.startTest();
+        insert trans1;
         trans = SOM_TransactionalEmailHandler.generateOrderCCReminderTransactionalEmails(Ids);
         System.assertNotEquals(0,trans.size(), 'Transactional Email - Order CC Reminder Generated' );
         Test.stopTest();
     }
-
 
 
     @IsTest(seeAllData = true)
