@@ -12,7 +12,7 @@ public with sharing class SOM_USReportMonthSchedule Implements Schedulable {
             DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
             String firstDay = firstDayOfLastMonth.format('MM/dd/yyyy');
             
-            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'walid.abidi@devoteam.com' limit 1];
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
             
             DateTime lastDayOfLastMonth  = firstDayOfLastMonth.addDays(Date.daysInMonth(firstDayOfLastMonth.year(), firstDayOfLastMonth.month()) - 1);
             String lastDay = lastDayOfLastMonth.format('MM/dd/yyyy');
