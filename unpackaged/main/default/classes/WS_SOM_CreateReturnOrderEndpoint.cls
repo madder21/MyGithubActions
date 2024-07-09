@@ -138,6 +138,8 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             roLineItem.ConditionId__c   = returnOrderItemCreateUpdate.conditionId;
                         if (returnOrderItemCreateUpdate.reasonFreeText != null && returnOrderItemCreateUpdate.reasonFreeText.length() > 0)    
                             roLineItem.AdditionalReturnReason__c = returnOrderItemCreateUpdate.reasonFreeText;
+                        if (returnOrderItemCreateUpdate.sku10Digits != null && returnOrderItemCreateUpdate.sku10Digits.length() > 0)    
+                            roLineItem.Sku_10_Digits__c = returnOrderItemCreateUpdate.sku10Digits;
                         if (returnOrderItemCreateUpdate.serialNumbers != null){
                             List<String> srls = new List<String>();
                             for(Integer q = 0 ; q < roLineItem.QuantityExpected ; q++){
@@ -270,7 +272,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         List<ReturnOrder> returnOrdersToUpdateList = new List<ReturnOrder>();
         List<ReturnOrderLineItem> returnOrderLineItemsToUpdateList = new List<ReturnOrderLineItem>(returnOrderLineItemsList);                    
         if (returnOrderToUpdateMap.size() > 0) {
-            List<ReturnOrder> returnOrders = [SELECT Id, ReturnOrderNumber, ReturnDate__c, ReturnOrigin__c, DestinationLocationId, SourceLocationId, OrderSummary.OrderNumber, (SELECT Id, AdditionalReturnReason__c, ConditionId__c, Product2.StockKeepingUnit FROM ReturnOrderLineItems) FROM ReturnOrder WHERE Id=:returnOrderToUpdateMap.keySet()];
+            List<ReturnOrder> returnOrders = [SELECT Id, ReturnOrderNumber, ReturnDate__c, ReturnOrigin__c, DestinationLocationId, SourceLocationId, OrderSummary.OrderNumber, (SELECT Id,Sku_10_Digits__c, AdditionalReturnReason__c, ConditionId__c, Product2.StockKeepingUnit FROM ReturnOrderLineItems) FROM ReturnOrder WHERE Id=:returnOrderToUpdateMap.keySet()];
             if (returnOrders != null && !returnOrders.isEmpty()) {
                 for(ReturnOrder returnOrderToUpdate:returnOrders) {
                     ReturnOrderCreateUpdateRequest req = returnOrderToUpdateMap.get(returnOrderToUpdate.Id);
@@ -295,6 +297,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                     lineItem.SerialNumber__c = String.join(returnOrderItemRequest.serialNumbers, SERIAL_NUMBER_CONCAT_CHARACTER);
                                 } 
                                 lineItem.AdditionalReturnReason__c = returnOrderItemRequest.reasonFreeText;
+                                lineItem.Sku_10_Digits__c = returnOrderItemRequest.sku10Digits;
                                 returnOrderLineItemsToUpdateList.add(lineItem);
                             }
                             ReturnOrderLineItemList.add(lineItem);
@@ -680,9 +683,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         if (returnOrderItemCreateUpdate.quantity == null || returnOrderItemCreateUpdate.quantity <=0)
             return 'Return Order Item quantity must be greater than 0.';
         if (returnOrderItemCreateUpdate.conditionId == null || !returnOrderItemConditionValues.contains(returnOrderItemCreateUpdate.conditionId?.toLowercase().capitalize()))
-
             return 'Return Order Item condition is not valid: ' + returnOrderItemCreateUpdate.conditionId;
-
+		if (returnOrderItemCreateUpdate.sku10Digits != null && !String.isBlank(returnOrderItemCreateUpdate.sku10Digits) && returnOrderItemCreateUpdate.sku10Digits.length() != 10 )
+            return 'The field sku10Digits contains more or less than 10 digits.';
         if (returnOrderItemCreateUpdate.reasonCode != null && !returnOrderItemReasonForReturnValues.contains(returnOrderItemCreateUpdate.reasonCode))
             return 'Return Order Item reason code: '+returnOrderItemCreateUpdate.reasonCode+' is not valid.';
         if (orderShipmentItem == null)
@@ -716,7 +719,8 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         public String       conditionId;
         public List<String> serialNumbers;
         public String       reasonCode;
-        public String       reasonFreeText;  
+        public String       reasonFreeText; 
+        public String 		sku10Digits;
     }
 
     global with sharing class ReturnOrderCreateUpdateResponse{
