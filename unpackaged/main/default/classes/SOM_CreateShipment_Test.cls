@@ -34,5 +34,20 @@ public with sharing class SOM_CreateShipment_Test {
         listeShipmentItems.add(ship);
         listeShipmentItemsData.add(listeShipmentItems);
     }
+ @isTest(seeAllData = true)
+    public static void CreateShipmentAndShipmentItemsTest() {
+        makeData();
+        Test.startTest();
+            SOM_CreateShipment.CreateShipmentAndShipmentItems(listeShipmentItemsData);
+        Test.stopTest();
+    }
 
+    @isTest(seeAllData = true)
+    public static void CreateShipmentAndShipmentItemsTestSerialNull() {
+        serialNumberNull = true ;
+        makeData();
+        Test.startTest();
+            SOM_CreateShipment.CreateShipmentAndShipmentItems(listeShipmentItemsData);
+        Test.stopTest();
+    }
 }
