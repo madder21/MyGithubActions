@@ -20,7 +20,9 @@
                 <elementReference>S_RO_InputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createReturnOrder</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Return_Order_Item_Summaries_Preview</name>
@@ -48,10 +50,12 @@
                 <elementReference>changeInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>returnOrderItemSummariesPreview</nameSegment>
         <outputParameters>
             <assignToReference>previewReturnOutput</assignToReference>
             <name>previewReturnOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -211,8 +215,8 @@
     <assignments>
         <name>Assign_Single_Roli_Data</name>
         <label>Assign Single Roli Data</label>
-        <locationX>3030</locationX>
-        <locationY>886</locationY>
+        <locationX>3002</locationX>
+        <locationY>860</locationY>
         <assignmentItems>
             <assignToReference>S_ROLI_Record.Id</assignToReference>
             <operator>Assign</operator>
@@ -239,6 +243,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>L20_Loop_Over_OIS.Description</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>S_ROLI_Record.Sku_10_Digits__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_ShipmentItem.Sku10Digits__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1127,7 +1138,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_Single_Roli_Data</targetReference>
+                <targetReference>Get_ShipmentItem</targetReference>
             </connector>
             <label>Yes ROLI Match OIS</label>
         </rules>
@@ -1265,6 +1276,7 @@
         <picklistField>ReasonForReturn</picklistField>
         <picklistObject>ReturnOrderLineItem</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>FX_ChangeItem_Reason</name>
         <dataType>String</dataType>
@@ -1479,7 +1491,7 @@
     <recordLookups>
         <name>Get_Inserted_ROLIs</name>
         <label>Get Inserted ROLIs</label>
-        <locationX>2952</locationX>
+        <locationX>2951</locationX>
         <locationY>490</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1594,6 +1606,27 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ShipmentItem</name>
+        <label>Get ShipmentItem</label>
+        <locationX>3075</locationX>
+        <locationY>981</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Single_Roli_Data</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderItemSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>L20_Loop_Over_OIS.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ShipmentItem</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
@@ -1999,6 +2032,7 @@
                     </defaultValue>
                     <fieldText>Warehouse Id</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2026,6 +2060,7 @@
                     </defaultValue>
                     <fieldText>Return Origin</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
