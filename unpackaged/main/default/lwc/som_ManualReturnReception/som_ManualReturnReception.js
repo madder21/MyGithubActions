@@ -175,6 +175,9 @@ export default class Som_ManualReturnReception extends LightningElement {
             const newQuantityValue = parseInt(event.target.value);
             var lineItem = this.customData.filter(element => element.Id === lineId);
             const receivedQte = lineItem[0].QuantityReceived;
+            // if(newQuantityValue === 0){
+            //     this.displayWarningMessage('Quantity Received should be greater than 0 ','Bad value for Quantity Received');
+            // }
             lineItem[0].QuantityReceived = newQuantityValue;
 
             this.endLoading();
@@ -251,7 +254,7 @@ export default class Som_ManualReturnReception extends LightningElement {
                     Id: existLine.Id,
                     OrderItemSummaryId: existLine.OrderItemSummaryId,
                     QuantityReceived: existLine.QuantityReceived,
-                    QuantityExpected: existLine.QuantityReceived,
+                    //QuantityExpected: existLine.QuantityReceived,
                     RepaymentMethod: existLine.RepaymentMethod,
                     ReturnOrderLineItemNumber: existLine.ReturnOrderLineItemNumber,
                     Sku__c: existLine.Sku__c,
