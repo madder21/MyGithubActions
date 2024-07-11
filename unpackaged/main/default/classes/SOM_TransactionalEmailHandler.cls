@@ -871,7 +871,6 @@ lineItem.taxRate = item.TaxRate__c;
             orderTemplateContent.items = new List<Order_Item>();
             
             
-            
             if(!orderSumm.OrderItemSummaries?.isEmpty()){
                 for(OrderItemSummary orderItemSumm : orderSumm.OrderItemSummaries){
                     Order_Item lineItem = new Order_Item();
@@ -889,7 +888,7 @@ lineItem.taxRate = item.TaxRate__c;
             
             TransactionalEmail__c orderTransactionalEmail = new TransactionalEmail__c();
             orderTransactionalEmail.Template__c     = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED;
-            orderTransactionalEmail.Status__c       = SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_DRAFT;
+            orderTransactionalEmail.Status__c       = SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_TO_SEND;
             orderTransactionalEmail.OrderSummary__c = orderSumm.Id;
             orderTransactionalEmail.Client__c       = orderSumm.AccountId;
             orderTransactionalEmail.EmailContent__c = JSON.serializePretty(orderTemplateContent, true);

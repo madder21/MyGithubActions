@@ -120,7 +120,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Test.startTest();
         trans = SOM_TransactionalEmailHandler.generateOrderCanceledTransactionalEmails(Ids);
         System.assertNotEquals(0,trans.size(), 'Transactional Email - Order Generated' );
-        System.assertEquals('Draft',trans[0].Status__c, 'Transactional Email - Draft Status' );
+        System.assertEquals('To send',trans[0].Status__c, 'Transactional Email - To send Status' );
         Test.stopTest();
     }
     

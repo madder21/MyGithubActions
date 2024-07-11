@@ -6,7 +6,6 @@
         <locationX>2688</locationX>
         <locationY>1095</locationY>
         <actionName>cancelFulfillmentOrderItem</actionName>
-        
         <actionType>cancelFulfillmentOrderItem</actionType>
         <connector>
             <targetReference>Iterate_Over_Fulfillment_Order_Line_Items</targetReference>
@@ -53,30 +52,6 @@
             <assignToReference>CancelOutputRepresentation</assignToReference>
             <name>submitCancelOutput</name>
         </outputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Generate_Transactional_Email</name>
-        <label>Generate Transactional Email</label>
-        <locationX>1912</locationX>
-        <locationY>424</locationY>
-        <actionName>SOM_TransactionalEmailHandler</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Confirm_Delete</targetReference>
-        </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>recordId.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>templateName</name>
-            <value>
-                <stringValue>OrderCanceled</stringValue>
-            </value>
-        </inputParameters>
     </actionCalls>
     <actionCalls>
         <name>Generate_Uuid_Value</name>
@@ -735,7 +710,7 @@
             <targetReference>Set_Unresolved_PEs_c_to_0</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Update_TE</targetReference>
+            <targetReference>Success_Screen</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -1001,44 +976,6 @@
         </connector>
         <inputReference>ProcessExceptionList</inputReference>
     </recordUpdates>
-    <recordUpdates>
-        <name>Update_TE</name>
-        <label>Update TE</label>
-        <locationX>273</locationX>
-        <locationY>469</locationY>
-        <connector>
-            <targetReference>Success_Screen</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>OrderSummary__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Draft</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Template__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>OrderCanceled</stringValue>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Status__c</field>
-            <value>
-                <stringValue>To send</stringValue>
-            </value>
-        </inputAssignments>
-        <object>TransactionalEmail__c</object>
-    </recordUpdates>
     <runInMode>DefaultMode</runInMode>
     <screens>
         <name>Confirmation_Screen</name>
@@ -1049,7 +986,7 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Generate_Transactional_Email</targetReference>
+            <targetReference>Confirm_Delete</targetReference>
         </connector>
         <fields>
             <name>Confirmation_Message</name>

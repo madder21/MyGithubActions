@@ -8,7 +8,6 @@
         <actionName>SOM_TransactionalEmailHandler</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        
         <inputParameters>
             <name>recordId</name>
             <value>
@@ -19,27 +18,6 @@
             <name>templateName</name>
             <value>
                 <stringValue>C&amp;CReminder</stringValue>
-            </value>
-        </inputParameters>
-    </actionCalls>
-    <actionCalls>
-        <name>Generate_Transactional_Email_0</name>
-        <label>Generate Transactional Email</label>
-        <locationX>702</locationX>
-        <locationY>601</locationY>
-        <actionName>SOM_TransactionalEmailHandler</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>recordId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>templateName</name>
-            <value>
-                <stringValue>C&amp;CAutomaticOrderCancellation</stringValue>
             </value>
         </inputParameters>
     </actionCalls>
@@ -237,7 +215,7 @@
                 <targetReference>Generate_Transactional_Email</targetReference>
             </connector>
             <label>Send Reminder</label>
-            <offsetNumber>2</offsetNumber>
+            <offsetNumber>0</offsetNumber>
             <offsetUnit>Minutes</offsetUnit>
             <recordField>TE_Created_Date__c</recordField>
             <timeSource>RecordField</timeSource>
@@ -259,8 +237,8 @@
                 <targetReference>Check_OS_Status</targetReference>
             </connector>
             <label>Update TE Path</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
+            <offsetNumber>2</offsetNumber>
+            <offsetUnit>Minutes</offsetUnit>
             <recordField>TE_Created_Date__c</recordField>
             <timeSource>RecordField</timeSource>
         </scheduledPaths>
@@ -272,9 +250,6 @@
         <label>SOM - Cancel C&amp;C Order Summary</label>
         <locationX>814</locationX>
         <locationY>496</locationY>
-        <connector>
-            <targetReference>Generate_Transactional_Email_0</targetReference>
-        </connector>
         <flowName>SOM_Cancel_C_C_Order_Summary</flowName>
         <inputAssignments>
             <name>recordId</name>
