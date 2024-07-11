@@ -683,13 +683,13 @@ public class SOM_testDataFactory {
         Account account = createAccount('test.user@rimowa.com');
         //Create products
         //Order Product 
-        Product2 product = createProduct('produit 1', '10012002', 'sku10001',true);
+        Product2 product = createProduct('produit 1', '100120102', 'sku1000s1',true);
         listProducts.add(product);
         //Shipping Product 
-        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku10002',false);
+        Product2 product2 = createProduct('Standard delivery', 'ProductCode1','sku1000s2',false);
         listProducts.add(product2);
         //Order Product 
-        Product2 product3 = createProduct('produit 3', '10013003', 'sku10003',false);
+        Product2 product3 = createProduct('produit 23', '100130013', 'sku1000s3',false);
         listProducts.add(product3);
         insert listProducts;
         //Get getStandardPricebookId
@@ -735,7 +735,7 @@ public class SOM_testDataFactory {
             CardPaymentMethod cardPayMethod = createCardPaymentMethod(account.Id, 'CreditCard', 'Visa');
             listCardPayMethodbyOrderId.put(createdOrder.Id, cardPayMethod);
             //Create OrderDeliveryMethod
-            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standard_AE',listProducts[1].Id,'standard_AE');
+            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standardAE',listProducts[1].Id,'standardAE');
             listOrderDlvryMthdByOrderId.put(createdOrder.Id, oDeliveryMethod);
         }
         insert listPaymentGrpsByOrderId.values();
