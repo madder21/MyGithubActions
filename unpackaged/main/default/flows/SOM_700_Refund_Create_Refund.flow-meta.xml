@@ -23,10 +23,12 @@
                 <elementReference>Get_RO_Record.OrderSummaryId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>adjustOrderItemSummariesSubmit</nameSegment>
         <outputParameters>
             <assignToReference>S_adjustShippingOutputRepresentation</assignToReference>
             <name>adjustOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Create_Credit_Memo</name>
@@ -54,10 +56,12 @@
                 <elementReference>Get_RO_Record.OrderSummaryId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createCreditMemoOrderSummary</nameSegment>
         <outputParameters>
             <assignToReference>S_CreateCreditMemoOutputRepresentation</assignToReference>
             <name>creditMemoOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>ensure_Refunds</name>
@@ -82,7 +86,9 @@
                 <elementReference>Get_RO_Record.OrderSummaryId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ensureRefundsOrderSummaryAsync</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Return_Return_Order_Items</name>
@@ -94,9 +100,6 @@
         <connector>
             <targetReference>Assign_Credit_Memo_Data</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>returnItemsInput</name>
@@ -110,10 +113,12 @@
                 <elementReference>Get_RO_Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>returnReturnOrderItems</nameSegment>
         <outputParameters>
             <assignToReference>S_ReturnItemsOutputRepresentation</assignToReference>
             <name>returnItemsOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -759,6 +764,7 @@
             <label>Exist</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>AllowingTheShippingFeeRefundValue</name>
         <dataType>Boolean</dataType>
@@ -925,9 +931,6 @@
         <connector>
             <targetReference>Update_Return_Order</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
         <inputAssignments>
             <field>AccountId</field>
             <value>
@@ -1002,40 +1005,6 @@
         </inputAssignments>
         <object>Refund</object>
     </recordCreates>
-    <recordCreates>
-        <name>Public_New_CM_for_Cegid</name>
-        <label>Public New CM for Cegid</label>
-        <locationX>2052</locationX>
-        <locationY>2338</locationY>
-        <connector>
-            <targetReference>Close_Return_Order</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>CreditMemoId__c</field>
-            <value>
-                <elementReference>Get_CreditMemo_Reocord.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>NewCreditMemoForCegid__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Publish_Created_Credit_Memo_Event</name>
-        <label>Publish Created Credit Memo Event</label>
-        <locationX>1910</locationX>
-        <locationY>2337</locationY>
-        <connector>
-            <targetReference>Public_New_CM_for_Cegid</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>CreditMemoId__c</field>
-            <value>
-                <elementReference>Get_CreditMemo_Reocord.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <object>CreditMemoCreated__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
     <recordLookups>
         <name>Get_All_RO</name>
         <label>Get All RO</label>
@@ -1103,9 +1072,6 @@
         <connector>
             <targetReference>Assign_Return_Items_Input_Representation_Data</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -1559,9 +1525,6 @@
         <connector>
             <targetReference>Update_ROLI</targetReference>
         </connector>
-        <faultConnector>
-            <targetReference>Error_Screen</targetReference>
-        </faultConnector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -1676,13 +1639,13 @@
     <screens>
         <name>Finish_Screen</name>
         <label>Finish Screen</label>
-        <locationX>1789</locationX>
-        <locationY>2336</locationY>
+        <locationX>1811</locationX>
+        <locationY>2338</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
+            <targetReference>Close_Return_Order</targetReference>
         </connector>
         <fields>
             <name>Success_Message</name>
@@ -2049,9 +2012,15 @@
     <subflows>
         <name>Close_Return_Order</name>
         <label>Close Return Order</label>
-        <locationX>2199</locationX>
-        <locationY>2341</locationY>
+        <locationX>1966</locationX>
+        <locationY>2337</locationY>
         <flowName>SOM_830_Close_Return_Order</flowName>
+        <inputAssignments>
+            <name>CreditMemoID</name>
+            <value>
+                <elementReference>Get_CreditMemo_Reocord.Id</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <name>recordId</name>
             <value>
@@ -2125,6 +2094,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>DocumentNumber</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
         <name>FLAG_From_Exchange_Order</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
@@ -2140,6 +2116,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RefundNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>S_AdjustShippingInputRepresentation</name>
