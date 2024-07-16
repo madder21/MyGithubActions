@@ -14,6 +14,8 @@
                 <elementReference>C_Wr_shipments</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_CreateShipment</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Shipped_Quantity_per_FOLI_Action</name>
@@ -32,10 +34,12 @@
                 <elementReference>C_FOLIids</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_ShipmentPerFoliAction</nameSegment>
         <outputParameters>
             <assignToReference>C_Wr_ShippedperFOLI</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_Wr</name>
@@ -54,10 +58,12 @@
                 <elementReference>C_ShipTranslation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TranslateShipment</nameSegment>
         <outputParameters>
             <assignToReference>V_translatedShip</assignToReference>
             <name>outputString</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_SerialNumbers</name>
@@ -82,10 +88,12 @@
                 <elementReference>Serial_Number</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_SerialNumbersValidation</nameSegment>
         <outputParameters>
             <assignToReference>V_errorSerialNumbers</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -125,6 +133,22 @@
         </assignmentItems>
         <connector>
             <targetReference>FOLI_to_Ship</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_SKU_Left</name>
+        <label>Assign SKU Left</label>
+        <locationX>125</locationX>
+        <locationY>669</locationY>
+        <assignmentItems>
+            <assignToReference>SKU10DigitsValCheck</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>SKUCoherent</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_Serialized</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -427,6 +451,21 @@
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
+            <name>Sku_10_digits1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SKU10DigitsValCheck</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>L10_Over_FOLI_Selected.productSKU</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>FOLI_to_Ship</targetReference>
+            </connector>
+            <label>Sku 10 digits</label>
+        </rules>
+        <rules>
             <name>SkuErrorFormula</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
@@ -480,6 +519,7 @@
         <picklistField>TimeZoneSidKey</picklistField>
         <picklistObject>User</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>FX_DispatchDateDefault</name>
         <dataType>DateTime</dataType>
@@ -499,6 +539,11 @@
         <name>SKU_Error</name>
         <dataType>Boolean</dataType>
         <expression>OR( ISBLANK({!Sku_10_Digits}), LEN({!Sku_10_Digits}) != 10 )</expression>
+    </formulas>
+    <formulas>
+        <name>SKUCoherent</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!Sku_10_Digits}, 8)</expression>
     </formulas>
     <interviewLabel>SOM 990 Manual Shipment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 990 Manual Shipment</label>
@@ -682,13 +727,13 @@
     <screens>
         <name>FOLI_to_Ship</name>
         <label>FOLI to Ship</label>
-        <locationX>267</locationX>
-        <locationY>750</locationY>
+        <locationX>248</locationX>
+        <locationY>769</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>is_Serialized</targetReference>
+            <targetReference>Assign_SKU_Left</targetReference>
         </connector>
         <fields>
             <name>FOLI</name>
@@ -750,11 +795,27 @@
                     <dataType>String</dataType>
                     <fieldText>Sku 10 Digits</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
                         <conditions>
                             <leftValueReference>Sku10Digits</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>NotOkSKU</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits or not coherent with the Product Sku&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Sku_10_digits1</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <booleanValue>true</booleanValue>
@@ -789,6 +850,7 @@
                     <dataType>String</dataType>
                     <fieldText>Serial Number</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -813,7 +875,6 @@
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-              
             </fields>
             <fields>
                 <name>FOLI_to_Ship_Section1_Column2</name>
@@ -827,7 +888,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-              <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section2</name>
@@ -843,6 +904,7 @@
                     </defaultValue>
                     <fieldText>Warehouse reference</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -881,6 +943,7 @@
                     </defaultValue>
                     <fieldText>Tracking Number</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -919,6 +982,7 @@
                     </defaultValue>
                     <fieldText>Dispatch Date</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -941,6 +1005,7 @@
                     </defaultValue>
                     <fieldText>Timezone</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <inputParameters>
@@ -969,6 +1034,7 @@
                     </defaultValue>
                     <fieldText>Delivery Method</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1291,6 +1357,13 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>SKU10DigitsValCheck</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>V_errorSerialNumbers</name>
