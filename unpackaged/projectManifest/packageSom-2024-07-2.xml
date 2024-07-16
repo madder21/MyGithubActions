@@ -6,13 +6,16 @@
 		<members>SOM_TransactionalEmailHandler</members>
 		<members>SOM_TransactionalEmailHandler_Test</members>
 		<members>SOM_testDataFactory</members>
-	       
+	       <members>WS_SOM_CreateReturnOrderEndpoint</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		
 		<members>Order.RI_createdBy__c</members>
-                <members>OrderSummary.RI_createdBy__c</members>
+    <members>OrderSummary.RI_createdBy__c</members>
+
+		<members>ReturnOrderLineItem.Sku_10_Digits__c</members>
+
 		<name>CustomField</name>
 	</types>
 	<types>
@@ -20,13 +23,14 @@
 		<members>SOM_Cancel_Order_Summary</members>
     	         <members>SOM_117_ReminderEmail</members>
 		<members>SOM_Generate_TE_after_Cancellation</members>
-    	       
+    	       <members>SOM_610_Core_Model_Create_ReturnOrder</members>
+		<members>SOM_660_Manual_Return_Reception</members>
 		<name>Flow</name>
 	</types>
 	<types>
 
 		<members>OrderSummary-Order Summary Layout</members>
-
+                <members>ReturnOrderLineItem-Return Order Line Item Layout</members>
 		
 		<name>Layout</name>
 	</types>
@@ -41,6 +45,10 @@
 	<types>
 		<members>ShipmentAndInvoiceForCrossBorder</members>
 		<name>ReportType</name>
+	</types>
+	<types>
+		<members>som_ManualReturnReception</members>
+		<name>LightningComponentBundle</name>
 	</types>
 	<version>61.0</version>
 
