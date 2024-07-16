@@ -988,6 +988,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
+                
             </fields>
             <fields>
                 <name>Screen_Validation_Reception_Section1_Column2</name>
@@ -1001,6 +1002,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Screen_Validation_Reception_Section2</name>
@@ -1131,6 +1133,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Validate Return Reception</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
