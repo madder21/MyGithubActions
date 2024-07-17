@@ -14,8 +14,6 @@
                 <elementReference>C_Wr_shipments</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_CreateShipment</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Shipped_Quantity_per_FOLI_Action</name>
@@ -34,12 +32,10 @@
                 <elementReference>C_FOLIids</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_ShipmentPerFoliAction</nameSegment>
         <outputParameters>
             <assignToReference>C_Wr_ShippedperFOLI</assignToReference>
             <name>output</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_Wr</name>
@@ -58,12 +54,10 @@
                 <elementReference>C_ShipTranslation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TranslateShipment</nameSegment>
         <outputParameters>
             <assignToReference>V_translatedShip</assignToReference>
             <name>outputString</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_SerialNumbers</name>
@@ -88,12 +82,10 @@
                 <elementReference>Serial_Number</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_SerialNumbersValidation</nameSegment>
         <outputParameters>
             <assignToReference>V_errorSerialNumbers</assignToReference>
             <name>output</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -460,6 +452,13 @@
                     <elementReference>L10_Over_FOLI_Selected.productSKU</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Sku10Digits</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>FOLI_to_Ship</targetReference>
             </connector>
@@ -519,7 +518,6 @@
         <picklistField>TimeZoneSidKey</picklistField>
         <picklistObject>User</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
     <formulas>
         <name>FX_DispatchDateDefault</name>
         <dataType>DateTime</dataType>
@@ -795,7 +793,6 @@
                     <dataType>String</dataType>
                     <fieldText>Sku 10 Digits</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -850,7 +847,6 @@
                     <dataType>String</dataType>
                     <fieldText>Serial Number</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -888,7 +884,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section2</name>
@@ -904,7 +899,6 @@
                     </defaultValue>
                     <fieldText>Warehouse reference</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -927,7 +921,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section3</name>
@@ -943,7 +936,6 @@
                     </defaultValue>
                     <fieldText>Tracking Number</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -966,7 +958,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section4</name>
@@ -982,7 +973,6 @@
                     </defaultValue>
                     <fieldText>Dispatch Date</fieldText>
                     <fieldType>InputField</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1005,7 +995,6 @@
                     </defaultValue>
                     <fieldText>Timezone</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <inputParameters>
@@ -1017,7 +1006,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section5</name>
@@ -1034,7 +1022,6 @@
                     </defaultValue>
                     <fieldText>Delivery Method</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1057,7 +1044,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
