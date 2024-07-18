@@ -1,118 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>X_Close_Return_Order</name>
-        <label>Close Return Order</label>
-        <locationX>1648</locationX>
-        <locationY>554</locationY>
-        <actionName>returnReturnOrderItems</actionName>
-        <actionType>returnReturnOrderItems</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>returnItemsInput</name>
-            <value>
-                <elementReference>REC_ReturnItemsInputRepresentation</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>returnOrderId</name>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
     <apiVersion>57.0</apiVersion>
-    <assignments>
-        <name>Add_Return_Order_Item_Input_Representation_To_List</name>
-        <label>Add Return Order Item Input Representation To List</label>
-        <locationX>1347</locationX>
-        <locationY>644</locationY>
-        <assignmentItems>
-            <assignToReference>COL_ReturnOrderItemInputRepresentation</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>REC_ReturnOrderItemInputRepresentation</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Iterate_Over_Return_Order_Line_Items</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_Return_Items_Input_Representation</name>
-        <label>Set Return Items Input Representation</label>
-        <locationX>1377</locationX>
-        <locationY>437</locationY>
-        <assignmentItems>
-            <assignToReference>REC_ReturnItemsInputRepresentation.returnOrderItems</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>COL_ReturnOrderItemInputRepresentation</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>returnLineItemsCollectionCount</assignToReference>
-            <operator>AssignCount</operator>
-            <value>
-                <elementReference>REC_ReturnItemsInputRepresentation.returnOrderItems</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Check_Return_Items_Input_Representation</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Set_Return_Order_Item_Input_Representation</name>
-        <label>Set Return Order Item Input Representation</label>
-        <locationX>1167</locationX>
-        <locationY>643</locationY>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityReceived</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.QuantityReceived</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityRejected</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.QuantityRejected</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityReturned</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.QuantityReceived</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.quantityToCancel</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.QuantityRejected</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.reasonForRejection</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.ReasonForRejection</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>REC_ReturnOrderItemInputRepresentation.returnOrderLineItemId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Iterate_Over_Return_Order_Line_Items.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Add_Return_Order_Item_Input_Representation_To_List</targetReference>
-        </connector>
-    </assignments>
     <assignments>
         <name>Set_Return_Order_Line_Items_Counts</name>
         <label>Set Return Order Line Items Counts</label>
@@ -157,34 +45,6 @@
             <targetReference>Set_Return_Order_Line_Items_Counts</targetReference>
         </connector>
     </collectionProcessors>
-    <collectionProcessors>
-        <name>Filter_ROLI_Different_to_Refund</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter ROLI Different to Refund</label>
-        <locationX>1309</locationX>
-        <locationY>304</locationY>
-        <assignNextValueToReference>currentItem_Filter_ROLI_Different_to_Refund_0</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>Get_Return_Order_Items</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ROLI_Different_to_Refund_0.RepaymentMethod</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <stringValue>Refund</stringValue>
-            </rightValue>
-        </conditions>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ROLI_Different_to_Refund_0.RepaymentMethod</leftValueReference>
-            <operator>NotEqualTo</operator>
-            <rightValue>
-                <stringValue>Exchange</stringValue>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Iterate_Over_Return_Order_Line_Items</targetReference>
-        </connector>
-    </collectionProcessors>
     <decisions>
         <name>Check_Credit_Memo</name>
         <label>Check Credit Memo</label>
@@ -205,28 +65,6 @@
                 <targetReference>Create_Closed_Return_Event</targetReference>
             </connector>
             <label>Credit Memo Is Not Empty</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_Return_Items_Input_Representation</name>
-        <label>Check Return Items Input Representation</label>
-        <locationX>1490</locationX>
-        <locationY>406</locationY>
-        <defaultConnectorLabel>Is empty</defaultConnectorLabel>
-        <rules>
-            <name>Is_not_Empty</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>returnLineItemsCollectionCount</leftValueReference>
-                <operator>GreaterThan</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>X_Close_Return_Order</targetReference>
-            </connector>
-            <label>Is not Empty</label>
         </rules>
     </decisions>
     <decisions>
@@ -251,22 +89,9 @@
             <label>Close</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM 830 - Close Return Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 830 - Close Return Order</label>
-    <loops>
-        <name>Iterate_Over_Return_Order_Line_Items</name>
-        <label>Iterate Over Return Order Line Items</label>
-        <locationX>1167</locationX>
-        <locationY>420</locationY>
-        <collectionReference>Filter_ROLI_Different_to_Refund</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Set_Return_Order_Item_Input_Representation</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Set_Return_Items_Input_Representation</targetReference>
-        </noMoreValuesConnector>
-    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -289,8 +114,11 @@
     <recordCreates>
         <name>Create_Closed_Return_Event</name>
         <label>Create Closed Return Event</label>
-        <locationX>2405</locationX>
-        <locationY>411</locationY>
+        <locationX>2412</locationX>
+        <locationY>416</locationY>
+        <connector>
+            <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
+        </connector>
         <inputAssignments>
             <field>RefundId__c</field>
             <value>
@@ -298,6 +126,54 @@
             </value>
         </inputAssignments>
         <object>ClosedReturn__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Dummy_Create_For_Platform_Event</name>
+        <label>Dummy Create For Platform Event</label>
+        <locationX>2900</locationX>
+        <locationY>413</locationY>
+        <inputAssignments>
+            <field>RefundId__c</field>
+            <value>
+                <elementReference>Get_Credit_Memo_Attached_To_This_Return.Refund__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ClosedReturn__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Public_New_CM_for_Cegid</name>
+        <label>Public New CM for Cegid</label>
+        <locationX>2726</locationX>
+        <locationY>415</locationY>
+        <connector>
+            <targetReference>Dummy_Create_For_Platform_Event</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CreditMemoId__c</field>
+            <value>
+                <elementReference>CreditMemoID</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewCreditMemoForCegid__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Publish_Created_Credit_Memo_Event</name>
+        <label>Publish Created Credit Memo Event</label>
+        <locationX>2597</locationX>
+        <locationY>415</locationY>
+        <connector>
+            <targetReference>Public_New_CM_for_Cegid</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>CreditMemoId__c</field>
+            <value>
+                <elementReference>CreditMemoID</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CreditMemoCreated__e</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
@@ -396,6 +272,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>CreditMemoID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Get_Return_Order_Line_Items</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -410,6 +293,13 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ReturnOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>DocumentNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>REC_ReturnItemsInputRepresentation</name>
@@ -429,6 +319,13 @@
     </variables>
     <variables>
         <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RefundNumber</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
