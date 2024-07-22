@@ -21,7 +21,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Close_Return_Order</targetReference>
+            <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
         </connector>
     </assignments>
     <collectionProcessors>
@@ -70,8 +70,8 @@
     <decisions>
         <name>Close_Return_Order</name>
         <label>Close Return Order</label>
-        <locationX>1156</locationX>
-        <locationY>239</locationY>
+        <locationX>1537</locationX>
+        <locationY>335</locationY>
         <defaultConnectorLabel>Do Not Close</defaultConnectorLabel>
         <rules>
             <name>Close</name>
@@ -89,7 +89,6 @@
             <label>Close</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM 830 - Close Return Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 830 - Close Return Order</label>
     <processMetadataValues>
@@ -116,23 +115,6 @@
         <label>Create Closed Return Event</label>
         <locationX>2412</locationX>
         <locationY>416</locationY>
-        <connector>
-            <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>RefundId__c</field>
-            <value>
-                <elementReference>Get_Credit_Memo_Attached_To_This_Return.Refund__c</elementReference>
-            </value>
-        </inputAssignments>
-        <object>ClosedReturn__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Dummy_Create_For_Platform_Event</name>
-        <label>Dummy Create For Platform Event</label>
-        <locationX>2900</locationX>
-        <locationY>413</locationY>
         <inputAssignments>
             <field>RefundId__c</field>
             <value>
@@ -145,10 +127,10 @@
     <recordCreates>
         <name>Public_New_CM_for_Cegid</name>
         <label>Public New CM for Cegid</label>
-        <locationX>2726</locationX>
-        <locationY>415</locationY>
+        <locationX>1352</locationX>
+        <locationY>313</locationY>
         <connector>
-            <targetReference>Dummy_Create_For_Platform_Event</targetReference>
+            <targetReference>Close_Return_Order</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>
@@ -162,8 +144,8 @@
     <recordCreates>
         <name>Publish_Created_Credit_Memo_Event</name>
         <label>Publish Created Credit Memo Event</label>
-        <locationX>2597</locationX>
-        <locationY>415</locationY>
+        <locationX>1145</locationX>
+        <locationY>272</locationY>
         <connector>
             <targetReference>Public_New_CM_for_Cegid</targetReference>
         </connector>
