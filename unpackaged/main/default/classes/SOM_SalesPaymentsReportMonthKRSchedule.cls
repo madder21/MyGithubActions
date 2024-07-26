@@ -6,6 +6,8 @@ public with sharing class SOM_SalesPaymentsReportMonthKRSchedule Implements Sche
     @future(callout=true) 
     public static void monthExport() {
                     
+        Try{            
+        
             DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
             String firstDay = firstDayOfLastMonth.format('MM/dd/YYYY');
             
@@ -147,6 +149,12 @@ public with sharing class SOM_SalesPaymentsReportMonthKRSchedule Implements Sche
             
             Messaging.sendEmail(emails);
                     
+            Logs.debug('Sales and payments monthly report Schedule KR','SOM_SalesPaymentsReportMonthKRSchedule','monthExport','','');   
+            Logs.info('Sales and payments monthly report Schedule KR','SOM_SalesPaymentsReportMonthKRSchedule','monthExport','','');   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_SalesPaymentsReportMonthKRSchedule KR','monthExport','','');   
+        }  
     }   
     
     

@@ -5,7 +5,7 @@ public class SOM_SalesPaymentsReportMonthEUSchedule Implements Schedulable{
     
     @future(callout=true)
     public static void monthExport() {
-                    
+        try{        
             DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1); 
             String firstDay = firstDayOfLastMonth.format('MM/dd/yyyy');
             
@@ -146,7 +146,15 @@ public class SOM_SalesPaymentsReportMonthEUSchedule Implements Schedulable{
             emails.add(email);
             
             Messaging.sendEmail(emails);
-                    
+            
+ 		    Logs.debug('Sales and payments report Schedule EU','SOM_SalesPaymentsReportMonthEUSchedule','MonthExport','','');   
+            Logs.info('Sales and payments report Schedule EU','SOM_SalesPaymentsReportMonthEUSchedule','MonthExport','','');   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_SalesPaymentsReportMonthEUSchedule EU','MonthExport','','');   
+        }  
+        
+        
     }   
     
     
