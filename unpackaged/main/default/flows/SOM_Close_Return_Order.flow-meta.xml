@@ -23,7 +23,9 @@
                 <elementReference>recordId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>returnReturnOrderItems</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -278,6 +280,7 @@
             <label>OK</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM_Close_Return_Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM_Close_Return_Order</label>
     <loops>
@@ -450,6 +453,11 @@
                     </rightValue>
                 </conditions>
             </visibilityRule>
+        </fields>
+        <fields>
+            <name>CancelItemText</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgba(161, 189, 217, 0.08); font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(0, 0, 0);&quot;&gt; If you want to create a new Return Order in the future, click on the button Cancel Expected Items instead.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Decision_User</name>
