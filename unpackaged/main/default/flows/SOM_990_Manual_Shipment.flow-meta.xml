@@ -810,7 +810,7 @@
                     <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits or not coherent with the Product Sku&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <visibilityRule>
-                        <conditionLogic>1 OR (2 AND 3)</conditionLogic>
+                        <conditionLogic>and</conditionLogic>
                         <conditions>
                             <leftValueReference>Sku_10_digits1</leftValueReference>
                             <operator>EqualTo</operator>
@@ -818,6 +818,14 @@
                                 <booleanValue>true</booleanValue>
                             </rightValue>
                         </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>ok</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 11px; color: rgb(244, 9, 9);&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits.﻿&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
                         <conditions>
                             <leftValueReference>SkuErrorFormula</leftValueReference>
                             <operator>EqualTo</operator>
@@ -863,7 +871,7 @@
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-               
+                
             </fields>
             <fields>
                 <name>FOLI_to_Ship_Section1_Column2</name>
@@ -877,7 +885,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+              <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section2</name>
@@ -915,7 +923,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+              <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section3</name>
@@ -953,7 +961,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+              <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section4</name>
@@ -1002,7 +1010,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+              <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section5</name>
@@ -1041,7 +1049,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
+              <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
