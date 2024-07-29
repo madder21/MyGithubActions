@@ -205,7 +205,7 @@
             <assignToReference>ModifyEvent</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>false</booleanValue>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -299,6 +299,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assign_No_Event_modification</name>
+        <label>assign No Event modification</label>
+        <locationX>3130</locationX>
+        <locationY>1298</locationY>
+        <assignmentItems>
+            <assignToReference>ModifyEvent</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_BookingStatus</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_NoShow</name>
         <label>Assign_NoShow</label>
         <locationX>2866</locationX>
@@ -359,22 +375,6 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>isTaskToCreate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_BookingStatus</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>assign_NoTaskForReminder</name>
-        <label>Do not create a task</label>
-        <locationX>3394</locationX>
-        <locationY>1298</locationY>
         <assignmentItems>
             <assignToReference>isTaskToCreate</assignToReference>
             <operator>Assign</operator>
@@ -517,23 +517,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>assign_Task_Flag</name>
-        <label>assign Task Flag</label>
-        <locationX>3130</locationX>
-        <locationY>1298</locationY>
-        <assignmentItems>
-            <assignToReference>isTaskToCreate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>dec_TaskCreation</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Error_EventTypeNotProvided</name>
         <label>Error_EventTypeNotProvided</label>
         <locationX>3658</locationX>
@@ -605,9 +588,6 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>dec_TaskCreation</targetReference>
-        </connector>
     </assignments>
     <decisions>
         <name>dec_AssignClientBookingLookup</name>
@@ -773,7 +753,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_reminderSObject</targetReference>
+                <targetReference>Run_Reminder_Process</targetReference>
             </connector>
             <label>reminder</label>
         </rules>
@@ -877,9 +857,6 @@
         <label>is Event have to be modified ?</label>
         <locationX>2679</locationX>
         <locationY>2174</locationY>
-        <defaultConnector>
-            <targetReference>dec_TaskCreation</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
             <name>decout_ModifyEvent</name>
@@ -895,38 +872,6 @@
                 <targetReference>getEvent</targetReference>
             </connector>
             <label>yes</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>dec_reminder</name>
-        <label>is it First or Second Reminder ?</label>
-        <locationX>3262</locationX>
-        <locationY>1190</locationY>
-        <defaultConnector>
-            <targetReference>assign_NoTaskForReminder</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Second</defaultConnectorLabel>
-        <rules>
-            <name>decout_first</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>getBooking_ByBookingNumber_ForModification.sendReminder__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>bookingTask</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>assign_Task_Flag</targetReference>
-            </connector>
-            <label>First</label>
         </rules>
     </decisions>
     <decisions>
@@ -950,28 +895,6 @@
             </conditions>
             <connector>
                 <targetReference>assign_newBookingDate</targetReference>
-            </connector>
-            <label>yes</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>dec_TaskCreation</name>
-        <label>is Task to create ?</label>
-        <locationX>2226</locationX>
-        <locationY>3374</locationY>
-        <defaultConnectorLabel>no</defaultConnectorLabel>
-        <rules>
-            <name>decout_TaskToCreate</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>isTaskToCreate</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Task</targetReference>
             </connector>
             <label>yes</label>
         </rules>
@@ -1027,7 +950,37 @@
             <label>yes</label>
         </rules>
     </decisions>
-    <description>Private Appointment Endpoint, create, modify or remind a booking</description>
+    <decisions>
+        <name>Run_Reminder_Process</name>
+        <label>Run Reminder Process ?</label>
+        <locationX>3262</locationX>
+        <locationY>1082</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.RemindByEmail__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.RemindByEmail__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_reminderSObject</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>Private Appointment Endpoint, create, modify or remind a booking
+V19/V20 : Ulrich: Manage RemindByEmail</description>
     <environments>Default</environments>
     <formulas>
         <name>f_taskType</name>
@@ -1096,13 +1049,6 @@
         </faultConnector>
         <inputReference>bookingEvent</inputReference>
     </recordCreates>
-    <recordCreates>
-        <name>Create_Task</name>
-        <label>Create Task</label>
-        <locationX>2094</locationX>
-        <locationY>3590</locationY>
-        <inputReference>bookingTask</inputReference>
-    </recordCreates>
     <recordLookups>
         <name>getBooking_ByBookingNumber_ForModification</name>
         <label>getBooking_ByBookingNumber</label>
@@ -1160,9 +1106,6 @@
         <label>Update Event</label>
         <locationX>2151</locationX>
         <locationY>2606</locationY>
-        <connector>
-            <targetReference>dec_TaskCreation</targetReference>
-        </connector>
         <faultConnector>
             <targetReference>Assign_EventUpdateFailed</targetReference>
         </faultConnector>
@@ -1214,10 +1157,10 @@
     <subflows>
         <name>Assign_reminderSObject</name>
         <label>Assign reminder sObject</label>
-        <locationX>3262</locationX>
-        <locationY>1082</locationY>
+        <locationX>3130</locationX>
+        <locationY>1190</locationY>
         <connector>
-            <targetReference>dec_reminder</targetReference>
+            <targetReference>assign_No_Event_modification</targetReference>
         </connector>
         <flowName>PA_Send_Reminder</flowName>
         <inputAssignments>
@@ -1226,6 +1169,10 @@
                 <elementReference>getBooking_ByBookingNumber_ForModification</elementReference>
             </value>
         </inputAssignments>
+        <outputAssignments>
+            <assignToReference>getBooking_ByBookingNumber_ForModification</assignToReference>
+            <name>clientBooking</name>
+        </outputAssignments>
         <outputAssignments>
             <assignToReference>errormessage</assignToReference>
             <name>errorMessage</name>
@@ -1237,32 +1184,6 @@
         <outputAssignments>
             <assignToReference>bookingTask</assignToReference>
             <name>taskReminder</name>
-        </outputAssignments>
-    </subflows>
-    <subflows>
-        <name>Assign_Task</name>
-        <label>Assign Task</label>
-        <locationX>2094</locationX>
-        <locationY>3482</locationY>
-        <connector>
-            <targetReference>Create_Task</targetReference>
-        </connector>
-        <flowName>PA_Task_Assignment_Helper</flowName>
-        <inputAssignments>
-            <name>clientBooking</name>
-            <value>
-                <elementReference>clientBooking</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <name>taskType</name>
-            <value>
-                <elementReference>f_taskType</elementReference>
-            </value>
-        </inputAssignments>
-        <outputAssignments>
-            <assignToReference>bookingTask</assignToReference>
-            <name>bookingTask</name>
         </outputAssignments>
     </subflows>
     <subflows>
@@ -1368,7 +1289,7 @@
         <inputAssignments>
             <name>clientBooking</name>
             <value>
-                <elementReference>clientBooking</elementReference>
+                <elementReference>getBooking_ByBookingNumber_ForModification</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1899,6 +1820,13 @@
     </variables>
     <variables>
         <name>qaVar_PhoneNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>qaVar_RemindByEmail</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

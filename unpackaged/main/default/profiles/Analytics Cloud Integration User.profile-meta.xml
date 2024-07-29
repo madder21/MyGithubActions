@@ -3,6 +3,15 @@
     <layoutAssignments>
         <layout>AnonymizationField__mdt-AnonymizationField Layout</layout>
     </layoutAssignments>
+    <layoutAssignments>
+        <layout>AnonymizationObject__mdt-AnonymizationProcess Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>ClientBooking__c-Client Booking Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SuppressionSFProcess__mdt-SuppressionSFProcess Layout</layout>
+    </layoutAssignments>
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Date_Last_interaction__c</field>
@@ -11,6 +20,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.TECH_CaseWaitingForClient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.RemindByEmail__c</field>
         <readable>true</readable>
     </fieldPermissions>
 </Profile>
