@@ -57,7 +57,7 @@
     </columns>
     <currency>EUR</currency>
     <filter>
-        <booleanFilter>1 AND 2 AND 3 AND (4 OR 5 OR 6)</booleanFilter>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
         <criteriaItems>
             <column>OrderSummary.CreditMemos.CreditMemoLines$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
@@ -84,21 +84,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>US</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>OrderSummary$Tech_ShippingCountry__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>MX</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>OrderSummary$Tech_ShippingCountry__c</column>
-            <columnToColumn>false</columnToColumn>
-            <isUnlocked>true</isUnlocked>
-            <operator>equals</operator>
-            <value>CA</value>
+            <value>US,CA,MX</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
