@@ -69,11 +69,6 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             if ( privacyRequestsToInsert != null && !privacyRequestsToInsert.isEmpty()){
                 insert privacyRequestsToInsert;
             }
-            for(Account cli : [SELECT Id, isPurged__c FROM Account WHERE Id IN :cls]){
-                cli.isPurged__c = true;
-                clientsToBeUpdated.add(cli);
-            }
-            update clientsToBeUpdated;
             
             List<Invoice> InvoiceList = [SELECT isCorrectiveInvoiceElligible__c FROM Invoice where BillingAccountId IN :cls];
             for(Invoice Inv : InvoiceList){
@@ -88,6 +83,14 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             for(OrderSummary ord : nonAnomizedList){
                 nonAnonymOrdNumbers.add(ord.OrderNumber);
             }
+            if(!(nonAnomizedList.size() > 0)){
+                for(Account cli : [SELECT Id, isPurged__c FROM Account WHERE Id IN :cls]){
+                    cli.isPurged__c = true;
+                    clientsToBeUpdated.add(cli);
+                }
+                update clientsToBeUpdated;
+            }
+            
             String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
             sendEmail(currentUserEmail, anonymLogToSend, nonAnonymLogToSend, clientsToBeUpdated[0].Id);
         } 
