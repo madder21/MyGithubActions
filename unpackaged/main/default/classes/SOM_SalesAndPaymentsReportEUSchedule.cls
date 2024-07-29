@@ -172,7 +172,7 @@ public class SOM_SalesAndPaymentsReportEUSchedule Implements Schedulable{
             Logs.info('Sales and payments report Schedule JP','SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','');   
+            Logs.error(e,'SOM_SalesAndPaymentsReportJPSchedule JP','weekExportTEST','','');   
         }  
         
         

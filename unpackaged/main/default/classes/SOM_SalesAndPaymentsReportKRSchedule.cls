@@ -6,6 +6,8 @@ public with sharing class SOM_SalesAndPaymentsReportKRSchedule Implements Schedu
     
     @future(callout=true)
     public static void weekExportTEST() {
+        
+        Try{            
                     
             date myDate = date.today();
             DateTime weekStart = myDate.toStartofWeek().addDays(-7);
@@ -165,6 +167,12 @@ public with sharing class SOM_SalesAndPaymentsReportKRSchedule Implements Schedu
             
             Messaging.sendEmail(emails);
             
+            Logs.debug('Sales and payments report Schedule KR','SOM_SalesAndPaymentsReportKRSchedule','weekExportTEST','','');   
+            Logs.info('Sales and payments report Schedule KR','SOM_SalesAndPaymentsReportKRSchedule','weekExportTEST','','');   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_SalesAndPaymentsReportKRSchedule KR','weekExportTEST','','');   
+        }  
     }   
     
 }
