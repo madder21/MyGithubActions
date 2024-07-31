@@ -4,6 +4,8 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
     }
     @future(callout=true)
     public static void DoExport() {
+        Try{
+            
             Messaging.SingleEmailMessage[] emailList = new Messaging.SingleEmailMessage[]{};
                 List <PE_Emails_Setting__mdt> peEmailSettings = [SELECT Id, DeveloperName, Country__c, Distribution_List__c  
                                                                  FROM PE_Emails_Setting__mdt WHERE Distribution_List__c != null];
@@ -46,7 +48,14 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                 }
                 if(!emailList.isEmpty()) Messaging.sendEmail(emailList);
             }
-                    
+            
+            Logs.debug('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
+            Logs.info('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
+        }  
+        
     }
     
 }
