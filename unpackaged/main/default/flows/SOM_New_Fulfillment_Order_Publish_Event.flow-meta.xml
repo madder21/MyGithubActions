@@ -9,6 +9,31 @@
         </value>
     </constants>
     <decisions>
+        <name>Chech_if_Brazilian_orders</name>
+        <label>Chech if Brazilian orders</label>
+        <locationX>118</locationX>
+        <locationY>409</locationY>
+        <defaultConnector>
+            <targetReference>Check_Order_Sales_Channel</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Brazilian_orders</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Adress_field</targetReference>
+            </connector>
+            <label>Brazilian orders</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Order_Sales_Channel</name>
         <label>Check Order Sales Channel</label>
         <locationX>332</locationX>
@@ -31,7 +56,6 @@
         </rules>
     </decisions>
     <description>Launch Event for Orders other than S2W</description>
-    <environments>Default</environments>
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment Order Publish Event</label>
     <processMetadataValues>
@@ -68,13 +92,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
-        <name>Get_Order_Summary</name>
-        <label>Get Order Summary</label>
-        <locationX>339</locationX>
-        <locationY>383</locationY>
+        <name>Get_Order_Delivery_Group_Summary</name>
+        <label>Get Order Delivery Group Summary</label>
+        <locationX>274</locationX>
+        <locationY>352</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Order_Sales_Channel</targetReference>
+            <targetReference>Chech_if_Brazilian_orders</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Summary</name>
+        <label>Get Order Summary</label>
+        <locationX>461</locationX>
+        <locationY>333</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -91,6 +136,36 @@
         <queriedFields>OrderNumber</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Adress_field</name>
+        <label>Update Adress field</label>
+        <locationX>107</locationX>
+        <locationY>553</locationY>
+        <connector>
+            <targetReference>Check_Order_Sales_Channel</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>RI_Neighborhood__c</field>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.RI_Neighborhood__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StreetNumber__c</field>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.StreetNumber__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>FulfillmentOrder</object>
+    </recordUpdates>
     <start>
         <locationX>360</locationX>
         <locationY>29</locationY>
@@ -100,6 +175,6 @@
         <object>FulfillmentOrder</object>
         <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
-    </start> 
+    </start>
     <status>Active</status>
 </Flow>
