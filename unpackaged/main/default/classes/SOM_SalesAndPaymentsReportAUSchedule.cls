@@ -166,8 +166,8 @@ public with sharing class SOM_SalesAndPaymentsReportAUSchedule Implements Schedu
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
-            Logs.info('Sales and payments report Schedule AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
+            Logs.debug('Sales and payments report Schedule Weekly AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
+            Logs.info('Sales and payments report Schedule Weekly AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
             
         }catch(Exception e){
             Logs.error(e,'SOM_SalesAndPaymentsReportAUSchedule AU','weekExportTEST','','');   

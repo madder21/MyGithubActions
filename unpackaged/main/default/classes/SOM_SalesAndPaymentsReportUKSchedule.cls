@@ -168,8 +168,8 @@ public with sharing class SOM_SalesAndPaymentsReportUKSchedule Implements Schedu
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule UK','SOM_SalesAndPaymentsReportUKSchedule','weekExportTEST','','');   
-            Logs.info('Sales and payments report Schedule UK','SOM_SalesAndPaymentsReportUKSchedule','weekExportTEST','','');   
+            Logs.debug('Sales and payments report Schedule Weekly UK','SOM_SalesAndPaymentsReportUKSchedule','weekExportTEST','','');   
+            Logs.info('Sales and payments report Schedule Weekly UK','SOM_SalesAndPaymentsReportUKSchedule','weekExportTEST','','');   
             
         }catch(Exception e){
             Logs.error(e,'SOM_SalesAndPaymentsReportUKSchedule UK','weekExportTEST','','');   

@@ -168,8 +168,8 @@ public with sharing class SOM_SalesAndPaymentsReportSchedule Implements Schedula
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule AE','SOM_SalesAndPaymentsReportSchedule','weekExportTEST','','');   
-            Logs.info('Sales and payments report Schedule AE','SOM_SalesAndPaymentsReportSchedule','weekExportTEST','','');   
+            Logs.debug('Sales and payments report Schedule Weekly AE','SOM_SalesAndPaymentsReportSchedule','weekExportTEST','','');   
+            Logs.info('Sales and payments report Schedule Weekly AE','SOM_SalesAndPaymentsReportSchedule','weekExportTEST','','');   
             
         }catch(Exception e){
             Logs.error(e,'SOM_SalesAndPaymentsReportSchedule AE','weekExportTEST','','');   
