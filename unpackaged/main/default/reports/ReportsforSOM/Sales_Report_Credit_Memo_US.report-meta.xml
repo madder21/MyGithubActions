@@ -55,6 +55,9 @@
     <columns>
         <field>OrderSummary.CreditMemos.CreditMemoLines$Type</field>
     </columns>
+    <columns>
+        <field>OrderSummary.CreditMemos*CreditMemo$Credit_Memo_Date__c</field>
+    </columns>
     <currency>EUR</currency>
     <filter>
         <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
