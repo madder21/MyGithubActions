@@ -688,7 +688,6 @@
         </rules>
     </decisions>
     <description>Clean Get Inside Loop</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_Os_Status_Valide</name>
         <dataType>Boolean</dataType>
@@ -858,7 +857,7 @@
         <connector>
             <targetReference>L11</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(1 AND 2 AND 3 ) OR  (1 AND 3 AND 4)</filterLogic>
         <filters>
             <field>IsPreOrder__c</field>
             <operator>EqualTo</operator>
@@ -879,6 +878,10 @@
             <value>
                 <stringValue>ORDERED</stringValue>
             </value>
+        </filters>
+        <filters>
+            <field>DeliveryStartDate__c</field>
+            <operator>EqualTo</operator>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderItemSummary</object>
