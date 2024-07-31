@@ -36,17 +36,16 @@ global with sharing class SOM_BatchAnonymization_6 implements Database.Batchable
     
     global Database.QueryLocator start(Database.BatchableContext BC) {
         String query = 'SELECT Id, AccountId, Name,OrderNumber, Status, BillingPostalCode, BillingStreet, BillingEmailAddress, BillingPhoneNumber, BillingContactFirstName__c, '
-            +'BillingContactLastName__c, OrderReferenceNumber, (SELECT Id, DeliverToStreet, DeliverToPostalCode, PhoneNumber, EmailAddress, CLICKCOLLECT_pickup_email__c, '
+            +'BillingContactLastName__c, (SELECT Id, DeliverToStreet, DeliverToPostalCode, PhoneNumber, EmailAddress, CLICKCOLLECT_pickup_email__c, '
             +'CLICKCOLLECT_pickup_phone__c, CLICKCOLLECT_pickup_firstName__c, CLICKCOLLECT_pickup_lastName__c FROM OrderDeliveryGroups) '
             +'FROM Order WHERE Id NOT IN :orderIds and (AccountId IN :cls) and RelatedOrderId = null';
         return Database.getQueryLocator(query);
     }
     
     global void execute(Database.BatchableContext BC, List<Order> relatedOrders){
-        
         for(Order ord : relatedOrders){
             if(ord.Status != 'Activated'){
-                nonAnonymOrdNumbers.add(ord.OrderReferenceNumber);
+                nonAnonymOrdNumbers.add(ord.OrderNumber);
             }else{
                 ord.Name                       = stringOperator;
                 ord.BillingPostalCode          = stringOperator;
@@ -57,7 +56,7 @@ global with sharing class SOM_BatchAnonymization_6 implements Database.Batchable
                 ord.BillingContactLastName__c  = stringOperator;
                 objectsToUpdate.add(ord);
                 objectClientId.put(ord.Id, ord.AccountId);
-                orderNumbers.add(ord.OrderReferenceNumber);
+                orderNumbers.add(ord.OrderNumber);
                 // OrderDeliveryGroup
                 for(OrderDeliveryGroup ordDelivGrp : ord.OrderDeliveryGroups){
                     ordDelivGrp.DeliverToStreet                  = stringOperator;
@@ -76,6 +75,7 @@ global with sharing class SOM_BatchAnonymization_6 implements Database.Batchable
         try {
             Logs.debug('Anonymization process - Batch 6','SOM_BatchAnonymization_6','callBatchAnonymization','','');   
             Logs.info('Anonymization process - Batch 6','SOM_BatchAnonymization_6','callBatchAnonymization','','');   
+
             if(objectsToUpdate != null && !objectsToUpdate.isEmpty()) {
                 objectsToUpdate.sort();
                 update objectsToUpdate;
