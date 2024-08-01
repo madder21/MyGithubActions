@@ -6,7 +6,8 @@ public with sharing class SOM_SalesAndPaymentsReportAUSchedule Implements Schedu
     
     @future(callout=true)
     public static void weekExportTEST() {
-                    
+        
+        Try{            
             date myDate = date.today();
             DateTime weekStart = myDate.toStartofWeek().addDays(-7);
             String previousMonday = weekStart.format('MM/dd/YYYY');
@@ -165,6 +166,12 @@ public with sharing class SOM_SalesAndPaymentsReportAUSchedule Implements Schedu
             
             Messaging.sendEmail(emails);
             
+            Logs.debug('Sales and payments report Schedule Weekly AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
+            Logs.info('Sales and payments report Schedule Weekly AU','SOM_SalesAndPaymentsReportAUSchedule','weekExportTEST','','');   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_SalesAndPaymentsReportAUSchedule AU','weekExportTEST','','');   
+        }  
     }   
     
 }

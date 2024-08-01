@@ -57,19 +57,20 @@
     </columns>
     <currency>EUR</currency>
     <filter>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
         <criteriaItems>
             <column>OrderSummary.CreditMemos.CreditMemoLines$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>1/30/2023 12:00 AM</value>
+            <value>LAST_N_DAYS:15</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary.CreditMemos.CreditMemoLines$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>2/28/2023 12:00 AM</value>
+            <value>2/28/2050 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$SalesChannelName__c</column>
@@ -83,7 +84,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
-            <value>US</value>
+            <value>US,CA,MX</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
