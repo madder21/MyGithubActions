@@ -5,11 +5,9 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
     
     @future(callout=true)
     public static void monthExport() {
-
-
+        
         Try{            
-
-
+            
             DateTime firstDayOfLastMonth = (DateTime)System.Today().toStartOfMonth().addMonths(-1);
             String firstDay = firstDayOfLastMonth.format('MM/dd/yyyy');
             
@@ -149,20 +147,16 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
             email.setToAddresses( toAddresses );
             emails.add(email);
             
-
-                              
-
-
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report month Schedule AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
-            Logs.info('Sales and payments report month Schedule AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
+            Logs.debug('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
+            Logs.info('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
+            Logs.error(e,'SOM_SalesAndPaymentsReportMonthSchedule AE','monthExport','','');   
         }  
         
-
+        
     }   
     
     
