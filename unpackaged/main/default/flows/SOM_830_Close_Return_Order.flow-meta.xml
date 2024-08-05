@@ -21,7 +21,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
+            <targetReference>Check_if_Refund</targetReference>
         </connector>
     </assignments>
     <collectionProcessors>
@@ -65,6 +65,31 @@
                 <targetReference>Create_Closed_Return_Event</targetReference>
             </connector>
             <label>Credit Memo Is Not Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_if_Refund</name>
+        <label>Check if Refund</label>
+        <locationX>986</locationX>
+        <locationY>457</locationY>
+        <defaultConnector>
+            <targetReference>Close_Return_Order</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Refund</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FollowUp</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Refund</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_Created_Credit_Memo_Event</targetReference>
+            </connector>
+            <label>Refund</label>
         </rules>
     </decisions>
     <decisions>
@@ -278,6 +303,13 @@
     </variables>
     <variables>
         <name>DocumentNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FollowUp</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
