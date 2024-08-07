@@ -164,4 +164,6 @@ global with sharing class SOM_Constants {
     public static final Integer INTEGER_OPERATOR_ANONYMIZATION = 999999999;
 
     public static final String FULFILLMENT = 'Fulfillment';
+    public static final String JP_COUNTRY_CODE = 'JP';
+    public static final String CASH_ON_DELIVERY = 'COD';
 }
