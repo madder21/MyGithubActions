@@ -13,7 +13,7 @@ global with sharing class WS_SOM_InvoiceDocument {
         List<OrderPaymentSummary> orderPaymentList = [SELECT Id, Method, OrderSummaryId FROM OrderPaymentSummary WHERE OrderSummaryId = :FOList[0].OrderSummaryId ];        
         if (attachment != null && !attachment.isEmpty()) {
             delete attachment.get(0);
-            if (!invoiceId.contains(SOM_Constants.CREDIT_MEMO_KEY_PREFIX) &&  (orderPaymentList[0].Method !=SOM_Constants.CASH_ON_DELIVERY  && FOList[0].FulfilledToCountry !=SOM_Constants.JP_COUNTRY_CODE) )
+            if (!invoiceId.contains(SOM_Constants.CREDIT_MEMO_KEY_PREFIX) &&  !(orderPaymentList[0].Method == SOM_Constants.CASH_ON_DELIVERY  && FOList[0].FulfilledToCountry == SOM_Constants.JP_COUNTRY_CODE) )
                 triggerEmailGeneration(invoiceId);
         } else {
             res.statusCode = 404;
