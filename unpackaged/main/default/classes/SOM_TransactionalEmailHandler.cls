@@ -211,8 +211,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         }
         
         return invoiceTransactionalEmailsList;
-    }
-    
+        }
     
     /**
 * @description Method to generate Order Transactional Email
@@ -413,8 +412,22 @@ lineItem.isCC = false;
         
         
         for (OrderSummary orderSum:orderSummaries) {
+            /*DateTime TE_Created_Date		 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
+            DateTime TE_Cancellation_Date 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            //DateTime dt = DateTime.parse((dt1).format());
+            String str_Created_Date 		 = (TE_Created_Date).format('yyyy-MM-dd\'T\'HH:mm:ss');
+            String str_Cancellation_Date	 = (TE_Cancellation_Date).format('yyyy-MM-dd\'T\'HH:mm:ss');
+            
+            DateTime resultCreated_Date = DateTime.ValueofGmt(str_Created_Date.replace('T', ' ')); 
+            DateTime resultCancellation_Date = DateTime.ValueofGmt(str_Cancellation_Date.replace('T', ' ')); 
+			
+            orderSum.TE_Created_Date__c 	 = resultCreated_Date;
+            orderSum.TE_Cancellation_Date__c = resultCancellation_Date;*/
+            
             orderSum.TE_Created_Date__c 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
             orderSum.TE_Cancellation_Date__c = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+
+            
             SOM_OrderReadyForPickupTemplateContent orderReadyForPickupTemplateContent = new SOM_OrderReadyForPickupTemplateContent();
             PickUpAddress adress = new PickUpAddress();
             PickupSchedule sched = new PickupSchedule();
@@ -474,7 +487,8 @@ lineItem.isCC = false;
         List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                                              BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress , tech_os_store_shipping_method__c,
-                                             (SELECT Id, ReservedAtLocationId, ReservedAtLocation.Name,Type 
+                                             (SELECT Id, ReservedAtLocationId, ReservedAtLocation.Name,Type, OriginalOrderItem.TotalLineAmount, StockKeepingUnit,
+                                              Name, CurrencyIsoCode, QuantityCanceled, Product2.ImageURL__c, Product2.ImageUrl1__c
                                               FROM OrderItemSummaries where Type ='Order Product'),                                             
                                              (SELECT Id, DeliverToCountry, DeliverToCity, CLICKCOLLECT_StoreName__c,CLICKCOLLECT_pickup_firstName__c, CLICKCOLLECT_pickup_lastName__c, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
                                               FROM OrderDeliveryGroupSummaries), (SELECT Id, FulfilledFromLocation.Name FROM FulfillmentOrders),
@@ -498,6 +512,22 @@ lineItem.isCC = false;
             orderCCAutomaticCancellationTemplateContent.storePhone       		= PhoneStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCAutomaticCancellationTemplateContent.storeEmail       		= EmailStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCAutomaticCancellationTemplateContent.orderAcceptanceDate     = orderSum.TransactionalEmails__r[0].CreatedDate;
+            
+            orderCCAutomaticCancellationTemplateContent.items = new List<Order_Item>();
+            
+            if(!orderSum.OrderItemSummaries?.isEmpty()){
+                for(OrderItemSummary orderItemSumm : orderSum.OrderItemSummaries){
+                    Order_Item lineItem = new Order_Item();
+                    lineItem.sku             = orderItemSumm.StockKeepingUnit;
+                    lineItem.name            = orderItemSumm.Name;
+            		lineItem.currencyCode    = orderItemSumm.CurrencyIsoCode;
+                    lineItem.amount          = orderItemSumm.OriginalOrderItem.TotalLineAmount;
+                    lineItem.quantity        = orderItemSumm.QuantityCanceled;
+                    lineItem.imageURL		 = orderItemSumm.Product2.ImageUrl1__c != null ? orderItemSumm.Product2.ImageUrl1__c : orderItemSumm.Product2.ImageURL__c;
+                    orderCCAutomaticCancellationTemplateContent.items.add(lineItem);
+                    
+                } 
+            }
             
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
@@ -531,7 +561,6 @@ lineItem.isCC = false;
             OrderCCAutomaticCancellationTransactionalEmailsList.add(CCAutomaticCancellationTransactionalEmail);
             
         }
-        
         return OrderCCAutomaticCancellationTransactionalEmailsList;
         
     }
@@ -565,6 +594,7 @@ lineItem.isCC = false;
             SOM_OrderCC_ReminderTemplateContent orderCCReminderTemplateContent = new SOM_OrderCC_ReminderTemplateContent();
             PickUpAddress adress = new PickUpAddress();
             PickupSchedule sched = new PickupSchedule();
+            PickupInformation pickupInfo = new PickupInformation();
             orderCCReminderTemplateContent.lastDayBeforeCancellation   	= orderSum.TransactionalEmails__r[0].CreatedDate + CC_Setting.nbrOfDaysBeforeCancellation__c;
             orderCCReminderTemplateContent.orderNumber      			= orderSum.OrderNumber;
             orderCCReminderTemplateContent.storePhone       			= PhoneStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
@@ -588,6 +618,11 @@ lineItem.isCC = false;
                 sched.storeOpSA   = orderSum.OrderDeliveryGroupSummaries[0].STORE_OPENING_SA__c;
                 sched.storeOpSU   = orderSum.OrderDeliveryGroupSummaries[0].STORE_OPENING_SU__c;
                 orderCCReminderTemplateContent.pickupSchedule = sched;
+                
+                pickupInfo.firstName   = orderSum.OrderDeliveryGroupSummaries[0].CLICKCOLLECT_pickup_firstName__c;
+                pickupInfo.lastName   = orderSum.OrderDeliveryGroupSummaries[0].CLICKCOLLECT_pickup_lastName__c;
+                orderCCReminderTemplateContent.pickupInformation =pickupInfo;
+
                 
             }
                         
@@ -850,20 +885,22 @@ lineItem.taxRate = item.TaxRate__c;
 **/
     public static List<TransactionalEmail__c> generateOrderCanceledTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
+        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.TotalAdjProductAmtWithTax,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
-                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c 
-                                              FROM OrderItemSummaries ORDER BY LineNumber ASC),
+                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity,QuantityCanceled, TotalLineAmount, Description, 
+                                              IsPreOrder__c, PreOrder_message__c,CurrencyIsoCode,UnitPrice, OriginalOrderItem.TotalLineAmount
+                                              FROM OrderItemSummaries where Type ='Order Product' ORDER BY LineNumber ASC),
                                              (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
                                               FROM OrderDeliveryGroupSummaries)
                                              FROM OrderSummary WHERE Id IN :recordIds];
         for (OrderSummary orderSumm : orderSummaries) {
             SOM_OrderCanceledTemplateContent orderTemplateContent = new SOM_OrderCanceledTemplateContent();
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
-            orderTemplateContent.subtotal         = orderSumm.TotalAmount;
-            orderTemplateContent.tax              = orderSumm.TotalTaxAmount.setScale(2);
-            orderTemplateContent.total            = orderSumm.GrandTotalAmount;
+            orderTemplateContent.subtotal         = orderSumm.OriginalOrder.TotalAmount;
+            orderTemplateContent.tax              = orderSumm.OriginalOrder.TotalTaxAmount.setScale(2);
+            orderTemplateContent.total            = orderSumm.OriginalOrder.TotalAdjProductAmtWithTax;
+            //orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
             if(orderSumm.SalesChannel.SalesChannelName == SOM_Constants.SALES_CHANNEL_CEGID){
                 orderTemplateContent.storeLocator         = STW_URL__c.getOrgDefaults().STW_URL__c+orderSumm.BillingCountry.toLowerCase()+'/'+orderSumm.language__c.toLowerCase()+'/'+SOM_Constants.STORELOCATOR_URL;
                 //orderTemplateContent.storeLocator		  = SOM_Constants.Rimowa_URL+orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry+'/'+orderSumm.language__c+'/'+'storelocator';
@@ -876,10 +913,9 @@ lineItem.taxRate = item.TaxRate__c;
                     Order_Item lineItem = new Order_Item();
                     lineItem.sku             = orderItemSumm.StockKeepingUnit;
                     lineItem.name            = orderItemSumm.Name;
-                    lineItem.description     = orderItemSumm.Description;
-                    lineItem.isPreorder      = orderItemSumm.IsPreOrder__c;
-                    lineItem.amount          = orderItemSumm.TotalLineAmount;
-                    lineItem.quantity        = orderItemSumm.Quantity;
+            		lineItem.currencyCode    = orderItemSumm.CurrencyIsoCode;
+                    lineItem.amount          = orderItemSumm.OriginalOrderItem.TotalLineAmount;
+                    lineItem.quantity        = orderItemSumm.QuantityCanceled;
                     lineItem.imageURL		 = orderItemSumm.Product2.ImageUrl1__c != null ? orderItemSumm.Product2.ImageUrl1__c : orderItemSumm.Product2.ImageURL__c;
                     orderTemplateContent.items.add(lineItem);
                     
@@ -1027,6 +1063,7 @@ lineItem.taxRate = item.TaxRate__c;
         public Decimal subtotal;
         public Decimal tax;
         public Decimal total;
+        public String currencyCode;	
         public List<Order_Item> items;
         public SOM_OrderCanceledTemplateContent(){
             this.items = new List<Order_Item>();
@@ -1072,6 +1109,7 @@ lineItem.taxRate = item.TaxRate__c;
         //public Boolean isCC;
         public String preorderMessage;
         public String imageURL;
+        public String currencyCode;	
     }
     
     public class SOM_ReturnRecievedTemplateContent{
@@ -1103,7 +1141,8 @@ lineItem.taxRate = item.TaxRate__c;
         public PickUpAddress pickupAddress;
         public PickupSchedule pickupSchedule; 
         public String storePhone;   
-        public String storeEmail;      
+        public String storeEmail;
+        public PickupInformation pickupInformation;
         
     }
     
@@ -1114,8 +1153,11 @@ lineItem.taxRate = item.TaxRate__c;
         public PickUpAddress pickupAddress;
         public PickupSchedule pickupSchedule; 
         public String storePhone;   
-        public String storeEmail;      
-        
+        public String storeEmail;  
+        public List<Order_Item> items;
+        public SOM_OrderCCAutomaticCancellationTemplateContent(){
+            this.items = new List<Order_Item>();
+        }
     }
     
     public class SOM_OrderReadyForPickupTemplateContent{
