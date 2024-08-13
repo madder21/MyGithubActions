@@ -1,0 +1,62 @@
+* Ticket : SOM-1101
+    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
+        -> FulfillmentOrder.RI_Neighborhood__c : Read Access + Edit Access
+        -> FulfillmentOrder.StreetNumber__c : Read Access + Edit Access
+        -> Order.RI_Neighborhood__c : Read Access + Edit Access
+        -> Order.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.StreetNumber__c : Read Access + Edit Access
+        -> OrderSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderSummary.StreetNumber__c     : Read Access + Edit Access
+
+    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
+        -> FulfillmentOrder.RI_Neighborhood__c : Read Access + Edit Access
+        -> FulfillmentOrder.StreetNumber__c : Read Access + Edit Access
+        -> Order.RI_Neighborhood__c : Read Access + Edit Access
+        -> Order.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.StreetNumber__c : Read Access + Edit Access
+        -> OrderSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderSummary.StreetNumber__c     : Read Access + Edit Access   
+
+
+    - Update Profile's visibility:
+        -> FulfillmentOrder.RI_Neighborhood__c : visible for all profiles
+        -> FulfillmentOrder.StreetNumber__c : visible for all profiles
+        -> Order.RI_Neighborhood__c : visible for all profiles
+        -> Order.StreetNumber__c : visible for all profiles
+        -> OrderDeliveryGroup.RI_Neighborhood__c : visible for all profiles
+        -> OrderDeliveryGroup.StreetNumber__c : visible for all profiles
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : visible for all profiles
+        -> OrderDeliveryGroupSummary.StreetNumber__c : visible for all profiles
+        -> OrderSummary.RI_Neighborhood__c : visible for all profiles
+        -> OrderSummary.StreetNumber__c     : visible for all profiles
+
+
+* Ticket : SOM-1126
+    -> OrderDeliveryGroupSummary.TECH_PE_was_identified__c : visible for all profiles
+    - Activate Order_Delivery_Group_Summary_Record_Page1 Page for all Profiles if it's not the case
+
+
+* Ticket : SOM-1136
+    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
+            FulfillmentOrder.Complementary__c : Read Access + Edit Access
+		    Order.Complementary__c            : Read Access + Edit Access
+		    OrderDeliveryGroup.Complementary__c : Read Access + Edit Access
+		    OrderDeliveryGroupSummary.Complementary__c : Read Access + Edit Access
+		    OrderSummary.Complementary__c : Read Access + Edit Access
+    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
+            FulfillmentOrder.Complementary__c : Read Access + Edit Access
+		    Order.Complementary__c            : Read Access + Edit Access
+		    OrderDeliveryGroup.Complementary__c : Read Access + Edit Access
+		    OrderDeliveryGroupSummary.Complementary__c : Read Access + Edit Access
+		    OrderSummary.Complementary__c : Read Access + Edit Access
+* Ticket : SOM-1137
+    - Update Profile's visibility:
+    		Legal_Entity__c.CegidSalesPersonId__c : View Only except Sys Admin and Technical Profile
+			Legal_Entity__c.CegidStoreCode__c : View Only except Sys Admin and Technical Profile
+			Legal_Entity__c.Location__c : View Only except Sys Admin and Technical Profile
