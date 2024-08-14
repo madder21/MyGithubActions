@@ -786,6 +786,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_if_BR_Order</name>
+        <label>Check if BR Order</label>
+        <locationX>2448</locationX>
+        <locationY>301</locationY>
+        <defaultConnector>
+            <targetReference>finished</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>NOT_BR_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Summary_Object.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_Event_New_CM_for_Cegid</targetReference>
+            </connector>
+            <label>NOT BR Order</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Last_Credit_Memo_Record</name>
         <label>Check Last Credit Memo Record</label>
         <locationX>1836</locationX>
@@ -1261,7 +1286,7 @@
         <locationX>2186</locationX>
         <locationY>463</locationY>
         <connector>
-            <targetReference>Publish_Event_New_CM_for_Cegid</targetReference>
+            <targetReference>Check_if_BR_Order</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>

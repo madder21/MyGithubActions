@@ -270,6 +270,31 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Check_BR_Order</name>
+        <label>Check BR Order</label>
+        <locationX>1195</locationX>
+        <locationY>1502</locationY>
+        <defaultConnector>
+            <targetReference>Is_Already_Closed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>NOT_BR_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_New_Credit_memo_for_Cegid_Event</targetReference>
+            </connector>
+            <label>NOT BR Order</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Order_Summary_Status</name>
         <label>Check Order Summary Status</label>
         <locationX>1147</locationX>
@@ -445,7 +470,6 @@
         </rules>
     </decisions>
     <description>Launch new Credit Memo for Cegid Event</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_CMNumber</name>
         <dataType>String</dataType>
@@ -556,7 +580,7 @@
         <locationX>975</locationX>
         <locationY>1582</locationY>
         <connector>
-            <targetReference>Publish_New_Credit_memo_for_Cegid_Event</targetReference>
+            <targetReference>Check_BR_Order</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>
