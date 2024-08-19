@@ -1,10 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Validate_Brazilian_Address</name>
+        <label>Validate Brazilian Address ODGS</label>
+        <locationX>181</locationX>
+        <locationY>84</locationY>
+        <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Verify_BrazilianAddress_0</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>requests</name>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Validate_Brazilian_Address_0</name>
+        <label>Validate Brazilian Address OS</label>
+        <locationX>324</locationX>
+        <locationY>227</locationY>
+        <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Verify_BrazilianAddress_0_0</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>requests</name>
+            <value>
+                <elementReference>Get_Order_Summary.BillingPostalCode</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
     <apiVersion>55.0</apiVersion>
+    <assignments>
+        <name>ODGS_Assignment</name>
+        <label>ODGS Assignment</label>
+        <locationX>197</locationX>
+        <locationY>455</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Order_Delivery_Group_Summary.TECH_PE_was_identified__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_ODGS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Order_Number_Assignment</name>
+        <label>Order Number Assignment</label>
+        <locationX>565</locationX>
+        <locationY>517</locationY>
+        <assignmentItems>
+            <assignToReference>OrderNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.OrderNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OrderSummaryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_PE_To_Resolved_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Order_Number_Assignment_0</name>
+        <label>Order Number Assignment</label>
+        <locationX>359</locationX>
+        <locationY>742</locationY>
+        <assignmentItems>
+            <assignToReference>OrderNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.OrderSummary.OrderNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OrderSummaryId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.OrderSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_PE_To_Resolved_0</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Address_Validation_Brazil_Category</name>
+        <label>Check Address Validation Brazil Category</label>
+        <locationX>684</locationX>
+        <locationY>214</locationY>
+        <defaultConnector>
+            <targetReference>Update_PE_To_Resolved</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ODGS_Brazil_Address</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE.Category</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Address Validation Brazil</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Order Delivery Group Summary : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
+            </connector>
+            <label>ODGS Brazil Address</label>
+        </rules>
+        <rules>
+            <name>OS_Brazil_Address</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE.Category</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Address Validation Brazil</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Order Summary : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Order_Summary</targetReference>
+            </connector>
+            <label>OS Brazil Address</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Create_Cegid_Event</name>
+        <label>Create Cegid Event</label>
+        <locationX>227</locationX>
+        <locationY>1028</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CreateCegidEvent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE_Not_Resolved</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
+            </connector>
+            <label>Create Cegid Event</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Refund_PE</name>
         <label>Refund PE</label>
-        <locationX>515</locationX>
+        <locationX>1101</locationX>
         <locationY>516</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -26,7 +202,7 @@
     <decisions>
         <name>Resolve_or_Ignore</name>
         <label>Resolve or Ignore</label>
-        <locationX>514</locationX>
+        <locationX>1100</locationX>
         <locationY>208</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -60,6 +236,112 @@
             <label>Ignore</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Verify_BrazilianAddress_0</name>
+        <label>Verify BrazilianAddress</label>
+        <locationX>180</locationX>
+        <locationY>218</locationY>
+        <defaultConnector>
+            <targetReference>ScreenError_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Brazilian_ODGS_Address_Verified_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address.cep</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address.logradouro</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToStreet</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address.bairro</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Delivery_Group_Summary.RI_Neighborhood__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address.localidade</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToCity</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address.uf</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToState</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ODGS_Assignment</targetReference>
+            </connector>
+            <label>Brazilian ODGS Address Verified</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Verify_BrazilianAddress_0_0</name>
+        <label>Verify BrazilianAddress</label>
+        <locationX>317</locationX>
+        <locationY>395</locationY>
+        <defaultConnector>
+            <targetReference>ScreenError</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Brazilian_OS_Address_Verified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address_0.cep</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Summary.BillingPostalCode</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address_0.logradouro</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Summary.BillingStreet</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address_0.bairro</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Summary.RI_Neighborhood__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address_0.localidade</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Summary.BillingCity</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Validate_Brazilian_Address_0.uf</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Get_Order_Summary.BillingState</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Order_Number_Assignment</targetReference>
+            </connector>
+            <label>Brazilian OS Address Verified</label>
+        </rules>
+    </decisions>
     <interviewLabel>SOM 940 Resolve Ignore Process Exception {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 940 Resolve Ignore Process Exception</label>
     <processMetadataValues>
@@ -81,10 +363,129 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_New_Order_For_Cegid_Event</name>
+        <label>Create New Order For Cegid Event</label>
+        <locationX>138</locationX>
+        <locationY>881</locationY>
+        <inputAssignments>
+            <field>OrderSummaryNumber__c</field>
+            <value>
+                <elementReference>OrderNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewOrderForCegid__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Order_Delivery_Group_Summary</name>
+        <label>Get Order Delivery Group Summary</label>
+        <locationX>490</locationX>
+        <locationY>78</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Validate_Brazilian_Address</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_PE.AttachedToId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Summary</name>
+        <label>Get Order Summary</label>
+        <locationX>560</locationX>
+        <locationY>381</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Validate_Brazilian_Address_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_PE.AttachedToId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_PE</name>
+        <label>Get PE</label>
+        <locationX>790</locationX>
+        <locationY>348</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Address_Validation_Brazil_Category</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_PE_Not_Resolved</name>
+        <label>Get PE Not Resolved</label>
+        <locationX>374</locationX>
+        <locationY>901</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Cegid_Event</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Address Validation Brazil</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_Refund_PE</name>
         <label>Get Refund PE</label>
-        <locationX>519</locationX>
+        <locationX>1105</locationX>
         <locationY>395</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -110,9 +511,19 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_ODGS</name>
+        <label>Update ODGS</label>
+        <locationX>196</locationX>
+        <locationY>668</locationY>
+        <connector>
+            <targetReference>Order_Number_Assignment_0</targetReference>
+        </connector>
+        <inputReference>Get_Order_Delivery_Group_Summary</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_PE_To_Ignored</name>
         <label>Update PE To Ignored</label>
-        <locationX>838</locationX>
+        <locationX>1424</locationX>
         <locationY>315</locationY>
         <connector>
             <targetReference>Get_Refund_PE</targetReference>
@@ -136,8 +547,8 @@
     <recordUpdates>
         <name>Update_PE_To_Resolved</name>
         <label>Update PE To Resolved</label>
-        <locationX>188</locationX>
-        <locationY>321</locationY>
+        <locationX>686</locationX>
+        <locationY>660</locationY>
         <connector>
             <targetReference>Get_Refund_PE</targetReference>
         </connector>
@@ -158,9 +569,33 @@
         <object>ProcessException</object>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_PE_To_Resolved_0</name>
+        <label>Update PE To Resolved</label>
+        <locationX>535</locationX>
+        <locationY>853</locationY>
+        <connector>
+            <targetReference>Get_PE_Not_Resolved</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </inputAssignments>
+        <object>ProcessException</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_Refund</name>
         <label>Update Refund</label>
-        <locationX>528</locationX>
+        <locationX>1114</locationX>
         <locationY>675</locationY>
         <filterLogic>and</filterLogic>
         <filters>
@@ -181,7 +616,7 @@
     <screens>
         <name>Popup_Ignore_confirmation_0</name>
         <label>Popup Ignore confirmation</label>
-        <locationX>747</locationX>
+        <locationX>1333</locationX>
         <locationY>210</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -202,14 +637,14 @@
     <screens>
         <name>Popup_resolve_confirmation</name>
         <label>Popup resolve confirmation</label>
-        <locationX>281</locationX>
+        <locationX>867</locationX>
         <locationY>211</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Update_PE_To_Resolved</targetReference>
+            <targetReference>Get_PE</targetReference>
         </connector>
         <fields>
             <name>Resolve_Display</name>
@@ -220,9 +655,41 @@
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
+    <screens>
+        <name>ScreenError</name>
+        <label>ScreenError</label>
+        <locationX>409</locationX>
+        <locationY>644</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>error</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the address on the Order Summary.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>ScreenError_0</name>
+        <label>ScreenError</label>
+        <locationX>50</locationX>
+        <locationY>325</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>error_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the address on the Order Delivery Group Summary.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <start>
-        <locationX>401</locationX>
-        <locationY>48</locationY>
+        <locationX>981</locationX>
+        <locationY>49</locationY>
         <connector>
             <targetReference>Resolve_or_Ignore</targetReference>
         </connector>
@@ -233,6 +700,20 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderSummaryId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
