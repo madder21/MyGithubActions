@@ -3,7 +3,7 @@ global with sharing class SOM_InvoiceDocumentController {
     public static final String   CONCAT_CHARACTER = ',';
     public Map<String, String>   invoiceConfigs { get; set; }
     public InvoiceDocument       invoiceDoc { get; set;}
-    public Map<Decimal,String>    invoiceTaxLineItems {get; set; }
+    public Map<String,String>    invoiceTaxLineItems {get; set; }
     public Map<String,String>    countryMap {get;set;}
     public String                correctiveInvoiceHeaderMessage {get; set; }
     public String                AmountsFormat {get; set; }
@@ -70,15 +70,21 @@ global with sharing class SOM_InvoiceDocumentController {
             
             //invoice info
             invDoc.orderNumber    = fulfillmentOrder.get(0).OrderSummary.orderNumber;
-            invDoc.totalWithTax   = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
             
-            invDoc.netSubTotal    = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
+            if(templateCode == 'JP'){
+                invDoc.totalWithTax   = setAmountsJPFormat(SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat));
+                invDoc.netSubTotal    = setAmountsJPFormat(SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat));
+            }else{
+                invDoc.totalWithTax   = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmountWithTax,AmountsFormat);
+                invDoc.netSubTotal    = SOM_Utils.getTotalFormatted(fulfillmentOrder.get(0).Invoice.TotalAmount,AmountsFormat);
+            }
+            
             invDoc.currencyCode   = fulfillmentOrder.get(0).CurrencyIsoCode;
             //Invoice lines
             if (invoiceLines != null && !invoiceLines.isEmpty()) {
-                invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder));
-                this.invoiceTaxLineItems = new Map<Decimal, String>();
-                this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines);
+                invDoc.lineItems = this.getInvoiceLines(invoiceLines, this.getSerialNumbers(FulfillmentOrder),templateCode);
+                this.invoiceTaxLineItems = new Map<String, String>();
+                this.invoiceTaxLineItems = this.getInvoiceTaxLineItems(invoiceLines, templateCode);
                 
             }
             invDoc.paymentType     = this.getPaymentMethod(fulfillmentOrder.get(0));
@@ -165,17 +171,24 @@ global with sharing class SOM_InvoiceDocumentController {
         return billContact;
     }
     
-    public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap){
+    public List<InvoiceLineItem> getInvoiceLines(List<InvoiceLine> invoiceLines, Map<Id, List<String>> serialNumbersMap, String templateCode){
         List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
         for(InvoiceLine invoiceLine:invoiceLines) {
             if (invoiceLine.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_CHARGE) && invoiceLine.Quantity>0) {
                 InvoiceLineItem lineItem = new InvoiceLineItem();
                 lineItem.itemDescription = invoiceLine.Product2.Description;
                 lineItem.quantity        = invoiceLine.Quantity;
-                lineItem.netAmount       = SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
-                lineItem.vat             = SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
-                lineItem.grossAmount     = SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
-                lineItem.total           = SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
+                if(templateCode == 'JP'){
+                    lineItem.netAmount       = setAmountsJPFormat(SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat));
+                    lineItem.vat             = setAmountsJPFormat(SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat));
+                    lineItem.grossAmount     = setAmountsJPFormat(SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat));
+                    lineItem.total           = setAmountsJPFormat(SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat));
+                }else{
+                    lineItem.netAmount       = SOM_Utils.getTotalFormatted(invoiceLine.UnitPrice,AmountsFormat);
+                    lineItem.vat             = SOM_Utils.getTotalFormatted(invoiceLine.ChargeTaxAmount,AmountsFormat);
+                    lineItem.grossAmount     = SOM_Utils.getTotalFormatted(invoiceLine.GrossUnitPrice,AmountsFormat);
+                    lineItem.total           = SOM_Utils.getTotalFormatted(invoiceLine.ChargeAmountWithTax,AmountsFormat);
+                }
                 if (invoiceLine.ReferenceEntityItem instanceOf OrderItemSummary) {
                     OrderItemSummary orderItem = invoiceLine.ReferenceEntityItem;
                     lineItem.hsCode            = orderItem.hsCode__c;
@@ -225,9 +238,9 @@ global with sharing class SOM_InvoiceDocumentController {
     }
     
     
-    public Map<Decimal,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems){
+    public Map<String,String> getInvoiceTaxLineItems(List<InvoiceLine> lineItems, String templateCode){
         Map<Decimal, Decimal> invoiceTaxes       = new Map<Decimal, Decimal>();
-        Map<Decimal, String> invoiceTaxesSorted = new Map<Decimal, String>();
+        Map<String, String> invoiceTaxesSorted = new Map<String, String>();
         
         for (InvoiceLine lineItem:lineItems) {
             if (lineItem.Type.equalsIgnoreCase(SOM_Constants.INVOICE_LINE_TYPE_TAX)) {
@@ -243,8 +256,14 @@ global with sharing class SOM_InvoiceDocumentController {
         List<Decimal> sortedTaxes = new List<Decimal>();
         sortedTaxes.addAll(invoiceTaxes.keySet());
         sortedTaxes.sort();
-        for(Decimal dec: sortedTaxes){
-            invoiceTaxesSorted.put((dec),(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
+        if (templateCode == 'JP'){
+            for(Decimal dec: sortedTaxes){
+                invoiceTaxesSorted.put(setAmountsJPFormat(String.valueOf(dec)),setAmountsJPFormat(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
+            }
+        }else{
+            for(Decimal dec: sortedTaxes){
+                invoiceTaxesSorted.put(String.valueOf(dec),(SOM_Utils.getTotalFormatted(invoiceTaxes.get(dec),AmountsFormat)));
+            }
         }
         return invoiceTaxesSorted;
     }
@@ -265,6 +284,11 @@ global with sharing class SOM_InvoiceDocumentController {
         return invAddress;
     } 
     
+    public String setAmountsJPFormat(String Amount) {
+		String AmountJP =  Amount.Substring(0,Amount.length()-3);
+        return AmountJP;
+    } 
+
     
     
     global with sharing class InvoiceDocument{
