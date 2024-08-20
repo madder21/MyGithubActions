@@ -128,8 +128,10 @@ global with sharing class SOM_Constants {
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED         = 'ReturnCreated';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION    = 'RefundConfirmation';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT = 'RefundValidationMissingProduct';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL   = 'C&CAutomaticOrderCancellation';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER      = 'C&CReminder';
+
+    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL   = 'CCAutomaticOrderCancellation';
+    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER      = 'CCReminder';
+
 	public static final String Rimowa_URL = 'https://rimowa.com/';
 	public static final String STORELOCATOR_URL = 'storelocator';
 
