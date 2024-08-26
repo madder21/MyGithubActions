@@ -62,8 +62,8 @@
     <actionCalls>
         <name>Validate_SerialNumbers</name>
         <label>Validate SerialNumbers</label>
-        <locationX>317</locationX>
-        <locationY>357</locationY>
+        <locationX>326</locationX>
+        <locationY>368</locationY>
         <actionName>SOM_SerialNumbersValidation</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -125,22 +125,6 @@
         </assignmentItems>
         <connector>
             <targetReference>FOLI_to_Ship</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_SKU_Left</name>
-        <label>Assign SKU Left</label>
-        <locationX>125</locationX>
-        <locationY>669</locationY>
-        <assignmentItems>
-            <assignToReference>SKU10DigitsValCheck</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>SKUCoherent</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>is_Serialized</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -436,20 +420,17 @@
     <decisions>
         <name>is_Serialized</name>
         <label>is Serialized</label>
-        <locationX>123</locationX>
-        <locationY>485</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
-        </defaultConnector>
+        <locationX>119</locationX>
+        <locationY>505</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Sku_10_digits1</name>
+            <name>SKU_8_Digits_Confirmation</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SKU10DigitsValCheck</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <leftValueReference>SKUCoherent</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>L10_Over_FOLI_Selected.productSKU</elementReference>
+                    <elementReference>FX_SKUProduct8</elementReference>
                 </rightValue>
             </conditions>
             <conditions>
@@ -459,14 +440,64 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>SKU_Error</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FX_SKULengh</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>8.0</numberValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>FOLI_to_Ship</targetReference>
+                <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
             </connector>
-            <label>Sku 10 digits</label>
+            <label>SKU 8 Digits Confirmation</label>
+        </rules>
+        <rules>
+            <name>SKU_10_Digits_Confirmation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SKUCoherent10</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>FX_SKUProduct10</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Sku10Digits</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SKU_Error</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FX_SKULengh</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
+                <rightValue>
+                    <numberValue>10.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
+            </connector>
+            <label>SKU 10 Digits Confirmation</label>
         </rules>
         <rules>
             <name>SkuErrorFormula</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>2 AND (1 OR 3 OR 4)</conditionLogic>
             <conditions>
                 <leftValueReference>SKU_Error</leftValueReference>
                 <operator>EqualTo</operator>
@@ -479,6 +510,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SKUCoherent</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>FX_SKUProduct8</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SKUCoherent10</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>FX_SKUProduct10</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -529,6 +574,22 @@
         <expression>IF(ISBLANK({!V_Wr_Shipment.orderMethodId}), {!Get_FO_Record.DeliveryMethod.Id} , {!V_Wr_Shipment.orderMethodId})</expression>
     </formulas>
     <formulas>
+        <name>FX_SKULengh</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!L10_Over_FOLI_Selected.productSKU})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>FX_SKUProduct10</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!L10_Over_FOLI_Selected.productSKU},10)</expression>
+    </formulas>
+    <formulas>
+        <name>FX_SKUProduct8</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!L10_Over_FOLI_Selected.productSKU},8)</expression>
+    </formulas>
+    <formulas>
         <name>FX_TimeZoneDefault</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!V_Wr_Shipment.timezone}),TEXT({!$User.TimeZoneSidKey}),{!V_Wr_Shipment.timezone})</expression>
@@ -542,6 +603,11 @@
         <name>SKUCoherent</name>
         <dataType>String</dataType>
         <expression>LEFT({!Sku_10_Digits}, 8)</expression>
+    </formulas>
+    <formulas>
+        <name>SKUCoherent10</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!Sku_10_Digits}, 10)</expression>
     </formulas>
     <interviewLabel>SOM 990 Manual Shipment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 990 Manual Shipment</label>
@@ -725,13 +791,13 @@
     <screens>
         <name>FOLI_to_Ship</name>
         <label>FOLI to Ship</label>
-        <locationX>248</locationX>
-        <locationY>769</locationY>
+        <locationX>233</locationX>
+        <locationY>738</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>Assign_SKU_Left</targetReference>
+            <targetReference>is_Serialized</targetReference>
         </connector>
         <fields>
             <name>FOLI</name>
@@ -810,14 +876,7 @@
                     <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits or not coherent with the Product Sku&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <visibilityRule>
-                        <conditionLogic>1 OR (2 AND 3)</conditionLogic>
-                        <conditions>
-                            <leftValueReference>Sku_10_digits1</leftValueReference>
-                            <operator>EqualTo</operator>
-                            <rightValue>
-                                <booleanValue>true</booleanValue>
-                            </rightValue>
-                        </conditions>
+                        <conditionLogic>and</conditionLogic>
                         <conditions>
                             <leftValueReference>SkuErrorFormula</leftValueReference>
                             <operator>EqualTo</operator>
@@ -863,7 +922,6 @@
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-              
             </fields>
             <fields>
                 <name>FOLI_to_Ship_Section1_Column2</name>
@@ -1341,13 +1399,6 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
-    </variables>
-    <variables>
-        <name>SKU10DigitsValCheck</name>
-        <dataType>String</dataType>
-        <isCollection>false</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>V_errorSerialNumbers</name>
