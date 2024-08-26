@@ -27,6 +27,7 @@ global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable
     }
 
     global void execute(Database.BatchableContext BC, List<Payment> relatedPayments){
+        
         for(Payment pay : relatedPayments){
             pay.Phone                  = stringOperator; 
             pay.Email                  = emailOperator;
