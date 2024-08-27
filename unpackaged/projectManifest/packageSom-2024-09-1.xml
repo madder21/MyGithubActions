@@ -2,7 +2,28 @@
 
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-	
+	<types>
+		<members>FulfillmentOrder.RI_Neighborhood__c</members>
+			<members>FulfillmentOrder.StreetNumber__c</members>
+			<members>Order.RI_Neighborhood__c</members>
+			<members>Order.StreetNumber__c</members>
+			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroup.StreetNumber__c</members>
+			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
+			<members>OrderSummary.RI_Neighborhood__c</members>
+			<members>OrderSummary.StreetNumber__c</members>
+			<members>FulfillmentOrder.Complementary__c</members>
+			<members>Order.Complementary__c</members>
+			<members>OrderDeliveryGroup.Complementary__c</members>
+			<members>OrderDeliveryGroupSummary.Complementary__c</members>
+			<members>OrderSummary.Complementary__c</members>
+		<members>Legal_Entity__c.CegidSalesPersonId__c</members>
+				<members>Legal_Entity__c.CegidStoreCode__c</members>
+				<members>Legal_Entity__c.Location__c</members>
+		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
+			<name>CustomField</name>
+		</types>
 	<types>
 		<members>SOM_Cancel_Order_Summary</members>
                 <members>SOM_990_Manual_Shipment</members>
@@ -74,28 +95,7 @@
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
 		<name>Report</name>
 	</types>
-	<types>
-		<members>FulfillmentOrder.RI_Neighborhood__c</members>
-			<members>FulfillmentOrder.StreetNumber__c</members>
-			<members>Order.RI_Neighborhood__c</members>
-			<members>Order.StreetNumber__c</members>
-			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
-			<members>OrderDeliveryGroup.StreetNumber__c</members>
-			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
-			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
-			<members>OrderSummary.RI_Neighborhood__c</members>
-			<members>OrderSummary.StreetNumber__c</members>
-			<members>FulfillmentOrder.Complementary__c</members>
-			<members>Order.Complementary__c</members>
-			<members>OrderDeliveryGroup.Complementary__c</members>
-			<members>OrderDeliveryGroupSummary.Complementary__c</members>
-			<members>OrderSummary.Complementary__c</members>
-		<members>Legal_Entity__c.CegidSalesPersonId__c</members>
-				<members>Legal_Entity__c.CegidStoreCode__c</members>
-				<members>Legal_Entity__c.Location__c</members>
-		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
-			<name>CustomField</name>
-		</types>
+	
 <types>
 			
       	<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
