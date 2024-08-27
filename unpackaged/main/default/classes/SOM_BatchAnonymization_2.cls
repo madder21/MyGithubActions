@@ -33,6 +33,7 @@ global with sharing class SOM_BatchAnonymization_2 implements Database.Batchable
     }
 
     global void execute(Database.BatchableContext BC, List<Order> relatedOrders){
+        
         for(Order ord : relatedOrders){
             ord.Name                       = stringOperator;
             ord.BillingPostalCode          = stringOperator;

@@ -6,6 +6,8 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
     String  Fulfilled       = SOM_Constants.ORDER_SUMMARY_FULFILLED;
     String  Canceled        = SOM_Constants.ORDER_SUMMARY_CANCELED;
 
+    List<String> orderIds = new List<String>();
+    
     String currentUserEmail = UserInfo.getUserEmail();
     List<String> cls = new List<String>();
     List<String> orderPaymentSummaryIds = new List<String>();
@@ -19,7 +21,8 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
     List<Invoice> InvoiceToBeUpdated = new List<Invoice>();
     Boolean isSuccess = true;
 
-    public SOM_BatchAnonymization_5(List<String> paymentMethodIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
+    public SOM_BatchAnonymization_5(List<String> orderIdList, List<String> paymentMethodIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
+        orderIds                = orderIdList;
         paymentMethodIds        = paymentMethodIdsList;
         objectClientId          = objectClientIdMap;
         orderSummaryNumbers     = orderSummaryNumbersMap;
@@ -39,6 +42,8 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             objectClientId.put(digi.Id, digi.AccountId);
         }
         try {
+            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','');   
+            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','');   
             if(objectsToUpdate != null && !objectsToUpdate.isEmpty()) {
                 objectsToUpdate.sort();
                 update objectsToUpdate;
@@ -50,15 +55,20 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             privacyReq.Status__c           = 'Error';
             privacyReq.AnonymizationLog__c = e.getDmlMessage(0);
             insert privacyReq;
+            Logs.error(e,'SOM_BatchAnonymization_5','callBatchAnonymization','','');   
+
         }
     }
 
     global void finish(Database.BatchableContext BC){
+        try {
+            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','');   
+            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','');   
         if(isSuccess == true){
-            List<String> ordNumbersToSend = new List<String>();
+            List<String> ordSumNumbersToSend = new List<String>();
             for(String clSingle : orderSummaryNumbers.keySet()){
                 String anonymLog = string.valueof(orderSummaryNumbers.get(clSingle)).replace('{', '').replace('}', '');
-                ordNumbersToSend.addAll(orderSummaryNumbers.get(clSingle));
+                ordSumNumbersToSend.addAll(orderSummaryNumbers.get(clSingle));
                 PrivacyRequest__c privacyReq = new PrivacyRequest__c();
                 privacyReq.Application__c      = 'SOM';
                 privacyReq.AccountId__c        = clSingle;
@@ -77,13 +87,16 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             }
             update InvoiceToBeUpdated;
             
-            String anonymLogToSend = string.valueof(ordNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
-            List<OrderSummary> nonAnomizedList = [SELECT Id, Status, OrderNumber FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
+            String anonymLogToSend = string.valueof(ordSumNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
+            List<OrderSummary> nonAnomizedListOS = [SELECT Id, Status, OrderNumber, OriginalOrderId FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
+            List<Order> nonAnomizedOrderList = [SELECT Id, Status FROM Order WHERE Id NOT IN :orderIds and Status != 'Activated' AND AccountId IN :cls];
             List<String> nonAnonymOrdNumbers = new List<String>();
-            for(OrderSummary ord : nonAnomizedList){
+            
+            for(OrderSummary ord : nonAnomizedListOS){
                 nonAnonymOrdNumbers.add(ord.OrderNumber);
+                orderIds.add(ord.OriginalOrderId);
             }
-            if(!(nonAnomizedList.size() > 0)){
+            if(!(nonAnomizedListOS.size() > 0) && !(nonAnomizedOrderList.size() > 0)){
                 for(Account cli : [SELECT Id, isPurged__c FROM Account WHERE Id IN :cls]){
                     cli.isPurged__c = true;
                     clientsToBeUpdated.add(cli);
@@ -92,28 +105,13 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             }
             
             String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
-            sendEmail(currentUserEmail, anonymLogToSend, nonAnonymLogToSend, clientsToBeUpdated[0].Id);
-        } 
+                
+                SOM_BatchAnonymization_6 nextBatch = new SOM_BatchAnonymization_6(orderIds, objectClientId, cls, anonymLogToSend, nonAnonymLogToSend);
+                database.executebatch(nextBatch);
+            } 
+        }catch(Exception e){
+            Logs.error(e,'SOM_BatchAnonymization_5','BatchAnonymization - finish','','');   
+        }  
     }
 
-    public static void sendEmail(String emailUser, String orderNumbers, String nonAnonymOrderNumbers, String AccountId){
-        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        OrgWideEmailAddress owa = [SELECT id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address = 'maha.meghras@viseo.com' OR Address = 'noreply@rimowa.com' LIMIT 1];
-        message.setOrgWideEmailAddressId(owa.id);
-        String subject ='Anonymization request';
-        message.setSubject(subject);
-        list<string> toAddresses = new list<string>();
-        toAddresses.add(emailUser);
-        message.setToAddresses(toAddresses);
-        String bodyMessage = 'Hello,<br/> <br/>'+'Please, find below the result of your anonymization request for the following account id : '+AccountId+'.';
-        if(!String.isBlank(orderNumbers)){
-            bodyMessage += '<br/><br/> Anonymized orders : '+orderNumbers+'.';
-        }
-        if(!String.isBlank(nonAnonymOrderNumbers)){
-            bodyMessage += '<br/><br/>'+' The following orders were not anonymized as they are not in "Fulfilled" or "Canceled" status : '+nonAnonymOrderNumbers+'.';
-        }
-        bodyMessage += '<br/> <br/> Best regards, ';
-        message.setHtmlBody(bodyMessage);
-        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { message });
-    }
 }

@@ -25,7 +25,7 @@
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
-    <apiVersion>57.0</apiVersion>
+    <apiVersion>61.0</apiVersion>
     <assignments>
         <name>Add_REC_ReturnOrderItemInputRepresentation_COL</name>
         <label>Add_REC_ReturnOrderItemInputRepresentation_COL</label>
@@ -85,7 +85,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Close_Order</targetReference>
+            <targetReference>Decision_Submitted_Or_Not</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -187,19 +187,19 @@
         <label>Get_Received_Roli</label>
         <locationX>1135</locationX>
         <locationY>298</locationY>
-        <assignNextValueToReference>currentItem_Get_Received_Roli_0</assignNextValueToReference>
+        <assignNextValueToReference>currentItem_Get_Received_Roli</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Return_Order_Line_Items</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Get_Received_Roli_0.FollowUpProcessed__c</leftValueReference>
+            <leftValueReference>currentItem_Get_Received_Roli.FollowUpProcessed__c</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <booleanValue>false</booleanValue>
             </rightValue>
         </conditions>
         <conditions>
-            <leftValueReference>currentItem_Get_Received_Roli_0.QuantityReceived</leftValueReference>
+            <leftValueReference>currentItem_Get_Received_Roli.QuantityReceived</leftValueReference>
             <operator>GreaterThan</operator>
             <rightValue>
                 <numberValue>0.0</numberValue>
@@ -264,9 +264,16 @@
         <defaultConnectorLabel>Cancel</defaultConnectorLabel>
         <rules>
             <name>OK</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>Decision_User.value</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>OK</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Decision_User_0.value</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>OK</stringValue>
@@ -276,6 +283,31 @@
                 <targetReference>Check_ROLI_Processed_Great_Than_0</targetReference>
             </connector>
             <label>OK</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Decision_Submitted_Or_Not</name>
+        <label>Decision Submitted Or Not</label>
+        <locationX>1872</locationX>
+        <locationY>285</locationY>
+        <defaultConnector>
+            <targetReference>Close_Order_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Sumbited</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_RO_Status.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Submitted</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Close_Order</targetReference>
+            </connector>
+            <label>Sumbited</label>
         </rules>
     </decisions>
     <interviewLabel>SOM_Close_Return_Order {!$Flow.CurrentDateTime}</interviewLabel>
@@ -380,6 +412,29 @@
         <object>ReturnOrderLineItem</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_RO_Status</name>
+        <label>Get RO Status</label>
+        <locationX>877</locationX>
+        <locationY>175</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Return_Order_Line_Items</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ReturnOrder</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Status</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_Return_Order</name>
         <label>Update Return Order</label>
@@ -407,8 +462,8 @@
     <screens>
         <name>Close_Order</name>
         <label>Close Order</label>
-        <locationX>1909</locationX>
-        <locationY>295</locationY>
+        <locationX>2090</locationX>
+        <locationY>413</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -452,6 +507,11 @@
             </visibilityRule>
         </fields>
         <fields>
+            <name>CancelItemText</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgba(161, 189, 217, 0.08); font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, &amp;quot;Segoe UI&amp;quot;, Roboto, Oxygen, Ubuntu, &amp;quot;Fira Sans&amp;quot;, &amp;quot;Droid Sans&amp;quot;, &amp;quot;Helvetica Neue&amp;quot;, sans-serif; color: rgb(0, 0, 0);&quot;&gt; If you want to create a new Return Order in the future, click on the button Cancel Expected Items instead.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
             <name>Decision_User</name>
             <extensionName>c:fsc_flowButtonBar</extensionName>
             <fieldType>ComponentInstance</fieldType>
@@ -493,11 +553,100 @@
         <showFooter>false</showFooter>
         <showHeader>true</showHeader>
     </screens>
-    <start>
-        <locationX>756</locationX>
-        <locationY>48</locationY>
+    <screens>
+        <name>Close_Order_0</name>
+        <label>Close Order_NotSubmited</label>
+        <locationX>2074</locationX>
+        <locationY>227</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Get_Return_Order_Line_Items</targetReference>
+            <targetReference>Decision_Of_User</targetReference>
+        </connector>
+        <fields>
+            <name>Message_Confirmation_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; font-family: sans-serif;&quot;&gt;You are asking to close the return order. It will not be possible to update the return order after it. Do you confirm the closing of this return order?&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>Not_Received_ROLI_Display_Text_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-family: sans-serif;&quot;&gt;Number Of Return Order Line Items Not Received : &lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;{!CounterNotReceivedROLI}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>CounterNotReceivedROLI</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Not_Processed_ROLI_Display_Text_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-family: sans-serif;&quot;&gt;Number Of Return Order Line Items Not Processed :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;{!CounterNotProcessedROLI}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>CounterNotProcessedROLI</leftValueReference>
+                    <operator>GreaterThan</operator>
+                    <rightValue>
+                        <numberValue>0.0</numberValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Decision_User_0</name>
+            <extensionName>c:fsc_flowButtonBar</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>alignment</name>
+                <value>
+                    <stringValue>right</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>orientation</name>
+                <value>
+                    <stringValue>horizontal</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>showLines</name>
+                <value>
+                    <stringValue>neither</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>actionMode</name>
+                <value>
+                    <stringValue>navigation</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>buttons</name>
+                <value>
+                    <stringValue>[{&quot;label&quot;:&quot;Cancel&quot;,&quot;value&quot;:&quot;Cancel&quot;,&quot;iconPosition&quot;:&quot;right&quot;,&quot;variant&quot;:&quot;neutral&quot;,&quot;iconName&quot;:&quot;utility:clear&quot;,&quot;index&quot;:0},{&quot;label&quot;:&quot;OK&quot;,&quot;value&quot;:&quot;OK&quot;,&quot;iconPosition&quot;:&quot;right&quot;,&quot;variant&quot;:&quot;success&quot;,&quot;iconName&quot;:&quot;utility:success&quot;,&quot;index&quot;:1}]</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>false</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>735</locationX>
+        <locationY>44</locationY>
+        <connector>
+            <targetReference>Get_RO_Status</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -556,7 +705,7 @@
         <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
-        <name>currentItem_Get_Received_Roli_0</name>
+        <name>currentItem_Get_Received_Roli</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

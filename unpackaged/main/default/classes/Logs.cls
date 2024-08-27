@@ -17,6 +17,7 @@ log.LineNumber__c    	= Integer.valueOf(match.group(2));
 System.debug('<<<<<<<<<<second num'+ Integer.valueOf(match.group(2)));*/
             
             insert log;
+            
     }
         
         public static void debug(String message, String LOG_CLASS_NAME, String Method, String Request, String Response){

@@ -4,15 +4,24 @@
 
 	
 	<types>
-		<!--members>SOM_Cancel_Order_Summary</members>
+		<members>SOM_Cancel_Order_Summary</members>
                 <members>SOM_990_Manual_Shipment</members>
-		<members>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</members-->
+		<members>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</members>
 		<members>SOM_700_Refund_Create_Refund</members>
 		<members>SOM_830_Close_Return_Order</members> 
+		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
+		<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+		<members>SOM_460_Discount_Flow</members>
+		<members>SOM_830_Close_Return_Order</members>
+		<members>SOM_980_Validate_Manual_Order</members>
+		<members>SOM_New_Fulfillment_Order_Publish_Event</members>
+		 <members>SOM_Cancel_Expected_Items</members>
+		<members>SOM_Close_Return_Order</members>
+		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
 		<name>Flow</name>
 	</types>
 	
-	<!--types>
+	<types>
 		<members>SOM_BatchAnonymization_5</members>
 		<members>SOM_SalesAndPaymentsReportAUSchedule</members>
 		<members>SOM_SalesAndPaymentsReportEUSchedule</members>
@@ -32,6 +41,21 @@
 		<members>SOM_SalesPaymentsReportUKMonthSchedule</members>
 		<members>SOM_USReportMonthSchedule</members>
 		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
+		<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_CreditMemoDocumentController</members>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>WS_SOM_InvoiceDocument</members>
+		<members>SOM_Constants</members>
+		<members>WS_SOM_ValidateBrazilianAddress</members>
+		<members>WS_SOM_ValidateBrazilianAddressTEST</members>
+		<members>Logs</members>
+                <members>SOM_BatchAnonymization_1</members>
+		<members>SOM_BatchAnonymization_2</members>
+		<members>SOM_BatchAnonymization_3</members>
+		<members>SOM_BatchAnonymization_4</members>
+		<members>SOM_BatchAnonymization_5</members>
+		<members>SOM_BatchAnonymization_6</members>
+		<members>SOM_BatchAnonymization_6_Test</members>
 		<name>ApexClass</name>
        </types>
 	<types>
@@ -48,14 +72,48 @@
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
 		<name>Report</name>
 	</types>
-	
+	<types>
+		<members>FulfillmentOrder.RI_Neighborhood__c</members>
+			<members>FulfillmentOrder.StreetNumber__c</members>
+			<members>Order.RI_Neighborhood__c</members>
+			<members>Order.StreetNumber__c</members>
+			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroup.StreetNumber__c</members>
+			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
+			<members>OrderSummary.RI_Neighborhood__c</members>
+			<members>OrderSummary.StreetNumber__c</members>
+			<members>FulfillmentOrder.Complementary__c</members>
+			<members>Order.Complementary__c</members>
+			<members>OrderDeliveryGroup.Complementary__c</members>
+			<members>OrderDeliveryGroupSummary.Complementary__c</members>
+			<members>OrderSummary.Complementary__c</members>
+		<members>Legal_Entity__c.CegidSalesPersonId__c</members>
+				<members>Legal_Entity__c.CegidStoreCode__c</members>
+				<members>Legal_Entity__c.Location__c</members>
+		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
+			<name>CustomField</name>
+		</types>
 <types>
 			
       	<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
-			
+		<members>FulfillmentOrder-Fulfillment Order Layout</members>
+			<members>Order-Order Layout</members>
+			<members>OrderDeliveryGroup-Order Delivery Group Layout</members>
+			<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
+			<members>OrderSummary-Order Summary Layout</members>	
+	<members>Legal_Entity__c-Legal Entity Layout</members>
 			<name>Layout</name>
-		</types-->
-
+		</types>
+<types>
+		<members>Return_Order_Record_Page</members>
+	<members>Order_Delivery_Group_Summary_Record_Page1</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+		<members>ReturnOrder.Cancel_Expected_Items</members>
+		<name>QuickAction</name>
+	</types>
 	<version>61.0</version>
 
 </Package>

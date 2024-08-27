@@ -46,6 +46,31 @@
         </connector>
     </collectionProcessors>
     <decisions>
+        <name>Check_BR_Order</name>
+        <label>Check BR Order</label>
+        <locationX>1311</locationX>
+        <locationY>57</locationY>
+        <defaultConnector>
+            <targetReference>Close_Return_Order</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>NOT_BR_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Return_Order.OrderSummary.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Public_New_CM_for_Cegid</targetReference>
+            </connector>
+            <label>NOT BR Order</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Credit_Memo</name>
         <label>Check Credit Memo</label>
         <locationX>2112</locationX>
@@ -152,8 +177,8 @@
     <recordCreates>
         <name>Public_New_CM_for_Cegid</name>
         <label>Public New CM for Cegid</label>
-        <locationX>1352</locationX>
-        <locationY>313</locationY>
+        <locationX>1283</locationX>
+        <locationY>244</locationY>
         <connector>
             <targetReference>Close_Return_Order</targetReference>
         </connector>
@@ -169,10 +194,10 @@
     <recordCreates>
         <name>Publish_Created_Credit_Memo_Event</name>
         <label>Publish Created Credit Memo Event</label>
-        <locationX>1145</locationX>
-        <locationY>272</locationY>
+        <locationX>1133</locationX>
+        <locationY>274</locationY>
         <connector>
-            <targetReference>Public_New_CM_for_Cegid</targetReference>
+            <targetReference>Get_Return_Order</targetReference>
         </connector>
         <inputAssignments>
             <field>CreditMemoId__c</field>
@@ -213,6 +238,27 @@
         <queriedFields>Refund__c</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Return_Order</name>
+        <label>Get Return Order</label>
+        <locationX>1116</locationX>
+        <locationY>109</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_BR_Order</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ReturnOrder</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
