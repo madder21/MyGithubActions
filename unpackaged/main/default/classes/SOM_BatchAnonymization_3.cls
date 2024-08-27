@@ -3,6 +3,8 @@ global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable
     String  stringOperator  = SOM_Constants.STRING_OPERATOR_ANONYMIZATION;
     String  emailOperator   = SOM_Constants.EMAIL_OPERATOR_ANONYMIZATION ;
     Integer integerOperator = SOM_Constants.INTEGER_OPERATOR_ANONYMIZATION ;
+    
+    List<String> orderIds = new List<String>();
 
     List<String> cls = new List<String>();
     List<String> orderPaymentSummaryIds = new List<String>();
@@ -13,7 +15,8 @@ global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable
     PrivacyRequest__c privacyReq = new PrivacyRequest__c();
     Boolean nextBatch = true;
 
-    public SOM_BatchAnonymization_3(List<String> paymentMethodIdsList, List<String> orderPaymentSummaryIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
+    public SOM_BatchAnonymization_3(List<String> orderIdList, List<String> paymentMethodIdsList, List<String> orderPaymentSummaryIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
+        orderIds                = orderIdList;
         paymentMethodIds        = paymentMethodIdsList;
         orderPaymentSummaryIds  = orderPaymentSummaryIdsList;
         objectClientId          = objectClientIdMap;
@@ -36,6 +39,8 @@ global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable
             objectClientId.put(pay.Id, objectClientId.get(pay.OrderPaymentSummaryId));
         }
         try {
+            Logs.debug('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization','','');   
+            Logs.info('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization','','');   
             System.debug('objectsToUpdate :: '+objectsToUpdate);
             if(objectsToUpdate != null && !objectsToUpdate.isEmpty()) {
                 objectsToUpdate.sort();
@@ -48,14 +53,21 @@ global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable
             privacyReq.Status__c           = 'Error';
             privacyReq.AnonymizationLog__c = e.getDmlMessage(0);
             insert privacyReq;
+            Logs.error(e,'SOM_BatchAnonymization_3','callBatchAnonymization','','');   
         }
     }
+    
 
     global void finish(Database.BatchableContext BC){
-        
-        if(nextBatch == true){
-            SOM_BatchAnonymization_4 nextBatch = new SOM_BatchAnonymization_4(paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
-            database.executebatch(nextBatch);
-        } 
+        try {
+            Logs.debug('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization - finish','','');   
+            Logs.info('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization - finish','','');   
+            if(nextBatch == true){
+                SOM_BatchAnonymization_4 nextBatch = new SOM_BatchAnonymization_4(orderIds, paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
+                database.executebatch(nextBatch);
+            } 
+        }catch(Exception e){
+            Logs.error(e,'SOM_BatchAnonymization_3','BatchAnonymization - finish','','');   
+        }  
     }
 }
