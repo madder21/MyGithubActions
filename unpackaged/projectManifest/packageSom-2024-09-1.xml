@@ -22,6 +22,7 @@
 				<members>Legal_Entity__c.CegidStoreCode__c</members>
 				<members>Legal_Entity__c.Location__c</members>
 		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
+		<members>TransactionalEmail__c.Template__c</members>
 			<name>CustomField</name>
 		</types>
 	<types>
@@ -38,6 +39,8 @@
 		<members>SOM_New_Fulfillment_Order_Publish_Event</members>
 		 <members>SOM_Cancel_Expected_Items</members>
 		<members>SOM_Close_Return_Order</members>
+		<members>SOM_117_ReminderEmail</members>
+		<members>SOM_Generate_TE_after_Cancellation</members>
 		<!--members>SOM_New_Fulfillment_BR_Order_Publish_Event</members-->
 		<name>Flow</name>
 	</types>
@@ -115,6 +118,39 @@
 	<types>
 		<members>ReturnOrder.Cancel_Expected_Items</members>
 		<name>QuickAction</name>
+	</types>
+	<types>
+		<members>SOM_Invoice_Setting.BILLING_CONTACT_JP</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_DATE_JP</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_NUMBER_JP</members>
+		<members>SOM_Invoice_Setting.DELIVERY_CONTACT_JP</members>
+		<members>SOM_Invoice_Setting.INVOICE_DATE_JP</members>
+		<members>SOM_Invoice_Setting.INVOICE_NUMBER_JP</members>
+		<members>SOM_Invoice_Setting.ITEM_DESCRIPTION_JP</members>
+		<members>SOM_Invoice_Setting.ITEM_NO_JP</members>
+		<members>SOM_Invoice_Setting.NET_AMOUNT_JP</members>
+		<members>SOM_Invoice_Setting.PDF_MAIL_JP</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_JP</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_CREDIT_MEMO_JP</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.QUANTITY_JP</members>
+		<members>SOM_Invoice_Setting.REPLACEMENT_JP</members>
+		<members>SOM_Invoice_Setting.SERIAL_NO_JP</members>
+		<members>SOM_Invoice_Setting.SUBTOTAL_JP</members>
+		<members>SOM_Invoice_Setting.TAX_JP</members>
+		<members>SOM_Invoice_Setting.TERM_OF_DELIVERY_JP</members>
+		<members>SOM_Invoice_Setting.TEXT1_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT2_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT3_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT4_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT5_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT_CREDIT_MEMO_JP</members>
+		<members>SOM_Invoice_Setting.TOTAL_JP</members>
+		<members>SOM_Invoice_Setting.TOTAL_TAX_JP</members>
+		<members>SOM_Invoice_Setting.TRACKING_NUMBERS_JP</members>
+		<members>SOM_Invoice_Setting.VAT_AMOUNT_JP</members>
+		<members>SOM_Invoice_Setting.ORDER_NUMBER_JP</members>
+		<name>CustomMetadata</name>
 	</types>
 	<version>61.0</version>
 
