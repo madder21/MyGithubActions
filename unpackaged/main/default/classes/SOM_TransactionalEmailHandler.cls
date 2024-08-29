@@ -885,7 +885,7 @@ lineItem.taxRate = item.TaxRate__c;
 **/
     public static List<TransactionalEmail__c> generateOrderCanceledTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.TotalAdjProductAmtWithTax,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
+        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.GrandTotalAmount,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
                                              (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity,QuantityCanceled, TotalLineAmount, Description, 
@@ -899,7 +899,7 @@ lineItem.taxRate = item.TaxRate__c;
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
             orderTemplateContent.subtotal         = orderSumm.OriginalOrder.TotalAmount;
             orderTemplateContent.tax              = orderSumm.OriginalOrder.TotalTaxAmount.setScale(2);
-            orderTemplateContent.total            = orderSumm.OriginalOrder.TotalAdjProductAmtWithTax;
+            orderTemplateContent.total            = orderSumm.OriginalOrder.GrandTotalAmount;
             //orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
             if(orderSumm.SalesChannel.SalesChannelName == SOM_Constants.SALES_CHANNEL_CEGID){
                 orderTemplateContent.storeLocator         = STW_URL__c.getOrgDefaults().STW_URL__c+orderSumm.BillingCountry.toLowerCase()+'/'+orderSumm.language__c.toLowerCase()+'/'+SOM_Constants.STORELOCATOR_URL;
