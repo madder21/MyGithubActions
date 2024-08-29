@@ -6,16 +6,29 @@ global with sharing class WS_SOM_InvoiceDocument {
         System.debug('call Delete');
         RestRequest req  = RestContext.request;
         RestResponse res = RestContext.response;
+        
         try{
-        String invoiceId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
+        Id invoiceId = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
+        String sObjName = (invoiceId).getSObjectType().getDescribe().getName();
+        String OrderSummaryId, FulfilledToCountry;    
         List<Attachment> attachment  = [SELECT Id FROM Attachment WHERE ParentId = :invoiceId LIMIT 1];
-        List<FulfillmentOrder> FOList  = [SELECT Id,FulfillmentOrder.FulfilledToCountry,OrderSummaryId FROM FulfillmentOrder WHERE InvoiceId = :invoiceId LIMIT 1];
-        List<OrderPaymentSummary> orderPaymentList = [SELECT Id, Method, OrderSummaryId FROM OrderPaymentSummary WHERE OrderSummaryId = :FOList[0].OrderSummaryId ];        
+            
+        if (sObjName == SOM_Constants.INVOICE_SOBJECT_TYPE_NAME){	//Invoice Attachment
+        	List<FulfillmentOrder> FOListInvoice  = [SELECT Id,FulfillmentOrder.FulfilledToCountry,OrderSummaryId FROM FulfillmentOrder WHERE InvoiceId = :invoiceId LIMIT 1];
+            OrderSummaryId 		= FOListInvoice[0].OrderSummaryId ;
+            FulfilledToCountry  = FOListInvoice[0].FulfilledToCountry ;
+        }else if(sObjName == SOM_Constants.CREDIT_MEMO_SOBJECT_TYPE_NAME){	//CreditMemo Attachment
+        	List<CreditMemo> CreditMemoList  = [SELECT Id,ReferenceEntityId FROM CreditMemo WHERE Id = :invoiceId LIMIT 1];
+            OrderSummaryId = CreditMemoList[0].ReferenceEntityId ;
+        }else if(OrderSummaryId == null && FulfilledToCountry ==null ){
+            res.statusCode = 404;  
+        }
+        List<OrderPaymentSummary> orderPaymentList = [SELECT Id, Method, OrderSummaryId FROM OrderPaymentSummary WHERE OrderSummaryId = :OrderSummaryId ];        
         if (attachment != null && !attachment.isEmpty()) {
             delete attachment.get(0);
-            if (!invoiceId.contains(SOM_Constants.CREDIT_MEMO_KEY_PREFIX) &&  !(orderPaymentList[0].Method == SOM_Constants.CASH_ON_DELIVERY  && FOList[0].FulfilledToCountry == SOM_Constants.JP_COUNTRY_CODE) )
+            if (sObjName == SOM_Constants.INVOICE_SOBJECT_TYPE_NAME &&  !(orderPaymentList[0].Method == SOM_Constants.CASH_ON_DELIVERY  && FulfilledToCountry == SOM_Constants.JP_COUNTRY_CODE) )
                 triggerEmailGeneration(invoiceId);
-        } else {
+        }else {
             res.statusCode = 404;
         }
         Logs.debug('doDelete Operation', 'WS_SOM_InvoiceDocument', 'doDelete', String.valueOf(req), String.valueOf(res));
