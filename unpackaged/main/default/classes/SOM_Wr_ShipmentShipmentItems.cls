@@ -19,6 +19,9 @@
 ***************************************************************************************/
 public with sharing class SOM_Wr_ShipmentShipmentItems {
     
+    /**
+     * Attributes for Shipment Data
+     */
     @InvocableVariable @AuraEnabled
     public String shipmentExternalId;
     @InvocableVariable @AuraEnabled
@@ -31,8 +34,12 @@ public with sharing class SOM_Wr_ShipmentShipmentItems {
     public String orderMethodId;
     @InvocableVariable @AuraEnabled
     public String foId;
+    @InvocableVariable @AuraEnabled
+    public Boolean S10Digits;
 
-    //for Shipment Item
+    /**
+     * Attributes for Shipment Item Data
+     */
     @InvocableVariable @AuraEnabled
     public Integer quantity;
     @InvocableVariable @AuraEnabled

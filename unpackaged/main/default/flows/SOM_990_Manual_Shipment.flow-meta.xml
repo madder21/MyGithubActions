@@ -193,7 +193,7 @@
             <assignToReference>V_ShipTranslation.sku10Digits</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Sku_10_Digits</elementReference>
+                <elementReference>wr_Sku10Digits</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -293,7 +293,14 @@
             <assignToReference>V_Wr_Shipment.sku10Digits</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Sku_10_Digits</elementReference>
+                <elementReference>wr_Sku10Digits</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.S10Digits</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Sku10Digits</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -456,15 +463,18 @@
         <label>is Serialized</label>
         <locationX>119</locationX>
         <locationY>505</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>SKU_8_Digits_Confirmation</name>
-            <conditionLogic>and</conditionLogic>
+            <name>SkuErrorFormula</name>
+            <conditionLogic>2 AND (1 OR ( 3 AND 6 ) OR ( 4 AND 7 )) AND 5</conditionLogic>
             <conditions>
-                <leftValueReference>SKUCoherent</leftValueReference>
+                <leftValueReference>SKU_Error</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>FX_SKUProduct8</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -475,89 +485,38 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>SKU_Error</leftValueReference>
+                <leftValueReference>SKUCoherent</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>FX_SKUProduct8</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>SKUCoherent10</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>FX_SKUProduct10</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>displaySerialNumber</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>FX_SKULengh</leftValueReference>
-                <operator>LessThanOrEqualTo</operator>
+                <leftValueReference>productSKU_Len</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <numberValue>8.0</numberValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
-            </connector>
-            <label>SKU 8 Digits Confirmation</label>
-        </rules>
-        <rules>
-            <name>SKU_10_Digits_Confirmation</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>SKUCoherent10</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>productSKU_Len</leftValueReference>
+                <operator>GreaterThan</operator>
                 <rightValue>
-                    <elementReference>FX_SKUProduct10</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Sku10Digits</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>SKU_Error</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>FX_SKULengh</leftValueReference>
-                <operator>GreaterThanOrEqualTo</operator>
-                <rightValue>
-                    <numberValue>10.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
-            </connector>
-            <label>SKU 10 Digits Confirmation</label>
-        </rules>
-        <rules>
-            <name>SkuErrorFormula</name>
-            <conditionLogic>2 AND (1 OR 3 OR 4)</conditionLogic>
-            <conditions>
-                <leftValueReference>SKU_Error</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Sku10Digits</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>SKUCoherent</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>FX_SKUProduct8</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>SKUCoherent10</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <elementReference>FX_SKUProduct10</elementReference>
+                    <numberValue>8.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -630,6 +589,12 @@
         <expression>IF(ISBLANK({!V_Wr_Shipment.timezone}),TEXT({!$User.TimeZoneSidKey}),{!V_Wr_Shipment.timezone})</expression>
     </formulas>
     <formulas>
+        <name>productSKU_Len</name>
+        <dataType>Number</dataType>
+        <expression>LEN({!L10_Over_FOLI_Selected.productSKU})</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
         <name>SKU_Error</name>
         <dataType>Boolean</dataType>
         <expression>OR( ISBLANK({!Sku_10_Digits}), LEN({!Sku_10_Digits}) != 10 )</expression>
@@ -643,6 +608,11 @@
         <name>SKUCoherent10</name>
         <dataType>String</dataType>
         <expression>LEFT({!Sku_10_Digits}, 10)</expression>
+    </formulas>
+    <formulas>
+        <name>wr_Sku10Digits</name>
+        <dataType>String</dataType>
+        <expression>IF(AND({!Sku10Digits} = true,{!displaySerialNumber} = true),LEFT({!Serial_Number}, 10), {!Sku_10_Digits})</expression>
     </formulas>
     <interviewLabel>SOM 990 Manual Shipment {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 990 Manual Shipment</label>
@@ -954,6 +924,13 @@
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                        <conditions>
+                            <leftValueReference>displaySerialNumber</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>false</booleanValue>
                             </rightValue>
                         </conditions>
                     </visibilityRule>
