@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SOM_Info_Logs</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>Class_Name__c</columns>
+    <columns>Debug_message__c</columns>
+    <columns>Has_Error__c</columns>
+    <filterScope>Mine</filterScope>
+    <filters>
+        <field>LogLevel__c</field>
+        <operation>equals</operation>
+        <value>info</value>
+    </filters>
+    <label>SOM Info Logs</label>
+</ListView>
