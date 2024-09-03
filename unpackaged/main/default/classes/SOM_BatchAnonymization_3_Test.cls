@@ -9,7 +9,7 @@ public with sharing class SOM_BatchAnonymization_3_Test {
         List<OrderSummary> os = [SELECT Id, OriginalOrderId, Status, AccountId, (SELECT Id, Status FROM OrderItemSummaries) FROM OrderSummary WHERE Id = :los[0].id];
         os[0].Status = SOM_Constants.ORDER_SUMMARY_FULFILLED;
         update os[0];
-        List<OrderPaymentSummary> ordPaySumm = [SELECT Id, PaymentMethodId, OrderSummary.AccountId FROM OrderPaymentSummary WHERE OrderSummaryId = :los[0].id];
+        List<OrderPaymentSummary> ordPaySumm = [SELECT Id, PaymentMethodId, OrderSummary.AccountId, OrderSummary.OriginalOrderId FROM OrderPaymentSummary WHERE OrderSummaryId = :los[0].id];
         Payment pay = new Payment(); 
         pay.OrderPaymentSummaryId = ordPaySumm[0].Id;
         pay.Amount                = 900.78;
@@ -30,8 +30,10 @@ public with sharing class SOM_BatchAnonymization_3_Test {
         Map<String, List<String>> orderSummaryNumbers = new Map<String, List<String>>();
         List<String> cls = new List<String>();
         cls.add(orderPaymentSumm.OrderSummary.AccountId);
-        Test.startTest();
-        SOM_BatchAnonymization_3 nextBatch = new SOM_BatchAnonymization_3(paymentMethodIds, ordPayList, objectClientId, orderSummaryNumbers, cls);
+        List<String> OrderIds = new List<String>();
+        OrderIds.add(orderPaymentSumm.OrderSummary.OriginalOrderId);
+        Test.startTest(); 
+        SOM_BatchAnonymization_3 nextBatch = new SOM_BatchAnonymization_3(OrderIds,paymentMethodIds, ordPayList, objectClientId, orderSummaryNumbers, cls);
         database.executebatch(nextBatch);
         Test.stopTest();
         List<Payment> pays = [SELECT Id, Phone FROM Payment WHERE OrderPaymentSummaryId IN :ordPayList];
