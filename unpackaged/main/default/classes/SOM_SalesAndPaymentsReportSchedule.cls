@@ -14,7 +14,7 @@ public with sharing class SOM_SalesAndPaymentsReportSchedule Implements Schedula
             DateTime weekStart = myDate.toStartofWeek().addDays(-7);
             String previousMonday = weekStart.format('MM/dd/YYYY');
             
-            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'maha.meghras@viseo.com' limit 1];
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'noreply@rimowa.com' limit 1];
             
             DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
             String previousSunday = previousSundayDate.format('MM/dd/YYYY');
