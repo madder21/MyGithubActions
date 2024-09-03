@@ -1,73 +1,42 @@
-global with sharing class SOM_BatchAnonymization_3 implements Database.Batchable<Sobject>, Database.Stateful {
-
-    String  stringOperator  = SOM_Constants.STRING_OPERATOR_ANONYMIZATION;
-    String  emailOperator   = SOM_Constants.EMAIL_OPERATOR_ANONYMIZATION ;
-    Integer integerOperator = SOM_Constants.INTEGER_OPERATOR_ANONYMIZATION ;
-    
-    List<String> orderIds = new List<String>();
-
-    List<String> cls = new List<String>();
-    List<String> orderPaymentSummaryIds = new List<String>();
-    List<String> paymentMethodIds = new List<String>();
-    List<sObject> objectsToUpdate = new List<sObject>();
-    Map<String, List<String>> orderSummaryNumbers = new Map<String, List<String>>();
-    Map<String, String> objectClientId = new Map<String, String>();
-    PrivacyRequest__c privacyReq = new PrivacyRequest__c();
-    Boolean nextBatch = true;
-
-    public SOM_BatchAnonymization_3(List<String> orderIdList, List<String> paymentMethodIdsList, List<String> orderPaymentSummaryIdsList, Map<String, String> objectClientIdMap, Map<String, List<String>> orderSummaryNumbersMap, List<String> clients) {
-        orderIds                = orderIdList;
-        paymentMethodIds        = paymentMethodIdsList;
-        orderPaymentSummaryIds  = orderPaymentSummaryIdsList;
-        objectClientId          = objectClientIdMap;
-        orderSummaryNumbers     = orderSummaryNumbersMap;
-        cls                     = clients;
+@isTest
+public with sharing class SOM_BatchAnonymization_3_Test {
+    @isTest(seeAllData=true)
+    public static OrderPaymentSummary setUpData() {
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
+        FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
+        Map<Id, FulfillmentOrder> fotest = SOM_testDataFactory.prepareFulfillmentOrderMap(los[0].id);
+        Map<Id,Shipment> test = SOM_testDataFactory.createShipments(fotest);
+        List<OrderSummary> os = [SELECT Id, OriginalOrderId, Status, AccountId, (SELECT Id, Status FROM OrderItemSummaries) FROM OrderSummary WHERE Id = :los[0].id];
+        os[0].Status = SOM_Constants.ORDER_SUMMARY_FULFILLED;
+        update os[0];
+        List<OrderPaymentSummary> ordPaySumm = [SELECT Id, PaymentMethodId, OrderSummary.AccountId, OrderSummary.OriginalOrderId FROM OrderPaymentSummary WHERE OrderSummaryId = :los[0].id];
+        Payment pay = new Payment(); 
+        pay.OrderPaymentSummaryId = ordPaySumm[0].Id;
+        pay.Amount                = 900.78;
+        pay.Status                = SOM_Constants.ORDER_DRAFT_STATUS;
+        pay.Type                  = SOM_Constants.PAYMENT_TYPE_CAPTURE;
+        pay.ProcessingMode        = SOM_Constants.PAYMENT_PROCESSING_MODE_EXTERNAL;
+        insert pay;
+        return ordPaySumm[0];
     }
 
-    global Database.QueryLocator start(Database.BatchableContext BC) {
-        String query = 'SELECT Id, OrderPaymentSummaryId, Phone, Email, paypalCustomerEmail__c FROM Payment WHERE OrderPaymentSummaryId IN :orderPaymentSummaryIds';
-        return Database.getQueryLocator(query);
-    }
-
-    global void execute(Database.BatchableContext BC, List<Payment> relatedPayments){
-        
-        for(Payment pay : relatedPayments){
-            pay.Phone                  = stringOperator; 
-            pay.Email                  = emailOperator;
-            pay.paypalCustomerEmail__c = emailOperator; 
-            objectsToUpdate.add(pay);
-            objectClientId.put(pay.Id, objectClientId.get(pay.OrderPaymentSummaryId));
-        }
-        try {
-            Logs.debug('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization','','');   
-            Logs.info('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization','','');   
-            System.debug('objectsToUpdate :: '+objectsToUpdate);
-            if(objectsToUpdate != null && !objectsToUpdate.isEmpty()) {
-                objectsToUpdate.sort();
-                update objectsToUpdate;
-            }
-        } catch(DmlException e) {
-            nextBatch = false;
-            privacyReq.Application__c      = 'SOM';
-            privacyReq.AccountId__c        = objectClientId.get(e.getDmlId(0));
-            privacyReq.Status__c           = 'Error';
-            privacyReq.AnonymizationLog__c = e.getDmlMessage(0);
-            insert privacyReq;
-            Logs.error(e,'SOM_BatchAnonymization_3','callBatchAnonymization','','');   
-        }
-    }
-    
-
-    global void finish(Database.BatchableContext BC){
-        try {
-            Logs.debug('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization - finish','','');   
-            Logs.info('Anonymization process - Batch 3','SOM_BatchAnonymization_3','callBatchAnonymization - finish','','');   
-            if(nextBatch == true){
-                SOM_BatchAnonymization_4 nextBatch = new SOM_BatchAnonymization_4(orderIds, paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
-                database.executebatch(nextBatch);
-            } 
-        }catch(Exception e){
-            Logs.error(e,'SOM_BatchAnonymization_3','BatchAnonymization - finish','','');   
-        }  
+    @isTest(seeAllData=true)
+    public static void anonymizeTestOK(){
+        OrderPaymentSummary orderPaymentSumm = setUpData();
+        List<String> ordPayList = new List<String>();
+        ordPayList.add(orderPaymentSumm.Id);
+        List<String> paymentMethodIds = new List<String>();
+        Map<String, String> objectClientId = new Map<String, String>();
+        Map<String, List<String>> orderSummaryNumbers = new Map<String, List<String>>();
+        List<String> cls = new List<String>();
+        cls.add(orderPaymentSumm.OrderSummary.AccountId);
+        List<String> OrderIds = new List<String>();
+        OrderIds.add(orderPaymentSumm.OrderSummary.OriginalOrderId);
+        Test.startTest(); 
+        SOM_BatchAnonymization_3 nextBatch = new SOM_BatchAnonymization_3(OrderIds,paymentMethodIds, ordPayList, objectClientId, orderSummaryNumbers, cls);
+        database.executebatch(nextBatch);
+        Test.stopTest();
+        List<Payment> pays = [SELECT Id, Phone FROM Payment WHERE OrderPaymentSummaryId IN :ordPayList];
+        System.assertEquals(SOM_Constants.STRING_OPERATOR_ANONYMIZATION, pays[0].Phone,'Phone should be anonymized with : XXXXXXXXXX');
     }
 }
