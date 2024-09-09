@@ -28,7 +28,7 @@ public with sharing class SOM_Manual_RO_Reception_Controller {
             return JSON.serialize(listRoli);
         }
         for(ReturnOrderLineItem roli : [SELECT Id, ReturnOrderId, QuantityReceived, QuantityExpected, ReturnOrderLineItemNumber, ConditionId__c,
-                                         RepaymentMethod, SerialNumber__c, Description, Sku__c, SourceLocationId, OrderItemSummary.isSerialized__c  
+                                         RepaymentMethod, SerialNumber__c, Description,QuantityLeftToReceive__c, Sku__c, SourceLocationId, OrderItemSummary.isSerialized__c  
                                          FROM ReturnOrderLineItem WHERE QuantityExpected > 0 AND ReturnOrderId =: returnOrderId]){
             
                                             
@@ -44,7 +44,7 @@ public with sharing class SOM_Manual_RO_Reception_Controller {
             if(String.isBlank(roli.RepaymentMethod)){
                 roli.RepaymentMethod = '';
             }
-            roli.quantityReceived = roli.QuantityExpected;
+            roli.quantityReceived = roli.QuantityLeftToReceive__c;
             listRoli.add(roli);
         }         
         System.debug(listRoli);
