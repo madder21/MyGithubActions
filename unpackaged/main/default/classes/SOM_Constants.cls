@@ -1,4 +1,5 @@
 global with sharing class SOM_Constants {
+    
     public static final String  CARD_PAYMENT_METHOD                 = 'CardPaymentMethod';
     public static final String  DIGITAL_WALLET                      = 'DigitalWallet';
     public static final String  AMOUNT_CURRENCY                     = 'amount_currency';

@@ -1,10 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>Error_Message</name>
+        <label>Error Message</label>
+        <locationX>1087</locationX>
+        <locationY>1135</locationY>
+        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
+        <actionType>apex</actionType>
+        
+        <connector>
+            <targetReference>Update_PE_Description</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>bairro</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.bairro</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>cep</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.cep</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>localidade</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.localidade</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logradouro</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.logradouro</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RecordId</name>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>uf</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.uf</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Message_0</name>
+        <label>Error Message</label>
+        <locationX>1070</locationX>
+        <locationY>430</locationY>
+        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Update_PE_Description_0</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>bairro</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address.bairro</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>cep</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address.cep</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>localidade</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address.localidade</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logradouro</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address.logradouro</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>RecordId</name>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>uf</name>
+            <value>
+                <elementReference>Validate_Brazilian_Address.uf</elementReference>
+            </value>
+        </inputParameters>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
         <name>Validate_Brazilian_Address</name>
         <label>Validate Brazilian Address ODGS</label>
-        <locationX>181</locationX>
-        <locationY>84</locationY>
+        <locationX>1337</locationX>
+        <locationY>637</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -22,8 +121,8 @@
     <actionCalls>
         <name>Validate_Brazilian_Address_0</name>
         <label>Validate Brazilian Address OS</label>
-        <locationX>324</locationX>
-        <locationY>227</locationY>
+        <locationX>1389</locationX>
+        <locationY>958</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -42,8 +141,8 @@
     <assignments>
         <name>ODGS_Assignment</name>
         <label>ODGS Assignment</label>
-        <locationX>197</locationX>
-        <locationY>455</locationY>
+        <locationX>743</locationX>
+        <locationY>623</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group_Summary.TECH_PE_was_identified__c</assignToReference>
             <operator>Assign</operator>
@@ -58,8 +157,8 @@
     <assignments>
         <name>Order_Number_Assignment</name>
         <label>Order Number Assignment</label>
-        <locationX>565</locationX>
-        <locationY>517</locationY>
+        <locationX>683</locationX>
+        <locationY>955</locationY>
         <assignmentItems>
             <assignToReference>OrderNumber</assignToReference>
             <operator>Assign</operator>
@@ -81,8 +180,8 @@
     <assignments>
         <name>Order_Number_Assignment_0</name>
         <label>Order Number Assignment</label>
-        <locationX>359</locationX>
-        <locationY>742</locationY>
+        <locationX>463</locationX>
+        <locationY>648</locationY>
         <assignmentItems>
             <assignToReference>OrderNumber</assignToReference>
             <operator>Assign</operator>
@@ -104,8 +203,8 @@
     <decisions>
         <name>Check_Address_Validation_Brazil_Category</name>
         <label>Check Address Validation Brazil Category</label>
-        <locationX>684</locationX>
-        <locationY>214</locationY>
+        <locationX>1641</locationX>
+        <locationY>766</locationY>
         <defaultConnector>
             <targetReference>Update_PE_To_Resolved</targetReference>
         </defaultConnector>
@@ -158,8 +257,8 @@
     <decisions>
         <name>Create_Cegid_Event</name>
         <label>Create Cegid Event</label>
-        <locationX>227</locationX>
-        <locationY>1028</locationY>
+        <locationX>179</locationX>
+        <locationY>975</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateCegidEvent</name>
@@ -180,8 +279,8 @@
     <decisions>
         <name>Refund_PE</name>
         <label>Refund PE</label>
-        <locationX>1101</locationX>
-        <locationY>516</locationY>
+        <locationX>2058</locationX>
+        <locationY>1068</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Refund</name>
@@ -200,49 +299,12 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Resolve_or_Ignore</name>
-        <label>Resolve or Ignore</label>
-        <locationX>1100</locationX>
-        <locationY>208</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Resolve</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>actionType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Resolve</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Popup_resolve_confirmation</targetReference>
-            </connector>
-            <label>Resolve</label>
-        </rules>
-        <rules>
-            <name>Ignore</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>actionType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Ignore</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Popup_Ignore_confirmation_0</targetReference>
-            </connector>
-            <label>Ignore</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Verify_BrazilianAddress_0</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>180</locationX>
-        <locationY>218</locationY>
+        <locationX>1075</locationX>
+        <locationY>634</locationY>
         <defaultConnector>
-            <targetReference>ScreenError_0</targetReference>
+            <targetReference>Error_Message_0</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -292,10 +354,10 @@
     <decisions>
         <name>Verify_BrazilianAddress_0_0</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>317</locationX>
-        <locationY>395</locationY>
+        <locationX>1070</locationX>
+        <locationY>964</locationY>
         <defaultConnector>
-            <targetReference>ScreenError</targetReference>
+            <targetReference>Error_Message</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -343,7 +405,7 @@
         </rules>
     </decisions>
     <interviewLabel>SOM 940 Resolve Ignore Process Exception {!$Flow.CurrentDateTime}</interviewLabel>
-    <label>SOM 940 Resolve Ignore Process Exception</label>
+    <label>SOM 940 Resolve Process Exception</label>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -366,8 +428,8 @@
     <recordCreates>
         <name>Create_New_Order_For_Cegid_Event</name>
         <label>Create New Order For Cegid Event</label>
-        <locationX>138</locationX>
-        <locationY>881</locationY>
+        <locationX>50</locationX>
+        <locationY>804</locationY>
         <inputAssignments>
             <field>OrderSummaryNumber__c</field>
             <value>
@@ -380,8 +442,8 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>490</locationX>
-        <locationY>78</locationY>
+        <locationX>1447</locationX>
+        <locationY>630</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Validate_Brazilian_Address</targetReference>
@@ -401,8 +463,8 @@
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>560</locationX>
-        <locationY>381</locationY>
+        <locationX>1520</locationX>
+        <locationY>956</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Validate_Brazilian_Address_0</targetReference>
@@ -422,8 +484,8 @@
     <recordLookups>
         <name>Get_PE</name>
         <label>Get PE</label>
-        <locationX>790</locationX>
-        <locationY>348</locationY>
+        <locationX>1747</locationX>
+        <locationY>900</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Address_Validation_Brazil_Category</targetReference>
@@ -443,8 +505,8 @@
     <recordLookups>
         <name>Get_PE_Not_Resolved</name>
         <label>Get PE Not Resolved</label>
-        <locationX>374</locationX>
-        <locationY>901</locationY>
+        <locationX>291</locationX>
+        <locationY>805</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Cegid_Event</targetReference>
@@ -485,8 +547,8 @@
     <recordLookups>
         <name>Get_Refund_PE</name>
         <label>Get Refund PE</label>
-        <locationX>1105</locationX>
-        <locationY>395</locationY>
+        <locationX>2062</locationX>
+        <locationY>947</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Refund_PE</targetReference>
@@ -513,20 +575,20 @@
     <recordUpdates>
         <name>Update_ODGS</name>
         <label>Update ODGS</label>
-        <locationX>196</locationX>
-        <locationY>668</locationY>
+        <locationX>619</locationX>
+        <locationY>626</locationY>
         <connector>
             <targetReference>Order_Number_Assignment_0</targetReference>
         </connector>
         <inputReference>Get_Order_Delivery_Group_Summary</inputReference>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_PE_To_Ignored</name>
-        <label>Update PE To Ignored</label>
-        <locationX>1424</locationX>
-        <locationY>315</locationY>
+        <name>Update_PE_Description</name>
+        <label>Update PE Description</label>
+        <locationX>885</locationX>
+        <locationY>1136</locationY>
         <connector>
-            <targetReference>Get_Refund_PE</targetReference>
+            <targetReference>ScreenError_0_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -537,9 +599,33 @@
             </value>
         </filters>
         <inputAssignments>
-            <field>Status</field>
+            <field>Description</field>
             <value>
-                <stringValue>Ignored</stringValue>
+                <elementReference>DescriptionMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <object>ProcessException</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_PE_Description_0</name>
+        <label>Update PE Description</label>
+        <locationX>1414</locationX>
+        <locationY>427</locationY>
+        <connector>
+            <targetReference>ScreenError_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Description</field>
+            <value>
+                <elementReference>DescriptionMessage_0</elementReference>
             </value>
         </inputAssignments>
         <object>ProcessException</object>
@@ -547,8 +633,8 @@
     <recordUpdates>
         <name>Update_PE_To_Resolved</name>
         <label>Update PE To Resolved</label>
-        <locationX>686</locationX>
-        <locationY>660</locationY>
+        <locationX>1667</locationX>
+        <locationY>1095</locationY>
         <connector>
             <targetReference>Get_Refund_PE</targetReference>
         </connector>
@@ -571,8 +657,8 @@
     <recordUpdates>
         <name>Update_PE_To_Resolved_0</name>
         <label>Update PE To Resolved</label>
-        <locationX>535</locationX>
-        <locationY>853</locationY>
+        <locationX>467</locationX>
+        <locationY>950</locationY>
         <connector>
             <targetReference>Get_PE_Not_Resolved</targetReference>
         </connector>
@@ -595,8 +681,8 @@
     <recordUpdates>
         <name>Update_Refund</name>
         <label>Update Refund</label>
-        <locationX>1114</locationX>
-        <locationY>675</locationY>
+        <locationX>2071</locationX>
+        <locationY>1227</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -614,31 +700,10 @@
         <object>Refund</object>
     </recordUpdates>
     <screens>
-        <name>Popup_Ignore_confirmation_0</name>
-        <label>Popup Ignore confirmation</label>
-        <locationX>1333</locationX>
-        <locationY>210</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <backButtonLabel>Cancel</backButtonLabel>
-        <connector>
-            <targetReference>Update_PE_To_Ignored</targetReference>
-        </connector>
-        <fields>
-            <name>Ignore_Display_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;Are you sure you want to change this process exception status to Ignored?&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Popup_resolve_confirmation</name>
         <label>Popup resolve confirmation</label>
-        <locationX>867</locationX>
-        <locationY>211</locationY>
+        <locationX>1824</locationX>
+        <locationY>763</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -648,7 +713,7 @@
         </connector>
         <fields>
             <name>Resolve_Display</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;Are you sure you want to change this process exception status to Resolved?&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;Are you sure you want to change this process exception status to Resolved?&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
@@ -656,50 +721,74 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>ScreenError</name>
+        <name>ScreenError_0</name>
         <label>ScreenError</label>
-        <locationX>409</locationX>
-        <locationY>644</locationY>
+        <locationX>1255</locationX>
+        <locationY>286</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>error</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the address on the Order Summary.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>error_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68);&quot;&gt;The process exception cannot be resolved. Please verify the &lt;/strong&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;fields&lt;/strong&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68);&quot;&gt; on the Order Delivery Group Summary :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;{!Error_Message_0.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>ScreenError_0</name>
+        <name>ScreenError_0_0</name>
         <label>ScreenError</label>
-        <locationX>50</locationX>
-        <locationY>325</locationY>
+        <locationX>888</locationX>
+        <locationY>1337</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
-            <name>error_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the address on the Order Delivery Group Summary.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <name>error</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the Order Summary :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!Error_Message.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>981</locationX>
-        <locationY>49</locationY>
+        <locationX>1938</locationX>
+        <locationY>601</locationY>
         <connector>
-            <targetReference>Resolve_or_Ignore</targetReference>
+            <targetReference>Popup_resolve_confirmation</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <textTemplates>
+        <name>DescriptionMessage</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>The following fields are incoherent with the Zip Code : {!Error_Message.ErrorMessageDescription}</text>
+    </textTemplates>
+    <textTemplates>
+        <name>DescriptionMessage_0</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>The following fields are incoherent with the Zip Code : {!Error_Message_0.ErrorMessageDescription}</text>
+    </textTemplates>
     <variables>
         <name>actionType</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Description</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>

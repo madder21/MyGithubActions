@@ -27,7 +27,6 @@ global with sharing class WS_SOM_ValidateBrazilianAddressTEST {
             httpRequest.setStatusCode(200);
             httpRequest.setBody('{}');
             return httpRequest;
-            
         }
     }
     
