@@ -15,5 +15,7 @@ public with sharing class SOM_Wr_ShipmentTranslation {
     public String deliveryMethod;
     @AuraEnabled
     public String sku10Digits;
+    @AuraEnabled
+    public String CrossBorderId;
 
 }

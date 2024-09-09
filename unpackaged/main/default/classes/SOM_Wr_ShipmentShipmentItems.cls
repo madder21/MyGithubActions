@@ -1,3 +1,22 @@
+/**************************************************************************************
+
+-- - Author        : Fatima-Ezzahra LAFTOUMI
+
+-- - Description   : A Wrapper class for Shipment and Shipment Item
+
+--
+
+-- Maintenance History:
+
+--
+
+-- Date         Name    Version      Remarks
+
+-- -----------  ----    -------  -------------------------------------------------------
+
+-- 18-08-2022    FEL    1.0          Initial version
+
+***************************************************************************************/
 public with sharing class SOM_Wr_ShipmentShipmentItems {
     
     @InvocableVariable @AuraEnabled
@@ -25,7 +44,8 @@ public with sharing class SOM_Wr_ShipmentShipmentItems {
     @InvocableVariable @AuraEnabled
     public String serialNumber;         // concatenated
     @InvocableVariable @AuraEnabled
-    public String sku10Digits;         
-
+    public String sku10Digits;
+    @InvocableVariable @AuraEnabled
+	public String CrossBorderId;
 
 }

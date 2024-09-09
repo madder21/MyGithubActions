@@ -1,3 +1,23 @@
+/**************************************************************************************
+
+-- - Author        : Fatima-Ezzahra LAFTOUMI
+
+-- - Description   : Class to translate a wrapper to String to be displayed in Datatable in Flow 'SOM 990 Manual Shipment'
+
+--
+
+-- Maintenance History:
+
+--
+
+-- Date         Name    Version      Remarks
+
+-- -----------  ----    -------  -------------------------------------------------------
+
+-- 22-08-2022    FEL    1.0          Initial version
+
+***************************************************************************************/
+
 public with sharing class SOM_TranslateShipment {
     public class Requests {
      
@@ -19,6 +39,11 @@ public with sharing class SOM_TranslateShipment {
         public List<SOM_Wr_ShipmentTranslation> outputCollection;
     }
  
+    /**
+     * @description translateADR : The method for translating Wrapper to String 
+     * @param requestList    : Represents the Wrapper List to be translated into String
+     * @return List<Results> : The translated result
+     */
     @InvocableMethod
     public static List<Results> translateADR(List<Requests> requestList) {
  
@@ -40,6 +65,7 @@ public with sharing class SOM_TranslateShipment {
                 outp.tracking       = input.tracking;
                 outp.dispatchDate   = input.dispatchDate;
                 outp.sku10Digits    = input.sku10Digits;
+                outp.CrossBorderId  = input.CrossBorderId;
                 collectionOutput.add(outp);
             }
         }

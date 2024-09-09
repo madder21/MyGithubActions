@@ -14,6 +14,8 @@
                 <elementReference>C_Wr_shipments</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_CreateShipment</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Shipped_Quantity_per_FOLI_Action</name>
@@ -32,10 +34,12 @@
                 <elementReference>C_FOLIids</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_ShipmentPerFoliAction</nameSegment>
         <outputParameters>
             <assignToReference>C_Wr_ShippedperFOLI</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_Wr</name>
@@ -54,10 +58,12 @@
                 <elementReference>C_ShipTranslation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TranslateShipment</nameSegment>
         <outputParameters>
             <assignToReference>V_translatedShip</assignToReference>
             <name>outputString</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_SerialNumbers</name>
@@ -82,10 +88,12 @@
                 <elementReference>Serial_Number</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_SerialNumbersValidation</nameSegment>
         <outputParameters>
             <assignToReference>V_errorSerialNumbers</assignToReference>
             <name>output</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -195,6 +203,13 @@
                 <elementReference>V_ShipTranslation</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.CrossBorderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Cross_Border_Id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>L10_Over_FOLI_Selected</targetReference>
         </connector>
@@ -289,6 +304,13 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>V_Wr_Shipment.CrossBorderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Cross_Border_Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>C_Wr_shipments</assignToReference>
             <operator>AddAtStart</operator>
             <value>
@@ -354,6 +376,25 @@
         </value>
     </constants>
     <decisions>
+        <name>Check_Cross_Border</name>
+        <label>Check Cross Border</label>
+        <locationX>857</locationX>
+        <locationY>202</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CrossBorderCheck</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_SalesChannelMapping.IsCorssBorder__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>CrossBorderCheck</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Error_Message</name>
         <label>Check Error Message</label>
         <locationX>534</locationX>
@@ -412,7 +453,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>L10_Over_FOLI_Selected</targetReference>
+                <targetReference>Get_ODGS</targetReference>
             </connector>
             <label>selected FOLI</label>
         </rules>
@@ -563,6 +604,7 @@
         <picklistField>TimeZoneSidKey</picklistField>
         <picklistObject>User</picklistObject>
     </dynamicChoiceSets>
+    <environments>Default</environments>
     <formulas>
         <name>FX_DispatchDateDefault</name>
         <dataType>DateTime</dataType>
@@ -733,6 +775,29 @@
         </outputAssignments>
     </recordLookups>
     <recordLookups>
+        <name>Get_ODGS</name>
+        <label>Get ODGS</label>
+        <locationX>883</locationX>
+        <locationY>342</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_SalesChannelMapping</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_FO_Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>DeliverToCountry</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>get_ODMs</name>
         <label>get ODMs</label>
         <locationX>1921</locationX>
@@ -763,8 +828,8 @@
     <recordLookups>
         <name>GET_Order_Product</name>
         <label>GET Order Product</label>
-        <locationX>1790</locationX>
-        <locationY>934</locationY>
+        <locationX>1792</locationX>
+        <locationY>940</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>get_Location</targetReference>
@@ -786,6 +851,34 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>OrderItemSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_SalesChannelMapping</name>
+        <label>Get SalesChannelMapping</label>
+        <locationX>770</locationX>
+        <locationY>342</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>L10_Over_FOLI_Selected</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODGS.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsCorssBorder__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Sales_Channel_Mapping__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <screens>
@@ -859,6 +952,7 @@
                     <dataType>String</dataType>
                     <fieldText>Sku 10 Digits</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -898,6 +992,7 @@
                     <dataType>String</dataType>
                     <fieldText>Serial Number</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -914,6 +1009,24 @@
                     <name>ErrorSerial</name>
                     <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(244, 9, 9); font-size: 11px;&quot;&gt;{!V_errorSerialNumbers}&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>Cross_Border_Id</name>
+                    <dataType>String</dataType>
+                    <fieldText>Cross Border Id</fieldText>
+                    <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <isRequired>true</isRequired>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>Get_SalesChannelMapping.IsCorssBorder__c</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
                 </fields>
                 <inputParameters>
                     <name>width</name>
@@ -951,6 +1064,7 @@
                     </defaultValue>
                     <fieldText>Warehouse reference</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -989,6 +1103,7 @@
                     </defaultValue>
                     <fieldText>Tracking Number</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1027,6 +1142,7 @@
                     </defaultValue>
                     <fieldText>Dispatch Date</fieldText>
                     <fieldType>InputField</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1049,6 +1165,7 @@
                     </defaultValue>
                     <fieldText>Timezone</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <inputParameters>
@@ -1077,6 +1194,7 @@
                     </defaultValue>
                     <fieldText>Delivery Method</fieldText>
                     <fieldType>DropdownBox</fieldType>
+                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -1289,6 +1407,13 @@
         </value>
     </variables>
     <variables>
+        <name>C_Countries</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>C_FOLIids</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
@@ -1342,6 +1467,16 @@
         <isCollection>true</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>CrossBorder</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>currentItem_Filter_FOLI_Available_to_Ship</name>
