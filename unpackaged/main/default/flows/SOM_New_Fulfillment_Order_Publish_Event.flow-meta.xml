@@ -152,6 +152,13 @@
                 <elementReference>Get_Order_Summary.Id</elementReference>
             </value>
         </filters>
+        
+        <inputAssignments>
+            <field>Complementary__c</field>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.Complementary__c</elementReference>
+            </value>
+        </inputAssignments>
         <inputAssignments>
             <field>RI_Neighborhood__c</field>
             <value>

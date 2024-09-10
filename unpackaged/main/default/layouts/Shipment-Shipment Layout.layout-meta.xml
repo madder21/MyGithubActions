@@ -46,6 +46,10 @@
                 <behavior>Edit</behavior>
                 <field>IsDelivered__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CentiroShipmentId__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -175,10 +179,9 @@
     </quickActionList>
     <relatedLists>
         <fields>Name</fields>
-        <fields>ExpectedDeliveryDate</fields>
+        
         <fields>Quantity</fields>
-        <fields>TrackingNumber</fields>
-        <fields>TrackingUrl</fields>
+     
         <relatedList>ShipmentItems</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

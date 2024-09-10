@@ -2,27 +2,51 @@
 
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-	
+	<types>
+		<members>FulfillmentOrder.RI_Neighborhood__c</members>
+			<!--members>FulfillmentOrder.StreetNumber__c</members>
+			<members>Order.RI_Neighborhood__c</members>
+			<members>Order.StreetNumber__c</members>
+			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroup.StreetNumber__c</members>
+			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
+			<members>OrderSummary.RI_Neighborhood__c</members>
+			<members>OrderSummary.StreetNumber__c</members-->
+			<!--members>FulfillmentOrder.Complementary__c</members>
+			<members>Order.Complementary__c</members>
+			<members>OrderDeliveryGroup.Complementary__c</members>
+			<members>OrderDeliveryGroupSummary.Complementary__c</members>
+			<members>OrderSummary.Complementary__c</members-->
+		<members>Legal_Entity__c.CegidSalesPersonId__c</members>
+				<members>Legal_Entity__c.CegidStoreCode__c</members>
+				<members>Legal_Entity__c.Location__c</members>
+		<!--members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members-->
+		<members>TransactionalEmail__c.Template__c</members>
+			<name>CustomField</name>
+		</types>
 	<types>
 		<members>SOM_Cancel_Order_Summary</members>
-                <members>SOM_990_Manual_Shipment</members>
+                <!--members>SOM_990_Manual_Shipment</members-->
 		<members>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</members>
 		<members>SOM_700_Refund_Create_Refund</members>
 		<members>SOM_830_Close_Return_Order</members> 
-		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
-		<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+		<!--members>SOM_940_Resolve_Ignore_Process_Exception</members-->
+		<!--members>SOM_400_CreateInvoiceAndEnsureFunds</members>
 		<members>SOM_460_Discount_Flow</members>
 		<members>SOM_830_Close_Return_Order</members>
-		<members>SOM_980_Validate_Manual_Order</members>
-		<members>SOM_New_Fulfillment_Order_Publish_Event</members>
+		<members>SOM_980_Validate_Manual_Order</members-->
+		<!--members>SOM_New_Fulfillment_Order_Publish_Event</members-->
 		 <members>SOM_Cancel_Expected_Items</members>
 		<members>SOM_Close_Return_Order</members>
-		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
+		<members>SOM_117_ReminderEmail</members>
+		<members>SOM_Generate_TE_after_Cancellation</members>
+		<!--members>SOM_New_Fulfillment_BR_Order_Publish_Event</members-->
 		<name>Flow</name>
 	</types>
 	
 	<types>
-		<members>SOM_BatchAnonymization_5</members>
+
 		<members>SOM_SalesAndPaymentsReportAUSchedule</members>
 		<members>SOM_SalesAndPaymentsReportEUSchedule</members>
 		<members>SOM_SalesAndPaymentsReportJPSchedule</members>
@@ -30,9 +54,9 @@
 		<members>SOM_SalesAndPaymentsReportSchedule</members>
 		<members>SOM_SalesAndPaymentsReportUKSchedule</members>
 		<members>SOM_USWeeklyReportSchedule</members>
-		<members>SOM_CreditMemoHelper</members>
-		<members>SOM_DateTimeHelper</members>
-		<members>SOM_InvoiceHelper</members>
+		<!--members>SOM_CreditMemoHelper</members-->
+		<!--members>SOM_DateTimeHelper</members-->
+		<!--members>SOM_InvoiceHelper</members-->
 		<members>SOM_SalesAndPaymentsReportMonthSchedule</members>
 		<members>SOM_SalesPaymentsReportMonthAUSchedule</members>
 		<members>SOM_SalesPaymentsReportMonthEUSchedule</members>
@@ -46,18 +70,38 @@
 		<members>SOM_InvoiceDocumentController</members>
 		<members>WS_SOM_InvoiceDocument</members>
 		<members>SOM_Constants</members>
-		<members>WS_SOM_ValidateBrazilianAddress</members>
-		<members>WS_SOM_ValidateBrazilianAddressTEST</members>
+		<!--members>WS_SOM_ValidateBrazilianAddress</members>
+		<members>WS_SOM_ValidateBrazilianAddressTEST</members-->
 		<members>Logs</members>
                
 		
 		<members>SOM_BatchAnonymization_6</members>
-		<!--members>SOM_BatchAnonymization_6_Test</members>
+		<members>SOM_BatchAnonymization_6_Test</members>
 		<members>SOM_BatchAnonymization_5</members>
 		<members>SOM_BatchAnonymization_4</members>
 		<members>SOM_BatchAnonymization_3</members>
 			<members>SOM_BatchAnonymization_2</members>
-		     <members>SOM_BatchAnonymization_1</members-->
+		     <members>SOM_BatchAnonymization_1</members>
+		    <members>SOM_BatchAnonymization_3_Test </members>
+		 <members>WS_SOM_InvoiceDocument_Test </members>
+		 <members>SOM_BatchAnonymization_5_Test </members>
+		 <members>SOM_BatchAnonymization_6_Test </members>
+		 <members>SOM_CreditMemoDocumentController_Test </members>
+		 <members>SOM_InvoiceDocumentController_test </members>
+		 <members>SOM_SalesPaymentKRMonthSchedule_Test </members>
+		 <members>SOM_SalesPaymentKRMonthSchedule_Test  </members>
+		 <members>SOM_SalesPaymentReportMonthSchedule_Test  </members>
+		<members>SOM_SalesPaymentsReportAUSchedule_Test  </members>
+		 <members>SOM_SalesPaymentsReportEUSchedule_Test   </members>
+		<members>SOM_SalesPaymentsReportJPSchedule_Test   </members>
+		 <members>SOM_SalesPaymentsReportKRSchedule_Test  </members>
+		<members>SOM_SalesPaymentsReportSchedule_Test  </members>
+		 <members>SOM_SalesPaymentsReportUKSchedule_Test  </members>
+		 <members>SOM_SalesPaymentUKMonthSchedule_Test  </members>
+		<members>SOM_TransactionalEmailHandler_Test  </members>
+		 <members>SOM_USWeeklyReportSchedule_Test </members>
+		 <members>SOM_BatchAnonymization_4_Test </members>
+		
 		<name>ApexClass</name>
        </types>
 	<types>
@@ -74,47 +118,64 @@
 		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
 		<name>Report</name>
 	</types>
-	<types>
-		<members>FulfillmentOrder.RI_Neighborhood__c</members>
-			<members>FulfillmentOrder.StreetNumber__c</members>
-			<members>Order.RI_Neighborhood__c</members>
-			<members>Order.StreetNumber__c</members>
-			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
-			<members>OrderDeliveryGroup.StreetNumber__c</members>
-			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
-			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
-			<members>OrderSummary.RI_Neighborhood__c</members>
-			<members>OrderSummary.StreetNumber__c</members>
-			<members>FulfillmentOrder.Complementary__c</members>
-			<members>Order.Complementary__c</members>
-			<members>OrderDeliveryGroup.Complementary__c</members>
-			<members>OrderDeliveryGroupSummary.Complementary__c</members>
-			<members>OrderSummary.Complementary__c</members>
-		<members>Legal_Entity__c.CegidSalesPersonId__c</members>
-				<members>Legal_Entity__c.CegidStoreCode__c</members>
-				<members>Legal_Entity__c.Location__c</members>
-		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
-			<name>CustomField</name>
-		</types>
+	
 <types>
 			
       	<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
-		<members>FulfillmentOrder-Fulfillment Order Layout</members>
+		<!--members>FulfillmentOrder-Fulfillment Order Layout</members>
 			<members>Order-Order Layout</members>
 			<members>OrderDeliveryGroup-Order Delivery Group Layout</members>
 			<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
-			<members>OrderSummary-Order Summary Layout</members>	
+			<members>OrderSummary-Order Summary Layout</members-->	
 	<members>Legal_Entity__c-Legal Entity Layout</members>
 			<name>Layout</name>
 		</types>
 <types>
 		<members>Return_Order_Record_Page</members>
-	<members>Order_Delivery_Group_Summary_Record_Page1</members>
+	<!--members>Order_Delivery_Group_Summary_Record_Page1</members-->
+	<members>Legal_Entity_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>ReturnOrder.Cancel_Expected_Items</members>
 		<name>QuickAction</name>
+	</types>
+	<types>
+		<members>SOM_Invoice_Setting.BILLING_CONTACT_JP</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_DATE_JP</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_NUMBER_JP</members>
+		<members>SOM_Invoice_Setting.DELIVERY_CONTACT_JP</members>
+		<members>SOM_Invoice_Setting.INVOICE_DATE_JP</members>
+		<members>SOM_Invoice_Setting.INVOICE_NUMBER_JP</members>
+		<members>SOM_Invoice_Setting.ITEM_DESCRIPTION_JP</members>
+		<members>SOM_Invoice_Setting.ITEM_NO_JP</members>
+		<members>SOM_Invoice_Setting.NET_AMOUNT_JP</members>
+		<members>SOM_Invoice_Setting.PDF_MAIL_JP</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_JP</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_CREDIT_MEMO_JP</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.QUANTITY_JP</members>
+		<members>SOM_Invoice_Setting.REPLACEMENT_JP</members>
+		<members>SOM_Invoice_Setting.SERIAL_NO_JP</members>
+		<members>SOM_Invoice_Setting.SUBTOTAL_JP</members>
+		<members>SOM_Invoice_Setting.TAX_JP</members>
+		<members>SOM_Invoice_Setting.TERM_OF_DELIVERY_JP</members>
+		<members>SOM_Invoice_Setting.TEXT1_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT2_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT3_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT4_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT5_INVOICE_JP</members>
+		<members>SOM_Invoice_Setting.TEXT_CREDIT_MEMO_JP</members>
+		<members>SOM_Invoice_Setting.TOTAL_JP</members>
+		<members>SOM_Invoice_Setting.TOTAL_TAX_JP</members>
+		<members>SOM_Invoice_Setting.TRACKING_NUMBERS_JP</members>
+		<members>SOM_Invoice_Setting.VAT_AMOUNT_JP</members>
+		<members>SOM_Invoice_Setting.ORDER_NUMBER_JP</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>SOM_InvoiceDocumentTemplate</members>
+		<name>ApexPage</name>
 	</types>
 	<version>61.0</version>
 

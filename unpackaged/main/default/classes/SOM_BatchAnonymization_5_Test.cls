@@ -14,7 +14,7 @@ public with sharing class SOM_BatchAnonymization_5_Test {
         digitWall.ProcessingMode = 'External';
         digitWall.AccountId      = los[0].AccountId;
         insert digitWall;
-        return los[0];
+        return los[0]; 
     }
 
     @isTest(seeAllData=true)
@@ -29,8 +29,10 @@ public with sharing class SOM_BatchAnonymization_5_Test {
         orderSummaryNumbers.put(accId, ordNum);
         List<String> cls = new List<String>();
         cls.add(accId);
+        List<String> OrdersId = new List<String>();
+        OrdersId.add(orderSu.OriginalOrderId);
         Test.startTest();
-        SOM_BatchAnonymization_5 nextBatch = new SOM_BatchAnonymization_5(paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
+        SOM_BatchAnonymization_5 nextBatch = new SOM_BatchAnonymization_5(OrdersId,paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
         database.executebatch(nextBatch);
         Test.stopTest();
     }

@@ -123,7 +123,7 @@
                 <apex:outputText value="{!invoiceConfigs['REPLACEMENT1']}"/>&nbsp;<apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/>&nbsp;<apex:outputText value="{!invoiceConfigs['REPLACEMENT2']}"/>
             </apex:outputpanel> 
             <apex:outputpanel rendered="{!invoiceDoc.Template != 'KR'}">
-                <apex:outputText value="{!invoiceConfigs['REPLACEMENT']}"/>&nbsp;<apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/>
+                <apex:outputText value="{!invoiceConfigs['REPLACEMENT']}"/>&nbsp;<apex:outputText styleClass="italicbold" value="{!correctiveInvoiceHeaderMessage}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'JP'}">)</apex:outputpanel>
             </apex:outputpanel>
         </apex:outputPanel>
     </div>

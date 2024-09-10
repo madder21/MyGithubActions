@@ -488,7 +488,7 @@ lineItem.isCC = false;
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                                              BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress , tech_os_store_shipping_method__c,
                                              (SELECT Id, ReservedAtLocationId, ReservedAtLocation.Name,Type, OriginalOrderItem.TotalLineAmount, StockKeepingUnit,
-                                              Name, CurrencyIsoCode, QuantityCanceled, Product2.ImageURL__c, Product2.ImageUrl1__c
+                                              Name, CurrencyIsoCode, QuantityOrdered, Product2.ImageURL__c, Product2.ImageUrl1__c
                                               FROM OrderItemSummaries where Type ='Order Product'),                                             
                                              (SELECT Id, DeliverToCountry, DeliverToCity, CLICKCOLLECT_StoreName__c,CLICKCOLLECT_pickup_firstName__c, CLICKCOLLECT_pickup_lastName__c, DeliverToStreet, DeliverToPostalCode, DeliverToName , STORE_OPENING_FR__c, STORE_OPENING_MO__c, STORE_OPENING_SA__c, STORE_OPENING_SU__c, STORE_OPENING_TH__c, STORE_OPENING_TU__c, STORE_OPENING_WE__c
                                               FROM OrderDeliveryGroupSummaries), (SELECT Id, FulfilledFromLocation.Name FROM FulfillmentOrders),
@@ -522,7 +522,7 @@ lineItem.isCC = false;
                     lineItem.name            = orderItemSumm.Name;
             		lineItem.currencyCode    = orderItemSumm.CurrencyIsoCode;
                     lineItem.amount          = orderItemSumm.OriginalOrderItem.TotalLineAmount;
-                    lineItem.quantity        = orderItemSumm.QuantityCanceled;
+                    lineItem.quantity        = orderItemSumm.QuantityOrdered;
                     lineItem.imageURL		 = orderItemSumm.Product2.ImageUrl1__c != null ? orderItemSumm.Product2.ImageUrl1__c : orderItemSumm.Product2.ImageURL__c;
                     orderCCAutomaticCancellationTemplateContent.items.add(lineItem);
                     
@@ -885,7 +885,7 @@ lineItem.taxRate = item.TaxRate__c;
 **/
     public static List<TransactionalEmail__c> generateOrderCanceledTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
-        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.TotalAdjProductAmtWithTax,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
+        List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.GrandTotalAmount,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
                                              (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity,QuantityCanceled, TotalLineAmount, Description, 
@@ -899,7 +899,7 @@ lineItem.taxRate = item.TaxRate__c;
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
             orderTemplateContent.subtotal         = orderSumm.OriginalOrder.TotalAmount;
             orderTemplateContent.tax              = orderSumm.OriginalOrder.TotalTaxAmount.setScale(2);
-            orderTemplateContent.total            = orderSumm.OriginalOrder.TotalAdjProductAmtWithTax;
+            orderTemplateContent.total            = orderSumm.OriginalOrder.GrandTotalAmount;
             //orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
             if(orderSumm.SalesChannel.SalesChannelName == SOM_Constants.SALES_CHANNEL_CEGID){
                 orderTemplateContent.storeLocator         = STW_URL__c.getOrgDefaults().STW_URL__c+orderSumm.BillingCountry.toLowerCase()+'/'+orderSumm.language__c.toLowerCase()+'/'+SOM_Constants.STORELOCATOR_URL;

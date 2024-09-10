@@ -1,4 +1,5 @@
 global with sharing class SOM_Constants {
+    
     public static final String  CARD_PAYMENT_METHOD                 = 'CardPaymentMethod';
     public static final String  DIGITAL_WALLET                      = 'DigitalWallet';
     public static final String  AMOUNT_CURRENCY                     = 'amount_currency';
@@ -128,8 +129,8 @@ global with sharing class SOM_Constants {
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED         = 'ReturnCreated';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION    = 'RefundConfirmation';
     public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT = 'RefundValidationMissingProduct';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL   = 'C&CAutomaticOrderCancellation';
-    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER      = 'C&CReminder';
+    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL   = 'CCAutomaticOrderCancellation';
+    public static final String TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER      = 'CCReminder';
 	public static final String Rimowa_URL = 'https://rimowa.com/';
 	public static final String STORELOCATOR_URL = 'storelocator';
 
@@ -137,6 +138,7 @@ global with sharing class SOM_Constants {
     public static final String CREDITMEMOLINE_CHARGE_TYPE = 'Charge';
 
     public static final String ORDER_SUMMARY_NAME = 'OrderSummary';
+    public static final String ORDER_DELIVERY_GROUP_SUMMARY_NAME = 'OrderDeliveryGroupSummary';
     public static final String ORDER_SUMMARY_COUNTRY_FIELD_NAME = 'CountryTech__c';
 
     public static final String CREDIT_MEMO_KEY_PREFIX        = '50g';
@@ -166,4 +168,13 @@ global with sharing class SOM_Constants {
     public static final String FULFILLMENT = 'Fulfillment';
     public static final String JP_COUNTRY_CODE = 'JP';
     public static final String CASH_ON_DELIVERY = 'COD';
+    
+    public static final String ZIP = ' - Zip';
+    public static final String STREET = ' - Address';
+    public static final String CITY = ' - City';
+    public static final String NEIGHBORHOOD = ' - Neighborhood';
+    public static final String STATE = ' - State/Province';
+    
+    
+    
 }

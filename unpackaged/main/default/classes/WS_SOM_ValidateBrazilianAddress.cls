@@ -6,7 +6,6 @@ global with sharing class WS_SOM_ValidateBrazilianAddress {
         List<AutomaticResponse> responseWrapper = new List<AutomaticResponse>();
         AutomaticResponse response              = new AutomaticResponse();
         String result;
-        
         try {
             //make http callout
             Http http = new Http();

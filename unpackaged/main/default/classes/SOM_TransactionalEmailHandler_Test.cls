@@ -214,7 +214,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
         List<Shipment> sh = SOM_testDataFactory.createShipments(mapIDFO).values();
         Set<Id> shipIds = (new Map<Id,Shipment>(sh)).keySet();
-        List<ShipmentItem> shI = [SELECT Id FROM ShipmentItem];
+        //List<ShipmentItem> shI = [SELECT Id FROM ShipmentItem];
         Set<String> lIds = (Set<String>)JSON.deserialize(JSON.serialize(shipIds), Set<String>.class);
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>();
 

@@ -431,6 +431,7 @@ global with sharing class SOM_WS_ShipmentHandler {
         shipment.DispatchDate__c    = shipmentDataLine.dispatchDate;
         shipment.WMSShipmentId__c   = shipmentDataLine.WMSshipmentId;
         shipment.TrackingNumber     = shipmentDataLine.trackingNumber;
+        shipment.CentiroShipmentId__c   = shipmentDataLine.CentiroShipmentId;
         shipment.Carrier__c         = shipmentDataLine.carrier != null ? shipmentDataLine.carrier : flmntOrder.DeliveryMethod.Carrier;
         shipment.ShippingService__c = shipmentDataLine.shippingService != null ? shipmentDataLine.shippingService : flmntOrder.DeliveryMethod.ReferenceNumber;
         shipment.Status             = SOM_Constants.SHIPMENT_SHIPPED;
@@ -607,6 +608,8 @@ global with sharing class SOM_WS_ShipmentHandler {
         public String shippingService;
         public String trackingNumber;
         public List<WMS_Article> articles;
+    	public String CentiroShipmentId;
+
     }
 
     public class WMS_Article {

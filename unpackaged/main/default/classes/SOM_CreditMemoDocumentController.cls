@@ -10,14 +10,14 @@ global with sharing class SOM_CreditMemoDocumentController {
     public CreditMemoAddress        creditMemoAddress { get; set;}
     
     public SOM_CreditMemoDocumentController() {
-        try{ 
+      //  try{ 
             this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
             this.setCreditMemoDocumentConfigs();
             this.setCreditMemoData();
 
-        }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','SOM_CreditMemoDocumentController','','');   
-        } 
+      //  }catch(Exception e){
+       //     Logs.error(e,'SOM_CreditMemoDocumentController','SOM_CreditMemoDocumentController','','');   
+       // } 
     }
     public void setCreditMemoDocumentConfigs(){
         try{
