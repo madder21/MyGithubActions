@@ -3,11 +3,10 @@
     <actionCalls>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>1087</locationX>
-        <locationY>1135</locationY>
+        <locationX>1224</locationX>
+        <locationY>819</locationY>
         <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
         <actionType>apex</actionType>
-        
         <connector>
             <targetReference>Update_PE_Description</targetReference>
         </connector>
@@ -15,86 +14,37 @@
         <inputParameters>
             <name>bairro</name>
             <value>
-                <elementReference>Validate_Brazilian_Address_0.bairro</elementReference>
+                <elementReference>bairro</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>cep</name>
             <value>
-                <elementReference>Validate_Brazilian_Address_0.cep</elementReference>
+                <elementReference>cep</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>localidade</name>
             <value>
-                <elementReference>Validate_Brazilian_Address_0.localidade</elementReference>
+                <elementReference>localidade</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>logradouro</name>
             <value>
-                <elementReference>Validate_Brazilian_Address_0.logradouro</elementReference>
+                <elementReference>logradouro</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>RecordId</name>
             <value>
-                <elementReference>Get_Order_Summary.Id</elementReference>
+                <elementReference>RecId</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
             <name>uf</name>
             <value>
-                <elementReference>Validate_Brazilian_Address_0.uf</elementReference>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
-    <actionCalls>
-        <name>Error_Message_0</name>
-        <label>Error Message</label>
-        <locationX>1070</locationX>
-        <locationY>430</locationY>
-        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Update_PE_Description_0</targetReference>
-        </connector>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>bairro</name>
-            <value>
-                <elementReference>Validate_Brazilian_Address.bairro</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>cep</name>
-            <value>
-                <elementReference>Validate_Brazilian_Address.cep</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>localidade</name>
-            <value>
-                <elementReference>Validate_Brazilian_Address.localidade</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>logradouro</name>
-            <value>
-                <elementReference>Validate_Brazilian_Address.logradouro</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>RecordId</name>
-            <value>
-                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>uf</name>
-            <value>
-                <elementReference>Validate_Brazilian_Address.uf</elementReference>
+                <elementReference>uf</elementReference>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -102,8 +52,8 @@
     <actionCalls>
         <name>Validate_Brazilian_Address</name>
         <label>Validate Brazilian Address ODGS</label>
-        <locationX>1337</locationX>
-        <locationY>637</locationY>
+        <locationX>1165</locationX>
+        <locationY>412</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -121,8 +71,8 @@
     <actionCalls>
         <name>Validate_Brazilian_Address_0</name>
         <label>Validate Brazilian Address OS</label>
-        <locationX>1389</locationX>
-        <locationY>958</locationY>
+        <locationX>1512</locationX>
+        <locationY>1180</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -141,8 +91,8 @@
     <assignments>
         <name>ODGS_Assignment</name>
         <label>ODGS Assignment</label>
-        <locationX>743</locationX>
-        <locationY>623</locationY>
+        <locationX>689</locationX>
+        <locationY>398</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group_Summary.TECH_PE_was_identified__c</assignToReference>
             <operator>Assign</operator>
@@ -150,15 +100,80 @@
                 <booleanValue>false</booleanValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Order_Delivery_Group_Summary.Tech_BrazilianAddressVerified__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Update_ODGS</targetReference>
         </connector>
     </assignments>
     <assignments>
+        <name>ODGS_Error_Message</name>
+        <label>ODGS Error Message</label>
+        <locationX>1078</locationX>
+        <locationY>595</locationY>
+        <assignmentItems>
+            <assignToReference>bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address.bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address.cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address.localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address.logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Address</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Shipping Address</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Error_Message</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Order_Number_Assignment</name>
         <label>Order Number Assignment</label>
-        <locationX>683</locationX>
-        <locationY>955</locationY>
+        <locationX>837</locationX>
+        <locationY>1205</locationY>
         <assignmentItems>
             <assignToReference>OrderNumber</assignToReference>
             <operator>Assign</operator>
@@ -173,8 +188,15 @@
                 <elementReference>Get_Order_Summary.Id</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Order_Summary.Tech_BrazilianAddressVerified__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Update_PE_To_Resolved_0</targetReference>
+            <targetReference>Update_OS_Tech_field</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -200,6 +222,64 @@
             <targetReference>Update_PE_To_Resolved_0</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>OS_Error_Message</name>
+        <label>OS Error Message</label>
+        <locationX>1193</locationX>
+        <locationY>1026</locationY>
+        <assignmentItems>
+            <assignToReference>bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Validate_Brazilian_Address_0.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Address</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Billing Address</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Error_Message</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Check_Address_Validation_Brazil_Category</name>
         <label>Check Address Validation Brazil Category</label>
@@ -223,7 +303,7 @@
                 <leftValueReference>Get_PE.Message</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Order Delivery Group Summary : INVALID ADDRESS</stringValue>
+                    <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -245,7 +325,7 @@
                 <leftValueReference>Get_PE.Message</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>Order Summary : INVALID ADDRESS</stringValue>
+                    <stringValue>Billing Address : INVALID ADDRESS</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -301,10 +381,10 @@
     <decisions>
         <name>Verify_BrazilianAddress_0</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>1075</locationX>
-        <locationY>634</locationY>
+        <locationX>963</locationX>
+        <locationY>410</locationY>
         <defaultConnector>
-            <targetReference>Error_Message_0</targetReference>
+            <targetReference>ODGS_Error_Message</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -354,10 +434,10 @@
     <decisions>
         <name>Verify_BrazilianAddress_0_0</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>1070</locationX>
-        <locationY>964</locationY>
+        <locationX>1145</locationX>
+        <locationY>1186</locationY>
         <defaultConnector>
-            <targetReference>Error_Message</targetReference>
+            <targetReference>OS_Error_Message</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -442,8 +522,8 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>1447</locationX>
-        <locationY>630</locationY>
+        <locationX>1441</locationX>
+        <locationY>410</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Validate_Brazilian_Address</targetReference>
@@ -575,18 +655,28 @@
     <recordUpdates>
         <name>Update_ODGS</name>
         <label>Update ODGS</label>
-        <locationX>619</locationX>
-        <locationY>626</locationY>
+        <locationX>464</locationX>
+        <locationY>396</locationY>
         <connector>
             <targetReference>Order_Number_Assignment_0</targetReference>
         </connector>
         <inputReference>Get_Order_Delivery_Group_Summary</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_OS_Tech_field</name>
+        <label>Update OS Tech field</label>
+        <locationX>493</locationX>
+        <locationY>1171</locationY>
+        <connector>
+            <targetReference>Update_PE_To_Resolved_0</targetReference>
+        </connector>
+        <inputReference>Get_Order_Summary</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_PE_Description</name>
         <label>Update PE Description</label>
-        <locationX>885</locationX>
-        <locationY>1136</locationY>
+        <locationX>978</locationX>
+        <locationY>813</locationY>
         <connector>
             <targetReference>ScreenError_0_0</targetReference>
         </connector>
@@ -602,30 +692,6 @@
             <field>Description</field>
             <value>
                 <elementReference>DescriptionMessage</elementReference>
-            </value>
-        </inputAssignments>
-        <object>ProcessException</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_PE_Description_0</name>
-        <label>Update PE Description</label>
-        <locationX>1414</locationX>
-        <locationY>427</locationY>
-        <connector>
-            <targetReference>ScreenError_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>recordId</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Description</field>
-            <value>
-                <elementReference>DescriptionMessage_0</elementReference>
             </value>
         </inputAssignments>
         <object>ProcessException</object>
@@ -721,32 +787,16 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>ScreenError_0</name>
-        <label>ScreenError</label>
-        <locationX>1255</locationX>
-        <locationY>286</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <fields>
-            <name>error_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68);&quot;&gt;The process exception cannot be resolved. Please verify the &lt;/strong&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;fields&lt;/strong&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(68, 68, 68);&quot;&gt; on the Order Delivery Group Summary :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;{!Error_Message_0.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>ScreenError_0_0</name>
         <label>ScreenError</label>
-        <locationX>888</locationX>
-        <locationY>1337</locationY>
+        <locationX>733</locationX>
+        <locationY>828</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
             <name>error</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the Order Summary :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!Error_Message.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the {!Address} :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Error_Message.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -763,18 +813,34 @@
     <textTemplates>
         <name>DescriptionMessage</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are incoherent with the Zip Code : {!Error_Message.ErrorMessageDescription}</text>
-    </textTemplates>
-    <textTemplates>
-        <name>DescriptionMessage_0</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are incoherent with the Zip Code : {!Error_Message_0.ErrorMessageDescription}</text>
+        <text>The following fields are inconsistent with the Zip Code : {!Error_Message.ErrorMessageDescription}</text>
     </textTemplates>
     <variables>
         <name>actionType</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Address</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>bairro</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>cep</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
@@ -786,6 +852,20 @@
     </variables>
     <variables>
         <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>localidade</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>logradouro</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -806,10 +886,24 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>RecId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>uf</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>
