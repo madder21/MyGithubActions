@@ -14,5 +14,10 @@
     -> Shipment.CentiroShipmentId__c : visible for all profiles
 * Ticket : SOM-1147
     Go Object Manager then Client (API = PersonAccount) ==> Page Layout ===> Person Account Layout ===> Quick Find = Is Purged 
+* Ticket : SOM-1165
+  - Update Profile visibility:
+    		OrderSummary.Tech_BrazilianAddressVerified__c :  Visible to all Profile
+    		OrderDeliveryGroupSummary.Tech_BrazilianAddressVerified__c :  Visible to all Profile
+  - ProcessException.Category : Make sure the Picklist Value 'Address Validation Brazil' is activated
 
 
