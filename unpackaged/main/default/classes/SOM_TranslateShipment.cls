@@ -65,7 +65,6 @@ public with sharing class SOM_TranslateShipment {
                 outp.tracking       = input.tracking;
                 outp.dispatchDate   = input.dispatchDate;
                 outp.sku10Digits    = input.sku10Digits;
-                outp.CrossBorderId  = input.CrossBorderId;
                 collectionOutput.add(outp);
             }
         }

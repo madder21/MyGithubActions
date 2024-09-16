@@ -203,13 +203,6 @@
                 <elementReference>V_ShipTranslation</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>V_ShipTranslation.CrossBorderId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Cross_Border_Id</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>L10_Over_FOLI_Selected</targetReference>
         </connector>
@@ -1013,7 +1006,10 @@
                 <fields>
                     <name>Cross_Border_Id</name>
                     <dataType>String</dataType>
-                    <fieldText>Cross Border Id</fieldText>
+                    <defaultValue>
+                        <elementReference>V_Wr_Shipment.CrossBorderId</elementReference>
+                    </defaultValue>
+                    <fieldText>Centiro Shipment Id</fieldText>
                     <fieldType>InputField</fieldType>
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
