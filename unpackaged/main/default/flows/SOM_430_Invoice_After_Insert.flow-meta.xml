@@ -5,7 +5,7 @@
     <assignments>
         <name>Add_Fulfillment_Id_to_Coll</name>
         <label>Add Fulfillment Id to Coll</label>
-        <locationX>391</locationX>
+        <locationX>396</locationX>
         <locationY>633</locationY>
         <assignmentItems>
             <assignToReference>S_NewFulfillmentShippedForCegid.FulfillementOrderId__c</assignToReference>
@@ -25,8 +25,29 @@
             <targetReference>Iterate_Over_Fulfillments_Orders</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Check_BR_Orders</name>
+        <label>Check BR Orders</label>
+        <locationX>830</locationX>
+        <locationY>423</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>NOT_BR_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_NewFulfillmentShippedForCegid_Events</targetReference>
+            </connector>
+            <label>NOT BR Order</label>
+        </rules>
+    </decisions>
     <description>Rework of the shipment event to FulfillmentFulfilled event</description>
-    <environments>Default</environments>
     <interviewLabel>SOM 430 - Invoice After Insert {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 430 - Invoice After Insert</label>
     <loops>
@@ -40,7 +61,7 @@
             <targetReference>Add_Fulfillment_Id_to_Coll</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Create_NewFulfillmentShippedForCegid_Events</targetReference>
+            <targetReference>Get_Order_Summary</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -65,8 +86,8 @@
     <recordCreates>
         <name>Create_NewFulfillmentShippedForCegid_Events</name>
         <label>Create NewFulfillmentShippedForCegid Events</label>
-        <locationX>604</locationX>
-        <locationY>409</locationY>
+        <locationX>854</locationX>
+        <locationY>613</locationY>
         <inputReference>C_NewFulfillmentShippedForCegid</inputReference>
     </recordCreates>
     <recordLookups>
@@ -91,6 +112,27 @@
         <queriedFields>Id</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Summary</name>
+        <label>Get Order Summary</label>
+        <locationX>608</locationX>
+        <locationY>422</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_BR_Orders</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.ReferenceEntityId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
