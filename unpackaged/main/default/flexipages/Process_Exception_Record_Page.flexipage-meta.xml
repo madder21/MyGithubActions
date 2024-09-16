@@ -13,23 +13,7 @@
                             <value>Delete</value>
                         </valueListItems>
                         <valueListItems>
-                            <value>CustomButton.ProcessException.Resolve</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>New</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Identity profile</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
-                        <valueListItems>
-                            <value>CustomButton.ProcessException.Ignore</value>
+                            <value>ProcessException.Ignore</value>
                             <visibilityRule>
                                 <booleanFilter>1 AND 2 AND 3</booleanFilter>
                                 <criteria>
@@ -46,6 +30,22 @@
                                     <leftValue>{!Record.Category}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>Address Validation Brazil</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>ProcessException.Resolve</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>New</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!$User.Profile.Name}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Identity profile</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
