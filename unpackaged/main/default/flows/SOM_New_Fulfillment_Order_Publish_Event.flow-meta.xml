@@ -49,6 +49,13 @@
                     <elementReference>SalesChannel_Cegid</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
             </connector>
@@ -134,6 +141,7 @@
         <queriedFields>Id</queriedFields>
         <queriedFields>SalesChannelName__c</queriedFields>
         <queriedFields>OrderNumber</queriedFields>
+        <queriedFields>BillingCountry</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
