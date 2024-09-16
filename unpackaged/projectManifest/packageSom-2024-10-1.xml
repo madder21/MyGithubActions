@@ -2,20 +2,30 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 
+
 		<members>SOM_CreateShipment</members>
 		<members>SOM_TranslateShipment</members>
+    <members>SOM_TransactionalEmailHandler</members>
     <members>SOM_TransactionalEmailHandler</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>SOM_990_Manual_Shipment</members>
+
     	<members>SOM_830_Close_Return_Order</members>
 		<members>SOM_Cancel_Expected_Items</members>
 		<name>Flow</name>
 	</types>
+
 	<types>
 		<members>ShipmentItem-Shipment Item Layout</members>
 		<name>Layout</name>
+
+
+	<types>
+		
+		<name>ApexClass</name>
+
 	</types>
 
     
@@ -35,4 +45,3 @@
 
 	<version>60.0</version>
 </Package>
-
