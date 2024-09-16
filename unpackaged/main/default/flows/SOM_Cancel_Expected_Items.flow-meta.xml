@@ -4,24 +4,24 @@
     <assignments>
         <name>Assign_Value_Check_to_false</name>
         <label>Assign Value Check to false</label>
-        <locationX>1998</locationX>
-        <locationY>412</locationY>
+        <locationX>1702</locationX>
+        <locationY>301</locationY>
         <assignmentItems>
-            <assignToReference>Check</assignToReference>
+            <assignToReference>ReceivedRO</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Iterate_Over_Return_Order_Line_Item</targetReference>
+            <targetReference>Set_ROLI_Quantity_Expected_To_zero</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>ROLI_To_Update</name>
         <label>ROLI To Update</label>
-        <locationX>1711</locationX>
-        <locationY>849</locationY>
+        <locationX>1712</locationX>
+        <locationY>761</locationY>
         <assignmentItems>
             <assignToReference>ROLIList</assignToReference>
             <operator>Add</operator>
@@ -36,19 +36,44 @@
     <assignments>
         <name>Set_ROLI_Quantity_Expected_To_zero</name>
         <label>Set ROLI Quantity Expected To zero</label>
-        <locationX>1712</locationX>
-        <locationY>635</locationY>
+        <locationX>1711</locationX>
+        <locationY>516</locationY>
         <assignmentItems>
             <assignToReference>Iterate_Over_Return_Order_Line_Item.QuantityExpected</assignToReference>
             <operator>Assign</operator>
             <value>
-                <numberValue>0.0</numberValue>
+                <elementReference>Iterate_Over_Return_Order_Line_Item.QuantityReceived</elementReference>
             </value>
         </assignmentItems>
         <connector>
             <targetReference>ROLI_To_Update</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Canceled_Or_Receive</name>
+        <label>Canceled Or Receive</label>
+        <locationX>1980</locationX>
+        <locationY>382</locationY>
+        <defaultConnector>
+            <targetReference>Set_ROLI_Quantity_Expected_To_zero</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Update Status to Canceled</defaultConnectorLabel>
+        <rules>
+            <name>Update_Status_to_Received</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Iterate_Over_Return_Order_Line_Item.QuantityReceived</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Value_Check_to_false</targetReference>
+            </connector>
+            <label>Update Status to Received</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_Return_Order_Status</name>
         <label>Check Return Order Status</label>
@@ -75,53 +100,28 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_to_Update_Or_NOT</name>
-        <label>Check to Update Or NOT</label>
-        <locationX>1711</locationX>
-        <locationY>415</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Value_Check_to_false</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_Update</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Iterate_Over_Return_Order_Line_Item.QuantityReceived</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_ROLI_Quantity_Expected_To_zero</targetReference>
-            </connector>
-            <label>Yes Update</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Check_to_Update_To_Receive</name>
         <label>Check to Update To Receive</label>
-        <locationX>1990</locationX>
-        <locationY>1049</locationY>
+        <locationX>1993</locationX>
+        <locationY>1054</locationY>
         <defaultConnector>
-            <targetReference>Update_RO_to_Received</targetReference>
+            <targetReference>Update_RO</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <defaultConnectorLabel>Canceled RO</defaultConnectorLabel>
         <rules>
-            <name>Yes_Update_0</name>
+            <name>Received_RO</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Check</leftValueReference>
+                <leftValueReference>ReceivedRO</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_RO</targetReference>
+                <targetReference>Update_RO_to_Received</targetReference>
             </connector>
-            <label>Yes Update</label>
+            <label>Received RO</label>
         </rules>
     </decisions>
     <decisions>
@@ -146,7 +146,6 @@
             <label>Proceed on Delete</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM Cancel Expected Items {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM Cancel Expected Items</label>
     <loops>
@@ -157,7 +156,7 @@
         <collectionReference>Get_Return_Order_line_Items_To_Cancel</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Check_to_Update_Or_NOT</targetReference>
+            <targetReference>Canceled_Or_Receive</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Update_ROLI</targetReference>
@@ -365,7 +364,7 @@
     </start>
     <status>Active</status>
     <variables>
-        <name>Check</name>
+        <name>ReceivedRO</name>
         <dataType>Boolean</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
