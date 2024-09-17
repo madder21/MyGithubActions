@@ -2,8 +2,14 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
   <types>
-		
+		<members>FulfillmentOrder-Fulfillment Order Layout</members>
 		<members>ShipmentItem-Shipment Item Layout</members>
+	         <members>Order-Order Layout</members>
+			<members>OrderDeliveryGroup-Order Delivery Group Layout</members>
+			<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
+			<members>OrderSummary-Order Summary Layout</members>
+
+	 
 		<name>Layout</name>
 	</types>
 
@@ -65,7 +71,10 @@
 		<members>SOM_940_Ignore_Process_Exception</members>
 		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
 		<members>SOM_C6_Create_NewFulfillmentShippedForCegid</members>
-
+<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
+		<members>SOM_460_Discount_Flow</members>
+		<members>SOM_830_Close_Return_Order</members>
+		<members>SOM_980_Validate_Manual_Order</members>
 
 		
 
@@ -78,8 +87,21 @@
 		<members>OrderDeliveryGroupSummary.TECH_PE_was_identified__c</members>
 		<members>OrderDeliveryGroupSummary.Tech_BrazilianAddressVerified__c</members>
 		<members>OrderSummary.Tech_BrazilianAddressVerified__c</members>		
-
-		
+                     <members>FulfillmentOrder.Complementary__c</members>
+			<members>Order.Complementary__c</members>
+			<members>OrderDeliveryGroup.Complementary__c</members>
+			<members>OrderDeliveryGroupSummary.Complementary__c</members>
+			
+		<members>FulfillmentOrder.RI_Neighborhood__c</members>
+			<members>FulfillmentOrder.StreetNumber__c</members>
+			<members>Order.RI_Neighborhood__c</members>
+			<members>Order.StreetNumber__c</members>
+			<members>OrderDeliveryGroup.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroup.StreetNumber__c</members>
+			<members>OrderDeliveryGroupSummary.RI_Neighborhood__c</members>
+			<members>OrderDeliveryGroupSummary.StreetNumber__c</members>
+			<members>OrderSummary.RI_Neighborhood__c</members>
+			<members>OrderSummary.StreetNumber__c</members>
 
 
 

@@ -10,6 +10,7 @@
 * Ticket : SOM-1151
     -> Invoice.sentToFTP__c : visible for all profiles
 
+
 * Ticket : SOM-1146
     -> Shipment.CentiroShipmentId__c : visible for all profiles
 * Ticket : SOM-1147
@@ -19,7 +20,60 @@
     		OrderSummary.Tech_BrazilianAddressVerified__c :  Visible to all Profile
     		OrderDeliveryGroupSummary.Tech_BrazilianAddressVerified__c :  Visible to all Profile
   - ProcessException.Category : Make sure the Picklist Value 'Address Validation Brazil' is activated
+* Ticket : SOM-1144
+
+    - Delete the Old Button URL : Resolve
+    - Delete the Old Button URL : Ignore
+* Ticket : SOM-1136
+    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
+            FulfillmentOrder.Complementary__c : Read Access + Edit Access
+		    Order.Complementary__c            : Read Access + Edit Access
+		    OrderDeliveryGroup.Complementary__c : Read Access + Edit Access
+		    OrderDeliveryGroupSummary.Complementary__c : Read Access + Edit Access
+		    OrderSummary.Complementary__c : Read Access + Edit Access
+    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
+            FulfillmentOrder.Complementary__c : Read Access + Edit Access
+		    Order.Complementary__c            : Read Access + Edit Access
+		    OrderDeliveryGroup.Complementary__c : Read Access + Edit Access
+		    OrderDeliveryGroupSummary.Complementary__c : Read Access + Edit Access
+		    OrderSummary.Complementary__c : Read Access + Edit Access
+
+* Ticket : SOM-1101
+    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
+        -> FulfillmentOrder.RI_Neighborhood__c : Read Access + Edit Access
+        -> FulfillmentOrder.StreetNumber__c : Read Access + Edit Access
+        -> Order.RI_Neighborhood__c : Read Access + Edit Access
+        -> Order.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.StreetNumber__c : Read Access + Edit Access
+        -> OrderSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderSummary.StreetNumber__c     : Read Access + Edit Access
+
+    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
+        -> FulfillmentOrder.RI_Neighborhood__c : Read Access + Edit Access
+        -> FulfillmentOrder.StreetNumber__c : Read Access + Edit Access
+        -> Order.RI_Neighborhood__c : Read Access + Edit Access
+        -> Order.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroup.StreetNumber__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderDeliveryGroupSummary.StreetNumber__c : Read Access + Edit Access
+        -> OrderSummary.RI_Neighborhood__c : Read Access + Edit Access
+        -> OrderSummary.StreetNumber__c     : Read Access + Edit Access   
 
 * Put the good resolve button and ligntning page : process exepltion 
 
 
+    - Update Profile's visibility:
+        -> FulfillmentOrder.RI_Neighborhood__c : visible for all profiles
+        -> FulfillmentOrder.StreetNumber__c : visible for all profiles
+        -> Order.RI_Neighborhood__c : visible for all profiles
+        -> Order.StreetNumber__c : visible for all profiles
+        -> OrderDeliveryGroup.RI_Neighborhood__c : visible for all profiles
+        -> OrderDeliveryGroup.StreetNumber__c : visible for all profiles
+        -> OrderDeliveryGroupSummary.RI_Neighborhood__c : visible for all profiles
+        -> OrderDeliveryGroupSummary.StreetNumber__c : visible for all profiles
+        -> OrderSummary.RI_Neighborhood__c : visible for all profiles
+        -> OrderSummary.StreetNumber__c     : visible for all profiles
