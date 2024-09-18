@@ -557,7 +557,8 @@ lineItem.isCC = false;
             CCAutomaticCancellationTransactionalEmail.EmailContent__c = JSON.serializePretty(orderCCAutomaticCancellationTemplateContent, true);
             CCAutomaticCancellationTransactionalEmail.Email__c        = orderSum.BillingEmailAddress;
             CCAutomaticCancellationTransactionalEmail.CountrySite__c  = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCountry;
-
+            CCAutomaticCancellationTransactionalEmail.bccEmail__c     = EmailStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
+            
             OrderCCAutomaticCancellationTransactionalEmailsList.add(CCAutomaticCancellationTransactionalEmail);
             
         }
@@ -896,10 +897,9 @@ lineItem.taxRate = item.TaxRate__c;
                                              FROM OrderSummary WHERE Id IN :recordIds];
         
         Map<String, String> EmailStoreMap = new Map<String, String>();
-        List<Store__c> StoreLocation = [Select Id,Name, Email__c from Store__c ];
-        System.debug('StoreLocation :' + (StoreLocation));
+        List<Store__c> StoreLocation = [Select Id,SourceStoreId__c, Email__c,Phone__c from Store__c ];
         for(Store__c Store:StoreLocation) {
-            EmailStoreMap.put(Store.Name,Store.Email__c);
+            EmailStoreMap.put(Store.SourceStoreId__c,Store.Email__c);
         }
 
         
