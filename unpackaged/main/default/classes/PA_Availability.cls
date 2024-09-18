@@ -6,6 +6,8 @@
  * 
  ***************************************************************************************************************************************************************** 
  * 0.0		|2024/04/18			|.PLM		|.JIRA SFMC-392			|.Original Version
+ * 0.1		|2024/09/16			|.EBU		|.JIRA RCLIENT-1281		|.Add test to handle QueryException when looking for a unssigned staffcode (essentially UAT testing purpose)
+ * 0.x		|
 */
 
 @RestResource(urlMapping='/PrivateAppointment/*')
@@ -59,9 +61,23 @@ global without sharing class PA_Availability {
             return '{"error": "Store unable to receive appointment."}';
         }
 
-        User staff = [SELECT Id, BooxiId__c, StoreCode__c, StaffCode__c, Name
+        /*User staff = [SELECT Id, BooxiId__c, StoreCode__c, StaffCode__c, Name
                      FROM User 
                      WHERE StaffCode__c = :staffCode LIMIT 1];
+        */
+        
+        //EBU - 2024-09 - Handle the retrieval of users as an array to avoid System.QueryException (List has no rows for assignment)
+        User[] possibleStaff = [SELECT Id, BooxiId__c, StoreCode__c, StaffCode__c, Name
+                     			FROM User 
+                     			WHERE StaffCode__c = :staffCode LIMIT 1];
+        //EBU - 2024-09 - test that the list is not empty, and get the 1st element as the concerned user
+		User staff;
+		if (possibleStaff.size()>0) { 
+            staff = possibleStaff[0];
+        } else {       
+        	//EBU - 2024-09 - Return an error if the user is null
+            return '{"error": "The user does not exist, or the related staffcode is not properly defined."}';
+        }
 
         List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime 
                                   FROM Event 
@@ -69,6 +85,7 @@ global without sharing class PA_Availability {
                                         AND ActivityDate >= :startDate 
                                         AND ActivityDate <= :endDate 
                                         AND ShowAs = 'Busy'];
+        
         Map<Date,String> BusyTimeSlotsMap = buildBusyTimeSlotsMap(busyEvents,startDate, endDate);
         Map<Date, List<String>> appointmentHoursMap = mapAppointmentHours(startDate, endDate, store.AppointmentHours__c); 
         Map<Date,String> freeTimeSlots = determineFreeTimeSlots(appointmentHoursMap, BusyTimeSlotsMap, (Integer)store.AppointmentBookingInterval__c, (Integer)store.AppointmentDuration__c);
