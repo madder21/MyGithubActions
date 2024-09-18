@@ -469,9 +469,9 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <name>FX_SerialNumber</name>
         <dataType>String</dataType>
         <expression>IF(
-    ISBLANK({!getEXISTROLI.SerialNumber__c}),
-    {!loopOverExistROLIs.SerialNumber__c},
-    {!getEXISTROLI.SerialNumber__c} &amp; &quot;;&quot; &amp; {!loopOverExistROLIs.SerialNumber__c})</expression>
+    ISBLANK({!loopOverExistROLIs.SerialNumber__c}),
+    {!getEXISTROLI.SerialNumber__c} ,
+     {!loopOverExistROLIs.SerialNumber__c} &amp; &quot;;&quot; &amp; {!getEXISTROLI.SerialNumber__c} )</expression>
     </formulas>
     <formulas>
         <name>FX_Single_Country</name>
