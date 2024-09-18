@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	<types>
+
+
+		<members>SOM_CreateShipment</members>
+		<members>SOM_TranslateShipment</members>
+    <members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_CreateShipment_Test</members>
+		
+		<members>SOM_Wr_ShipmentShipmentItems</members>
+    
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>SOM_990_Manual_Shipment</members>
+
+    	<members>SOM_830_Close_Return_Order</members>
+
+		<members>SOM_Cancel_Expected_Items</members>
+		<name>Flow</name>
+	</types>
+
+	<types>
+		<members>ShipmentItem-Shipment Item Layout</members>
+		<members>OrderSummary-Order Summary Layout</members>
+		<name>Layout</name>
+
+
+	
+	</types>
+
+    
+	
+<types>
+
+		<members>OrderSummary.Custom_Compact_Layout</members>
+    	<members>OrderSummary-Order Summary Layout</members>
+		<name>CompactLayout</name>
+	</types>
+	<types>
+		<members>OrderSummary.RI_createdBy__c</members>
+		<members>TaxCodeConfiguration__c.isDefault__c</members>
+		<name>CustomField</name>
+
+
+	</types>
+	<types>
+		
+		<members>TaxCodeConfiguration__c.All</members>
+		<name>ListView</name>
+	</types>
+
+	<version>60.0</version>
+</Package>

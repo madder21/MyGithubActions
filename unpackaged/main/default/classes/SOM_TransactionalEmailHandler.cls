@@ -889,11 +889,20 @@ lineItem.taxRate = item.TaxRate__c;
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
                                              (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, Quantity,QuantityCanceled, TotalLineAmount, Description, 
-                                              IsPreOrder__c, PreOrder_message__c,CurrencyIsoCode,UnitPrice, OriginalOrderItem.TotalLineAmount
+                                              IsPreOrder__c, PreOrder_message__c,CurrencyIsoCode,UnitPrice, OriginalOrderItem.TotalLineAmount, ReservedAtLocation.Name
                                               FROM OrderItemSummaries where Type ='Order Product' ORDER BY LineNumber ASC),
                                              (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
                                               FROM OrderDeliveryGroupSummaries)
                                              FROM OrderSummary WHERE Id IN :recordIds];
+        
+        Map<String, String> EmailStoreMap = new Map<String, String>();
+        List<Store__c> StoreLocation = [Select Id,Name, Email__c from Store__c ];
+        System.debug('StoreLocation :' + (StoreLocation));
+        for(Store__c Store:StoreLocation) {
+            EmailStoreMap.put(Store.Name,Store.Email__c);
+        }
+
+        
         for (OrderSummary orderSumm : orderSummaries) {
             SOM_OrderCanceledTemplateContent orderTemplateContent = new SOM_OrderCanceledTemplateContent();
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
@@ -930,6 +939,9 @@ lineItem.taxRate = item.TaxRate__c;
             orderTransactionalEmail.EmailContent__c = JSON.serializePretty(orderTemplateContent, true);
             orderTransactionalEmail.Email__c        = orderSumm.BillingEmailAddress;
             orderTransactionalEmail.CountrySite__c  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry;
+            if(orderSumm.SalesChannel.SalesChannelName == SOM_Constants.SALES_CHANNEL_RIMOWA && orderSumm.tech_os_store_shipping_method__c > 0) {
+            	orderTransactionalEmail.bccEmail__c  	= EmailStoreMap.get(orderSumm.OrderItemSummaries[0].ReservedAtLocation.Name);
+            }          
             
             orderTransactionalEmailsList.add(orderTransactionalEmail);
         }
