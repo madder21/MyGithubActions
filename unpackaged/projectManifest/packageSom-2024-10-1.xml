@@ -6,7 +6,10 @@
 		<members>SOM_CreateShipment</members>
 		<members>SOM_TranslateShipment</members>
     <members>SOM_TransactionalEmailHandler</members>
-    <members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_CreateShipment_Test</members>
+		
+		<members>SOM_Wr_ShipmentShipmentItems</members>
+    
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -24,10 +27,7 @@
 		<name>Layout</name>
 
 
-	<types>
-		
-		<name>ApexClass</name>
-
+	
 	</types>
 
     
@@ -40,9 +40,15 @@
 	</types>
 	<types>
 		<members>OrderSummary.RI_createdBy__c</members>
+		<members>TaxCodeConfiguration__c.isDefault__c</members>
 		<name>CustomField</name>
 
 
+	</types>
+	<types>
+		
+		<members>TaxCodeConfiguration__c.All</members>
+		<name>ListView</name>
 	</types>
 
 	<version>60.0</version>
