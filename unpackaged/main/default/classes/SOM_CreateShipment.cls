@@ -67,6 +67,7 @@ public with sharing class SOM_CreateShipment {
                 shipment.ShipToPostalCode   = mapIdFo.get(input.foId).FulfilledToPostalCode;
                 shipment.ShipToState        = mapIdFo.get(input.foId).FulfilledToState;
                 shipment.ShipToCountry      = mapIdFo.get(input.foId).FulfilledToCountry;
+                shipment.CentiroShipmentId__c = input.CrossborderId;
                 mapExtShip.put(input.trackingNumber + input.orderMethodId,shipment);
                 shipmentsToInsert.add(shipment);
             }
@@ -80,7 +81,7 @@ public with sharing class SOM_CreateShipment {
                     shipmentLine.Quantity                   = Integer.valueOf(input.quantity/serialNumbers.size());  
                     shipmentLine.Product2Id                 = input.productId;
                     shipmentLine.FulfillmentOrderLineItemId = input.foliId;
-                    shipmentLine.OrderItemSummaryId         = input.osItemId; 
+                    shipmentLine.OrderItemSummaryId         = input.osItemId;
                     if(input.S10Digits == true){
                     	shipmentLine.Sku10Digits__c         	= serial.substring(0, 10);
                     }else{
@@ -100,7 +101,7 @@ public with sharing class SOM_CreateShipment {
                 shipmentLine.FulfillmentOrderLineItemId = input.foliId;
                 shipmentLine.OrderItemSummaryId         = input.osItemId; 
                 shipmentLine.Quantity                   = input.quantity;  
-                shipmentLine.Sku10Digits__c             = input.sku10Digits;  
+                shipmentLine.Sku10Digits__c             = input.sku10Digits;
                 if(mapExtShipItem.containsKey(input.trackingNumber + input.orderMethodId)){
                     mapExtShipItem.get(input.trackingNumber + input.orderMethodId).add(shipmentLine);
                 }else{
