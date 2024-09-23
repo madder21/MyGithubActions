@@ -7,7 +7,7 @@
 		<members>SOM_TranslateShipment</members>
     <members>SOM_TransactionalEmailHandler</members>
 		<members>SOM_CreateShipment_Test</members>
-		
+		<members>SOM_Manual_RO_Reception_Controller</members>
 		<members>SOM_Wr_ShipmentShipmentItems</members>
     
 		<name>ApexClass</name>
@@ -15,8 +15,8 @@
 	<types>
 		<members>SOM_990_Manual_Shipment</members>
 
-    	<members>SOM_830_Close_Return_Order</members>
-
+    	   <members>SOM_830_Close_Return_Order</members>
+         <members>SOM_660_Manual_Return_Reception</members>
 		<members>SOM_Cancel_Expected_Items</members>
 		<name>Flow</name>
 	</types>
@@ -27,20 +27,24 @@
 		<members>Shipment-Shipment Layout</members>
 		<members>OrderSummary-Order Summary Layout</members>
 		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+			<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
 		<name>Layout</name>
 
 
 	
 	</types>
 
-    
+    <types>
+		<members>som_ManualReturnReception</members>
+		<name>LightningComponentBundle</name>
+	</types>
 	
 
 	<types>
 		<members>OrderSummary.RI_createdBy__c</members>
 		<members>TaxCodeConfiguration__c.isDefault__c</members>
 		<members>Sales_Channel_Mapping__mdt.IsCorssBorder__c</members>
-		
+		<members>ReturnOrderLineItem.QuantityLeftToReceive__c</members>
 		<name>CustomField</name>
 
 
