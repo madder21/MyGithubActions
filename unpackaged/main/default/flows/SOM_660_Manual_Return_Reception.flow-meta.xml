@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Convert_DateTime_To_Selected_TimeZone</name>
         <label>Convert DateTime To Selected TimeZone</label>
-        <locationX>1098</locationX>
+        <locationX>1851</locationX>
         <locationY>911</locationY>
         <actionName>SOM_DateTimeHelper</actionName>
         <actionType>apex</actionType>
@@ -32,7 +32,7 @@
     <assignments>
         <name>Assign_CustomCountries</name>
         <label>Assign CustomCountries</label>
-        <locationX>1116</locationX>
+        <locationX>1869</locationX>
         <locationY>15</locationY>
         <assignmentItems>
             <assignToReference>C_Custom_Countries_After_Split</assignToReference>
@@ -55,7 +55,7 @@
     <assignments>
         <name>Assign_CustomCountry</name>
         <label>Assign CustomCountry</label>
-        <locationX>1079</locationX>
+        <locationX>1832</locationX>
         <locationY>347</locationY>
         <assignmentItems>
             <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
@@ -71,7 +71,7 @@
     <assignments>
         <name>Assign_Error_Data_Validity</name>
         <label>Assign Error Data Validity</label>
-        <locationX>1545</locationX>
+        <locationX>2298</locationX>
         <locationY>816</locationY>
         <assignmentItems>
             <assignToReference>V_Error_Message</assignToReference>
@@ -87,7 +87,7 @@
     <assignments>
         <name>Assign_LocationsIds</name>
         <label>Assign LocationsIds</label>
-        <locationX>908</locationX>
+        <locationX>1661</locationX>
         <locationY>460</locationY>
         <assignmentItems>
             <assignToReference>LocationsId</assignToReference>
@@ -101,9 +101,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Qtys</name>
+        <label>Assign Qtys</label>
+        <locationX>244</locationX>
+        <locationY>1292</locationY>
+        <assignmentItems>
+            <assignToReference>QtyPreReceived</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getEXISTROLI.QuantityReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Updated_Values</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Single_ROLI</name>
         <label>Assign Single ROLI</label>
-        <locationX>743</locationX>
+        <locationX>1496</locationX>
         <locationY>549</locationY>
         <assignmentItems>
             <assignToReference>S_ReturnOrderLineItem</assignToReference>
@@ -117,10 +133,129 @@
         </connector>
     </assignments>
     <assignments>
-        <name>AssignbothfollowUpProcessed</name>
-        <label>AssignbothfollowUpProcessed</label>
-        <locationX>739</locationX>
-        <locationY>1302</locationY>
+        <name>Assign_Updated_Values</name>
+        <label>Assign Updated Values</label>
+        <locationX>95</locationX>
+        <locationY>1203</locationY>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.QuantityReceived</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.SerialNumber__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_SerialNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.QuantityExpected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_QtyExpected</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.Quantity_Previously_Received__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_QtyPreReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.Quantity_Previously_Returned__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_QtyPreReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Value_to_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Updated_Values_0</name>
+        <label>Assign Updated Values</label>
+        <locationX>205</locationX>
+        <locationY>1005</locationY>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.QuantityReceived</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loopOverExistROLIs.QuantityReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.SerialNumber__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_SerialNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.QuantityExpected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loopOverExistROLIs.QuantityExpected</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Value_to_Collection</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Value_to_Collection</name>
+        <label>Assign Value to Collection</label>
+        <locationX>50</locationX>
+        <locationY>849</locationY>
+        <assignmentItems>
+            <assignToReference>newROLISLIst</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getEXISTROLI</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getEXISTROLI</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Empty_Error_Variable</name>
+        <label>Empty Error Variable</label>
+        <locationX>1993</locationX>
+        <locationY>1145</locationY>
+        <assignmentItems>
+            <assignToReference>V_Error_Message</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Convert_DateTime_To_Selected_TimeZone</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>getId</name>
+        <label>getId</label>
+        <locationX>954</locationX>
+        <locationY>861</locationY>
+        <assignmentItems>
+            <assignToReference>ROLISIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loopOverROLI.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loopOverROLI</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>ManuelleReceptionCheck</name>
+        <label>ManuelleReceptionCheck</label>
+        <locationX>1126</locationX>
+        <locationY>1058</locationY>
         <assignmentItems>
             <assignToReference>BothFollowUpProcessed</assignToReference>
             <operator>Assign</operator>
@@ -129,20 +264,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Loop_over_ROLI</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Empty_Error_Variable</name>
-        <label>Empty Error Variable</label>
-        <locationX>1240</locationX>
-        <locationY>1145</locationY>
-        <assignmentItems>
-            <assignToReference>V_Error_Message</assignToReference>
-            <operator>Assign</operator>
-        </assignmentItems>
-        <connector>
-            <targetReference>Convert_DateTime_To_Selected_TimeZone</targetReference>
+            <targetReference>Loop_over_ROLI_Check</targetReference>
         </connector>
     </assignments>
     <choices>
@@ -164,32 +286,32 @@
     <decisions>
         <name>Both_ROLI_Received</name>
         <label>Both ROLI Received</label>
-        <locationX>881</locationX>
-        <locationY>1083</locationY>
+        <locationX>1342</locationX>
+        <locationY>1179</locationY>
         <defaultConnector>
-            <targetReference>Loop_over_ROLI</targetReference>
+            <targetReference>ManuelleReceptionCheck</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>BothReceived</name>
+            <name>QuantitySame</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Loop_over_ROLI.QuantityReceived</leftValueReference>
+                <leftValueReference>Loop_over_ROLI_Check.QuantityReceived</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <numberValue>0.0</numberValue>
+                    <elementReference>Loop_over_ROLI_Check.QuantityExpected</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>AssignbothfollowUpProcessed</targetReference>
+                <targetReference>Loop_over_ROLI_Check</targetReference>
             </connector>
-            <label>BothReceived</label>
+            <label>QuantitySame</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_Custom_Locations</name>
         <label>Check Custom Locations</label>
-        <locationX>1102</locationX>
+        <locationX>1855</locationX>
         <locationY>204</locationY>
         <defaultConnector>
             <targetReference>Assign_CustomCountries</targetReference>
@@ -243,8 +365,8 @@
     <decisions>
         <name>Check_Follow_Up_Process_Value</name>
         <label>Check Follow Up Process Value</label>
-        <locationX>175</locationX>
-        <locationY>1075</locationY>
+        <locationX>468</locationX>
+        <locationY>1376</locationY>
         <defaultConnector>
             <targetReference>Update_Return_Order_Status_Update_0</targetReference>
         </defaultConnector>
@@ -268,7 +390,7 @@
     <decisions>
         <name>Check_Return_Data_Validity</name>
         <label>Check Return Data Validity</label>
-        <locationX>1346</locationX>
+        <locationX>2099</locationX>
         <locationY>926</locationY>
         <defaultConnector>
             <targetReference>Assign_Error_Data_Validity</targetReference>
@@ -302,6 +424,60 @@
                 <targetReference>Empty_Error_Variable</targetReference>
             </connector>
             <label>Go to Return Validation</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>ifDesiredROLI</name>
+        <label>ifDesiredROLI</label>
+        <locationX>312</locationX>
+        <locationY>1122</locationY>
+        <defaultConnector>
+            <targetReference>getEXISTROLI</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Reship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loopOverExistROLIs.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>getEXISTROLI.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getEXISTROLI.RepaymentMethod</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Reship</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Qtys</targetReference>
+            </connector>
+            <label>Reship</label>
+        </rules>
+        <rules>
+            <name>Not_Reship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>loopOverExistROLIs.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>getEXISTROLI.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getEXISTROLI.RepaymentMethod</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Reship</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Updated_Values_0</targetReference>
+            </connector>
+            <label>Not Reship</label>
         </rules>
     </decisions>
     <dynamicChoiceSets>
@@ -376,6 +552,26 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <expression>RIGHT({!S_Custom_Countries_Before_Split}, LEN({!S_Custom_Countries_Before_Split})-FIND(&apos;;&apos;, {!S_Custom_Countries_Before_Split}))</expression>
     </formulas>
     <formulas>
+        <name>FX_QtyExpected</name>
+        <dataType>Number</dataType>
+        <expression>{!loopOverExistROLIs.QuantityExpected} - {!QtyPreReceived}</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>FX_QtyPreReceived</name>
+        <dataType>Number</dataType>
+        <expression>{!loopOverExistROLIs.Quantity_Previously_Received__c} + {!QtyPreReceived}</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>FX_SerialNumber</name>
+        <dataType>String</dataType>
+        <expression>IF(
+    ISBLANK({!loopOverExistROLIs.SerialNumber__c}),
+    {!getEXISTROLI.SerialNumber__c} ,
+     {!loopOverExistROLIs.SerialNumber__c} &amp; &quot;;&quot; &amp; {!getEXISTROLI.SerialNumber__c} )</expression>
+    </formulas>
+    <formulas>
         <name>FX_Single_Country</name>
         <dataType>String</dataType>
         <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
@@ -388,9 +584,23 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <interviewLabel>SOM 660 - Manual Return {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 660 - Manual Return Reception</label>
     <loops>
+        <name>getEXISTROLI</name>
+        <label>getEXISTROLI</label>
+        <locationX>630</locationX>
+        <locationY>967</locationY>
+        <collectionReference>C_OutPut_ROLI_To_Display</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ifDesiredROLI</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>loopOverExistROLIs</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>L10_Loop_Over_ROLI</name>
         <label>L10 Loop Over ROLI</label>
-        <locationX>737</locationX>
+        <locationX>1490</locationX>
         <locationY>724</locationY>
         <collectionReference>Get_ReturnOrder_LineItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -404,7 +614,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <loops>
         <name>Loop_Locations</name>
         <label>Loop Locations</label>
-        <locationX>1291</locationX>
+        <locationX>2044</locationX>
         <locationY>460</locationY>
         <collectionReference>get_Locations</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -416,17 +626,45 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         </noMoreValuesConnector>
     </loops>
     <loops>
-        <name>Loop_over_ROLI</name>
-        <label>Loop over ROLI</label>
-        <locationX>443</locationX>
-        <locationY>1048</locationY>
-        <collectionReference>Get_ReturnOrder_LineItems_2</collectionReference>
+        <name>Loop_over_ROLI_Check</name>
+        <label>Loop over ROLI for Check</label>
+        <locationX>1129</locationX>
+        <locationY>1192</locationY>
+        <collectionReference>newROLISLIst</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Both_ROLI_Received</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Check_Follow_Up_Process_Value</targetReference>
+            <targetReference>Update_ROLI_Records</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loopOverExistROLIs</name>
+        <label>loopOverExistROLIs</label>
+        <locationX>630</locationX>
+        <locationY>763</locationY>
+        <collectionReference>GetExistROLIs</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>getEXISTROLI</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_over_ROLI_Check</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loopOverROLI</name>
+        <label>loopOverROLI</label>
+        <locationX>955</locationX>
+        <locationY>694</locationY>
+        <collectionReference>C_OutPut_ROLI_To_Display</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>getId</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetExistROLIs</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -451,7 +689,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>Get_FOLI</name>
         <label>Get FOLI</label>
-        <locationX>951</locationX>
+        <locationX>1704</locationX>
         <locationY>728</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -472,7 +710,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>get_Locations</name>
         <label>get Locations</label>
-        <locationX>1111</locationX>
+        <locationX>1864</locationX>
         <locationY>594</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -493,7 +731,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>get_Locations_0</name>
         <label>get Locations</label>
-        <locationX>1430</locationX>
+        <locationX>2183</locationX>
         <locationY>572</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -516,7 +754,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>Get_OrderDeliveryGroupSummary</name>
         <label>Get OrderDeliveryGroupSummary</label>
-        <locationX>1115</locationX>
+        <locationX>1868</locationX>
         <locationY>727</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -537,7 +775,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>Get_Return_Order</name>
         <label>Get Return Order</label>
-        <locationX>428</locationX>
+        <locationX>1181</locationX>
         <locationY>725</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -558,7 +796,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordLookups>
         <name>Get_ReturnOrder_LineItems</name>
         <label>Get ReturnOrder LineItems</label>
-        <locationX>593</locationX>
+        <locationX>1346</locationX>
         <locationY>725</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -577,20 +815,20 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_ReturnOrder_LineItems_2</name>
-        <label>Get ReturnOrder LineItems2</label>
-        <locationX>216</locationX>
-        <locationY>951</locationY>
+        <name>GetExistROLIs</name>
+        <label>GetExistROLIs</label>
+        <locationX>653</locationX>
+        <locationY>637</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Loop_over_ROLI</targetReference>
+            <targetReference>loopOverExistROLIs</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>ReturnOrderId</field>
-            <operator>EqualTo</operator>
+            <field>Id</field>
+            <operator>In</operator>
             <value>
-                <elementReference>Get_Return_Order.Id</elementReference>
+                <elementReference>ROLISIds</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -600,10 +838,10 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordUpdates>
         <name>Update_Return_Order</name>
         <label>Update Return Order</label>
-        <locationX>696</locationX>
-        <locationY>921</locationY>
+        <locationX>1513</locationX>
+        <locationY>924</locationY>
         <connector>
-            <targetReference>Update_ROLI_Records</targetReference>
+            <targetReference>loopOverROLI</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -636,8 +874,8 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordUpdates>
         <name>Update_Return_Order_Status_Update</name>
         <label>Update Return Order Status Update</label>
-        <locationX>301</locationX>
-        <locationY>1252</locationY>
+        <locationX>564</locationX>
+        <locationY>1572</locationY>
         <connector>
             <targetReference>Finish_Screen</targetReference>
         </connector>
@@ -660,8 +898,8 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordUpdates>
         <name>Update_Return_Order_Status_Update_0</name>
         <label>Update Return Order Status Update</label>
-        <locationX>50</locationX>
-        <locationY>1252</locationY>
+        <locationX>390</locationX>
+        <locationY>1577</locationY>
         <connector>
             <targetReference>Finish_Screen</targetReference>
         </connector>
@@ -684,18 +922,18 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <recordUpdates>
         <name>Update_ROLI_Records</name>
         <label>Update ROLI Records</label>
-        <locationX>496</locationX>
-        <locationY>935</locationY>
+        <locationX>480</locationX>
+        <locationY>1201</locationY>
         <connector>
-            <targetReference>Get_ReturnOrder_LineItems_2</targetReference>
+            <targetReference>Check_Follow_Up_Process_Value</targetReference>
         </connector>
-        <inputReference>C_OutPut_ROLI_To_Display</inputReference>
+        <inputReference>newROLISLIst</inputReference>
     </recordUpdates>
     <screens>
         <name>Finish_Screen</name>
         <label>Finish_Screen</label>
-        <locationX>196</locationX>
-        <locationY>1510</locationY>
+        <locationX>562</locationX>
+        <locationY>1702</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -708,25 +946,9 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Finish_Screen_0</name>
-        <label>Finish_Screen</label>
-        <locationX>217</locationX>
-        <locationY>835</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>message_Finish_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;Return reception processed successfully&lt;/strong&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
         <name>Return_Order_Details</name>
         <label>Return Order Details</label>
-        <locationX>1350</locationX>
+        <locationX>2103</locationX>
         <locationY>726</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -757,7 +979,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-                 
             </fields>
             <fields>
                 <name>Return_Order_Details_Section1_Column2</name>
@@ -771,7 +992,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Return_Order_Details_Section2</name>
@@ -831,7 +1052,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Return_Order_Details_Section3</name>
@@ -857,7 +1078,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-                
             </fields>
             <fields>
                 <name>Return_Order_Details_Section3_Column2</name>
@@ -902,7 +1122,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-                
             </fields>
             <isRequired>false</isRequired>
             <regionContainerType>SectionWithoutHeader</regionContainerType>
@@ -947,7 +1166,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
     <screens>
         <name>Screen_Validation_Reception</name>
         <label>Screen Validation Reception</label>
-        <locationX>902</locationX>
+        <locationX>1655</locationX>
         <locationY>919</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -988,7 +1207,6 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
-                
             </fields>
             <fields>
                 <name>Screen_Validation_Reception_Section1_Column2</name>
@@ -1002,7 +1220,7 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-             <regionContainerType>SectionWithoutHeader</regionContainerType>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>Screen_Validation_Reception_Section2</name>
@@ -1133,14 +1351,13 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-             <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <nextOrFinishButtonLabel>Validate Return Reception</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>301</locationX>
+        <locationX>1054</locationX>
         <locationY>560</locationY>
         <connector>
             <targetReference>Get_Return_Order</targetReference>
@@ -1181,6 +1398,14 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
+        <name>currentItem_getExistROLI</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ReturnOrderLineItem</objectType>
+    </variables>
+    <variables>
         <name>currentItemFromSourceCollection</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1203,10 +1428,47 @@ if( TEXT({!ReceptionDate}) != null ,&quot;&quot;, &quot;* Reception Date field i
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>newROLISLIst</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ReturnOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>QtyPreReceived</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>QtyPreReturned</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ROLISIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>

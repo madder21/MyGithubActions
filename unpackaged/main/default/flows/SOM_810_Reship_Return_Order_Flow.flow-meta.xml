@@ -1,33 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Return_Return_Order_Items</name>
-        <label>Return Return Order Items</label>
-        <locationX>4700</locationX>
-        <locationY>527</locationY>
-        <actionName>returnReturnOrderItems</actionName>
-        <actionType>returnReturnOrderItems</actionType>
-        <connector>
-            <targetReference>Confirmation</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>returnOrderId</name>
-            <value>
-                <elementReference>V_RO_Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>returnItemsInput</name>
-            <value>
-                <elementReference>REC_ReturnItemsInputRepresentation</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>returnReturnOrderItems</nameSegment>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <name>Translate_ADV</name>
         <label>Translate Errors</label>
         <locationX>2975</locationX>
@@ -44,12 +17,10 @@
                 <elementReference>OCI_Reservation_SubFlow.C40_Errors_On_Reservation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TranslateReservation</nameSegment>
         <outputParameters>
             <assignToReference>C40_Errors_On_Reservation_TXT</assignToReference>
             <name>outputString</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_OK</name>
@@ -68,12 +39,10 @@
                 <elementReference>OCI_Reservation_SubFlow.C50_OKs_On_Reservation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TranslateReservation</nameSegment>
         <outputParameters>
             <assignToReference>C50_OKs_On_Reservation_TXT</assignToReference>
             <name>outputString</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -195,7 +164,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Update_ROLI_0</targetReference>
+            <targetReference>Pass_Follow_Up_to_True</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -256,8 +225,8 @@
     <assignments>
         <name>Assign_Update_ROLI</name>
         <label>Assign Update ROLI</label>
-        <locationX>4123</locationX>
-        <locationY>343</locationY>
+        <locationX>4212</locationX>
+        <locationY>351</locationY>
         <assignmentItems>
             <assignToReference>Iterate_Over_Return_Order_Line_Items.Tech_Reshiped_Qty__c</assignToReference>
             <operator>Assign</operator>
@@ -279,8 +248,8 @@
     <assignments>
         <name>Assign_Update_ROLI_0</name>
         <label>Assign Update ROLI</label>
-        <locationX>4258</locationX>
-        <locationY>252</locationY>
+        <locationX>4391</locationX>
+        <locationY>255</locationY>
         <assignmentItems>
             <assignToReference>Iterate_Over_Return_Order_Line_Items.FollowUpProcessed__c</assignToReference>
             <operator>Assign</operator>
@@ -694,7 +663,7 @@
             <assignToReference>fulfillItem.quantity</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ROLI.QuantityReceived</elementReference>
+                <elementReference>ROLI.Quantity_Previously_Received__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -715,7 +684,7 @@
             <assignToReference>selectedOrderItem.QuantityAvailableToReship</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ROLI.QuantityReceived</elementReference>
+                <elementReference>FX_QuantityAvailableToReship</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -926,8 +895,8 @@
     <assignments>
         <name>Set_Stage_To_Part_4</name>
         <label>Set Stage To Part 4</label>
-        <locationX>3262</locationX>
-        <locationY>788</locationY>
+        <locationX>3225</locationX>
+        <locationY>722</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -1467,8 +1436,8 @@
     <decisions>
         <name>check_Orde_Product_0</name>
         <label>check Orde Product</label>
-        <locationX>3913</locationX>
-        <locationY>357</locationY>
+        <locationX>3908</locationX>
+        <locationY>393</locationY>
         <defaultConnector>
             <targetReference>LoopOIS_0</targetReference>
         </defaultConnector>
@@ -1598,7 +1567,31 @@
             <label>❌ OCI Error</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
+    <decisions>
+        <name>Pass_Follow_Up_to_True</name>
+        <label>Pass Follow Up to True</label>
+        <locationX>4252</locationX>
+        <locationY>101</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Update_ROLI</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PassFollowUpToTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_QTY_Reshiped</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Iterate_Over_Return_Order_Line_Items.Quantity_Previously_Returned__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Update_ROLI_0</targetReference>
+            </connector>
+            <label>Pass Follow Up to True</label>
+        </rules>
+    </decisions>
     <formulas>
         <name>FX_QTY_Reshiped</name>
         <dataType>Number</dataType>
@@ -1610,6 +1603,12 @@
         <dataType>Number</dataType>
         <expression>{!Iterate_Over_Return_Order_Line_Items.QuantityReceived} - {!LoopOIS_0.Quantity}</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_QuantityAvailableToReship</name>
+        <dataType>Number</dataType>
+        <expression>{!ROLI.Quantity_Previously_Received__c} - {!ROLI.Tech_Reshiped_Qty__c}</expression>
+        <scale>0</scale>
     </formulas>
     <interviewLabel>SOM 810 Reship Return Order Flow {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 810 Reship Return Order Flow</label>
@@ -1703,8 +1702,8 @@
     <loops>
         <name>L60_FulfillItems_Outer_Loop</name>
         <label>L60 - FulfillItems Outer Loop</label>
-        <locationX>3475</locationX>
-        <locationY>1026</locationY>
+        <locationX>3522</locationX>
+        <locationY>1014</locationY>
         <collectionReference>fulfillItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1801,13 +1800,16 @@
     <loops>
         <name>LoopOIS_0</name>
         <label>LoopOIS</label>
-        <locationX>3943</locationX>
-        <locationY>513</locationY>
+        <locationX>3921</locationX>
+        <locationY>598</locationY>
         <collectionReference>C_Fulfillment_Order_Line_Item_To_Create</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>check_Orde_Product_0</targetReference>
         </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Iterate_Over_Return_Order_Line_Items</targetReference>
+        </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
         <name>BuilderType</name>
@@ -2076,8 +2078,8 @@
     <recordLookups>
         <name>Get_OrederItemSumm_0</name>
         <label>Get OrederItemSumm</label>
-        <locationX>4156</locationX>
-        <locationY>699</locationY>
+        <locationX>4158</locationX>
+        <locationY>708</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_Over_Return_Order_Line_Items</targetReference>
@@ -2241,15 +2243,15 @@
         <locationX>4522</locationX>
         <locationY>471</locationY>
         <connector>
-            <targetReference>Return_Return_Order_Items</targetReference>
+            <targetReference>Confirmation</targetReference>
         </connector>
         <inputReference>C_ROLI_To_Update</inputReference>
     </recordUpdates>
     <screens>
         <name>Confirmation</name>
         <label>Confirmation</label>
-        <locationX>4938</locationX>
-        <locationY>527</locationY>
+        <locationX>4662</locationX>
+        <locationY>343</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2591,7 +2593,7 @@
             <inputParameters>
                 <name>columnFields</name>
                 <value>
-                    <stringValue>Product2Id,QuantityReceived,TotalWithTaxFormula__c</stringValue>
+                    <stringValue>Product2Id,Quantity_Previously_Received__c,TotalWithTaxFormula__c</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -2603,7 +2605,7 @@
             <inputParameters>
                 <name>columnWidths</name>
                 <value>
-                    <stringValue>Product2Id:360, QuantityReceived:360, TotalWithTaxFormula__c:360</stringValue>
+                    <stringValue>Product2Id:360, Quantity_Previously_Received__c:406, TotalWithTaxFormula__c:360</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -2621,7 +2623,7 @@
             <inputParameters>
                 <name>columnLabels</name>
                 <value>
-                    <stringValue>Product2Id:Name, QuantityReceived:Quantity, TotalWithTaxFormula__c:Line Total</stringValue>
+                    <stringValue>Product2Id:Name, Quantity_Previously_Received__c:Quantity Received, TotalWithTaxFormula__c:Line Total</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -3046,8 +3048,8 @@
     <subflows>
         <name>OCI_Reservation_SubFlow</name>
         <label>OCI Reservation SubFlow</label>
-        <locationX>2908</locationX>
-        <locationY>793</locationY>
+        <locationX>2799</locationX>
+        <locationY>765</locationY>
         <connector>
             <targetReference>Count_OCI_Results</targetReference>
         </connector>
