@@ -9,7 +9,7 @@
 		<members>SOM_CreateShipment_Test</members>
 		<members>SOM_Manual_RO_Reception_Controller</members>
 		<members>SOM_Wr_ShipmentShipmentItems</members>
-    
+    <members>SOM_WS_ShipmentHandler</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -28,10 +28,18 @@
 		<members>OrderSummary-Order Summary Layout</members>
 		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
 			<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
+		<members>Invoice-Invoice Layout</members>
+    		<members>Shipment-Shipment Layout</members>
 		<name>Layout</name>
 
 
 	
+	</types>
+	<types>
+
+		
+  	<members>ReturnOrder.Compact_Layout_RO</members>
+		<name>CompactLayout</name>
 	</types>
 
     <types>
@@ -45,6 +53,8 @@
 		<members>TaxCodeConfiguration__c.isDefault__c</members>
 		<members>Sales_Channel_Mapping__mdt.IsCorssBorder__c</members>
 		<members>ReturnOrderLineItem.QuantityLeftToReceive__c</members>
+		<members>Invoice.sentToFTP__c</members>
+    		<members>Shipment.CentiroShipmentId__c</members>
 		<name>CustomField</name>
 
 
@@ -54,6 +64,43 @@
 		<members>TaxCodeConfiguration__c.All</members>
 		<name>ListView</name>
 	</types>
-
+<types>
+		<members>ReportsforSOM/Sales_Report_Invoice_UK_bNh</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_US</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_KR</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_JP</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_EU_IgA</members>
+		<members>ReportsforSOM/Sales_Report_Invoice_AU</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_AU</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_EU_wf8</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_GB</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_JP</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_KR</members>
+		<members>ReportsforSOM/Shipments_Report_Finance_US</members>
+		<members>ReportsforSOM/Shipments_Report_a6T</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_AU</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_EU_0DB</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_JP</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_KR</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_UK_vu7</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
+		<members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>
+		<members>ReportsforSOM/Return_Orders_Finance_3My</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_AU</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_EU_ksT</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_JP_5pZ</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_KR</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_UK_Dvk</members>
+		<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
+		<members>ReportsforSOM/Payments_Report_AU</members>
+		<members>ReportsforSOM/Payments_Report_EU_3Xr</members>
+		<members>ReportsforSOM/Payments_Report_JP_RW6</members>
+		<members>ReportsforSOM/Payments_report_5w3</members>
+		<members>ReportsforSOM/Payments_Report_KR</members>
+		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
+		<members>ReportsforSOM/Payments_report_US</members>
+		<name>Report</name>
+	</types>
 	<version>60.0</version>
 </Package>
