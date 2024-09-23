@@ -705,7 +705,7 @@
         <locationX>635</locationX>
         <locationY>48</locationY>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>and</filterLogic>
+        <filterLogic>2 AND( 1 OR 3)</filterLogic>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -718,6 +718,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>BR</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Validated</stringValue>
             </value>
         </filters>
         <object>OrderSummary</object>
