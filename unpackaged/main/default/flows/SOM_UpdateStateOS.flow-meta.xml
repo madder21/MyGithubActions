@@ -4,7 +4,7 @@
     <assignments>
         <name>Updating_order_delivery_groupe</name>
         <label>Updating order delivery groupe</label>
-        <locationX>1815</locationX>
+        <locationX>2175</locationX>
         <locationY>645</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group.DeliverToState</assignToReference>
@@ -20,8 +20,8 @@
     <decisions>
         <name>Cegid_Is_used</name>
         <label>Cegid Is used</label>
-        <locationX>876</locationX>
-        <locationY>655</locationY>
+        <locationX>1311</locationX>
+        <locationY>660</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CegidState</name>
@@ -42,8 +42,8 @@
     <decisions>
         <name>Decision_To_Update_Order_Delivery_Group</name>
         <label>Decision To Update Order Delivery Group</label>
-        <locationX>1621</locationX>
-        <locationY>652</locationY>
+        <locationX>2027</locationX>
+        <locationY>650</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes2</name>
@@ -64,8 +64,8 @@
     <decisions>
         <name>To_Update_Billing_State_Or_Not</name>
         <label>To Update Billing State Or Not</label>
-        <locationX>1350</locationX>
-        <locationY>649</locationY>
+        <locationX>1710</locationX>
+        <locationY>660</locationY>
         <defaultConnector>
             <targetReference>Decision_To_Update_Order_Delivery_Group</targetReference>
         </defaultConnector>
@@ -93,6 +93,12 @@
             <label>Yes1</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_OrderType</name>
+        <dataType>String</dataType>
+        <expression>IF(AND({!Get_OrderDeliveryMethode.isHomeDelivery__c} = TRUE,{!$Record.SalesChannel.SalesChannelName} = &quot;Cegid&quot;),&quot;S2W HomeDelivery&quot;,IF(AND({!Get_OrderDeliveryMethode.isStorePickup__c} = TRUE,{!$Record.SalesChannel.SalesChannelName} = &quot;Cegid&quot;),&quot;S2W PickupInStore&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 0),&quot;ECOM&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 1),&quot;C&amp;C&quot;, IF({!$Record.SalesChannel.SalesChannelName} = &quot;Manual Order&quot;,&quot;Manual Order&quot;,&quot;&quot;)))))</expression>
+    </formulas>
     <interviewLabel>SOM_UpdateStateOS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM_UpdateStateOS</label>
     <processMetadataValues>
@@ -121,7 +127,7 @@
         <locationY>344</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>GetCegid</targetReference>
+            <targetReference>Get_OrderDeliveryMethode</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -136,10 +142,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_OrderDeliveryMethode</name>
+        <label>Get OrderDeliveryMethode</label>
+        <locationX>883</locationX>
+        <locationY>500</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Order_Summary</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group.OrderDeliveryMethodId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryMethod</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>isHomeDelivery__c</queriedFields>
+        <queriedFields>isStorePickup__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_State_Order_Delivery_Group</name>
         <label>Get State Order Delivery Group</label>
-        <locationX>1199</locationX>
-        <locationY>647</locationY>
+        <locationX>1606</locationX>
+        <locationY>658</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>To_Update_Billing_State_Or_Not</targetReference>
@@ -159,8 +189,8 @@
     <recordLookups>
         <name>Get_StateMapping_Order_Summary</name>
         <label>Get StateMapping Order Summary</label>
-        <locationX>1054</locationX>
-        <locationY>646</locationY>
+        <locationX>1489</locationX>
+        <locationY>658</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_State_Order_Delivery_Group</targetReference>
@@ -180,8 +210,8 @@
     <recordLookups>
         <name>GetCegid</name>
         <label>GetCegid</label>
-        <locationX>868</locationX>
-        <locationY>493</locationY>
+        <locationX>1122</locationX>
+        <locationY>659</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Cegid_Is_used</targetReference>
@@ -199,17 +229,33 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_Order_Summary</name>
+        <label>Update Order Summary</label>
+        <locationX>887</locationX>
+        <locationY>661</locationY>
+        <connector>
+            <targetReference>GetCegid</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Order_Type__c</field>
+            <value>
+                <elementReference>FX_OrderType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_shipping</name>
         <label>Update shipping</label>
-        <locationX>1978</locationX>
+        <locationX>2319</locationX>
         <locationY>645</locationY>
         <inputReference>Get_Order_Delivery_Group</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_the_billing_State</name>
         <label>Update the billing State</label>
-        <locationX>1513</locationX>
-        <locationY>562</locationY>
+        <locationX>1898</locationX>
+        <locationY>569</locationY>
         <connector>
             <targetReference>Decision_To_Update_Order_Delivery_Group</targetReference>
         </connector>
