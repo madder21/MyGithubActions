@@ -1,70 +1,61 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-
-
 		<members>SOM_CreateShipment</members>
 		<members>SOM_TranslateShipment</members>
-    <members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_TransactionalEmailHandler</members>
 		<members>SOM_CreateShipment_Test</members>
+		<members>SOM_Wr_ShipmentShipmentItems</members>
+		<members>SOM_WS_ShipmentHandler</members>
 		<members>SOM_Manual_RO_Reception_Controller</members>
 		<members>SOM_Wr_ShipmentShipmentItems</members>
-    <members>SOM_WS_ShipmentHandler</members>
+		<members>SOM_WS_ShipmentHandler</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>SOM_990_Manual_Shipment</members>
-
-    	   <members>SOM_830_Close_Return_Order</members>
-         <members>SOM_660_Manual_Return_Reception</members>
+		<members>SOM_830_Close_Return_Order</members>
+		<members>SOM_660_Manual_Return_Reception</members>
 		<members>SOM_Cancel_Expected_Items</members>
 		<name>Flow</name>
 	</types>
-
 	<types>
 		<members>ShipmentItem-Shipment Item Layout</members>
-		
 		<members>Shipment-Shipment Layout</members>
+		<members>Invoice-Invoice Layout</members>
 		<members>OrderSummary-Order Summary Layout</members>
 		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
-			<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
+		<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
 		<members>Invoice-Invoice Layout</members>
-    		<members>Shipment-Shipment Layout</members>
+		<members>Shipment-Shipment Layout</members>
 		<name>Layout</name>
-
-
-	
 	</types>
 	<types>
-
-		
-  	<members>ReturnOrder.Compact_Layout_RO</members>
+		<members>OrderSummary.Custom_Compact_Layout</members>
+		<members>ReturnOrder.Compact_Layout_RO</members>
 		<name>CompactLayout</name>
 	</types>
-
-    <types>
+	<types>
 		<members>som_ManualReturnReception</members>
 		<name>LightningComponentBundle</name>
 	</types>
-	
-
 	<types>
 		<members>OrderSummary.RI_createdBy__c</members>
 		<members>TaxCodeConfiguration__c.isDefault__c</members>
 		<members>Sales_Channel_Mapping__mdt.IsCorssBorder__c</members>
-		<members>ReturnOrderLineItem.QuantityLeftToReceive__c</members>
+		<members>Shipment.CentiroShipmentId__c</members>
 		<members>Invoice.sentToFTP__c</members>
-    		<members>Shipment.CentiroShipmentId__c</members>
+		<members>ReturnOrderLineItem.QuantityLeftToReceive__c</members>
 		<name>CustomField</name>
-
-
 	</types>
 	<types>
-		
 		<members>TaxCodeConfiguration__c.All</members>
+		<members>Log__c.SOM_Debug_Logs</members>
+		<members>Log__c.SOM_Error_Logs</members>
+		<members>Log__c.SOM_Info_Logs</members>
 		<name>ListView</name>
 	</types>
-<types>
+	<types>
 		<members>ReportsforSOM/Sales_Report_Invoice_UK_bNh</members>
 		<members>ReportsforSOM/Sales_Report_Invoice_US</members>
 		<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>
