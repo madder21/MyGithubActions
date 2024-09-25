@@ -27,19 +27,20 @@
     </columns>
     <currency>EUR</currency>
     <filter>
+        <booleanFilter>1 AND 2 AND (3 OR 4 OR 5)</booleanFilter>
         <criteriaItems>
             <column>OrderSummary.ReturnOrders$ReturnDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>3/13/2023 12:00 AM</value>
+            <value>LAST_N_DAYS:15</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary.ReturnOrders$ReturnDate__c</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>3/19/2023 12:00 AM</value>
+            <value>3/19/2050 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$Tech_ShippingCountry__c</column>
@@ -47,6 +48,20 @@
             <isUnlocked>true</isUnlocked>
             <operator>equals</operator>
             <value>US</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>CA</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>OrderSummary$Tech_ShippingCountry__c</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>MX</value>
         </criteriaItems>
     </filter>
     <format>Tabular</format>
@@ -64,4 +79,4 @@
         <dateColumn>OrderSummary.ReturnOrders$ReturnDate__c</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
-</Report>
+</Report> 
