@@ -328,6 +328,7 @@ global with sharing class SOM_WS_ShipmentHandler {
         if (foLineItems == null || foLineItems.isEmpty()) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + ' No product exist target SKU ' + wmsArticle.productSKU;
         if (foLineItems[0].OrderItemSummary.isSerialized__c && (wmsArticle.serialNumber == null || wmsArticle.serialNumber.isEmpty())) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'Missing serialNumbers for serialized product with this SKU ' + wmsArticle.productSKU; 
         //if (!foLineItems[0].OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) return 'Error on shipment with WMSshipmentId : ' + wmsShipmentLine.WMSshipmentId + 'No serialNumber should provided for a non serialized product with this SKU ' + wmsArticle.productSKU;
+        if (!foLineItems[0].OrderItemSummary.isSerialized__c && wmsArticle.serialNumber != null) wmsArticle.serialNumber = null;
         Integer totalExistingShipmentItems = (
                                                 totalExistingShippedQuantityBySku != null
                                                 && totalExistingShippedQuantityBySku.containsKey(wmsArticle.productSKU) 
