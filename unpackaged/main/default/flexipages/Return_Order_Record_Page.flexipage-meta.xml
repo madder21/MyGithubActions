@@ -176,32 +176,7 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>ReturnOrder.Create_Refund_Without_Reception</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Closed</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Canceled</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Already_Refunded__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Created</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
+                       
                         <valueListItems>
                             <value>ReturnOrder.Cancel_Expected_Items</value>
                             <visibilityRule>
