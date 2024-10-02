@@ -5,7 +5,7 @@
     <errorConditionFormula>AND(
     OR(
         ISBLANK(FulfilledToCountry),
-        NOT(REGEX(FulfilledToCountry, &quot;^[A-Z]{2}$&quot;))
+								NOT(REGEX(UPPER(FulfilledToCountry), &quot;^[A-Z]{2}$&quot;))
     ),
     $Profile.Name = &quot;System Administrator&quot;
 )</errorConditionFormula>
