@@ -230,7 +230,7 @@
                         <valueListItems>
                             <value>OrderSummary.Reship</value>
                             <visibilityRule>
-                                <booleanFilter>(( 1 OR 2 OR 3 ) AND 4 AND 5 AND 6 AND 7 AND 8) OR (9 AND 10)</booleanFilter>
+                                <booleanFilter>(1 OR 2 OR 3) AND ( (4 AND 5 AND 6 AND 7 AND 8) OR 9 )</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
@@ -272,12 +272,7 @@
                                     <rightValue>CS - Advisor</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>CS - Team Lead</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
+                                    <leftValue>{!$Permission.CustomPermission.CSC_Reship_Permission}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
