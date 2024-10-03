@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Create_Shipments</name>
         <label>Create Shipments</label>
-        <locationX>658</locationX>
+        <locationX>1265</locationX>
         <locationY>1261</locationY>
         <actionName>SOM_CreateShipment</actionName>
         <actionType>apex</actionType>
@@ -18,7 +18,7 @@
     <actionCalls>
         <name>Shipped_Quantity_per_FOLI_Action</name>
         <label>Shipped Quantity per FOLI Action</label>
-        <locationX>1254</locationX>
+        <locationX>1861</locationX>
         <locationY>758</locationY>
         <actionName>SOM_ShipmentPerFoliAction</actionName>
         <actionType>apex</actionType>
@@ -40,7 +40,7 @@
     <actionCalls>
         <name>Translate_Wr</name>
         <label>Translate Wr</label>
-        <locationX>661</locationX>
+        <locationX>1268</locationX>
         <locationY>920</locationY>
         <actionName>SOM_TranslateShipment</actionName>
         <actionType>apex</actionType>
@@ -62,7 +62,7 @@
     <actionCalls>
         <name>Validate_SerialNumbers</name>
         <label>Validate SerialNumbers</label>
-        <locationX>326</locationX>
+        <locationX>933</locationX>
         <locationY>368</locationY>
         <actionName>SOM_SerialNumbersValidation</actionName>
         <actionType>apex</actionType>
@@ -91,7 +91,7 @@
     <assignments>
         <name>Assign_Id_to_Collection</name>
         <label>Assign Id to Collection</label>
-        <locationX>1461</locationX>
+        <locationX>2068</locationX>
         <locationY>467</locationY>
         <assignmentItems>
             <assignToReference>C_FOLIids</assignToReference>
@@ -105,9 +105,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_isSecondHand</name>
+        <label>Assign isSecondHand</label>
+        <locationX>616</locationX>
+        <locationY>764</locationY>
+        <assignmentItems>
+            <assignToReference>isSecondHand</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>FOLI_to_Ship</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_isSerialized</name>
         <label>Assign isSerialized</label>
-        <locationX>572</locationX>
+        <locationX>1179</locationX>
         <locationY>750</locationY>
         <assignmentItems>
             <assignToReference>displaySerialNumber</assignToReference>
@@ -123,6 +139,13 @@
                 <stringValue></stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isSecondHand</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>FOLI_to_Ship</targetReference>
         </connector>
@@ -130,8 +153,8 @@
     <assignments>
         <name>Assign_Translation_Wrapper</name>
         <label>Assign Translation Wrapper</label>
-        <locationX>653</locationX>
-        <locationY>141</locationY>
+        <locationX>1255</locationX>
+        <locationY>133</locationY>
         <assignmentItems>
             <assignToReference>V_ShipTranslation.foliNumber</assignToReference>
             <operator>Assign</operator>
@@ -200,10 +223,82 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Translation_Wrapper_0</name>
+        <label>Assign Translation Wrapper for SecondHandProduct</label>
+        <locationX>1382</locationX>
+        <locationY>46</locationY>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.foliNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Over_FOLI_Selected.foliName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.sku</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Over_FOLI_Selected.productSKU</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Quantity.value</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.serialNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Serial_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.tracking</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Tracking_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.dispatchDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DispatchDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.deliveryMethod</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Delivery_Method</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_ShipTranslation.sku10Digits</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Sku_10_Digits</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_ShipTranslation</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>V_ShipTranslation</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L10_Over_FOLI_Selected</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Wr_Shipment_ShipmentItems</name>
         <label>Assign Wr Shipment ShipmentItems</label>
-        <locationX>124</locationX>
-        <locationY>149</locationY>
+        <locationX>736</locationX>
+        <locationY>126</locationY>
         <assignmentItems>
             <assignToReference>V_Wr_Shipment.shipmentExternalId</assignToReference>
             <operator>Assign</operator>
@@ -314,9 +409,123 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Wr_Shipment_ShipmentItems_0</name>
+        <label>Assign Wr Shipment ShipmentItems for SecondHandProduct</label>
+        <locationX>485</locationX>
+        <locationY>47</locationY>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.shipmentExternalId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Shipment_External_Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.trackingNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Tracking_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.dispatchDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>DispatchDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.quantity</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Quantity.value</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.foliId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Over_FOLI_Selected.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.serialNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Serial_Number</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.orderMethodId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Delivery_Method</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.foId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_FO_Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.productId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Over_FOLI_Selected.productId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.osItemId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>L10_Over_FOLI_Selected.osItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.timezone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>TimeZone</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.S10Digits</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Sku10Digits</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.CrossBorderId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Cross_Border_Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>C_Wr_shipments</assignToReference>
+            <operator>AddAtStart</operator>
+            <value>
+                <elementReference>V_Wr_Shipment</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.sku10Digits</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Sku_10_Digits</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_Translation_Wrapper_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>error_message</name>
         <label>error message</label>
-        <locationX>1028</locationX>
+        <locationX>1635</locationX>
         <locationY>543</locationY>
         <assignmentItems>
             <assignToReference>boolean_check_error</assignToReference>
@@ -332,7 +541,7 @@
     <assignments>
         <name>Selected_FOLIS_count</name>
         <label>Selected FOLIS count</label>
-        <locationX>1265</locationX>
+        <locationX>1872</locationX>
         <locationY>548</locationY>
         <assignmentItems>
             <assignToReference>V_SelectedLinesCount</assignToReference>
@@ -370,7 +579,7 @@
     <decisions>
         <name>Check_Cross_Border</name>
         <label>Check Cross Border</label>
-        <locationX>857</locationX>
+        <locationX>1464</locationX>
         <locationY>202</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -389,11 +598,8 @@
     <decisions>
         <name>Check_Error_Message</name>
         <label>Check Error Message</label>
-        <locationX>534</locationX>
+        <locationX>1141</locationX>
         <locationY>322</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Empty</defaultConnectorLabel>
         <rules>
             <name>Not_Empty</name>
@@ -417,11 +623,74 @@
             </connector>
             <label>Not Empty</label>
         </rules>
+        <rules>
+            <name>Empty2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Wr_Shipment_ShipmentItems_0</targetReference>
+            </connector>
+            <label>Empty2</label>
+        </rules>
+        <rules>
+            <name>Empty1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
+            </connector>
+            <label>Empty1</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_isSecondeHand</name>
+        <label>Check isSecondeHand</label>
+        <locationX>50</locationX>
+        <locationY>269</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsSecondeHandTrue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.MasterSKU</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Sku_10_Digits</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>displaySerialNumber</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>IsSecondeHandTrue</label>
+        </rules>
     </decisions>
     <decisions>
         <name>check_selection_of_FOLI</name>
         <label>check selection of FOLI</label>
-        <locationX>1016</locationX>
+        <locationX>1623</locationX>
         <locationY>351</locationY>
         <defaultConnector>
             <targetReference>error_message</targetReference>
@@ -451,14 +720,90 @@
         </rules>
     </decisions>
     <decisions>
+        <name>is_Second_Hand_Check</name>
+        <label>is Second Hand Check</label>
+        <locationX>582</locationX>
+        <locationY>586</locationY>
+        <defaultConnector>
+            <targetReference>is_Serialized</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsSecondeHandProduct_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.MasterSKU</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Sku_10_Digits</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>is_Serialized</targetReference>
+            </connector>
+            <label>IsSecondeHandProduct</label>
+        </rules>
+        <rules>
+            <name>IsSecondeHandProductIncorrect</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.MasterSKU</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>Sku_10_Digits</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_isSecondHand</targetReference>
+            </connector>
+            <label>IsSeconde Hand Product Incorrect SKU</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Serialized</name>
         <label>is Serialized</label>
-        <locationX>119</locationX>
-        <locationY>505</locationY>
+        <locationX>621</locationX>
+        <locationY>362</locationY>
         <defaultConnector>
             <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsSecondeHandProduct</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>L10_Over_FOLI_Selected.MasterSKU</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Sku_10_Digits</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Wr_Shipment_ShipmentItems_0</targetReference>
+            </connector>
+            <label>IsSecondeHandProduct</label>
+        </rules>
         <rules>
             <name>SkuErrorFormula</name>
             <conditionLogic>2 AND (1 OR ( 3 AND 6 ) OR ( 4 AND 7 )) AND 5</conditionLogic>
@@ -611,7 +956,7 @@
     <loops>
         <name>L10_Over_FOLI_Selected</name>
         <label>L10 Over FOLI Selected</label>
-        <locationX>654</locationX>
+        <locationX>1261</locationX>
         <locationY>342</locationY>
         <collectionReference>C_SelectedFOLIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -625,7 +970,7 @@
     <loops>
         <name>Store_FOLI_Ids</name>
         <label>Store FOLI Ids</label>
-        <locationX>1469</locationX>
+        <locationX>2076</locationX>
         <locationY>750</locationY>
         <collectionReference>Get_FOLI</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -658,7 +1003,7 @@
     <recordLookups>
         <name>Get_FO_Record</name>
         <label>Get FO Record</label>
-        <locationX>1923</locationX>
+        <locationX>2530</locationX>
         <locationY>549</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -679,7 +1024,7 @@
     <recordLookups>
         <name>Get_FOLI</name>
         <label>Get FOLI</label>
-        <locationX>1792</locationX>
+        <locationX>2399</locationX>
         <locationY>751</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -709,7 +1054,7 @@
     <recordLookups>
         <name>get_Location</name>
         <label>get Location</label>
-        <locationX>1477</locationX>
+        <locationX>2084</locationX>
         <locationY>941</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -732,7 +1077,7 @@
     <recordLookups>
         <name>Get_ODGS</name>
         <label>Get ODGS</label>
-        <locationX>883</locationX>
+        <locationX>1490</locationX>
         <locationY>342</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -755,7 +1100,7 @@
     <recordLookups>
         <name>get_ODMs</name>
         <label>get ODMs</label>
-        <locationX>1921</locationX>
+        <locationX>2528</locationX>
         <locationY>749</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -783,7 +1128,7 @@
     <recordLookups>
         <name>GET_Order_Product</name>
         <label>GET Order Product</label>
-        <locationX>1792</locationX>
+        <locationX>2399</locationX>
         <locationY>940</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -811,7 +1156,7 @@
     <recordLookups>
         <name>Get_SalesChannelMapping</name>
         <label>Get SalesChannelMapping</label>
-        <locationX>770</locationX>
+        <locationX>1377</locationX>
         <locationY>342</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -839,13 +1184,13 @@
     <screens>
         <name>FOLI_to_Ship</name>
         <label>FOLI to Ship</label>
-        <locationX>233</locationX>
-        <locationY>738</locationY>
+        <locationX>846</locationX>
+        <locationY>721</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>is_Serialized</targetReference>
+            <targetReference>is_Second_Hand_Check</targetReference>
         </connector>
         <fields>
             <name>FOLI</name>
@@ -910,7 +1255,7 @@
                     <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                     <visibilityRule>
-                        <conditionLogic>and</conditionLogic>
+                        <conditionLogic>(1 AND 2) OR (3 AND 1)</conditionLogic>
                         <conditions>
                             <leftValueReference>Sku10Digits</leftValueReference>
                             <operator>EqualTo</operator>
@@ -925,11 +1270,18 @@
                                 <booleanValue>false</booleanValue>
                             </rightValue>
                         </conditions>
+                        <conditions>
+                            <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
                     </visibilityRule>
                 </fields>
                 <fields>
                     <name>NotOkSKU</name>
-                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits or not coherent with the Product Sku&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 11px;&quot;&gt;The field sku10Digits is empty or contains more or less than 10 digits or not coherent with the Product Sku&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                     <visibilityRule>
                         <conditionLogic>and</conditionLogic>
@@ -942,6 +1294,21 @@
                         </conditions>
                         <conditions>
                             <leftValueReference>Sku10Digits</leftValueReference>
+                            <operator>EqualTo</operator>
+                            <rightValue>
+                                <booleanValue>true</booleanValue>
+                            </rightValue>
+                        </conditions>
+                    </visibilityRule>
+                </fields>
+                <fields>
+                    <name>isSecondHandMessage</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 0, 0); font-size: 11px;&quot;&gt;The field  Sku 10 Digits should contain the value of Master SKU for second hand items.&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                    <visibilityRule>
+                        <conditionLogic>and</conditionLogic>
+                        <conditions>
+                            <leftValueReference>isSecondHand</leftValueReference>
                             <operator>EqualTo</operator>
                             <rightValue>
                                 <booleanValue>true</booleanValue>
@@ -1190,7 +1557,7 @@
     <screens>
         <name>Select_FOLI_to_Ship</name>
         <label>Select FOLI to Ship</label>
-        <locationX>1030</locationX>
+        <locationX>1637</locationX>
         <locationY>751</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -1247,7 +1614,7 @@
     <screens>
         <name>Validation</name>
         <label>Validation</label>
-        <locationX>660</locationX>
+        <locationX>1267</locationX>
         <locationY>1104</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
@@ -1360,7 +1727,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>1797</locationX>
+        <locationX>2404</locationX>
         <locationY>295</locationY>
         <connector>
             <targetReference>Get_FO_Record</targetReference>
@@ -1481,6 +1848,13 @@
         <value>
             <stringValue>please select an foli</stringValue>
         </value>
+    </variables>
+    <variables>
+        <name>isSecondHand</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>Location</name>

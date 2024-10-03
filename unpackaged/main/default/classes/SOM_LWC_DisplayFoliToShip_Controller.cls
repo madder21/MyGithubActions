@@ -19,7 +19,7 @@ public with sharing class SOM_LWC_DisplayFoliToShip_Controller {
             foliIds.add(qte.idFOLI);
         }
 
-        List<FulfillmentOrderLineItem> folis = [SELECT Id, Quantity, Description, OrderItemSummary.isSerialized__c, FulfillmentOrderLineItemNumber, Product2Id, Product2.Name, Product2.StockKeepingUnit, OrderItemSummaryId  FROM FulfillmentOrderLineItem WHERE Id IN :foliIds ORDER BY Id Desc];
+        List<FulfillmentOrderLineItem> folis = [SELECT Id, Quantity, Description, OrderItemSummary.isSerialized__c, FulfillmentOrderLineItemNumber, Product2Id, Product2.Name, Product2.StockKeepingUnit, OrderItemSummaryId,Product2.isSecondHand__c,Product2.masterSku__c FROM FulfillmentOrderLineItem WHERE Id IN :foliIds ORDER BY Id Desc];
         
         for(FulfillmentOrderLineItem foli : folis){
             for(Wr_ShippedQty qte : listQte){
@@ -35,6 +35,8 @@ public with sharing class SOM_LWC_DisplayFoliToShip_Controller {
                     wrFoli.description        = foli.Description;
                     wrFoli.osItemId           = foli.OrderItemSummaryId;
                     wrFoli.isSerialized       = foli.OrderItemSummary.isSerialized__c;
+                   	wrFoli.isSecondhand		  = foli.Product2.isSecondHand__c;
+                   	wrFoli.MasterSKU		  = foli.Product2.masterSku__c;
                     wrFOLIS.add(wrFoli);
                     
                }
