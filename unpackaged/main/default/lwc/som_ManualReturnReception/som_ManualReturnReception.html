@@ -45,7 +45,7 @@
                                     <td>
                                         <div>
                                             <lightning-slider access-key={item.Id} name="quantityRecieved" value={item.QuantityReceived}
-                                                max={item.QuantityExpected} min="0" onchange={handleQuantityRecievedChange}>
+                                                max={item.QuantityLeftToReceive__c} min="0" onchange={handleQuantityRecievedChange}>
                                             </lightning-slider>
                                         </div>
                                     </td>
@@ -53,7 +53,7 @@
                                         <div>
                                             <div if:true={item.OrderItemSummary.isSerialized__c}>
                                                 <lightning-input access-key={item.Id} type="text" field-name="SerialNumber"
-                                                    value={item.SerialNumber__c} variant="label-hidden" 
+                                                    value="" variant="label-hidden" 
                                                     onchange={handleSerialNumberChange}></lightning-input>
                                             </div>
                                         </div>
