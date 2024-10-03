@@ -124,9 +124,17 @@
                 <tr>
                     <th colspan="5"><apex:outputText value="{!creditMemoConfigs['SERIAL_NO']}"/>&nbsp;<apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image rendered="{!IF(len(serialNumberColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/SerialNumber.PNG')}" width="13%" height="13%" style= "margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> </th>
                 </tr>
-                <tr>
-                    <th colspan="5" class="border_bottom"><apex:outputText value="{!creditMemoConfigs['HS_CODE']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/HSCode.PNG')}" width="13%" height="13%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
-                </tr>
+            	<apex:outputpanel rendered="{!creditMemoDocument.Template != 'JP'}">
+                    <tr>
+                        <th colspan="5" class="border_bottom"><apex:outputText value="{!creditMemoConfigs['HS_CODE']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/HSCode.PNG')}" width="13%" height="13%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
+                    </tr>
+                </apex:outputpanel>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template == 'JP'}">
+                    <tr>
+                        <th colspan="5" class="border_bottom"></th>
+                    </tr>
+                </apex:outputpanel>
+
                 
             </thead>
             <tbody class="InvoiceLineItem">
@@ -148,9 +156,11 @@
                     </tr>
                     <tr>
                         <td colspan="5">
+                            <apex:outputpanel rendered="{!creditMemoDocument.Template != 'JP'}">
                             <apex:outputText rendered="{!IF(len(lineItem.hsCode) > 0, TRUE, FALSE)}"  value=" {!lineItem.hsCode},"/>&nbsp;
                             <apex:outputText rendered="{!IF(len(lineItem.hsCodeDescription) > 0, TRUE, FALSE)}" value="{!lineItem.hsCodeDescription},"/>&nbsp;
                             <apex:outputText rendered="{!IF(len(lineItem.coo) > 0, TRUE, FALSE)}" value="COO: {!lineItem.coo}"/>&nbsp;
+                            </apex:outputpanel>
                         </td>
                     </tr>
                     

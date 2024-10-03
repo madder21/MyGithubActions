@@ -1,87 +1,73 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-	<types>
-    <members>SOM_Manual_RO_Reception_Controller</members>
 
-		<name>ApexClass</name>	
+	<types>
+		<members>TaxCodeConfiguration__c.isDefault__c</members>
+		<members>Invoice.sentToFTP__c</members>
+		<name>CustomField</name>
+	</types>
+
+	<types>
+		<members>TaxCodeConfiguration__c.All</members>
+		<name>ListView</name>
+	</types>
+
+	<types>
+		<members>TaxCodeConfiguration__c-Tax code configuration Layout</members>
+		<members>Invoice-Invoice Layout</members>
+		<members>OrderSummary-Order Summary Layout</members>
+		<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
+		
+
+		<name>Layout</name>
+	</types>
+
+	<types>
+
+		<members>GatewayProviderAdapterClassPIX</members>
+		<members>GatewayProviderAdapterPIXClass_Test</members>
+
+		<members>SOM_WS_ShipmentHandler</members>
+
+		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>SOM_660_Manual_Return_Reception</members>
-		<members>SOM_810_Reship_Return_Order_Flow</members>
-		<members>SOM_830_Close_Return_Order</members>
-		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
+		<members>SOM_Return_Order_Item_Deletion_Restriction</members>
 		<name>Flow</name>
 	</types>
 	<types>
-		<members>ReturnOrder-Return Order Layout</members>
-		<members>OrderSummary-Order Summary Layout</members>
-		<members>TaxCodeConfiguration__c-Tax code configuration Layout</members>
-		<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
-		<name>Layout</name>
+		<members>SOM_Additional_Permissions</members>
+		<members>SOM_CSC_Order_cancelation</members>
+		<name>PermissionSet</name>
 	</types>
-	<types>
-		<members>ReturnOrder.ProcessReship__c</members>
-		<members>ReturnOrderLineItem.Quantity_Previously_Received__c</members>
-                <members>ReturnOrderLineItem.Quantity_Previously_Returned__c</members>
-		<members>TaxCodeConfiguration__c.isDefault__c</members>
-                 <members>ReturnOrderLineItem.QuantityLeftToReceive__c</members>
-		<name>CustomField</name>
 
-	</types>
-	<types>
-		<members>Return_Order_Record_Page</members>
-		<name>FlexiPage</name>
-	</types>
-	<types>
-		<members>OrderSummary.Custom_Compact_Layout</members>
-		<name>CompactLayout</name>
-	</types>
 	<types>
 
 		<members>FulfillmentOrder.Fulfilled_To_Country_ISO_2</members>
 		<name>ValidationRule</name>
 	</types>
-	<types>
-	<members>TaxCodeConfiguration__c.All</members>
-		<name>ListView</name>
+	
+
+<types>
+		<members>SOM_990_Manual_Shipment</members>
+		<name>Flow</name>
+	</types>
+
+<types>
+
+		<members>OrderSummary.Custom_Compact_Layout</members>
+		<name>CompactLayout</name>
 	</types>
 <types>
-		<members>ReportsforSOM/Sales_Report_Invoice_UK_bNh</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_US</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_Wom</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_KR</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_JP</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_EU_IgA</members>
-		<members>ReportsforSOM/Sales_Report_Invoice_AU</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_AU</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_EU_wf8</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_GB</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_JP</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_KR</members>
-		<members>ReportsforSOM/Shipments_Report_Finance_US</members>
-		<members>ReportsforSOM/Shipments_Report_a6T</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_AU</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_EU_0DB</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_JP</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_KR</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_UK_vu7</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_US</members>
-		<members>ReportsforSOM/Sales_Report_Credit_Memo_huW</members>
-		<members>ReportsforSOM/Return_Orders_Finance_3My</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_AU</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_EU_ksT</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_JP_5pZ</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_KR</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_UK_Dvk</members>
-		<members>ReportsforSOM/Return_Orders_Report_Finance_US</members>
-		<members>ReportsforSOM/Payments_Report_AU</members>
-		<members>ReportsforSOM/Payments_Report_EU_3Xr</members>
-		<members>ReportsforSOM/Payments_Report_JP_RW6</members>
-		<members>ReportsforSOM/Payments_report_5w3</members>
-		<members>ReportsforSOM/Payments_Report_KR</members>
-		<members>ReportsforSOM/Payments_Report_UK_jiM</members>
-		<!--members>ReportsforSOM/Payments_report_US</members-->
-		<name>Report</name>
+	<members>Order_Summary_Record_Page</members>
+	<name>FlexiPage</name>
+</types>
+
+	<types>
+		<members>SOM_CreditMemoDocumentTemplate</members>
+		<members>SOM_InvoiceDocumentTemplate</members>
+		<name>ApexPage</name>
 	</types>
+
 	<version>61.0</version>
 </Package>
