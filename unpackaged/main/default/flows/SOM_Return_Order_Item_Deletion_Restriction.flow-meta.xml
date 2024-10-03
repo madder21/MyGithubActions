@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <customErrors>
+        <name>AdminDeleteOnly</name>
+        <label>AdminDeleteOnly</label>
+        <locationX>838</locationX>
+        <locationY>354</locationY>
+        <customErrorMessages>
+            <errorMessage>Only System Administrators are allowed to delete Return Order Line Items.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <environments>Default</environments>
+    <interviewLabel>SOM_ {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM_Return Order Item Deletion Restriction</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>714</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>AdminDeleteOnly</targetReference>
+        </connector>
+        <filterFormula>IF({!$Profile.Name} != &apos;System Administrator&apos;, true, false)</filterFormula>
+        <object>ReturnOrderLineItem</object>
+        <recordTriggerType>Delete</recordTriggerType>
+        <triggerType>RecordBeforeDelete</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
