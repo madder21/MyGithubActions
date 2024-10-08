@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
 	<types>
 		<members>TaxCodeConfiguration__c.isDefault__c</members>
 		<members>Invoice.sentToFTP__c</members>
 		<name>CustomField</name>
 	</types>
-
 	<types>
 		<members>TaxCodeConfiguration__c.All</members>
 		<name>ListView</name>
 	</types>
-
 	<types>
 		<members>TaxCodeConfiguration__c-Tax code configuration Layout</members>
 		<members>Invoice-Invoice Layout</members>
 		<members>OrderSummary-Order Summary Layout</members>
 		<members>ReturnOrderLineItem-Return Order Line Item Layout</members>
-		
-
 		<name>Layout</name>
 	</types>
 	<types>
 		<members>CSC_Reship_Permission	</members>
 		<name>CustomPermission</name>
 	</types>
-
 	<types>
-
 		<members>GatewayProviderAdapterClassPIX</members>
 		<members>GatewayProviderAdapterPIXClass_Test</members>
-
 		<members>SOM_WS_ShipmentHandler</members>
-
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -44,34 +35,36 @@
 		<members>SOM_CSC_Order_cancelation</members>
 		<name>PermissionSet</name>
 	</types>
-
 	<types>
-
 		<members>FulfillmentOrder.Fulfilled_To_Country_ISO_2</members>
 		<name>ValidationRule</name>
 	</types>
-	
-
-<types>
+	<types>
+		<members>SOM_Return_Order_Item_Deletion_Restriction</members>
 		<members>SOM_990_Manual_Shipment</members>
 		<name>Flow</name>
 	</types>
-
-<types>
-
+	<types>
 		<members>OrderSummary.Custom_Compact_Layout</members>
 		<name>CompactLayout</name>
 	</types>
-<types>
-	<members>Order_Summary_Record_Page</members>
-	<name>FlexiPage</name>
-</types>
-
+	<types>
+		<members>Order_Summary_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
 	<types>
 		<members>SOM_CreditMemoDocumentTemplate</members>
 		<members>SOM_InvoiceDocumentTemplate</members>
 		<name>ApexPage</name>
 	</types>
-
+	<types>
+		<members>CSC_Reship_Permission	</members>
+		<name>CustomPermission</name>
+	</types>
+	<types>
+		<members>SOM_Additional_Permissions</members>
+		<members>SOM_CSC_Order_cancelation</members>
+		<name>PermissionSet</name>
+	</types>
 	<version>61.0</version>
 </Package>
