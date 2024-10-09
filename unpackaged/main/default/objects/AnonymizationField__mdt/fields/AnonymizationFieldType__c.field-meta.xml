@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>AnonymizationFieldType__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>AnonymizationFieldType</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Email</fullName>
+                <default>true</default>
+                <label>Email</label>
+            </value>
+            <value>
+                <fullName>Number</fullName>
+                <default>false</default>
+                <label>Number</label>
+            </value>
+            <value>
+                <fullName>Text</fullName>
+                <default>false</default>
+                <label>Text</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
