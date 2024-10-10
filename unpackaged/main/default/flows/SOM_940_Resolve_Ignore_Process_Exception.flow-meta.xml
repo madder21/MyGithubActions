@@ -283,8 +283,8 @@
     <decisions>
         <name>Check_Address_Validation_Brazil_Category</name>
         <label>Check Address Validation Brazil Category</label>
-        <locationX>1641</locationX>
-        <locationY>766</locationY>
+        <locationX>1403</locationX>
+        <locationY>836</locationY>
         <defaultConnector>
             <targetReference>Update_PE_To_Resolved</targetReference>
         </defaultConnector>
@@ -307,7 +307,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
+                <targetReference>Validate_Brazilian_Address</targetReference>
             </connector>
             <label>ODGS Brazil Address</label>
         </rules>
@@ -329,7 +329,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Order_Summary</targetReference>
+                <targetReference>Validate_Brazilian_Address_0</targetReference>
             </connector>
             <label>OS Brazil Address</label>
         </rules>
@@ -346,6 +346,27 @@
             <conditions>
                 <leftValueReference>Get_PE_Not_Resolved</leftValueReference>
                 <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Tech_BrazilianAddressVerified__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.Tech_BrazilianAddressVerified__c</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
@@ -522,11 +543,11 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>1441</locationX>
-        <locationY>410</locationY>
+        <locationX>1569</locationX>
+        <locationY>738</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Validate_Brazilian_Address</targetReference>
+            <targetReference>Check_Address_Validation_Brazil_Category</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -543,11 +564,11 @@
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1520</locationX>
-        <locationY>956</locationY>
+        <locationX>1687</locationX>
+        <locationY>740</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Validate_Brazilian_Address_0</targetReference>
+            <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -564,11 +585,11 @@
     <recordLookups>
         <name>Get_PE</name>
         <label>Get PE</label>
-        <locationX>1747</locationX>
-        <locationY>900</locationY>
+        <locationX>1780</locationX>
+        <locationY>757</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_Address_Validation_Brazil_Category</targetReference>
+            <targetReference>Get_Order_Summary</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -768,8 +789,8 @@
     <screens>
         <name>Popup_resolve_confirmation</name>
         <label>Popup resolve confirmation</label>
-        <locationX>1824</locationX>
-        <locationY>763</locationY>
+        <locationX>1873</locationX>
+        <locationY>753</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
