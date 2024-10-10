@@ -346,27 +346,6 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Legal_Entity</name>
-        <label>Get Legal Entity</label>
-        <locationX>1144</locationX>
-        <locationY>167</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_SalesChannelMapping</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Country__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_ODG.DeliverToCountry</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>Legal_Entity__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_ODG</name>
         <label>Get ODG</label>
         <locationX>1026</locationX>
@@ -394,7 +373,7 @@
         <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Legal_Entity</targetReference>
+            <targetReference>Get_SalesChannelMapping</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -459,7 +438,7 @@
         <name>Update_Order_Summary_Capture_Status</name>
         <label>Update Order Summary Capture Status</label>
         <locationX>1706</locationX>
-        <locationY>602</locationY>
+        <locationY>612</locationY>
         <connector>
             <targetReference>If_Global_e_Order_Number_not_null</targetReference>
         </connector>
@@ -498,7 +477,7 @@
         <inputAssignments>
             <field>Legal_Entity__c</field>
             <value>
-                <elementReference>Get_Legal_Entity.Code__c</elementReference>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -558,7 +537,7 @@
         <inputAssignments>
             <field>Legal_Entity__c</field>
             <value>
-                <elementReference>Get_Legal_Entity.Code__c</elementReference>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -654,7 +633,7 @@
         <inputAssignments>
             <field>Legal_Entity__c</field>
             <value>
-                <elementReference>Get_Legal_Entity.Code__c</elementReference>
+                <elementReference>Get_SalesChannelMapping.Legal_Entity__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
