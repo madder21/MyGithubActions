@@ -274,9 +274,9 @@ global with sharing class SOM_InvoiceDocumentController {
         return AmountsFormat.AmountsFormat__c;
     } 
     
-    public InvoiceAddress setInvoiceAddress(String CountryIso) {
+    public InvoiceAddress setInvoiceAddress(String Code) {
         InvoiceAddress invAddress     = new InvoiceAddress();
-        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Name, Address__c, City__c, ZipCode__c, CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Country__c = :CountryIso];
+        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Code__c, Name, Address__c, City__c, ZipCode__c, CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Code__c = :Code];
         invAddress.name = LegalEntity.Name; 
         invAddress.address = LegalEntity.Address__c ; 
         invAddress.countryLabel = LegalEntity.CountryLabel__c; 

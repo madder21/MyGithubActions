@@ -10,14 +10,10 @@ global with sharing class SOM_CreditMemoDocumentController {
     public CreditMemoAddress        creditMemoAddress { get; set;}
     
     public SOM_CreditMemoDocumentController() {
-      //  try{ 
             this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
             this.setCreditMemoDocumentConfigs();
             this.setCreditMemoData();
 
-      //  }catch(Exception e){
-       //     Logs.error(e,'SOM_CreditMemoDocumentController','SOM_CreditMemoDocumentController','','');   
-       // } 
     }
     public void setCreditMemoDocumentConfigs(){
         try{
@@ -326,9 +322,9 @@ global with sharing class SOM_CreditMemoDocumentController {
         return null;
     }
     
-    public CreditMemoAddress setCreditMemoAddress(String CountryIso) {
+    public CreditMemoAddress setCreditMemoAddress(String Code) {
         CreditMemoAddress CredMeAddress     = new CreditMemoAddress();
-        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Name , City__c,Address__c,ZipCode__c,  CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Country__c = :CountryIso];
+        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Code__c, Name , City__c,Address__c,ZipCode__c,  CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Code__c = :Code];
         CredMeAddress.name = LegalEntity.Name; 
         CredMeAddress.address = LegalEntity.Address__c ;  
         CredMeAddress.countryLabel = LegalEntity.CountryLabel__c; 
