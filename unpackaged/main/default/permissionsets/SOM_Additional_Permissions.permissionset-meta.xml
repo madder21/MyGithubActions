@@ -437,6 +437,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Order.geOrderNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Order.isOrderOnBehalf__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1380,21 +1385,21 @@
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
+        <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Order</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
-        <allowDelete>false</allowDelete>
+        <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>OrderSummary</object>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -1460,6 +1465,10 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <tabSettings>
+        <tab>TransactionalEmail__c</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
         <tab>standard-Order</tab>
         <visibility>Visible</visibility>
     </tabSettings>
@@ -1467,4 +1476,12 @@
         <tab>standard-OrderSummary</tab>
         <visibility>Visible</visibility>
     </tabSettings>
+    <classAccesses>
+        <apexClass>BackInStockBatchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>BackInStockWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 </PermissionSet>
