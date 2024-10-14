@@ -1,259 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Manage_Booking_Translation</name>
+        <label>Manage Booking Translation</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <actionName>AP_ClientBookingTrad</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Assign_TaskBookingReminder</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>bookingNumber</name>
+            <value>
+                <elementReference>clientBooking.ConfirmationNumber__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>language</name>
+            <value>
+                <elementReference>languageISO</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>subjectLabel</name>
+            <value>
+                <stringValue>LABS_AP_Task_Subject_BookingReminder</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>AP_ClientBookingTrad</nameSegment>
+        <outputParameters>
+            <assignToReference>subjectValue</assignToReference>
+            <name>subjectLabel</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
-    <assignments>
-        <name>Assign_TaskBookingAssignment</name>
-        <label>Task for Booking Assignment</label>
-        <locationX>314</locationX>
-        <locationY>242</locationY>
-        <assignmentItems>
-            <assignToReference>bookingTask.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.ActivityDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ActivityDate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Store__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Store__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.LABS_AP_Task_Subject_BookingToAssign</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Task</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.OwnerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.User__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
-        <name>Assign_TaskBookingCancelled</name>
-        <label>Task for Booking Cancelled</label>
-        <locationX>842</locationX>
-        <locationY>242</locationY>
-        <assignmentItems>
-            <assignToReference>bookingTask.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.ActivityDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ActivityDate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Store__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Store__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.LABS_AP_Task_Subject_BookingCancelled</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Task</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.OwnerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.User__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
-        <name>assign_taskBookingCreation</name>
-        <label>Task for Booking Creation</label>
-        <locationX>50</locationX>
-        <locationY>242</locationY>
-        <assignmentItems>
-            <assignToReference>bookingTask.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.ActivityDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ActivityDate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Store__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Store__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.LABS_AP_Task_Subject_BookingCreation</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Task</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.OwnerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.User__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
-        <name>Assign_TaskBookingReassign</name>
-        <label>Task for Booking Reassigned</label>
-        <locationX>578</locationX>
-        <locationY>242</locationY>
-        <assignmentItems>
-            <assignToReference>bookingTask.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.ActivityDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>ActivityDate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Store__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Store__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.LABS_AP_Task_Subject_BookingAssigned</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Task</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.OwnerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.User__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
     <assignments>
         <name>Assign_TaskBookingReminder</name>
         <label>Task for Booking Reminder</label>
-        <locationX>1370</locationX>
-        <locationY>242</locationY>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>bookingTask.AccountId</assignToReference>
             <operator>Assign</operator>
@@ -286,7 +74,7 @@
             <assignToReference>bookingTask.Subject</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>f_ReminderSubject</elementReference>
+                <elementReference>subjectValue</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -310,166 +98,28 @@
                 <elementReference>clientBooking.User__r.Id</elementReference>
             </value>
         </assignmentItems>
-    </assignments>
-    <assignments>
-        <name>Assign_TaskBookingRescheduled</name>
-        <label>Task for Booking Rescheduled</label>
-        <locationX>1106</locationX>
-        <locationY>242</locationY>
         <assignmentItems>
-            <assignToReference>bookingTask.AccountId</assignToReference>
+            <assignToReference>bookingTask.IsPinned__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>clientBooking.Account__c</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>bookingTask.ActivityDate</assignToReference>
+            <assignToReference>bookingTask.HQTask__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>ActivityDate</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>bookingTask.Priority</assignToReference>
+            <assignToReference>bookingTask.TaskType__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Normal</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Store__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Store__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Label.LABS_AP_Task_Subject_BookingDateModified</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Task</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.Account__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>bookingTask.OwnerId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>clientBooking.User__r.Id</elementReference>
+                <stringValue>Appt Booking outreach reminder</stringValue>
             </value>
         </assignmentItems>
     </assignments>
-    <decisions>
-        <name>dec_TaskToCreate</name>
-        <label>What is the task to Create?</label>
-        <locationX>842</locationX>
-        <locationY>134</locationY>
-        <defaultConnectorLabel>No tasktype</defaultConnectorLabel>
-        <rules>
-            <name>decout_BookingCreation</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingCreated</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>assign_taskBookingCreation</targetReference>
-            </connector>
-            <label>Booking creation</label>
-        </rules>
-        <rules>
-            <name>decout_AssignBooking</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingToAssign</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_TaskBookingAssignment</targetReference>
-            </connector>
-            <label>Booking to assign</label>
-        </rules>
-        <rules>
-            <name>decout_BookingAssignmentChanged</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingAssigned</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_TaskBookingReassign</targetReference>
-            </connector>
-            <label>Booking Assignment Changed</label>
-        </rules>
-        <rules>
-            <name>decout_BookingCancellation</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingCancelled</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_TaskBookingCancelled</targetReference>
-            </connector>
-            <label>Booking Cancellation</label>
-        </rules>
-        <rules>
-            <name>decout_BookingDateModification</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingDateModified</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_TaskBookingRescheduled</targetReference>
-            </connector>
-            <label>Booking Date Modification</label>
-        </rules>
-        <rules>
-            <name>decout_BookingReminder</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>taskType</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Label.LABS_AP_Task_BookingReminder</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_TaskBookingReminder</targetReference>
-            </connector>
-            <label>Booking to remind</label>
-        </rules>
-    </decisions>
     <description>...Assign Value to Task Field and return the task record</description>
     <environments>Default</environments>
     <formulas>
@@ -478,16 +128,19 @@
         <expression>DATEVALUE({!clientBooking.StartsOn__c})</expression>
     </formulas>
     <formulas>
+        <name>f_OutreachReasonLabel</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!clientBooking.Service__r.Name}, &quot;Product&quot;), &quot;LABS_AP_Product&quot;, &quot;LABS_AP_Repair&quot;)</expression>
+    </formulas>
+    <formulas>
         <name>f_ReminderSubject</name>
         <dataType>String</dataType>
-        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; +
-IF( 
-   ISNULL({!clientBooking.Salutation__c}) ||  ISBLANK({!clientBooking.Salutation__c}) ,
-    &quot;&quot;, 
-    {!clientBooking.Salutation__c} + &quot; &quot; 
-) 
-+ {!clientBooking.Firstname__c} + &quot; &quot; + {!clientBooking.Lastname__c} 
-+ &quot; - Booking Number : &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
+        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>languageISO</name>
+        <dataType>String</dataType>
+        <expression>LEFT(TEXT({!Get_User_Details.LanguageLocaleKey}), 2)</expression>
     </formulas>
     <interviewLabel>Private Appointment Task Assignment Helper {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Private Appointment Task Assignment Helper</label>
@@ -510,12 +163,33 @@ IF(
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_User_Details</name>
+        <label>Get User Details</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Manage_Booking_Translation</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>clientBooking.User__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>716</locationX>
+        <locationX>50</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>dec_TaskToCreate</targetReference>
+            <targetReference>Get_User_Details</targetReference>
         </connector>
     </start>
     <status>Active</status>
@@ -536,10 +210,10 @@ IF(
         <objectType>ClientBooking__c</objectType>
     </variables>
     <variables>
-        <name>taskType</name>
+        <name>subjectValue</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
     </variables>
 </Flow>
