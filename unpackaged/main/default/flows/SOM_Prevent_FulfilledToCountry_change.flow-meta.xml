@@ -4,8 +4,8 @@
     <assignments>
         <name>Return_Back_FulfilledToCountry_To_old_value</name>
         <label>Return Back FulfilledToCountry To old value</label>
-        <locationX>827</locationX>
-        <locationY>548</locationY>
+        <locationX>834</locationX>
+        <locationY>867</locationY>
         <assignmentItems>
             <assignToReference>$Record.FulfilledToCountry</assignToReference>
             <operator>Assign</operator>
@@ -14,11 +14,27 @@
             </value>
         </assignmentItems>
     </assignments>
+    <assignments>
+        <name>Return_Back_FulfilledToCountry_To_old_value_0</name>
+        <label>Return Back FulfilledToCountry To old value</label>
+        <locationX>584</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.FulfilledToCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_UpperCase</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_LowerCase</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>If_Country_is_not_empty</name>
         <label>If Country is not empty</label>
-        <locationX>821</locationX>
-        <locationY>350</locationY>
+        <locationX>818</locationX>
+        <locationY>682</locationY>
         <defaultConnector>
             <targetReference>Return_Back_FulfilledToCountry_To_old_value</targetReference>
         </defaultConnector>
@@ -46,8 +62,8 @@
     <decisions>
         <name>if_only_country_changed</name>
         <label>if only country changed</label>
-        <locationX>577</locationX>
-        <locationY>348</locationY>
+        <locationX>576</locationX>
+        <locationY>673</locationY>
         <defaultConnectorLabel>Only Country</defaultConnectorLabel>
         <rules>
             <name>Not_only_country</name>
@@ -86,7 +102,12 @@
             <label>Not only country</label>
         </rules>
     </decisions>
-    <description>When FilfilledToAddress changes, this flow keeps FulfilledTocountry in its old value.</description>
+    <description>Update LowerCase Country To UpperCase</description>
+    <formulas>
+        <name>FX_UpperCase</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!$Record.FulfilledToCountry})</expression>
+    </formulas>
     <interviewLabel>SOM {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Prevent FulfilledToCountry change</label>
     <processMetadataValues>
@@ -108,22 +129,30 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_LowerCase</name>
+        <label>Update LowerCase</label>
+        <locationX>582</locationX>
+        <locationY>522</locationY>
+        <connector>
+            <targetReference>if_only_country_changed</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>FulfilledToCountry</field>
+            <value>
+                <elementReference>FX_UpperCase</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <start>
         <locationX>458</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>if_only_country_changed</targetReference>
+            <targetReference>Return_Back_FulfilledToCountry_To_old_value_0</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
-        <filters>
-            <field>FulfilledToCountry</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <object>FulfillmentOrder</object>
-        <recordTriggerType>Update</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
