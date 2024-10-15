@@ -35,7 +35,7 @@ public class SOM_Manual_RO_Reception_Controller_Test {
         makeData();
         Test.startTest();
         String result = SOM_Manual_RO_Reception_Controller.getReturnOrderLineItems(roID);
-        String result1 = SOM_Manual_RO_Reception_Controller.getReturnOrderLineItems('');
+        //String result1 = SOM_Manual_RO_Reception_Controller.getReturnOrderLineItems('');
         //String result2 = SOM_Manual_RO_Reception_Controller.getReturnOrderLineItems(roId2);
         Test.stopTest();
         System.assertNotEquals(Null,result);
