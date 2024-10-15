@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>61.0</apiVersion>
+    <environments>Default</environments>
     <interviewLabel>RMS Manage Related Repair Orders {!$Flow.CurrentDateTime}</interviewLabel>
     <label>RMS Manage Related Repair Orders</label>
     <processMetadataValues>
@@ -99,7 +100,7 @@
             <inputParameters>
                 <name>columns</name>
                 <value>
-                    <stringValue>[{&quot;apiName&quot;:&quot;SerialNumber__c&quot;,&quot;guid&quot;:&quot;column-fbcb&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;SerialNumber&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Claim_External_Id__c&quot;,&quot;guid&quot;:&quot;column-2b59&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:false,&quot;customHeaderLabel&quot;:&quot;&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:1,&quot;label&quot;:&quot;Claim External Id&quot;,&quot;type&quot;:&quot;text&quot;}]</stringValue>
+                    <stringValue>[{&quot;apiName&quot;:&quot;SerialNumber__c&quot;,&quot;guid&quot;:&quot;column-fbcb&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:true,&quot;customHeaderLabel&quot;:&quot;Serial Number&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:0,&quot;label&quot;:&quot;SerialNumber&quot;,&quot;type&quot;:&quot;text&quot;},{&quot;apiName&quot;:&quot;Claim_External_Id__c&quot;,&quot;guid&quot;:&quot;column-2b59&quot;,&quot;editable&quot;:false,&quot;hasCustomHeaderLabel&quot;:true,&quot;customHeaderLabel&quot;:&quot;Repair Order ID&quot;,&quot;wrapText&quot;:true,&quot;order&quot;:1,&quot;label&quot;:&quot;Claim External Id&quot;,&quot;type&quot;:&quot;text&quot;}]</stringValue>
                 </value>
             </inputParameters>
             <inputParameters>

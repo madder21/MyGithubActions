@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
     <classAccesses>
         <apexClass>B2CIACustomerResolution</apexClass>
         <enabled>true</enabled>
@@ -936,7 +938,6 @@
         <apexClass>ers_QueryNRecordsTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <custom>true</custom>
     <pageAccesses>
         <apexPage>BL_ApiSessionId</apexPage>
         <enabled>true</enabled>
@@ -5087,6 +5088,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>RepairOrder__c.ReplacementItemId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RepairOrder__c.Replacement_Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11546,7 +11552,6 @@
         <tab>standard-report</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
         <name>AIViewInsightObjects</name>
