@@ -53,127 +53,49 @@ public with sharing class SOQLBuilder {
         return globalList;
     }
     
-    public static String removeSpaceFromString(String str) {
-        String removedSpaceStr = '';
-        for(Integer i = 0; i < str.length(); i++) {
-            Integer asciiValue = str.charAt(i);
-            if(asciiValue <> 160) {
-                removedSpaceStr+=str.substring(i, i+1);
+    public static List<sObject> pushInQueueWithUsualVal(SFAnonymizationPushInQueueWrapper wrapper) {
+    	List<sObject> objectToBeUpdate = new List<sObject>();
+        for(sObject obj : wrapper.globalList) {
+            String objectAPIName = obj.Id.getSObjectType().getDescribe().getName();
+            SObjectType r = ((SObject)(Type.forName('Schema.'+objectAPIName).newInstance())).getSObjectType();
+            DescribeSObjectResult d = r.getDescribe();
+            for(String fieldName : wrapper.mapObjectAndFields.get(objectAPIName)) {
+                String fieldType = String.valueOf(d.fields.getMap().get(fieldName).getDescribe().getType());
+                switch on fieldType {
+                	When 'EMAIL' {
+                        obj.put(fieldName, 'XXXXXXXXXX@XXX.XXX');
+                    }
+                    When 'INTEGER' {
+                        obj.put(fieldName, '9999999999');
+                    }
+                    When else {
+                        obj.put(fieldName, 'XXXXXXXXXX');
+                    }
+                }                
             }
-        }
-        return removedSpaceStr;
+			objectToBeUpdate.add(obj);            
+        }        
+        return objectToBeUpdate;
     }
     
-    public static List<sObject> pushInQueue(Map<String, List<String>> mapObjectAndFields, List<sObject> globalList, Map<String, String> mapObjLookupFieldName, String timeStamp) {
-		System.debug('globalList '+globalList);
+    public static List<sObject> pushInQueue(SFAnonymizationPushInQueueWrapper wrapper) {
         List<sObject> objectToBeUpdate = new List<sObject>();
         Map<Id, Long> accountTimestampMap = new Map<Id, Long>();
-        Long tmp = Long.valueOf(removeSpaceFromString(timeStamp));
-        for(sObject obj : globalList) {
-            switch on obj {
-                When Account acc {
-                    tmp = accountTimestampMap.containsKey(acc.Id)?accountTimestampMap.get(acc.Id):tmp;
-                    accountTimestampMap.put(acc.Id, tmp);
-                    for(String fieldName : mapObjectAndFields.get('Account')) {
-                        System.debug('fieldName '+fieldName);
-                        if(fieldName.contains('mail') && acc.get(fieldName)<>null) {
-                            String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                            System.debug('emailFieldValue '+emailFieldValue);
-                            acc.put(fieldName, emailFieldValue); 
-                        }else if(acc.get(fieldName)<>null) {
-                            acc.put(fieldName, timeStamp); 
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(acc);
-                }
-				When B2CCustomInput__c bc {
-                    tmp = accountTimestampMap.containsKey((Id)bc.get(mapObjLookupFieldName.get('B2CCustomInput__c')))?accountTimestampMap.get((Id)bc.get(mapObjLookupFieldName.get('B2CCustomInput__c'))):tmp;
-                    accountTimestampMap.put((Id)bc.get(mapObjLookupFieldName.get('B2CCustomInput__c')), tmp);
-					for(String fieldName : mapObjectAndFields.get('B2CCustomInput__c')) {
-                        if(fieldName <> mapObjLookupFieldName.get('B2CCustomInput__c')){
-                            if(fieldName.contains('mail') && bc.get(fieldName)<>null) {
-                                String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                                bc.put(fieldName, emailFieldValue); 
-                            }else if(bc.get(fieldName)<>null) {
-                                bc.put(fieldName, removeSpaceFromString(tmp.format())); 
-                            }
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(bc);
-                }
-                
-                When ClientAddress__c ca {
-                    tmp = accountTimestampMap.containsKey((Id)ca.get(mapObjLookupFieldName.get('ClientAddress__c')))?accountTimestampMap.get((Id)ca.get(mapObjLookupFieldName.get('ClientAddress__c'))):tmp;
-                    accountTimestampMap.put((Id)ca.get(mapObjLookupFieldName.get('ClientAddress__c')), tmp);
-					for(String fieldName : mapObjectAndFields.get('ClientAddress__c')) {
-                        if(fieldName <> mapObjLookupFieldName.get('ClientAddress__c')){
-                            if(fieldName.contains('mail') && ca.get(fieldName)<>null) {
-                                String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                                ca.put(fieldName, emailFieldValue); 
-                            }else if(ca.get(fieldName)<>null) {
-                                ca.put(fieldName, removeSpaceFromString(tmp.format())); 
-                            }
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(ca);
-                }
-                
-                When ClientSource__c csr {
-                    tmp = accountTimestampMap.containsKey((Id)csr.get(mapObjLookupFieldName.get('ClientSource__c')))?accountTimestampMap.get((Id)csr.get(mapObjLookupFieldName.get('ClientSource__c'))):tmp;
-                    accountTimestampMap.put((Id)csr.get(mapObjLookupFieldName.get('ClientSource__c')), tmp);
-					for(String fieldName : mapObjectAndFields.get('ClientSource__c')) {
-                        if(fieldName <> mapObjLookupFieldName.get('ClientSource__c')){
-                            if(fieldName.contains('mail') && csr.get(fieldName)<>null) {
-                                String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                                csr.put(fieldName, emailFieldValue); 
-                            }else if(csr.get(fieldName)<>null) {
-                                csr.put(fieldName, removeSpaceFromString(tmp.format())); 
-                            }
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(csr);
-                }
-                
-                When ContactPointTypeConsent cp {
-                    tmp = accountTimestampMap.containsKey((Id)cp.get(mapObjLookupFieldName.get('ContactPointTypeConsent')))?accountTimestampMap.get((Id)cp.get(mapObjLookupFieldName.get('ContactPointTypeConsent'))):tmp;
-                    accountTimestampMap.put((Id)cp.get(mapObjLookupFieldName.get('ContactPointTypeConsent')), tmp);
-					for(String fieldName : mapObjectAndFields.get('ContactPointTypeConsent')) {
-                        if(fieldName <> mapObjLookupFieldName.get('ContactPointTypeConsent')){
-                            if(fieldName.contains('mail') && cp.get(fieldName)<>null) {
-                                String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                                cp.put(fieldName, emailFieldValue); 
-                            }else if(cp.get(fieldName)<>null) {
-                                cp.put(fieldName, removeSpaceFromString(tmp.format())); 
-                            }
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(cp);
-                }
-                
-                When EmailMessage em {
-                    tmp = accountTimestampMap.containsKey((Id)em.get(mapObjLookupFieldName.get('EmailMessage')))?accountTimestampMap.get((Id)em.get(mapObjLookupFieldName.get('EmailMessage'))):tmp;
-                    accountTimestampMap.put((Id)em.get(mapObjLookupFieldName.get('EmailMessage')), tmp);
-					for(String fieldName : mapObjectAndFields.get('EmailMessage')) {
-                        if(fieldName <> mapObjLookupFieldName.get('EmailMessage')){
-                            if((fieldName.contains('mail') || fieldName.contains('Address')) && em.get(fieldName)<>null) {
-                                String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
-                                em.put(fieldName, emailFieldValue); 
-                            }else if(em.get(fieldName)<>null) {
-                                em.put(fieldName, removeSpaceFromString(tmp.format())); 
-                            }
-                        }
-                    }
-                    tmp+=1;
-                    objectToBeUpdate.add(em);
-                }
-            }
+        for(sObject obj : wrapper.globalList) {
+            Long tmp = accountTimestampMap.containsKey(obj.Id)?accountTimestampMap.get(obj.Id): wrapper.timeStamp;
+            accountTimestampMap.put(obj.Id, tmp);
+            String objectAPIName = obj.Id.getSObjectType().getDescribe().getName();
+            for(String fieldName : wrapper.mapObjectAndFields.get(objectAPIName)) {
+                if(fieldName.contains('mail') && obj.get(fieldName)<>null) {
+                	String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
+                    obj.put(fieldName, emailFieldValue); 
+				}else if(obj.get(fieldName)<>null) {
+					obj.put(fieldName, wrapper.timeStamp); 
+				}
+			}
+            tmp+=1;
+			objectToBeUpdate.add(obj);
         }
-        System.debug('*** objectToBeUpdate ***'+objectToBeUpdate);
         return objectToBeUpdate;
     }
 }

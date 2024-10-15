@@ -75,7 +75,7 @@ public class SFSuppressionProcessTest {
         SFAnonymizationProcessWrapper wrapper = new SFAnonymizationProcessWrapper();
         wrapper.clientIdStr = acc.Id;
         wrapper.objectList = 'Account,Case,ClientAddress,ClientSource,ContactPointTypeConsent,EmailMessage,B2CCustomInput,Entitlement';
-        wrapper.timeStamp = '122342452343';
+        wrapper.timeStamp = 1728459249;
         wrapper.separator = ';';
         wrapperList.add(wrapper);
         Test.StartTest();

@@ -162,12 +162,32 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Repair Order</label>
     <nameField>
+        <displayFormat>RO-{000000}</displayFormat>
         <label>Claim Name</label>
         <trackHistory>false</trackHistory>
-        <type>Text</type>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Repair Orders</pluralLabel>
-    <searchLayouts />
+    <profileSearchLayouts>
+        <fields>NAME</fields>
+        <fields>Claim_External_Id__c</fields>
+        <fields>RMS_CreatedDate__c</fields>
+        <fields>ClaimStatus__c</fields>
+        <fields>FinalStatusDateModified__c</fields>
+        <fields>RepairType__c</fields>
+        <fields>Product__c</fields>
+        <fields>SerialNumber__c</fields>
+        <profileName>CS - Advisor</profileName>
+    </profileSearchLayouts>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Claim_External_Id__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RMS_CreatedDate__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ClaimStatus__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>FinalStatusDateModified__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RepairType__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Product__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>SerialNumber__c</searchResultsAdditionalFields>
+    </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

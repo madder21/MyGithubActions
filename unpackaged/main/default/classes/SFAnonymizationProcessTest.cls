@@ -13,56 +13,6 @@ public class SFAnonymizationProcessTest {
         testAcc.PersonEmail = 'test@email.com';
         testAcc.PersonIndividualId = individual.Id;
         insert testAcc;
-        
-        B2CCustomInput__c input = ConsentManagement_TestDataFactory.createB2CCustomInput(true, testAcc.Id);
-        input.CaptureSource__c = 'capture';
-        update input;
-        Case testCase = DataFactoryForTests.createCase();
-        testCase.AccountId = testAcc.Id;
-        update testCase;
-        
-        ClientSource__c source1 = new ClientSource__c(
-            Source__c = 'SF',
-            SourceCode__c = testAcc.Id,
-            SourceCreationDate__c = Date.valueOf('2021-05-17'),
-            SourceLastUpdateDate__c = DateTime.valueOf('2021-10-16 15:20:41.990679+00:00'),
-            Client__c = testAcc.Id
-        );
-        
-        insert source1;
-        
-        ClientAddress__c address1 = new ClientAddress__c(
-            Address1__c = '7007 FRIARS RD STE 513',
-            City__c = 'SAN DIEGO',
-            Country__c = 'US',
-            PostalCode__c = '92108-1142',
-            State__c = 'CA',
-            AddressTypology__c = 'STANDARD',
-            IsValid__c = false,
-            Client__c = testAcc.Id
-        );
-        
-        insert address1;
-        
-        ContactPointTypeConsent conpointtypecons1 = new ContactPointTypeConsent();
-        conpointtypecons1.Name = 'EmailConsent1';
-        conpointtypecons1.PartyId = testAcc.PersonIndividualId;
-        conpointtypecons1.ContactPointType = 'Email';
-        conpointtypecons1.PrivacyConsentStatus = 'OptIn';
-        conpointtypecons1.EffectiveFrom = System.now().addDays(-10);
-        conpointtypecons1.EffectiveTo = null;
-        conpointtypecons1.CaptureDate = System.now().addDays(-10);
-        conpointtypecons1.CaptureContactPointType = 'Web';
-        conpointtypecons1.CaptureSource = 'Test source';
-        conpointtypecons1.DoubleConsentCaptureDate = null;
-        conpointtypecons1.AccountId__c = testAcc.Id;
-        insert conpointtypecons1;
-        
-        EmailMessage emailWithAllowedDomain = new EmailMessage();
-        emailWithAllowedDomain.FromAddress = 'user1@example.com';
-        emailWithAllowedDomain.ToSme__c = true;
-        emailWithAllowedDomain.RelatedToId = testAcc.Id;
-        insert emailWithAllowedDomain;
     }
     
     @isTest
@@ -71,14 +21,31 @@ public class SFAnonymizationProcessTest {
         List<SFAnonymizationProcessWrapper> wrapperList = new List<SFAnonymizationProcessWrapper>();
         SFAnonymizationProcessWrapper wrapper = new SFAnonymizationProcessWrapper();
         wrapper.clientIdStr = acc.Id;
-        wrapper.objectList = 'Account,Case,ClientAddress,ClientSource,ContactPointTypeConsent,EmailMessage,B2CCustomInput,Entitlement';
-        wrapper.timeStamp = '122342452343';
+        wrapper.objectList = 'Account';
+        wrapper.timeStamp = 1728459249;
         wrapper.separator = ';';
         wrapperList.add(wrapper);
         Test.StartTest();
         SFAnonymizationProcess.initAnonymizationProcess(wrapperList);
         Test.StopTest();
         Account retrievedAcc = [SELECT Id, PersonEmail FROM Account WHERE Id =: acc.Id];
-        System.assertEquals('122342452343@122342452343.122342452343', retrievedAcc.PersonEmail, 'PersonEmail field has been anonymized');
+        System.assertEquals('1728459249@1728459249.1728459249', retrievedAcc.PersonEmail, 'PersonEmail field has not been anonymized');
+    }
+    
+    @isTest
+    static void testAnonymizationCommonVal() {
+        Account acc = [SELECT Id, LastName, PersonEmail FROM Account LIMIT 1];
+        List<SFAnonymizationProcessWrapper> wrapperList = new List<SFAnonymizationProcessWrapper>();
+        SFAnonymizationProcessWrapper wrapper = new SFAnonymizationProcessWrapper();
+        wrapper.clientIdStr = acc.Id;
+        wrapper.objectList = 'Account';
+        //wrapper.timeStamp = 1728459249;
+        wrapper.separator = ';';
+        wrapperList.add(wrapper);
+        Test.StartTest();
+        SFAnonymizationProcess.initAnonymizationProcess(wrapperList);
+        Test.StopTest();
+        Account retrievedAcc = [SELECT Id, PersonEmail FROM Account WHERE Id =: acc.Id];
+        System.assertEquals('xxxxxxxxxx@xxx.xxx', retrievedAcc.PersonEmail, 'PersonEmail field has not been anonymized');
     }
 }

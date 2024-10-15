@@ -1,9 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>SF_Suppression_Process_Action_1</name>
-        <label>SF Suppression Process Action 1</label>
+        <name>Copy_1_of_Run_Anonymisation_Process</name>
+        <label>Copy 1 of Run Anonymisation Process</label>
+        <locationX>50</locationX>
+        <locationY>1598</locationY>
+        <actionName>SFAnonymizationProcess</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>clientIdStr</name>
+            <value>
+                <elementReference>Put_your_Account_ID_here</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>objectList</name>
+            <value>
+                <elementReference>ObjectList.selectedOptionsCSV</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>separator</name>
+            <value>
+                <elementReference>Select_the_separator</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SFAnonymizationProcess</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Run_Anonymisation_Process</name>
+        <label>Run Anonymisation Process</label>
         <locationX>314</locationX>
+        <locationY>1598</locationY>
+        <actionName>SFAnonymizationProcess</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>clientIdStr</name>
+            <value>
+                <elementReference>Put_your_Account_ID_here</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>objectList</name>
+            <value>
+                <elementReference>ObjectList.selectedOptionsCSV</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>separator</name>
+            <value>
+                <elementReference>Select_the_separator</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>timeStamp</name>
+            <value>
+                <elementReference>v_currentTimeStamp</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SFAnonymizationProcess</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>RunSuppressionProcess</name>
+        <label>Run Suppression Process Action 1</label>
+        <locationX>578</locationX>
         <locationY>1490</locationY>
         <actionName>SuppressionSFProcess</actionName>
         <actionType>apex</actionType>
@@ -17,7 +83,7 @@
         <inputParameters>
             <name>objectList</name>
             <value>
-                <elementReference>Testqscqcsq.selectedOptionsCSV</elementReference>
+                <elementReference>ObjectList.selectedOptionsCSV</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -27,48 +93,14 @@
             </value>
         </inputParameters>
         <nameSegment>SuppressionSFProcess</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>TestAPEX</name>
-        <label>TestAPEX</label>
-        <locationX>50</locationX>
-        <locationY>1490</locationY>
-        <actionName>SFAnonymizationProcess</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>Automatic</flowTransactionModel>
-        <inputParameters>
-            <name>clientIdStr</name>
-            <value>
-                <elementReference>Put_your_Account_ID_here</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>objectList</name>
-            <value>
-                <elementReference>Testqscqcsq.selectedOptionsCSV</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>separator</name>
-            <value>
-                <elementReference>Select_the_separator</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>timeStamp</name>
-            <value>
-                <elementReference>CurrentTimeStamp</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>SFAnonymizationProcess</nameSegment>
+        <offset>0</offset>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <assignments>
         <name>Define_Label_Collection</name>
         <label>Define Label Collection</label>
-        <locationX>270</locationX>
+        <locationX>468</locationX>
         <locationY>974</locationY>
         <assignmentItems>
             <assignToReference>currentLabel</assignToReference>
@@ -91,7 +123,7 @@
     <assignments>
         <name>Define_Selected_Collection</name>
         <label>Define Selected Collection</label>
-        <locationX>270</locationX>
+        <locationX>468</locationX>
         <locationY>566</locationY>
         <assignmentItems>
             <assignToReference>CurrentObject</assignToReference>
@@ -160,19 +192,25 @@
         <name>Timestamp</name>
         <choiceText>Timestamp</choiceText>
         <dataType>String</dataType>
+        <value>
+            <elementReference>timeStampChoiceValue</elementReference>
+        </value>
     </choices>
     <choices>
         <name>UsualAnonymizValue</name>
         <choiceText>Usual Values</choiceText>
         <dataType>String</dataType>
+        <value>
+            <elementReference>UsualValuesChoiceVal</elementReference>
+        </value>
     </choices>
     <decisions>
         <name>Check_Anonymization_OR_Deletion</name>
         <label>Check Anonymization OR Deletion</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>1274</locationY>
         <defaultConnector>
-            <targetReference>Copy_2_of_Anonymization_Process_Definition</targetReference>
+            <targetReference>Suppression_Process_Definition</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -192,9 +230,34 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Anonymization_Type</name>
+        <label>Check Anonymization Type</label>
+        <locationX>182</locationX>
+        <locationY>1490</locationY>
+        <defaultConnector>
+            <targetReference>Run_Anonymisation_Process</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>timeStamp_Not_Selected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Anonymization_Format</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>UsualValuesChoiceVal</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Run_Anonymisation_Process</targetReference>
+            </connector>
+            <label>TimeStamp Not Selected</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Selected_Value</name>
         <label>Check Selected Value</label>
-        <locationX>512</locationX>
+        <locationX>743</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -232,6 +295,7 @@
             <label>is SOM Anonymization</label>
         </rules>
     </decisions>
+    <description>Ulrich 10/7/2024 : Update Component API names</description>
     <dynamicChoiceSets>
         <name>Test</name>
         <collectionReference>Get_Configuration</collectionReference>
@@ -243,6 +307,11 @@
     <environments>Default</environments>
     <formulas>
         <name>CurrentTimeStamp</name>
+        <dataType>String</dataType>
+        <expression>TEXT(UNIXTIMESTAMP(NOW()))</expression>
+    </formulas>
+    <formulas>
+        <name>v_currentTimeStamp</name>
         <dataType>Number</dataType>
         <expression>UNIXTIMESTAMP(NOW())</expression>
         <scale>0</scale>
@@ -252,7 +321,7 @@
     <loops>
         <name>Get_Configuration_Label</name>
         <label>Get Configuration Label</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>866</locationY>
         <collectionReference>Get_Configuration</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -266,7 +335,7 @@
     <loops>
         <name>Get_SFConfig_Selected_Object</name>
         <label>Get SFConfig Selected Object</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>458</locationY>
         <collectionReference>Get_SF_Ano_Config</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -299,7 +368,7 @@
     <recordLookups>
         <name>Get_Configuration</name>
         <label>Get Configuration</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>758</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -312,7 +381,7 @@
     <recordLookups>
         <name>Get_SF_Ano_Config</name>
         <label>Get SF Ano Config</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -325,13 +394,13 @@
     <screens>
         <name>Anonymization_Process_Definition</name>
         <label>Anonymization Process - Definition</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>1382</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>TestAPEX</targetReference>
+            <targetReference>Check_Anonymization_Type</targetReference>
         </connector>
         <fields>
             <name>Anonymization_Process_Definition_Section1</name>
@@ -346,7 +415,7 @@
                     <dataType>String</dataType>
                     <fieldText>Anonymization Format</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+                    <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
                     <isRequired>false</isRequired>
                 </fields>
                 <fields>
@@ -445,7 +514,7 @@
     <screens>
         <name>Anonymization_Process_Step_1</name>
         <label>Anonymization Process Step 1</label>
-        <locationX>512</locationX>
+        <locationX>743</locationX>
         <locationY>134</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -470,7 +539,7 @@
     <screens>
         <name>Check_Objects_concerned</name>
         <label>Check Objects concerned</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>1166</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
@@ -484,7 +553,7 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
-            <name>Testqscqcsq</name>
+            <name>ObjectList</name>
             <extensionName>c:fsc_dualListBox2</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
@@ -543,21 +612,21 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
-        <name>Copy_2_of_Anonymization_Process_Definition</name>
-        <label>Copy 2 of Anonymization Process - Definition</label>
-        <locationX>314</locationX>
+        <name>Suppression_Process_Definition</name>
+        <label>Suppression Process - Definition</label>
+        <locationX>578</locationX>
         <locationY>1382</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>SF_Suppression_Process_Action_1</targetReference>
+            <targetReference>RunSuppressionProcess</targetReference>
         </connector>
         <fields>
-            <name>Copy_2_of_Anonymization_Process_Definition_Section1</name>
+            <name>Suppression_Process_Definition_Section1</name>
             <fieldType>RegionContainer</fieldType>
             <fields>
-                <name>Copy_2_of_Anonymization_Process_Definition_Section1_Column1</name>
+                <name>Suppression_Process_Definition_Section1_Column1</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>Copy_1_of_Select_the_separator</name>
@@ -591,7 +660,7 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>386</locationX>
+        <locationX>617</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Anonymization_Process_Step_1</targetReference>
@@ -633,5 +702,25 @@
         <isInput>true</isInput>
         <isOutput>true</isOutput>
         <objectType>AnonymizationObject__mdt</objectType>
+    </variables>
+    <variables>
+        <name>timeStampChoiceValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>TimeStamp</stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>UsualValuesChoiceVal</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue>Usual</stringValue>
+        </value>
     </variables>
 </Flow>

@@ -38,12 +38,12 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.ClaimStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.Claim_External_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -63,17 +63,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.DeliveryAddressLine1__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.DeliveryAddressLine2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.DeliveryAddressLine3__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -93,7 +93,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.DeliveryZipCode__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -103,8 +103,23 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>RepairOrder__c.FinalStatusDateModified__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>RepairOrder__c.InvoiceNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>RepairOrder__c.ItemCurrentLocation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>RepairOrder__c.OutcomeStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -113,7 +128,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
+        <field>RepairOrder__c.PaymentStatus__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>RepairOrder__c.PriceAgreedWithCustomer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>RepairOrder__c.RMS_CreatedDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -133,17 +158,17 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.SerialNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.TECH_CegidId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>RepairOrder__c.TotalBillablePrice__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -166,4 +191,13 @@
         <tab>RepairOrder__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>RepairOrder__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
 </Profile>
