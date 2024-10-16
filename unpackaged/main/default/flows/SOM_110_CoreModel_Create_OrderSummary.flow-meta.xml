@@ -17,10 +17,12 @@
                 <elementReference>OrderSummaryInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createOrderSummary</nameSegment>
         <outputParameters>
             <assignToReference>OrderSummaryOutputRepresentation</assignToReference>
             <name>createOrderSummaryOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Order_Creation_Transactional_Email</name>
@@ -42,6 +44,8 @@
                 <elementReference>CONST_EMAIL_TEMPLATE_ORDER_CREATED</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
@@ -247,7 +251,8 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>Update for the new attributs in custom metadata Sales Channel Mapping</description>
+    <description>Update new field CreateRefundClickAndCollect</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -472,6 +477,12 @@
             <field>CreateFulfillmentOrderImmediatly__c</field>
             <value>
                 <elementReference>FX_CreateFOImmediatly</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CreateRefundClickAndCollect__c</field>
+            <value>
+                <elementReference>Get_SalesChannelMapping.CreateRefundClickAndCollect__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
