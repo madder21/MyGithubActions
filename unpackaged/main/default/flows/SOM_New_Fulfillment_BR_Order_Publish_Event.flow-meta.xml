@@ -199,7 +199,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_PE</targetReference>
+            <targetReference>Update_OS_Tech_field_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -264,7 +264,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_PE</targetReference>
+            <targetReference>Update_ODGS_Tech_field_0</targetReference>
         </connector>
     </assignments>
     <decisions>
@@ -332,6 +332,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fulfilled</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -681,6 +688,30 @@
         <object>OrderDeliveryGroupSummary</object>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_ODGS_Tech_field_0</name>
+        <label>Update ODGS Tech field</label>
+        <locationX>491</locationX>
+        <locationY>1186</locationY>
+        <connector>
+            <targetReference>Create_PE</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Tech_BrazilianAddressVerified__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>OrderDeliveryGroupSummary</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_OS_Tech_field</name>
         <label>Update OS Tech field</label>
         <locationX>443</locationX>
@@ -697,6 +728,30 @@
             <field>Tech_BrazilianAddressVerified__c</field>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_OS_Tech_field_0</name>
+        <label>Update OS Tech field</label>
+        <locationX>258</locationX>
+        <locationY>1188</locationY>
+        <connector>
+            <targetReference>Create_PE</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Tech_BrazilianAddressVerified__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
@@ -728,7 +783,7 @@
             </value>
         </filters>
         <object>OrderSummary</object>
-        <recordTriggerType>Update</recordTriggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <scheduledPaths>
             <name>Run</name>
             <connector>

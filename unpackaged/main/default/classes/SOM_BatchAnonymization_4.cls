@@ -5,7 +5,6 @@ global with sharing class SOM_BatchAnonymization_4 implements Database.Batchable
     Integer integerOperator = SOM_Constants.INTEGER_OPERATOR_ANONYMIZATION ;
 
     List<String> orderIds = new List<String>();
-    
     List<String> cls = new List<String>();
     List<String> orderPaymentSummaryIds = new List<String>();
     List<String> paymentMethodIds = new List<String>();

@@ -290,10 +290,14 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
             update ordersToPersistMap.values();
             response.status = 'OK';
             response.orderNumber = 'The following Orders are commited successfully : '+string.valueof(orderReferenceNumbers).replace('{', '').replace('}', '');
+            String result = JSON.serialize(response);
+            Logs.debug('Store To Web Response','WS_SOM_Create_StoreToWebOrder','StoreToWebResponse',JSON.serialize(request),result); 
         } catch(Exception ex) {
             Database.rollback(sp);
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
+            String ErrorResponse = JSON.serialize(response);
+            Logs.error(ex, 'Store To Web Response', 'WS_SOM_Create_StoreToWebOrder', JSON.serialize(request), ErrorResponse); 
         }
         
         return response;
