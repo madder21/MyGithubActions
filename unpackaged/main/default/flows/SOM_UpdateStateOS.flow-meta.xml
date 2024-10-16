@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Flow xmlns="https://urldefense.com/v3/__http://soap.sforce.com/2006/04/metadata__;!!Lt0KOR8!V6PTpdoBYPbMOxJPIwshi7pPsmrwNPSDO0E3x87XYtaCP_fcgxJd93D_0X-0IfI5cu_o63EmnayDg6Tc0QwAg0400scNpHmR$ ">
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>60.0</apiVersion>
     <assignments>
         <name>Updating_order_delivery_groupe</name>
@@ -20,14 +20,21 @@
     <decisions>
         <name>Cegid_Is_used</name>
         <label>Cegid Is used</label>
-        <locationX>1311</locationX>
-        <locationY>660</locationY>
+        <locationX>1200</locationX>
+        <locationY>657</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CegidState</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>GetCegid.cegidStateUsed__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetCegidOS.cegidStateUsed__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -50,6 +57,13 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_State_Order_Delivery_Group</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetCegid</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -236,7 +250,7 @@
         <locationY>656</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Cegid_Is_used</targetReference>
+            <targetReference>GetCegidOS</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -244,6 +258,41 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Get_Order_Delivery_Group.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>cegidStateUsed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Sales_Channel_Mapping__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetCegidOS</name>
+        <label>GetCegidOS</label>
+        <locationX>1029</locationX>
+        <locationY>663</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Cegid_Is_used</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.BillingCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>cegidStateUsed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
