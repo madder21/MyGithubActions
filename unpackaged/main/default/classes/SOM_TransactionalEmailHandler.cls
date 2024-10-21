@@ -512,6 +512,8 @@ lineItem.isCC = false;
             orderCCAutomaticCancellationTemplateContent.storePhone       		= PhoneStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCAutomaticCancellationTemplateContent.storeEmail       		= EmailStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCAutomaticCancellationTemplateContent.orderAcceptanceDate     = orderSum.TransactionalEmails__r[0].CreatedDate;
+            orderCCAutomaticCancellationTemplateContent.billingFirstName 		= orderSum.BillingContactFirstName__c;
+            orderCCAutomaticCancellationTemplateContent.billingLastName  		= orderSum.BillingContactLastName__c;
             
             orderCCAutomaticCancellationTemplateContent.items = new List<Order_Item>();
             
@@ -905,6 +907,8 @@ lineItem.taxRate = item.TaxRate__c;
         
         for (OrderSummary orderSumm : orderSummaries) {
             SOM_OrderCanceledTemplateContent orderTemplateContent = new SOM_OrderCanceledTemplateContent();
+            orderTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
+            orderTemplateContent.billingLastName  = orderSumm.BillingContactLastName__c;
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
             orderTemplateContent.subtotal         = orderSumm.OriginalOrder.TotalAmount;
             orderTemplateContent.tax              = orderSumm.OriginalOrder.TotalTaxAmount.setScale(2);
@@ -1070,6 +1074,8 @@ lineItem.taxRate = item.TaxRate__c;
     }
     
     public class SOM_OrderCanceledTemplateContent{
+        public String billingLastName;
+        public String billingFirstName;
         public String storeLocator;
         public String orderNumber;
         public Decimal subtotal;
@@ -1159,6 +1165,8 @@ lineItem.taxRate = item.TaxRate__c;
     }
     
     public class SOM_OrderCCAutomaticCancellationTemplateContent{
+        public String billingLastName;   
+        public String billingFirstName;  
         public Datetime orderDate;
         public String orderNumber;
         public Datetime orderAcceptanceDate;
