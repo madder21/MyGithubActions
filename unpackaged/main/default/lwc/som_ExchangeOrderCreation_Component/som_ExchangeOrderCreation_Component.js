@@ -9,6 +9,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
 
     objectApiName = 'OrderSummary';
     @api recordId;
+    @track showBR = false;
 
     @api osObj = {
         BillingStreet:"",
@@ -60,6 +61,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
     @track osBillingCountry;
     handleBillCountry(event) {
         this.osBillingCountry = event.target.value;
+
     }
     @track osBillingStreetNumber;
     handleBillStreetNumber(event) {
@@ -191,6 +193,13 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.osObj.Pricebook2Id               = data.Pricebook2Id;
                 this.osObj.AccountId                  = data.AccountId;
                 this.osObj.BillingState               = this.osBillingState;
+                console.log('AVANT IF:', this.osBillingCountry)
+                if( this.osBillingCountry === 'BR'){
+                    console.log('FIRST IF:', this.showBR)
+                    this.showBR = true;
+                    console.log('SECEND IF:', this.showBR)
+                }
+        
             })
             .catch((error) => {
                 this.error = error;
