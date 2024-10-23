@@ -5,7 +5,6 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
         Requests request                = requests.get(0);
         List<AutomaticResponse> responseWrapper = new List<AutomaticResponse>();
         AutomaticResponse response              = new AutomaticResponse();
-        
         try {
             
             String sObjName = (request.RecordId).getSObjectType().getDescribe().getName();
@@ -30,18 +29,19 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 State			= ODGS.DeliverToState;
             }
             
-            if(request.cep != PostalCode ){
+            
+            if(UPPER(request.cep)  != UPPER(PostalCode) ){
                 ErrorDescription = SOM_Constants.ZIP;
             }
-            if(request.logradouro != Street ){
+            if(UPPER(request.logradouro) != UPPER(Street) ){
                 ErrorDescription = ErrorDescription + SOM_Constants.STREET;
             }
-            if(request.bairro != RI_Neighborhood ){
+            if(UPPER(request.bairro) != UPPER(RI_Neighborhood) ){
                 ErrorDescription = ErrorDescription + SOM_Constants.NEIGHBORHOOD;
-            }if(request.localidade != City ){
+            }if(UPPER(request.localidade) != UPPER(City) ){
                 ErrorDescription = ErrorDescription + SOM_Constants.CITY;
             }
-            if(request.uf != State ){
+            if(UPPER(request.uf) != UPPER(State) ){
                 ErrorDescription = ErrorDescription + SOM_Constants.STATE;
             }
             
@@ -56,6 +56,16 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
         }
             return responseWrapper;
     }
+    
+    
+    public static String UPPER(String str) {
+        if(!String.isBlank(str)){
+    		String strReplace = (str).replace('à', 'a').replace('ç', 'c').replace('õ', 'o').replace('â','a').replace('á', 'a').replace('ã', 'a').replace('ê', 'e').replace('é', 'e').replace('è', 'e').replace('í','i').replace('ô', 'o').replace('ó', 'o').replace('ú', 'u').replace('û', 'u').toUpperCase();
+        	Return strReplace;
+        }else{
+            return str; 
+        }
+    } 
         
     global with sharing class Requests{
         @InvocableVariable

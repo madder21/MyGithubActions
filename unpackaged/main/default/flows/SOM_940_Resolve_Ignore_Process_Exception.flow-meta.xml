@@ -283,8 +283,8 @@
     <decisions>
         <name>Check_Address_Validation_Brazil_Category</name>
         <label>Check Address Validation Brazil Category</label>
-        <locationX>1403</locationX>
-        <locationY>836</locationY>
+        <locationX>1405</locationX>
+        <locationY>838</locationY>
         <defaultConnector>
             <targetReference>Update_PE_To_Resolved</targetReference>
         </defaultConnector>
@@ -409,41 +409,13 @@
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Brazilian_ODGS_Address_Verified_0</name>
+            <name>BrazilianODGSAddressVerified</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Validate_Brazilian_Address.cep</leftValueReference>
+                <leftValueReference>ODGS_Formula</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address.logradouro</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToStreet</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address.bairro</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Delivery_Group_Summary.RI_Neighborhood__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address.localidade</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToCity</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address.uf</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Delivery_Group_Summary.DeliverToState</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -455,48 +427,20 @@
     <decisions>
         <name>Verify_BrazilianAddress_0_0</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>1145</locationX>
-        <locationY>1186</locationY>
+        <locationX>1147</locationX>
+        <locationY>1188</locationY>
         <defaultConnector>
             <targetReference>OS_Error_Message</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Brazilian_OS_Address_Verified</name>
+            <name>BrazilianOSAddressVerified</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Validate_Brazilian_Address_0.cep</leftValueReference>
+                <leftValueReference>OS_Formula</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>Get_Order_Summary.BillingPostalCode</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address_0.logradouro</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Summary.BillingStreet</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address_0.bairro</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Summary.RI_Neighborhood__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address_0.localidade</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Summary.BillingCity</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Validate_Brazilian_Address_0.uf</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Get_Order_Summary.BillingState</elementReference>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -505,6 +449,72 @@
             <label>Brazilian OS Address Verified</label>
         </rules>
     </decisions>
+    <formulas>
+        <name>ODGS_Formula</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+AND(
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+)
+), 
+true, false)</expression>
+    </formulas>
+    <formulas>
+        <name>OS_Formula</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+AND(
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+),
+UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+)
+), 
+true, false)</expression>
+    </formulas>
     <interviewLabel>SOM 940 Resolve Ignore Process Exception {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 940 Resolve Process Exception</label>
     <processMetadataValues>

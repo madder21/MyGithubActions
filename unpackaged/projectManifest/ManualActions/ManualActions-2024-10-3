@@ -1,0 +1,25 @@
+
+* Ticket : SOM-1187
+    -> TaxCodeConfiguration__c.Legal_Entity_Code__c : visible to all profiles 
+
+* Ticket : SOM-1188
+    - Update the permission set SOM Additional Permissions ( SOM_Additional_Permissions ):
+            Order.eddScore__c : Read Access + Edit Access
+		    Order.expectedDeliveryDate__c           : Read Access + Edit Access
+		    OrderSummary.eddScore__c : Read Access + Edit Access
+		    OrderSummary.expectedDeliveryDate__c : Read Access + Edit Access
+            
+    - Update the permission set Order Management B2C Service ( sfdc_ccordermanagement ):
+            Order.eddScore__c : Read Access + Edit Access
+		    Order.expectedDeliveryDate__c           : Read Access + Edit Access
+		    OrderSummary.eddScore__c : Read Access + Edit Access
+		    OrderSummary.expectedDeliveryDate__c : Read Access + Edit Access
+
+    - Update Profile's visibility:
+            Order.eddScore__c : visible for all profiles
+		    Order.expectedDeliveryDate__c   : visible for all profiles
+		    OrderSummary.eddScore__c : visible for all profiles
+		    OrderSummary.expectedDeliveryDate__c : visible for all profiles
+
+* Ticket : SOM-1193
+    -> OrderSummary.CreateRefundClickAndCollect__c  :  Visible to sysetem Admin Profile

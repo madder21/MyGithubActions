@@ -9,12 +9,16 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
 
     objectApiName = 'OrderSummary';
     @api recordId;
+    @track showBR = false;
 
     @api osObj = {
         BillingStreet:"",
         BillingPostalCode:"",
         BillingCity:"",
         BillingCountry:"",
+        StreetNumber:"",
+        Neighborhood:"",
+        Complementary:"",
         BillingEmailAddress:"",
         BillingPhoneNumber:"",
         BillingContactFirstName__c:"",
@@ -57,6 +61,19 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
     @track osBillingCountry;
     handleBillCountry(event) {
         this.osBillingCountry = event.target.value;
+
+    }
+    @track osBillingStreetNumber;
+    handleBillStreetNumber(event) {
+        this.osBillingStreetNumber = event.target.value;
+    }
+    @track osBillingNeighborhood;
+    handleBillNeighborhood(event) {
+        this.osBillingNeighborhood = event.target.value;
+    }
+    @track osBillingComplementary;
+    handleBillComplementary(event) {
+        this.osBillingComplementary = event.target.value;
     }
     @track osBillingState;
     handleBillState(event) {
@@ -128,6 +145,18 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
         this.odgShippingCity = event.target.value;
     }
     @track odgShippingCountry;
+    @track odgShippingStreetNumber;
+    handleShipStreetNumber(event) {
+        this.odgShippingStreetNumber = event.target.value;
+    }
+    @track odgShippingNeighborhood;
+    handleShipNeighborhood(event) {
+        this.odgShippingNeighborhood = event.target.value;
+    }
+    @track odgShippingComplementary;
+    handleShipComplementary(event) {
+        this.odgShippingComplementary = event.target.value;
+    }
     @track odgDeliverToState;
     handleDeliverToState(event) {
         this.odgDeliverToState = event.target.value;
@@ -146,11 +175,17 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.osBillingPostalCode              = data.BillingPostalCode;
                 this.osBillingCity                    = data.BillingCity;
                 this.osBillingCountry                 = data.BillingCountry;
+                this.osBillingStreetNumber            = data.StreetNumber__c;
+                this.osBillingNeighborhood            = data.RI_Neighborhood__c;
+                this.osBillingComplementary           = data.Complementary__c;
                 this.osBillingState                   = data.BillingState;
                 this.osObj.BillingStreet              = this.osBillingStreet;
                 this.osObj.BillingPostalCode          = this.osBillingPostalCode;
                 this.osObj.BillingCity                = this.osBillingCity;
                 this.osObj.BillingCountry             = this.osBillingCountry;
+                this.osObj.StreetNumber__c            = this.osBillingStreetNumber;
+                this.osObj.RI_Neighborhood__c         = this.osBillingNeighborhood;
+                this.osObj.Complementary__c           = this.osBillingComplementary;
                 this.osObj.BillingEmailAddress        = data.BillingEmailAddress;
                 this.osObj.BillingPhoneNumber         = this.osPhoneNumber;
                 this.osObj.BillingContactFirstName__c = this.osFirstName;
@@ -158,6 +193,13 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.osObj.Pricebook2Id               = data.Pricebook2Id;
                 this.osObj.AccountId                  = data.AccountId;
                 this.osObj.BillingState               = this.osBillingState;
+                console.log('AVANT IF:', this.osBillingCountry)
+                if( this.osBillingCountry === 'BR'){
+                    console.log('FIRST IF:', this.showBR)
+                    this.showBR = true;
+                    console.log('SECEND IF:', this.showBR)
+                }
+        
             })
             .catch((error) => {
                 this.error = error;
@@ -171,6 +213,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.odgShippingPostalCode = data.DeliverToPostalCode;
                 this.odgShippingCity       = data.DeliverToCity;
                 this.odgShippingCountry    = data.DeliverToCountry;
+                this.odgShippingStreetNumber    = data.StreetNumber__c;
+                this.odgShippingNeighborhood    = data.RI_Neighborhood__c;
+                this.odgShippingComplementary    = data.Complementary__c;
                 this.odgDeliverToState     = data.DeliverToState;
                 this.odgObj.Description         = this.odgDescription;
                 this.odgObj.EmailAddress        = this.odgEmailAddress;
@@ -180,6 +225,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.odgObj.DeliverToPostalCode = this.odgShippingPostalCode;
                 this.odgObj.DeliverToCity       = this.odgShippingCity;
                 this.odgObj.DeliverToCountry    = this.odgShippingCountry;
+                this.odgObj.StreetNumber__c     = this.odgShippingStreetNumber;
+                this.odgObj.RI_Neighborhood__c  = this.odgShippingNeighborhood;
+                this.odgObj.Complementary__c    = this.odgShippingComplementary;
                 this.odgObj.DeliverToState      = this.odgDeliverToState;
             })
             .catch((error) => {
@@ -196,6 +244,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgShippingPostalCode = this.prevODGObj.DeliverToPostalCode;
             this.odgShippingCity       = this.prevODGObj.DeliverToCity;
             this.odgShippingCountry    = this.prevODGObj.DeliverToCountry;
+            this.odgShippingStreetNumber    = this.prevODGObj.StreetNumber__c;
+            this.odgShippingNeighborhood    = this.prevODGObj.RI_Neighborhood__c;
+            this.odgShippingComplementary    = this.prevODGObj.Complementary__c;
             this.odgDeliverToState     = this.prevODGObj.DeliverToState;
             this.selectedODM.Id                   = this.prevselectedODM.Id;
             this.selectedODM.Name                 = this.prevselectedODM.Name;
@@ -207,6 +258,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.osBillingPostalCode              = this.prevOSObj.BillingPostalCode;
             this.osBillingCity                    = this.prevOSObj.BillingCity;
             this.osBillingCountry                 = this.prevOSObj.BillingCountry;
+            this.osBillingStreetNumber            = this.prevOSObj.StreetNumber__c;
+            this.osBillingNeighborhood            = this.prevOSObj.RI_Neighborhood__c;
+            this.osBillingComplementary           = this.prevOSObj.Complementary__c;
             this.osBillingState                   = this.prevOSObj.BillingState;
             this.odgObj.Description         = this.prevODGObj.Description;
             this.odgObj.EmailAddress        = this.prevODGObj.EmailAddress;
@@ -216,11 +270,17 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgObj.DeliverToPostalCode = this.prevODGObj.DeliverToPostalCode;
             this.odgObj.DeliverToCity       = this.prevODGObj.DeliverToCity;
             this.odgObj.DeliverToCountry    = this.prevODGObj.DeliverToCountry;
+            this.odgObj.StreetNumber__c     = this.prevODGObj.StreetNumber__c;
+            this.odgObj.RI_Neighborhood__c  = this.prevODGObj.RI_Neighborhood__c;
+            this.odgObj.Complementary__c    = this.prevODGObj.Complementary__c;
             this.odgObj.DeliverToState      = this.prevODGObj.DeliverToState;
             this.osObj.BillingStreet              = this.prevOSObj.BillingStreet;
             this.osObj.BillingPostalCode          = this.prevOSObj.BillingPostalCode;
             this.osObj.BillingCity                = this.prevOSObj.BillingCity;
             this.osObj.BillingCountry             = this.prevOSObj.BillingCountry;
+            this.osObj.StreetNumber__c            = this.prevOSObj.StreetNumber__c;
+            this.osObj.RI_Neighborhood__c         = this.prevOSObj.RI_Neighborhood__c;
+            this.osObj.Complementary__c           = this.prevOSObj.Complementary__c;
             this.osObj.BillingEmailAddress        = this.prevOSObj.BillingEmailAddress;
             this.osObj.BillingPhoneNumber         = this.prevOSObj.BillingPhoneNumber;
             this.osObj.BillingContactFirstName__c = this.prevOSObj.BillingContactFirstName__c;
@@ -264,6 +324,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgObj.EmailAddress = this.odgEmailAddress;
             this.odgObj.DeliverToStreet = this.odgShippingStreet;
             this.odgObj.DeliverToPostalCode = this.odgShippingPostalCode;
+            this.odgObj.StreetNumber__c = this.odgShippingNeighborhood;
+            this.odgObj.RI_Neighborhood__c = this.odgShippingStreetNumber;
+            this.odgObj.Complementary__c = this.odgShippingComplementary;
             this.odgObj.DeliverToCity = this.odgShippingCity;
             this.odgObj.DeliverToName = this.odgName;
             this.odgObj.DeliverToState = this.odgDeliverToState;
@@ -271,6 +334,9 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.osObj.BillingPostalCode          = this.osBillingPostalCode;
             this.osObj.BillingCity                = this.osBillingCity;
             this.osObj.BillingCountry             = this.osBillingCountry;
+            this.osObj.StreetNumber__c            = this.osBillingStreetNumber;
+            this.osObj.RI_Neighborhood__c         = this.osBillingNeighborhood;
+            this.osObj.Complementary__c           = this.osBillingComplementary;
             this.osObj.BillingPhoneNumber         = this.osPhoneNumber;
             this.osObj.BillingContactFirstName__c = this.osFirstName;
             this.osObj.BillingContactLastName__c  = this.osLastName;

@@ -33,8 +33,8 @@
     <assignments>
         <name>Set_fields_in_Items</name>
         <label>Set fields in Items</label>
-        <locationX>975</locationX>
-        <locationY>376</locationY>
+        <locationX>969</locationX>
+        <locationY>358</locationY>
         <assignmentItems>
             <assignToReference>Loop_Items.OrderId</assignToReference>
             <operator>Assign</operator>
@@ -297,7 +297,8 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>tax local type = gross</description>
+    <description>Update BR fields</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_FirstReferenceNumber</name>
         <dataType>String</dataType>
@@ -402,6 +403,12 @@
             <targetReference>Loop_Items</targetReference>
         </connector>
         <inputAssignments>
+            <field>Complementary__c</field>
+            <value>
+                <elementReference>v_SourceODG.Complementary__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>DeliverToCity</field>
             <value>
                 <elementReference>v_SourceODG.DeliverToCity</elementReference>
@@ -465,6 +472,18 @@
             <field>PhoneNumber</field>
             <value>
                 <elementReference>v_SourceODG.PhoneNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RI_Neighborhood__c</field>
+            <value>
+                <elementReference>v_SourceODG.RI_Neighborhood__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StreetNumber__c</field>
+            <value>
+                <elementReference>v_SourceODG.StreetNumber__c</elementReference>
             </value>
         </inputAssignments>
         <object>OrderDeliveryGroup</object>
@@ -540,6 +559,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Complementary__c</field>
+            <value>
+                <elementReference>v_SourceOrder.Complementary__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>CurrencyIsoCode</field>
             <value>
                 <elementReference>v_SourceOrder.CurrencyIsoCode</elementReference>
@@ -594,6 +619,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>RI_Neighborhood__c</field>
+            <value>
+                <elementReference>v_SourceOrder.RI_Neighborhood__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>SalesChannelId</field>
             <value>
                 <elementReference>get_SalesChannel_Manual.Id</elementReference>
@@ -603,6 +634,12 @@
             <field>Status</field>
             <value>
                 <stringValue>Draft</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>StreetNumber__c</field>
+            <value>
+                <elementReference>v_SourceOrder.StreetNumber__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

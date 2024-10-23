@@ -14,8 +14,6 @@
                 <elementReference>C_Wr_shipments</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_CreateShipment</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Shipped_Quantity_per_FOLI_Action</name>
@@ -34,12 +32,10 @@
                 <elementReference>C_FOLIids</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_ShipmentPerFoliAction</nameSegment>
         <outputParameters>
             <assignToReference>C_Wr_ShippedperFOLI</assignToReference>
             <name>output</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Translate_Wr</name>
@@ -58,12 +54,10 @@
                 <elementReference>C_ShipTranslation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_TranslateShipment</nameSegment>
         <outputParameters>
             <assignToReference>V_translatedShip</assignToReference>
             <name>outputString</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_SerialNumbers</name>
@@ -88,12 +82,10 @@
                 <elementReference>Serial_Number</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>SOM_SerialNumbersValidation</nameSegment>
         <outputParameters>
             <assignToReference>V_errorSerialNumbers</assignToReference>
             <name>output</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -1021,7 +1013,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section2</name>
@@ -1060,7 +1051,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section3</name>
@@ -1099,7 +1089,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section4</name>
@@ -1150,7 +1139,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FOLI_to_Ship_Section5</name>
@@ -1190,7 +1178,6 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -1352,6 +1339,12 @@
                 <name>columnTypeAttribs</name>
                 <value>
                     <stringValue>6:{year: 2-digit, month: numeric, day: numeric}</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnWidths</name>
+                <value>
+                    <stringValue>1:150,2:120,3:120,4:180,5:180,6:150,7:150</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>

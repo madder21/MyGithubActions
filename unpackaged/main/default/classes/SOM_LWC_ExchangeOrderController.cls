@@ -20,12 +20,12 @@
 public with sharing class SOM_LWC_ExchangeOrderController {
     @AuraEnabled(cacheable=true)
     public static OrderSummary getOSDetails(String OsId){
-        return [SELECT Id,(SELECT OrderDeliveryMethodId, OrderDeliveryMethod.Name FROM OrderDeliveryGroupSummaries), OriginalOrderId, BillingStreet, BillingPostalCode, BillingCity, BillingCountry, BillingEmailAddress, BillingPhoneNumber, BillingContactFirstName__c, BillingContactLastName__c,BillingState, AccountId, Pricebook2Id FROM OrderSummary WHERE Id =: OsId];
+        return [SELECT Id,(SELECT OrderDeliveryMethodId, OrderDeliveryMethod.Name FROM OrderDeliveryGroupSummaries), OriginalOrderId, BillingStreet, BillingPostalCode, BillingCity, BillingCountry,Complementary__c,RI_Neighborhood__c,StreetNumber__c, BillingEmailAddress, BillingPhoneNumber, BillingContactFirstName__c, BillingContactLastName__c,BillingState, AccountId, Pricebook2Id FROM OrderSummary WHERE Id =: OsId];
     }
 
     @AuraEnabled(cacheable=true)
     public static OrderDeliveryGroupSummary getOrderDelievryGroupDetails(String OsId){
-        return [SELECT Description, EmailAddress, PhoneNumber, DeliverToName, DeliverToStreet, DeliverToPostalCode, DeliverToCity, DeliverToCountry,DeliverToState FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: OsId];
+        return [SELECT Description, EmailAddress, PhoneNumber, DeliverToName, DeliverToStreet, DeliverToPostalCode, DeliverToCity, DeliverToCountry,Complementary__c,RI_Neighborhood__c,StreetNumber__c,DeliverToState FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: OsId];
     }
 
     @AuraEnabled(cacheable=true)
