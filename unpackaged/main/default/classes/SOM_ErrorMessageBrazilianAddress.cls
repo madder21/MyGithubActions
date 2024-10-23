@@ -60,7 +60,7 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
     
     public static String UPPER(String str) {
         if(!String.isBlank(str)){
-    		String strReplace = (str).replace('à', 'a').replace('ç', 'c').replace('â','a').replace('á', 'a').replace('ã', 'a').replace('ê', 'e').replace('é', 'e').replace('è', 'e').replace('í','i').replace('ô', 'o').replace('ó', 'o').replace('ú', 'u').replace('û', 'u').toUpperCase();
+    		String strReplace = (str).replace('à', 'a').replace('ç', 'c').replace('õ', 'o').replace('â','a').replace('á', 'a').replace('ã', 'a').replace('ê', 'e').replace('é', 'e').replace('è', 'e').replace('í','i').replace('ô', 'o').replace('ó', 'o').replace('ú', 'u').replace('û', 'u').toUpperCase();
         	Return strReplace;
         }else{
             return str; 
