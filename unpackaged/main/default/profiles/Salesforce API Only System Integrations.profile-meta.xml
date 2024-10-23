@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>false</custom>
+    <userLicense>Salesforce Integration</userLicense>
     <applicationVisibilities>
         <application>Clienteling</application>
         <default>false</default>
@@ -35,7 +37,6 @@
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
-    <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
         <field>AssetRelationship.RelationshipType</field>
@@ -1099,6 +1100,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>RepairOrder__c.ReplacementItemId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RepairOrder__c.Replacement_Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6727,5 +6733,4 @@
         <tab>standard-Individual</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
-    <userLicense>Salesforce Integration</userLicense>
 </Profile>

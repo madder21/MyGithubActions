@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
     <classAccesses>
         <apexClass>CLT_Activities</apexClass>
         <enabled>true</enabled>
@@ -179,7 +181,6 @@
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
-    <custom>true</custom>
     <fieldPermissions>
         <editable>true</editable>
         <field>Accessory_Sub_Type__c.Accessory_Type__c</field>
@@ -5242,6 +5243,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>RepairOrder__c.Replacement_Product__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>RepairOrder__c.SerialNumber__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9259,7 +9265,6 @@
         <tab>standard-report</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
         <name>ActivateContract</name>

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
     <classAccesses>
         <apexClass>SOM_DownloadInvoiceDocumentController</apexClass>
         <enabled>true</enabled>
@@ -28,7 +30,6 @@
         <apexClass>ers_QueryNRecordsTest</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <custom>true</custom>
     <pageAccesses>
         <apexPage>SOM_InvoiceDownloadContent</apexPage>
         <enabled>true</enabled>
@@ -1436,6 +1437,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>RepairOrder__c.ReplacementItemId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>RepairOrder__c.Replacement_Product__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7157,5 +7163,4 @@
         <tab>standard-Seller</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
-    <userLicense>Salesforce</userLicense>
 </Profile>
