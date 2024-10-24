@@ -324,8 +324,8 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgObj.EmailAddress = this.odgEmailAddress;
             this.odgObj.DeliverToStreet = this.odgShippingStreet;
             this.odgObj.DeliverToPostalCode = this.odgShippingPostalCode;
-            this.odgObj.StreetNumber__c = this.odgShippingNeighborhood;
-            this.odgObj.RI_Neighborhood__c = this.odgShippingStreetNumber;
+            this.odgObj.StreetNumber__c = this.odgShippingStreetNumber;
+            this.odgObj.RI_Neighborhood__c = this.odgShippingNeighborhood;
             this.odgObj.Complementary__c = this.odgShippingComplementary;
             this.odgObj.DeliverToCity = this.odgShippingCity;
             this.odgObj.DeliverToName = this.odgName;
