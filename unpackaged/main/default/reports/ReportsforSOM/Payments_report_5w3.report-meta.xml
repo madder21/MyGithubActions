@@ -4,13 +4,14 @@
         <field>OrderSummary$Name</field>
     </columns>
     <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>OrderSummary.OrderPaymentSummaries.Payments$Amount</field>
+    </columns>
+    <columns>
         <field>OrderSummary.OrderPaymentSummaries.Payments$CreatedDate</field>
     </columns>
     <columns>
         <field>OrderSummary.OrderPaymentSummaries.Payments$GatewayRefNumber</field>
-    </columns>
-    <columns>
-        <field>OrderSummary.OrderPaymentSummaries.Payments$reconciliationId__c</field>
     </columns>
     <columns>
         <field>OrderSummary.OrderPaymentSummaries$Type</field>
@@ -21,10 +22,6 @@
     <columns>
         <field>OrderSummary.OrderPaymentSummaries$CardType__c</field>
     </columns>
-    <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>OrderSummary.OrderPaymentSummaries.Payments$Amount</field>
-    </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
@@ -32,14 +29,14 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>greaterOrEqual</operator>
-            <value>6/3/2023 12:00 AM</value>
+            <value>LAST_N_DAYS:15</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary.OrderPaymentSummaries.Payments$CreatedDate</column>
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>lessOrEqual</operator>
-            <value>6/3/2024 12:00 AM</value>
+            <value>6/3/2050 12:00 AM</value>
         </criteriaItems>
         <criteriaItems>
             <column>OrderSummary$Tech_ShippingCountry__c</column>
