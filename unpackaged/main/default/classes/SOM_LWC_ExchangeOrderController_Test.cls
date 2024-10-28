@@ -15,7 +15,7 @@ public with sharing class SOM_LWC_ExchangeOrderController_Test {
         Map<Id,FulfillmentOrder> mapFO = new Map<Id,FulfillmentOrder>();
         mapFO.put(fo.Id,fo);
         Map<Id, Shipment> shipmentMap = SOM_testDataFactory.createShipments(mapFO);
-        OrderDeliveryMethod mId = SOM_testDataFactory.createOrderDeliveryMethod('standard_AE','standard_AE','Home Delivery');
+        OrderDeliveryMethod mId = SOM_testDataFactory.createOrderDeliveryMethod('standard_FN','standard_FN','Home Delivery');
         OdmId = mId.Id;
         osID = los[0].Id;
     }
