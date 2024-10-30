@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Create_Order_Summary_Action</name>
         <label>Create Order Summary Action</label>
-        <locationX>1026</locationX>
-        <locationY>771</locationY>
+        <locationX>989</locationX>
+        <locationY>1098</locationY>
         <actionName>createOrderSummary</actionName>
         <actionType>createOrderSummary</actionType>
         <connector>
@@ -49,6 +49,22 @@
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
+        <name>Assign_UPPERCase_Country_ODG</name>
+        <label>Assign UPPERCase Country ODG</label>
+        <locationX>1030</locationX>
+        <locationY>731</locationY>
+        <assignmentItems>
+            <assignToReference>Get_ODG.DeliverToCountry</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_ODGCountry</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_ODGS_Country</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Managed</name>
         <label>Managed</label>
         <locationX>629</locationX>
@@ -67,7 +83,7 @@
     <assignments>
         <name>Order_Summary_Input_Representation_Values_Assignment</name>
         <label>Order Summary Input Representation Values Assignment</label>
-        <locationX>809</locationX>
+        <locationX>786</locationX>
         <locationY>770</locationY>
         <assignmentItems>
             <assignToReference>OrderSummaryInputRepresentation.orderId</assignToReference>
@@ -232,8 +248,8 @@
     <decisions>
         <name>IsManaged1_0</name>
         <label>IsManaged</label>
-        <locationX>1020</locationX>
-        <locationY>500</locationY>
+        <locationX>1025</locationX>
+        <locationY>486</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -251,7 +267,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>Update new field CreateRefundClickAndCollect</description>
     <environments>Default</environments>
     <formulas>
         <name>FX_Capture_Status</name>
@@ -266,6 +281,16 @@
         <name>FX_CreateFOImmediatly</name>
         <dataType>Boolean</dataType>
         <expression>if( {!OrderRecord.SalesChannel.SalesChannelName} == &quot;Rimowa&quot; &amp;&amp; {!OrderSummaryStatus} == &apos;Validated&apos;, true , false)</expression>
+    </formulas>
+    <formulas>
+        <name>FX_ODGCountry</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!Get_ODG.DeliverToCountry})</expression>
+    </formulas>
+    <formulas>
+        <name>FX_OSBillingCountry</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!Get_new_OS.BillingCountry})</expression>
     </formulas>
     <formulas>
         <name>OrderSummaryStatus</name>
@@ -351,13 +376,34 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_ODG</name>
-        <label>Get ODG</label>
-        <locationX>1026</locationX>
-        <locationY>637</locationY>
+        <name>Get_new_OS</name>
+        <label>Get new OS</label>
+        <locationX>1074</locationX>
+        <locationY>896</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>IsManaged1_0</targetReference>
+            <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryOutputRepresentation.orderSummaryId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ODG</name>
+        <label>Get ODG</label>
+        <locationX>1075</locationX>
+        <locationY>1000</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_new_OS</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -440,6 +486,16 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Update_ODGS_Country</name>
+        <label>Update ODGS Country</label>
+        <locationX>1033</locationX>
+        <locationY>618</locationY>
+        <connector>
+            <targetReference>IsManaged1_0</targetReference>
+        </connector>
+        <inputReference>Get_ODG</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_Order_Summary_Capture_Status</name>
         <label>Update Order Summary Capture Status</label>
         <locationX>1706</locationX>
@@ -465,6 +521,12 @@
             <field>BillingContactLastName__c</field>
             <value>
                 <elementReference>Get_Order_Payment_Summary.OrderSummary.Account.LastName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>FX_OSBillingCountry</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -537,6 +599,12 @@
             <field>BillingContactLastName__c</field>
             <value>
                 <elementReference>OrderRecord.BillingContactLastName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>FX_OSBillingCountry</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -639,6 +707,12 @@
             <field>BillingContactLastName__c</field>
             <value>
                 <elementReference>OrderRecord.BillingContactLastName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>FX_OSBillingCountry</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
