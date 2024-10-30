@@ -76,10 +76,18 @@
                 <elementReference>client.storeId</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.BooxiId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.id</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Create_Timeslot_Event</targetReference>
         </connector>
     </assignments>
+    <description>30/10/24 : Add Booxi Id assignment - Ulrich</description>
     <environments>Default</environments>
     <formulas>
         <name>ActivityDate</name>
