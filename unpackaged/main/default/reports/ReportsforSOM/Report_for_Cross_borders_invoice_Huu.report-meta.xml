@@ -6,6 +6,42 @@
     <columns>
         <field>Shipment$FulfillmentOrder.Invoice.InvoiceNumber__c</field>
     </columns>
+    <columns>
+        <field>Shipment$ShipToName</field>
+    </columns>
+    <columns>
+        <field>Shipment$ShipToAddress</field>
+    </columns>
+    <columns>
+        <field>Shipment$ShipToPostalCode</field>
+    </columns>
+    <columns>
+        <field>Shipment$ShipToCity</field>
+    </columns>
+    <columns>
+        <field>Shipment$ShipToCountry</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Shipment.ShipmentItems$Quantity</field>
+    </columns>
+    <columns>
+        <field>Shipment$TrackingNumber</field>
+    </columns>
+    <columns>
+        <field>Shipment.ShipmentItems$StockKeepingUnit__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Shipment.ShipmentItems$OrderItemSummary.UnitPrice</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Shipment.ShipmentItems$OrderItemSummary.UnitPrice.CONVERT</field>
+    </columns>
+    <columns>
+        <field>Shipment.ShipmentItems$Product2.new_description__c</field>
+    </columns>
     <currency>EUR</currency>
     <filter>
         <criteriaItems>
