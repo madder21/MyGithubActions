@@ -884,6 +884,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ClientInputs</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ConsentManagementFlowInputs</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1137,6 +1141,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MockHttpResponseGenerator</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyBusyTimeSlot</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -1601,6 +1609,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TestDataFactory_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeslotInputs</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TimeslotWrapper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -6209,6 +6225,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.BooxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.ClientList__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -9890,6 +9911,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.ActivityDate</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.BooxiId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
