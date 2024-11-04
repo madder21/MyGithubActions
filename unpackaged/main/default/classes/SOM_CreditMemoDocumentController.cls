@@ -76,7 +76,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                     creditMemoDoc.billingContact = billingContact;
                     creditMemoDoc.paymentType = this.getPaymentMethod(ordSummary.Id);
                     //Get invoice & delivery address
-                    OrderSummary order = [SELECT ID, (SELECT Id, InvoiceNumber__c FROM Invoices), (SELECT Id, deliverToName, deliverToStreet, deliverToCity, deliverToCountry, deliverToState, deliverToPostalCode FROM OrderDeliveryGroupSummaries) FROM OrderSummary WHERE Id= :ordSummary.Id];
+                    OrderSummary order = [SELECT ID, (SELECT Id, InvoiceNumber__c FROM Invoices), (SELECT Id, deliverToName,RI_TAX_ID__c, deliverToStreet, deliverToCity, deliverToCountry, deliverToState, deliverToPostalCode FROM OrderDeliveryGroupSummaries) FROM OrderSummary WHERE Id= :ordSummary.Id];
                     if (order.invoices != null && !order.invoices.isEmpty()) {
                         creditMemoDoc.invoiceNumber = order.invoices.get(0).InvoiceNumber__c;
                     }
@@ -87,6 +87,8 @@ global with sharing class SOM_CreditMemoDocumentController {
                         deliveryContact.address     = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet;
                         deliveryContact.state       = order.OrderDeliveryGroupSummaries.get(0).deliverToState;
                         deliveryContact.zipCode     = order.OrderDeliveryGroupSummaries.get(0).deliverToPostalCode;
+                        
+            			creditMemoDoc.TaxID 		= order.OrderDeliveryGroupSummaries.get(0).RI_TAX_ID__c;
                     }
                 }
                 //set delivery contact
@@ -359,6 +361,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
         public String                   Template {get; set;}
+        public String                	TaxID {get; set;}
     }
     global with sharing class CreditMemoContact{
         public String name {get; set;}
