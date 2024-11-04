@@ -270,6 +270,11 @@
             <field>OrderSummary.GrandTotalAmount</field>
             <table>Shipment</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>FulfillmentOrder.Invoice.TotalAmount</field>
+            <table>Shipment</table>
+        </columns>
         <masterLabel>Shipments</masterLabel>
     </sections>
     <sections>
@@ -351,11 +356,6 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>StockKeepingUnit__c</field>
-            <table>Shipment.ShipmentItems</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>track_url__c</field>
             <table>Shipment.ShipmentItems</table>
         </columns>
         <columns>

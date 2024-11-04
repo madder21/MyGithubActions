@@ -7,6 +7,14 @@
         <field>Shipment$FulfillmentOrder.Invoice.InvoiceNumber__c</field>
     </columns>
     <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Shipment$FulfillmentOrder.Invoice.TotalAmount</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Shipment$FulfillmentOrder.Invoice.TotalAmount.CONVERT</field>
+    </columns>
+    <columns>
         <field>Shipment$ShipToName</field>
     </columns>
     <columns>
