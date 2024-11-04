@@ -79,7 +79,7 @@ global without sharing class PA_Availability {
             return '{"error": "The user does not exist, or the related staffcode is not properly defined."}';
         }
 
-        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime 
+        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime, BooxiId__c
                                   FROM Event 
                                   WHERE OwnerId = :staff.Id 
                                         AND ActivityDate >= :startDate 
@@ -90,7 +90,7 @@ global without sharing class PA_Availability {
         Map<Date, List<String>> appointmentHoursMap = mapAppointmentHours(startDate, endDate, store.AppointmentHours__c); 
         Map<Date,String> freeTimeSlots = determineFreeTimeSlots(appointmentHoursMap, BusyTimeSlotsMap, (Integer)store.AppointmentBookingInterval__c, (Integer)store.AppointmentDuration__c);
 
-        String jsonResponse = buildJSONResponse(startDate, endDate, freeTimeSlots, BusyTimeSlotsMap, appointmentHoursMap, staff, store);
+        String jsonResponse = buildJSONResponse(startDate, endDate, freeTimeSlots, BusyTimeSlotsMap, appointmentHoursMap, staff, store, busyEvents);
 
         return jsonResponse;
     }
@@ -338,6 +338,20 @@ global without sharing class PA_Availability {
     }
 
     /**
+     * 
+     * 
+     */
+    private static List<Object> buildBusyTimeslotContent(List<Event> eventList) {
+        List<Object> busyTimeslotObj = new List<Object>();
+        for(Event event: eventList) {
+            MyBusyTimeSlot busyTimeslot = new MyBusyTimeSlot(event);
+            busyTimeslotObj.add(busyTimeslot);
+        }
+
+        return busyTimeslotObj;
+    }
+
+    /**
      * Builds the JSON response containing store availability information.
      * @param startDate The start date.
      * @param endDate The end date.
@@ -348,7 +362,7 @@ global without sharing class PA_Availability {
      * @param store The store information.
      * @return String The JSON response.
      */
-    private static String buildJSONResponse(Date startDate, Date endDate, Map<Date, String> freeTimeSlotsByDate, Map<Date, String> busyTimeSlotsByDate, Map<Date, List<String>> appointmentHoursMap, User staff, Store__c store) {
+    private static String buildJSONResponse(Date startDate, Date endDate, Map<Date, String> freeTimeSlotsByDate, Map<Date, String> busyTimeSlotsByDate, Map<Date, List<String>> appointmentHoursMap, User staff, Store__c store, List<Event> busyEvents) {
         Map<String, Object> jsonResponseMap = new Map<String, Object>();
 
         Map<String, String> formattedBusyTimeSlots = new Map<String, String>();
@@ -375,8 +389,10 @@ global without sharing class PA_Availability {
             storeHoursByDate.put(dateStr, hoursStr);
         }
 
+        List<Object> formattedTimeslotList = buildBusyTimeslotContent(busyEvents);
+
         jsonResponseMap.put('FreeTimeSlot', sortMapByDate(freeTimeSlotsByDate));
-        jsonResponseMap.put('BusyTimeSlot', sortMapByDate(formattedBusyTimeSlots));
+        jsonResponseMap.put('BusyTimeSlot', formattedTimeslotList);
         jsonResponseMap.put('StoreOpeningHours', sortMapByDate(storeHoursByDate));
         jsonResponseMap.put('StoreName', store.Name);
         jsonResponseMap.put('StoreId', store.Id);
