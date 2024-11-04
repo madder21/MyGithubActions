@@ -297,8 +297,6 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>Update BR fields</description>
-    <environments>Default</environments>
     <formulas>
         <name>FX_FirstReferenceNumber</name>
         <dataType>String</dataType>
@@ -478,6 +476,12 @@
             <field>RI_Neighborhood__c</field>
             <value>
                 <elementReference>v_SourceODG.RI_Neighborhood__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RI_TAX_ID__c</field>
+            <value>
+                <elementReference>v_SourceODG.RI_TAX_ID__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>

@@ -106,6 +106,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
         EmailAddress:"",
         PhoneNumber:"",
         DeliverToName:"",
+        RI_TAX_ID__c:"",
         DeliverToStreet:"",
         DeliverToPostalCode:"",
         DeliverToCity:"",
@@ -131,6 +132,10 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
     @track odgName;
     handleShipName(event) {
         this.odgName = event.target.value;
+    }
+    @track odgTaxId;
+    handleShipTaxId(event) {
+        this.odgTaxId = event.target.value;
     }
     @track odgShippingStreet;
     handleShipStreet(event) {
@@ -209,6 +214,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.odgEmailAddress       = data.EmailAddress;
                 this.odgPhoneNumber        = data.PhoneNumber;
                 this.odgName               = data.DeliverToName;
+                this.odgTaxId              = data.RI_TAX_ID__c;
                 this.odgShippingStreet     = data.DeliverToStreet;
                 this.odgShippingPostalCode = data.DeliverToPostalCode;
                 this.odgShippingCity       = data.DeliverToCity;
@@ -221,6 +227,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.odgObj.EmailAddress        = this.odgEmailAddress;
                 this.odgObj.PhoneNumber         = this.odgPhoneNumber;
                 this.odgObj.DeliverToName       = this.odgName;
+                this.odgObj.RI_TAX_ID__c        = this.odgTaxId;
                 this.odgObj.DeliverToStreet     = this.odgShippingStreet;
                 this.odgObj.DeliverToPostalCode = this.odgShippingPostalCode;
                 this.odgObj.DeliverToCity       = this.odgShippingCity;
@@ -240,6 +247,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgEmailAddress       = this.prevODGObj.EmailAddress;
             this.odgPhoneNumber        = this.prevODGObj.PhoneNumber;
             this.odgName               = this.prevODGObj.DeliverToName;
+            this.odgTaxId              = this.prevODGObj.RI_TAX_ID__c;
             this.odgShippingStreet     = this.prevODGObj.DeliverToStreet;
             this.odgShippingPostalCode = this.prevODGObj.DeliverToPostalCode;
             this.odgShippingCity       = this.prevODGObj.DeliverToCity;
@@ -266,6 +274,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgObj.EmailAddress        = this.prevODGObj.EmailAddress;
             this.odgObj.PhoneNumber         = this.prevODGObj.PhoneNumber;
             this.odgObj.DeliverToName       = this.prevODGObj.DeliverToName;
+            this.odgObj.RI_TAX_ID__c        = this.prevODGObj.RI_TAX_ID__c;
             this.odgObj.DeliverToStreet     = this.prevODGObj.DeliverToStreet;
             this.odgObj.DeliverToPostalCode = this.prevODGObj.DeliverToPostalCode;
             this.odgObj.DeliverToCity       = this.prevODGObj.DeliverToCity;
@@ -329,6 +338,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
             this.odgObj.Complementary__c = this.odgShippingComplementary;
             this.odgObj.DeliverToCity = this.odgShippingCity;
             this.odgObj.DeliverToName = this.odgName;
+            this.odgObj.RI_TAX_ID__c = this.odgTaxId;
             this.odgObj.DeliverToState = this.odgDeliverToState;
             this.osObj.BillingStreet              = this.osBillingStreet;
             this.osObj.BillingPostalCode          = this.osBillingPostalCode;

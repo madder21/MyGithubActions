@@ -25,7 +25,7 @@ public with sharing class SOM_LWC_ExchangeOrderController {
 
     @AuraEnabled(cacheable=true)
     public static OrderDeliveryGroupSummary getOrderDelievryGroupDetails(String OsId){
-        return [SELECT Description, EmailAddress, PhoneNumber, DeliverToName, DeliverToStreet, DeliverToPostalCode, DeliverToCity, DeliverToCountry,Complementary__c,RI_Neighborhood__c,StreetNumber__c,DeliverToState FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: OsId];
+        return [SELECT Description, EmailAddress, PhoneNumber, DeliverToName, DeliverToStreet, DeliverToPostalCode, DeliverToCity, DeliverToCountry,Complementary__c,RI_Neighborhood__c,RI_TAX_ID__c,StreetNumber__c,DeliverToState FROM OrderDeliveryGroupSummary WHERE OrderSummaryId =: OsId];
     }
 
     @AuraEnabled(cacheable=true)
