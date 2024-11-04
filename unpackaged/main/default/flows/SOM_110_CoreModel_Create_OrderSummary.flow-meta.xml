@@ -51,8 +51,8 @@
     <assignments>
         <name>Assign_UPPERCase_Country_ODG</name>
         <label>Assign UPPERCase Country ODG</label>
-        <locationX>1030</locationX>
-        <locationY>731</locationY>
+        <locationX>1041</locationX>
+        <locationY>610</locationY>
         <assignmentItems>
             <assignToReference>Get_ODG.DeliverToCountry</assignToReference>
             <operator>Assign</operator>
@@ -250,6 +250,9 @@
         <label>IsManaged</label>
         <locationX>1025</locationX>
         <locationY>486</locationY>
+        <defaultConnector>
+            <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -381,9 +384,6 @@
         <locationX>1074</locationX>
         <locationY>896</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -488,10 +488,10 @@
     <recordUpdates>
         <name>Update_ODGS_Country</name>
         <label>Update ODGS Country</label>
-        <locationX>1033</locationX>
-        <locationY>618</locationY>
+        <locationX>1040</locationX>
+        <locationY>759</locationY>
         <connector>
-            <targetReference>IsManaged1_0</targetReference>
+            <targetReference>Get_new_OS</targetReference>
         </connector>
         <inputReference>Get_ODG</inputReference>
     </recordUpdates>
