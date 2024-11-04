@@ -17,10 +17,12 @@
                 <elementReference>OrderSummaryInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createOrderSummary</nameSegment>
         <outputParameters>
             <assignToReference>OrderSummaryOutputRepresentation</assignToReference>
             <name>createOrderSummaryOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Order_Creation_Transactional_Email</name>
@@ -42,13 +44,15 @@
                 <elementReference>CONST_EMAIL_TEMPLATE_ORDER_CREATED</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
         <name>Assign_UPPERCase_Country_ODG</name>
         <label>Assign UPPERCase Country ODG</label>
-        <locationX>1042</locationX>
-        <locationY>766</locationY>
+        <locationX>1041</locationX>
+        <locationY>610</locationY>
         <assignmentItems>
             <assignToReference>Get_ODG.DeliverToCountry</assignToReference>
             <operator>Assign</operator>
@@ -246,6 +250,9 @@
         <label>IsManaged</label>
         <locationX>1025</locationX>
         <locationY>486</locationY>
+        <defaultConnector>
+            <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes_0</name>
@@ -263,6 +270,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -376,9 +384,6 @@
         <locationX>1074</locationX>
         <locationY>896</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
-        </connector>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -483,10 +488,10 @@
     <recordUpdates>
         <name>Update_ODGS_Country</name>
         <label>Update ODGS Country</label>
-        <locationX>1039</locationX>
-        <locationY>626</locationY>
+        <locationX>1040</locationX>
+        <locationY>759</locationY>
         <connector>
-            <targetReference>IsManaged1_0</targetReference>
+            <targetReference>Get_new_OS</targetReference>
         </connector>
         <inputReference>Get_ODG</inputReference>
     </recordUpdates>
