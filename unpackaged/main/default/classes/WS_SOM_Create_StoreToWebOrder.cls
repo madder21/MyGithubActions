@@ -307,6 +307,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         Order order                = new Order();
         order.Status               = SOM_Constants.ORDER_DRAFT_STATUS;
         order.StoreOrigin__c       = storeToWebOrder.storeOrigin;
+        order.cegidCustomerId__c   = storeToWebOrder.cegidCustomerId;
         order.StoreOriginName__c   = storeToWebOrder.storeOriginName;
         order.Pricebook2Id         = pricebooks.get(0).Id;
         order.Name                 = storeToWebOrder.billingContact.firstName + ' ' + storeToWebOrder.billingContact.lastName;
@@ -426,6 +427,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         public String orderedDate;//Order.OrderedDate
         public String salesChannelNumber; //SalesChannel.??
         public String accountId; //Order.AccountId
+        public String cegidCustomerId;
         public String paymentMethodCode; //PaymentMethod.RI_PaymentMethod ==> C_CC , C_KLARNA , CIP
         public String paymentReference; //PaymentAuthorization.GatewayRefNumber
         //order delivery method
