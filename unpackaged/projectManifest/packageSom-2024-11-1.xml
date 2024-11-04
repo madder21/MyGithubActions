@@ -25,6 +25,7 @@
 	<members>Payment_Methods_Mapping_with_Cegid__mdt.Country__c</members>
 	<members>Payment_Methods_Mapping_with_Cegid__mdt.SOM_Payment_Type__c</members>
 	<members>Order.cegidCustomerId__c</members>
+		<members>ReturnOrder.On_Hold__c</members>
 	<name>CustomField</name>
 
 	</types>
@@ -34,12 +35,24 @@
 	</types>
 	<types>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
+		
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>SOM_110_CoreModel_Create_OrderSummary</members>
+		<members>SOM_OnHold_Unhold_Return_Order</members>
+		<members>SOM_430_Invoice_After_Insert</members>
 		<name>Flow</name>
 	</types>
-
+<types>
+		<members>ReturnOrder.Hold</members>
+		<members>ReturnOrder.Unhold</members>
+		<name>QuickAction</name>
+	</types>
+	<types>
+		
+		<members>Return_Order_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
 	<version>61.0</version>
 </Package>
