@@ -32,7 +32,7 @@
         <inputParameters>
             <name>merchantId</name>
             <value>
-                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+                <elementReference>merchantId</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -44,7 +44,7 @@
         <inputParameters>
             <name>Password</name>
             <value>
-                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+                <elementReference>Password</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -62,10 +62,9 @@
         <inputParameters>
             <name>url</name>
             <value>
-                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+                <elementReference>url</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
         <versionSegment>1</versionSegment>
     </actionCalls>
@@ -141,6 +140,27 @@
                 <stringValue>Credit Card</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Automatic_Refund_In_Cybersource</targetReference>
         </connector>
@@ -162,6 +182,27 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>KCP_ACC</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -187,6 +228,27 @@
                 <stringValue>KCP_RBT</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Automatic_Refund_In_Cybersource</targetReference>
         </connector>
@@ -208,6 +270,27 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>Klarna</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -233,6 +316,27 @@
                 <stringValue>PayPal</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Automatic_Refund_In_Cybersource</targetReference>
         </connector>
@@ -256,6 +360,27 @@
                 <stringValue>IDEAL</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config.url__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Automatic_Refund_In_Cybersource</targetReference>
         </connector>
@@ -277,6 +402,27 @@
             <operator>Assign</operator>
             <value>
                 <stringValue>PIX</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0.url__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1158,6 +1304,20 @@
     </start>
     <status>Active</status>
     <variables>
+        <name>merchantId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Password</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1209,6 +1369,13 @@
     </variables>
     <variables>
         <name>RefundValidationDate</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>url</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
