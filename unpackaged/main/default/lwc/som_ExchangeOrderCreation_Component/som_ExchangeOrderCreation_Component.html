@@ -62,7 +62,7 @@
                 <lightning-input value={odgShippingCity} onchange={handleShipCity} label="City"> </lightning-input>
                 <lightning-input value={odgDeliverToState} onchange={handleDeliverToState} label="DeliverToState"> </lightning-input>
                 <lightning-input value={odgShippingCountry} disabled label="Country"> </lightning-input>
-                <div if:true={showBR}>
+                <div if:true={ODGshowBR}>
                     <lightning-input value={odgShippingStreetNumber} onchange={handleShipStreetNumber} label="Street Number"> </lightning-input>
                     <lightning-input value={odgShippingNeighborhood} onchange={handleShipNeighborhood} label="Neighborhood"> </lightning-input>
                     <lightning-input value={odgShippingComplementary} onchange={handleShipComplementary} label="Complementary"> </lightning-input>
