@@ -10,6 +10,7 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
     objectApiName = 'OrderSummary';
     @api recordId;
     @track showBR = false;
+    @track ODGshowBR = false;
 
     @api osObj = {
         BillingStreet:"",
@@ -236,6 +237,12 @@ export default class Som_ExchangeOrderCreation_Component extends LightningElemen
                 this.odgObj.RI_Neighborhood__c  = this.odgShippingNeighborhood;
                 this.odgObj.Complementary__c    = this.odgShippingComplementary;
                 this.odgObj.DeliverToState      = this.odgDeliverToState;
+                console.log('AVANT IF:', this.osBillingCountry)
+                if( this.odgObj.DeliverToCountry === 'BR'){
+                    console.log('FIRST IF:', this.ODGshowBR)
+                    this.ODGshowBR = true;
+                    console.log('SECEND IF:', this.ODGshowBR)
+                }
             })
             .catch((error) => {
                 this.error = error;

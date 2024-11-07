@@ -49,7 +49,7 @@
                 <lightning-input variant="label-stacked" class="checks" type="email" value={odgEmailAddress} onchange={handleShipEmail} label="Email Address" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}$" message-when-pattern-mismatch="Please enter a valid email address"> </lightning-input>
                 <lightning-input variant="label-stacked" class="checks" value={odgPhoneNumber} onchange={handleShipPhone} label="Phone Number" pattern="^(\+|[0-9])[0-9 \-\(\)\.]{7,32}$" message-when-pattern-mismatch="Please enter a valid phone number"> </lightning-input>
                 <lightning-input variant="label-stacked" value={odgName} onchange={handleShipName} label="Name"> </lightning-input>
-                <div if:true={showBR}>
+                <div if:true={ODGshowBR}>
                 <lightning-input variant="label-stacked" value={odgTaxId} onchange={handleShipTaxId} label="Tax Id"> </lightning-input>
               </div>
             </div>
