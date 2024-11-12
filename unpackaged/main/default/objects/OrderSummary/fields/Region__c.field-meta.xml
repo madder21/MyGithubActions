@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Region__c</fullName>
+    <externalId>false</externalId>
+    <formula>IF(CONTAINS(&quot;US,CA,MX&quot;,Tech_ShippingCountry__c),&quot;North America&quot;,
+IF(CONTAINS(&quot;AU,KR&quot;,Tech_ShippingCountry__c),&quot;APAC&quot;,
+IF(CONTAINS(&quot;JP&quot;,Tech_ShippingCountry__c),&quot;JP&quot;,
+IF(CONTAINS(&quot;BR&quot;,Tech_ShippingCountry__c),&quot;BR&quot;,
+IF(CONTAINS(&quot;AE&quot;,Tech_ShippingCountry__c),&quot;AE&quot;,
+&quot;EU&quot;
+)))))</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Region</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

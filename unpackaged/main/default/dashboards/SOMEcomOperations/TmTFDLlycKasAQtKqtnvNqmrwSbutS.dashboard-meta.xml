@@ -7,6 +7,48 @@
     <colorPalette>unity</colorPalette>
     <dashboardChartTheme>light</dashboardChartTheme>
     <dashboardColorPalette>unity</dashboardColorPalette>
+    <dashboardFilters>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>EU</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>North America</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>APAC</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>AE</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>BR</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>JP</values>
+        </dashboardFilterOptions>
+        <name>Region</name>
+    </dashboardFilters>
+    <dashboardFilters>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>AU</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>KR</values>
+        </dashboardFilterOptions>
+        <dashboardFilterOptions>
+            <operator>equals</operator>
+            <values>GB</values>
+        </dashboardFilterOptions>
+        <name>Shipping Country</name>
+    </dashboardFilters>
     <dashboardGridLayout>
         <dashboardGridComponents>
             <colSpan>3</colSpan>
@@ -15,6 +57,12 @@
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>ProcessException$OrderSummary.Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>ProcessException$OrderSummary.Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -38,11 +86,13 @@
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>ProcessException$OrderSummary.Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>ProcessException$OrderSummary.Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -72,11 +122,13 @@
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -104,29 +156,37 @@
             <colSpan>3</colSpan>
             <columnIndex>9</columnIndex>
             <dashboardComponent>
-                <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
+                <autoselectColumnsFromReport>false</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
                 <chartSummary>
                     <axisBinding>y</axisBinding>
                     <column>RowCount</column>
                 </chartSummary>
-                <componentType>Bar</componentType>
+                <componentType>Donut</componentType>
+                <dashboardFilterColumns>
+                    <column>ReturnOrder$OrderSummary.Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>ReturnOrder$OrderSummary.Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
+                <decimalPrecision>-1</decimalPrecision>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
                 <enableHover>false</enableHover>
-                <expandOthers>false</expandOthers>
+                <expandOthers>true</expandOthers>
+                <groupingColumn>ReturnOrder$OrderSummary.Tech_ShippingCountry__c</groupingColumn>
                 <groupingSortProperties>
                     <groupingSorts>
                         <groupingLevel>g1</groupingLevel>
-                        <sortOrder>a</sortOrder>
+                        <sortOrder>d</sortOrder>
                     </groupingSorts>
                 </groupingSortProperties>
                 <header>Open returns</header>
                 <legendPosition>Right</legendPosition>
                 <report>SOMDashboardReportsEcomOperations/Non_closed_returns_G6I</report>
                 <showPercentage>false</showPercentage>
-                <showPicturesOnCharts>false</showPicturesOnCharts>
+                <showTotal>true</showTotal>
                 <showValues>true</showValues>
                 <sortBy>RowLabelAscending</sortBy>
                 <useReportChart>false</useReportChart>
@@ -140,11 +200,13 @@
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -174,11 +236,13 @@
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -208,11 +272,13 @@
             <dashboardComponent>
                 <autoselectColumnsFromReport>true</autoselectColumnsFromReport>
                 <chartAxisRange>Auto</chartAxisRange>
-                <chartSummary>
-                    <axisBinding>y</axisBinding>
-                    <column>RowCount</column>
-                </chartSummary>
                 <componentType>Bar</componentType>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Region__c</column>
+                </dashboardFilterColumns>
+                <dashboardFilterColumns>
+                    <column>OrderSummary$Tech_ShippingCountry__c</column>
+                </dashboardFilterColumns>
                 <displayUnits>Auto</displayUnits>
                 <drillEnabled>false</drillEnabled>
                 <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -241,6 +307,7 @@
     </dashboardGridLayout>
     <dashboardType>SpecifiedUser</dashboardType>
     <isGridLayout>true</isGridLayout>
+    <owner>mehdi.berrekkal@viseo.com.dev</owner>
     <runningUser>maha.meghras@rimowa.com</runningUser>
     <textColor>#000000</textColor>
     <title>Ecom Operations</title>
