@@ -52,13 +52,15 @@
 	</types>
 	<types>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
-		
+		 <members>SOM_LWC_ExchangeOrderController</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
 		<members>SOM_110_CoreModel_Create_OrderSummary</members>
 		<members>SOM_OnHold_Unhold_Return_Order</members>
 		<members>SOM_430_Invoice_After_Insert</members>
+		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
+		<members>SOM_970_Create_Exchange_Manual_Order</members>
 		<name>Flow</name>
 	</types>
 <types>
@@ -70,6 +72,12 @@
 		
 		<members>Return_Order_Record_Page</members>
 		<name>FlexiPage</name>
+	</types>
+
+	<types>
+		
+		<members>som_ExchangeOrderCreation_Component</members>
+		<name>LightningComponentBundle</name>
 	</types>
 	<version>61.0</version>
 </Package>

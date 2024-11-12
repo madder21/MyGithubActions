@@ -47,7 +47,9 @@
                 <elementReference>Validate_Brazilian_Address_OS.uf</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Error_Message_0</name>
@@ -96,7 +98,9 @@
                 <elementReference>Validate_Brazilian_Address_ODGS.uf</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_Brazilian_Address_ODGS</name>
@@ -115,13 +119,15 @@
                 <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_Brazilian_Address_OS</name>
         <label>Validate Brazilian Address OS</label>
-        <locationX>587</locationX>
-        <locationY>394</locationY>
+        <locationX>496</locationX>
+        <locationY>413</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -134,7 +140,9 @@
                 <elementReference>$Record.BillingPostalCode</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
@@ -268,6 +276,57 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Check_BR</name>
+        <label>Check BR</label>
+        <locationX>646</locationX>
+        <locationY>506</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>BR_true</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BillingCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary_0_0.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Validate_Brazilian_Address_OS</targetReference>
+            </connector>
+            <label>BR true</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_BR_0_0</name>
+        <label>Check BR</label>
+        <locationX>1027</locationX>
+        <locationY>403</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>BR_true_0_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Validate_Brazilian_Address_ODGS</targetReference>
+            </connector>
+            <label>BR true</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_PE</name>
         <label>Check PE</label>
         <locationX>228</locationX>
@@ -314,12 +373,12 @@
     <decisions>
         <name>Check_Variables</name>
         <label>Check Variables</label>
-        <locationX>1163</locationX>
-        <locationY>254</locationY>
+        <locationX>1285</locationX>
+        <locationY>185</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateNewOrderForCegidEvent</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(3 AND 1 AND 2 ) OR (3 AND 4 AND 1 AND  5)</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order_Delivery_Group_Summary_0.Tech_BrazilianAddressVerified__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -341,6 +400,20 @@
                     <stringValue>Fulfilled</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Tech_BrazilianAddressVerified__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BillingCountry</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
             </connector>
@@ -350,8 +423,8 @@
     <decisions>
         <name>Verify_BrazilianAddress</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>407</locationX>
-        <locationY>411</locationY>
+        <locationX>359</locationX>
+        <locationY>416</locationY>
         <defaultConnector>
             <targetReference>Get_existing_OS_PE</targetReference>
         </defaultConnector>
@@ -397,6 +470,7 @@
             <label>Brazilian ODGS Address Verified</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>ODGS_Formula</name>
         <dataType>Boolean</dataType>
@@ -550,8 +624,8 @@ true, false)</expression>
     <recordLookups>
         <name>Get_existing_OS_PE</name>
         <label>Get existing OS PE</label>
-        <locationX>251</locationX>
-        <locationY>470</locationY>
+        <locationX>231</locationX>
+        <locationY>417</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_PE</targetReference>
@@ -592,11 +666,11 @@ true, false)</expression>
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>904</locationX>
-        <locationY>396</locationY>
+        <locationX>898</locationX>
+        <locationY>402</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Validate_Brazilian_Address_ODGS</targetReference>
+            <targetReference>Check_BR_0_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -632,10 +706,31 @@ true, false)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Delivery_Group_Summary_0_0</name>
+        <label>Get Order Delivery Group Summary</label>
+        <locationX>689</locationX>
+        <locationY>395</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_BR</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1188</locationX>
-        <locationY>79</locationY>
+        <locationX>1294</locationX>
+        <locationY>31</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Variables</targetReference>
@@ -724,8 +819,8 @@ true, false)</expression>
     <recordUpdates>
         <name>Update_OS_Tech_field</name>
         <label>Update OS Tech field</label>
-        <locationX>443</locationX>
-        <locationY>645</locationY>
+        <locationX>365</locationX>
+        <locationY>641</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -770,7 +865,7 @@ true, false)</expression>
         <locationX>635</locationX>
         <locationY>48</locationY>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>2 AND( 1 OR 3)</filterLogic>
+        <filterLogic>(1 AND 2) OR ( 2 AND 3)</filterLogic>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -779,10 +874,10 @@ true, false)</expression>
             </value>
         </filters>
         <filters>
-            <field>BillingCountry</field>
+            <field>SalesChannelName__c</field>
             <operator>EqualTo</operator>
             <value>
-                <stringValue>BR</stringValue>
+                <stringValue>Rimowa</stringValue>
             </value>
         </filters>
         <filters>
@@ -797,7 +892,7 @@ true, false)</expression>
         <scheduledPaths>
             <name>Run</name>
             <connector>
-                <targetReference>Validate_Brazilian_Address_OS</targetReference>
+                <targetReference>Get_Order_Delivery_Group_Summary_0_0</targetReference>
             </connector>
             <label>Run OS</label>
             <offsetNumber>0</offsetNumber>
@@ -837,6 +932,7 @@ true, false)</expression>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>The following fields are inconsistent with the Zip Code : {!Error_Message_0.ErrorMessageDescription}</text>
     </textTemplates>
+    <triggerOrder>1500</triggerOrder>
     <variables>
         <name>PE_List_ToCreate</name>
         <dataType>SObject</dataType>
