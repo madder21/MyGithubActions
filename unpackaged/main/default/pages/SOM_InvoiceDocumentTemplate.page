@@ -63,9 +63,18 @@
                 <apex:outputText value="{!invoiceConfigs['BILLING_CONTACT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="13%" height="18%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel><br/> 
                 <apex:outputText value="{!invoiceDoc.billingContact.name}"/><br/>
                 <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
-                <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
-                <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
-                <apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.billingContact.country}"/>
+                <apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}">
+                    <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.billingContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.billingContact.country}"/>
+                </apex:outputpanel>
+                <apex:outputpanel rendered="{!invoiceDoc.Template == 'BR'}">
+                    <apex:outputText value="{!invoiceDoc.billingContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.neighborhood}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.city}"/>&nbsp;-&nbsp;<apex:outputText value="{!invoiceDoc.billingContact.state + '  '}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.billingContact.country}"/>
+                </apex:outputpanel>
                 <td style="text-align: left; padding-left: 80px">
                     <apex:outputText value="{!invoiceConfigs['CROSS_BORDER']}" escape="false"/>
                     <apex:outputpanel rendered="{!IF(OR(invoiceDoc.Template == 'CH', invoiceDoc.Template == ' LI', invoiceDoc.Template == 'NO'), true, false)}">
@@ -103,6 +112,7 @@
                 <apex:outputText value="{!invoiceConfigs['ORDER_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['TERM_OF_DELIVERY']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TermDelivery.PNG')}" width="22%" height="22%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> &nbsp;<apex:outputText value="{!invoiceConfigs['TERM_OF_DELIVERY_VALUE']}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['TAX_ID']}"/><apex:outputpanel rendered="{!IF(OR(invoiceDoc.Template == 'ES',invoiceDoc.Template == 'IT',invoiceDoc.Template == 'BR'),true,false)}">&nbsp;:&nbsp;<apex:outputText value="{!invoiceDoc.TaxID}"/></apex:outputpanel><br/>
+                <!--apex:outputText value="{!invoiceConfigs['TAX_ID']}"/><apex:outputpanel rendered="{!IF(OR(invoiceDoc.Template == 'BR'),true,false)}">&nbsp;:&nbsp;<apex:outputText value="{!invoiceDoc.TaxID}"/></apex:outputpanel><br/-->
                 <!--apex:outputText value="{!invoiceConfigs['CUSTOMER_VAT_ID_IDENTIFIER']}"/> <!-- To verify 'VAT_ID_CUSTOMER' key -->
                 
             </td>
@@ -111,9 +121,18 @@
                 <apex:outputText value="{!invoiceConfigs['DELIVERY_CONTACT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/DeliveryContact.PNG')}" width="33%" height="30%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel><br/>
                 <apex:outputText value="{!invoiceDoc.deliveryContact.name}"/><br/>
                 <apex:outputText value="{!invoiceDoc.deliveryContact.company}"/><br/>
-                <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
-                <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
-                <apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
+                <apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}">
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<apex:outputText value="{!invoiceDoc.deliveryContact.city}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
+                </apex:outputpanel>
+                <apex:outputpanel rendered="{!invoiceDoc.Template == 'BR'}">
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.neighborhood}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.zipCode}"/>{!IF(ISBLANK(invoiceDoc.billingContact.zipCode),'',' ')}<br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.city}"/>&nbsp;-&nbsp;<apex:outputText value="{!invoiceDoc.deliveryContact.state + '  '}"/><br/>
+                    <apex:outputText value="{!invoiceDoc.deliveryContact.country}"/>
+                </apex:outputpanel>                
             </td>
         </tr>
     </table>
@@ -140,7 +159,7 @@
                 <th width="50px"><apex:outputText value="{!invoiceConfigs['ITEM_DESCRIPTION']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemDesc.PNG')}" width="25%" height="25%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
                 <th width="20px"><apex:outputText value="{!invoiceConfigs['QUANTITY']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Quantity.PNG')}" width="33%" height="33%" style="display: block;margin-top:-2px" alt="RIMOWA"/></apex:outputpanel> </th>
                 <th width="27px"><apex:outputText value="{!invoiceConfigs['NET_AMOUNT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/NetAmount.PNG')}" width="46%" height="46%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></th>
-                <th width="27px" class="align-right"><apex:outputText value="{!invoiceConfigs['VAT_AMOUNT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></th>
+                <th width="27px" class="align-right"><apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}"><apex:outputText value="{!invoiceConfigs['VAT_AMOUNT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></apex:outputpanel></th>
                 <th width="27px" class="align-right"><apex:outputText value="{!invoiceConfigs['TOTAL']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Total.PNG')}" width="80%" height="80%" style="margin-left: 74%;display:block; margin-top:-3px; " alt="RIMOWA"/></apex:outputpanel></th>
             </tr>
             <tr>
@@ -168,12 +187,12 @@
             <!-- loop invoice line items-->
             <apex:repeat value="{!invoiceDoc.lineItems}" var="lineItem">
                 <tr class="lineIem">
-                    <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
-                    <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                    <td width="28%" class="align-left"><apex:outputText value="{!lineItem.itemDescription}"/></td>
+                    <td width="10%" class="align-center"><apex:outputText value="{!lineItem.quantity}"/></td>
                     
-                    <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                    <td class="align-right"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
-                    <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <td width="21%" class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
+                    <td width="27%" class="align-right"><apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></apex:outputpanel></td>
+                    <td width="20px" class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
                 <tr>
                     <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -198,6 +217,7 @@
     </table>
     <table class="sum" cellpadding="0" cellspacing="0">
         <tbody>
+            <apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}">
             <tr>
                 <td width="100%" class="border_top" style="padding-top:2px;"><apex:outputText value="{!invoiceConfigs['SUBTOTAL']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Subtotal.PNG')}" width="32%" height="32%" style="margin-top:-4px" alt="RIMOWA"/></apex:outputpanel>:</td>
                 <td  class="align-right border_top"><apex:outputText value="{!invoiceDoc.netSubTotal}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
@@ -210,6 +230,7 @@
                     <td  class="align-right" style="padding-top: 3px;"><apex:outputText value="{!invoiceTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!invoiceDoc.currencyCode}"/></td>
                 </tr>
             </apex:repeat>
+            </apex:outputpanel>
             <!-- end loop-->
             <tr>
                 <td colspan="2">&nbsp;</td>
