@@ -666,8 +666,8 @@
     <decisions>
         <name>Check_BillingCountry_ISO2</name>
         <label>Check BillingCountry ISO2</label>
-        <locationX>645</locationX>
-        <locationY>596</locationY>
+        <locationX>668</locationX>
+        <locationY>580</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>ISO2</name>
@@ -676,7 +676,7 @@
                 <leftValueReference>FX_ISO2Code</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -691,7 +691,7 @@
                 <leftValueReference>FX_ISO2Code</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -889,8 +889,8 @@
         <name>FX_ISO2Code</name>
         <dataType>Boolean</dataType>
         <expression>AND(
-    NOT(ISBLANK({!Get_OS_For_ODG.BillingCountry})),
-    REGEX({!Get_OS_For_ODG.BillingCountry}, &quot;^[A-Z]{2}$&quot;)
+    NOT(ISBLANK({!v_prevOS.BillingCountry})),
+    REGEX({!v_prevOS.BillingCountry}, &quot;^[A-Z]{2}$&quot;)
 )</expression>
     </formulas>
     <formulas>
@@ -1091,8 +1091,8 @@
     <recordLookups>
         <name>Get_OS_For_ODG</name>
         <label>Get OS For ODG</label>
-        <locationX>420</locationX>
-        <locationY>600</locationY>
+        <locationX>401</locationX>
+        <locationY>559</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_BillingCountry_ISO2</targetReference>
