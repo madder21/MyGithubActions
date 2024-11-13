@@ -27,6 +27,8 @@
 	<members>Payment_Methods_Mapping_with_Cegid__mdt.SOM_Payment_Type__c</members>
 	<members>Order.cegidCustomerId__c</members>
 		<members>ReturnOrder.On_Hold__c</members>
+		<members>Refund.RefundMethod__c</members>
+		<members>OrderSummary.Region__c</members>
 	<name>CustomField</name>
 
 	</types>
@@ -43,6 +45,8 @@
 	<types>
 
 		<members>OrderSummary.VR_CountryISO2</members>
+		<members>FulfillmentOrder.Fulfilled_To_Country_ISO_2</members>
+		<members>OrderDeliveryGroupSummary.Deliver_To_Country_ISO_2</members>
 		<name>ValidationRule</name>
 	</types>
 	<types>
@@ -61,6 +65,8 @@
 		<members>SOM_430_Invoice_After_Insert</members>
 		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
 		<members>SOM_970_Create_Exchange_Manual_Order</members>
+		<members>SOM_Automatic_refund_in_Cybersource</members>
+		<members>SOM_960_Exchange_Manual_Order_Creation</members>
 		<name>Flow</name>
 	</types>
 <types>
@@ -71,6 +77,7 @@
 	<types>
 		
 		<members>Return_Order_Record_Page</members>
+		<members>OCI_Home_Page_Default</members>
 		<name>FlexiPage</name>
 	</types>
 
@@ -78,6 +85,24 @@
 		
 		<members>som_ExchangeOrderCreation_Component</members>
 		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>PS_OmniChannel</members>
+		<name>CustomPermission</name>
+	</types>
+	<types>
+		<members>SOM_Omnichannel_Inventory_Access</members>
+		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>SOMEcomOperations/TmTFDLlycKasAQtKqtnvNqmrwSbutS</members>
+		<name>Dashboard</name>
+	</types>
+	<types>
+		<members>Order_Summary_with_Refunds</members>
+		<members>Order_summary_with_payment</members>
+		<members>SOM_PE_ReportType</members>
+		<name>ReportType</name>
 	</types>
 	<version>61.0</version>
 </Package>

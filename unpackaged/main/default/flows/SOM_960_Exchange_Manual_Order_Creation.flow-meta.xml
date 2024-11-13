@@ -43,8 +43,8 @@
     <assignments>
         <name>Assign_Fields</name>
         <label>Assign Fields</label>
-        <locationX>334</locationX>
-        <locationY>650</locationY>
+        <locationX>335</locationX>
+        <locationY>702</locationY>
         <assignmentItems>
             <assignToReference>v_ODGOutput.OrderDeliveryMethodId</assignToReference>
             <operator>Assign</operator>
@@ -430,8 +430,8 @@
     <assignments>
         <name>Set_fields</name>
         <label>Set fields</label>
-        <locationX>719</locationX>
-        <locationY>650</locationY>
+        <locationX>742</locationX>
+        <locationY>693</locationY>
         <assignmentItems>
             <assignToReference>v_ODGOutput.OrderDeliveryMethodId</assignToReference>
             <operator>Assign</operator>
@@ -664,6 +664,43 @@
         </connector>
     </collectionProcessors>
     <decisions>
+        <name>Check_BillingCountry_ISO2</name>
+        <label>Check BillingCountry ISO2</label>
+        <locationX>668</locationX>
+        <locationY>580</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ISO2</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_ISO2Code</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>is_from_RO</targetReference>
+            </connector>
+            <label>ISO2</label>
+        </rules>
+        <rules>
+            <name>ISO2False</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_ISO2Code</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Billing_Shipping_Info</targetReference>
+            </connector>
+            <label>ISO2False</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_Custom_Locations</name>
         <label>Check_Custom_Locations</label>
         <locationX>639</locationX>
@@ -745,8 +782,8 @@
     <decisions>
         <name>is_from_RO</name>
         <label>is from RO</label>
-        <locationX>513</locationX>
-        <locationY>650</locationY>
+        <locationX>545</locationX>
+        <locationY>701</locationY>
         <defaultConnector>
             <targetReference>Set_fields</targetReference>
         </defaultConnector>
@@ -841,12 +878,20 @@
             <label>RO_Outcome</label>
         </rules>
     </decisions>
-    <description>Update VAT and Legal Entity On based on the original OS</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Digits</name>
         <dataType>Number</dataType>
         <expression>LEN({!S_Custom_Countries_Before_Split})</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_ISO2Code</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    NOT(ISBLANK({!v_prevOS.BillingCountry})),
+    REGEX({!v_prevOS.BillingCountry}, &quot;^[A-Z]{2}$&quot;)
+)</expression>
     </formulas>
     <formulas>
         <name>FX_LineSubtotal</name>
@@ -1044,6 +1089,29 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_OS_For_ODG</name>
+        <label>Get OS For ODG</label>
+        <locationX>401</locationX>
+        <locationY>559</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_BillingCountry_ISO2</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderSummary</object>
+        <sortField>Id</sortField>
+        <sortOrder>Desc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_OS_from_RO</name>
         <label>Get OS from RO</label>
         <locationX>940</locationX>
@@ -1188,38 +1256,32 @@
         </inputAssignments>
         <object>OrderSummary</object>
     </recordUpdates>
-    <recordUpdates>
-        <name>Update_VAT_AND_Legal_Entity_Field_RO</name>
-        <label>Update VAT AND Legal Entity Field RO</label>
-        <locationX>1974</locationX>
-        <locationY>1725</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_OS_Newly_created.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Legal_Entity__c</field>
-            <value>
-                <elementReference>Update_VAT_AND_Legal_Entity_Field</elementReference>
-            </value>
-        </inputAssignments>
-        <object>OrderSummary</object>
-    </recordUpdates>
     <screens>
         <name>Billing_Shipping_Info</name>
         <label>Billing Shipping Info</label>
-        <locationX>520</locationX>
+        <locationX>526</locationX>
         <locationY>472</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>is_from_RO</targetReference>
+            <targetReference>Get_OS_For_ODG</targetReference>
         </connector>
+        <fields>
+            <name>ErrorMessage</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(251, 8, 8);&quot;&gt;The value of Country should be in Uppercase  (2 characters)&amp;nbsp;and should not be empty.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>ISO2False</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
         <fields>
             <name>LWCBillingShippingInfo</name>
             <extensionName>c:som_ExchangeOrderCreation_Component</extensionName>

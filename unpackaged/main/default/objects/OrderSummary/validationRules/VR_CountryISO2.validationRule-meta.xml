@@ -6,5 +6,5 @@
     ISBLANK(BillingCountry),
     NOT(REGEX(BillingCountry, &quot;^[A-Z]{2}$&quot;))
 )</errorConditionFormula>
-    <errorMessage>The value should be in the format ISO 2 and should not be empty.</errorMessage>
+    <errorMessage>The value should be in Uppercase (2 characters)  and should not be empty.</errorMessage>
 </ValidationRule>
