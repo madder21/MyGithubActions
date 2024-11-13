@@ -2,7 +2,6 @@
 <FlexiPage xmlns="http://soap.sforce.com/2006/04/metadata">
     <flexiPageRegions>
         <itemInstances>
-            
             <componentInstance>
                 <componentName>runtime_commerce_oci:inventoryLookup</componentName>
                 <identifier>ias_inventoryLookup</identifier>
@@ -44,7 +43,7 @@
                 <componentName>runtime_commerce_oci:locationManagement</componentName>
                 <identifier>ias_locationManagement</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>NE</operator>
@@ -54,6 +53,11 @@
                         <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$User.Profile.Name}</leftValue>
+                        <operator>NE</operator>
+                        <rightValue>Ecom Operations</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
@@ -75,7 +79,7 @@
                 <componentName>flexipage:richText</componentName>
                 <identifier>flexipage_richText</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 OR 2</booleanFilter>
+                    <booleanFilter>1 OR (2 AND 3)</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>EQUAL</operator>
@@ -86,6 +90,11 @@
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
                     </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PS_OmniChannel}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
+                    </criteria>
                 </visibilityRule>
             </componentInstance>
         </itemInstances>
@@ -94,7 +103,7 @@
                 <componentName>somLwcUpdateOnHandsQuantity</componentName>
                 <identifier>c_somLwcUpdateOnHandsQuantity</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2</booleanFilter>
+                    <booleanFilter>(1 AND 2) OR 3</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>NE</operator>
@@ -104,6 +113,11 @@
                         <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!$Permission.CustomPermission.PS_OmniChannel}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>true</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
