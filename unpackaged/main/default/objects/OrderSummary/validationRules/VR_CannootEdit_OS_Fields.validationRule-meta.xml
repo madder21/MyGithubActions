@@ -14,6 +14,6 @@
 			    ISCHANGED(cegidCustomerId__c),ISCHANGED(language__c),
 			    ISCHANGED(isOrderOnBehalf__c),ISCHANGED(cegidOrderId__c),
 					 	ISCHANGED(OriginalReturnOrder__c)) , 
- $Permission.CSC_Permission, not($Permission.ByPassVR) )</errorConditionFormula>
+ $Permission.CSC_Permission, not($Permission.SOMByPassVR) )</errorConditionFormula>
     <errorMessage>You cannot edit this field.</errorMessage>
 </ValidationRule>
