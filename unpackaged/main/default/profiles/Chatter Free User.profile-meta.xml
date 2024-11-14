@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>false</custom>
+    <userLicense>Chatter Free</userLicense>
     <applicationVisibilities>
         <application>B2C_Commerce_Integration</application>
         <default>false</default>
@@ -35,7 +37,6 @@
         <default>false</default>
         <visible>false</visible>
     </applicationVisibilities>
-    <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.AccountSource</field>
@@ -2168,6 +2169,9 @@
         <layout>AsyncOperationLog-Async Operation Log Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Async_Job_Request__c-Async Job Request Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>AuthorizationForm-Authorization Form Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -3321,7 +3325,6 @@
         <tab>standard-report</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
-    <userLicense>Chatter Free</userLicense>
     <userPermissions>
         <enabled>true</enabled>
         <name>AddDirectMessageMembers</name>

@@ -144,13 +144,16 @@ public with sharing class TNP_001_AccountTrigger_SVE {
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'START'); 
         if ( !listFinalAccountToInsert.isEmpty() )
         {    
-            System.enqueueJob(new TNP_001_QueueableCallOut(listFinalAccountToInsert,'',Label.TNP_CL_AfterInsert));   
+            //System.enqueueJob(new TNP_001_QueueableCallOut(listFinalAccountToInsert,'',Label.TNP_CL_AfterInsert));
+            // TEST ERIC Oct29th
+            System.debug('CALL ASYNC METHOD INSERT'); 
+            AsyncRequestHandler.RecordMultipleAsyncRequest(Label.TNP_CL_AfterInsert, '', listFinalAccountToInsert);
         }     
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
     }    
     
     
-    public static void listAccountAfterUpdate( list<account> listAccountToUpdateNew,Map<Id, Account>  listAccountToUpdateOld)
+    public static void listAccountAfterUpdate(list<account> listAccountToUpdateNew, Map<Id, Account> listAccountToUpdateOld)
     {  
         String METHOD_NAME = 'listAccountAfterUpdate';
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'START'); 
@@ -176,7 +179,10 @@ public with sharing class TNP_001_AccountTrigger_SVE {
         }
         if ( !listFinalAccountToUpdate.isEmpty() )
         {  
-            System.enqueueJob(new TNP_001_QueueableCallOut(listFinalAccountToUpdate,'',Label.TNP_CL_AfterUpdate));   
+            //System.enqueueJob(new TNP_001_QueueableCallOut(listFinalAccountToUpdate, '', Label.TNP_CL_AfterUpdate));
+            // TEST ERIC Oct29th
+            System.debug('CALL ASYNC METHOD UPDATE'); 
+            AsyncRequestHandler.RecordMultipleAsyncRequest(Label.TNP_CL_AfterUpdate, '', listFinalAccountToUpdate);
         }  
         
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END');         
