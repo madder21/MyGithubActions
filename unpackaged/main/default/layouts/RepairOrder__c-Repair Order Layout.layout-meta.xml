@@ -133,10 +133,6 @@
                 <behavior>Edit</behavior>
                 <field>InvoiceNumber__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>CurrencyIsoCode</field>
-            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -148,15 +144,15 @@
         <layoutColumns>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>RepairLocation__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>ReceivingLocation__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ItemCurrentLocation__c</field>
+                <field>ReceptionType__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>RepairLocation__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -168,7 +164,7 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ReceptionType__c</field>
+                <field>ItemCurrentLocation__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -189,8 +185,8 @@
     </layoutSections>
     <layoutSections>
         <customLabel>false</customLabel>
-        <detailHeading>false</detailHeading>
-        <editHeading>true</editHeading>
+        <detailHeading>true</detailHeading>
+        <editHeading>false</editHeading>
         <label>System Information</label>
         <layoutColumns>
             <layoutItems>
@@ -226,7 +222,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00hKB000001NQov</masterLabel>
+        <masterLabel>00h7a0000048Hxz</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
