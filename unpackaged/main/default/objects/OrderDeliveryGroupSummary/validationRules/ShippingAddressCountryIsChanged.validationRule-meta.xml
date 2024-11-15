@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ShippingAddressCountryIsChanged</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(ISCHANGED(DeliverToCountry), $Profile.Name &lt;&gt; &apos;System Administrator&apos;, OR(PRIORVALUE(DeliverToCountry) &lt;&gt; &apos;&apos;,PRIORVALUE(DeliverToCountry) &lt;&gt; null))</errorConditionFormula>
+    <errorMessage>You don’t have rights to modify this field</errorMessage>
+</ValidationRule>
