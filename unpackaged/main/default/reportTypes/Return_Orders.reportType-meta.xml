@@ -330,6 +330,16 @@
             <field>expectedPackages__c</field>
             <table>ReturnOrder</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>On_Hold__c</field>
+            <table>ReturnOrder</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>OrderSummary.Region__c</field>
+            <table>ReturnOrder</table>
+        </columns>
         <masterLabel>Return Orders</masterLabel>
     </sections>
     <sections>
@@ -566,6 +576,11 @@
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>Product2.Description</field>
+            <table>ReturnOrder.ReturnOrderLineItems</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Sku_10_Digits__c</field>
             <table>ReturnOrder.ReturnOrderLineItems</table>
         </columns>
         <masterLabel>Return Order Line Items</masterLabel>
