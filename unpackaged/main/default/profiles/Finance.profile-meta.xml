@@ -71,6 +71,26 @@
     </applicationVisibilities>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.First_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Gifted__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Last_NPS_score__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Last_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.Phone</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -97,6 +117,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Case.Channel__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Case.Client_cluster__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5327,6 +5352,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>AsyncOperationLog-Async Operation Log Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Async_Job_Request__c-Async Job Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>B2CCustomInput__c-B2CCustomInput Layout</layout>
