@@ -13,6 +13,7 @@
 	</types>
 	<types>
 		<members>PS_OmniChannel</members>
+		<members>SOMByPassVR</members>
 		<name>CustomPermission</name>
 	</types>
 	<types>
@@ -54,7 +55,7 @@
     </types>
 
 	<types>
-
+                 <members>OrderSummary.VR_CannootEdit_OS_Fields</members>
 		<members>OrderSummary.VR_CountryISO2</members>
 		<members>FulfillmentOrder.Fulfilled_To_Country_ISO_2</members>
 		<members>OrderDeliveryGroupSummary.Deliver_To_Country_ISO_2</members>
@@ -68,6 +69,8 @@
 	<types>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
 		 <members>SOM_LWC_ExchangeOrderController</members>
+		<members>SOM_InvoiceDocumentController</members>
+		<members>SOM_CreditMemoDocumentController</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
@@ -88,7 +91,8 @@
 	<types>
 		
 		<members>Return_Order_Record_Page</members>
-		<!--members>OCI_Home_Page_Default</members-->
+                <members>Order_Summary_Record_Page</members>
+		<members>OCI_Home_Page_Default</members>
 		<name>FlexiPage</name>
 	</types>
 
@@ -97,15 +101,56 @@
 		<members>som_ExchangeOrderCreation_Component</members>
 		<name>LightningComponentBundle</name>
 	</types>
-	<!--types>
+	
 	<types>
 		<members>SOM_Omnichannel_Inventory_Access</members>
+		<members>SOM_CSC_Refund_Creation</members>
 		<name>PermissionSet</name>
 	</types>
-	
+	<types>
 		<members>SOMEcomOperations/TmTFDLlycKasAQtKqtnvNqmrwSbutS</members>
 		<name>Dashboard</name>
-	</types-->
-	
+	</types>
+	<types>
+		<members>SOM_Invoice_Setting.BILLING_CONTACT_BR</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_DATE_BR</members>
+		<members>SOM_Invoice_Setting.CREDIT_MEMO_NUMBER_BR</members>
+		<members>SOM_Invoice_Setting.DELIVERY_CONTACT_BR</members>
+		<members>SOM_Invoice_Setting.HS_CODE_BR</members>
+		<members>SOM_Invoice_Setting.INVOICE_DATE_BR</members>
+		<members>SOM_Invoice_Setting.INVOICE_NUMBER_BR</members>
+		<members>SOM_Invoice_Setting.ITEM_DESCRIPTION_BR</members>
+		<members>SOM_Invoice_Setting.ITEM_NO_BR</members>
+		<members>SOM_Invoice_Setting.NET_AMOUNT_BR</members>
+		<members>SOM_Invoice_Setting.ORDER_NUMBER_BR</members>
+		<members>SOM_Invoice_Setting.PDF_MAIL_BR</members>
+		<members>SOM_Invoice_Setting.PDF_PHONE_BR</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_CREDIT_MEMO_BR</members>
+		<members>SOM_Invoice_Setting.PDF_TYPE_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.QUANTITY_BR</members>
+		<members>SOM_Invoice_Setting.REPLACEMENT_BR</members>
+		<members>SOM_Invoice_Setting.SERIAL_NO_BR</members>
+		<members>SOM_Invoice_Setting.SUBTOTAL_BR</members>
+		<members>SOM_Invoice_Setting.TAX_BR</members>
+		<members>SOM_Invoice_Setting.TAX_ID_BR</members>
+		<members>SOM_Invoice_Setting.TERM_OF_DELIVERY_BR</members>
+		<members>SOM_Invoice_Setting.TERM_OF_DELIVERY_VALUE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT1_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT2_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT3_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT4_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT5_INVOICE_BR</members>
+		<members>SOM_Invoice_Setting.TEXT_CREDIT_MEMO_BR</members>
+		<members>SOM_Invoice_Setting.TOTAL_BR</members>
+		<members>SOM_Invoice_Setting.TOTAL_TAX_BR</members>
+		<members>SOM_Invoice_Setting.TRACKING_NUMBERS_BR</members>
+		<members>SOM_Invoice_Setting.VAT_AMOUNT_BR</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>SOM_CreditMemoDocumentTemplate</members>
+		<members>SOM_InvoiceDocumentTemplate</members>
+		<name>ApexPage</name>
+	</types>
 	<version>61.0</version>
 </Package>
