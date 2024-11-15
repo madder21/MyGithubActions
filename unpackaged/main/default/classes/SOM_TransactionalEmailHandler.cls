@@ -63,7 +63,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> shipmentTransactionalEmailsList = new List<TransactionalEmail__c>();
         Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail,FulfillmentOrder.OrderSummary.BillingEmailAddress , FulfillmentOrder.OrderSummary.OrderNumber, 
                                                              FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,
-                                                             ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber 
+                                                             ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber,FulfillmentOrder.OrderSummary.StreetNumber__c,FulfillmentOrder.OrderSummary.Complementary__c,FulfillmentOrder.OrderSummary.RI_Neighborhood__c
                                                              FROM Shipment WHERE Id IN :recordIds]);
         for (Shipment ship:shipments.values()) {
             if(emailOfClient == null) {
@@ -90,7 +90,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             SOM_ShipmentConfirmationTemplateContent shipmentConfirmationTemplateContent = new SOM_ShipmentConfirmationTemplateContent();
             shipmentConfirmationTemplateContent.channel            = ship.FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName;
             shipmentConfirmationTemplateContent.orderNumber        = ship.FulfillmentOrder.OrderSummary.OrderNumber;
-            shipmentConfirmationTemplateContent.deliveryStreet     = ship.ShipToStreet;
+            shipmentConfirmationTemplateContent.deliveryStreet     = getFormattedBillingStreetFromShipment(ship);
             shipmentConfirmationTemplateContent.deliveryCity       = ship.ShipToCity;
             //shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.ShipToCountry); 
             shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.FulfillmentOrder.OrderSummary.language__c, ship.ShipToCountry); 
@@ -162,8 +162,8 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<FulfillmentOrder> fulfillmentOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, 
                                                     OrderSummary.AccountId, OrderSummary.Account.Salutation,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress , OrderSummary.BillingContactFirstName__c, OrderSummary.BillingContactLastName__c, 
                                                     OrderSummary.BillingCity, OrderSummary.BillingState,OrderSummary.language__c, OrderSummary.BillingCountry, OrderSummary.BillingPostalCode, OrderSummary.BillingStreet, 
-                                                    FulfilledToCountry, FulfilledToCity, FulfilledToState, FulfilledToName, FulfilledToPostalCode, 
-                                                    FulfilledToStreet,Invoice.InvoiceNumber__c, Invoice.CurrencyIsoCode, Invoice.TotalAmountWithTax 
+                                                    FulfilledToCountry, FulfilledToCity, FulfilledToState, FulfilledToName, FulfilledToPostalCode,StreetNumber__c,Complementary__c,RI_Neighborhood__c,
+                                                    FulfilledToStreet,Invoice.InvoiceNumber__c, Invoice.CurrencyIsoCode, Invoice.TotalAmountWithTax ,OrderSummary.StreetNumber__c,OrderSummary.Complementary__c,OrderSummary.RI_Neighborhood__c 
                                                     FROM FulfillmentOrder WHERE Invoice.Id IN :invoiceIds];
         list<Sales_Channel_Mapping__mdt> bccInvoiceEmailsList = [SELECT bcc_Invoice_Email__c, Zone__c  FROM Sales_Channel_Mapping__mdt WHERE bcc_Invoice_Email__c != null AND bcc_Invoice_Email__c !=''];
         for(Sales_Channel_Mapping__mdt SalesChannelRec : bccInvoiceEmailsList ){
@@ -181,7 +181,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             //invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.BillingCountry);
             //ship.FulfillmentOrder.OrderSummary.language__c != null ? ship.FulfillmentOrder.OrderSummary.language__c : generateLanguageSiteLabel(ship.FulfillmentOrder.FulfilledToCountry);
             invoiceTemplateContent.billingCountry   = generateCountryMappingLabel(fullOrder.OrderSummary.language__c  , fullOrder.OrderSummary.BillingCountry);
-            invoiceTemplateContent.billingStreet    = fullOrder.OrderSummary.BillingStreet;
+            invoiceTemplateContent.billingStreet    = getFormattedBillingStreet(fullOrder.OrderSummary);
             invoiceTemplateContent.billingZipcode   = fullOrder.OrderSummary.BillingPostalCode;
             invoiceTemplateContent.deliveryName     = fullOrder.FulfilledToName;
             invoiceTemplateContent.deliveryCity     = fullOrder.FulfilledToCity;
@@ -189,7 +189,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             invoiceTemplateContent.deliveryZipcode  = fullOrder.FulfilledToPostalCode;
             //invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.FulfilledToCountry);
             invoiceTemplateContent.deliveryCountry  = generateCountryMappingLabel(fullOrder.OrderSummary.language__c , fullOrder.FulfilledToCountry);
-            invoiceTemplateContent.deliveryStreet   = fullOrder.FulfilledToStreet;
+            invoiceTemplateContent.deliveryStreet   = getFormattedDeliveryStreet(fullOrder);
             invoiceTemplateContent.invoiceAmount    = fullOrder.Invoice.TotalAmountWithTax;
             invoiceTemplateContent.invoiceCurrency  = fullOrder.Invoice.CurrencyIsoCode;
             invoiceTemplateContent.invoiceNumber    = mapInvCI.containsKey(fullOrder.Invoice.InvoiceNumber__c) ? mapInvCI.get(fullOrder.Invoice.InvoiceNumber__c) : fullOrder.Invoice.InvoiceNumber__c;
@@ -223,10 +223,10 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
-                                             BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
+                                             BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,StreetNumber__c,Complementary__c, RI_Neighborhood__c,
                                              (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, ReservedAtLocation.Name, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c,Type 
                                               FROM OrderItemSummaries ORDER BY LineNumber ASC),
-                                             (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName 
+                                             (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName, StreetNumber__c,Complementary__c, RI_Neighborhood__c 
                                               FROM OrderDeliveryGroupSummaries)
                                              FROM OrderSummary WHERE Id IN :recordIds];
         //List<Schema.Location> StoreLocation = [Select Id from Location where LocationType =: SOM_Constants.STORE ];
@@ -243,7 +243,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c , orderSumm.BillingCountry);
             orderTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
             orderTemplateContent.billingLastName  = orderSumm.BillingContactLastName__c;
-            orderTemplateContent.billingStreet    = orderSumm.BillingStreet;
+            orderTemplateContent.billingStreet    = getFormattedBillingStreet(orderSumm);
             orderTemplateContent.billingZipcode   = orderSumm.BillingPostalCode;
             if(orderSumm.BillingState == null){
                 orderTemplateContent.billingState = '';
@@ -272,7 +272,7 @@ orderTemplateContent.orderType		  = 'Ecom';
                 //orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 orderTemplateContent.deliveryCountry = generateCountryMappingLabel(orderSumm.language__c , orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
                 orderTemplateContent.deliveryName    = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
-                orderTemplateContent.deliveryStreet  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
+                orderTemplateContent.deliveryStreet  = getFormattedDeliveryGroupStreet(orderSumm.OrderDeliveryGroupSummaries[0]);
                 orderTemplateContent.deliveryZipcode = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
                 if(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToState == null) {
                     orderTemplateContent.deliveryState = '';
@@ -716,8 +716,8 @@ lineItem.isCC = false;
         }
         if(!orderSummaryIdsList.isEmpty()){
             for(OrderSummary orderSumm : [SELECT Id,OrderNumber, AccountId, BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
-                                          BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,BillingEmailAddress ,
-                                          (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName FROM OrderDeliveryGroupSummaries), 
+                                          BillingStreet, SalesChannel.SalesChannelName,Account.PersonEmail,language__c,BillingEmailAddress,StreetNumber__c,Complementary__c, RI_Neighborhood__c,
+                                          (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToName,StreetNumber__c,Complementary__c, RI_Neighborhood__c FROM OrderDeliveryGroupSummaries), 
                                           (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status =: SOM_Constants.INVOICE_POSTED) 
                                           FROM OrderSummary WHERE Id IN : orderSummaryIdsList]){
                                               orderSummariesById.put(orderSumm.Id, orderSumm);                                        
@@ -736,7 +736,7 @@ lineItem.isCC = false;
             refundValidationTemplateContent.billingCity      = orderSumm.BillingCity;
             //refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.BillingCountry);
             refundValidationTemplateContent.billingCountry   = generateCountryMappingLabel(orderSumm.language__c , orderSumm.billingCountry);
-            refundValidationTemplateContent.billingStreet    = orderSumm.BillingStreet;
+            refundValidationTemplateContent.billingStreet    = getFormattedBillingStreet(orderSumm);
             refundValidationTemplateContent.billingZipcode   = orderSumm.BillingPostalCode;
             refundValidationTemplateContent.billingFirstName = orderSumm.BillingContactFirstName__c;
             refundValidationTemplateContent.billingLastName  = orderSumm.BillingContactLastName__c;
@@ -750,7 +750,7 @@ lineItem.isCC = false;
             //refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry);
             refundValidationTemplateContent.deliveryCountry  = generateCountryMappingLabel(orderSumm.language__c , orderSumm.OrderDeliveryGroupSummaries[0].DeliverToCountry );
             refundValidationTemplateContent.deliveryName     = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToName;
-            refundValidationTemplateContent.deliveryStreet   = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToStreet;
+            refundValidationTemplateContent.deliveryStreet   = getFormattedDeliveryGroupStreet(orderSumm.OrderDeliveryGroupSummaries[0]);
             refundValidationTemplateContent.deliveryZipcode  = orderSumm.OrderDeliveryGroupSummaries[0].DeliverToPostalCode;
             refundValidationTemplateContent.invoiceNumber    = orderSumm.Invoices[0].InvoiceNumber__c;       
             if(!creditNote.CreditMemoLines?.isEmpty()){
@@ -818,8 +818,8 @@ lineItem.taxRate = item.TaxRate__c;
         }
         //get data
         Map<Id, OrderSummary> orderSummaryMap = new Map<Id, OrderSummary>([SELECT Id,OrderNumber, AccountId,Account.PersonEmail,BillingEmailAddress , BillingContactFirstName__c, BillingContactLastName__c, BillingCity, BillingCountry, BillingPostalCode,
-                                                                           BillingStreet,BillingState, SalesChannel.SalesChannelName, language__c,
-                                                                           (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToState, DeliverToName FROM OrderDeliveryGroupSummaries), 
+                                                                           BillingStreet,BillingState, SalesChannel.SalesChannelName, language__c,StreetNumber__c,Complementary__c, RI_Neighborhood__c,
+                                                                           (SELECT Id, DeliverToCountry, DeliverToCity, DeliverToStreet, DeliverToPostalCode, DeliverToState, DeliverToName,StreetNumber__c,Complementary__c, RI_Neighborhood__c FROM OrderDeliveryGroupSummaries), 
                                                                            (SELECT Id, invoiceNumber__c FROM Invoices WHERE Status = :SOM_Constants.INVOICE_POSTED),
                                                                            (SELECT Id, Product2.StockKeepingUnit, Product2.Name, Product2.ImageURL__c,Product2.ImageUrl1__c, CurrencyIsoCode, QuantityCanceled, TaxRate__c, OriginalOrderItem.Quantity, OriginalOrderItem.UnitPrice, OriginalOrderItem.TotalTaxAmount, 
                                                                             OriginalOrderItem.TotalAmtWithTax FROM OrderItemSummaries WHERE QuantityCanceled > 0) FROM OrderSummary WHERE Id IN :orderSummaryIds]);
@@ -835,7 +835,7 @@ lineItem.taxRate = item.TaxRate__c;
             refundWithoutCreditMemoEmail.billingCity      = orderSum.BillingCity;
             //refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.BillingCountry);
             refundWithoutCreditMemoEmail.billingCountry   = generateCountryMappingLabel(orderSum.language__c, orderSum.billingCountry);
-            refundWithoutCreditMemoEmail.billingStreet    = orderSum.BillingStreet;
+            refundWithoutCreditMemoEmail.billingStreet    = getFormattedBillingStreet(orderSum);
             refundWithoutCreditMemoEmail.billingState     = orderSum.BillingState;
             refundWithoutCreditMemoEmail.billingZipcode   = orderSum.BillingPostalCode;
             refundWithoutCreditMemoEmail.deliveryCity     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCity;
@@ -843,7 +843,7 @@ lineItem.taxRate = item.TaxRate__c;
             refundWithoutCreditMemoEmail.deliveryCountry  = generateCountryMappingLabel(orderSum.language__c , orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToCountry);
             refundWithoutCreditMemoEmail.deliveryName     = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToName;
             refundWithoutCreditMemoEmail.deliveryState    = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToState;
-            refundWithoutCreditMemoEmail.deliveryStreet   = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToStreet;
+            refundWithoutCreditMemoEmail.deliveryStreet   = getFormattedDeliveryGroupStreet(orderSum.OrderDeliveryGroupSummaries.get(0));
             refundWithoutCreditMemoEmail.deliveryZipcode  = orderSum.OrderDeliveryGroupSummaries.get(0).DeliverToPostalCode;
             if (orderSum.invoices != null && !orderSum.invoices.isEmpty())
                 refundWithoutCreditMemoEmail.invoiceNumber = orderSum.invoices.get(0).invoiceNumber__c;
@@ -1022,7 +1022,47 @@ lineItem.taxRate = item.TaxRate__c;
         @InvocableVariable(label='Record Id' description='Record Id generating the email' required=true)
         public String recordId; //record Id generating the email(shipment, invoice, orderSummary... etc).
     }
-    
+    private static String getFormattedBillingStreet(OrderSummary orderSummary) {
+        if (orderSummary.BillingCountry == 'BR') {
+            String complementaryPart = !String.isBlank(orderSummary.Complementary__c) ? ' - ' + orderSummary.Complementary__c : '';
+            return orderSummary.BillingStreet + ', ' + orderSummary.StreetNumber__c + complementaryPart + '<br>' + orderSummary.RI_Neighborhood__c;
+        }
+        return orderSummary.BillingStreet;
+    }
+    // Helper method to format Delivery Address
+    private static String getFormattedDeliveryStreet(FulfillmentOrder fullOrder) {
+        if (fullOrder.FulfilledToCountry == 'BR') {
+            String complementaryPart = !String.isBlank(fullOrder.Complementary__c) ? ' - ' + fullOrder.Complementary__c : '';
+            return fullOrder.FulfilledToStreet + ', ' + fullOrder.StreetNumber__c + complementaryPart + '<br>' + fullOrder.RI_Neighborhood__c;
+        }
+        return fullOrder.FulfilledToStreet;
+    }
+    private static String getFormattedDeliveryGroupStreet(OrderDeliveryGroupSummary deliveryGroup) {
+        if (deliveryGroup.DeliverToCountry == 'BR') {
+            String complementaryPart = !String.isBlank(deliveryGroup.Complementary__c) ? ' - ' + deliveryGroup.Complementary__c : '';
+            return deliveryGroup.DeliverToStreet + ', ' + deliveryGroup.StreetNumber__c + complementaryPart + '<br>' + deliveryGroup.RI_Neighborhood__c;
+        }
+        return deliveryGroup.DeliverToStreet;
+    }
+    private static String getFormattedBillingStreetFromShipment(Shipment ship) {
+        if (ship.OrderSummaryId == null) {
+            return null;
+        }
+        
+        OrderSummary orderSummary = [
+            SELECT BillingStreet, StreetNumber__c, Complementary__c, RI_Neighborhood__c, BillingCountry
+            FROM OrderSummary
+            WHERE Id = :ship.OrderSummaryId
+            LIMIT 1
+        ];
+        
+        if (orderSummary.BillingCountry == 'BR') {
+            String complementaryPart = !String.isBlank(orderSummary.Complementary__c) ? ' - ' + orderSummary.Complementary__c : '';
+            return orderSummary.BillingStreet + ', ' + orderSummary.StreetNumber__c + complementaryPart + '<br>' + orderSummary.RI_Neighborhood__c;
+        }
+        
+        return orderSummary.BillingStreet;
+    }
     public class SOM_InvoiceTemplateContent{
         public String orderNumber;
         public String channel;

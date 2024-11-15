@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    
     <apiVersion>61.0</apiVersion>
     <assignments>
         <name>Add_Fulfillment_Id_to_Coll</name>
@@ -52,6 +51,28 @@
                 <targetReference>Get_Fulfilllment_Orders</targetReference>
             </connector>
             <label>Create NewFulfillmentShippedForCegid</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Country</name>
+        <label>Check Country</label>
+        <locationX>621</locationX>
+        <locationY>561</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>BR_Country</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_ODGS.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Sales_Channel_Mapping</targetReference>
+            </connector>
+            <label>BR Country</label>
         </rules>
     </decisions>
     <interviewLabel>SOM - C6 Create NewFulfillmentShippedForCegid {!$Flow.CurrentDateTime}</interviewLabel>
@@ -118,6 +139,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_ODGS</name>
+        <label>Get ODGS</label>
+        <locationX>506</locationX>
+        <locationY>440</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Country</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroupSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Sales_Channel_Mapping</name>
         <label>Get Sales Channel Mapping</label>
         <locationX>770</locationX>
@@ -131,7 +173,7 @@
             <field>Legal_Entity__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.BillingCountry</elementReference>
+                <elementReference>$Record.Legal_Entity__c</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -142,7 +184,7 @@
         <locationX>638</locationX>
         <locationY>71</locationY>
         <connector>
-            <targetReference>Get_Sales_Channel_Mapping</targetReference>
+            <targetReference>Get_ODGS</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -150,13 +192,6 @@
             <operator>IsChanged</operator>
             <value>
                 <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>BR</stringValue>
             </value>
         </filters>
         <object>OrderSummary</object>
