@@ -64,9 +64,18 @@
                     <br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.company}"/><br/>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}">
                     <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.billingContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
+                </apex:outputpanel>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template == 'BR'}">
+                    <apex:outputText value="{!creditMemoDocument.billingContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.neighborhood}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.city}"/>&nbsp;-&nbsp;<apex:outputText value="{!creditMemoDocument.billingContact.state + '  '}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.billingContact.country}"/>
+                </apex:outputpanel>
                 </td>
                 <!--td class="Bill_Contact_Inf">
                     <apex:outputText value="{!creditMemoConfigs['IMPORTER_TITLE']}"/>
@@ -92,15 +101,25 @@
                      <apex:outputText value="{!creditMemoConfigs['INVOICE_NUMBER']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
                      <apex:outputText value="{!creditMemoConfigs['CREDIT_MEMO_DATE']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditMemoDate.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
                      <apex:outputText value="{!creditMemoConfigs['ORDER_NUMBER']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
+                	 <apex:outputText value="{!creditMemoConfigs['TAX_ID']}"/><apex:outputpanel rendered="{!IF(creditMemoDocument.Template == 'BR',true,false)}">&nbsp;:&nbsp;<apex:outputText value="{!creditMemoDocument.TaxID}"/></apex:outputpanel><br/>
                 </td>
                 <!-- Delivery contact information -->
                 <td class="Invoice_Inf">
                     <apex:outputText value="{!creditMemoConfigs['DELIVERY_CONTACT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/DeliveryContact.PNG')}" width="26%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.name}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.company}"/><br/>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}">
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.billingContact.zipCode),'',' ')}<apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/><br/>
                     <apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
+                </apex:outputpanel>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template == 'BR'}">
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.address}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.neighborhood}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.zipCode}"/>{!IF(ISBLANK(creditMemoDocument.deliveryContact.zipCode),'',' ')}<br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.city}"/>&nbsp;-&nbsp;<apex:outputText value="{!creditMemoDocument.deliveryContact.state + '  '}"/><br/>
+                    <apex:outputText value="{!creditMemoDocument.deliveryContact.country}"/>
+                </apex:outputpanel>
                 </td>
             </tr>
         </table>
@@ -112,7 +131,7 @@
                     <th width="50px"><apex:outputText value="{!creditMemoConfigs['ITEM_DESCRIPTION']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemDesc.PNG')}" width="25%" height="25%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
                     <th width="20px"><apex:outputText value="{!creditMemoConfigs['QUANTITY']}"/> <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image rendered="{!IF(len(quantityColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Quantity.PNG')}" width="33%" height="33%" style= "display: block;margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
                     <th width="27px"><apex:outputText value="{!creditMemoConfigs['NET_AMOUNT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/NetAmount.PNG')}" width="46%" height="46%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></th>
-                    <th width="27px" class="align-right"><apex:outputText value="{!creditMemoConfigs['VAT_AMOUNT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></th>
+                    <th width="27px" class="align-right"><apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}"><apex:outputText value="{!creditMemoConfigs['VAT_AMOUNT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></apex:outputpanel></th>
                     <th width="27px" class="align-right"><apex:outputText value="{!creditMemoConfigs['TOTAL']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"> <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Total.PNG')}" width="80%" height="80%" style="margin-left: 74%;display:block; margin-top:-3px; " alt="RIMOWA"/></apex:outputpanel></th>
                 </tr>
                 <tr>
@@ -141,12 +160,12 @@
                 <!-- loop invoice line items-->
                 <apex:repeat value="{!creditMemoDocument.lineItems}" var="lineItem">
                     <tr style="padding-top: 5px;">
-                        <td><apex:outputText value="{!lineItem.itemDescription}"/></td>
-                        <td><apex:outputText value="{!lineItem.quantity}"/></td>
+                        <td width="28%" class="align-left"><apex:outputText value="{!lineItem.itemDescription}"/></td>
+                        <td width="10%" class="align-center"><apex:outputText value="{!lineItem.quantity}"/></td>
                         
-                        <td><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
-                        <td class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td width="21%" class="align-right"><apex:outputText value="{!lineItem.netAmount}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
+                        <td width="27%" class="align-right"><apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}"><apex:outputText value="{!lineItem.vat}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></apex:outputpanel></td>
+                        <td width="20px" class="align-right"><apex:outputText value="{!lineItem.total}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                     </tr>
                     <tr>
                         <td colspan="5"><apex:outputText value="{!lineItem.itemNumber}"/></td>
@@ -170,6 +189,7 @@
         </table>
         <table class="sum" cellpadding="0" cellspacing="0">
             <tbody>
+                <apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}">
                 <tr>
                     <td width="100%" class="border_top" style="padding-top:2px;"><apex:outputText value="{!creditMemoConfigs['SUBTOTAL']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Subtotal.PNG')}" width="32%" height="32%" style="margin-top:-4px" alt="RIMOWA"/></apex:outputpanel>:</td>
                     <td  class="align-right border_top"><apex:outputText value="{!creditMemoDocument.netSubTotal}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
@@ -182,6 +202,7 @@
                         <td  class="align-right" ><apex:outputText value="{!creditMemoTaxLineItems[key]}"/>&nbsp;<apex:outputText value="{!creditMemoDocument.currencyCode}"/></td>
                     </tr>
                 </apex:repeat>
+                </apex:outputpanel>
                 <!-- end loop-->
                 <tr>
                     <td colspan="2">&nbsp;</td>

@@ -51,12 +51,12 @@ global with sharing class SOM_InvoiceDocumentController {
         }
         
         List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.Invoice_Timezone_Date__c, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
-                                                   FulfilledToName, FulfilledToCity, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
-                                                   OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
+                                                   FulfilledToName, StreetNumber__c, FulfilledToCity,Complementary__c,RI_Neighborhood__c, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
+                                                   OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummary.RI_Neighborhood__c,OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c,OrderSummary.StreetNumber__c,OrderSummary.Complementary__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
         System.debug('fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c ' + fulfillmentOrder.get(0).OrderSummary.VAT_ID__c);
-        
+                
         invAddress = setInvoiceAddress (fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c);
         invAddress.VATID = fulfillmentOrder.get(0).OrderSummary.VAT_ID__c;
         
@@ -148,24 +148,45 @@ global with sharing class SOM_InvoiceDocumentController {
     
     public InvoiceContact getDeliveryContact(FulfillmentOrder fulfillmentOrder){
         InvoiceContact delivContact = new InvoiceContact();
+		String Country = countryMap.containsKey(fulfillmentOrder.FulfilledToCountry) ? countryMap.get(fulfillmentOrder.FulfilledToCountry) : fulfillmentOrder.FulfilledToCountry;
         delivContact.name    = fulfillmentOrder.FulfilledToName;
         delivContact.city    = fulfillmentOrder.FulfilledToCity;
         delivContact.zipCode = fulfillmentOrder.FulfilledToPostalCode;
-        delivContact.address = fulfillmentOrder.FulfilledToStreet;
+        if (Country == 'Brazil' && !String.IsBlank(fulfillmentOrder.StreetNumber__c) && !String.IsBlank(fulfillmentOrder.Complementary__c)){
+        	delivContact.address = fulfillmentOrder.FulfilledToStreet + ', ' + fulfillmentOrder.StreetNumber__c + ' - ' + fulfillmentOrder.Complementary__c;
+        }else if(Country == 'Brazil' && String.IsBlank(fulfillmentOrder.StreetNumber__c) && !String.IsBlank(fulfillmentOrder.Complementary__c)){
+        	delivContact.address = fulfillmentOrder.FulfilledToStreet + ' - ' + fulfillmentOrder.Complementary__c;
+        }else if(Country == 'Brazil' && !String.IsBlank(fulfillmentOrder.StreetNumber__c) && String.IsBlank(fulfillmentOrder.Complementary__c)){
+        	delivContact.address = fulfillmentOrder.FulfilledToStreet + ', ' + fulfillmentOrder.StreetNumber__c;
+        }else{
+           delivContact.address = fulfillmentOrder.FulfilledToStreet; 
+        }
+        
+        delivContact.neighborhood = fulfillmentOrder.RI_Neighborhood__c;
         delivContact.state   = fulfillmentOrder.FulfilledToState;
-        delivContact.country = countryMap.containsKey(fulfillmentOrder.FulfilledToCountry) ? countryMap.get(fulfillmentOrder.FulfilledToCountry) : fulfillmentOrder.FulfilledToCountry;
+        delivContact.country = Country; 
         
         return delivContact;
     }
     
     public InvoiceContact getBillingContact(FulfillmentOrder fulfillmentOrder){
         InvoiceContact billContact = new InvoiceContact();
+        String Country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
         billContact.name    = fulfillmentOrder.OrderSummary.BillingContactFirstName__c + ' ' + fulfillmentOrder.OrderSummary.BillingContactLastName__c;
         billContact.city    = fulfillmentOrder.OrderSummary.BillingCity;
         billContact.zipCode = fulfillmentOrder.OrderSummary.BillingPostalCode;
-        billContact.address = fulfillmentOrder.OrderSummary.BillingStreet;
+        if (Country == 'Brazil' && !String.IsBlank(fulfillmentOrder.OrderSummary.StreetNumber__c) && !String.IsBlank(fulfillmentOrder.OrderSummary.Complementary__c)){
+        	billContact.address = fulfillmentOrder.OrderSummary.BillingStreet + ', ' + fulfillmentOrder.OrderSummary.StreetNumber__c + ' - ' + fulfillmentOrder.OrderSummary.Complementary__c;
+        }else if(Country == 'Brazil' && String.IsBlank(fulfillmentOrder.OrderSummary.StreetNumber__c) && !String.IsBlank(fulfillmentOrder.OrderSummary.Complementary__c)){
+        	billContact.address = fulfillmentOrder.OrderSummary.BillingStreet + ' - ' + fulfillmentOrder.OrderSummary.Complementary__c;
+        }else if(Country == 'Brazil' && !String.IsBlank(fulfillmentOrder.OrderSummary.StreetNumber__c) && String.IsBlank(fulfillmentOrder.OrderSummary.Complementary__c)){
+        	billContact.address = fulfillmentOrder.OrderSummary.BillingStreet + ', ' + fulfillmentOrder.OrderSummary.StreetNumber__c;
+        }else{
+           billContact.address = fulfillmentOrder.OrderSummary.BillingStreet; 
+        }
+        billContact.neighborhood = fulfillmentOrder.OrderSummary.RI_Neighborhood__c;
         billContact.state   = fulfillmentOrder.OrderSummary.BillingState;
-        billContact.country = countryMap.containsKey(fulfillmentOrder.OrderSummary.BillingCountry)? countryMap.get(fulfillmentOrder.OrderSummary.BillingCountry) : fulfillmentOrder.OrderSummary.BillingCountry;
+        billContact.country = Country;
         this.AmountsFormat  = setAmountsFormat(fulfillmentOrder.FulfilledToCountry);
         
         return billContact;
@@ -276,7 +297,7 @@ global with sharing class SOM_InvoiceDocumentController {
     
     public InvoiceAddress setInvoiceAddress(String Code) {
         InvoiceAddress invAddress     = new InvoiceAddress();
-        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Code__c, Name, Address__c, City__c, ZipCode__c, CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Code__c = :Code];
+        Legal_Entity__c LegalEntity = [SELECT Id, Country__c, Code__c, Name, Address__c, City__c, ZipCode__c, CountryLabel__c,FooterBilling__c FROM Legal_Entity__c WHERE Code__c = :Code limit 1];
         invAddress.name = LegalEntity.Name; 
         invAddress.address = LegalEntity.Address__c ; 
         invAddress.countryLabel = LegalEntity.CountryLabel__c; 
@@ -326,6 +347,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public String address {get; set;}
         public String state {get; set;}
         public String country {get; set;}
+        public String neighborhood {get; set;}
     }
     
     //  implements Comparable

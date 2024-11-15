@@ -42,7 +42,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             String creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
             String templateCode = ApexPages.currentPage().getParameters().get('template');
             creditMemoDoc.Template = templateCode;
-            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,
+            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,Complementary__c,StreetNumber__c,RI_Neighborhood__c,
                                            BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, Credit_Memo_Date__c, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                            (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
                                             TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, Description, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
@@ -61,13 +61,26 @@ global with sharing class SOM_CreditMemoDocumentController {
             if (creditMemo != null && !creditMemo.isEmpty()) {
                 if (creditMemo.get(0).ReferenceEntity instanceOf OrderSummary) {
                     OrderSummary ordSummary = (OrderSummary) creditMemo.get(0).ReferenceEntity;
-                    creditMemoDoc.orderNumber  = ordSummary.OrderNumber;
+        			String Country = countryMap.containsKey(ordSummary.BillingCountry) ? countryMap.get(ordSummary.BillingCountry) : ordSummary.BillingCountry;
+  					creditMemoDoc.orderNumber  = ordSummary.OrderNumber;
                     creditMemoDoc.currencyCode = ordSummary.CurrencyIsoCode;
                     creditMemoDoc.paymentType  = this.getPaymentMethod(ordSummary.Id);
                     billingContact.name        = ordSummary.BillingContactFirstName__c + ' ' + ordSummary.BillingContactLastName__c;
                     billingContact.city        = ordSummary.BillingCity;
-                    billingContact.country     = countryMap.containsKey(ordSummary.BillingCountry) ? countryMap.get(ordSummary.BillingCountry) : ordSummary.BillingCountry;
-                    billingContact.address     = ordSummary.BillingStreet;
+                    billingContact.country     = Country;
+                    
+                    
+                    if (Country == 'Brazil' && !String.IsBlank(ordSummary.StreetNumber__c) && !String.IsBlank(ordSummary.Complementary__c)){
+                        billingContact.address = ordSummary.BillingStreet + ', ' + ordSummary.StreetNumber__c + ' - ' + ordSummary.Complementary__c;
+                    }else if(Country == 'Brazil' && String.IsBlank(ordSummary.StreetNumber__c) && !String.IsBlank(ordSummary.Complementary__c)){
+                        billingContact.address = ordSummary.BillingStreet + ' - ' + ordSummary.Complementary__c;
+                    }else if(Country == 'Brazil' && !String.IsBlank(ordSummary.StreetNumber__c) && String.IsBlank(ordSummary.Complementary__c)){
+                        billingContact.address = ordSummary.BillingStreet + ', ' + ordSummary.StreetNumber__c;
+                    }else{
+                       billingContact.address = ordSummary.BillingStreet; 
+                    }
+        			billingContact.neighborhood = ordSummary.RI_Neighborhood__c;
+                    //billingContact.address     = ordSummary.BillingStreet;
                     billingContact.zipCode     = ordSummary.BillingPostalCode;
                     billingContact.state       = ordSummary.BillingState;
                     fulfillmentOrder currentFulfillment = foMap.get(ordSummary.Id);
@@ -76,17 +89,32 @@ global with sharing class SOM_CreditMemoDocumentController {
                     creditMemoDoc.billingContact = billingContact;
                     creditMemoDoc.paymentType = this.getPaymentMethod(ordSummary.Id);
                     //Get invoice & delivery address
-                    OrderSummary order = [SELECT ID, (SELECT Id, InvoiceNumber__c FROM Invoices), (SELECT Id, deliverToName, deliverToStreet, deliverToCity, deliverToCountry, deliverToState, deliverToPostalCode FROM OrderDeliveryGroupSummaries) FROM OrderSummary WHERE Id= :ordSummary.Id];
+                    OrderSummary order = [SELECT ID, (SELECT Id, InvoiceNumber__c FROM Invoices), (SELECT Id, deliverToName,RI_TAX_ID__c, deliverToStreet, deliverToCity, deliverToCountry, deliverToState, deliverToPostalCode, StreetNumber__c,Complementary__c, RI_Neighborhood__c FROM OrderDeliveryGroupSummaries) FROM OrderSummary WHERE Id= :ordSummary.Id];
                     if (order.invoices != null && !order.invoices.isEmpty()) {
                         creditMemoDoc.invoiceNumber = order.invoices.get(0).InvoiceNumber__c;
                     }
                     if (order.OrderDeliveryGroupSummaries != null && !order.OrderDeliveryGroupSummaries.isEmpty()) {
+        				String dCountry = countryMap.containsKey(order.OrderDeliveryGroupSummaries.get(0).deliverToCountry) ? countryMap.get(order.OrderDeliveryGroupSummaries.get(0).deliverToCountry) : order.OrderDeliveryGroupSummaries.get(0).deliverToCountry;
                         deliveryContact.name        = order.OrderDeliveryGroupSummaries.get(0).deliverToName;
                         deliveryContact.city        = order.OrderDeliveryGroupSummaries.get(0).deliverToCity;
-                        deliveryContact.country     = countryMap.containsKey(order.OrderDeliveryGroupSummaries.get(0).deliverToCountry) ? countryMap.get(order.OrderDeliveryGroupSummaries.get(0).deliverToCountry) : order.OrderDeliveryGroupSummaries.get(0).deliverToCountry;
-                        deliveryContact.address     = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet;
+                        deliveryContact.country     = dCountry;
+                        
+                        if (Country == 'Brazil' && !String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).StreetNumber__c) && !String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).Complementary__c)){
+                            deliveryContact.address = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet + ', ' + order.OrderDeliveryGroupSummaries.get(0).StreetNumber__c + ' - ' + ordSummary.Complementary__c;
+                        }else if(Country == 'Brazil' && String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).StreetNumber__c) && !String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).Complementary__c)){
+                            deliveryContact.address = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet + ' - ' + order.OrderDeliveryGroupSummaries.get(0).Complementary__c;
+                        }else if(Country == 'Brazil' && !String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).StreetNumber__c) && String.IsBlank(order.OrderDeliveryGroupSummaries.get(0).Complementary__c)){
+                            deliveryContact.address = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet + ', ' + order.OrderDeliveryGroupSummaries.get(0).StreetNumber__c;
+                        }else{
+                           deliveryContact.address = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet; 
+                        }
+                        deliveryContact.neighborhood = order.OrderDeliveryGroupSummaries.get(0).RI_Neighborhood__c;
+                        
+                        //deliveryContact.address     = order.OrderDeliveryGroupSummaries.get(0).deliverToStreet;
                         deliveryContact.state       = order.OrderDeliveryGroupSummaries.get(0).deliverToState;
                         deliveryContact.zipCode     = order.OrderDeliveryGroupSummaries.get(0).deliverToPostalCode;
+                        
+            			creditMemoDoc.TaxID 		= order.OrderDeliveryGroupSummaries.get(0).RI_TAX_ID__c;
                     }
                 }
                 //set delivery contact
@@ -199,7 +227,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         } 
 
     }
-    
+
     public String getCreditMemoProductType(CreditMemo creditMemo){
         try{  
             if (creditMemo.Refund__r.RefundOrigin__c == SOM_Constants.REFUND_ORIGIN_APPEASEMENT )
@@ -359,6 +387,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   totalWithTax {get; set;}
         public String                   paymentType {get; set;}
         public String                   Template {get; set;}
+        public String                	TaxID {get; set;}
     }
     global with sharing class CreditMemoContact{
         public String name {get; set;}
@@ -368,6 +397,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String address {get; set;}
         public String state {get; set;}
         public String country {get; set;}
+        public String neighborhood {get; set;}
     }
     global with sharing class CreditMemoLineItem implements comparable{
         public String  itemDescription {get; set;}
