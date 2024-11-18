@@ -63,8 +63,10 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> shipmentTransactionalEmailsList = new List<TransactionalEmail__c>();
         Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail,FulfillmentOrder.OrderSummary.BillingEmailAddress , FulfillmentOrder.OrderSummary.OrderNumber, 
                                                              FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,
-                                                             ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber,FulfillmentOrder.OrderSummary.StreetNumber__c,FulfillmentOrder.OrderSummary.Complementary__c,FulfillmentOrder.OrderSummary.RI_Neighborhood__c
+                                                             ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber,FulfillmentOrder.OrderSummary.StreetNumber__c,FulfillmentOrder.OrderSummary.Complementary__c,FulfillmentOrder.OrderSummary.RI_Neighborhood__c,
+                                                             FulfillmentOrder.Complementary__c,FulfillmentOrder.FulfilledToStreet,FulfillmentOrder.StreetNumber__c,FulfillmentOrder.RI_Neighborhood__c
                                                              FROM Shipment WHERE Id IN :recordIds]);
+        
         for (Shipment ship:shipments.values()) {
             if(emailOfClient == null) {
                 emailOfClient = ship.FulfillmentOrder.OrderSummary.BillingEmailAddress;
@@ -90,7 +92,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             SOM_ShipmentConfirmationTemplateContent shipmentConfirmationTemplateContent = new SOM_ShipmentConfirmationTemplateContent();
             shipmentConfirmationTemplateContent.channel            = ship.FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName;
             shipmentConfirmationTemplateContent.orderNumber        = ship.FulfillmentOrder.OrderSummary.OrderNumber;
-            shipmentConfirmationTemplateContent.deliveryStreet     = getFormattedBillingStreetFromShipment(ship);
+            shipmentConfirmationTemplateContent.deliveryStreet     = getFormattedDeliveryStreet(ship.FulfillmentOrder);
             shipmentConfirmationTemplateContent.deliveryCity       = ship.ShipToCity;
             //shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.ShipToCountry); 
             shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.FulfillmentOrder.OrderSummary.language__c, ship.ShipToCountry); 
@@ -1044,25 +1046,7 @@ lineItem.taxRate = item.TaxRate__c;
         }
         return deliveryGroup.DeliverToStreet;
     }
-    private static String getFormattedBillingStreetFromShipment(Shipment ship) {
-        if (ship.OrderSummaryId == null) {
-            return null;
-        }
-        
-        OrderSummary orderSummary = [
-            SELECT BillingStreet, StreetNumber__c, Complementary__c, RI_Neighborhood__c, BillingCountry
-            FROM OrderSummary
-            WHERE Id = :ship.OrderSummaryId
-            LIMIT 1
-        ];
-        
-        if (orderSummary.BillingCountry == 'BR') {
-            String complementaryPart = !String.isBlank(orderSummary.Complementary__c) ? ' - ' + orderSummary.Complementary__c : '';
-            return orderSummary.BillingStreet + ', ' + orderSummary.StreetNumber__c + complementaryPart + '<br>' + orderSummary.RI_Neighborhood__c;
-        }
-        
-        return orderSummary.BillingStreet;
-    }
+    
     public class SOM_InvoiceTemplateContent{
         public String orderNumber;
         public String channel;
