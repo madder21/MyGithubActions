@@ -43,7 +43,7 @@
                 <componentName>runtime_commerce_oci:locationManagement</componentName>
                 <identifier>ias_locationManagement</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
+                    <booleanFilter>1 AND 2</booleanFilter>
                     <criteria>
                         <leftValue>{!$User.Profile.Name}</leftValue>
                         <operator>NE</operator>
@@ -53,11 +53,6 @@
                         <leftValue>{!$Permission.CustomPermission.CSC_Permission}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>false</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!$User.Profile.Name}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Ecom Operations</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
