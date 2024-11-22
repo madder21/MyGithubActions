@@ -62,8 +62,8 @@
     <actionCalls>
         <name>Validate_SerialNumbers</name>
         <label>Validate SerialNumbers</label>
-        <locationX>2379</locationX>
-        <locationY>368</locationY>
+        <locationX>2434</locationX>
+        <locationY>499</locationY>
         <actionName>SOM_SerialNumbersValidation</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -169,8 +169,8 @@
     <assignments>
         <name>Assign_Translation_Wrapper</name>
         <label>Assign Translation Wrapper</label>
-        <locationX>2701</locationX>
-        <locationY>133</locationY>
+        <locationX>2535</locationX>
+        <locationY>167</locationY>
         <assignmentItems>
             <assignToReference>V_ShipTranslation.foliNumber</assignToReference>
             <operator>Assign</operator>
@@ -241,8 +241,8 @@
     <assignments>
         <name>Assign_Translation_Wrapper_0</name>
         <label>Assign Translation Wrapper for SecondHandProduct</label>
-        <locationX>2828</locationX>
-        <locationY>46</locationY>
+        <locationX>2738</locationX>
+        <locationY>25</locationY>
         <assignmentItems>
             <assignToReference>V_ShipTranslation.foliNumber</assignToReference>
             <operator>Assign</operator>
@@ -313,8 +313,8 @@
     <assignments>
         <name>Assign_Wr_Shipment_ShipmentItems</name>
         <label>Assign Wr Shipment ShipmentItems</label>
-        <locationX>2182</locationX>
-        <locationY>126</locationY>
+        <locationX>2267</locationX>
+        <locationY>120</locationY>
         <assignmentItems>
             <assignToReference>V_Wr_Shipment.shipmentExternalId</assignToReference>
             <operator>Assign</operator>
@@ -539,6 +539,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>BR_Values_Assignment</name>
+        <label>BR Values Assignment</label>
+        <locationX>2901</locationX>
+        <locationY>42</locationY>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.shipmentExternalId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>No Value</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>V_Wr_Shipment.trackingNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_FO_Record.OrderSummary.OrderNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_SalesChannelMapping</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>error_message</name>
         <label>error message</label>
         <locationX>3081</locationX>
@@ -593,29 +616,35 @@
         </value>
     </constants>
     <decisions>
-        <name>Check_Cross_Border</name>
-        <label>Check Cross Border</label>
-        <locationX>2910</locationX>
-        <locationY>202</locationY>
+        <name>Check_DeliverToCountry</name>
+        <label>Check DeliverToCountry</label>
+        <locationX>2940</locationX>
+        <locationY>224</locationY>
+        <defaultConnector>
+            <targetReference>Get_SalesChannelMapping</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>CrossBorderCheck</name>
+            <name>DeliverToCountry_BR</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_SalesChannelMapping.IsCorssBorder__c</leftValueReference>
+                <leftValueReference>UpperCase</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <stringValue>BR</stringValue>
                 </rightValue>
             </conditions>
-            <label>CrossBorderCheck</label>
+            <connector>
+                <targetReference>BR_Values_Assignment</targetReference>
+            </connector>
+            <label>DeliverToCountry = BR</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_Error_Message</name>
         <label>Check Error Message</label>
-        <locationX>2587</locationX>
-        <locationY>322</locationY>
+        <locationX>2343</locationX>
+        <locationY>299</locationY>
         <defaultConnectorLabel>Empty</defaultConnectorLabel>
         <rules>
             <name>Not_Empty</name>
@@ -668,39 +697,6 @@
                 <targetReference>Assign_Wr_Shipment_ShipmentItems</targetReference>
             </connector>
             <label>Empty1</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_isSecondeHand</name>
-        <label>Check isSecondeHand</label>
-        <locationX>50</locationX>
-        <locationY>1337</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>IsSecondeHandTrue</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>L10_Over_FOLI_Selected.isSecondHand</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>L10_Over_FOLI_Selected.MasterSKU</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>Sku_10_Digits</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>displaySerialNumber</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <label>IsSecondeHandTrue</label>
         </rules>
     </decisions>
     <decisions>
@@ -987,6 +983,11 @@
         <expression>LEFT({!Sku_10_Digits}, 10)</expression>
     </formulas>
     <formulas>
+        <name>UpperCase</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!Get_ODGS.DeliverToCountry})</expression>
+    </formulas>
+    <formulas>
         <name>wr_Sku10Digits</name>
         <dataType>String</dataType>
         <expression>IF(AND({!Sku10Digits} = true,{!displaySerialNumber} = true),LEFT({!Serial_Number}, 10), {!Sku_10_Digits})</expression>
@@ -1121,7 +1122,7 @@
         <locationY>342</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_SalesChannelMapping</targetReference>
+            <targetReference>Check_DeliverToCountry</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1224,8 +1225,8 @@
     <screens>
         <name>FOLI_to_Ship</name>
         <label>FOLI to Ship</label>
-        <locationX>2292</locationX>
-        <locationY>721</locationY>
+        <locationX>2294</locationX>
+        <locationY>719</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
