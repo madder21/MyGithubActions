@@ -4,7 +4,7 @@
         <name>Create_Return_Order</name>
         <label>Create Return Order</label>
         <locationX>2858</locationX>
-        <locationY>488</locationY>
+        <locationY>1098</locationY>
         <actionName>createReturnOrder</actionName>
         <actionType>createReturnOrder</actionType>
         <connector>
@@ -20,15 +20,13 @@
                 <elementReference>S_RO_InputRepresentation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>createReturnOrder</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Return_Order_Item_Summaries_Preview</name>
         <label>Return Order Item Summaries Preview</label>
         <locationX>2582</locationX>
-        <locationY>223</locationY>
+        <locationY>833</locationY>
         <actionName>returnOrderItemSummariesPreview</actionName>
         <actionType>returnOrderItemSummariesPreview</actionType>
         <connector>
@@ -50,19 +48,17 @@
                 <elementReference>changeInputRepresentation</elementReference>
             </value>
         </inputParameters>
-        <nameSegment>returnOrderItemSummariesPreview</nameSegment>
         <outputParameters>
             <assignToReference>previewReturnOutput</assignToReference>
             <name>previewReturnOutput</name>
         </outputParameters>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Add_single_country</name>
         <label>Add single country</label>
         <locationX>50</locationX>
-        <locationY>475</locationY>
+        <locationY>1085</locationY>
         <assignmentItems>
             <assignToReference>C_Custom_Countries_After_Split</assignToReference>
             <operator>Add</operator>
@@ -85,7 +81,7 @@
         <name>Assign_Collection_of_Locations</name>
         <label>Assign Collection of Locations</label>
         <locationX>879</locationX>
-        <locationY>703</locationY>
+        <locationY>1313</locationY>
         <assignmentItems>
             <assignToReference>C_Locations</assignToReference>
             <operator>Add</operator>
@@ -101,7 +97,7 @@
         <name>Assign_custom_countries</name>
         <label>Assign custom countries</label>
         <locationX>263</locationX>
-        <locationY>291</locationY>
+        <locationY>901</locationY>
         <assignmentItems>
             <assignToReference>S_Custom_Countries_Before_Split</assignToReference>
             <operator>Assign</operator>
@@ -116,8 +112,8 @@
     <assignments>
         <name>Assign_Description_Lengh</name>
         <label>Assign Description Lengh</label>
-        <locationX>2454</locationX>
-        <locationY>595</locationY>
+        <locationX>2271</locationX>
+        <locationY>1187</locationY>
         <assignmentItems>
             <assignToReference>DescriptionLengh</assignToReference>
             <operator>Assign</operator>
@@ -133,7 +129,7 @@
         <name>Assign_Other_RO_Data</name>
         <label>Assign Other RO Data</label>
         <locationX>2843</locationX>
-        <locationY>224</locationY>
+        <locationY>834</locationY>
         <assignmentItems>
             <assignToReference>S_RO_InputRepresentation.status</assignToReference>
             <operator>Assign</operator>
@@ -163,7 +159,7 @@
         <name>Assign_RO_Data_To_Call_Subflow</name>
         <label>Assign RO Data To Call Subflow</label>
         <locationX>3193</locationX>
-        <locationY>389</locationY>
+        <locationY>999</locationY>
         <assignmentItems>
             <assignToReference>S_RO_To_Send.Id</assignToReference>
             <operator>Assign</operator>
@@ -200,7 +196,7 @@
         <name>Assign_ROLIs_Collection</name>
         <label>Assign ROLIs Collection</label>
         <locationX>3045</locationX>
-        <locationY>223</locationY>
+        <locationY>833</locationY>
         <assignmentItems>
             <assignToReference>C_ROLI_Records</assignToReference>
             <operator>Assign</operator>
@@ -216,7 +212,7 @@
         <name>Assign_Single_Roli_Data</name>
         <label>Assign Single Roli Data</label>
         <locationX>3002</locationX>
-        <locationY>860</locationY>
+        <locationY>1470</locationY>
         <assignmentItems>
             <assignToReference>S_ROLI_Record.Id</assignToReference>
             <operator>Assign</operator>
@@ -260,7 +256,7 @@
         <name>Assign_warehouse_Id_default_value_for_screen</name>
         <label>Assign warehouse Id default value for screen</label>
         <locationX>422</locationX>
-        <locationY>70</locationY>
+        <locationY>680</locationY>
         <assignmentItems>
             <assignToReference>V_warehouseIdDefaultValue</assignToReference>
             <operator>Assign</operator>
@@ -276,7 +272,7 @@
         <name>Assigne_Existing_Country</name>
         <label>Assigne Existing Country</label>
         <locationX>445</locationX>
-        <locationY>465</locationY>
+        <locationY>1075</locationY>
         <assignmentItems>
             <assignToReference>C_Custom_Countries_After_Split</assignToReference>
             <operator>Add</operator>
@@ -291,8 +287,8 @@
     <assignments>
         <name>Change_Input_Representation</name>
         <label>Change Input Representation</label>
-        <locationX>1888</locationX>
-        <locationY>313</locationY>
+        <locationX>1868</locationX>
+        <locationY>927</locationY>
         <assignmentItems>
             <assignToReference>changeInputRepresentation.changeItems</assignToReference>
             <operator>Add</operator>
@@ -314,8 +310,8 @@
     <assignments>
         <name>Change_Item_Assignment</name>
         <label>Change Item Assignment</label>
-        <locationX>1465</locationX>
-        <locationY>958</locationY>
+        <locationX>1434</locationX>
+        <locationY>1574</locationY>
         <assignmentItems>
             <assignToReference>changeItem.orderItemSummaryId</assignToReference>
             <operator>Assign</operator>
@@ -374,10 +370,139 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Change_Item_Assignment_0</name>
+        <label>Change Item Assignment</label>
+        <locationX>1864</locationX>
+        <locationY>1992</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.QuantityAvailableToReturn</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.QuantityAvailableToReturn</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>IDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Change_Item_List_Assignment_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Change_Item_Assignment_0_0</name>
+        <label>Change Item Assignment</label>
+        <locationX>1312</locationX>
+        <locationY>2054</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummaries</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Selected_OrderProductSummary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Change_Item_Assignment_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Change_Item_Assignment_0_0_0</name>
+        <label>Change Item Assignment</label>
+        <locationX>1334</locationX>
+        <locationY>1741</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummaries</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>selectedOrderItem</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Change_Item_Assignment_Loop</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Change_Item_Assignment_0_0_0_0</name>
+        <label>Change Item Assignment</label>
+        <locationX>1761</locationX>
+        <locationY>1776</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.QuantityAvailableToReturn</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Qty_FollowUp_False</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Change_Item_List_Assignment_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Change_Item_Assignment_0_0_0_0_0</name>
+        <label>Change Item Assignment</label>
+        <locationX>1335</locationX>
+        <locationY>2239</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummary.QuantityAvailableToReturn</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>QtyAvailableToReturn</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_fulfilling_FOIs_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Change_Item_Input_Representation_Assignment</name>
         <label>Change Item Input Representation Assignment</label>
         <locationX>1755</locationX>
-        <locationY>622</locationY>
+        <locationY>1232</locationY>
         <assignmentItems>
             <assignToReference>changeItemInputRepresentation.orderItemSummaryId</assignToReference>
             <operator>Assign</operator>
@@ -441,8 +566,8 @@
     <assignments>
         <name>Change_Item_List_Assignment</name>
         <label>Change Item List Assignment</label>
-        <locationX>1754</locationX>
-        <locationY>967</locationY>
+        <locationX>1430</locationX>
+        <locationY>1756</locationY>
         <assignmentItems>
             <assignToReference>changeItems</assignToReference>
             <operator>Add</operator>
@@ -458,14 +583,62 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Change_Item_Assignment_Loop</targetReference>
+            <targetReference>ROLI_Null</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Change_Item_List_Assignment_0</name>
+        <label>Change Item List Assignment</label>
+        <locationX>1856</locationX>
+        <locationY>1610</locationY>
+        <assignmentItems>
+            <assignToReference>Selected_OrderProductSummaries</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Selected_OrderProductSummary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Rolis2</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>changeItem_Assignment</name>
+        <label>changeItem Assignment</label>
+        <locationX>2347</locationX>
+        <locationY>1532</locationY>
+        <assignmentItems>
+            <assignToReference>ChangeItemSelected</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Filtred_ChangeItems</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Filtred_ChangeItems</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Count_FO</name>
+        <label>Count FO</label>
+        <locationX>1542</locationX>
+        <locationY>172</locationY>
+        <assignmentItems>
+            <assignToReference>CountAllFo</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_All_FO</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Datatable_Collections_Assignment</name>
         <label>Datatable Collections Assignment</label>
         <locationX>2085</locationX>
-        <locationY>427</locationY>
+        <locationY>1037</locationY>
         <assignmentItems>
             <assignToReference>OIS_size</assignToReference>
             <operator>AssignCount</operator>
@@ -495,8 +668,8 @@
     <assignments>
         <name>Filtered_Lignes_Count_Assignement_from_changeItem</name>
         <label>Filtered Lignes Count Assignement from changeItem</label>
-        <locationX>2311</locationX>
-        <locationY>458</locationY>
+        <locationX>2282</locationX>
+        <locationY>1030</locationY>
         <assignmentItems>
             <assignToReference>FilteredChangeItems_Count</assignToReference>
             <operator>AssignCount</operator>
@@ -509,10 +682,184 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Get_FO_Ids</name>
+        <label>Get FO Ids</label>
+        <locationX>973</locationX>
+        <locationY>597</locationY>
+        <assignmentItems>
+            <assignToReference>FO_IDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_FOs.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CountFulfilled</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_FOs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_FO_Ids_0</name>
+        <label>Get FO Ids</label>
+        <locationX>621</locationX>
+        <locationY>136</locationY>
+        <assignmentItems>
+            <assignToReference>FO_IDS_Fullfillig</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Fulfilling_FOs.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CountFulfilling</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Fulfilling_FOs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_FOi_Ids</name>
+        <label>Get FOi Ids</label>
+        <locationX>903</locationX>
+        <locationY>78</locationY>
+        <assignmentItems>
+            <assignToReference>FOI_OIS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_FOIs.OrderItemSummaryId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_FOIs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_FOi_Ids_0</name>
+        <label>Get FOi Ids</label>
+        <locationX>457</locationX>
+        <locationY>584</locationY>
+        <assignmentItems>
+            <assignToReference>FOI_Fulfilling_OIS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_fulfilling_FOIs.OrderItemSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_OIS_1_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_OIS_from_ROLIS</name>
+        <label>Get OIS from ROLIS</label>
+        <locationX>1134</locationX>
+        <locationY>1914</locationY>
+        <assignmentItems>
+            <assignToReference>OIS_ROLIS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_ROLIS.OrderItemSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_ROLIS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_OIS_from_ROLIS_0</name>
+        <label>Get OIS from ROLIS</label>
+        <locationX>1093</locationX>
+        <locationY>1224</locationY>
+        <assignmentItems>
+            <assignToReference>OIS_ROLI_True</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_ROLIS_0.OrderItemSummary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_ROLIS_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_OIS_IDS</name>
+        <label>Get OIS IDS</label>
+        <locationX>955</locationX>
+        <locationY>1732</locationY>
+        <assignmentItems>
+            <assignToReference>OIS_IDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_OIS.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_OIS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_RO_Ids</name>
+        <label>Get RO Ids</label>
+        <locationX>1039</locationX>
+        <locationY>277</locationY>
+        <assignmentItems>
+            <assignToReference>ROIDS</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_ROs.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_ROs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_ROi_Ids</name>
+        <label>Get ROi Ids</label>
+        <locationX>1536</locationX>
+        <locationY>645</locationY>
+        <assignmentItems>
+            <assignToReference>roilis</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_OIS_1.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_ROLIS_1</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Get_ROi_Ids_0</name>
+        <label>Get ROi Ids</label>
+        <locationX>265</locationX>
+        <locationY>630</locationY>
+        <assignmentItems>
+            <assignToReference>roilis</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_OIS_1_0.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_OIS_1_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Invocable_Action_Error_Message</name>
         <label>Invocable Action Error Message</label>
-        <locationX>2689</locationX>
-        <locationY>1470</locationY>
+        <locationX>2699</locationX>
+        <locationY>2445</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -542,7 +889,7 @@
         <name>No_Items_Error_Message</name>
         <label>No Items Error Message</label>
         <locationX>1234</locationX>
-        <locationY>1351</locationY>
+        <locationY>1961</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -571,8 +918,8 @@
     <assignments>
         <name>OIS_Data_Assignment</name>
         <label>OIS Data Assignment</label>
-        <locationX>2148</locationX>
-        <locationY>545</locationY>
+        <locationX>2009</locationX>
+        <locationY>1193</locationY>
         <assignmentItems>
             <assignToReference>L60_Loop_Over_Old_OIS.Tech_ReturnedQuantity__c</assignToReference>
             <operator>Assign</operator>
@@ -599,10 +946,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>OIS_NameAssignment</name>
+        <label>OIS Name</label>
+        <locationX>2270</locationX>
+        <locationY>1330</locationY>
+        <assignmentItems>
+            <assignToReference>OIS_Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Filtred_Items.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Filtered_OIS</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Filtred_Items</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Filtred_Items</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Counter_To_Zero</name>
         <label>Set Counter To Zero</label>
         <locationX>2719</locationX>
-        <locationY>714</locationY>
+        <locationY>1324</locationY>
         <assignmentItems>
             <assignToReference>Counter</assignToReference>
             <operator>Assign</operator>
@@ -617,8 +987,8 @@
     <assignments>
         <name>Set_Datatable_Error_255</name>
         <label>Set Datatable Error 255</label>
-        <locationX>2327</locationX>
-        <locationY>196</locationY>
+        <locationX>2257</locationX>
+        <locationY>848</locationY>
         <assignmentItems>
             <assignToReference>Error255Description</assignToReference>
             <operator>Assign</operator>
@@ -641,7 +1011,7 @@
         <name>Set_Datatable_Error_Message</name>
         <label>Set Datatable Error Message</label>
         <locationX>2179</locationX>
-        <locationY>374</locationY>
+        <locationY>984</locationY>
         <assignmentItems>
             <assignToReference>DatatableErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -661,10 +1031,53 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_Datatable_Error_Message_0</name>
+        <label>Set Datatable Error Message</label>
+        <locationX>2226</locationX>
+        <locationY>619</locationY>
+        <assignmentItems>
+            <assignToReference>DatatableErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Reship_Error_message</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Counter</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ROLI_Data_Table</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Datatable_Error_Message_0_0</name>
+        <label>Set Datatable Error Message</label>
+        <locationX>2301</locationX>
+        <locationY>694</locationY>
+        <assignmentItems>
+            <assignToReference>DatatableErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Reship_Error_message</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Counter</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>1.0</numberValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Set_Datatable_Reason_Error_Message</name>
         <label>Set Datatable Reason Error Message</label>
-        <locationX>2449</locationX>
-        <locationY>123</locationY>
+        <locationX>2475</locationX>
+        <locationY>699</locationY>
         <assignmentItems>
             <assignToReference>DatatableErrorMessage</assignToReference>
             <operator>Assign</operator>
@@ -687,7 +1100,7 @@
         <name>Set_stage_to_part_1</name>
         <label>Set stage to part 1</label>
         <locationX>1237</locationX>
-        <locationY>595</locationY>
+        <locationY>1205</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -703,7 +1116,7 @@
         <name>Set_stage_to_part_2</name>
         <label>Set stage to part 2</label>
         <locationX>1473</locationX>
-        <locationY>285</locationY>
+        <locationY>895</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -719,7 +1132,7 @@
         <name>Set_Stage_To_Stage_3</name>
         <label>Set Stage To Stage 3</label>
         <locationX>1641</locationX>
-        <locationY>122</locationY>
+        <locationY>732</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -735,7 +1148,7 @@
         <name>Set_Stage_To_Stage_4</name>
         <label>Set Stage To Stage 4</label>
         <locationX>2738</locationX>
-        <locationY>224</locationY>
+        <locationY>834</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -758,7 +1171,7 @@
         <name>Set_Stage_To_Stage_5</name>
         <label>Set Stage To Stage 5</label>
         <locationX>3357</locationX>
-        <locationY>239</locationY>
+        <locationY>849</locationY>
         <assignmentItems>
             <assignToReference>$Flow.CurrentStage</assignToReference>
             <operator>Assign</operator>
@@ -781,7 +1194,7 @@
         <name>Set_Unmanaged_Order_Error_Message</name>
         <label>Set Unmanaged Order Error Message</label>
         <locationX>662</locationX>
-        <locationY>1048</locationY>
+        <locationY>1658</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -811,7 +1224,7 @@
         <name>Set_Wrong_Entity_Error_Message</name>
         <label>Set Wrong Entity Error Message</label>
         <locationX>830</locationX>
-        <locationY>1074</locationY>
+        <locationY>1684</locationY>
         <assignmentItems>
             <assignToReference>errorMessage</assignToReference>
             <operator>Assign</operator>
@@ -841,7 +1254,7 @@
         <name>Stack_ROLI_to_update</name>
         <label>Stack ROLI to update</label>
         <locationX>3025</locationX>
-        <locationY>729</locationY>
+        <locationY>1339</locationY>
         <assignmentItems>
             <assignToReference>C_ROLI_To_Update</assignToReference>
             <operator>Add</operator>
@@ -854,11 +1267,32 @@
         </connector>
     </assignments>
     <collectionProcessors>
+        <name>Filter_changeItems</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter changeItems</label>
+        <locationX>2492</locationX>
+        <locationY>1632</locationY>
+        <assignNextValueToReference>currentItem_Filter_changeItems</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>changeItems</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_changeItems.orderItemSummaryId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L05_Loop_Over_OIs.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Filtred_ChangeItems</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
         <name>Filter_Location</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Location</label>
         <locationX>880</locationX>
-        <locationY>494</locationY>
+        <locationY>1104</locationY>
         <assignNextValueToReference>currentItem_Filter_Location</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Get_Locations</collectionReference>
@@ -875,24 +1309,45 @@
         </connector>
     </collectionProcessors>
     <collectionProcessors>
+        <name>Filter_OIS</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter OIS</label>
+        <locationX>2395</locationX>
+        <locationY>1392</locationY>
+        <assignNextValueToReference>currentItem_Filter_OIS</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Order_Item_Summary</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_OIS.Id</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>L05_Loop_Over_OIs.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Filtred_Items</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
         <name>Filter_Reason_from_changeItem</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Reason from changeItem</label>
-        <locationX>2313</locationX>
-        <locationY>578</locationY>
-        <assignNextValueToReference>currentItem_Filter_Reason_from_changeItem_0</assignNextValueToReference>
+        <locationX>2379</locationX>
+        <locationY>1103</locationY>
+        <assignNextValueToReference>currentItem_Filter_Reason_from_changeItem</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>changeItems</collectionReference>
         <conditionLogic>and</conditionLogic>
         <conditions>
-            <leftValueReference>currentItem_Filter_Reason_from_changeItem_0.orderItemSummaryId</leftValueReference>
+            <leftValueReference>currentItem_Filter_Reason_from_changeItem.orderItemSummaryId</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <elementReference>L05_Loop_Over_OIs.Id</elementReference>
             </rightValue>
         </conditions>
         <conditions>
-            <leftValueReference>currentItem_Filter_Reason_from_changeItem_0.reason</leftValueReference>
+            <leftValueReference>currentItem_Filter_Reason_from_changeItem.reason</leftValueReference>
             <operator>EqualTo</operator>
             <rightValue>
                 <stringValue>RE03</stringValue>
@@ -900,6 +1355,27 @@
         </conditions>
         <connector>
             <targetReference>Filtered_Lignes_Count_Assignement_from_changeItem</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Fulfilling_FOI</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Fulfilling FOI</label>
+        <locationX>1567</locationX>
+        <locationY>2076</locationY>
+        <assignNextValueToReference>currentItem_Fulfilling_FOI</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Get_Fulfilling_FOIS</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Fulfilling_FOI.OrderItemSummaryId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>selectedOrderItem.Id</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_fulfilling_FOIs_0</targetReference>
         </connector>
     </collectionProcessors>
     <constants>
@@ -948,7 +1424,7 @@
         <name>Are_Any_Items_To_Return</name>
         <label>Are Any Items To Return</label>
         <locationX>1225</locationX>
-        <locationY>829</locationY>
+        <locationY>1439</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NoItems</name>
@@ -984,8 +1460,8 @@
     <decisions>
         <name>Check_Datatable_Output_Collection_Size</name>
         <label>Check Datatable Output Collection Size</label>
-        <locationX>2431</locationX>
-        <locationY>1036</locationY>
+        <locationX>2165</locationX>
+        <locationY>1668</locationY>
         <defaultConnector>
             <targetReference>Set_Datatable_Error_Message</targetReference>
         </defaultConnector>
@@ -1009,12 +1485,48 @@
     <decisions>
         <name>Check_Datatable_Repayment_Method</name>
         <label>Check Datatable Repayment Method</label>
-        <locationX>2439</locationX>
-        <locationY>383</locationY>
+        <locationX>2442</locationX>
+        <locationY>975</locationY>
         <defaultConnector>
             <targetReference>L05_Loop_Over_OIs</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Repayment Method is not Null</defaultConnectorLabel>
+        <rules>
+            <name>Repayment_Method_is_Reship</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_ROLIS_true</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>L05_Loop_Over_OIs.Tech_RepaymentMethod__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Reship</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>OIS_ROLI_True</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>L05_Loop_Over_OIs.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Filtered_OIS.QuantityAvailableToReturn</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>ChangeItemQTY</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Datatable_Error_Message_0</targetReference>
+            </connector>
+            <label>Repayment Method is Reship</label>
+        </rules>
         <rules>
             <name>Repayment_Method_is_Null</name>
             <conditionLogic>and</conditionLogic>
@@ -1072,7 +1584,7 @@
         <name>Check_if_ErrorDisplayed</name>
         <label>Check if ErrorDisplayed</label>
         <locationX>2624</locationX>
-        <locationY>394</locationY>
+        <locationY>1004</locationY>
         <defaultConnector>
             <targetReference>Return_Order_Item_Summaries_Preview</targetReference>
         </defaultConnector>
@@ -1097,7 +1609,7 @@
         <name>Check_If_OIS_Is_Match_ChangeItem</name>
         <label>Check If OIS Is Match ChangeItem</label>
         <locationX>1974</locationX>
-        <locationY>1048</locationY>
+        <locationY>1658</locationY>
         <defaultConnector>
             <targetReference>L60_Loop_Over_Old_OIS</targetReference>
         </defaultConnector>
@@ -1122,7 +1634,7 @@
         <name>Check_If_ROLI_Have_OIS</name>
         <label>Check If ROLI Have OIS</label>
         <locationX>3157</locationX>
-        <locationY>904</locationY>
+        <locationY>1514</locationY>
         <defaultConnector>
             <targetReference>L20_Loop_Over_OIS</targetReference>
         </defaultConnector>
@@ -1144,10 +1656,228 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_Quantities</name>
+        <label>Check Quantities</label>
+        <locationX>1293</locationX>
+        <locationY>630</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_ROLIS_1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Quantities</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_OIS_1.Quantity</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_ROLIS_1.QuantityExpected</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_OIS_1.Quantity</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_ROLIS_1.Quantity_Previously_Returned__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_ROi_Ids</targetReference>
+            </connector>
+            <label>Quantities</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Quantities_0</name>
+        <label>Check Quantities</label>
+        <locationX>154</locationX>
+        <locationY>432</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_OIS_1_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Quantities_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_OIS_1_0.Quantity</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_fulfilling_FOIs.Quantity</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_OIS_1_0.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_fulfilling_FOIs.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_ROi_Ids_0</targetReference>
+            </connector>
+            <label>Quantities</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Roli_OIS</name>
+        <label>Check Roli &amp; OIS</label>
+        <locationX>1604</locationX>
+        <locationY>1855</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_Rolis2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ROLI_Received_Follow_UP_false</name>
+            <conditionLogic>1 AND ( 2 OR NOT(6) ) AND 3 AND 4 AND ( NOT(5) )</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedOrderItem.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Fulfilling_FOIS</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Rolis2.FollowUpProcessed__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Rolis2.Quantity_Previously_Returned__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IDS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Change_Item_Assignment_0_0_0_0</targetReference>
+            </connector>
+            <label>ROLI Received &amp; Follow UP false</label>
+        </rules>
+        <rules>
+            <name>Fos_Fulfilling</name>
+            <conditionLogic>1 AND 2 AND 3 AND ( not ( 4 )) AND 5 AND ( NOT(6) )</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedOrderItem.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Fulfilling_FOIS</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Selected_OrderProductSummaries</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Rolis2.FollowUpProcessed__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IDS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <label>Fos Fulfilling</label>
+        </rules>
+        <rules>
+            <name>ROLI_Received_Follow_UP_false_Fulfilling</name>
+            <conditionLogic>1 AND 2 AND 3 AND 4 AND ( NOT(5) ) AND 6</conditionLogic>
+            <conditions>
+                <leftValueReference>selectedOrderItem.Id</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Fulfilling_FOIS</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Rolis2.FollowUpProcessed__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Rolis2.Quantity_Previously_Returned__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IDS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Rolis2.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <label>ROLI Received &amp; Follow UP false + Fulfilling</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>If_One_Custom_Country</name>
         <label>If One Custom Country</label>
         <locationX>257</locationX>
-        <locationY>469</locationY>
+        <locationY>1079</locationY>
         <defaultConnector>
             <targetReference>Add_single_country</targetReference>
         </defaultConnector>
@@ -1172,7 +1902,7 @@
         <name>Is_location_type_Warehouse</name>
         <label>Is location type Warehouse?</label>
         <locationX>655</locationX>
-        <locationY>82</locationY>
+        <locationY>692</locationY>
         <defaultConnector>
             <targetReference>L10_FOs</targetReference>
         </defaultConnector>
@@ -1197,7 +1927,7 @@
         <name>isValid</name>
         <label>isValid</label>
         <locationX>656</locationX>
-        <locationY>828</locationY>
+        <locationY>1438</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Unmanaged_Order</name>
@@ -1252,6 +1982,152 @@
             <label>Not Valid</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>OIS_ROLIS_Contain_ID</name>
+        <label>OIS_ROLIS Contain ID</label>
+        <locationX>922</locationX>
+        <locationY>1890</locationY>
+        <defaultConnector>
+            <targetReference>Get_OIS_from_ROLIS</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Contain</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OIS_ROLIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_ROLIS.OrderItemSummary.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_ROLIS</targetReference>
+            </connector>
+            <label>Contain</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>ok</name>
+        <label>ok</label>
+        <locationX>738</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_FOIs</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>okk</name>
+            <conditionLogic>NOT (1)</conditionLogic>
+            <conditions>
+                <leftValueReference>FOI_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_FOIs.OrderItemSummaryId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_FOi_Ids</targetReference>
+            </connector>
+            <label>ok</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>ROLI_Null</name>
+        <label>ROLI Null</label>
+        <locationX>1477</locationX>
+        <locationY>1939</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_Rolis2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Null_Roli</name>
+            <conditionLogic>( 1 AND 2 ) OR ( 3 AND 1 ) OR ( 3 AND NOT(1) AND NOt(4) ) OR ( NOT(3) AND 1 AND 5 AND NOT(6) )</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_ROLIS_false</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_ROLIS_true</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CountAllFo</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>CountFulfilled</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>OIS_ROLIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Change_Item_Assignment_0_0_0</targetReference>
+            </connector>
+            <label>Null Roli</label>
+        </rules>
+        <rules>
+            <name>Fulfilling</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CountAllFo</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>CountFulfilled</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_ROLIS_false</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FOI_Fulfilling_OIS</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <elementReference>selectedOrderItem.Id</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Fulfilling_FOI</targetReference>
+            </connector>
+            <label>Fulfilling</label>
+        </rules>
+    </decisions>
     <dynamicChoiceSets>
         <name>CS_Locations</name>
         <collectionReference>C_Locations</collectionReference>
@@ -1276,7 +2152,12 @@
         <picklistField>ReasonForReturn</picklistField>
         <picklistObject>ReturnOrderLineItem</picklistObject>
     </dynamicChoiceSets>
-    <environments>Default</environments>
+    <formulas>
+        <name>ChangeItemQTY</name>
+        <dataType>Number</dataType>
+        <expression>{!Filtered_OIS.QuantityReshipped} + {!ChangeItemSelected.quantity}</expression>
+        <scale>2</scale>
+    </formulas>
     <formulas>
         <name>FX_ChangeItem_Reason</name>
         <dataType>String</dataType>
@@ -1304,13 +2185,30 @@
         <dataType>String</dataType>
         <expression>LEFT({!S_Custom_Countries_Before_Split}, FIND(&apos;;&apos;,{!S_Custom_Countries_Before_Split})-1)</expression>
     </formulas>
+    <formulas>
+        <name>NOT</name>
+        <dataType>Boolean</dataType>
+        <expression>true</expression>
+    </formulas>
+    <formulas>
+        <name>Qty_FollowUp_False</name>
+        <dataType>Number</dataType>
+        <expression>{!selectedOrderItem.QuantityAvailableToReturn} - {!Loop_Over_Rolis2.Quantity_Previously_Returned__c}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>QtyAvailableToReturn</name>
+        <dataType>Number</dataType>
+        <expression>{!selectedOrderItem.QuantityAvailableToReturn} - {!Loop_Over_fulfilling_FOIs_0.Quantity}</expression>
+        <scale>2</scale>
+    </formulas>
     <interviewLabel>SOM 610 - Core Model - Create ReturnOrder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 610 - Core Model - Create ReturnOrder</label>
     <loops>
         <name>Change_Item_Assignment_Loop</name>
         <label>Change Item Assignment Loop</label>
         <locationX>1470</locationX>
-        <locationY>633</locationY>
+        <locationY>1243</locationY>
         <assignNextValueToReference>selectedOrderItem</assignNextValueToReference>
         <collectionReference>selectedOrderItemSummaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1325,7 +2223,7 @@
         <name>Change_Item_Representation_Loop</name>
         <label>Change Item Representation Loop</label>
         <locationX>1638</locationX>
-        <locationY>312</locationY>
+        <locationY>922</locationY>
         <assignNextValueToReference>changeItem</assignNextValueToReference>
         <collectionReference>changeItems</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -1339,12 +2237,12 @@
     <loops>
         <name>L05_Loop_Over_OIs</name>
         <label>L05 Loop Over OIs</label>
-        <locationX>2554</locationX>
-        <locationY>716</locationY>
+        <locationX>2594</locationX>
+        <locationY>1752</locationY>
         <collectionReference>C_OutPut_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
-            <targetReference>Assign_Description_Lengh</targetReference>
+            <targetReference>Filter_changeItems</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Check_if_ErrorDisplayed</targetReference>
@@ -1354,7 +2252,7 @@
         <name>L10_FOs</name>
         <label>L10 FOs</label>
         <locationX>678</locationX>
-        <locationY>273</locationY>
+        <locationY>883</locationY>
         <collectionReference>Get_Fulfilled_FO_for_OS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1368,7 +2266,7 @@
         <name>L10_Loop_Over_ROLIs</name>
         <label>L10 Loop Over ROLIs</label>
         <locationX>3037</locationX>
-        <locationY>499</locationY>
+        <locationY>1109</locationY>
         <collectionReference>Get_Inserted_ROLIs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1382,7 +2280,7 @@
         <name>L20_Loop_Over_OIS</name>
         <label>L20 Loop Over OIS</label>
         <locationX>3168</locationX>
-        <locationY>632</locationY>
+        <locationY>1242</locationY>
         <collectionReference>C_OutPut_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1396,7 +2294,7 @@
         <name>L60_Loop_Over_Old_OIS</name>
         <label>L60 Loop Over Old OIS</label>
         <locationX>1900</locationX>
-        <locationY>615</locationY>
+        <locationY>1225</locationY>
         <collectionReference>C_OIS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1407,10 +2305,52 @@
         </noMoreValuesConnector>
     </loops>
     <loops>
+        <name>Loop_Filtred_ChangeItems</name>
+        <label>Loop Filtred ChangeItems</label>
+        <locationX>2484</locationX>
+        <locationY>1517</locationY>
+        <collectionReference>Filter_changeItems</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>changeItem_Assignment</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Filter_OIS</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Filtred_Items</name>
+        <label>Loop Filtred Items</label>
+        <locationX>2392</locationX>
+        <locationY>1266</locationY>
+        <collectionReference>Filter_OIS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>OIS_NameAssignment</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Description_Lengh</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_All_FO</name>
+        <label>Loop Over FOs</label>
+        <locationX>1423</locationX>
+        <locationY>135</locationY>
+        <collectionReference>Get_FO</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Count_FO</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_RO</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_over_custom_countries</name>
         <label>Loop over custom countries</label>
         <locationX>637</locationX>
-        <locationY>633</locationY>
+        <locationY>1243</locationY>
         <collectionReference>C_Custom_Countries_After_Split</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1418,6 +2358,188 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>isValid</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_FOIs</name>
+        <label>Loop Over FOIs</label>
+        <locationX>816</locationX>
+        <locationY>260</locationY>
+        <collectionReference>Get_FOIS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>ok</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Over_Fulfilling_FOs</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_FOs</name>
+        <label>Loop Over FOs</label>
+        <locationX>817</locationX>
+        <locationY>609</locationY>
+        <collectionReference>GetFulfilledFOforOS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_FO_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_FOIS</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_fulfilling_FOIs</name>
+        <label>Loop Over fulfilling FOIs</label>
+        <locationX>639</locationX>
+        <locationY>542</locationY>
+        <collectionReference>Get_Fulfilling_FOIS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_FOi_Ids_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Is_location_type_Warehouse</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_fulfilling_FOIs_0</name>
+        <label>Loop Over fulfilling FOIs</label>
+        <locationX>1473</locationX>
+        <locationY>2244</locationY>
+        <collectionReference>Fulfilling_FOI</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Change_Item_Assignment_0_0_0_0_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Change_Item_Assignment_0_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Fulfilling_FOs</name>
+        <label>Loop Over Fulfilling FOs</label>
+        <locationX>633</locationX>
+        <locationY>272</locationY>
+        <collectionReference>Get_Fulfilling_FO_for_OSs</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_FO_Ids_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Fulfilling_FOIS</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_OIS</name>
+        <label>Loop Over OIS</label>
+        <locationX>885</locationX>
+        <locationY>1566</locationY>
+        <collectionReference>Get_Order_Item_Summary</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_OIS_IDS</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_ROLIS_true</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_OIS_1</name>
+        <label>Loop Over OIS 1</label>
+        <locationX>1169</locationX>
+        <locationY>784</locationY>
+        <collectionReference>Get_Order_Item_Summary_0</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Loop_Over_ROLIS_1</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Fulfilling_FO_for_OSs</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_OIS_1_0</name>
+        <label>Loop Over OIS 1</label>
+        <locationX>389</locationX>
+        <locationY>451</locationY>
+        <collectionReference>Get_Order_Item_Summary_0</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Quantities_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Over_fulfilling_FOIs</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_ROLIS</name>
+        <label>Loop Over ROLIS</label>
+        <locationX>1152</locationX>
+        <locationY>1769</locationY>
+        <collectionReference>Get_ROLIS_false</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>OIS_ROLIS_Contain_ID</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Are_Any_Items_To_Return</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Rolis2</name>
+        <label>Loop Over Rolis2</label>
+        <locationX>1614</locationX>
+        <locationY>1428</locationY>
+        <collectionReference>Get_ROLIS_false</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Roli_OIS</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Change_Item_Assignment_Loop</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_ROLIS_0</name>
+        <label>Loop Over ROLIS</label>
+        <locationX>1097</locationX>
+        <locationY>1384</locationY>
+        <collectionReference>Get_ROLIS_true</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_OIS_from_ROLIS_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_ROLIS_false</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_ROLIS_1</name>
+        <label>Loop Over ROLIS 1</label>
+        <locationX>1370</locationX>
+        <locationY>780</locationY>
+        <collectionReference>Get_ROLIS_1</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Quantities</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Over_OIS_1</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_ROs</name>
+        <label>Loop Over ROs</label>
+        <locationX>1190</locationX>
+        <locationY>267</locationY>
+        <collectionReference>Get_RO</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_RO_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_ROLIS_1</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -1440,13 +2562,57 @@
     </processMetadataValues>
     <processType>Flow</processType>
     <recordLookups>
+        <name>Get_FO</name>
+        <label>Get FO</label>
+        <locationX>1425</locationX>
+        <locationY>277</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_All_FO</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>FulfillmentOrder</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_FOIS</name>
+        <label>Get FOIS</label>
+        <locationX>819</locationX>
+        <locationY>424</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_FOIs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FulfillmentOrderId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>FO_IDS</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>FulfillmentOrderLineItem</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>OrderItemSummaryId</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Fulfilled_FO_for_OS</name>
         <label>Get Fulfilled FO for OS</label>
         <locationX>940</locationX>
-        <locationY>266</locationY>
+        <locationY>876</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>L10_FOs</targetReference>
+            <targetReference>GetFulfilledFOforOS</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1468,10 +2634,59 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Fulfilling_FO_for_OSs</name>
+        <label>Get Fulfilling FO for OS</label>
+        <locationX>1062</locationX>
+        <locationY>890</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Fulfilled_FO_for_OS</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Fulfilled</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>FulfillmentOrder</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Fulfilling_FOIS</name>
+        <label>Get Fulfilling FOIS</label>
+        <locationX>633</locationX>
+        <locationY>417</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_fulfilling_FOIs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>FulfillmentOrderId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>FO_IDS_Fullfillig</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>FulfillmentOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Inserted_Ro</name>
         <label>Get Inserted Ro</label>
         <locationX>2947</locationX>
-        <locationY>222</locationY>
+        <locationY>832</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Inserted_ROLIs</targetReference>
@@ -1492,7 +2707,7 @@
         <name>Get_Inserted_ROLIs</name>
         <label>Get Inserted ROLIs</label>
         <locationX>2951</locationX>
-        <locationY>490</locationY>
+        <locationY>1100</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_ROLIs_Collection</targetReference>
@@ -1513,7 +2728,7 @@
         <name>Get_Locations</name>
         <label>Get Locations</label>
         <locationX>629</locationX>
-        <locationY>462</locationY>
+        <locationY>1072</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_over_custom_countries</targetReference>
@@ -1534,7 +2749,7 @@
         <name>Get_Order_Delivery_Group</name>
         <label>Get Order Delivery Group</label>
         <locationX>422</locationX>
-        <locationY>282</locationY>
+        <locationY>892</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_custom_countries</targetReference>
@@ -1555,10 +2770,52 @@
         <name>Get_Order_Item_Summary</name>
         <label>Get Order Item Summary</label>
         <locationX>986</locationX>
-        <locationY>821</locationY>
+        <locationY>1431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Are_Any_Items_To_Return</targetReference>
+            <targetReference>Loop_Over_OIS</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND 3 AND NOT(4)</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Delivery Charge</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>QuantityAvailableToReturn</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>roilis</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemSummary</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Item_Summary_0</name>
+        <label>Get Order Item Summary</label>
+        <locationX>1097</locationX>
+        <locationY>651</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_OIS_1</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1590,11 +2847,11 @@
         <description>Get OrderSummary for the record Id passed</description>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1096</locationX>
-        <locationY>267</locationY>
+        <locationX>1404</locationX>
+        <locationY>443</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Fulfilled_FO_for_OS</targetReference>
+            <targetReference>Get_FO</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1609,10 +2866,164 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_RO</name>
+        <label>Get RO</label>
+        <locationX>1270</locationX>
+        <locationY>331</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_ROs</targetReference>
+        </connector>
+        <filterLogic>1 AND ( 2 OR 3 )</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Submitted</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Received</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ReturnOrder</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ROLIS_1</name>
+        <label>Get ROLIS 1</label>
+        <locationX>1102</locationX>
+        <locationY>495</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Order_Item_Summary_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ReturnOrderId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>ROIDS</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RepaymentMethod</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Reship</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FollowUpProcessed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>QuantityExpected</field>
+            <operator>EqualTo</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ReturnOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ROLIS_false</name>
+        <label>Get ROLIS</label>
+        <locationX>1108</locationX>
+        <locationY>1617</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_ROLIS</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderItemSummaryId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OIS_IDS</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RepaymentMethod</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Reship</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>FollowUpProcessed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Quantity_Previously_Returned__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ReturnOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_ROLIS_true</name>
+        <label>Get ROLIS</label>
+        <locationX>1036</locationX>
+        <locationY>1639</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_ROLIS_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderItemSummaryId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OIS_IDS</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>FollowUpProcessed__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>RepaymentMethod</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Reship</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ReturnOrderLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_ShipmentItem</name>
         <label>Get ShipmentItem</label>
         <locationX>3075</locationX>
-        <locationY>981</locationY>
+        <locationY>1591</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Single_Roli_Data</targetReference>
@@ -1629,11 +3040,39 @@
         <object>ShipmentItem</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>GetFulfilledFOforOS</name>
+        <label>Get Fulfilled FO for OS</label>
+        <locationX>827</locationX>
+        <locationY>772</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_FOs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Fulfilled</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>FulfillmentOrder</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>Update_ReturnOrder_Origin</name>
         <label>Update ReturnOrder Origin</label>
         <locationX>3253</locationX>
-        <locationY>240</locationY>
+        <locationY>850</locationY>
         <connector>
             <targetReference>Set_Stage_To_Stage_5</targetReference>
         </connector>
@@ -1643,7 +3082,7 @@
         <name>Update_ROLIs</name>
         <label>Update ROLIs</label>
         <locationX>3143</locationX>
-        <locationY>235</locationY>
+        <locationY>845</locationY>
         <connector>
             <targetReference>Assign_RO_Data_To_Call_Subflow</targetReference>
         </connector>
@@ -1653,7 +3092,7 @@
         <name>Confirmation</name>
         <label>Confirmation</label>
         <locationX>3355</locationX>
-        <locationY>390</locationY>
+        <locationY>1000</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1693,7 +3132,7 @@
         <name>DataTable_Preview</name>
         <label>DataTable Preview</label>
         <locationX>2775</locationX>
-        <locationY>409</locationY>
+        <locationY>1019</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1819,8 +3258,8 @@
     <screens>
         <name>Error_Message</name>
         <label>Error Message</label>
-        <locationX>653</locationX>
-        <locationY>1464</locationY>
+        <locationX>661</locationX>
+        <locationY>2447</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1841,7 +3280,7 @@
         <name>PreviewChanges</name>
         <label>PreviewChanges</label>
         <locationX>2776</locationX>
-        <locationY>605</locationY>
+        <locationY>1215</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1924,8 +3363,8 @@
     <screens>
         <name>Product_Selection</name>
         <label>Product Selection</label>
-        <locationX>1363</locationX>
-        <locationY>51</locationY>
+        <locationX>2003</locationX>
+        <locationY>420</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2005,7 +3444,7 @@
         <name>Reasons_Selection</name>
         <label>Reasons Selection</label>
         <locationX>1633</locationX>
-        <locationY>626</locationY>
+        <locationY>1236</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2032,7 +3471,6 @@
                     </defaultValue>
                     <fieldText>Warehouse Id</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2060,7 +3498,6 @@
                     </defaultValue>
                     <fieldText>Return Origin</fieldText>
                     <fieldType>DropdownBox</fieldType>
-                    <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
                     <isRequired>true</isRequired>
                 </fields>
                 <inputParameters>
@@ -2072,11 +3509,10 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
-            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ReasonsSelectionHeading</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(62, 62, 60); font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;Select the quantity to return and the return reason.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 18px; color: rgb(62, 62, 60);&quot;&gt;Select the quantity to return and the return reason.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -2086,7 +3522,7 @@
             <inputParameters>
                 <name>selectedOrderItemSummaries</name>
                 <value>
-                    <elementReference>selectedOrderItemSummaries</elementReference>
+                    <elementReference>Selected_OrderProductSummaries</elementReference>
                 </value>
             </inputParameters>
             <inputParameters>
@@ -2150,7 +3586,7 @@
         <name>ROLI_Data_Table</name>
         <label>ROLI DataTable</label>
         <locationX>2136</locationX>
-        <locationY>121</locationY>
+        <locationY>731</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2343,7 +3779,7 @@
         <name>Selector_OIS_Sreen1</name>
         <label>Selector_OIS_Sreen1</label>
         <locationX>1235</locationX>
-        <locationY>291</locationY>
+        <locationY>901</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2507,8 +3943,8 @@
         <stageOrder>5</stageOrder>
     </stages>
     <start>
-        <locationX>970</locationX>
-        <locationY>116</locationY>
+        <locationX>1523</locationX>
+        <locationY>426</locationY>
         <connector>
             <targetReference>Get_Order_Summary</targetReference>
         </connector>
@@ -2518,7 +3954,7 @@
         <name>Update_Return_Order</name>
         <label>Update Return Order</label>
         <locationX>2759</locationX>
-        <locationY>88</locationY>
+        <locationY>698</locationY>
         <flowName>SOM_create_order_dry_subflow</flowName>
     </subflows>
     <textTemplates>
@@ -2555,6 +3991,11 @@
         <name>Error_Output_Wrong_Entity_Header</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
         <text>We don&apos;t think you meant to come here.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Reship_Error_message</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>You cannot choose a follow-up Reship for the product {!OIS_Name}. The quantity selected exceeds the quantity available for reship.</text>
     </textTemplates>
     <variables>
         <name>C_Accounts_Test</name>
@@ -2659,6 +4100,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>ChangeItemSelected</name>
+        <apexClass>runtime_commerce_oms__ChangeItem</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>changeOrderId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2680,12 +4129,45 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>CountAllFo</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
         <name>Counter</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <name>CountFulfilled</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>CountFulfilling</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>createCreditMemoOutputRepresentation</name>
@@ -2711,6 +4193,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_changeItems</name>
+        <apexClass>runtime_commerce_oms__ChangeItem</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>currentItem_Filter_Location</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -2719,12 +4209,43 @@
         <objectType>Location</objectType>
     </variables>
     <variables>
-        <name>currentItem_Filter_Reason_from_changeItem_0</name>
+        <name>currentItem_Filter_OIS</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Reason_from_changeItem</name>
         <apexClass>runtime_commerce_oms__ChangeItem</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItem_Fulfilling_FOI</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>FulfillmentOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItemFromSourceCollection_0</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>DatatableErrorMessage</name>
@@ -2778,12 +4299,55 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>Filtered_OIS</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>FilteredChangeItems_Count</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <name>FO_IDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FO_IDS_Fullfillig</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FOI_Fulfilling_OIS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FOI_OIS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>IDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>isError</name>
@@ -2794,6 +4358,34 @@
         <value>
             <booleanValue>false</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>OIS_IDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OIS_Name</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OIS_ROLI_True</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OIS_ROLIS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>OIS_size</name>
@@ -2831,6 +4423,20 @@
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ROIDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>roilis</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
@@ -2895,6 +4501,22 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>ReturnOrderLineItem</objectType>
+    </variables>
+    <variables>
+        <name>Selected_OrderProductSummaries</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>Selected_OrderProductSummary</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
     </variables>
     <variables>
         <name>selectedOrderItem</name>
