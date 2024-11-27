@@ -1,6 +1,6 @@
 public with sharing class CLT_Utils {
     static public User getMyUser() {   
-        return [SELECT Id, StoreCode__c, EmailLanguages__c,Email_templates__c FROM User WHERE Id = :UserInfo.getUserId()];
+        return [SELECT Id, StoreCode__c,LanguageLocaleKey, EmailLanguages__c,Email_templates__c FROM User WHERE Id = :UserInfo.getUserId()];
     }
       public static sObject getAppSettings(){
         string strQuery = 'select immediate_log__C,Is_LogActive__c,LogHistoryDays__c from Clienteling_App_Setting__mdt limit 1';

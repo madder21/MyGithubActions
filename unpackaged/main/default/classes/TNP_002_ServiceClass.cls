@@ -16,6 +16,7 @@ public with sharing class TNP_002_ServiceClass {
     public static Map<String, string> resolveFieldsAPINames(Map<String, Schema.SObjectField> fieldMap) {
         Map<String, string> resolveAPINameLabelMap = new Map<String, String>();
         Map<String, String> fieldMapTemp = new Map<String, String>();
+        
         for(String fieldName : fieldMap.keyset()) {
             if(fieldName.contains('__c') ) {
                 //fieldName.replace('_pc', '__pc');
@@ -34,14 +35,16 @@ public with sharing class TNP_002_ServiceClass {
     public static Map<String, Object> buildObjectMap(Account accountInput, String settingName) {
         String METHOD_NAME ='buildObjectMap';
         System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Start');
+        
         //retrieve all TNP_ClientMap__c fields using schema
         Map<String, Object> settingObjectMap = new Map<String, Object>();
         Map<String, Schema.SObjectType> schemaMap = Schema.getGlobalDescribe();
         Map<String, Schema.SObjectField> fieldMap = schemaMap.get(settingName).getDescribe().fields.getMap();
         Map<String, string> fieldNameLabelMap = TNP_002_ServiceClass.resolveFieldsAPINames(fieldMap);
+        
         /* for(String field : fieldNameLabelMap.keySet()) {
-settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// sur Account récupère la valeur du champ B2C_Customer_ID__pc
-}*/
+        	settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// sur Account récupère la valeur du champ B2C_Customer_ID__pc
+        }*/
         for(String field : fieldNameLabelMap.keySet()) {
             if(field.toLowercase().contains('optin') && !field.toLowercase().contains('lastupdate')){
                 
@@ -82,8 +85,8 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
                     }
                 }
             }
-            //Mailling Country Code Mapping
             
+            //Mailling Country Code Mapping
             if (!String.isEmpty(accountInput.PersonMailingCountry) && accountInput.PersonMailingCountry.length() <= maxNameLength  ){
                 System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.PersonMailingCountry.length()'+ accountInput.PersonMailingCountry.length() );
                 System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonMailingCountry');
@@ -96,8 +99,7 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
                 }
             }
             
-            //Other Mailling Country
-            
+            //Other Mailling Country 
             if (!String.isEmpty(accountInput.PersonOtherCountry) && accountInput.PersonOtherCountry.length() <= maxNameLength  ){
                 System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'INF  maxNameLength PersonOtherCountry');
                 for (CountryCode__c nameCustoLabel : listCountryCode){
@@ -132,10 +134,10 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
                 }
             } 
             
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);
-            
+            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Country__pc'+accountInput.Country__pc);            
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.SFSC_Contact_Key__pc'+accountInput.SFSC_Contact_Key__pc);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'accountInput.Id'+accountInput.Id);      
+            
             //Client Data
             Map<string,object> clientMap = buildObjectMap(accountInput, 'TNP_ClientMap__c');
             clientMap.put ('Source',source);
@@ -146,6 +148,7 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             }
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'clientMap'+clientMap);
             JsonMap.put('Client',clientMap);         
+            
             //Adresses Data 
             Map<string,object> addressMap = buildObjectMap(accountInput, 'TNP_AddressMap__c');
             addressMap.put ('Address1_Country',personMaillingCountryIso3Code);   
@@ -156,6 +159,7 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             addressMap.put ('Address2_DQValidity',false);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'addressMap'+addressMap);
             JsonMap.put('Addresses',addressMap);
+            
             //Email Data
             Map<string,object> emailMap = buildObjectMap(accountInput, 'TNP_EmailMap__c');
             emailMap.put ('personEmail_DQCheck',false);
@@ -164,9 +168,8 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             emailMap.put ('otherEmail_DQValidity',false);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'emailMap'+emailMap);
             JsonMap.put('Email',emailMap);
-            //Phone Data
             
-            
+            //Phone Data         
             Map<string,object> phoneMap = buildObjectMap(accountInput, 'TNP_PhoneMap__c');
             phoneMap.put ('Phone1_DQCheck',false);
             phoneMap.put ('Phone1_DQValidity',false);          
@@ -176,6 +179,7 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             phoneMap.put ('Phone3_DQValidity',false);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'phoneMap'+phoneMap);
             JsonMap.put('Phone',phoneMap);
+            
             Map<string,object> consentMap = buildObjectMap(accountInput, 'TNP_ConsentMap__c');
             
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Consent'+consentMap);
@@ -199,6 +203,7 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             HttpRequest req = new HttpRequest();
             HttpResponse res = new HttpResponse();
             AccountAPI__c apiAccount = AccountAPI__c.getInstance(Label.TNP_APINameAccount);//'Account Api'
+            
             if(apiAccount!=null) {
                 System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'apiAccount'+apiAccount); 
                 String  endPoint = apiAccount.EndPoint__c;
@@ -218,14 +223,13 @@ settingObjectMap.put(fieldNameLabelMap.get(field), accountInput.get(field));// s
             
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
         } catch(Exception e) {
-            
-            System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'exception : '+e.getMessage());  
+			System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'exception : '+e.getMessage());  
         }
     }
+    
     public static Map<Id,User> returnMapUserIntegration(){ 
         String METHOD_NAME = 'returnIdUser' ;
-        System.debug(CLASS_NAME+'/'+ METHOD_NAME+'/'+'Start');
+        System.debug(CLASS_NAME+'/'+ METHOD_NAME+'/'+'Call single line method');
         return new Map<Id,User>([SELECT Id, Name FROM User WHERE isIntegrationUser__c = TRUE and isActive = TRUE]);
-        //System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
     }
 }

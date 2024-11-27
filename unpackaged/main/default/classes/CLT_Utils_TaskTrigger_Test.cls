@@ -1,6 +1,27 @@
 /*
  * Created by israel on 7/15/2019.
  */
+
+ /**
+ * @author Israel Z.(Balink)
+ * @date July 15, 2019
+ * @Type Apex Test Class
+ *****************************************************************************************************************************************************************
+ * @description Test class for the CLT_Utils_TaskTrigger:
+ * testUpdateLastContactDate                       | Validates Last Contact Date update on task insert.
+ * testUpdateRelatedProductDetails                 | Checks product-related details on task insert.
+ * testUpdateENOutreachReasonOnInsert              | Validates EN Outreach Reason update on task insert.
+ * testUpdateENOutreachReasonOnUpdate              | Validates EN Outreach Reason update on task update.
+ * testGiftENOutreachReasonUpdate                  | Ensures EN Outreach Reason update for Gift-related tasks.
+ * testRelatedClientListMembersStatus              | Validates status update of ClientListMember related to tasks.
+ * testSilentNotificationOnTaskUpsert              | Checks silent notification generation on task upsert.
+ * testSilentNotificationOnTaskAssignmentUpdate    | Ensures silent notification generation on task owner update.
+ * ****************************************************************************************************************************************************************
+ * @Version :
+ * Version  | Date of Modification | Modified By | Related Jira Ticket | Description of Changes
+ * 0.0      | 2019/07/15           |              |                     | Original version
+ * 1.0      | 2024/08/15           |              |                     | add of testSilentNotificationOnTaskUpsert + testSilentNotificationOnTaskAssignmentUpdate
+ */
 @IsTest
 private class CLT_Utils_TaskTrigger_Test {
 
@@ -12,7 +33,8 @@ private class CLT_Utils_TaskTrigger_Test {
 
     @isTest
     static void testUpdateLastContactDate() {
-        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
         Store__c store = [SELECT Id FROM Store__c WHERE SourceStoreId__c = 'TST123'];
         Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
         
@@ -49,7 +71,8 @@ private class CLT_Utils_TaskTrigger_Test {
 
         insert productsToInsert;
 
-        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
 
         Task t = CLT_TestDateFactory.createTask(sa.Id, false);
         t.ActivityDate = Date.today();
@@ -126,7 +149,8 @@ private class CLT_Utils_TaskTrigger_Test {
 
     @isTest
     static void testRelatedClientListMembersStatus() {
-        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
         Store__c store = [SELECT Id FROM Store__c WHERE SourceStoreId__c = 'TST123'];
         Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
         
@@ -153,5 +177,43 @@ private class CLT_Utils_TaskTrigger_Test {
         ClientListMember__c clmAfterTaskInsert = [SELECT Status__c FROM ClientListMember__c WHERE Id = :clm.Id];
 
         System.assertEquals('Contacted', clmAfterTaskInsert.Status__c, 'Client List Member Status is not Contacted after related task inserted');
+    }
+
+    /**
+     * @description Test method to validate the creation of silent notifications on Task upsert.
+     * This method checks that a silent notification is generated when an Task record is upserted.
+     * Note: No assert is added as the notification push cannot be directly verified.
+     */
+    @isTest
+    static void testSilentNotificationOnTaskUpsert() {
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+
+        Test.startTest();
+        CLT_TestDateFactory.createTask(sa.Id, true);
+        Test.stopTest();
+       // No assertion is added as test notification push cannot be verified directly.
+    }
+
+    /**
+     * @description Test method to validate the creation of silent notifications on Task owner update.
+     * This method ensures that a silent notification is created when the owner of an Task record is updated.
+     */
+    @isTest
+    static void testSilentNotificationOnTaskAssignmentUpdate() {
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        Task t = CLT_TestDateFactory.createTask(sa.Id, true);
+
+		User sa2 = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
+
+        Test.startTest();
+        t.OwnerId = sa2.Id;
+        update t;
+        Test.stopTest();
+
+        Notification__c notif = [SELECT RelatedRecordId__c FROM Notification__c WHERE User__c = :sa.Id AND Silent__c = true];
+        System.assertEquals(t.Id, notif.RelatedRecordId__c, 'CLT_Utils_TaskTrigger_Test:testSilentNotificationOnTaskAssignmentUpdate: deleted notification not related to deleted task');
+
     }
 }

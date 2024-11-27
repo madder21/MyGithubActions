@@ -38,16 +38,14 @@ global class Batch_CreateEmailTemplateJSON implements Database.Batchable<sObject
                 Boolean isEmail = folderName.toUpperCase().contains('EMAIL');
                 Boolean isPostal = folderName.toUpperCase().contains('POSTAL');
                 bodyWrapper.put('type', isEmail ? 'Email' : isPostal ? 'Postal' : 'InstantMessage');
-
-                list<String> folderNameItems = emailTemplate.Folder.DeveloperName.split('\\_');
-                bodyWrapper.put('lang', folderNameItems.size() > 0 ? folderNameItems[0] : '');
-
+                bodyWrapper.put('lang', (emailTemplate.Folder.DeveloperName.contains('_') ? emailTemplate.Folder.DeveloperName.substringBeforeLast('_').replace('_',' ') : ''));
                 bodyWrapper.put('id', emailTemplate.Id);
                 bodyWrapper.put('subject', emailTemplate.Subject);
                 bodyWrapper.put('devName', emailTemplate.DeveloperName);
                 bodyWrapper.put('name', emailTemplate.Name);
                 bodyWrapper.put('developerName', emailTemplate.Folder.DeveloperName);
                 bodyWrapper.put('htmlValue', emailTemplate.HtmlValue != null ? emailTemplate.HtmlValue : null);
+                bodyWrapper.put('plainText', emailTemplate.Body);
 
                 string htmlBody = String.valueOf(emailTemplate.HtmlValue); 
                 bodyWrapper.put('body', isEmail && !String.isEmpty(htmlBody) ? htmlBody : emailTemplate.Body); 

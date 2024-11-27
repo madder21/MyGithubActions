@@ -12,7 +12,17 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         String listType = params.get('listType');
         String productId = params.get('productId');
         Boolean isNewVersion = params.containsKey('isNewVersion') ? Boolean.valueOf(params.get('isNewVersion')) : false;
-        Integer versionNum = params.containsKey('versionNum') ? Integer.valueOf(params.get('versionNum')) : 1;
+        Double versionNum = params.containsKey('versionNum') ? Double.valueOf(params.get('versionNum')) : 1.0;
+
+        if(params.containsKey('daysDelta')) {
+            Integer daysDelta = Integer.valueOf(params.get('daysDelta'));
+            Map<String, Object> result = new Map<String, Object>();
+            result.put('catalogProducts', getCatalogProducts(' CreatedDate >= LAST_N_DAYS:' + daysDelta));
+            result.put('catalogColors', getCatalogColors(' CreatedDate >= LAST_N_DAYS:' + daysDelta));
+            result.put('productTranslations', getProductTranslations(' CreatedDate >= LAST_N_DAYS:' + daysDelta));
+            
+            return result;
+        }
 
 
         if(params.get('productId') != null) {
@@ -31,10 +41,8 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         }
 
         else if(listType == 'productTranslation') {
-            List<String> translationLanguages = new List<String>{'EN'};
-
-            User user = [SELECT Id, Email_templates__c FROM User WHERE Id = :UserInfo.getUserId() LIMIT 1];
-            translationLanguages.addAll(user.Email_templates__c.split(';'));
+            String languages = 'EN;' + CLT_Utils.getMyUser().Email_templates__c;
+            List<String> translationLanguages = languages.split('\\;');
 
             return getProductTranslations(translationLanguages);
         }
@@ -44,7 +52,7 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
         result.put('catalogProducts', catalogProducts);
         result.put('catalogColors', getCatalogColors());
 
-        if(versionNum >= 2) {
+        if(versionNum >= 2.0) {
             result.put('productTranslations', getProductTranslations(new List<String> {UserInfo.getLanguage(), 'en'}));
         }
         else if(isNewVersion) {
@@ -55,20 +63,37 @@ public with sharing class CLT_CatalogProducts implements CLT_RetailInterface{
     }
 
     public list<map<string, object>> getCatalogProducts(){    
-        return CLT_Utils_Mapping.getStandardWrapperList('Catalog_Product__c', 'CatalogProduct', 'FROM Catalog_Product__c');
+        return getCatalogProducts('');
+    }
+
+    public list<map<string, object>> getCatalogProducts(String cond){    
+        return CLT_Utils_Mapping.getStandardWrapperList('Catalog_Product__c', 'CatalogProduct', 'FROM Catalog_Product__c' + (!String.isEmpty(cond) ? ' WHERE ' + cond : ''));
     }
     
     public list<map<string, object>> getCatalogColors(){    
-        return CLT_Utils_Mapping.getStandardWrapperList('Color__c', 'Color', 'FROM Color__c');
+        return getCatalogColors('');
+    }
+
+    public list<map<string, object>> getCatalogColors(String cond){    
+        return CLT_Utils_Mapping.getStandardWrapperList('Color__c', 'Color', 'FROM Color__c' + (!String.isEmpty(cond) ? ' WHERE ' + cond : ''));
     }
 
     public list<map<string, object>> getProductTranslations(){    
-        return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation', 'FROM Product_Translation__c');
+        return getProductTranslations('');
+    }
+
+    public list<map<string, object>> getProductTranslations(String cond){    
+        return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation', 'FROM Product_Translation__c' + (!String.isEmpty(cond) ? ' WHERE ' + cond : ''));
     }
 
     public list<map<string, object>> getProductTranslations(List<String> languagesToRetrieve){
+        return getProductTranslations(languagesToRetrieve, '');
+    }
+
+    public list<map<string, object>> getProductTranslations(List<String> languagesToRetrieve, String cond){
         return CLT_Utils_Mapping.getStandardWrapperList('Product_Translation__c', 'ProductTranslation',
-            'FROM Product_Translation__c' + (languagesToRetrieve.size() > 0 ? ' WHERE Language__c IN (\'' + String.join(getUserTranslationLanguages(languagesToRetrieve), '\',\'') + '\')' : ''));
+            'FROM Product_Translation__c' + (languagesToRetrieve.size() > 0 ? ' WHERE Language__c IN (\'' + String.join(getUserTranslationLanguages(languagesToRetrieve), '\',\'') + '\')' : '')
+            + (!String.isEmpty(cond) ? ' AND ' + cond : ''));
     }
 
     private List<String> getUserTranslationLanguages(List<String> languages) {

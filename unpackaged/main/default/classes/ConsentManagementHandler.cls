@@ -7,7 +7,8 @@
  ***************************************************************************************************************************************************************** 
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
- * 0.0		|25052023			|.PLM		|.					|.
+ * 0.0		  |25052023			|.PLM		|.					|.
+ * 0.1		  |10102023			|.PLM		|.CI-219 		|.Modification of checkFullConsent(), when a client is DoubleOptin, the status should be Opt-out
 */
 
 public with sharing class ConsentManagementHandler {
@@ -137,7 +138,13 @@ public with sharing class ConsentManagementHandler {
         }
         //Insert or update commSubscriptionConsent
         if (!commSubscriptionConsentMap.isEmpty()) {
-            Database.upsert(commSubscriptionConsentMap.values(), AccessLevel.SYSTEM_MODE);
+            List<CommSubscriptionConsent> test = new List<CommSubscriptionConsent>();//Ulrich and Eric quick fix to be really fix after
+            for(CommSubscriptionConsent com : commSubscriptionConsentMap.values()) {//27/01/2023 
+                if(com.CommSubscriptionChannelTypeId!= null) {
+					test.add(com);                    
+                }
+            }
+            Database.upsert(test, AccessLevel.SYSTEM_MODE);
         }
         //Update Account
         if(!accountToUpdate.isEmpty()){
@@ -215,7 +222,8 @@ public with sharing class ConsentManagementHandler {
                 //Subscription name
                 subscription = consent.customInput?.subscriptionName__c;
                 //the current consent can be either optin or optout
-                status = flag ? Label.LABS_Consent_Optin : Label.LABS_Consent_Optout;
+                //CI-219 :the status should be Optout if isDoubleOptin is true
+                status = flag && !isDoubleOptin ? Label.LABS_Consent_Optin : Label.LABS_Consent_Optout;
                 
                 //Check if the current consent has an account and an individual
                 Boolean flagClientIndiv = String.isNotBlank(consent.client?.Id) 
@@ -239,6 +247,7 @@ public with sharing class ConsentManagementHandler {
                     flagComSubConsent = String.isNotBlank(consent.commSubConsent?.Id);
                     
                 }else {
+                    
                     //Check if the current consent has contactPointTypeConsent with the correct status
                     flagCpTypeConsent = (flag && status.equals(consent.cpTypeConsent?.PrivacyConsentStatus)) ||
                         (!flag && consent.cpTypeConsent == null) ? true  : false;
@@ -249,7 +258,12 @@ public with sharing class ConsentManagementHandler {
                         && String.isNotBlank(consent.commSubConsent?.Id) ? true : 
                     !(subscription.equals(label.LABS_ComSubscriptionChannelType_BackInStock)) ? true : false;
                 }
-                
+                //CI-219 : add a debug Line 
+                System.debug('**checkFullConsent : flagClientIndiv : ' + flagClientIndiv + 
+                             '* flagCpEmail : '+ flagCpEmail+ 
+                             '* flagCpTypeConsent: '+flagCpTypeConsent +
+                             '* flagCpConsent: '+flagCpConsent+ 
+                             '* flagComSubConsent: '+flagComSubConsent);
                 //CreationFlag is the result of the two flags above
                 flagFullConsent = flagClientIndiv && flagCpEmail && flagCpTypeConsent && flagCpConsent && flagComSubConsent;
                 

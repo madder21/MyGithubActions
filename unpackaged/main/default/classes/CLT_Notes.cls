@@ -9,13 +9,19 @@ public class CLT_Notes implements clt_retailInterface{
 	}
 
 	public Object retrieveDelete(Map<String, String> params) {
-		string objName = params.get('objectName');
+		String noteId = params.get('id');
 
-		sobject note = new Note__c();
-		note.Id = params.get('id');
+		List<Note__c> notesList = [SELECT Id,IsDeleted__c FROM Note__c WHERE Id = :noteId LIMIT 1];
+		if(notesList.size() > 0) {
+			Note__c note = notesList[0];
+			note.IsDeleted__c = true;
 
-		delete note;
-		return true;
+			update note;
+			return true;
+		}
+		else {
+			throw new BL_Exceptions.CLTException('401', 'No Note found with the receiven Id', 'No Note found with the receiven Id');
+		}
     
 	}
 

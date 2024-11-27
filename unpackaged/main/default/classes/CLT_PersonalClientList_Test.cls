@@ -149,6 +149,8 @@ private class CLT_PersonalClientList_Test {
         String eventNameOption =  Event__c.Name__c.getDescribe().getPicklistValues()[0].getLabel();
         Event__c event = CLT_TestDateFactory.createTestClientelingEvent(eventNameOption, true);
         List<Task> tasksToInsert = new List<Task>();
+        List<Client_Insight__c> clientInsightsToInsert = new List<Client_Insight__c>();
+        List<Note__c> notesToInsert = new List<Note__c>();
 
         CLT_TestDateFactory.createTestCountryCode('France', 'FR', 'FRA', true);
 
@@ -156,6 +158,7 @@ private class CLT_PersonalClientList_Test {
                                 FROM Account 
                                 WHERE FirstName IN ('Test client 1', 'Test client 2', 'Test client 3') AND LastName IN ('Test Last Name1', 'Test Last Name2', 'Test Last Name3')]) {
             client.LightCurrentCluster__pc = 'VIC';
+            client.CLienttype__pc = 'Client';
             client.Country__pc = 'FR';
             client.LifeTimePurchaseAmount__pc = 2244.78;
             client.LastPurchaseDate__pc = Date.newInstance(2022, 12, 25);
@@ -176,9 +179,37 @@ private class CLT_PersonalClientList_Test {
             eventTask.EventClientAttended__c = true;
             eventTask.EventAttendedDate__c = Date.today();
             tasksToInsert.add(eventTask);
+
+            clientInsightsToInsert.add(new Client_Insight__c(
+                Client__c = client.Id,
+                ExternalId__c = client.Id,
+                Children__c = 'Yes',
+                Collaboration__c = 'Yes',
+                FinishorColor__c = 'Glossy',
+                ProductCategory__c = 'Luggage',
+                Material__c = 'Aluminium',
+                GenerationRange__c = 'Baby Boomer',
+                TravelingPurpose__c = 'Business',
+                HistoricalClient__c = 'Yes',
+                SpokenLanguage__c = 'English',
+                Customisation__c = 'Yes',
+                Hobbies__c = 'Music',
+                MaritalStatus__c = 'In a relationship',
+                FrequentTraveler__c = 'Yes',
+                SelfPurchaseorGift__c = 'Gift',
+                OtherLikedBrands__c = 'Dior',
+                UpcomingTravelPlans__c = 'Paris'
+            ));
+
+            notesToInsert.add(new Note__c(
+                Name = 'Test Hashtag Note',
+                Client__c = client.Id,
+                Body__c = '#Test note with #hashtag'
+            ));
         }
         update clientsToUpdate;
         insert transactionsToInsert;
+        insert clientInsightsToInsert;
 
         Product2 product = CLT_TestDateFactory.createTestStandardProduct('tst12345', false);
         product.model__c = 'ATTACHE';
@@ -195,8 +226,9 @@ private class CLT_PersonalClientList_Test {
         insert transactionItemsToInsert;
 
         insert tasksToInsert;
-        
+
         System.runAs(sa) {
+            insert notesToInsert;
 			CLT_PersonalClientList cltPersonalClientList = new CLT_PersonalClientList();
 			Test.startTest();
             Map<String,Object> body = new Map<String, Object> {
@@ -220,7 +252,24 @@ private class CLT_PersonalClientList_Test {
                 'eventAttended' => true,
                 'eventAttendedDate' => DateTime.now().addDays(-30).format('yyyy-MM-dd'),
                 'contactable' => false,
-                'outreachChannel' => new List<String> {'Postal'}
+                'outreachChannel' => new List<String> {'Postal'},
+                'children' => new List<String> {'Yes'},
+                'collaboration' => new List<String> {'Yes'},
+                'customisation' => new List<String> {'Yes'},
+                'finishorColor' => new List<String> {'Glossy'},
+                'frequentTraveler' => new List<String> {'Yes'},
+                'generationRange' => new List<String> {'Baby Boomer'},
+                'historicalClient' => new List<String> {'Yes'},
+                'hobbies' => new List<String> {'Music'},
+                'maritalStatus' => new List<String> {'In a relationship','Single'},
+                'material' => new List<String> {'Aluminium','Polycarbonate'},
+                'productCategory' => new List<String> {'Luggage'},
+                'selfPurchaseorGift' => new List<String> {'Gift'},
+                'spokenLanguage' => new List<String> {'English'},
+                'travelingPurpose' => new List<String> {'Business'},
+                'otherLikedBrands' => new List<String> {'Adidas', 'Dior'},
+                'upcomingTravelPlans' => new List<String> {'Paris','London'},
+                'comments' => new List<String> {'Test','hashtag','not'}
             };
 			Object responseGetClientsByFilters = cltPersonalClientList.retrievePost(new Map<String, String>{'clientsFilters' => 'true'}, body);
 			Test.stopTest();
@@ -229,4 +278,23 @@ private class CLT_PersonalClientList_Test {
 			System.assertEquals(3, clientsList.size(), 'Clients size is not 3');
 		}
 	}
+
+    @isTest
+	static void testGetClientsByFiltersNotEventedNotGifted() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+
+        System.runAs(sa) {
+			CLT_PersonalClientList cltPersonalClientList = new CLT_PersonalClientList();
+			Test.startTest();
+            Map<String,Object> body = new Map<String, Object> {
+                'eventAttended' =>false,
+                'giftGifted' => false
+            };
+			Object responseGetClientsByFilters = cltPersonalClientList.retrievePost(new Map<String, String>{'clientsFilters' => 'true'}, body);
+			Test.stopTest();
+			List<Object> clientsList = (List<Object>)JSON.deserializeUntyped(JSON.serialize(responseGetClientsByFilters));
+
+			System.assertEquals(3, clientsList.size(), 'Clients size is not 3');
+		}
+    }
 }

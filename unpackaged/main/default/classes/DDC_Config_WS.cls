@@ -1,7 +1,18 @@
 //@RestResource(urlMapping='/ddc/config')
 public with sharing class DDC_Config_WS implements BL_Rest_Router_Factory.DispatchableGET {
-    
+
+    final static String ALLSTOREKEYWORD = '#ALLSTORES';
+    final static String NOSTOREKEYWORD = '#NOSTORE';
+    final static String SEPARATOR = ';';
+
     public Object executeGET(Map<String, String> pathParameters, Map<String, String> queryParams) {
+        if(pathParameters.containsKey('settingName')) {
+            String settingName = pathParameters.get('settingName');
+            if(settingName == 'pilot') {
+                return getPilotConfig();
+            }
+        }
+
         return getAllConfig(null);
     }
 
@@ -27,6 +38,8 @@ public with sharing class DDC_Config_WS implements BL_Rest_Router_Factory.Dispat
                 mapConfigs.put(config.Key__c, value);
             }
         }
+
+        mapConfigs.put('pilotConfig', getPilotConfig());
 
         return mapConfigs;
     }
@@ -85,5 +98,37 @@ public with sharing class DDC_Config_WS implements BL_Rest_Router_Factory.Dispat
         }
 
         return value;
+    }
+
+    private static Map<String, Object> getPilotConfig() {
+        Map<String, Object> pilotConfig = new Map<String, Object>();
+        List<String> allStoreCodes = new List<String>();
+
+        for(DDC_PilotSetting__mdt pilotSetting : [SELECT FeatureName__c,Stores__c,EffectiveDate__c
+                                                FROM DDC_PilotSetting__mdt]) {
+            if(pilotSetting.EffectiveDate__c == NULL || pilotSetting.EffectiveDate__c <= Date.today()) {
+                if(pilotSetting.Stores__c != NULL && pilotSetting.Stores__c.contains(ALLSTOREKEYWORD)) {
+                    if(allStoreCodes.size() == 0) {
+                        for(Store__c store : [SELECT SourceStoreId__c FROM Store__c WHERE SourceStoreId__c != NULL]) {
+                            allStoreCodes.add(store.SourceStoreId__c);
+                        }
+                    }
+                    pilotConfig.put(pilotSetting.FeatureName__c, allStoreCodes);
+                }
+                else {
+                    if (!String.isEmpty(pilotSetting.Stores__c) && !pilotSetting.Stores__c.contains(NOSTOREKEYWORD)) {
+                        pilotConfig.put(pilotSetting.FeatureName__c, pilotSetting.Stores__c.split(SEPARATOR));
+                    }
+                    else{
+                        pilotConfig.put(pilotSetting.FeatureName__c, new List<String>());
+                    }
+                }            
+            }
+            else {
+                pilotConfig.put(pilotSetting.FeatureName__c, new List<String>());
+            }
+        }
+
+        return pilotConfig;
     }
 }

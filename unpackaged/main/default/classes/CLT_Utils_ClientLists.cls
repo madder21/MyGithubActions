@@ -1,5 +1,5 @@
 global with sharing class CLT_Utils_ClientLists {
-    global static String buildDynamicQuery(ClientList__c clientList, string userId, string storeCode, Boolean isSpecificClientList){
+    global static String buildDynamicQuery(ClientList__c clientList, string userId, string storeCode, Boolean isSpecificClientList, Boolean noLimit){
         List<String> conditions = new List<String>();
 
         string myClientsCondition = '';
@@ -31,6 +31,10 @@ global with sharing class CLT_Utils_ClientLists {
             else if(isSpecificClientList) {
                 generalQuery += ' LIMIT 800';
             }
+        }
+
+        if(isSpecificClientList && noLimit && !clientList.AlwaysLimitedList__c && generalQuery.contains('LIMIT')) {
+            generalQuery = generalQuery.split('LIMIT ')[0];
         }
 
         system.debug(myClientsCondition + generalQuery);

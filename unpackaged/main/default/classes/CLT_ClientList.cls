@@ -8,12 +8,14 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
     }
 
     global Object retrieveGet(Map<String, String> params){
-        return getClientLists((String)params.get('Type'));
+        Boolean noLimit = params.containsKey('noLimit') ? Boolean.valueOf(params.get('noLimit')) : false;
+
+        return getClientLists((String)params.get('Type'), noLimit);
     }
 
 //------------------------------------START GET Client List------------------------------------------------------------------------
 
-    Map<String, Object> getClientLists(String clientListId){
+    Map<String, Object> getClientLists(String clientListId, Boolean noLimit){
         list<ClientListWrapper> clientsListWrapper = new list<ClientListWrapper>();
         User currentUser = [SELECT IsManager__c, StoreCode__c FROM User WHERE Id =: UserInfo.getUserId()];
         Boolean isManager = currentUser.IsManager__c == null ? false : currentUser.IsManager__c;
@@ -34,7 +36,7 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
             clientListIds.add(clientList.Id);
     
             if(!String.isEmpty(clientList.clientListQuery__c)){
-                String clientsQuery = CLT_Utils_Query.getClientsQuery(false, false) + CLT_Utils_ClientLists.buildDynamicQuery(clientList, userId, storeCode, isSpecificClientList);
+                String clientsQuery = CLT_Utils_Query.getClientsQuery(false, false) + CLT_Utils_ClientLists.buildDynamicQuery(clientList, userId, storeCode, isSpecificClientList, noLimit);
 //                String clientsQuery = 'SELECT Id From Account WHERE ID != \'\' ' + CLT_Utils_ClientLists.buildDynamicQuery(clientList, userId, storeCode);
                 system.debug(clientsQuery);
                 Map<Id, Account> dynamicClients = new Map<Id, Account>((List<Account>)Database.query(clientsQuery));
@@ -88,11 +90,26 @@ global with sharing class CLT_ClientList implements CLT_RetailInterface{
     List<ClientList__c> getClientLists(String clientListId, Boolean isManager, String storeCode){
         string query = 'SELECT Id,OwnerId,Owner.FirstName,CreatedDate,LastModifiedDate,Type__c,Owner.LastName,Description__c,Position__c,Name,ClientListQuery__c,InMyStore__c,StaticList__c,' +
                                 'IsDarkText__c,OrderBy__c,Ascendant__c,DisplayType__c,VisibilityBasedOnField__c,SpecificFieldDisplay__c,SpecificFieldDisplayLabel__c,' +
-                                'DisplayToReachOutContactedSection__c,ContactedSectionDisplayPeriod__c, ' + 
+                                'DisplayToReachOutContactedSection__c,ContactedSectionDisplayPeriod__c,AlwaysLimitedList__c, ' + 
                                 '(SELECT Description__c,Title__c,Name FROM Client_List_Translations__r' +
                                 ' WHERE Language__c = \'' + UserInfo.getLanguage() +'\' LIMIT 1)' +
                         ' FROM ClientList__c ' +
-            			' WHERE Id != \'\' AND Type__c != \'Personal\' AND (Stores__c includes (\'' + storeCode + '\') OR Stores__c = \'\') ';
+            			' WHERE Id != \'\' AND Type__c != \'Personal\' ';
+        List<Store__c> storesList = [SELECT Region__c,Country__c,SourceStoreId__c FROM Store__c WHERE SourceStoreId__c = :storeCode LIMIT 1];
+        String perimeterCond = '';
+        if(storesList.size() > 0) {
+            Store__c store = storesList[0];
+            perimeterCond += !String.isEmpty(store.Region__c) ? ' AND (Region__c = \'\' OR Region__c INCLUDES (\'' + store.Region__c + '\'))' : ' AND (Region__c = \'\')';
+            perimeterCond += !String.isEmpty(store.Country__c) ? ' AND (Country__c = \'\' OR Country__c INCLUDES (\'' + store.Country__c + '\'))' : ' AND (Country__c = \'\')';
+            perimeterCond += !String.isEmpty(store.SourceStoreId__c) ? ' AND (Stores__c = \'\' OR Stores__c INCLUDES (\'' + store.SourceStoreId__c + '\'))' : ' AND (Stores__c = \'\')';
+        }
+        else {
+            perimeterCond += ' AND (Region__c = \'\')';
+            perimeterCond += ' AND (Country__c = \'\')';
+            perimeterCond += ' AND (Stores__c = \'\')';
+        }
+
+        query += perimeterCond;
         
         if(clientListId != null){
             query += ' AND Id = \'' + clientListId + '\' ';

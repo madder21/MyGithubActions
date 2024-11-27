@@ -2,13 +2,12 @@ public class TNP_001_QueueableCallOut implements Queueable,Database.AllowsCallou
     public String source ;
     public String Action ;   
     public list<Account> listAccount;
-    //EBU
-    private integer iteratorElementsInListAccount = 0, iSizeOfInputAccountList;
+    private integer iteratorElementsInListAccount = 0, iSizeOfInputAccountList; //EBU : attribute added to store the initial size of the input list
     public String CLASS_NAME = 'TNP_001_QueueableCallOut' ;
     
     public TNP_001_QueueableCallOut(List<Account> listAccount,String source, string Action){
         this.listAccount = listAccount;
-        this.iSizeOfInputAccountList = listAccount.size(); //EBU store the initial size of the input list
+        this.iSizeOfInputAccountList = listAccount.size(); //EBU : alimentation of the size of the input list
         this.Action = Action;
         this.source = source;
     }
@@ -20,16 +19,18 @@ public class TNP_001_QueueableCallOut implements Queueable,Database.AllowsCallou
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Source'+source);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Action'+Action);
             
-            Map<Id,User> mapInfoUser = TNP_002_ServiceClass.returnMapUserIntegration();
             String JSONGenerated;
+            Map<Id,User> mapInfoUser = TNP_002_ServiceClass.returnMapUserIntegration();
+          
             list <CountryCode__c> listCountryCode = [Select Name,Alpha_3_code__c,Alpha_2_code__c from  CountryCode__c ];
             
             if (Action.equalsIgnoreCase(Label.TNP_CL_AfterInsert) && String.isEmpty(Source)){
                 System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'listAccount.size'+listAccount.size());
                 
-                // EBU Correction code TNP to allow a list to be processed
+                //EBU : Correction code TNP to allow a list to be processed
                 iteratorElementsInListAccount++;
                 
+                //EBU : Loop of all accounts from the list
                 for (Account acc : listAccount ){
                     User user = mapInfoUser.get(acc.CreatedById);
                     System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'Action in Queueable'+Action);
@@ -87,9 +88,9 @@ public class TNP_001_QueueableCallOut implements Queueable,Database.AllowsCallou
                system.debug(CLASS_NAME + '/' + 'ENQUEUE JOB FROM WITHIN SAME CLASS - JOBID : '+ String.ValueOf(jobId) );
             }
             
-            
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'END'); 
-        } catch(Exception e) { 
+        } 
+        catch(Exception e) { 
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'exception : '+e.getMessage());  
         }
     }

@@ -51,8 +51,9 @@ public with sharing class SuppressionSFProcess {
                 }
             }
         }
-        QueueableUtil.enqueueJob(new ManageRGPDObject_CTL(objList));
-        QueueableUtil.enqueueJob(new ManageRGPDObject_CTL(accList));        
+        //QueueableUtil.enqueueJob(new ManageRGPDObject_CTL(objList));
+        QueueableUtil.enqueueJob(new ManageRGPDObject_CTL(accList)); 
+        delete objList;        
     }
 
 }

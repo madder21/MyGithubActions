@@ -2,10 +2,12 @@ global class Batch_HandleAsyncRequests implements Database.Batchable<sObject> {
 
     // instance member to retain state across transactions
     private Integer recordsProcessed = 0;
+    //private Map<String,String> mStatusOnScope;
     private String query;
   
   	global Batch_HandleAsyncRequests (String soql){
     	query = soql;
+        //mStatusOnScope = new List<String,String> ();
   	}
     
     global Database.QueryLocator start(Database.BatchableContext bc) {
@@ -22,19 +24,17 @@ global class Batch_HandleAsyncRequests implements Database.Batchable<sObject> {
         //Update asyncRequestJob records to be sent in "InProgress" status
         AsyncRequestHandler.UpdateStatusOfAsyncRequest(scope, AsyncRequestHandler.EnumStatus.InProgress);
         
+        //Build a set of distinct Accounts records concerned by the DQE mechanism
         Set<Id> setIDfromScope = new Set<Id> ();        
         for (Async_Job_Request__c asyncCurrentItem : scope) {
             setIDfromScope.add(asyncCurrentItem.RecordId__c);
         }
         system.debug('Debuginfo : list Id : '+setIDfromScope);
         
-        //retrieve all accounts from the scope
-        List<Account> lstAccountFromTheTriggerScope = TNP001_DM_Account.getAccountsByIdList(convertSetIdToListId(setIDfromScope));
-        /*List<Account> lstAccountFromTheTriggerScope = [SELECT Id, Name, CreatedById, LastModifiedById
-                                                       FROM Account 
-                                                       WHERE Id in : setIDfromScope]; */
-        
+        //retrieve all accounts from this distinct list (issued from the input scope)
+        List<Account> lstAccountFromTheTriggerScope = TNP001_DM_Account.getAccountsByIdList(convertSetIdToListId(setIDfromScope));     
         system.debug('Debuginfo : list Accounts : '+ lstAccountFromTheTriggerScope);
+        
     	recordsProcessed = lstAccountFromTheTriggerScope?.size();
         system.debug('Debuginfo : Nb Accounts : '+recordsProcessed);
             

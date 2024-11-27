@@ -1,6 +1,20 @@
-/*
- * Created by Israel Zygelboim on 07/02/2019.
- */
+/**
+ * @author Israel Zygelboim (Balink)
+ * @date February,07 2019
+ * @Type Apex Test Class
+ *****************************************************************************************************************************************************************
+ * @description This Test class contains the methods to test those method from CLT_ClientDetail :
+ * testSetup : Creation of test user and store
+ * TEST METHOD				                    |	DESCRIPTION
+ * test_ClientDetails_GET       				|	Test retrieveGet
+ * test_ClientDetails_POST       				|	Test retrievePost
+ * test_ClientDetails_POST_clientInsightReview  |	Test retrievePost when review mode of insights
+ * test_ClientDetails_DELETE                    |	Test retrieveDelete that is not defined
+ * ****************************************************************************************************************************************************************
+ * @Version : 
+ * Version	|Date of modication	|Modified By	|Related Jira Ticket	|Description of changes			
+ * 0.0		|2019/02/07			|.Israel Z.		|.						|.original version
+*/
 @IsTest
 private class CLT_ClientDetails_Test {
 
@@ -30,7 +44,8 @@ private class CLT_ClientDetails_Test {
 		}	
 	}
 
-	@isTest static void test_ClientDetails_POST() {
+	@isTest 
+    static void test_ClientDetails_POST() {
         CLT_ClientDetail clientDetails = new  CLT_ClientDetail();
 
         User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
@@ -45,9 +60,31 @@ private class CLT_ClientDetails_Test {
             
             Object clientDetailsPostResponse = clientDetails.retrievePost(new Map<String, String>(),new Map<String,Object>{'clientInsights' => clientInsightMap});
             String lastModifiedById = (String)((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(clientDetailsPostResponse))).get('modifiedById');
-            System.assertEquals(sa.Id, lastModifiedById, 'Post method defined and not tested');
+            System.assertEquals(sa.Id, lastModifiedById, 'Last Modified Id is not user Id after Post');
 
             Test.stopTest();
+        }
+    }
+
+    @isTest 
+    static void test_ClientDetails_POST_clientInsightReview() {
+        CLT_ClientDetail clientDetails = new  CLT_ClientDetail();
+
+        User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        System.runAs(sa) {
+            Test.startTest();
+            Account client = [SELECT Id FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
+            Map<String,Object> clientInsightMap = new MAp<String, Object> {
+                'clientId' => client.Id,
+                'historicalClient' => 'Yes',
+                'isReview' => true
+            };            
+            clientDetails.retrievePost(new Map<String, String>(),new Map<String,Object>{'clientInsights' => clientInsightMap});
+            
+            Test.stopTest();
+            Client_Insight__c ciAfterReview = [SELECT LastReviewDate__c FROM Client_Insight__c WHERE ExternalId__c = :client.Id];
+            System.assertEquals(Date.today(), ciAfterReview.LastReviewDate__c, 'last review date is not equal to today after review');
+
         }
     }
 
