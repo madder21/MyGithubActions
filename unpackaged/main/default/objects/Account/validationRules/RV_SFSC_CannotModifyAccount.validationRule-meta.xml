@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RV_SFSC_CannotModifyAccount</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+CONTAINS($UserRole.Name, &quot;CS&quot;),
+TechCountSource__c &gt;= 1
+)</errorConditionFormula>
+    <errorMessage>You cannot edit the this account because it has been merged with another system.</errorMessage>
+</ValidationRule>

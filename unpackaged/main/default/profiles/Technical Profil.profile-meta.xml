@@ -3227,6 +3227,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>EmailMessage.AHT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.CaseOwnerFirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.Case_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.BooxiId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3753,6 +3768,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>LocationGroup.CustomCountry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Debug_message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5727,12 +5747,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>User.CanCreateUCR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.EmailLanguages__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>User.Email_templates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.GenesysID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8891,6 +8921,9 @@
         <layout>BL_Translation__c-Translation Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CLT_EmailTemplateCategory__mdt-CLT EmailTemplateCategory Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -9015,6 +9048,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SOM_Invoice_Setting__mdt-SOM Invoice Setting Layout</layout>
@@ -9589,6 +9625,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>BlockEmailsAddresses__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>Campaign</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -9814,6 +9859,15 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
+        <object>MessagingEndUser</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>NewCreditMemoForCegid__e</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -9881,13 +9935,13 @@
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
         <object>News__c</object>
-        <allowCreate>false</allowCreate>
-        <allowDelete>false</allowDelete>
-        <allowEdit>false</allowEdit>
-        <allowRead>false</allowRead>
-        <modifyAllRecords>false</modifyAllRecords>
-        <viewAllRecords>false</viewAllRecords>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -11142,6 +11196,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

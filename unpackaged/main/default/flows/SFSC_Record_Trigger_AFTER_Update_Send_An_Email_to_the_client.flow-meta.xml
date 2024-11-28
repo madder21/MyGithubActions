@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Copy_1_of_Send_Email_to_client</name>
+        <label>Copy 1 of Send Email to client</label>
+        <locationX>578</locationX>
+        <locationY>647</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>EmailReceipient</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <elementReference>SenderType</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>SenderEmailAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Email_to_client</name>
+        <label>Send Email to client</label>
+        <locationX>50</locationX>
+        <locationY>647</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>EmailReceipient</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <elementReference>SenderType</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>SenderEmailAddress</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>61.0</apiVersion>
+    <constants>
+        <name>EmailSubject</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Rimowa Client Services</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>SenderEmailAddress</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>noreply@rimowa.com</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>SenderType</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>OrgWideEmailAddress</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Copy_1_of_Should_the_mail_to_client_be_sent</name>
+        <label>Copy 1 of Should the mail to client be sent ?</label>
+        <locationX>710</locationX>
+        <locationY>539</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Copy_1_of_Yes_send_email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_SFSC_CaseActivity_based_on_Market_zone</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_SFSC_CaseActivity_based_on_Market_zone.Send_Email_to_customer__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Send_Email_to_client</targetReference>
+            </connector>
+            <label>Copy 1 of Yes send email</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_it_a_transfered_case</name>
+        <label>Is it a transfered case ?</label>
+        <locationX>644</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>No_it_is_not_a_transfered_Case</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.HUB_Handle__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.Hub_Origin__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_SFSC_CaseActivity_based_on_FromEmail</targetReference>
+            </connector>
+            <label>No it is not a transfered Case</label>
+        </rules>
+        <rules>
+            <name>Yes_it_is_a_transfered_Case</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Hub_Origin__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record.HUB_Handle__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_SFSC_CaseActivity_based_on_Market_zone</targetReference>
+            </connector>
+            <label>Yes it is a transfered Case</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Should_the_mail_to_client_be_sent</name>
+        <label>Should the mail to client be sent ?</label>
+        <locationX>182</locationX>
+        <locationY>539</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_send_email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_SFSC_CaseActivity_based_on_FromEmail</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_SFSC_CaseActivity_based_on_FromEmail.Send_Email_to_customer__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Email_to_client</targetReference>
+            </connector>
+            <label>Yes send email</label>
+        </rules>
+    </decisions>
+    <description>Send an Email to the client when : 
+- Case is created &amp; From Email = CA ou US &amp;  Hub Handle = Hub Origin =  CA ou US &amp; Origin = Web or Email
+-Case Updated status = New Email &amp; From Email = CA ou US &amp; Hub Handle = CA ou US &amp; Origin = Web or Email</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>EmailReceipient</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.CustomerEmail__c}</expression>
+    </formulas>
+    <interviewLabel>SFSC - Record Trigger - AFTER Update - Update Case by Related To {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Record Trigger - AFTER Update - Send An Email to the client</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_SFSC_CaseActivity_based_on_FromEmail</name>
+        <label>Get SFSC - CaseActivity based on FromEmail</label>
+        <locationX>182</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Should_the_mail_to_client_be_sent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>HubEmailAddress__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.FromEmailAddress__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>SFSC_CaseActivity__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_SFSC_CaseActivity_based_on_Market_zone</name>
+        <label>Get SFSC - CaseActivity based on Market zone</label>
+        <locationX>710</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Copy_1_of_Should_the_mail_to_client_be_sent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Market_Zone__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Market_zone__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Hub__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.HUB_Handle__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Is_Default_sending_Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>SFSC_CaseActivity__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>518</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_it_a_transfered_case</targetReference>
+        </connector>
+        <filterFormula>AND(
+	OR (TEXT({!$Record.Origin})=&quot;Web&quot;,TEXT({!$Record.Origin})=&quot;Email&quot;),
+	OR(
+
+	AND(ISNEW(),TEXT({!$Record.HUB_Handle__c})=&quot;US&quot;,TEXT({!$Record.Hub_Origin__c})=&quot;US&quot; ),
+	AND(NOT(ISNEW()), ISCHANGED({!$Record.Status}), TEXT({!$Record.HUB_Handle__c})=&quot;US&quot;,TEXT({!$Record.Status})=&quot;New email&quot; ,NOT(TEXT({!$Record.Market_zone__c})=&quot;MX&quot;))
+	)
+)</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;html style=&quot;overflow-y: hidden;&quot;&gt;
+&lt;head&gt;
+	&lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body style=&quot;height: auto; min-height: auto;&quot;&gt;
+&lt;center&gt;
+&lt;table border=&quot;0&quot; cellpadding=&quot;5&quot; cellspacing=&quot;5&quot; height=&quot;auto&quot; width=&quot;550&quot;&gt;
+	&lt;tbody&gt;
+		&lt;tr height=&quot;auto&quot; valign=&quot;top&quot;&gt;
+			&lt;td style=&quot;background-color:#FFFFFF; color:#000000; font-size:12pt; font-family:arial;&quot;&gt;
+			&lt;p style=&quot;color: rgb(0, 0, 0); font-family: arial; font-size: 12pt;&quot;&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					Dear Client,
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					Thank you for your interest in connecting with RIMOWA!
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					We are working diligently to respond to your request as quickly as possible.
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					We face additional delay of treatments and sincerely apologize for the inconvenience.
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					Should you have any further questions, please feel free to reach out by dialing 1-312-635-6607. We are available to assist you Monday through Saturday from 10 am to 7 pm EST.
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					Kind Regards,
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;span style=&quot;font-size:14px; font-family:Arial,Helvetica,sans-serif; font-weight: 400;&quot;&gt;
+					Client Services Team
+				&lt;/span&gt;
+				&lt;br /&gt;&lt;br /&gt;
+				&lt;img src=&quot;https://image.email.rimowa.com/lib/fe35117175640478751279/m/1/knr__rimowa_logo.png&quot; alt=&quot;RIMOWA Logo&quot; width=&quot;125&quot; height=&quot;25&quot; /&gt;
+			&lt;/p&gt;
+			&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;</text>
+    </textTemplates>
+</Flow>

@@ -10,10 +10,19 @@
         <layout>Async_Job_Request__c-Async Job Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ClientBooking__c-Client Booking Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>DDUEWebService_Setting__mdt-DDUE WebService Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Entitlement-Entitlement Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>News__c-News Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PersonAccount-Person Account Layout</layout>
@@ -21,6 +30,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>RepairOrder__c-Repair Order Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SuppressionSFProcess__mdt-SuppressionSFProcess Layout</layout>
@@ -47,6 +59,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.TechCountSource__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Case.Client_cluster__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -67,7 +84,47 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Phone2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.AHT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.CaseOwnerFirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.Case_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.EmailMessageID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.Maison_External_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.BooxiId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Debug_message__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -265,6 +322,20 @@
         <field>Task.BooxiId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.CanCreateUCR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.GenesysID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>RepairOrder__c</tab>
         <visibility>DefaultOn</visibility>

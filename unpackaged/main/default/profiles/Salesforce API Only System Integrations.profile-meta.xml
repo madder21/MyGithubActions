@@ -274,6 +274,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>EmailMessage.AHT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.CaseOwnerFirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.Case_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.BooxiId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2615,6 +2630,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Seller.SellerType</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.CanCreateUCR__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5614,6 +5634,9 @@
         <layout>Async_Job_Request__c-Async Job Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5643,6 +5666,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>RepairOrder__c-Repair Order Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SuppressionSFProcess__mdt-SuppressionSFProcess Layout</layout>
@@ -6293,6 +6319,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Key 1 = SELECT Id FROM Account WHERE ((Emails OR Phones) AND Names)</description>
+        <name>InvocableAccountApexQuery</name>
+        <label>Invocable Account Apex Query</label>
+        <locationX>578</locationX>
+        <locationY>242</locationY>
+        <actionName>SFSC_AccountMatchingQueryInvocable_SVE</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Set_Count_Accounts</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Create_Fault_Log_01</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customerEmail</name>
+            <value>
+                <elementReference>formClientEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customerFirstName</name>
+            <value>
+                <elementReference>formFirstName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customerLastName</name>
+            <value>
+                <elementReference>formLastName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>customerPhone</name>
+            <value>
+                <elementReference>formPhone</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SFSC_AccountMatchingQueryInvocable_SVE</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
+    <assignments>
+        <name>Add_Account_To_Var</name>
+        <label>Add Account To Var</label>
+        <locationX>138</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>varAccountFound.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Through_Accounts.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_Accounts</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Counts yhe number of accounts returned</description>
+        <name>Set_Count_Accounts</name>
+        <label>Set Count Accounts</label>
+        <locationX>578</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>varCountAccounts</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>InvocableAccountApexQuery</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>How_Many_Accounts</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>HasCustomerNames</name>
+        <label>Has Customer Names ?</label>
+        <locationX>1106</locationX>
+        <locationY>134</locationY>
+        <defaultConnector>
+            <targetReference>Search_Account_Key2_Without_Names</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>❌ Has No Names</defaultConnectorLabel>
+        <rules>
+            <name>HasNames</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>CaseId.LastName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseId.FirstName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>CaseId.SuppliedName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>InvocableAccountApexQuery</targetReference>
+            </connector>
+            <label>✅ Has Names</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>How_Many_Accounts</name>
+        <label>How Many Accounts?</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>One</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varCountAccounts</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Through_Accounts</targetReference>
+            </connector>
+            <label>1️⃣ One</label>
+        </rules>
+        <rules>
+            <name>None</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varCountAccounts</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_for_an_existing_Account_Key_2</targetReference>
+            </connector>
+            <label>0️⃣ None</label>
+        </rules>
+        <rules>
+            <name>More_Then_One</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varCountAccounts</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <label>#️⃣ More Then One</label>
+        </rules>
+    </decisions>
+    <description>Check for an existing Account with the same Last Name, First Name AND (Email OR Phone) - Key 1 (Subflow 1)
+IF Not found
+Check for an existing Account with the same Email OR Phone - Key 2 (Subflow 2)</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Checks if an email adress is populated on the case and chooses a value</description>
+        <name>formClientEmail</name>
+        <dataType>String</dataType>
+        <expression>IF(
+         NOT(ISBLANK({!CaseId.SuppliedEmail})),
+          {!CaseId.SuppliedEmail},
+
+        IF(
+               NOT(ISBLANK({!CaseId.CustomerEmail__c})), 
+               {!CaseId.CustomerEmail__c},
+             
+               IF(
+                          NOT(ISBLANK({!CaseId.SuppliedEmail__c})), 
+                           {!CaseId.SuppliedEmail__c},
+                      
+                      IF(
+                                NOT(ISBLANK({!CaseId.ContactEmail})),
+                                {!CaseId.ContactEmail},
+                                  &quot;&quot;
+                               )
+                         )
+                   )
+         )</expression>
+    </formulas>
+    <formulas>
+        <description>From case LastName and FirstName</description>
+        <name>formCustomerName</name>
+        <dataType>String</dataType>
+        <expression>IF(AND(!ISBLANK({!formLastName}), !ISBLANK({!formFirstName})),
+   {!formLastName}+ &quot; &quot; +{!formFirstName},
+IF(AND(!ISBLANK({!formLastName}), ISBLANK({!formFirstName})),
+   {!formLastName},
+IF(AND(ISBLANK({!formLastName}), !ISBLANK({!formFirstName})),
+   {!formFirstName},
+IF(AND(ISBLANK({!formLastName}), ISBLANK({!formFirstName})),
+   {!CaseId.SuppliedName},
+   &quot;No last name&quot;
+))))</expression>
+    </formulas>
+    <formulas>
+        <name>formFirstName</name>
+        <dataType>String</dataType>
+        <expression>IF(
+       NOT(ISBLANK({!CaseId.FirstName__c})), 
+      {!CaseId.FirstName__c}, 
+IF(
+     NOT( ISBLANK({!CaseId.SuppliedName})),
+      LEFT({!CaseId.SuppliedName},Find(&quot; &quot;, {!CaseId.SuppliedName})-1),
+      LEFT({!formCustomerName}, FIND(&quot; &quot;, {!formCustomerName})-1)
+    )
+    )</expression>
+    </formulas>
+    <formulas>
+        <name>formLastName</name>
+        <dataType>String</dataType>
+        <expression>IF(
+      NOT(ISBLANK({!CaseId.LastName__c})), 
+      {!CaseId.LastName__c}, 
+IF(
+     NOT(ISBLANK({!CaseId.SuppliedName})),
+     RIGHT({!CaseId.SuppliedName},LEN({!CaseId.SuppliedName})-Find(&quot; &quot;, {!CaseId.SuppliedName})),
+     RIGHT({!formCustomerName}, LEN({!formCustomerName})-FIND( &quot; &quot;,{!formCustomerName}))
+  )
+  )</expression>
+    </formulas>
+    <formulas>
+        <name>formPhone</name>
+        <dataType>String</dataType>
+        <expression>IF(
+       NOT(ISBLANK({!CaseId.SuppliedPhone})),
+   {!CaseId.SuppliedPhone},
+     IF(
+            NOT(ISBLANK({!CaseId.Phone__c})),
+           {!CaseId.Phone__c},
+          &quot;&quot;
+                )
+             )</expression>
+    </formulas>
+    <interviewLabel>Subflow - Check for an existing Account Key 1 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Subflow - Check for an existing Account Key 1</label>
+    <loops>
+        <name>Loop_Through_Accounts</name>
+        <label>Loop Through Accounts</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <collectionReference>InvocableAccountApexQuery</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Add_Account_To_Var</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>GetContactId</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Fault_Log_01</name>
+        <label>Create Fault Log 01</label>
+        <locationX>1370</locationX>
+        <locationY>350</locationY>
+        <inputAssignments>
+            <field>Error_Message__c</field>
+            <value>
+                <stringValue>Error on flow &quot;Subflow - Check for an existing Account Key 1&quot; -  Error on &quot;Get Account&quot;</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Fault_Log_02</name>
+        <label>Create Fault Log 02</label>
+        <locationX>314</locationX>
+        <locationY>1082</locationY>
+        <inputAssignments>
+            <field>Error_Message__c</field>
+            <value>
+                <stringValue>Error on flow &quot;Subflow - Check for an existing Account Key 1&quot; -  On &quot;Update Case - Link Account&quot;</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>GetContactId</name>
+        <label>GetContactId</label>
+        <locationX>50</locationX>
+        <locationY>866</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Case_Link_Account</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varAccountFound.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsPersonAccount</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update the Account in the Case</description>
+        <name>Update_Case_Link_Account</name>
+        <label>Update Case - Link Account</label>
+        <locationX>50</locationX>
+        <locationY>974</locationY>
+        <faultConnector>
+            <targetReference>Create_Fault_Log_02</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CaseId.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>varAccountFound.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ContactId</field>
+            <value>
+                <elementReference>GetContactId.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <start>
+        <locationX>980</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>HasCustomerNames</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <description>Check for an existing Account with the same Email OR Phone</description>
+        <name>Check_for_an_existing_Account_Key_2</name>
+        <label>Check for an existing Account Key 2</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <flowName>Subflow_Check_for_an_existing_Account_Key_2</flowName>
+        <inputAssignments>
+            <name>CaseId</name>
+            <value>
+                <elementReference>CaseId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>clientEmail</name>
+            <value>
+                <elementReference>formClientEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>clientPhone</name>
+            <value>
+                <elementReference>formPhone</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>firstName</name>
+            <value>
+                <elementReference>formFirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>lastName</name>
+            <value>
+                <elementReference>formLastName</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Search_Account_Key2_Without_Names</name>
+        <label>Search Account Key 2 Without Names</label>
+        <locationX>1634</locationX>
+        <locationY>242</locationY>
+        <flowName>Subflow_Check_for_an_existing_Account_Key_2</flowName>
+        <inputAssignments>
+            <name>CaseId</name>
+            <value>
+                <elementReference>CaseId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>clientEmail</name>
+            <value>
+                <elementReference>formClientEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>clientPhone</name>
+            <value>
+                <elementReference>formPhone</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>CaseId</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>varAccountFound</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+    <variables>
+        <name>varCountAccounts</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>

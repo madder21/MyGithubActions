@@ -2035,6 +2035,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Account.Max_Year_ClientSource__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.Min_Year_Client_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Account.NbOfClientAddresses__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2141,6 +2151,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Targeted_Customers__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Account.TechCountSource__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2956,6 +2971,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>BL_Translation__c.Target__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>BlockEmailsAddresses__c.EmailAddressToBlock__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6265,12 +6285,37 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>EmailMessage.AHT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.CaseOwnerFirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.Case_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>EmailMessage.EmailMessageID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>EmailMessage.Maison_External_ID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.TECHIsApproved__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>EmailMessage.ToSME__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10470,12 +10515,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>User.CanCreateUCR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>User.EmailLanguages__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>User.Email_templates__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.GenesysID__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10681,6 +10736,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>BL_UseCase__mdt-BL Use Case Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>BusinessBrand-Business Brand Layout</layout>
@@ -11133,6 +11191,9 @@
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>SOM_Invoice_Setting__mdt-SOM Invoice Setting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -11336,6 +11397,10 @@
     <tabVisibilities>
         <tab>BL_Translation__c</tab>
         <visibility>DefaultOff</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>CLT_Email_Template__c</tab>

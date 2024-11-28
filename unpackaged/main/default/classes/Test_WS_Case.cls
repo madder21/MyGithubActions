@@ -1,38 +1,30 @@
 @isTest
 global class Test_WS_Case {
-@isTest
-    
+
+    @isTest
     static void testcaseCreation() {
-        //List< Map<String, Object>> invoiceBodyList = new List< Map<String, Object>>();
-        Map<String, Object> invoiceBody = new Map<String, Object>();
-        invoiceBody.put('Subject', 'warranty');
-        invoiceBody.put('Description', 'Question about my warranty etc');
-        invoiceBody.put('Civility__c', 'Mr');
-        invoiceBody.put('FirstName__c', 'Test');
-        invoiceBody.put('LastName__c', 'Test');
-        invoiceBody.put('CustomerEmail__c', 'test@test.com');
-        invoiceBody.put('Phone__c', '0102030405');
-        invoiceBody.put('Productreference__c', 'test-123');
-        invoiceBody.put('WebCountry__c', 'FR');
-        invoiceBody.put('Region__c', 'TestRegion');
-        invoiceBody.put('csc_activity__c', 'CC');
-        
-        //invoiceBodyList.add(invoiceBody);
-        
-        String jsonBody = JSON.serialize(invoiceBody);
-        
-        // Préparation de la requête HTTP
-        RestRequest req = new RestRequest();
-        req.requestURI = '/services/apexrest/CaseCreation/';
-        req.httpMethod = 'POST'; 
-        req.addHeader('Content-Type', 'application/json');
-        req.requestBody = Blob.valueOf(jsonBody);
-        
-        // Appel de la méthode REST
-        RestContext.request = req;
-        RestContext.response = new RestResponse();
-        Test.startTest();
+        String jsonInput = '{"Subject": "warranty 12 test","Description": "Question about my warranty etc","Civility__c": "Mr","FirstName__c": "Edouard","LastName__c": "Knies","CustomerEmail__c": "test@test2.com","Phone__c": "3361234568","Productreference__c": "97353004123456789","WebCountry__c": "AU","Region__c": "West Coast","csc_activity__c": "CS"}';
+
+        RestRequest mockRequest = new RestRequest();
+        mockRequest.requestBody = Blob.valueOf(jsonInput);
+        RestContext.request = mockRequest;
+
+        RestResponse mockResponse = new RestResponse();
+        RestContext.response = mockResponse;
+
         WS_Case.caseCreation();
-        Test.stopTest();
-	}
+
+        String responseBody = RestContext.response.responseBody.toString();
+        
+        JSONGenerator body = JSON.createGenerator(true);
+        body.writeStartArray();
+        body.writeStartObject();
+        body.writeStringField('Status:', 'Success');
+        body.writeEndObject();
+        body.writeEndArray();
+            
+        String expectedResponse = (body.getAsString());
+        System.assertEquals(expectedResponse, responseBody, 'Response should not be null');
+
+     }
 }

@@ -476,6 +476,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>EmailMessage.AHT__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.CaseOwnerFirstName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EmailMessage.Case_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.BooxiId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3285,6 +3300,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>User.CanCreateUCR__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>User.GenesysID__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>UserStore__c.gcp_to_sfdc_sync_id__c</field>
         <readable>true</readable>
@@ -5360,6 +5385,9 @@
         <layout>B2CCustomInput__c-B2CCustomInput Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5430,6 +5458,9 @@
         <layout>LogLevel__mdt-Log Level Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>News__c-News Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Order-Order Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5492,6 +5523,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SFMCCountry__mdt-SFMCCountry Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SSO_Setup_Constant__mdt-SSO Setup Constant Layout</layout>
@@ -6719,6 +6753,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>AppointmentService__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>

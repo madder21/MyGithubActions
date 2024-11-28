@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
+    <custom>true</custom>
+    <userLicense>Salesforce</userLicense>
     <classAccesses>
         <apexClass>SOM_DownloadInvoiceDocumentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <custom>true</custom>
     <pageAccesses>
         <apexPage>SOM_InvoiceDownloadContent</apexPage>
         <enabled>true</enabled>
@@ -2652,6 +2653,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>LocationGroup.CustomCountry__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Log__c.Debug_message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5759,6 +5765,9 @@
         <layout>BL_UseCase__mdt-BL Use Case Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>BusinessBrand-Business Brand Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6027,6 +6036,9 @@
         <layout>Macro-Macro Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>News__c-News Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Note__c-Note Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6167,6 +6179,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>SFMCCredentials__mdt-SFMCCredential Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>SFSC_CaseActivity__mdt-SFSC - CaseActivity Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>SOM_Invoice_Setting__mdt-SOM Invoice Setting Layout</layout>
@@ -7014,6 +7029,10 @@
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>BlockEmailsAddresses__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>CLT_Email_Template__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
@@ -7437,7 +7456,6 @@
         <tab>standard-report</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <userLicense>Salesforce</userLicense>
     <userPermissions>
         <enabled>true</enabled>
         <name>ActivitiesAccess</name>

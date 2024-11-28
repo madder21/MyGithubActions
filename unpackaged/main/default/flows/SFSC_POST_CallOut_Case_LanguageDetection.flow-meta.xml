@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>POSTCaseLanguageDetectionAPI</name>
+        <label>POST CaseLanguageDetection API</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <actionName>SFSCCaseLanguageDetectionAPICall.FlowPOSTCaseLanguageDetectionAction</actionName>
+        <actionType>externalService</actionType>
+        <connector>
+            <targetReference>APICallResult</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Fault_CreateLog</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>Body</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SFSCCaseLanguageDetectionAPICall.FlowPOSTCaseLanguageDetectionAction</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <assignments>
+        <description>Set the Body for API CallOut</description>
+        <name>SetBody</name>
+        <label>SetBody</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>Body.q</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>TXTBody</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>POSTCaseLanguageDetectionAPI</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>SetLanguageValue</name>
+        <label>SetLanguageValue</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>TXTDetectedLanguage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>LanguageAPIResult</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateCaseLanguage</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>APICallResult</name>
+        <label>APICallResult</label>
+        <locationX>182</locationX>
+        <locationY>458</locationY>
+        <defaultConnector>
+            <targetReference>CreateLog</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>🚫 BadRequest</defaultConnectorLabel>
+        <rules>
+            <name>X200</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>POSTCaseLanguageDetectionAPI.responseCode</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>200.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SetLanguageValue</targetReference>
+            </connector>
+            <label>✅ 200</label>
+        </rules>
+    </decisions>
+    <description>Flow : API CallOut (POST method) for language detection (on case subject and description fields)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>CaseFirstName</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!GetCaseInfos.SuppliedName},Find(&quot; &quot;, {!GetCaseInfos.SuppliedName})-1)</expression>
+    </formulas>
+    <formulas>
+        <name>CaseLastName</name>
+        <dataType>String</dataType>
+        <expression>RIGHT({!GetCaseInfos.SuppliedName},LEN({!GetCaseInfos.SuppliedName})-Find(&quot; &quot;, {!GetCaseInfos.SuppliedName}))</expression>
+    </formulas>
+    <formulas>
+        <description>This formula trim and let keep the &quot;language&quot; value, from the request result.
+JSON format : 
+[{
+&quot;language_set&quot; : true,
+&quot;language&quot; : &quot;fr&quot;,
+&quot;isReliable_set&quot; : true,
+&quot;isReliable&quot; : true,
+&quot;confidence_set&quot; : true,
+&quot;confidence&quot; : 7.16
+}]</description>
+        <name>LanguageAPIResult</name>
+        <dataType>String</dataType>
+        <expression>TRIM(
+    SUBSTITUTE(
+        SUBSTITUTE(
+            MID(
+               {!TXTJSONResponse}, 
+                FIND(&#39;&quot;language&quot; : &quot;&#39;,{!TXTJSONResponse}) + LEN(&#39;&quot;language&quot; : &quot;&#39;),
+                (
+                    FIND(&#39;&quot;isReliable_set&quot; : &#39;,{!TXTJSONResponse}) -
+                    (FIND(&#39;&quot;language&quot; : &quot;&#39;,{!TXTJSONResponse}) + LEN(&#39;&quot;language&quot; : &quot;&#39;))
+                )
+            ), 
+            &#39;&quot;&#39;, &#39;&#39;
+        ), 
+        &#39;,&#39;, &#39;&#39;
+    )
+)</expression>
+    </formulas>
+    <formulas>
+        <name>TrimDetectedLanguage</name>
+        <dataType>String</dataType>
+        <expression>LEFT(TRIM({!TXTDetectedLanguage}),2)</expression>
+    </formulas>
+    <formulas>
+        <description>Case Subject and Description fields values</description>
+        <name>TXTBody</name>
+        <dataType>String</dataType>
+        <expression>{!GetCaseInfos.Subject} + &quot; &quot; + {!GetCaseInfos.Description}</expression>
+    </formulas>
+    <interviewLabel>SFSC_POST_CallOut_Case_LanguageDetection {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Subflow - POST CallOut - Case Language Detection</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Create log record in order to track bad requests</description>
+        <name>CreateLog</name>
+        <label>CreateLog</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <connector>
+            <targetReference>UpdateDefaultCaseLanguage</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Class_Name__c</field>
+            <value>
+                <stringValue>SFSC - POST -CallOut - Case - LanguageDetection</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Error_Message__c</field>
+            <value>
+                <elementReference>POSTCaseLanguageDetectionAPI.defaultExc</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Has_Error__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Method__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Request__c</field>
+            <value>
+                <elementReference>Body.q</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Response__c</field>
+            <value>
+                <elementReference>POSTCaseLanguageDetectionAPI.responseCode</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <description>Create log record in order to track bad requests</description>
+        <name>Fault_CreateLog</name>
+        <label>Fault CreateLog</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <connector>
+            <targetReference>Fault_Update_Default_Case_Language</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Class_Name__c</field>
+            <value>
+                <stringValue>SFSC - POST -CallOut - Case - LanguageDetection</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Error_Message__c</field>
+            <value>
+                <elementReference>POSTCaseLanguageDetectionAPI.defaultExc</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Has_Error__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Method__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Request__c</field>
+            <value>
+                <elementReference>Body.q</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Response__c</field>
+            <value>
+                <elementReference>POSTCaseLanguageDetectionAPI.responseCode</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <description>In order to get case Subject and Description informations</description>
+        <name>GetCaseInfos</name>
+        <label>GetCaseInfos</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SetBody</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update the case language with Default English Value</description>
+        <name>Fault_Update_Default_Case_Language</name>
+        <label>Fault 🇬🇧 Update Default Case Language</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CaseLanguage__c</field>
+            <value>
+                <stringValue>en</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateCaseLanguage</name>
+        <label>UpdateCaseLanguage</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CaseLanguage__c</field>
+            <value>
+                <elementReference>TrimDetectedLanguage</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the case language with Default English Value</description>
+        <name>UpdateDefaultCaseLanguage</name>
+        <label>🇬🇧 Update Default Case Language</label>
+        <locationX>314</locationX>
+        <locationY>674</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>CaseLanguage__c</field>
+            <value>
+                <stringValue>en</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GetCaseInfos</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>Retrieve JSON response from CallOut Flow Action</description>
+        <name>TXTJSONResponse</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;{!POSTCaseLanguageDetectionAPI.2XX.data.detections}&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>Body</name>
+        <apexClass>ExternalService__SFSCCaseLanguageDetectionAPICall_FlowPOSTCaseLanguageDetectionAction_IN_body</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Use to update Case Language field</description>
+        <name>TXTDetectedLanguage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
