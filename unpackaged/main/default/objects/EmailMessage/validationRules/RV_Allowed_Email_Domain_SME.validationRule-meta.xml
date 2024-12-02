@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RV_Allowed_Email_Domain_SME</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+ToSME__c = true,
+    OR(
+        CONTAINS(ToAddress,&#39;@outlook.&#39;),
+        CONTAINS(BccAddress,&#39;@outlook.&#39;),
+        CONTAINS(CcAddress,&#39;@outlook.&#39;),
+
+        CONTAINS(ToAddress,&#39;@orange.&#39;),
+        CONTAINS(BccAddress,&#39;@orange.&#39;),
+        CONTAINS(CcAddress,&#39;@orange.&#39;),
+
+        CONTAINS(ToAddress,&#39;@yahoo.&#39;),
+        CONTAINS(BccAddress,&#39;@yahoo.&#39;),
+        CONTAINS(CcAddress,&#39;@yahoo.&#39;),
+
+        CONTAINS(ToAddress,&#39;@aol.&#39;),
+        CONTAINS(BccAddress,&#39;@aol.&#39;),
+        CONTAINS(CcAddress,&#39;@aol.&#39;),
+
+        CONTAINS(ToAddress,&#39;@icloud.com&#39;),
+        CONTAINS(BccAddress,&#39;@icloud.com&#39;),
+        CONTAINS(CcAddress,&#39;@icloud.com&#39;),
+
+        CONTAINS(ToAddress,&#39;@mac.&#39;),
+        CONTAINS(BccAddress,&#39;@mac.&#39;),
+        CONTAINS(CcAddress,&#39;@mac.&#39;),
+
+        CONTAINS(ToAddress,&#39;@hotmail.&#39;),
+        CONTAINS(BccAddress,&#39;@hotmail.&#39;),
+        CONTAINS(CcAddress,&#39;@hotmail.&#39;),
+
+        CONTAINS(ToAddress,&#39;@t-online.&#39;),
+        CONTAINS(BccAddress,&#39;@t-online.&#39;),
+        CONTAINS(CcAddress,&#39;@t-online.&#39;),
+        
+        CONTAINS(ToAddress,&#39;@gmail.&#39;),
+        CONTAINS(BccAddress,&#39;@gmail.&#39;),
+        CONTAINS(CcAddress,&#39;@gmail.&#39;),
+
+        CONTAINS(ToAddress,&#39;@gmx.&#39;),
+        CONTAINS(BccAddress,&#39;@gmx.&#39;),
+        CONTAINS(CcAddress,&#39;@gmx.&#39;)
+        )
+)</errorConditionFormula>
+    <errorMessage>You try to send an e-mail to a customer (gmail, hotmail, free ... adress) and not to the SME (Maison&#39;s adress). Please look carefully at your recipient.</errorMessage>
+</ValidationRule>

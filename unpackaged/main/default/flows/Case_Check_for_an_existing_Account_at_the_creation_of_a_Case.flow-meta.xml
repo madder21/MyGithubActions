@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <decisions>
+        <name>HasNoAccountDecision</name>
+        <label>Has No Account Decision</label>
+        <locationX>182</locationX>
+        <locationY>384</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>HasNoAccount</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.AccountId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_for_an_existing_Account_Key_1</targetReference>
+            </connector>
+            <label>❌ HasNoAccount</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>ISNEW</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>Case - Check for an existing Account at the creation of a Case {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case - Check for an existing Account at the creation of a Case</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>254</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CaseHubOrigin</targetReference>
+        </connector>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <scheduledPaths>
+            <connector>
+                <targetReference>POST_CallOut_Case_Detection_Language</targetReference>
+            </connector>
+            <pathType>AsyncAfterCommit</pathType>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <subflows>
+        <name>CaseHubOrigin</name>
+        <label>Case HubOrigin</label>
+        <locationX>182</locationX>
+        <locationY>276</locationY>
+        <connector>
+            <targetReference>HasNoAccountDecision</targetReference>
+        </connector>
+        <flowName>SFSCCaseHubOrigin</flowName>
+        <inputAssignments>
+            <name>ISNEW</name>
+            <value>
+                <elementReference>ISNEW</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <description>Check for an existing Account with the same Last Name, First Name AND (Email OR Phone)</description>
+        <name>Check_for_an_existing_Account_Key_1</name>
+        <label>Check for an existing Account Key 1</label>
+        <locationX>50</locationX>
+        <locationY>492</locationY>
+        <flowName>Subflow_Check_for_an_existing_Account_Key_1</flowName>
+        <inputAssignments>
+            <name>CaseId</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>POST_CallOut_Case_Detection_Language</name>
+        <label>POST CallOut Case Detection Language</label>
+        <locationX>578</locationX>
+        <locationY>276</locationY>
+        <flowName>SFSC_POST_CallOut_Case_LanguageDetection</flowName>
+        <inputAssignments>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

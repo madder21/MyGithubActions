@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RV_CantSendIfNoAccountOrContact</fullName>
+    <active>true</active>
+    <description>Can&#39;t send an email if their is no Account or Contact related to the parent case</description>
+    <errorConditionFormula>AND(
+    $Permission.ByPassVR = FALSE,
+      Parent.Admin_Case__c  = FALSE,
+  
+      AND(
+          ISBLANK( Parent.AccountId ),
+          ISBLANK( Parent.ContactId )
+         )
+      )</errorConditionFormula>
+    <errorMessage>You cannot send an Email if there is no Account or Contact on the parent Case.</errorMessage>
+</ValidationRule>
