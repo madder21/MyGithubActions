@@ -107,6 +107,13 @@
             <label>Yes1</label>
         </rules>
     </decisions>
+    <description>UpperCase BillingCountry</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_CountryUpperCase</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!$Record.BillingCountry})</expression>
+    </formulas>
     <formulas>
         <name>FX_OrderType</name>
         <dataType>String</dataType>
@@ -136,8 +143,8 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group</name>
         <label>Get Order Delivery Group</label>
-        <locationX>867</locationX>
-        <locationY>423</locationY>
+        <locationX>864</locationX>
+        <locationY>507</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetCegid</targetReference>
@@ -313,6 +320,22 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_OrderSummary_BillingCountry</name>
+        <label>Update OrderSummary BillingCountry</label>
+        <locationX>866</locationX>
+        <locationY>357</locationY>
+        <connector>
+            <targetReference>Get_Order_Delivery_Group</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>FX_CountryUpperCase</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_shipping</name>
         <label>Update shipping</label>
         <locationX>2319</locationX>
@@ -339,7 +362,7 @@
         <locationX>750</locationX>
         <locationY>60</locationY>
         <connector>
-            <targetReference>Get_Order_Delivery_Group</targetReference>
+            <targetReference>Update_OrderSummary_BillingCountry</targetReference>
         </connector>
         <object>OrderSummary</object>
         <recordTriggerType>Create</recordTriggerType>
