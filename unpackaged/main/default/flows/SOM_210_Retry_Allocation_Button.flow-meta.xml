@@ -7,7 +7,7 @@
         <locationX>847</locationX>
         <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>noPreorder</targetReference>
+            <targetReference>Screen_Message</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
@@ -25,8 +25,22 @@
             </connector>
             <label>Is Success</label>
         </rules>
+        <rules>
+            <name>RecordsFound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>SuccessRecords</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>noPreorder</targetReference>
+            </connector>
+            <label>NoRecordsFound</label>
+        </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM 210 - Retry Allocation Button {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 210 - Retry Allocation Button</label>
     <processMetadataValues>
@@ -67,8 +81,8 @@
     <screens>
         <name>Screen_Message</name>
         <label>Screen Message</label>
-        <locationX>1299</locationX>
-        <locationY>229</locationY>
+        <locationX>1388</locationX>
+        <locationY>504</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -103,6 +117,10 @@
                 <elementReference>recordId.Id</elementReference>
             </value>
         </inputAssignments>
+        <outputAssignments>
+            <assignToReference>IsStockSufficient</assignToReference>
+            <name>IsStockSufficient</name>
+        </outputAssignments>
         <outputAssignments>
             <assignToReference>IsSuccess</assignToReference>
             <name>IsSuccess</name>
