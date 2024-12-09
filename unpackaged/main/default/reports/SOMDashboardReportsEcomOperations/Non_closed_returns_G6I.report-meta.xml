@@ -26,10 +26,23 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
+        <field>ReturnOrder$OrderSummary</field>
+    </columns>
+    <columns>
         <field>ReturnOrder$Name</field>
     </columns>
     <columns>
-        <field>ReturnOrder.ReturnOrderLineItems$Name</field>
+        <field>ReturnOrder$Status</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>ReturnOrder.ReturnOrderLineItems$QuantityExpected</field>
+    </columns>
+    <columns>
+        <field>ReturnOrder.ReturnOrderLineItems$Product2.StockKeepingUnit</field>
+    </columns>
+    <columns>
+        <field>ReturnOrder.ReturnOrderLineItems$Product2</field>
     </columns>
     <currency>EUR</currency>
     <filter>
@@ -38,7 +51,7 @@
             <columnToColumn>false</columnToColumn>
             <isUnlocked>true</isUnlocked>
             <operator>notEqual</operator>
-            <value>Closed</value>
+            <value>Canceled,Closed</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

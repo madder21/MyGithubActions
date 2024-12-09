@@ -26,7 +26,16 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
+        <field>OrderSummary$Name</field>
+    </columns>
+    <columns>
+        <field>OrderSummary$CreatedDate</field>
+    </columns>
+    <columns>
         <field>OrderSummary.OrderPaymentSummaries.Refunds$Name</field>
+    </columns>
+    <columns>
+        <field>OrderSummary.OrderPaymentSummaries.Refunds$CreatedDate</field>
     </columns>
     <currency>EUR</currency>
     <filter>
