@@ -3,12 +3,12 @@
     <actionCalls>
         <name>Get_Availability_from_LocationGroups</name>
         <label>Get Availability from LocationGroups</label>
-        <locationX>373</locationX>
-        <locationY>1103</locationY>
+        <locationX>874</locationX>
+        <locationY>509</locationY>
         <actionName>ociGetAvailability</actionName>
         <actionType>ociGetAvailability</actionType>
         <connector>
-            <targetReference>Stack_LocationGroups_Results</targetReference>
+            <targetReference>Loop_Over_inventoryRecords_0</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -17,17 +17,19 @@
                 <elementReference>OCI_02_GetInventoryAvailability_IR_LocationGroups</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociGetAvailability</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Get_Availability_from_Locations</name>
         <label>Get Availability from Locations</label>
-        <locationX>971</locationX>
-        <locationY>886</locationY>
+        <locationX>1372</locationX>
+        <locationY>981</locationY>
         <actionName>ociGetAvailability</actionName>
         <actionType>ociGetAvailability</actionType>
         <connector>
-            <targetReference>Stack_Location_Results</targetReference>
+            <targetReference>Loop_Over_inventoryRecords</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -36,14 +38,16 @@
                 <elementReference>OCI_01_GetInventoryAvailability_IR_Locations</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociGetAvailability</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
         <name>Assign_Matching_Results_to_Reservation</name>
         <label>Assign Matching Results to Reservation</label>
-        <locationX>955</locationX>
-        <locationY>1955</locationY>
+        <locationX>958</locationX>
+        <locationY>1580</locationY>
         <assignmentItems>
             <assignToReference>L77_Compare_Results_Reservations.OCI_OnHand</assignToReference>
             <operator>Assign</operator>
@@ -79,6 +83,13 @@
                 <elementReference>L66_Inventory_Records.safetyStockCount</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OS_Id</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>L77_Compare_Results_Reservations.orderSummaryId</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Stack_to_Results_Coll</targetReference>
         </connector>
@@ -87,7 +98,7 @@
         <name>Assign_OCI_IR_02_LocationGroups</name>
         <label>Assign OCI IR 02 LocationGroups</label>
         <locationX>1022</locationX>
-        <locationY>292</locationY>
+        <locationY>497</locationY>
         <assignmentItems>
             <assignToReference>OCI_02_GetInventoryAvailability_IR_LocationGroups.locationGroupIdentifiers</assignToReference>
             <operator>Add</operator>
@@ -110,14 +121,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L33_Reservations_Locations</targetReference>
+            <targetReference>Get_Availability_from_LocationGroups</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_OCI_IR_for_Locations</name>
         <label>Assign OCI IR for Locations</label>
-        <locationX>1019</locationX>
-        <locationY>698</locationY>
+        <locationX>1395</locationX>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>OCI_01_GetInventoryAvailability_IR_Locations.locationIdentifiers</assignToReference>
             <operator>Add</operator>
@@ -140,14 +151,46 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>L33_Reservations_Locations</targetReference>
+            <targetReference>Get_Availability_from_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Pass_Boolean_to_True</name>
+        <label>Pass Boolean to True</label>
+        <locationX>1129</locationX>
+        <locationY>1248</locationY>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Availability_from_Locations_Output</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Pass_Boolean_to_True_0</name>
+        <label>Pass Boolean to True</label>
+        <locationX>692</locationX>
+        <locationY>50</locationY>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Availability_from_LocationsGroups_Output</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Stack_Location_Results</name>
         <label>Stack Location Results</label>
-        <locationX>971</locationX>
-        <locationY>1103</locationY>
+        <locationX>1090</locationX>
+        <locationY>833</locationY>
         <assignmentItems>
             <assignToReference>C_Full_OCILocationAvailabilityOutputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -155,15 +198,54 @@
                 <elementReference>Get_Availability_from_Locations.ociGetAvailabilityOutput.locations</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_01_GetInventoryAvailability_IR_Locations.locationIdentifiers</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_01_GetInventoryAvailability_IR_Locations.stockKeepingUnits</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>Call_OCI_for_Location_Groups</targetReference>
+            <targetReference>L33_Reservations_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Stack_Location_Results_0_0</name>
+        <label>Stack Location Results</label>
+        <locationX>901</locationX>
+        <locationY>990</locationY>
+        <assignmentItems>
+            <assignToReference>OCI_01_GetInventoryAvailability_IR_Locations.locationIdentifiers</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_01_GetInventoryAvailability_IR_Locations.stockKeepingUnits</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L33_Reservations_Locations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Stack_LocationGroups_Results</name>
         <label>Stack LocationGroups Results</label>
-        <locationX>373</locationX>
-        <locationY>1284</locationY>
+        <locationX>712</locationX>
+        <locationY>449</locationY>
         <assignmentItems>
             <assignToReference>C_Full_OCILocationAvailabilityOutputRepresentation</assignToReference>
             <operator>Add</operator>
@@ -171,15 +253,54 @@
                 <elementReference>Get_Availability_from_LocationGroups.ociGetAvailabilityOutput.locations</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_02_GetInventoryAvailability_IR_LocationGroups.locationGroupIdentifiers</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_02_GetInventoryAvailability_IR_LocationGroups.stockKeepingUnits</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>L55_All_Results</targetReference>
+            <targetReference>L33_Reservations_Locations</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Stack_LocationGroups_Results_0</name>
+        <label>Stack LocationGroups Results</label>
+        <locationX>500</locationX>
+        <locationY>460</locationY>
+        <assignmentItems>
+            <assignToReference>OCI_02_GetInventoryAvailability_IR_LocationGroups.locationGroupIdentifiers</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OCI_02_GetInventoryAvailability_IR_LocationGroups.stockKeepingUnits</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>boolean</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>L33_Reservations_Locations</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Stack_to_Results_Coll</name>
         <label>Stack to Results Coll</label>
-        <locationX>684</locationX>
-        <locationY>1955</locationY>
+        <locationX>687</locationX>
+        <locationY>1580</locationY>
         <assignmentItems>
             <assignToReference>C_Full_Results</assignToReference>
             <operator>Add</operator>
@@ -206,60 +327,124 @@
         </value>
     </constants>
     <decisions>
-        <name>Call_OCI_for_Location_Groups</name>
-        <label>Call OCI for Location Groups ?</label>
-        <locationX>674</locationX>
-        <locationY>1105</locationY>
+        <name>Check_Output</name>
+        <label>Check Output</label>
+        <locationX>1434</locationX>
+        <locationY>1249</locationY>
         <defaultConnector>
-            <targetReference>L55_All_Results</targetReference>
+            <targetReference>Loop_Over_Availability_from_Locations_Output</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Next</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Yes_call_for_Location_Groups</name>
+            <name>Contains</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>OCI_02_GetInventoryAvailability_IR_LocationGroups</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>Loop_Over_inventoryRecords.inventoryRecords</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <elementReference>Loop_Over_Availability_from_Locations_Output.inventoryRecords</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_inventoryRecords.locationIdentifier</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Availability_from_Locations_Output.locationIdentifier</elementReference>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Availability_from_LocationGroups</targetReference>
+                <targetReference>Pass_Boolean_to_True</targetReference>
             </connector>
-            <label>Yes call for Location Groups</label>
+            <label>Contains</label>
         </rules>
     </decisions>
     <decisions>
-        <name>Call_OCI_for_Locations</name>
-        <label>Call OCI for Locations ?</label>
-        <locationX>676</locationX>
-        <locationY>886</locationY>
+        <name>Check_Output_0</name>
+        <label>Check Output</label>
+        <locationX>1055</locationX>
+        <locationY>989</locationY>
         <defaultConnector>
-            <targetReference>Call_OCI_for_Location_Groups</targetReference>
+            <targetReference>Stack_Location_Results</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>Next</defaultConnectorLabel>
+        <defaultConnectorLabel>false</defaultConnectorLabel>
         <rules>
-            <name>Yes_call_for_Locations</name>
+            <name>true</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>OCI_01_GetInventoryAvailability_IR_Locations</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>boolean</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Availability_from_Locations</targetReference>
+                <targetReference>Stack_Location_Results_0_0</targetReference>
             </connector>
-            <label>Yes call for Locations</label>
+            <label>true</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Output_0_0</name>
+        <label>Check Output</label>
+        <locationX>980</locationX>
+        <locationY>50</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_Availability_from_LocationsGroups_Output</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Contains_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_inventoryRecords_0.inventoryRecords</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Availability_from_LocationsGroups_Output.inventoryRecords</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_inventoryRecords_0.locationIdentifier</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Loop_Over_Availability_from_LocationsGroups_Output.locationGroupIdentifier</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Pass_Boolean_to_True_0</targetReference>
+            </connector>
+            <label>Contains</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Output_0_0_0</name>
+        <label>Check Output</label>
+        <locationX>646</locationX>
+        <locationY>296</locationY>
+        <defaultConnector>
+            <targetReference>Stack_LocationGroups_Results</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>false</defaultConnectorLabel>
+        <rules>
+            <name>true_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>boolean</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Stack_LocationGroups_Results_0</targetReference>
+            </connector>
+            <label>true</label>
         </rules>
     </decisions>
     <decisions>
         <name>Location_or_Location_Group</name>
         <label>Location or Location Group ?</label>
         <locationX>1016</locationX>
-        <locationY>502</locationY>
+        <locationY>707</locationY>
         <defaultConnector>
             <targetReference>Assign_OCI_IR_for_Locations</targetReference>
         </defaultConnector>
@@ -283,15 +468,15 @@
     <decisions>
         <name>Match_Reservations_vs_Results</name>
         <label>Match Reservations vs Results</label>
-        <locationX>948</locationX>
-        <locationY>1704</locationY>
+        <locationX>951</locationX>
+        <locationY>1329</locationY>
         <defaultConnector>
             <targetReference>L77_Compare_Results_Reservations</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Not a match</defaultConnectorLabel>
         <rules>
             <name>Yes_is_match</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND 2</conditionLogic>
             <conditions>
                 <leftValueReference>L77_Compare_Results_Reservations.locationIdentifier</leftValueReference>
                 <operator>EqualTo</operator>
@@ -320,21 +505,21 @@
         <name>L33_Reservations_Locations</name>
         <label>L33 - Reservations @ Locations</label>
         <locationX>688</locationX>
-        <locationY>499</locationY>
+        <locationY>704</locationY>
         <collectionReference>C_Reservations</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Location_or_Location_Group</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Call_OCI_for_Locations</targetReference>
+            <targetReference>L55_All_Results</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
         <name>L55_All_Results</name>
         <label>L55 - All Results</label>
-        <locationX>676</locationX>
-        <locationY>1284</locationY>
+        <locationX>679</locationX>
+        <locationY>909</locationY>
         <collectionReference>C_Full_OCILocationAvailabilityOutputRepresentation</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -344,8 +529,8 @@
     <loops>
         <name>L66_Inventory_Records</name>
         <label>L66 - Inventory Records</label>
-        <locationX>685</locationX>
-        <locationY>1508</locationY>
+        <locationX>688</locationX>
+        <locationY>1133</locationY>
         <collectionReference>L55_All_Results.inventoryRecords</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -358,8 +543,8 @@
     <loops>
         <name>L77_Compare_Results_Reservations</name>
         <label>L77 - Compare Results &amp; Reservations</label>
-        <locationX>684</locationX>
-        <locationY>1708</locationY>
+        <locationX>687</locationX>
+        <locationY>1333</locationY>
         <collectionReference>C_Reservations</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -367,6 +552,62 @@
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>L66_Inventory_Records</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Availability_from_Locations_Output</name>
+        <label>Loop Over Availability_from_Locations Output</label>
+        <locationX>1231</locationX>
+        <locationY>1083</locationY>
+        <collectionReference>Get_Availability_from_Locations.ociGetAvailabilityOutput.locations</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Output</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Over_inventoryRecords</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Availability_from_LocationsGroups_Output</name>
+        <label>Loop Over Availability_from_LocationsGroups Output</label>
+        <locationX>889</locationX>
+        <locationY>180</locationY>
+        <collectionReference>Get_Availability_from_LocationGroups.ociGetAvailabilityOutput.locationGroups</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_Output_0_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Loop_Over_inventoryRecords_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_inventoryRecords</name>
+        <label>Loop Over inventoryRecords</label>
+        <locationX>1237</locationX>
+        <locationY>931</locationY>
+        <collectionReference>C_Full_OCILocationAvailabilityOutputRepresentation</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Loop_Over_Availability_from_Locations_Output</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Output_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_inventoryRecords_0</name>
+        <label>Loop Over inventoryRecords</label>
+        <locationX>869</locationX>
+        <locationY>339</locationY>
+        <collectionReference>C_Full_OCILocationAvailabilityOutputRepresentation</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Loop_Over_Availability_from_LocationsGroups_Output</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Check_Output_0_0_0</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -390,12 +631,22 @@
     <processType>AutoLaunchedFlow</processType>
     <start>
         <locationX>235</locationX>
-        <locationY>482</locationY>
+        <locationY>687</locationY>
         <connector>
             <targetReference>L33_Reservations_Locations</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>boolean</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
     <variables>
         <name>C_Full_OCILocationAvailabilityOutputRepresentation</name>
         <apexClass>ConnectApi__OCILocationAvailabilityOutputRepresentation</apexClass>
@@ -433,6 +684,21 @@
         <apexClass>ConnectApi__OCIGetInventoryAvailabilityInputRepresentation</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OS_Id</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>test</name>
+        <apexClass>ConnectApi__OCILocationAvailabilityOutputRepresentation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>

@@ -207,6 +207,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Delivery</name>
+        <label>Assign Delivery</label>
+        <locationX>612</locationX>
+        <locationY>701</locationY>
+        <assignmentItems>
+            <assignToReference>CollectionDelivery</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Get_Order_Product_Summary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>List_of_Items_To_refund</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Return_Items_Input_Representation_Data</name>
         <label>Assign Return Items Input Representation Data</label>
         <locationX>1751</locationX>
@@ -1300,7 +1316,7 @@
         <locationY>689</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>List_of_Items_To_refund</targetReference>
+            <targetReference>Assign_Delivery</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1603,23 +1619,6 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
-        <name>Error_Screen</name>
-        <label>Error Screen</label>
-        <locationX>1492</locationX>
-        <locationY>1181</locationY>
-        <allowBack>false</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <fields>
-            <name>Display_Zone5</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;⛔&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;Error while creating refund&lt;/b&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>false</showHeader>
-    </screens>
-    <screens>
         <name>Error_Screen_0</name>
         <label>Error Screen</label>
         <locationX>925</locationX>
@@ -1659,8 +1658,8 @@
     <screens>
         <name>List_of_Items_To_refund</name>
         <label>List of Items To refund</label>
-        <locationX>518</locationX>
-        <locationY>692</locationY>
+        <locationX>494</locationX>
+        <locationY>694</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1787,6 +1786,96 @@
                 <name>columnWidths</name>
                 <value>
                     <stringValue>Sku__c:215, Description:235, QuantityReceived:190, GrossUnitPriceFormula__c:225, TotalWithTaxFormula__c:275</stringValue>
+                </value>
+            </inputParameters>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <fields>
+            <name>ListItems_orderProductSummary</name>
+            <dataTypeMappings>
+                <typeName>T</typeName>
+                <typeValue>OrderItemSummary</typeValue>
+            </dataTypeMappings>
+            <extensionName>c:datatable</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>cb_displayAll</name>
+                <value>
+                    <stringValue>CB_TRUE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>displayAll</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectName</name>
+                <value>
+                    <stringValue>OrderItemSummary</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>tableData</name>
+                <value>
+                    <elementReference>CollectionDelivery</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_suppressBottomBar</name>
+                <value>
+                    <stringValue>CB_FALSE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_navigateNextOnSave</name>
+                <value>
+                    <stringValue>CB_FALSE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnFields</name>
+                <value>
+                    <stringValue>StockKeepingUnit,Name,Quantity,UnitPrice,TotalAmtWithTax</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_matchCaseOnFilters</name>
+                <value>
+                    <stringValue>CB_FALSE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>columnWidths</name>
+                <value>
+                    <stringValue>StockKeepingUnit:215, Name:235, Quantity:190, UnitPrice:226, TotalAmtWithTax:276</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>hideCheckboxColumn</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_hideCheckboxColumn</name>
+                <value>
+                    <stringValue>CB_TRUE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_isRequired</name>
+                <value>
+                    <stringValue>CB_FALSE</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>cb_singleRowSelection</name>
+                <value>
+                    <stringValue>CB_FALSE</stringValue>
                 </value>
             </inputParameters>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
@@ -2093,6 +2182,14 @@
         <objectType>ReturnOrderLineItem</objectType>
     </variables>
     <variables>
+        <name>CollectionDelivery</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
         <name>Created_Refund_Id</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -2292,3 +2389,4 @@
         <isOutput>false</isOutput>
     </variables>
 </Flow>
+ 
