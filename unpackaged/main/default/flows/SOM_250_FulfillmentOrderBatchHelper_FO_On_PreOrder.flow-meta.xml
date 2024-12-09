@@ -17,10 +17,12 @@
                 <elementReference>L70_FO_InputeRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createFulfillmentOrder</nameSegment>
         <outputParameters>
             <assignToReference>S_FulfillmentOrderOutputRepresentation</assignToReference>
             <name>fulfillmentOrderOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -688,6 +690,7 @@
         </rules>
     </decisions>
     <description>Clean Get Inside Loop</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Os_Status_Valide</name>
         <dataType>Boolean</dataType>
@@ -857,7 +860,7 @@
         <connector>
             <targetReference>L11</targetReference>
         </connector>
-        <filterLogic>(1 AND 2 AND 3 ) OR  (1 AND 3 AND 4)</filterLogic>
+        <filterLogic>((1 AND 2 AND 3 ) OR  (1 AND 3 AND 4))</filterLogic>
         <filters>
             <field>IsPreOrder__c</field>
             <operator>EqualTo</operator>
@@ -1006,8 +1009,8 @@
     <subflows>
         <name>SS120_Call_OCI</name>
         <label>SS120 - Call OCI</label>
-        <locationX>689</locationX>
-        <locationY>1529</locationY>
+        <locationX>694</locationX>
+        <locationY>1521</locationY>
         <connector>
             <targetReference>SS_130_Manage_Results</targetReference>
         </connector>
@@ -1155,6 +1158,14 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>C_Reservations</name>
+        <apexClass>SOM_ADV_Reservation</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
         <name>C_Set_Of_OrderSummary_Ids</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
@@ -1186,6 +1197,17 @@
     </variables>
     <variables>
         <name>Counter</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>CountOrderSummaries</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -1291,6 +1313,13 @@
         <value>
             <numberValue>0.0</numberValue>
         </value>
+    </variables>
+    <variables>
+        <name>OS_IDS</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>S_FO_To_Update</name>
