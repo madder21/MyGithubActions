@@ -1984,6 +1984,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.IsEmailChecked__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.IsPhoneChecked__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Is_in_My_Clients__c</field>
         <readable>true</readable>
@@ -4210,6 +4220,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>ClientBooking__c.CreatedByStaffId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>ClientBooking__c.CreatedBy__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4231,6 +4246,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ClientBooking__c.Firstname__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.InternalNotes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4281,6 +4301,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>ClientBooking__c.MerchantId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>ClientBooking__c.ModifiedByStaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6430,12 +6455,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.CancelledDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.ClientList__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Client_Booking__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.CreatedByStaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6485,6 +6520,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Event.FX_RecordTypeName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Event.FX_RecordTypeName_c__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6504,6 +6544,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.HQTask__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Event.Hub_Handle__c</field>
         <readable>true</readable>
@@ -6516,6 +6561,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Event.Interaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.InternalNotes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6625,7 +6675,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Event.TECH_Market_zone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Event.Task_details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.TemplateId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.TimeslotIds__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10330,12 +10395,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.CancelledDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.ClientList__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Client_Booking__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.CreatedByStaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10385,6 +10460,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task.FX_RecordTypeName__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task.FX_RecordTypeName_c__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -10404,6 +10484,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.HQTask__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task.Hub_Handle__c</field>
         <readable>true</readable>
@@ -10416,6 +10501,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.Interaction__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.InternalNotes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -10515,7 +10605,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task.TECH_Market_zone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task.Task_details__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TemplateId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.TimeslotIds__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11644,6 +11749,10 @@
         <layout>Task-Task Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Task-Task Layout</layout>
+        <recordType>Task.Task</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Template_Images__c-Template Images Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -11728,7 +11837,6 @@
     </recordTypeVisibilities>
     <recordTypeVisibilities>
         <default>true</default>
-        <personAccountDefault>true</personAccountDefault>
         <recordType>Event.AppointmentBooking</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>

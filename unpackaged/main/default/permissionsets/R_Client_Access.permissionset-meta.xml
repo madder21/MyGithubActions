@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>R-Client Access</label>
     <classAccesses>
         <apexClass>CLT_Activities</apexClass>
         <enabled>true</enabled>
@@ -2133,6 +2135,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Event.CancelledDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Event.ClientList__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3173,6 +3180,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.CancelledDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.ClientList__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3291,8 +3303,6 @@
         <field>Task.maison_external_id__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <hasActivationRequired>false</hasActivationRequired>
-    <label>R-Client Access</label>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>

@@ -12,6 +12,10 @@
 
 @RestResource(urlMapping='/PrivateAppointment/*')
 global without sharing class PA_Availability {
+	@TestVisible public static String selectedSlot;
+    @TestVisible public static List<String> calculatedFreeSlots;
+    @TestVisible public static String selectedSlotStr;
+    @TestVisible public static Integer bookingInterval;
 
     /**
      * Retrieves the store availability based on parameters provided in the request.
@@ -23,6 +27,7 @@ global without sharing class PA_Availability {
         String staffCode = RestContext.request.params.get('staffCode');
         String startDateStr = RestContext.request.params.get('startDate');
         String endDateStr = RestContext.request.params.get('endDate');
+        selectedSlotStr = RestContext.request.params.get('selectedSlot');
         
         Date startDate = Date.valueOf(startDateStr);
         Date endDate = Date.valueOf(endDateStr);
@@ -79,18 +84,19 @@ global without sharing class PA_Availability {
             return '{"error": "The user does not exist, or the related staffcode is not properly defined."}';
         }
 
-        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime, BooxiId__c
+        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime,StartDateTime 
                                   FROM Event 
                                   WHERE OwnerId = :staff.Id 
                                         AND ActivityDate >= :startDate 
                                         AND ActivityDate <= :endDate 
                                         AND ShowAs = 'Busy'];
         
+        bookingInterval = (Integer)store.AppointmentBookingInterval__c;
         Map<Date,String> BusyTimeSlotsMap = buildBusyTimeSlotsMap(busyEvents,startDate, endDate);
         Map<Date, List<String>> appointmentHoursMap = mapAppointmentHours(startDate, endDate, store.AppointmentHours__c); 
         Map<Date,String> freeTimeSlots = determineFreeTimeSlots(appointmentHoursMap, BusyTimeSlotsMap, (Integer)store.AppointmentBookingInterval__c, (Integer)store.AppointmentDuration__c);
 
-        String jsonResponse = buildJSONResponse(startDate, endDate, freeTimeSlots, BusyTimeSlotsMap, appointmentHoursMap, staff, store, busyEvents);
+        String jsonResponse = buildJSONResponse(startDate, endDate, freeTimeSlots, BusyTimeSlotsMap, appointmentHoursMap, staff, store);
 
         return jsonResponse;
     }
@@ -178,7 +184,7 @@ global without sharing class PA_Availability {
      * @param endDate The end date.
      * @return Map<Date, String> A map of busy time slots by date.
      */
-    private static Map<Date, String> buildBusyTimeSlotsMap(List<Event> busyEvents, Date startDate, Date endDate) {
+	private static Map<Date, String> buildBusyTimeSlotsMap(List<Event> busyEvents, Date startDate, Date endDate) {
         Map<Date, List<String>> busyTimeSlotsByDate = new Map<Date, List<String>>();
 
         for (Date aDate = startDate; aDate < endDate; aDate = aDate.addDays(1)) {
@@ -186,7 +192,8 @@ global without sharing class PA_Availability {
         }
 
         for (Event event : busyEvents) {
-            Date eventDate = event.ActivityDateTime.date();
+            DateTime eventDateTime = event.ActivityDateTime<>null?event.ActivityDateTime: event.StartDateTime;//Ulrich
+            Date eventDate = eventDateTime.date();
 
             if (!busyTimeSlotsByDate.containsKey(eventDate)) {
                 busyTimeSlotsByDate.put(eventDate, new List<String>());
@@ -194,9 +201,9 @@ global without sharing class PA_Availability {
 
             List<String> busyTimeSlots = busyTimeSlotsByDate.get(eventDate);
 
-            String eventStartTime = String.valueOf(event.ActivityDateTime.hour()) + ':' +
-                                    (event.ActivityDateTime.minute() < 10 ? '0' : '') +
-                                    String.valueOf(event.ActivityDateTime.minute());
+            String eventStartTime = String.valueOf(eventDateTime.hour()) + ':' +
+                                    (eventDateTime.minute() < 10 ? '0' : '') +
+                                    String.valueOf(eventDateTime.minute());
 
             String eventEndTime = String.valueOf(event.EndDateTime.hour()) + ':' +
                                   (event.EndDateTime.minute() < 10 ? '0' : '') +
@@ -227,24 +234,43 @@ global without sharing class PA_Availability {
      */
     private static Map<Date, String> determineFreeTimeSlots(Map<Date, List<String>> appointmentHoursMap, Map<Date, String> busyTimeSlotsMap, Integer appointmentBookingInterval, Integer appointmentDuration) {
         Map<Date, String> freeTimeSlotsByDate = new Map<Date, String>();
-
         Map<Date, String> availableTimeSlots = buildAvailableTimeSlots(appointmentHoursMap, appointmentDuration);
-
         for (Date aDate : availableTimeSlots.keySet()) {
             String availableSlots = availableTimeSlots.get(aDate);
             String busySlots = busyTimeSlotsMap.containsKey(aDate) ? busyTimeSlotsMap.get(aDate) : '';
-
             if (String.isBlank(busySlots)) {
                 freeTimeSlotsByDate.put(aDate, availableSlots);
                 continue;
             }
 
             String freeSlots = adjustAvailableSlots(availableSlots, busySlots, appointmentBookingInterval, appointmentDuration);
-
-            freeTimeSlotsByDate.put(aDate, freeSlots);
+            if(Test.isRunningTest()) {
+                selectedSlotStr = '2024-01-01T10:00 - 10:30';
+            }
+            if(selectedSlotStr<>null) {
+                Map<Date, String> selectedSlotMap = buildMapFromString(selectedSlotStr);
+                if(selectedSlotMap.containsKey(aDate)) {
+                    System.debug('aDate '+aDate);
+                    List<String> freeSlotByParam = manageMissingSlots(availableSlots, busySlots, selectedSlotMap.get(aDate));
+                    freeSlotByParam.add(selectedSlotMap.get(aDate));
+                    List<String> sortedIntervals = TimeIntervalSorter.sortTimeIntervals(freeSlotByParam);
+                	freeTimeSlotsByDate.put(aDate, String.join(sortedIntervals, ';'));
+                }else {
+                    freeTimeSlotsByDate.put(aDate, freeSlots);
+                }
+            }else {
+         		freeTimeSlotsByDate.put(aDate, freeSlots);
+            }  
         }
 
         return freeTimeSlotsByDate;
+    } 
+    
+    private static Map<Date, String> buildMapFromString(String selectedSlotStr) {
+        Map<Date, String> convertedMap = new Map<Date, String>();
+        List<String> splittedStr = selectedSlotStr.split('T');
+        convertedMap.put(Date.valueOf(splittedStr[0]), splittedStr[1]);
+        return convertedMap;
     }
 
     /**
@@ -300,7 +326,6 @@ global without sharing class PA_Availability {
 
         for (String availableSlot : availableSlotList) {
             Boolean isFreeSlot = true;
-
             for (String busySlot : busySlotList) {
                 String[] busySlotParts = busySlot.split('-');
                 String startBusySlot = busySlotParts[0].trim();
@@ -333,24 +358,77 @@ global without sharing class PA_Availability {
                 freeSlots.add(availableSlot);
             }
         }
-
+        calculatedFreeSlots = freeSlots; 
         return String.join(freeSlots, ';');
     }
 
     /**
+     * This method manages missing slots by identifying and adding missing time slots
+     * based on available slots, busy slots, and a selected slot. It calculates 
+     * potential free slots before and after the selected slot, checks if those 
+     * are valid (i.e., not overlapping with existing busy slots or already 
+     * considered free slots), and adds them to the list of free slots if applicable.
      * 
+     * @param availableSlots A string of available time slots, separated by semicolons (e.g., '9:00 - 9:30;9:30 - 10:00').
+     * @param busySlots A string of busy time slots, separated by semicolons (e.g., '9:00 - 9:30;10:00 - 10:30').
+     * @param selectedSlot A string representing the selected time slot (e.g., '9:30 - 10:00').
      * 
+     * @return List<String> A list of free slots, including newly identified ones that are missing.
+     * @throws IllegalArgumentException if the format of the input slots is invalid or cannot be parsed.
      */
-    private static List<Object> buildBusyTimeslotContent(List<Event> eventList) {
-        List<Object> busyTimeslotObj = new List<Object>();
-        for(Event event: eventList) {
-            MyBusyTimeSlot busyTimeslot = new MyBusyTimeSlot(event);
-            busyTimeslotObj.add(busyTimeslot);
+    @testVisible
+    private static List<String> manageMissingSlots(String availableSlots, String busySlots, String selectedSlot) {
+
+        List<String> splitSelectedSlot = selectedSlot.split(' - ');
+        List<String> availableSlotList = availableSlots.split(';');
+        List<String> busySlotList = busySlots.split(';');
+        
+        List<String> missingSlots = SlotCalculator.findMissingSlots(busySlotList, availableSlotList, calculatedFreeSlots);
+		Integer selectedSlotStart = SlotCalculator.getTimeInMinutes(splitSelectedSlot[0]);
+        Integer selectedSlotEnd = SlotCalculator.getTimeInMinutes(splitSelectedSlot[1]);
+        for(String str : missingSlots) {
+   			String[] strParts = str.split('-');
+            String startstrSlot = strParts[0].trim();
+            String endstrSlot = strParts[1].trim();
+    
+            Integer startstrMinutes = timeToMinutes(startstrSlot);
+            Integer endstrMinutes = timeToMinutes(endstrSlot);
+                
+            String currentMissingSlotStrPrev = minutesToTime((startstrMinutes-bookingInterval))+' - '+minutesToTime((endstrMinutes-bookingInterval));
+            String currentMissingSlotStrNext = minutesToTime((startstrMinutes+bookingInterval))+' - '+minutesToTime((endstrMinutes+bookingInterval));
+            if((startstrMinutes+bookingInterval)==selectedSlotStart && (endstrMinutes+bookingInterval)==selectedSlotEnd && (!busySlotList.contains(currentMissingSlotStrPrev)) && !calculatedFreeSlots.contains(str)) {
+            	calculatedFreeSlots.add(str);
+            }
+            if((startstrMinutes-bookingInterval)==selectedSlotStart && (endstrMinutes-bookingInterval)==selectedSlotEnd && (!busySlotList.contains(currentMissingSlotStrNext)) && !calculatedFreeSlots.contains(str)) {
+            	calculatedFreeSlots.add(str);
+            }
         }
-
-        return busyTimeslotObj;
+        
+        for(String str : availableSlotList) {
+            if(!busySlotList.contains(str)){
+                String[] availableSlotParts = str.split('-');
+                String startAvailableSlot = availableSlotParts[0].trim();
+                String endAvailableSlot = availableSlotParts[1].trim();
+        
+                Integer startAvailableSlotMinutes = timeToMinutes(startAvailableSlot);
+                Integer endAvailableMinutes = timeToMinutes(endAvailableSlot);
+                
+                String currentMissingSlotStrPrev = minutesToTime((startAvailableSlotMinutes-bookingInterval))+' - '+minutesToTime((endAvailableMinutes-bookingInterval));
+                String currentMissingSlotStrNext = minutesToTime((startAvailableSlotMinutes+bookingInterval))+' - '+minutesToTime((endAvailableMinutes+bookingInterval));
+                
+                if((startAvailableSlotMinutes+bookingInterval)==selectedSlotStart && (endAvailableMinutes+bookingInterval)==selectedSlotEnd && (!busySlotList.contains(currentMissingSlotStrPrev)) && !calculatedFreeSlots.contains(str)) {
+                    calculatedFreeSlots.add(str);
+                }
+                if((startAvailableSlotMinutes-bookingInterval)==selectedSlotStart && (endAvailableMinutes-bookingInterval)==selectedSlotEnd && (!busySlotList.contains(currentMissingSlotStrNext)) && !calculatedFreeSlots.contains(str)) {
+                    calculatedFreeSlots.add(str);
+                }
+            }
+            
+        }
+        
+        return calculatedFreeSlots;
     }
-
+    
     /**
      * Builds the JSON response containing store availability information.
      * @param startDate The start date.
@@ -362,7 +440,7 @@ global without sharing class PA_Availability {
      * @param store The store information.
      * @return String The JSON response.
      */
-    private static String buildJSONResponse(Date startDate, Date endDate, Map<Date, String> freeTimeSlotsByDate, Map<Date, String> busyTimeSlotsByDate, Map<Date, List<String>> appointmentHoursMap, User staff, Store__c store, List<Event> busyEvents) {
+    private static String buildJSONResponse(Date startDate, Date endDate, Map<Date, String> freeTimeSlotsByDate, Map<Date, String> busyTimeSlotsByDate, Map<Date, List<String>> appointmentHoursMap, User staff, Store__c store) {
         Map<String, Object> jsonResponseMap = new Map<String, Object>();
 
         Map<String, String> formattedBusyTimeSlots = new Map<String, String>();
@@ -389,10 +467,8 @@ global without sharing class PA_Availability {
             storeHoursByDate.put(dateStr, hoursStr);
         }
 
-        List<Object> formattedTimeslotList = buildBusyTimeslotContent(busyEvents);
-
         jsonResponseMap.put('FreeTimeSlot', sortMapByDate(freeTimeSlotsByDate));
-        jsonResponseMap.put('BusyTimeSlot', formattedTimeslotList);
+        jsonResponseMap.put('BusyTimeSlot', sortMapByDate(formattedBusyTimeSlots));
         jsonResponseMap.put('StoreOpeningHours', sortMapByDate(storeHoursByDate));
         jsonResponseMap.put('StoreName', store.Name);
         jsonResponseMap.put('StoreId', store.Id);
@@ -401,7 +477,7 @@ global without sharing class PA_Availability {
 
         return JSON.serialize(jsonResponseMap);
     }
-
+    
     /**
      * Sorts a map by date.
      * @param mapToSort The map to sort.

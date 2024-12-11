@@ -2,9 +2,43 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
     <assignments>
+        <description>12H reminder and a task exist and it&#39;s not closed : Close the task and send a reminder</description>
+        <name>Assign_closeTask</name>
+        <label>Assign Close the Task</label>
+        <locationX>578</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>get_Reminder_Task.Status__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Task</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>48 hours reminder but a task already exist cause the appointement was postpone after the task was created</description>
+        <name>Assign_Due_Date</name>
+        <label>Assign Due Date</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>get_Reminder_Task.ActivityDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>ActivityDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Task_Due_Date</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assign_Error_Confirmation_Number_Missing</name>
         <label>assign_Error Confirmation Number Missing</label>
-        <locationX>578</locationX>
+        <locationX>1634</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
@@ -22,10 +56,10 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Assign_SendReminder_to_Clien_Booking</name>
-        <label>Assign Send Reminder to the Client Booking</label>
-        <locationX>50</locationX>
-        <locationY>458</locationY>
+        <name>assign_sendReminder</name>
+        <label>assign sendReminder</label>
+        <locationX>578</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>clientBooking.sendReminder__c</assignToReference>
             <operator>Assign</operator>
@@ -33,62 +67,11 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>Assign_task_to_TaskReminder</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_task_to_TaskReminder</name>
-        <label>Assign task to TaskReminder</label>
-        <locationX>50</locationX>
-        <locationY>566</locationY>
-        <assignmentItems>
-            <assignToReference>taskReminder.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>taskReminder.ActivityDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.ActivityDate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>taskReminder.WhoId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.WhoId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>taskReminder.WhatId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.WhatId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>taskReminder.Subject</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.Subject</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>taskReminder.TaskSubtype</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>get_Reminder_Task.TaskSubtype</elementReference>
-            </value>
-        </assignmentItems>
     </assignments>
     <decisions>
         <name>dec_ConfirmationNumber</name>
         <label>Does Booking Confirmation Number exist ?</label>
-        <locationX>380</locationX>
+        <locationX>1172</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>assign_Error_Confirmation_Number_Missing</targetReference>
@@ -125,14 +108,33 @@
         </rules>
     </decisions>
     <decisions>
-        <name>dec_getReminderTask</name>
-        <label>is there a reminder task found ?</label>
-        <locationX>182</locationX>
+        <description>User Stories : 
+1. First reminder : Create Task
+2. Second reminder and a task exist and it&#39;s not closed : 
+    Close the task and Send Reminder by email
+3. 48 hours reminder but a task already exist cause the 
+    appointement was postpone after the task was created : 
+    Update the Task Due Date
+4. 48 hours reminder but a task already exist but the task is closed
+     cause the appointement was postpone after the task was 
+     created :  Create task
+5. 12 hours reminder but no task exist : send reminder
+6. 12 hours reminder and task exist and completed : do nothing</description>
+        <name>dec_ReminderCase</name>
+        <label>SWITCH CASE :</label>
+        <locationX>710</locationX>
         <locationY>350</locationY>
-        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>decout_getReminderTask_exist</name>
+            <name>decout_48h_TaskNotCompleted</name>
             <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>f_Reminder</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>First</stringValue>
+                </rightValue>
+            </conditions>
             <conditions>
                 <leftValueReference>get_Reminder_Task</leftValueReference>
                 <operator>IsNull</operator>
@@ -140,10 +142,131 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task.Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Assign_SendReminder_to_Clien_Booking</targetReference>
+                <targetReference>Assign_Due_Date</targetReference>
             </connector>
-            <label>yes</label>
+            <label>48H, Task not completed</label>
+        </rules>
+        <rules>
+            <name>decout_48h_TaskCompletedOrNoTask</name>
+            <conditionLogic>1 AND ((2 AND 3) OR 4)</conditionLogic>
+            <conditions>
+                <leftValueReference>f_Reminder</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>First</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_48HTask_Helper</targetReference>
+            </connector>
+            <label>48H, Task Completed or No task</label>
+        </rules>
+        <rules>
+            <name>decout_12h_TaskNotCompleted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>f_Reminder</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Second</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task.Status__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_closeTask</targetReference>
+            </connector>
+            <label>12H, Task Not Completed</label>
+        </rules>
+        <rules>
+            <name>decout_12h_NoTask</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>f_Reminder</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Second</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <isGoTo>true</isGoTo>
+                <targetReference>assign_sendReminder</targetReference>
+            </connector>
+            <label>12H No Task</label>
+        </rules>
+        <rules>
+            <name>decout_12h_TaskCompleted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>f_Reminder</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Second</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>get_Reminder_Task.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <label>12H, Task Completed</label>
         </rules>
     </decisions>
     <description>.. Send a reminder for the given clientBooking appointment. Two kind of reminders are sent, one as a task for the Client Advisor and one for the client.</description>
@@ -154,16 +277,18 @@
         <expression>DATEVALUE({!clientBooking.StartsOn__c})</expression>
     </formulas>
     <formulas>
+        <name>f_Reminder</name>
+        <dataType>String</dataType>
+        <expression>IF(
+   ({!clientBooking.StartsOn__c} - NOW())*24 &gt; VALUE({!$Label.LABS_AP_AdditionalReminderDelay}),
+   &#39;First&#39;,
+   &#39;Second&#39;
+)</expression>
+    </formulas>
+    <formulas>
         <name>f_ReminderSubject</name>
         <dataType>String</dataType>
-        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; +
-IF( 
-   ISNULL({!clientBooking.Salutation__c}) ||  ISBLANK({!clientBooking.Salutation__c}) ,
-    &quot;&quot;, 
-    {!clientBooking.Salutation__c} + &quot; &quot; 
-) 
-+ {!clientBooking.Firstname__c} + &quot; &quot; + {!clientBooking.Lastname__c} 
-+ &quot; - Booking Number : &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
+        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
     </formulas>
     <interviewLabel>Private Appointment Send Reminder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Private Appointment Send Reminder</label>
@@ -186,14 +311,21 @@ IF(
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_48HTask</name>
+        <label>Create 48HTask</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <inputReference>taskReminder</inputReference>
+    </recordCreates>
     <recordLookups>
         <name>get_Reminder_Task</name>
         <label>get Reminder Task</label>
-        <locationX>182</locationX>
+        <locationX>710</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>dec_getReminderTask</targetReference>
+            <targetReference>dec_ReminderCase</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -218,13 +350,6 @@ IF(
             </value>
         </filters>
         <filters>
-            <field>ActivityDate</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>ActivityDate</elementReference>
-            </value>
-        </filters>
-        <filters>
             <field>Store__c</field>
             <operator>EqualTo</operator>
             <value>
@@ -240,23 +365,63 @@ IF(
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Task</object>
+        <sortField>CreatedDate</sortField>
+        <sortOrder>Desc</sortOrder>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordUpdates>
+        <name>Update_Task</name>
+        <label>Close Task</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <connector>
+            <targetReference>assign_sendReminder</targetReference>
+        </connector>
+        <inputReference>get_Reminder_Task</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Task_Due_Date</name>
+        <label>Update Task Due Date</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <inputReference>get_Reminder_Task</inputReference>
+    </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>254</locationX>
+        <locationX>1046</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>dec_ConfirmationNumber</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <subflows>
+        <description>48 hours reminder but a task already exist but the task is closed cause the appointement was postpone after the task was created</description>
+        <name>Assign_48HTask_Helper</name>
+        <label>Assign 48HTask Helper</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <connector>
+            <targetReference>Create_48HTask</targetReference>
+        </connector>
+        <flowName>PA_Task_Assignment_Helper</flowName>
+        <inputAssignments>
+            <name>clientBooking</name>
+            <value>
+                <elementReference>clientBooking</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>taskReminder</assignToReference>
+            <name>bookingTask</name>
+        </outputAssignments>
+    </subflows>
     <variables>
         <name>clientBooking</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
         <objectType>ClientBooking__c</objectType>
     </variables>
     <variables>

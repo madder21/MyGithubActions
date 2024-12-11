@@ -10,6 +10,7 @@
 @isTest
 private class PA_AvailabilityTest {
 
+    static String calculatedFreeSlots;
     @testSetup
     static void testData(){
         // Create a test profile
@@ -186,21 +187,37 @@ private class PA_AvailabilityTest {
     }
     
         @IsTest
-    static void testAdjustAvailableSlots() {
-        // Create test data
-        String availableSlots = '08:00 - 08:30;08:30 - 09:00;09:00 - 09:30;09:30 - 10:00;10:00 - 10:30;10:30 - 11:00';
-        String busySlots = '08:00 - 08:30;10:30 - 11:00';
-        Integer appointmentBookingInterval = 30; // Interval of 30 minutes
-        Integer appointmentDuration = 30; // Duration of 30 minutes
+        static void testAdjustAvailableSlots() {
+            // Create test data
+            String availableSlots = '08:00 - 08:30;08:30 - 09:00;09:00 - 09:30;09:30 - 10:00;10:00 - 10:30;10:30 - 11:00';
+            String busySlots = '08:00 - 08:30;10:30 - 11:00';
+            Integer appointmentBookingInterval = 30; // Interval of 30 minutes
+            Integer appointmentDuration = 30; // Duration of 30 minutes
+    
+            // Call the method to test
+            String result = PA_Availability.adjustAvailableSlots(availableSlots, busySlots, appointmentBookingInterval, appointmentDuration);
+    
+            // Define the expected result based on the input data
+            String expectedFreeSlots = '09:00 - 09:30;09:30 - 10:00'; // Only these slots should be free
+    
+            // Perform assertion
+            Assert.AreEqual(expectedFreeSlots, result, 'Adjusted available slots should match expected free slots');
+        }
+    
+    @isTest
+    static void testGetStoreAvailabilityBySelectedSlot() {
+        String staffCode = '123';
+        String storeCode = 'TestStore123';
+		Date startDate = date.newinstance(2024, 1, 1);
+        Date endDate = date.newinstance(2024, 2, 1);
+        Test.startTest();
+        // Make a callout to the getStoreAvailability method
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        String response = PA_Availability.getStoreAvailability(storeCode,staffCode,startDate,endDate);
+        Test.stopTest();
 
-        // Call the method to test
-        String result = PA_Availability.adjustAvailableSlots(availableSlots, busySlots, appointmentBookingInterval, appointmentDuration);
-
-        // Define the expected result based on the input data
-        String expectedFreeSlots = '09:00 - 09:30;09:30 - 10:00'; // Only these slots should be free
-
-        // Perform assertion
-        Assert.AreEqual(expectedFreeSlots, result, 'Adjusted available slots should match expected free slots');
+        // Assert that the response is not empty
+        System.assertNotEquals(null, response);
     }
 
 }

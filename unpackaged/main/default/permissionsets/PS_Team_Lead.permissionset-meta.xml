@@ -2029,6 +2029,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Event.TECH_Market_zone__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Event.Task_details__c</field>
         <readable>true</readable>
@@ -2171,6 +2176,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Store__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Task.TECH_Market_zone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2545,6 +2555,10 @@
     </objectPermissions>
     <recordTypeVisibilities>
         <recordType>PersonAccount.PersonAccount</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Task.Task</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <tabSettings>

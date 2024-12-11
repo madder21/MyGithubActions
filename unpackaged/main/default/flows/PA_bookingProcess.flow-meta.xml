@@ -132,14 +132,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_EventCreationFailed</name>
         <label>Assign_EventCreationFailed</label>
         <locationX>314</locationX>
-        <locationY>1298</locationY>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
             <operator>Assign</operator>
@@ -158,8 +158,8 @@
     <assignments>
         <name>Assign_EventUpdateFailed</name>
         <label>Assign_EventUpdateFailed</label>
-        <locationX>2415</locationX>
-        <locationY>2714</locationY>
+        <locationX>2673</locationX>
+        <locationY>3914</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
             <operator>Assign</operator>
@@ -174,6 +174,54 @@
                 <stringValue>Event Modification failed. Please verify Private Appointment BookingProcess</stringValue>
             </value>
         </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Assign_Internal_Note</name>
+        <label>Assign Internal Note</label>
+        <locationX>3856</locationX>
+        <locationY>2498</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.InternalNotes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.InternalNotes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_Modify_Event</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_ModifiedByStaffId_c</name>
+        <label>Assign ModifiedByStaffId__c</label>
+        <locationX>2805</locationX>
+        <locationY>3074</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedByStaffId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedByStaffId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_BookingStatus</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_New_Note</name>
+        <label>Assign New Note</label>
+        <locationX>3856</locationX>
+        <locationY>2198</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.Notes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Notes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Internal_Note_exist</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <name>assign_new_service</name>
@@ -295,7 +343,23 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>is_Note_Changed</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_NewNote_modification</name>
+        <label>Assign New Note</label>
+        <locationX>1568</locationX>
+        <locationY>2090</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.Notes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Notes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -311,7 +375,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -383,7 +447,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -455,7 +519,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -513,14 +577,137 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_1_of_assign_new_booking_date</name>
+        <label>Copy 1 of assign new booking date</label>
+        <locationX>3856</locationX>
+        <locationY>1898</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.StartsOn__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.StartsOn__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedBy__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedBy__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedOn__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedOn__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>clientBooking.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getBooking_ByBookingNumber_ForModification.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ModifyEvent</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isTaskToCreate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.isRescheduled__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>clientBooking.isRescheduled__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>is_Note_Modified</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Copy_1_of_assign_new_service</name>
+        <label>Copy 1 of assign new service</label>
+        <locationX>3658</locationX>
+        <locationY>1514</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ServiceId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ServiceId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.Service__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Service__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>clientBooking.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getBooking_ByBookingNumber_ForModification.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ModifyEvent</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedBy__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedBy__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedOn__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedOn__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>isTaskToCreate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Copy_1_of_is_Rescheduled</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Error_EventTypeNotProvided</name>
         <label>Error_EventTypeNotProvided</label>
-        <locationX>3658</locationX>
-        <locationY>1082</locationY>
+        <locationX>4362</locationX>
+        <locationY>1190</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
             <operator>Assign</operator>
@@ -539,7 +726,7 @@
     <assignments>
         <name>ERROR_NOBookingFound_ForModification</name>
         <label>ERROR_NOBookingFound</label>
-        <locationX>4186</locationX>
+        <locationX>4890</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>errormessage</assignToReference>
@@ -559,8 +746,8 @@
     <assignments>
         <name>ERROR_NOEventFound</name>
         <label>ERROR_NOEventFound</label>
-        <locationX>2679</locationX>
-        <locationY>2498</locationY>
+        <locationX>2937</locationX>
+        <locationY>3698</locationY>
         <assignmentItems>
             <assignToReference>errormessage</assignToReference>
             <operator>Assign</operator>
@@ -580,7 +767,7 @@
         <name>Flag_Create_Task_Activate_BookingCreation</name>
         <label>Flag Create Task Activate</label>
         <locationX>50</locationX>
-        <locationY>1298</locationY>
+        <locationY>1406</locationY>
         <assignmentItems>
             <assignToReference>isTaskToCreate</assignToReference>
             <operator>Assign</operator>
@@ -589,10 +776,137 @@
             </value>
         </assignmentItems>
     </assignments>
+    <assignments>
+        <name>Set_Modify_Event</name>
+        <label>Set Modify Event</label>
+        <locationX>3988</locationX>
+        <locationY>2690</locationY>
+        <assignmentItems>
+            <assignToReference>ModifyEvent</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Update</name>
+        <label>Check Update</label>
+        <locationX>4175</locationX>
+        <locationY>1082</locationY>
+        <defaultConnector>
+            <targetReference>Error_EventTypeNotProvided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>updateDetected</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.ServiceId__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.ServiceId__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.StartsOn__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.StartsOn__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.Notes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.Notes__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_is_Service_Bundle_modified</targetReference>
+            </connector>
+            <label>updateDetected</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_1_of_is_getService_Succeed</name>
+        <label>Copy 1 of is getService Succeed?</label>
+        <locationX>3790</locationX>
+        <locationY>1406</locationY>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>Copy_2_of_yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>success</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>KO</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_assign_new_service</targetReference>
+            </connector>
+            <label>Copy 2 of yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_1_of_is_Rescheduled</name>
+        <label>Copy 1 of is Rescheduled ?</label>
+        <locationX>3988</locationX>
+        <locationY>1790</locationY>
+        <defaultConnector>
+            <targetReference>is_Note_Modified</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>Copy_3_of_yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.StartsOn__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.StartsOn__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_assign_new_booking_date</targetReference>
+            </connector>
+            <label>Copy 3 of yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Copy_1_of_is_Service_Bundle_modified</name>
+        <label>Copy 1 of is Service Bundle modified?</label>
+        <locationX>3988</locationX>
+        <locationY>1190</locationY>
+        <defaultConnector>
+            <targetReference>Copy_1_of_is_Rescheduled</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>Copy_1_of_yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.ServiceId__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.ServiceId__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_getService</targetReference>
+            </connector>
+            <label>Copy 1 of yes</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>dec_AssignClientBookingLookup</name>
         <label>Assign Client Booking Lookup Success ?</label>
-        <locationX>3300</locationX>
+        <locationX>3781</locationX>
         <locationY>866</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
@@ -636,7 +950,7 @@
     <decisions>
         <name>dec_Creation</name>
         <label>Is it a creation ?</label>
-        <locationX>2226</locationX>
+        <locationX>2522</locationX>
         <locationY>434</locationY>
         <defaultConnector>
             <targetReference>getBooking_ByBookingNumber_ForModification</targetReference>
@@ -661,10 +975,10 @@
     <decisions>
         <name>dec_eventType</name>
         <label>Event Type ?</label>
-        <locationX>2679</locationX>
+        <locationX>2937</locationX>
         <locationY>974</locationY>
         <defaultConnector>
-            <targetReference>Error_EventTypeNotProvided</targetReference>
+            <targetReference>Check_Update</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>noEventType</defaultConnectorLabel>
         <rules>
@@ -761,7 +1075,7 @@
     <decisions>
         <name>dec_getBooking</name>
         <label>Does Booking Exist ?</label>
-        <locationX>3743</locationX>
+        <locationX>4335</locationX>
         <locationY>650</locationY>
         <defaultConnector>
             <targetReference>ERROR_NOBookingFound_ForModification</targetReference>
@@ -786,8 +1100,8 @@
     <decisions>
         <name>dec_getEvent</name>
         <label>is Event Found?</label>
-        <locationX>2415</locationX>
-        <locationY>2390</locationY>
+        <locationX>2673</locationX>
+        <locationY>3590</locationY>
         <defaultConnector>
             <targetReference>ERROR_NOEventFound</targetReference>
         </defaultConnector>
@@ -834,7 +1148,7 @@
         <name>dec_IsAssignmentSuccessful</name>
         <label>Is Assignment Successful ?</label>
         <locationX>314</locationX>
-        <locationY>1082</locationY>
+        <locationY>1190</locationY>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
             <name>decout_AssignmentSuccessful</name>
@@ -855,8 +1169,8 @@
     <decisions>
         <name>dec_ModifyEvent</name>
         <label>is Event have to be modified ?</label>
-        <locationX>2679</locationX>
-        <locationY>2174</locationY>
+        <locationX>2937</locationX>
+        <locationY>3374</locationY>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
             <name>decout_ModifyEvent</name>
@@ -880,7 +1194,7 @@
         <locationX>1700</locationX>
         <locationY>1682</locationY>
         <defaultConnector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>is_Note_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
@@ -900,10 +1214,117 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Does_Internal_Note_exist</name>
+        <label>Does Internal Note exist ?</label>
+        <locationX>3988</locationX>
+        <locationY>2390</locationY>
+        <defaultConnector>
+            <targetReference>Set_Modify_Event</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_InternalNote</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Internal_Note</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>does_ModifedByStaffId_exist</name>
+        <label>does ModifedByStaffId exist</label>
+        <locationX>2937</locationX>
+        <locationY>2966</locationY>
+        <defaultConnector>
+            <targetReference>Update_BookingStatus</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_modifiedByStaffId</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.ModifiedByStaffId__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_ModifiedByStaffId_c</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Note_Changed</name>
+        <label>is Note Changed?</label>
+        <locationX>1700</locationX>
+        <locationY>1982</locationY>
+        <defaultConnector>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_TheNote_changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.Notes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.Notes__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_NewNote_modification</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Note_Modified</name>
+        <label>is Note Modified?</label>
+        <locationX>3988</locationX>
+        <locationY>2090</locationY>
+        <defaultConnector>
+            <targetReference>Does_Internal_Note_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_NoteModified</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getBooking_ByBookingNumber_ForModification.Notes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>clientBooking.Notes__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Note</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <description>QA MODE FOR EndPoint Flow. Use to test the flow in Salesforce Flow Builder Directly.</description>
         <name>Is_QA_Mode_Enabled</name>
         <label>Is QA Mode Enabled ?</label>
-        <locationX>2226</locationX>
+        <locationX>2522</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>dec_Creation</targetReference>
@@ -980,7 +1401,12 @@
         </rules>
     </decisions>
     <description>Private Appointment Endpoint, create, modify or remind a booking
-V19/V20 : Ulrich: Manage RemindByEmail</description>
+V19/V20 : Ulrich: Manage RemindByEmail
+Add Client update
+V16 - 19/11: Ulrich - manage new noEventType
+v17 - 19/11: Ulrich - update eventype modifcation and include new note assignment
+Ulrich 20/11: Add InternalNote &amp; CreatedByStaffId
+Ulrich 10/12: Add ModifiedByStaffId</description>
     <environments>Default</environments>
     <formulas>
         <name>f_taskType</name>
@@ -1029,7 +1455,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
         <locationX>314</locationX>
         <locationY>866</locationY>
         <connector>
-            <targetReference>Event_Assignment_Booking</targetReference>
+            <targetReference>Update_Client_Data</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Assign_BookingCreationFailed</targetReference>
@@ -1040,7 +1466,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
         <name>Create_Event</name>
         <label>Create Event</label>
         <locationX>50</locationX>
-        <locationY>1190</locationY>
+        <locationY>1298</locationY>
         <connector>
             <targetReference>Flag_Create_Task_Activate_BookingCreation</targetReference>
         </connector>
@@ -1052,7 +1478,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <recordLookups>
         <name>getBooking_ByBookingNumber_ForModification</name>
         <label>getBooking_ByBookingNumber</label>
-        <locationX>3743</locationX>
+        <locationX>4335</locationX>
         <locationY>542</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1073,8 +1499,8 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <recordLookups>
         <name>getEvent</name>
         <label>getEvent</label>
-        <locationX>2415</locationX>
-        <locationY>2282</locationY>
+        <locationX>2673</locationX>
+        <locationY>3482</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>dec_getEvent</targetReference>
@@ -1094,8 +1520,8 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <recordUpdates>
         <name>Update_BookingStatus</name>
         <label>Update_Booking</label>
-        <locationX>2679</locationX>
-        <locationY>2066</locationY>
+        <locationX>2937</locationX>
+        <locationY>3266</locationY>
         <connector>
             <targetReference>dec_ModifyEvent</targetReference>
         </connector>
@@ -1104,8 +1530,8 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <recordUpdates>
         <name>Update_Event</name>
         <label>Update Event</label>
-        <locationX>2151</locationX>
-        <locationY>2606</locationY>
+        <locationX>2409</locationX>
+        <locationY>3806</locationY>
         <faultConnector>
             <targetReference>Assign_EventUpdateFailed</targetReference>
         </faultConnector>
@@ -1113,7 +1539,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>2100</locationX>
+        <locationX>2396</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Is_QA_Mode_Enabled</targetReference>
@@ -1123,7 +1549,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <subflows>
         <name>Assign_Client_Booking_Lookup</name>
         <label>Assign Client Booking Lookup</label>
-        <locationX>3300</locationX>
+        <locationX>3781</locationX>
         <locationY>758</locationY>
         <connector>
             <targetReference>dec_AssignClientBookingLookup</targetReference>
@@ -1244,10 +1670,38 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
         </outputAssignments>
     </subflows>
     <subflows>
+        <name>Copy_1_of_getService</name>
+        <label>Copy 1 of getService</label>
+        <locationX>3790</locationX>
+        <locationY>1298</locationY>
+        <connector>
+            <targetReference>Copy_1_of_is_getService_Succeed</targetReference>
+        </connector>
+        <flowName>PA_getService</flowName>
+        <inputAssignments>
+            <name>ClientBooking</name>
+            <value>
+                <elementReference>clientBooking</elementReference>
+            </value>
+        </inputAssignments>
+        <outputAssignments>
+            <assignToReference>clientBooking</assignToReference>
+            <name>ClientBooking</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>errormessage</assignToReference>
+            <name>errorMessage</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>success</assignToReference>
+            <name>Success</name>
+        </outputAssignments>
+    </subflows>
+    <subflows>
         <name>Event_Assignment_Booking</name>
         <label>Event Assignment Booking</label>
         <locationX>314</locationX>
-        <locationY>974</locationY>
+        <locationY>1082</locationY>
         <connector>
             <targetReference>dec_IsAssignmentSuccessful</targetReference>
         </connector>
@@ -1274,8 +1728,8 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <subflows>
         <name>Event_Assignment_Modification</name>
         <label>Event  Assignment Modification</label>
-        <locationX>2151</locationX>
-        <locationY>2498</locationY>
+        <locationX>2409</locationX>
+        <locationY>3698</locationY>
         <connector>
             <targetReference>Update_Event</targetReference>
         </connector>
@@ -1370,7 +1824,7 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
     <subflows>
         <name>QAMODE_Assignment</name>
         <label>QAMODE Assignment</label>
-        <locationX>2094</locationX>
+        <locationX>2390</locationX>
         <locationY>242</locationY>
         <connector>
             <targetReference>dec_Creation</targetReference>
@@ -1581,6 +2035,28 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
             <name>success</name>
         </outputAssignments>
     </subflows>
+    <subflows>
+        <name>Update_Client_Data</name>
+        <label>Update Client Data</label>
+        <locationX>314</locationX>
+        <locationY>974</locationY>
+        <connector>
+            <targetReference>Event_Assignment_Booking</targetReference>
+        </connector>
+        <flowName>Private_Appointment_Booking_Update_Client_Data</flowName>
+        <inputAssignments>
+            <name>client</name>
+            <value>
+                <elementReference>client</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>clientBooking</name>
+            <value>
+                <elementReference>clientBooking</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <variables>
         <name>bookingEvent</name>
         <dataType>SObject</dataType>
@@ -1596,6 +2072,14 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Task</objectType>
+    </variables>
+    <variables>
+        <name>client</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
     </variables>
     <variables>
         <name>clientBooking</name>
@@ -1645,6 +2129,14 @@ V19/V20 : Ulrich: Manage RemindByEmail</description>
         <value>
             <booleanValue>true</booleanValue>
         </value>
+    </variables>
+    <variables>
+        <name>popo</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Account</objectType>
     </variables>
     <variables>
         <name>qaVar_AccountId</name>
