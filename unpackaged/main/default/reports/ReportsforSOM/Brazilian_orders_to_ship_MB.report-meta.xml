@@ -21,15 +21,15 @@
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>FulfillmentOrder.FulfillmentOrderLineItems$OrderItemSummary.Quantity</field>
+        <field>FulfillmentOrder.FulfillmentOrderLineItems$Quantity</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>FulfillmentOrder.FulfillmentOrderLineItems$OrderItemSummary.UnitPrice</field>
+        <field>FulfillmentOrder.FulfillmentOrderLineItems$UnitPrice</field>
     </columns>
     <columns>
         <aggregateTypes>Sum</aggregateTypes>
-        <field>FulfillmentOrder.FulfillmentOrderLineItems$OrderItemSummary.TotalAmtWithTax</field>
+        <field>FulfillmentOrder.FulfillmentOrderLineItems$TotalAmount</field>
     </columns>
     <columns>
         <field>FulfillmentOrder$Account</field>
@@ -96,10 +96,10 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
+    <sortColumn>FulfillmentOrder.FulfillmentOrderLineItems$Product2.StockKeepingUnit</sortColumn>
+    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>FulfillmentOrder.FulfillmentOrderLineItems$CreatedDate</dateColumn>
-        <endDate>2024-12-03</endDate>
-        <interval>INTERVAL_CUSTOM</interval>
-        <startDate>2024-11-04</startDate>
+        <interval>INTERVAL_LAST30</interval>
     </timeFrameFilter>
 </Report>
