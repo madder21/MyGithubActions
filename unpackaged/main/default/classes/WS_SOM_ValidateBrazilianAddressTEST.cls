@@ -6,14 +6,31 @@ global with sharing class WS_SOM_ValidateBrazilianAddressTEST {
     @IsTest (seeAllData=true)
     public static void testValidateBrazilianAddress(){
         
-        List<String> CED = new List<String>{'22776-070'};
-        List<WS_SOM_ValidateBrazilianAddress.AutomaticResponse> Response;
+        SOM_BrazilianRequest TEST1 = new SOM_BrazilianRequest();
+        TEST1.ZipCode = '22776-070';
+        TEST1.Identifier = 'Rec1';
+        
+        
+        SOM_BrazilianRequest TEST2 = new SOM_BrazilianRequest();
+        TEST2.ZipCode = '03182-050';
+        TEST2.Identifier = 'Rec2';
+        
+        List<SOM_BrazilianRequest>		Reqs = new List<SOM_BrazilianRequest>();
+        Reqs.add(TEST2);
+        Reqs.add(TEST1);
+        
+        List<List<SOM_BrazilianRequest>> Requests = new List<List<SOM_BrazilianRequest>>();
+        
+        Requests.add(Reqs);
+        
+        
+        List<List<SOM_BrazilianAutomaticResponse>> responsesWrappers = new List<List<SOM_BrazilianAutomaticResponse>>();
         
         Test.setMock(HttpCalloutMock.class, new CybersourceCalloutMock());
         
         Test.startTest();
-        Response = WS_SOM_ValidateBrazilianAddress.ValidateBrazilianAddress(CED);
-        System.assertNotEquals(Response[0].localidade, 'Rio de Janeiro' );
+        responsesWrappers = WS_SOM_ValidateBrazilianAddress.ValidateBrazilianAddress(Requests);
+        System.assertNotEquals(responsesWrappers.size(), 0 );
         Test.stopTest();
         
     }
