@@ -21,8 +21,9 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 }
             } 
         }
-        List<OrderSummary> OrderSummaries = [ Select Id, BillingPostalCode, BillingStreet, RI_Neighborhood__c, BillingCity, BillingState from OrderSummary Where Id IN :RecordOSids ];
-        List<OrderDeliveryGroupSummary> ODGSummaries = [ Select Id, DeliverToPostalCode, DeliverToStreet, RI_Neighborhood__c, DeliverToCity, DeliverToState from OrderDeliveryGroupSummary Where Id IN :RecordODGSids ];
+        AddressValidationRules__mdt validationRules = [SELECT StreetRegex__c, StreetNumberRegex__c, PhoneNumberRegex__c FROM AddressValidationRules__mdt WHERE DeveloperName = 'AddressValidationRules_BR' LIMIT 1];
+        List<OrderSummary> OrderSummaries = [ Select Id, BillingPostalCode, BillingStreet, RI_Neighborhood__c, BillingCity, BillingState, BillingPhoneNumber, StreetNumber__c from OrderSummary Where Id IN :RecordOSids ];
+        List<OrderDeliveryGroupSummary> ODGSummaries = [ Select Id, DeliverToPostalCode, DeliverToStreet, RI_Neighborhood__c, DeliverToCity, DeliverToState ,PhoneNumber ,StreetNumber__c from OrderDeliveryGroupSummary Where Id IN :RecordODGSids ];
         for(OrderSummary os : OrderSummaries){
             mapOs.put(os.Id,os);
         }
@@ -36,7 +37,7 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 sObjName = (Req.RecordId).getSObjectType().getDescribe().getName();
                 String ErrorDescription = '';
                 
-                String PostalCode, Street, RI_Neighborhood, City, State;
+                String PostalCode, Street, RI_Neighborhood, City, State ,Streetnumber,Phonenumber;
                 
                 if(sObjName == SOM_Constants.ORDER_SUMMARY_NAME){
                     OrderSummary OS = mapOs.get(Req.RecordId);
@@ -45,6 +46,8 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                     RI_Neighborhood = OS.RI_Neighborhood__c;
                     City 			= OS.BillingCity;
                     State			= OS.BillingState;
+                    Streetnumber 	= OS.StreetNumber__c;
+                	Phonenumber		= OS.BillingPhoneNumber;
                     
                 }else if(sObjName == SOM_Constants.ORDER_DELIVERY_GROUP_SUMMARY_NAME){
                     OrderDeliveryGroupSummary ODGS = mapODGs.get(Req.RecordId);
@@ -53,18 +56,27 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                     City 			= ODGS.DeliverToCity;
                     State			= ODGS.DeliverToState;
                     PostalCode 		= ODGS.DeliverToPostalCode;
+                    Streetnumber	= ODGS.StreetNumber__c;
+                    Phonenumber		= ODGS.PhoneNumber;
                 }
                 
                 
                 if(UPPER(Req.cep)  != UPPER(PostalCode) ){
                     ErrorDescription = SOM_Constants.ZIP;
                 }
-                if(UPPER(Req.logradouro) != UPPER(Street) ){
-                    ErrorDescription = ErrorDescription + SOM_Constants.STREET;
-                }
-                if(UPPER(Req.bairro) != UPPER(RI_Neighborhood) ){
-                    ErrorDescription = ErrorDescription + SOM_Constants.NEIGHBORHOOD;
-                }if(UPPER(Req.localidade) != UPPER(City) ){
+                if(!Pattern.matches(validationRules.StreetRegex__c, Street)) {
+                ErrorDescription = ErrorDescription + SOM_Constants.STREETADDRESSERROR;
+            	}
+                if (!Pattern.matches(validationRules.PhoneNumberRegex__c,Phonenumber)) {
+                ErrorDescription = ErrorDescription + SOM_Constants.PHONENUMBERERROR;
+            	}
+           		if (String.isEmpty(RI_Neighborhood)) {
+                ErrorDescription = ErrorDescription + SOM_Constants.NEIGHBERHOODERROR;
+           		}
+                if (!Pattern.matches(validationRules.StreetNumberRegex__c, Streetnumber)) {
+                ErrorDescription = ErrorDescription + SOM_Constants.STREETNUMBERERROR;
+            	}
+                if(UPPER(Req.localidade) != UPPER(City) ){
                     ErrorDescription = ErrorDescription + SOM_Constants.CITY;
                 }
                 if(UPPER(Req.uf) != UPPER(State) ){

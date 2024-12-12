@@ -18,6 +18,7 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>ErrorOutput_OS</assignToReference>
             <name>output</name>
@@ -42,6 +43,7 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>ErrorOutput_ODGS</assignToReference>
             <name>output</name>
@@ -66,6 +68,7 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>ErrorOutput_ODGS</assignToReference>
             <name>output</name>
@@ -90,6 +93,7 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>ErrorOutput_OS</assignToReference>
             <name>output</name>
@@ -114,6 +118,7 @@
             </value>
         </inputParameters>
         <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>Output_ODGS</assignToReference>
             <name>output</name>
@@ -138,6 +143,7 @@
             </value>
         </inputParameters>
         <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>Output_OS</assignToReference>
             <name>output</name>
@@ -1058,8 +1064,8 @@
         <name>Filter_ErrorOutput_ODGS</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter ErrorOutput_ODGS</label>
-        <locationX>845</locationX>
-        <locationY>1044</locationY>
+        <locationX>825</locationX>
+        <locationY>1045</locationY>
         <assignNextValueToReference>currentItem_Filter_ErrorOutput_ODGS</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>ErrorOutput_ODGS</collectionReference>
@@ -1212,8 +1218,8 @@
     <decisions>
         <name>Check_BR_0_0</name>
         <label>Check BR</label>
-        <locationX>925</locationX>
-        <locationY>563</locationY>
+        <locationX>849</locationX>
+        <locationY>533</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>BR_true_0_0</name>
@@ -1535,29 +1541,13 @@ UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!logradouro_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!bairro_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
+),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.DeliverToStreet})),REGEX({!Get_Order_Delivery_Group_Summary.DeliverToStreet}, &quot;{!Get_AddressValidationRules.StreetRegex__c}&quot;),REGEX({!Get_Order_Delivery_Group_Summary.StreetNumber__c}, &quot;{!Get_AddressValidationRules.StreetNumberRegex__c}&quot;),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c})),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-)
-), 
-true, false)</expression>
+),UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!Get_Order_Delivery_Group_Summary.PhoneNumber}, &quot;{!Get_AddressValidationRules.PhoneNumberRegex__c}&quot;)),true,false)</expression>
     </formulas>
     <formulas>
         <name>OS_Formula</name>
@@ -1568,29 +1558,13 @@ UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!logradouro_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!bairro_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
+),NOT(ISBLANK({!$Record.BillingStreet})),REGEX({!$Record.BillingStreet}, &quot;{!Get_AddressValidationRules.StreetRegex__c}&quot;),REGEX({!$Record.StreetNumber__c}, &quot;{!Get_AddressValidationRules.StreetNumberRegex__c}&quot;),NOT(ISBLANK({!$Record.RI_Neighborhood__c})),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),
-UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-)
-), 
-true, false)</expression>
+),UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)) = UPPER(
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!$Record.BillingPhoneNumber}, &quot;{!Get_AddressValidationRules.PhoneNumberRegex__c}&quot;)),true,false)</expression>
     </formulas>
     <interviewLabel>SOM - New Fulfillment BR Order Publish Event {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment BR Order Publish Event</label>
@@ -1661,7 +1635,7 @@ true, false)</expression>
             <targetReference>Assign_ODGS_Variables</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Verify_BrazilianAddress</targetReference>
+            <targetReference>Get_AddressValidationRules</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -1749,6 +1723,27 @@ true, false)</expression>
         <locationY>1025</locationY>
         <inputReference>PES_ToCreate</inputReference>
     </recordCreates>
+    <recordLookups>
+        <name>Get_AddressValidationRules</name>
+        <label>Get AddressValidationRules</label>
+        <locationX>1477</locationX>
+        <locationY>673</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Verify_BrazilianAddress</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>AddressValidationRules_BR</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>AddressValidationRules__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Get_existing_ODGS_PE</name>
         <label>Get existing ODGS PE</label>
