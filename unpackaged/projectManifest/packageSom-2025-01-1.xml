@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>Fulfillment_Order</members>
+		<name>ReportType</name>
+	</types>
+	<types>
+    	<members>ReportsforSOM/Brazilian_orders_to_ship_MB</members>
+		<members>SOMDashboardReportsEcomOperations/Unresolve_PE_due_to_payment_ybS</members>
+		<members>SOMDashboardReportsEcomOperations/Unresesolve_PE_due_to_stock_vRM</members>
+		<members>SOMDashboardReportsEcomOperations/Unvalidate_refunds_Ht0</members>
+		<members>SOMDashboardReportsEcomOperations/CC_orders_not_validated_more_than_1_day_Bo8</members>
+		<members>SOMDashboardReportsEcomOperations/Non_closed_returns_G6I</members>
+		<members>SOMDashboardReportsEcomOperations/CC_orders_not_shipped_more_than_5_days_JTM</members>
+		<members>SOMDashboardReportsEcomOperations/Orders_in_fulfillingpartial_fulfilled_ne5</members>
+		<name>Report</name>
+		
+	<types>
+	<types>
+		
+    	<members>WS_SOM_CreateReturnOrderEndpoint</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
 		<members>OrderSummary.cegidErrorMessage__c</members>
 		<members>FulfillmentOrder.Complementary__c</members>
 		<members>Order.Complementary__c</members>
@@ -19,6 +40,7 @@
 		<members>SOM_700_Refund_Create_Refund</members>
 		<members>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</members>
 		<members>SOM_SERVICE_120_GetAvailability_Call_OCI</members>
+		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
 		<name>Flow</name>
 	</types>
 	<types>
