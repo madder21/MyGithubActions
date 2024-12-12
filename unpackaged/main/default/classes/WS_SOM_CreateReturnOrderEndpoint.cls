@@ -314,6 +314,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             PAD.deactivateTrigger(SOM_Constants.RETURN_ORDER_ITEM_TRIGGER_CONDITION_ID);
             if (returnOrdersToUpdateList.size() > 0) update returnOrdersToUpdateList;
             if (returnOrderLineItemsToUpdateList.size() > 0) update returnOrderLineItemsToUpdateList;
+            updateReturnOrdersToReceivedQty(returnOrderToUpdateMap);
             updateReturnOrdersToReceived(returnOrderToUpdateMap);
             for (ReturnOrder persistedReturnOrder:returnOrdersToUpdateList) {
                 ReturnOrderCreateUpdateRequest req = returnOrderToUpdateMap.get(persistedReturnOrder.Id);
@@ -328,6 +329,37 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         }
     }
 
+        /**
+     * @description updateReturnOrdersToReceivedQty update return orders quatities to received
+     * @param  returnOrderToUpdateMap returnOrderToUpdateMap return orders to update
+     */
+    private static void updateReturnOrdersToReceivedQty(Map<Id, ReturnOrderCreateUpdateRequest> returnOrderToUpdateMap){
+        if (returnOrderToUpdateMap.size() > 0) {
+            List<ReturnOrder> returnOrdersToUpdate = new List<ReturnOrder>();
+            List<ReturnOrderLineItem> ReturnOrderLineItemToUpdate = new List<ReturnOrderLineItem>();
+            List<ReturnOrder> returnOrders = [SELECT Id, Status, (SELECT Id,RepaymentMethod,Quantity_Previously_Received__c,Quantity_Previously_Returned__c, QuantityExpected, QuantityReceived FROM ReturnOrderLineItems) FROM ReturnOrder WHERE Id=:returnOrderToUpdateMap.keySet()];
+            for (ReturnOrder ro:returnOrders) {
+                ReturnOrderCreateUpdateRequest req = returnOrderToUpdateMap.get(ro.Id);
+                if (req.type == SOM_Constants.WMS_RETURN_TYPE){                
+                    for (ReturnOrderLineItem roLineItem:ro.ReturnOrderLineItems) {
+                        if( roLineItem.RepaymentMethod == 'Reship' ){
+                            Decimal QtyRec = roLineItem.QuantityReceived;
+                            roLineItem.QuantityExpected 				= roLineItem.QuantityExpected - QtyRec;
+                            roLineItem.Quantity_Previously_Received__c 	= roLineItem.Quantity_Previously_Received__c + QtyRec;
+                            roLineItem.Quantity_Previously_Returned__c 	= roLineItem.Quantity_Previously_Returned__c + QtyRec;
+                            roLineItem.QuantityReceived 				= 0;
+                            ReturnOrderLineItemToUpdate.add(roLineItem);
+                    	}
+                    }
+                }
+            }
+
+
+            if (ReturnOrderLineItemToUpdate.size() > 0) update ReturnOrderLineItemToUpdate;
+        }
+    }
+
+    
     /**
      * @description updateReturnOrdersToReceived update return orders to received
      * @param  returnOrderToUpdateMap returnOrderToUpdateMap return orders to update
@@ -416,7 +448,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
         ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
-        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn, Product2.StockKeepingUnit, RepaymentMethod FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId];
+        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn,QuantityExpected, Quantity_Previously_Received__c, Quantity_Previously_Returned__c, QuantityReceived, Product2.StockKeepingUnit, RepaymentMethod FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId];
         List<ReturnOrderLineItem> roliToUpdateFollowUp = new List<ReturnOrderLineItem>(); 
         for(ReturnOrderItemCreateUpdate reqItem : returnItems){
             for(Integer i=0; i<createdROLIs.size(); i++){
