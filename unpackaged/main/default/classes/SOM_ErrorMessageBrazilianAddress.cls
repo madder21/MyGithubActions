@@ -36,6 +36,7 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
         		SOM_ResponseErrorMessageBrazilianAddress response              = new SOM_ResponseErrorMessageBrazilianAddress();
                 sObjName = (Req.RecordId).getSObjectType().getDescribe().getName();
                 String ErrorDescription = '';
+                String ValidationErrorDescription = '';
                 
                 String PostalCode, Street, RI_Neighborhood, City, State ,Streetnumber,Phonenumber;
                 
@@ -65,16 +66,16 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                     ErrorDescription = SOM_Constants.ZIP;
                 }
                 if(!Pattern.matches(validationRules.StreetRegex__c, Street)) {
-                ErrorDescription = ErrorDescription + SOM_Constants.STREETADDRESSERROR;
+                ValidationErrorDescription = SOM_Constants.STREETADDRESSERROR ;
             	}
-                if (!Pattern.matches(validationRules.PhoneNumberRegex__c,Phonenumber)) {
-                ErrorDescription = ErrorDescription + SOM_Constants.PHONENUMBERERROR;
+                if (!Pattern.matches(validationRules.PhoneNumberRegex__c, Phonenumber)) {
+                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.PHONENUMBERERROR ;
             	}
            		if (String.isEmpty(RI_Neighborhood)) {
-                ErrorDescription = ErrorDescription + SOM_Constants.NEIGHBERHOODERROR;
+                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.NEIGHBERHOODERROR ;
            		}
                 if (!Pattern.matches(validationRules.StreetNumberRegex__c, Streetnumber)) {
-                ErrorDescription = ErrorDescription + SOM_Constants.STREETNUMBERERROR;
+                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.STREETNUMBERERROR ;
             	}
                 if(UPPER(Req.localidade) != UPPER(City) ){
                     ErrorDescription = ErrorDescription + SOM_Constants.CITY;
@@ -84,6 +85,7 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 }
                 
                 response.ErrorMessageDescription = ErrorDescription;
+                response.ValidationErrorMessageDescription = ValidationErrorDescription;
                 response.ReqId = Req.RecordId;
                 responseWrapper.add(response);
                 responsesWrappers.add(responseWrapper);
