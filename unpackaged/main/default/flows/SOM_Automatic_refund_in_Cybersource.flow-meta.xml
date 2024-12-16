@@ -65,6 +65,8 @@
                 <elementReference>url</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>WS_SOM_AutomaticRefundInCybersource</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
         <versionSegment>1</versionSegment>
     </actionCalls>
@@ -92,6 +94,7 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
@@ -118,14 +121,15 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>PM_Card_Assignment</name>
         <label>PM Card</label>
-        <locationX>1158</locationX>
-        <locationY>678</locationY>
+        <locationX>1126</locationX>
+        <locationY>680</locationY>
         <assignmentItems>
             <assignToReference>RefundMethod</assignToReference>
             <operator>Assign</operator>
@@ -166,10 +170,54 @@
         </connector>
     </assignments>
     <assignments>
+        <name>PM_Card_Assignment_BR</name>
+        <label>PM Card BR</label>
+        <locationX>1261</locationX>
+        <locationY>735</locationY>
+        <assignmentItems>
+            <assignToReference>RefundMethod</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>CC</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RefundRefundMethod</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Credit Card</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>merchantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0_0.merchantId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Password</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0_0.key__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>url</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Cybersource_Config_0_0.url__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Automatic_Refund_In_Cybersource</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>PM_DW_KCP_ACCAssignment</name>
         <label>PM DW KCP_ACC</label>
-        <locationX>1315</locationX>
-        <locationY>818</locationY>
+        <locationX>1348</locationX>
+        <locationY>820</locationY>
         <assignmentItems>
             <assignToReference>RefundMethod</assignToReference>
             <operator>Assign</operator>
@@ -588,6 +636,42 @@
         <locationY>493</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
+            <name>PM_Card_BR</name>
+            <conditionLogic>(4 AND 1) OR (4 AND 2 AND 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>03O</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.PaymentMethodId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1DW</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>APPLE_PAY</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Shipping_Country.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>PM_Card_Assignment_BR</targetReference>
+            </connector>
+            <label>PM Card BR</label>
+        </rules>
+        <rules>
             <name>PM_Card</name>
             <conditionLogic>1 OR ( 2 AND 3 )</conditionLogic>
             <conditions>
@@ -752,12 +836,34 @@
     <decisions>
         <name>PIX</name>
         <label>PIX</label>
-        <locationX>1235</locationX>
-        <locationY>275</locationY>
+        <locationX>1279</locationX>
+        <locationY>219</locationY>
         <defaultConnector>
             <targetReference>Get_Cybersource_Config</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>PIX_BR</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Shipping_Country.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Payment_Summary.Type</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>PIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Cybersource_Config_0_0</targetReference>
+            </connector>
+            <label>Credit CARD BR</label>
+        </rules>
         <rules>
             <name>PIX_Type</name>
             <conditionLogic>and</conditionLogic>
@@ -950,8 +1056,8 @@
     <recordLookups>
         <name>Get_Cybersource_Config_0</name>
         <label>Get Cybersource Config</label>
-        <locationX>1358</locationX>
-        <locationY>349</locationY>
+        <locationX>1566</locationX>
+        <locationY>315</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Payment_Methode</targetReference>
@@ -969,6 +1075,34 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>rimowa_pix</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Cybersource_Config__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Cybersource_Config_0_0</name>
+        <label>Get Cybersource Config</label>
+        <locationX>1224</locationX>
+        <locationY>404</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Payment_Methode</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>deliveryCountry__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Shipping_Country.DeliverToCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>merchantId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>rimowa_brasil</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
