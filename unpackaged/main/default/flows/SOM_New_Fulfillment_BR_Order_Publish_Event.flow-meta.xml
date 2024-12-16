@@ -163,6 +163,13 @@
                 <elementReference>Loop_Over_ErrorOutputs.ErrorMessageDescription</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DescriptionValidationOS</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_ErrorOutputs.ValidationErrorMessageDescription</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Loop_Over_ErrorOutputs</targetReference>
         </connector>
@@ -177,6 +184,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Loop_Over_ErrorOutputss.ErrorMessageDescription</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DescriptionValidationODGS</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_ErrorOutputss.ValidationErrorMessageDescription</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -568,7 +582,7 @@
             <assignToReference>PE_OS_ToCreate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage1</elementReference>
+                <elementReference>DescriptionMessageFormule1</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -633,7 +647,7 @@
             <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage</elementReference>
+                <elementReference>DescriptionMessageFormule</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -698,7 +712,7 @@
             <assignToReference>PE_OS_ToCreate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage2</elementReference>
+                <elementReference>DescriptionMessageFormule2</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -763,7 +777,7 @@
             <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage_0</elementReference>
+                <elementReference>DescriptionMessageFormule_0</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -828,7 +842,7 @@
             <assignToReference>PE_OS_ToCreate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage2</elementReference>
+                <elementReference>DescriptionMessageFormule2</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -849,7 +863,7 @@
             <assignToReference>PE_ToUpdate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage_0</elementReference>
+                <elementReference>DescriptionMessageFormule_0</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -914,7 +928,7 @@
             <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage_0</elementReference>
+                <elementReference>DescriptionMessageFormule_0</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -935,7 +949,7 @@
             <assignToReference>PE_ToUpdate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage2</elementReference>
+                <elementReference>DescriptionMessageFormule2</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1025,7 +1039,7 @@
             <assignToReference>PE_ToUpdate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage2</elementReference>
+                <elementReference>DescriptionMessageFormule2</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1046,7 +1060,7 @@
             <assignToReference>PE_ToUpdate.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessage_0</elementReference>
+                <elementReference>DescriptionMessageFormule_0</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1407,8 +1421,8 @@
     <decisions>
         <name>Check_Variables_0</name>
         <label>Check Variables</label>
-        <locationX>1539</locationX>
-        <locationY>1600</locationY>
+        <locationX>1543</locationX>
+        <locationY>1524</locationY>
         <defaultConnector>
             <targetReference>Create_PE</targetReference>
         </defaultConnector>
@@ -1533,6 +1547,27 @@
     </decisions>
     <environments>Default</environments>
     <formulas>
+        <name>DescriptionMessageFormule</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription}),&quot;{Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription}&quot;, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription})</expression>
+    </formulas>
+    <formulas>
+        <name>DescriptionMessageFormule1</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription}),&quot;{Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription}&quot;, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription})</expression>
+    </formulas>
+    <formulas>
+        <name>DescriptionMessageFormule2</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!DescriptionOS}),{!DescriptionValidationOS}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp; {!DescriptionOS}&amp;
+{!DescriptionValidationOS})</expression>
+    </formulas>
+    <formulas>
+        <name>DescriptionMessageFormule_0</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!DescriptionODGS}),{!DescriptionValidationODGS}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp; {!DescriptionODGS} &amp;{!DescriptionValidationODGS})</expression>
+    </formulas>
+    <formulas>
         <name>ODGS_Formula</name>
         <dataType>Boolean</dataType>
         <expression>IF(
@@ -1541,13 +1576,13 @@ UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.DeliverToStreet})),REGEX({!Get_Order_Delivery_Group_Summary.DeliverToStreet}, &quot;{!Get_AddressValidationRules.StreetRegex__c}&quot;),REGEX({!Get_Order_Delivery_Group_Summary.StreetNumber__c}, &quot;{!Get_AddressValidationRules.StreetNumberRegex__c}&quot;),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c})),UPPER(
+),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.DeliverToStreet})),REGEX({!Get_Order_Delivery_Group_Summary.DeliverToStreet},{!Get_AddressValidationRules.StreetRegex__c}),REGEX({!Get_Order_Delivery_Group_Summary.StreetNumber__c}, {!Get_AddressValidationRules.StreetNumberRegex__c}),NOT(ISBLANK({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c})),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_ODGS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!Get_Order_Delivery_Group_Summary.PhoneNumber}, &quot;{!Get_AddressValidationRules.PhoneNumberRegex__c}&quot;)),true,false)</expression>
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!Get_Order_Delivery_Group_Summary.PhoneNumber}, {!Get_AddressValidationRules.PhoneNumberRegex__c})),true,false)</expression>
     </formulas>
     <formulas>
         <name>OS_Formula</name>
@@ -1558,13 +1593,13 @@ UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
-),NOT(ISBLANK({!$Record.BillingStreet})),REGEX({!$Record.BillingStreet}, &quot;{!Get_AddressValidationRules.StreetRegex__c}&quot;),REGEX({!$Record.StreetNumber__c}, &quot;{!Get_AddressValidationRules.StreetNumberRegex__c}&quot;),NOT(ISBLANK({!$Record.RI_Neighborhood__c})),UPPER(
+),NOT(ISBLANK({!$Record.BillingStreet})),REGEX({!$Record.BillingStreet}, {!Get_AddressValidationRules.StreetRegex__c}),REGEX({!$Record.StreetNumber__c}, {!Get_AddressValidationRules.StreetNumberRegex__c}),NOT(ISBLANK({!$Record.RI_Neighborhood__c})),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf_OS}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)) = UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!$Record.BillingPhoneNumber}, &quot;{!Get_AddressValidationRules.PhoneNumberRegex__c}&quot;)),true,false)</expression>
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!$Record.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)),REGEX({!$Record.BillingPhoneNumber}, {!Get_AddressValidationRules.PhoneNumberRegex__c})),true,false)</expression>
     </formulas>
     <interviewLabel>SOM - New Fulfillment BR Order Publish Event {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment BR Order Publish Event</label>
@@ -2005,8 +2040,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <recordUpdates>
         <name>Update_ODGS_Tech_field_0_0</name>
         <label>Update ODGS Tech field</label>
-        <locationX>1642</locationX>
-        <locationY>860</locationY>
+        <locationX>2189</locationX>
+        <locationY>767</locationY>
         <connector>
             <targetReference>Assign_ErrorRequest_OS</targetReference>
         </connector>
@@ -2162,7 +2197,7 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>DescriptionMessage</elementReference>
+                <elementReference>DescriptionMessageFormule1</elementReference>
             </value>
         </inputAssignments>
         <object>ProcessException</object>
@@ -2183,7 +2218,7 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <inputAssignments>
             <field>Description</field>
             <value>
-                <elementReference>DescriptionMessage_0</elementReference>
+                <elementReference>DescriptionMessageFormule</elementReference>
             </value>
         </inputAssignments>
         <object>ProcessException</object>
@@ -2246,27 +2281,7 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <textTemplates>
-        <name>DescriptionMessage</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are inconsistent with the Zip Code : {!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription}</text>
-    </textTemplates>
-    <textTemplates>
-        <name>DescriptionMessage1</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are inconsistent with the Zip Code : {!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription}</text>
-    </textTemplates>
-    <textTemplates>
-        <name>DescriptionMessage2</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are inconsistent with the Zip Code : {!DescriptionOS}</text>
-    </textTemplates>
-    <textTemplates>
-        <name>DescriptionMessage_0</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are inconsistent with the Zip Code : {!DescriptionODGS}</text>
-    </textTemplates>
-    <triggerOrder>500</triggerOrder>
+    <triggerOrder>50</triggerOrder>
     <variables>
         <name>bairro_ODGS</name>
         <dataType>String</dataType>
@@ -2366,6 +2381,20 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>DescriptionValidationODGS</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>DescriptionValidationOS</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>ErrorOutput_ODGS</name>
         <apexClass>SOM_ResponseErrorMessageBrazilianAddress</apexClass>
         <dataType>Apex</dataType>
@@ -2424,6 +2453,22 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <variables>
         <name>ErrorRequests_OS</name>
         <apexClass>SOM_RequestErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorValidationOutput_ODGS</name>
+        <apexClass>SOM_ResponseErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorValidationOutput_OS</name>
+        <apexClass>SOM_ResponseErrorMessageBrazilianAddress</apexClass>
         <dataType>Apex</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>

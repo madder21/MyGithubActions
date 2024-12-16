@@ -1,4 +1,4 @@
-global with sharing class SOM_Constants {
+global with sharing class SOM_Constants{
     public static final String  CARD_PAYMENT_METHOD                 = 'CardPaymentMethod';
     public static final String  DIGITAL_WALLET                      = 'DigitalWallet';
     public static final String  AMOUNT_CURRENCY                     = 'amount_currency';
@@ -173,10 +173,10 @@ global with sharing class SOM_Constants {
     public static final String CITY = ' - City';
     public static final String NEIGHBORHOOD = ' - Neighborhood';
     public static final String STATE = ' - State/Province';
-    public static final String STREETADDRESSERROR = ' The field: Street Address must not contain special characters! ';
-    public static final String STREETNUMBERERROR = ' The field: Phone Number must contain between 11 and 13 digits! ';
-    public static final String PHONENUMBERERROR = ' The field: Street Number must only contain numbers! ';
-    public static final String NEIGHBERHOODERROR = ' The field: Neighborhood must not be empty! ';
+    public static final String STREETADDRESSERROR = '\nThe field Street Address must not contain special characters!';
+    public static final String STREETNUMBERERROR = '\nThe field Street Number must only contain numbers!';
+    public static final String PHONENUMBERERROR = '\nThe field Phone Number must contain between 11 and 13 digits!';
+    public static final String NEIGHBERHOODERROR = '\nThe field Neighborhood must not be empty!';
     
     
     
