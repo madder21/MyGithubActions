@@ -18,7 +18,6 @@
             </value>
         </inputParameters>
         <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
-        <offset>0</offset>
         <outputParameters>
             <assignToReference>ErrorOutput</assignToReference>
             <name>output</name>
@@ -43,7 +42,6 @@
             </value>
         </inputParameters>
         <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
-        <offset>0</offset>
         <outputParameters>
             <assignToReference>Output_ODGS</assignToReference>
             <name>output</name>
@@ -68,7 +66,6 @@
             </value>
         </inputParameters>
         <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
-        <offset>0</offset>
         <outputParameters>
             <assignToReference>Output_OS</assignToReference>
             <name>output</name>
@@ -786,7 +783,8 @@ true, false)</expression>
   AND(
     REGEX({!Get_Order_Summary.BillingPhoneNumber}, {!Get_AddressValidationRules.PhoneNumberRegex__c}),
     REGEX({!Get_Order_Summary.StreetNumber__c}, {!Get_AddressValidationRules.StreetNumberRegex__c}),
-    REGEX({!Get_Order_Summary.BillingStreet}, {!Get_AddressValidationRules.StreetRegex__c})
+    REGEX({!Get_Order_Summary.BillingStreet}, {!Get_AddressValidationRules.StreetRegex__c}),
+    NOT ( ISBLANK({!Get_Order_Summary.RI_Neighborhood__c}))
   ),
   true,
   false

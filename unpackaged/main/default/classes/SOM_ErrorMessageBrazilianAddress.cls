@@ -21,13 +21,16 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 }
             } 
         }
+        
         AddressValidationRules__mdt validationRules = [SELECT StreetRegex__c, StreetNumberRegex__c, PhoneNumberRegex__c FROM AddressValidationRules__mdt WHERE DeveloperName = 'AddressValidationRules_BR' LIMIT 1];
         List<OrderSummary> OrderSummaries = [ Select Id, BillingPostalCode, BillingStreet, RI_Neighborhood__c, BillingCity, BillingState, BillingPhoneNumber, StreetNumber__c from OrderSummary Where Id IN :RecordOSids ];
         List<OrderDeliveryGroupSummary> ODGSummaries = [ Select Id, DeliverToPostalCode, DeliverToStreet, RI_Neighborhood__c, DeliverToCity, DeliverToState ,PhoneNumber ,StreetNumber__c from OrderDeliveryGroupSummary Where Id IN :RecordODGSids ];
         for(OrderSummary os : OrderSummaries){
+            if(os.Id != null)
             mapOs.put(os.Id,os);
         }
         for(OrderDeliveryGroupSummary odgs : ODGSummaries){
+            if(odgs.Id != null)
             mapODGs.put(odgs.Id,odgs);
         }
         List<SOM_ResponseErrorMessageBrazilianAddress> responseWrapper = new List<SOM_ResponseErrorMessageBrazilianAddress>();
@@ -61,29 +64,36 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                     Phonenumber		= ODGS.PhoneNumber;
                 }
                 
-                
                 if(UPPER(Req.cep)  != UPPER(PostalCode) ){
                     ErrorDescription = SOM_Constants.ZIP;
                 }
-                if(!Pattern.matches(validationRules.StreetRegex__c, Street)) {
-                ValidationErrorDescription = SOM_Constants.STREETADDRESSERROR ;
+                if(!String.isEmpty(Street)) {
+                    if(!Pattern.matches(validationRules.StreetRegex__c, Street)){
+                		ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.STREETADDRESSERROR ;
+            		}
+                }
+                if(String.isEmpty(Street)) {
+                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.STREETEMPTYERROR ;
             	}
-                if (!Pattern.matches(validationRules.PhoneNumberRegex__c, Phonenumber)) {
-                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.PHONENUMBERERROR ;
-            	}
+                if (!String.isEmpty(Phonenumber)) {
+                	if (!Pattern.matches(validationRules.PhoneNumberRegex__c, Phonenumber)) {
+                    	ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.PHONENUMBERERROR ;
+                    }
+                }
            		if (String.isEmpty(RI_Neighborhood)) {
                 ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.NEIGHBERHOODERROR ;
            		}
-                if (!Pattern.matches(validationRules.StreetNumberRegex__c, Streetnumber)) {
-                ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.STREETNUMBERERROR ;
-            	}
+                if (!String.isEmpty(Streetnumber) ) {
+                    if(!Pattern.matches(validationRules.StreetNumberRegex__c, Streetnumber)){
+                		ValidationErrorDescription = ValidationErrorDescription + SOM_Constants.STREETNUMBERERROR ;
+            		}
+                }
                 if(UPPER(Req.localidade) != UPPER(City) ){
                     ErrorDescription = ErrorDescription + SOM_Constants.CITY;
                 }
                 if(UPPER(Req.uf) != UPPER(State) ){
                     ErrorDescription = ErrorDescription + SOM_Constants.STATE;
                 }
-                
                 response.ErrorMessageDescription = ErrorDescription;
                 response.ValidationErrorMessageDescription = ValidationErrorDescription;
                 response.ReqId = Req.RecordId;
