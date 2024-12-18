@@ -1,16 +1,27 @@
 global with sharing class WS_SOM_ValidateBrazilianAddress {
     
     @InvocableMethod(label='Validate Brazilian Address' description='Validate Brazilian Address' callout=true)
-    global static List<AutomaticResponse> ValidateBrazilianAddress(List<String> requests){
-        String request                = requests.get(0);
-        List<AutomaticResponse> responseWrapper = new List<AutomaticResponse>();
-        AutomaticResponse response              = new AutomaticResponse();
+    global static List<List<SOM_BrazilianAutomaticResponse>> ValidateBrazilianAddress(List<List<SOM_BrazilianRequest>> Requests){
+        //String request                = requests.get(0);
+        List<SOM_BrazilianRequest>		Reqs		= Requests[0];
+        List<SOM_BrazilianRequest>		ReqsTest		= new List<SOM_BrazilianRequest>() ;
+        for(List<SOM_BrazilianRequest> Req1 : Requests){
+            for(SOM_BrazilianRequest Req2 : Req1){
+                ReqsTest.add(Req2);
+            } 
+        }
+        List<SOM_BrazilianAutomaticResponse> responseWrapper = new List<SOM_BrazilianAutomaticResponse>();
+        List<List<SOM_BrazilianAutomaticResponse>> responsesWrappers = new List<List<SOM_BrazilianAutomaticResponse>>();
+        
         String result;
         try {
+            for( SOM_BrazilianRequest Req : ReqsTest){
+            String ZCode = Req.ZipCode;
+            SOM_BrazilianAutomaticResponse response              = new SOM_BrazilianAutomaticResponse();
             //make http callout
             Http http = new Http();
             HttpRequest httpRequest = new HttpRequest();
-            httpRequest.setEndpoint('callout:BrazilianAddress/'+request+'/json');
+            httpRequest.setEndpoint('callout:BrazilianAddress/'+ZCode+'/json');
             httpRequest.setMethod('GET');
             httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
             HttpResponse httpResponse = http.send(httpRequest);
@@ -29,43 +40,19 @@ global with sharing class WS_SOM_ValidateBrazilianAddress {
                 response.gia                = String.valueOf(httpResponseMap.get('gia'));
                 response.ddd      = String.valueOf(httpResponseMap.get('ddd'));
                 response.siafi                	  = String.valueOf(httpResponseMap.get('siafi'));
+                response.Identifier                	  = Req.Identifier;
             }
-            
             result = httpResponse.getBody();
             responseWrapper.add(response);
-            Logs.debug('Validate Brazilian Address','WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',request,result);   
-            Logs.info('Validate Brazilian Address','WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',request,result);   
+            //Logs.debug('Validate Brazilian Address','WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',ZCode,result);   
+            //Logs.info('Validate Brazilian Address','WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',ZCode,result);   
             
+            responsesWrappers.add(responseWrapper);
+        	}
         }catch(Exception e) {
-            Logs.error(e,'WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',request,result);   
+            Logs.error(e,'WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',Reqs[0].ZipCode + Reqs[0].Identifier,result);   
         }
-            return responseWrapper;
+            return responsesWrappers;
     }
-        
-    global with sharing class AutomaticResponse{
-        @InvocableVariable
-        public String   cep;
-        @InvocableVariable
-        public String       logradouro;
-        @InvocableVariable
-        public String   complemento; //OK or KO
-        @InvocableVariable
-        public String   unidade;
-        @InvocableVariable
-        public String   bairro; 
-        @InvocableVariable
-        public String   localidade;
-        @InvocableVariable
-        public String  uf;
-        @InvocableVariable
-        public String   ibge; 
-        @InvocableVariable
-        public String   gia;
-        @InvocableVariable
-        public String   ddd;
-        @InvocableVariable
-        public String   siafi;
-        
-        
-    }
+    
 }

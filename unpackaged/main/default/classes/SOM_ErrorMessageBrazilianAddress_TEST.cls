@@ -2,7 +2,7 @@
 public with sharing class SOM_ErrorMessageBrazilianAddress_TEST {
     public static OrderSummary os = new OrderSummary();
     public static List<Invoice> listeInvoice = new List<Invoice>();
-@IsTest(SeeAllData=true)
+    @IsTest(SeeAllData=true)
     public static void setup() {
         
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,3);
@@ -21,18 +21,23 @@ public with sharing class SOM_ErrorMessageBrazilianAddress_TEST {
     public static void ErrorMessageBrazilianAddressOS_Test() { 
         setup();
         Test.startTest();
+        
+        List<List<SOM_RequestErrorMessageBrazilianAddress>> Requests = new List<List<SOM_RequestErrorMessageBrazilianAddress>>();
+        List<SOM_RequestErrorMessageBrazilianAddress>		Reqs = new List<SOM_RequestErrorMessageBrazilianAddress>();
+        SOM_RequestErrorMessageBrazilianAddress Req = new SOM_RequestErrorMessageBrazilianAddress();
+        
         OrderSummary OsS = [ Select Id, BillingPostalCode, BillingStreet, RI_Neighborhood__c, BillingCity, BillingState from OrderSummary Where Id =: (os.Id) limit 1 ];
-        List<SOM_ErrorMessageBrazilianAddress.Requests> Reqs = new List<SOM_ErrorMessageBrazilianAddress.Requests>();
-        SOM_ErrorMessageBrazilianAddress.Requests Req = new SOM_ErrorMessageBrazilianAddress.Requests();
         Req.cep = '';
         Req.logradouro = '';
         Req.bairro = '';
         Req.localidade = '';
-        Req.uf = '';
+        Req.uf = ''; 
         Req.RecordId = OsS.Id;
-        Reqs.add(Req);
         
-        System.assertNotEquals((SOM_ErrorMessageBrazilianAddress.ErrorMessageBrazilianAddress(Reqs))[0].ErrorMessageDescription, null , 'ErrorMessageBrazilianAddress OS');
+        Reqs.add(Req);        
+        Requests.add(Reqs);
+        
+        System.assertNotEquals((SOM_ErrorMessageBrazilianAddress.ErrorMessageBrazilianAddress(Requests)).size(), null , 'ErrorMessageBrazilianAddress ODGS');
         Test.stopTest();
     }
     
@@ -40,18 +45,23 @@ public with sharing class SOM_ErrorMessageBrazilianAddress_TEST {
     public static void ErrorMessageBrazilianAddressODGS_Test() { 
         setup();
         Test.startTest();
+        
+        List<List<SOM_RequestErrorMessageBrazilianAddress>> Requests = new List<List<SOM_RequestErrorMessageBrazilianAddress>>();
+        List<SOM_RequestErrorMessageBrazilianAddress>		Reqs = new List<SOM_RequestErrorMessageBrazilianAddress>();
+        SOM_RequestErrorMessageBrazilianAddress Req = new SOM_RequestErrorMessageBrazilianAddress();
+        
         OrderDeliveryGroupSummary ODGS = [ Select Id, DeliverToPostalCode, DeliverToStreet, RI_Neighborhood__c, DeliverToCity, DeliverToState from OrderDeliveryGroupSummary Where OrderSummaryId =: (os.Id) limit 1 ];
-        List<SOM_ErrorMessageBrazilianAddress.Requests> Reqs = new List<SOM_ErrorMessageBrazilianAddress.Requests>();
-        SOM_ErrorMessageBrazilianAddress.Requests Req = new SOM_ErrorMessageBrazilianAddress.Requests();
         Req.cep = '';
         Req.logradouro = '';
         Req.bairro = '';
         Req.localidade = '';
         Req.uf = ''; 
         Req.RecordId = ODGS.Id;
-        Reqs.add(Req);
         
-        System.assertNotEquals((SOM_ErrorMessageBrazilianAddress.ErrorMessageBrazilianAddress(Reqs))[0].ErrorMessageDescription, null , 'ErrorMessageBrazilianAddress ODGS');
+        Reqs.add(Req);        
+        Requests.add(Reqs);
+        
+        System.assertNotEquals((SOM_ErrorMessageBrazilianAddress.ErrorMessageBrazilianAddress(Requests)).size(), null , 'ErrorMessageBrazilianAddress ODGS');
         Test.stopTest();
     }
 }

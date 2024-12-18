@@ -8,46 +8,21 @@
         <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Update_PE_Description</targetReference>
+            <targetReference>Filter_ErrorOutput</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>bairro</name>
+            <name>requests</name>
             <value>
-                <elementReference>bairro</elementReference>
+                <elementReference>ErrorRequests</elementReference>
             </value>
         </inputParameters>
-        <inputParameters>
-            <name>cep</name>
-            <value>
-                <elementReference>cep</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>localidade</name>
-            <value>
-                <elementReference>localidade</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>logradouro</name>
-            <value>
-                <elementReference>logradouro</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>RecordId</name>
-            <value>
-                <elementReference>RecId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>uf</name>
-            <value>
-                <elementReference>uf</elementReference>
-            </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
+        <outputParameters>
+            <assignToReference>ErrorOutput</assignToReference>
+            <name>output</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_Brazilian_Address</name>
@@ -57,16 +32,21 @@
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Verify_BrazilianAddress_0</targetReference>
+            <targetReference>Filter_Output_ODGS</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>requests</name>
+            <name>Requests</name>
             <value>
-                <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
+                <elementReference>Requests</elementReference>
             </value>
         </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
+        <outputParameters>
+            <assignToReference>Output_ODGS</assignToReference>
+            <name>output</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Validate_Brazilian_Address_0</name>
@@ -76,18 +56,185 @@
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Verify_BrazilianAddress_0_0</targetReference>
+            <targetReference>Filter_Output_OS</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
-            <name>requests</name>
+            <name>Requests</name>
+            <value>
+                <elementReference>Requests</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>WS_SOM_ValidateBrazilianAddress</nameSegment>
+        <outputParameters>
+            <assignToReference>Output_OS</assignToReference>
+            <name>output</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>55.0</apiVersion>
+    <assignments>
+        <name>Assign_ODGS_Variables</name>
+        <label>Assign ODGS Variables</label>
+        <locationX>740</locationX>
+        <locationY>188</locationY>
+        <assignmentItems>
+            <assignToReference>bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.Identifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Filtered_ODGS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_OS_Variables</name>
+        <label>Assign OS Variables</label>
+        <locationX>1223</locationX>
+        <locationY>1437</locationY>
+        <assignmentItems>
+            <assignToReference>bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.Identifier</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Filtered_OS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Requests</name>
+        <label>Assign Requests ODGS</label>
+        <locationX>1381</locationX>
+        <locationY>562</locationY>
+        <assignmentItems>
+            <assignToReference>Request.ZipCode</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.DeliverToPostalCode</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Request.Identifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Requests</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Request</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Validate_Brazilian_Address</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Requests_OS</name>
+        <label>Assign Requests OS</label>
+        <locationX>1531</locationX>
+        <locationY>1009</locationY>
+        <assignmentItems>
+            <assignToReference>Request.ZipCode</assignToReference>
+            <operator>Assign</operator>
             <value>
                 <elementReference>Get_Order_Summary.BillingPostalCode</elementReference>
             </value>
-        </inputParameters>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </actionCalls>
-    <apiVersion>55.0</apiVersion>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Request.Identifier</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order_Summary.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Requests</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Request</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Validate_Brazilian_Address_0</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>ODGS_Assignment</name>
         <label>ODGS Assignment</label>
@@ -114,55 +261,62 @@
     <assignments>
         <name>ODGS_Error_Message</name>
         <label>ODGS Error Message</label>
-        <locationX>1078</locationX>
-        <locationY>595</locationY>
-        <assignmentItems>
-            <assignToReference>bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address.bairro</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address.cep</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address.localidade</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address.logradouro</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>RecId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Order_Delivery_Group_Summary.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address.uf</elementReference>
-            </value>
-        </assignmentItems>
+        <locationX>1066</locationX>
+        <locationY>612</locationY>
         <assignmentItems>
             <assignToReference>Address</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>Shipping Address</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.RecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RecId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequests</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ErrorRequest</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -225,50 +379,8 @@
     <assignments>
         <name>OS_Error_Message</name>
         <label>OS Error Message</label>
-        <locationX>1193</locationX>
-        <locationY>1026</locationY>
-        <assignmentItems>
-            <assignToReference>bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address_0.bairro</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address_0.cep</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address_0.localidade</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address_0.logradouro</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>RecId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_Order_Summary.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Validate_Brazilian_Address_0.uf</elementReference>
-            </value>
-        </assignmentItems>
+        <locationX>1209</locationX>
+        <locationY>1002</locationY>
         <assignmentItems>
             <assignToReference>Address</assignToReference>
             <operator>Assign</operator>
@@ -276,10 +388,138 @@
                 <stringValue>Billing Address</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.bairro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>bairro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.cep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>cep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.localidade</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>localidade</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.logradouro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>logradouro</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.RecordId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>RecId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequest.uf</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorRequests</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>ErrorRequest</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Error_Message</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>OS_Error_Message_0</name>
+        <label>OS Error Message</label>
+        <locationX>951</locationX>
+        <locationY>1007</locationY>
+        <assignmentItems>
+            <assignToReference>DescriptionError</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ErrorOutput.ErrorMessageDescription</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Filtered_ErrorOutput</targetReference>
+        </connector>
+    </assignments>
+    <collectionProcessors>
+        <name>Filter_ErrorOutput</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter ErrorOutput</label>
+        <locationX>1123</locationX>
+        <locationY>856</locationY>
+        <assignNextValueToReference>currentItem_Filter_ErrorOutput</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>ErrorOutput</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_ErrorOutput.ReqId</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>RecId</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Filtered_ErrorOutput</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Output_ODGS</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Output ODGS</label>
+        <locationX>1027</locationX>
+        <locationY>197</locationY>
+        <assignNextValueToReference>currentItem_Filter_Output_ODGS</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Output_ODGS</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Output_ODGS.Identifier</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Request.Identifier</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Filtered_ODGS</targetReference>
+        </connector>
+    </collectionProcessors>
+    <collectionProcessors>
+        <name>Filter_Output_OS</name>
+        <elementSubtype>FilterCollectionProcessor</elementSubtype>
+        <label>Filter Output OS</label>
+        <locationX>1509</locationX>
+        <locationY>1353</locationY>
+        <assignNextValueToReference>currentItem_Filter_Output_OS_0</assignNextValueToReference>
+        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
+        <collectionReference>Output_OS</collectionReference>
+        <conditionLogic>and</conditionLogic>
+        <conditions>
+            <leftValueReference>currentItem_Filter_Output_OS_0.Identifier</leftValueReference>
+            <operator>EqualTo</operator>
+            <rightValue>
+                <elementReference>Request.Identifier</elementReference>
+            </rightValue>
+        </conditions>
+        <connector>
+            <targetReference>Loop_Over_Filtered_OS</targetReference>
+        </connector>
+    </collectionProcessors>
     <decisions>
         <name>Check_Address_Validation_Brazil_Category</name>
         <label>Check Address Validation Brazil Category</label>
@@ -307,7 +547,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Validate_Brazilian_Address</targetReference>
+                <targetReference>Assign_Requests</targetReference>
             </connector>
             <label>ODGS Brazil Address</label>
         </rules>
@@ -329,7 +569,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Validate_Brazilian_Address_0</targetReference>
+                <targetReference>Assign_Requests_OS</targetReference>
             </connector>
             <label>OS Brazil Address</label>
         </rules>
@@ -449,33 +689,34 @@
             <label>Brazilian OS Address Verified</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>ODGS_Formula</name>
         <dataType>Boolean</dataType>
         <expression>IF(
 AND(
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address.uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Delivery_Group_Summary.DeliverToState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 )
@@ -488,27 +729,27 @@ true, false)</expression>
         <expression>IF(
 AND(
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!cep}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingPostalCode}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!logradouro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingStreet}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!bairro}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.RI_Neighborhood__c}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!localidade}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingCity}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ),
 UPPER(
-SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Validate_Brazilian_Address_0.uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
+SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!uf}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 ) = UPPER(
 SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!Get_Order_Summary.BillingState}, &apos;à&apos;, &apos;a&apos;), &apos;â&apos;,&apos;a&apos;), &apos;á&apos;, &apos;a&apos;), &apos;ã&apos;, &apos;a&apos;), &apos;ê&apos;, &apos;e&apos;), &apos;é&apos;, &apos;e&apos;), &apos;è&apos;, &apos;e&apos;), &apos;í&apos;,&apos;i&apos;), &apos;ô&apos;, &apos;o&apos;), &apos;ó&apos;, &apos;o&apos;), &apos;ú&apos;, &apos;u&apos;), &apos;û&apos;, &apos;u&apos;), &apos;ç&apos;, &apos;c&apos;), &apos;õ&apos;, &apos;o&apos;)
 )
@@ -517,6 +758,48 @@ true, false)</expression>
     </formulas>
     <interviewLabel>SOM 940 Resolve Ignore Process Exception {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 940 Resolve Process Exception</label>
+    <loops>
+        <name>Loop_Over_Filtered_ErrorOutput</name>
+        <label>Loop Over Filtered ErrorOutput</label>
+        <locationX>964</locationX>
+        <locationY>860</locationY>
+        <collectionReference>Filter_ErrorOutput</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>OS_Error_Message_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_PE_Description</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Filtered_ODGS</name>
+        <label>Loop Over Filtered ODGS</label>
+        <locationX>894</locationX>
+        <locationY>173</locationY>
+        <collectionReference>Filter_Output_ODGS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_ODGS_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Verify_BrazilianAddress_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_Filtered_OS</name>
+        <label>Loop Over Filtered OS</label>
+        <locationX>1381</locationX>
+        <locationY>1367</locationY>
+        <collectionReference>Filter_Output_OS</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_OS_Variables</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Verify_BrazilianAddress_0_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -706,8 +989,8 @@ true, false)</expression>
     <recordUpdates>
         <name>Update_PE_Description</name>
         <label>Update PE Description</label>
-        <locationX>978</locationX>
-        <locationY>813</locationY>
+        <locationX>785</locationX>
+        <locationY>851</locationY>
         <connector>
             <targetReference>ScreenError_0_0</targetReference>
         </connector>
@@ -820,14 +1103,14 @@ true, false)</expression>
     <screens>
         <name>ScreenError_0_0</name>
         <label>ScreenError</label>
-        <locationX>733</locationX>
-        <locationY>828</locationY>
+        <locationX>657</locationX>
+        <locationY>854</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
             <name>error</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the {!Address} :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;{!Error_Message.ErrorMessageDescription}&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the {!Address} :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!DescriptionError}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -844,7 +1127,7 @@ true, false)</expression>
     <textTemplates>
         <name>DescriptionMessage</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>The following fields are inconsistent with the Zip Code : {!Error_Message.ErrorMessageDescription}</text>
+        <text>The following fields are inconsistent with the Zip Code : {!DescriptionError}</text>
     </textTemplates>
     <variables>
         <name>actionType</name>
@@ -875,7 +1158,38 @@ true, false)</expression>
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>currentItem_Filter_ErrorOutput</name>
+        <apexClass>SOM_ResponseErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Output_ODGS</name>
+        <apexClass>SOM_BrazilianAutomaticResponse</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_Output_OS_0</name>
+        <apexClass>SOM_BrazilianAutomaticResponse</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>Description</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>DescriptionError</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -885,6 +1199,30 @@ true, false)</expression>
         <name>ErrorMessage</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorOutput</name>
+        <apexClass>SOM_ResponseErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorRequest</name>
+        <apexClass>SOM_RequestErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>ErrorRequests</name>
+        <apexClass>SOM_RequestErrorMessageBrazilianAddress</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
@@ -917,6 +1255,22 @@ true, false)</expression>
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>Output_ODGS</name>
+        <apexClass>SOM_BrazilianAutomaticResponse</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Output_OS</name>
+        <apexClass>SOM_BrazilianAutomaticResponse</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>RecId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -928,6 +1282,22 @@ true, false)</expression>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Request</name>
+        <apexClass>SOM_BrazilianRequest</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Requests</name>
+        <apexClass>SOM_BrazilianRequest</apexClass>
+        <dataType>Apex</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
     <variables>
