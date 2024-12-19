@@ -154,8 +154,8 @@
     <assignments>
         <name>Assign_Description</name>
         <label>Assign Description</label>
-        <locationX>2121</locationX>
-        <locationY>964</locationY>
+        <locationX>2116</locationX>
+        <locationY>1049</locationY>
         <assignmentItems>
             <assignToReference>DescriptionOS</assignToReference>
             <operator>Assign</operator>
@@ -1141,8 +1141,8 @@
         <name>Filter_ErrorOutput_OSs</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter ErrorOutput_OS</label>
-        <locationX>2054</locationX>
-        <locationY>779</locationY>
+        <locationX>2039</locationX>
+        <locationY>840</locationY>
         <assignNextValueToReference>currentItem_Filter_ErrorOutput_OSs</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>ErrorOutput_OS</collectionReference>
@@ -1399,17 +1399,38 @@
     <decisions>
         <name>Check_Variables</name>
         <label>Check Variables</label>
-        <locationX>666</locationX>
-        <locationY>892</locationY>
+        <locationX>660</locationX>
+        <locationY>896</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateNewOrderForCegidEvent</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>( 1 AND 2 ) OR ( 3 AND 4 )</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Validated</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1429,12 +1450,33 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateNewOrderForCegidEvent_0</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>((1 AND 2) OR (3 AND 4)) AND 5</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Validated</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -1606,8 +1648,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <loops>
         <name>Loop_Over_ErrorOutputs</name>
         <label>Loop Over ErrorOutputs</label>
-        <locationX>2194</locationX>
-        <locationY>770</locationY>
+        <locationX>2161</locationX>
+        <locationY>807</locationY>
         <collectionReference>Filter_ErrorOutput_OSs</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -2040,8 +2082,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <recordUpdates>
         <name>Update_ODGS_Tech_field_0_0</name>
         <label>Update ODGS Tech field</label>
-        <locationX>2189</locationX>
-        <locationY>767</locationY>
+        <locationX>1754</locationX>
+        <locationY>800</locationY>
         <connector>
             <targetReference>Assign_ErrorRequest_OS</targetReference>
         </connector>
@@ -2244,7 +2286,7 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <locationX>635</locationX>
         <locationY>48</locationY>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <filterLogic>3 AND ( ( 4 AND ( 1 OR 2 ) ) OR ( 5 AND 2) )</filterLogic>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -2264,6 +2306,20 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Rimowa</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>tech_os_store_shipping_method__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <filters>
+            <field>tech_os_store_shipping_method__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <numberValue>0.0</numberValue>
             </value>
         </filters>
         <object>OrderSummary</object>
