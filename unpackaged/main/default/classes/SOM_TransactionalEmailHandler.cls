@@ -62,7 +62,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         
         List<TransactionalEmail__c> shipmentTransactionalEmailsList = new List<TransactionalEmail__c>();
         Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail,FulfillmentOrder.OrderSummary.BillingEmailAddress , FulfillmentOrder.OrderSummary.OrderNumber, 
-                                                             FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,
+                                                             FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,FulfillmentOrder.OrderSummary.BillingContactFirstName__c,FulfillmentOrder.OrderSummary.BillingContactLastName__c,
                                                              ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber,FulfillmentOrder.OrderSummary.StreetNumber__c,FulfillmentOrder.OrderSummary.Complementary__c,FulfillmentOrder.OrderSummary.RI_Neighborhood__c,
                                                              FulfillmentOrder.Complementary__c,FulfillmentOrder.FulfilledToStreet,FulfillmentOrder.StreetNumber__c,FulfillmentOrder.RI_Neighborhood__c
                                                              FROM Shipment WHERE Id IN :recordIds]);
@@ -96,6 +96,8 @@ public without sharing class SOM_TransactionalEmailHandler {
             shipmentConfirmationTemplateContent.deliveryCity       = ship.ShipToCity;
             //shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.ShipToCountry); 
             shipmentConfirmationTemplateContent.deliveryCountry    = generateCountryMappingLabel(ship.FulfillmentOrder.OrderSummary.language__c, ship.ShipToCountry); 
+            shipmentConfirmationTemplateContent.billingFirstName   = ship.FulfillmentOrder.OrderSummary.BillingContactFirstName__c;
+            shipmentConfirmationTemplateContent.billingLastName    = ship.FulfillmentOrder.OrderSummary.BillingContactLastName__c;
             shipmentConfirmationTemplateContent.deliveryName       = ship.shipToName;
             shipmentConfirmationTemplateContent.deliveryPostalCode = ship.ShipToPostalCode;
             shipmentConfirmationTemplateContent.deliveryState      = ship.ShipToState;
@@ -438,6 +440,9 @@ lineItem.isCC = false;
             orderReadyForPickupTemplateContent.orderNumber      = orderSum.OrderNumber;
             orderReadyForPickupTemplateContent.channel          = orderSum.SalesChannel.SalesChannelName;
             orderReadyForPickupTemplateContent.storeCode        = orderSum.FulfillmentOrders[0].FulfilledFromLocation.Name;
+            orderReadyForPickupTemplateContent.billingFirstName = orderSum.BillingContactFirstName__c;
+            orderReadyForPickupTemplateContent.billingLastName  = orderSum.BillingContactLastName__c;
+
             
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
@@ -605,6 +610,9 @@ lineItem.isCC = false;
             orderCCReminderTemplateContent.storePhone       			= PhoneStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCReminderTemplateContent.storeEmail       			= EmailStoreMap.get(orderSum.OrderItemSummaries[0].ReservedAtLocation.Name);
             orderCCReminderTemplateContent.orderAcceptanceDate     		= orderSum.TransactionalEmails__r[0].CreatedDate;
+            orderCCReminderTemplateContent.billingFirstName 			= orderSum.BillingContactFirstName__c;
+            orderCCReminderTemplateContent.billingLastName  			= orderSum.BillingContactLastName__c;
+
             
             if(!orderSum.OrderDeliveryGroupSummaries?.isEmpty()){
                 adress.city       = orderSum.OrderDeliveryGroupSummaries[0].DeliverToCity;
@@ -1073,6 +1081,8 @@ lineItem.taxRate = item.TaxRate__c;
     public class SOM_ShipmentConfirmationTemplateContent {
         public String orderNumber;
         public String channel;
+        public String billingFirstName;
+        public String billingLastName;
         public String deliveryName;
         public String deliveryStreet;
         public String deliveryPostalCode;
@@ -1177,6 +1187,8 @@ lineItem.taxRate = item.TaxRate__c;
     }
     
     public class SOM_OrderCC_ReminderTemplateContent{
+        public String billingLastName;   
+        public String billingFirstName;  
         public Datetime lastDayBeforeCancellation;
         public String orderNumber;
         public Datetime orderAcceptanceDate;
@@ -1205,6 +1217,8 @@ lineItem.taxRate = item.TaxRate__c;
     }
     
     public class SOM_OrderReadyForPickupTemplateContent{
+        public String billingLastName;   
+        public String billingFirstName;  
         public Datetime orderDate;
         public String orderNumber;
         public String channel;
