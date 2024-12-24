@@ -49,6 +49,7 @@
 		<members>AddressValidationRules__mdt.PhoneNumberRegex__c</members>
 		<members>AddressValidationRules__mdt.StreetNumberRegex__c</members>
 		<members>AddressValidationRules__mdt.StreetRegex__c</members>
+		<members>OrderSummary.Tech_BrazilianAddressVerified__c</members>
 		<name>CustomField</name>
 	</types>
 	<types>
@@ -64,7 +65,8 @@
 		<members>SOM_SERVICE_120_GetAvailability_Call_OCI</members>
 		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
 		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
-		
+		<members>SOM_Automatic_refund_in_Cybersource</members>
+		<members>SOM_Create_New_Order_For_Cegid_Event_for_BR</members>
 		<name>Flow</name>
 	</types>
 	<types>
@@ -74,12 +76,17 @@
 	<types>
 		<members>OCI_Home_Page_Default</members>
 		<members>Fulfillment_Order_Record_Page</members>
+		<members>Order_Summary_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>SOM_Location_Management_Access</members>
 		<members>SOM_Create_Shipment</members>
 		<name>PermissionSet</name>
+	</types>
+	<types>
+		<members>OrderSummary.New_Order_For_Cegid_Event</members>
+		<name>QuickAction</name>
 	</types>
 	<version>60.0</version>
 </Package>
