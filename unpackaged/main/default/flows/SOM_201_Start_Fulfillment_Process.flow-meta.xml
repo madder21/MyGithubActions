@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <actionCalls>
-        <name>StartFulfillmentProcess</name>
-        <label>Start Fulfillment Process</label>
-        <locationX>588</locationX>
-        <locationY>432</locationY>
-        <actionName>SOM_callStartFulfillmentProcessBatch</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>orderSummaryIds</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-    </actionCalls>
     <apiVersion>54.0</apiVersion>
     <constants>
         <name>SalesChanned_Cegid</name>
@@ -45,14 +30,28 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Start_Fulfillment_Process</name>
+        <label>Start Fulfillment Process</label>
+        <locationX>584</locationX>
+        <locationY>434</locationY>
+        <inputAssignments>
+            <field>OrderSummaryId__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Start_Fulfillment_Process__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <start>
         <locationX>459</locationX>
         <locationY>63</locationY>
         <connector>
-            <targetReference>StartFulfillmentProcess</targetReference>
+            <targetReference>Start_Fulfillment_Process</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2 AND (3 OR 4) AND 5</filterLogic>
+        <filterLogic>1 AND 2 AND (3 OR 4) AND 5 AND 6</filterLogic>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>
@@ -86,6 +85,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>MANAGED</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesChannelName__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Manual Order</stringValue>
             </value>
         </filters>
         <object>OrderSummary</object>
