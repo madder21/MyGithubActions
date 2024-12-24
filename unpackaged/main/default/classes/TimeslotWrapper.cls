@@ -1,6 +1,6 @@
 public with sharing class TimeslotWrapper {
 	@InvocableVariable @AuraEnabled
-	public Integer id;
+	public List<Integer> timeslotIds;
 	@InvocableVariable @AuraEnabled
 	public Integer merchantId;
 	@InvocableVariable @AuraEnabled
@@ -19,5 +19,7 @@ public with sharing class TimeslotWrapper {
 	public String description;
 	@InvocableVariable @AuraEnabled
 	public String availabilityTags;
+    @InvocableVariable @AuraEnabled
+    public Boolean allDay;
 
 }

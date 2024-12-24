@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <description>Order Management-B2C Integration access for service user</description>
+    <hasActivationRequired>true</hasActivationRequired>
+    <label>Order Management B2C Service</label>
+    <license>Cloud Integration User</license>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.AccountNumber</field>
@@ -24,6 +27,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Audit_OCAPI_API_Response__pc</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.B2C_ClientBinding__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -184,6 +192,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.ClientType__pc</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Client_Name_Formula__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -553,6 +566,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Account.Max_Year_ClientSource__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.Min_Year_Client_Source__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Account.Nationality__pc</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -569,6 +592,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.NbOfClients__pc</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.NewPhone__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -659,6 +687,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.OtherEmail__pc</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.OtherPhone2__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -974,6 +1007,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Targeted_Customers__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.TechCountSource__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Account.TechOtherEmail__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3911,9 +3954,6 @@
         <field>ReturnOrder.Tech_ShippingFeeRefund__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <hasActivationRequired>true</hasActivationRequired>
-    <label>Order Management B2C Service</label>
-    <license>Cloud Integration User</license>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

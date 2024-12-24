@@ -125,6 +125,12 @@ public with sharing class CLT_Utils_PersonalClientList {
         List<String> clientTransactionItemConditions = new List<String>();
         List<String> clientGiftConditions = new List<String>();
         List<String> clientEventConditions = new List<String>();
+        List<String> clientInsightsConditions = new List<String>();
+        List<String> clientNotesConditions = new List<String>();
+        Boolean notGifted = false;
+        Boolean notEvented = false;
+        List<String> giftedClients = new List<String>();
+        List<String> eventedClients = new List<String>();
 
         if(body.containsKey('contactable')) {
             List<String> outreachChannelList = new List<String>();
@@ -157,12 +163,36 @@ public with sharing class CLT_Utils_PersonalClientList {
                             condition = filterInfo.condition.replace('{value}', ('\'' + String.join(valuesList, '\',\'') + '\''));
                         }
                     }
+                    else if(filterInfo.valueType == 'orTextList') {
+                        List<String> valuesList = (List<String>)JSON.deserialize(JSON.serialize(body.get(filterName)), List<String>.class);
+                        List<String> orListConds = new List<String>();
+                        for(String val : valuesList) {
+                            orListConds.add(filterInfo.condition.replace('{value}', val));
+                        }
+                        if(orListConds.size() > 0) {
+                            condition = '(' + String.join(orListConds, ' OR ') + ')';
+                        }
+                    }
+                    else if(filterInfo.valueType == 'boolean') {
+                        String value =  String.valueOf((Boolean)body.get(filterName));
+                        if(filterName == 'giftGifted' && !(Boolean)body.get(filterName)) {
+                            notGifted = true;
+                        }
+                        if(filterName == 'eventAttended' && !(Boolean)body.get(filterName)) {
+                            notEvented = true;
+                        }
+                        if((notGifted && filterName == 'giftGifted') || (notEvented && filterName == 'eventAttended')) {
+                            condition = filterInfo.condition.replace('{value}', 'true');
+                        }
+                        else {
+                            condition = filterInfo.condition.replace('{value}', value);
+                        }
+                    }
                     else {
-                        String value = filterInfo.valueType == 'boolean' ? String.valueOf((Boolean)body.get(filterName)) : (String)body.get(filterName);
+                        String value = (String)body.get(filterName);
                         if(!String.isEmpty(value)) {
                             condition = filterInfo.condition.replace('{value}', (filterInfo.valueType == 'text' ? ('\'' + value + '\'') : value));
                         }
-
                     }
                 }
 
@@ -179,62 +209,98 @@ public with sharing class CLT_Utils_PersonalClientList {
                     else if(filterInfo.isJunctionFilter && filterInfo.junctionObject == 'Task' && filterInfo.name.startsWith('event')) {
                         clientEventConditions.add(condition);
                     }
+                    else if(filterInfo.isJunctionFilter && filterInfo.junctionObject == 'Client_Insight__c') {
+                        clientInsightsConditions.add(condition);
+                    }
+                    else if(filterInfo.isJunctionFilter && filterInfo.junctionObject == 'Note__c') {
+                        clientNotesConditions.add(condition);
+                    }
                 }
             }
         }
         
-        String query = ' FROM Account WHERE IsPersonAccount = true ';
-
-        List<String> visibilityConditions = new List<String>();
-        for( Schema.PicklistEntry visibilityFieldPicklistVal : ClientList__c.VisibilityBasedOnField__c.getDescribe().getPicklistValues()){
-            visibilityConditions.add(visibilityFieldPicklistVal.getValue() + ' = \'' + UserInfo.getUserId() + '\'');
-        }
-
-        query += visibilityConditions.size() > 0 ? ' AND (' + String.join(visibilityConditions , ' OR ') + ') ' : ' AND ClientAdvisor__pc = \'' + UserInfo.getUserId() + '\'';
+        String query = ' FROM Account WHERE IsPersonAccount = true AND ClientAdvisor__pc = \'' + UserInfo.getUserId() + '\'';
         
         if(clientConditions.size() > 0) {
             query += ' AND ' + String.join(clientConditions, ' AND ');
         }
 
         if(clientGiftConditions.size() > 0 || clientEventConditions.size() > 0) {
-            String taskQuery = 'SELECT AccountId accId FROM Task WHERE AccountId IN (SELECT Id ' + query + ' ) AND ';
-            if(clientGiftConditions.size() > 0) {
-                taskQuery += String.join(clientGiftConditions, ' AND ') + ' GROUP BY AccountId';
-                if(clientEventConditions.size() > 0) {
-                    List<String> clientsFromGiftQuery = new List<String>();
+            String taskQuery = 'SELECT AccountId FROM Task WHERE AccountId != NULL AND AccountId IN (SELECT Id ' + query + ' ) ';
 
-                    for(AggregateResult t : Database.query(taskQuery)) {
-                        clientsFromGiftQuery.add((String)t.get('accId'));
+            if(clientGiftConditions.size() > 0) {
+                taskQuery += ' AND ' + String.join(clientGiftConditions, ' AND ');
+                if(notGifted || clientEventConditions.size() > 0) {
+                    List<String> clientsFromGiftQuery = new List<String>();
+                    for(Task t : Database.query(taskQuery)) {
+                        clientsFromGiftQuery.add(t.AccountId);
+                        giftedClients.add(t.AccountId);
                     }
-                    if(clientsFromGiftQuery.size() > 0) {
-                        taskQuery = 'SELECT AccountId accId FROM Task WHERE AccountId IN (\'' + String.join(clientsFromGiftQuery, '\',\'') + '\')  AND ';
+                    if(!notGifted && clientsFromGiftQuery.size() > 0) {
+                        taskQuery = 'SELECT AccountId FROM Task WHERE AccountId != NULL AND AccountId IN (\'' + String.join(clientsFromGiftQuery, '\',\'') + '\')';
                     }
-                    else {
+                    else if(!notGifted) {
                         return new List<Object>();
                     }
                 }
             }
-            if(clientEventConditions.size() > 0) {
-                taskQuery += String.join(clientEventConditions, ' AND ') + ' GROUP BY AccountId';
+            if(notEvented) {
+                String eventQuery = 'SELECT AccountId FROM Task WHERE AccountId != NULL AND AccountId IN (SELECT Id ' + query + ' ) AND ' + String.join(clientEventConditions, ' AND ');
+                for(Task t : Database.query(eventQuery)) {
+                    eventedClients.add(t.AccountId);
+                }
+            }
+            else if(!notEvented && clientEventConditions.size() > 0) {
+                taskQuery += ' AND ' + String.join(clientEventConditions, ' AND ');
             }
 
-            List<String> clientsFromTaskQuery = new List<String>();
-
-            for(AggregateResult t : Database.query(taskQuery)) {
-                clientsFromTaskQuery.add((String)t.get('accId'));
-            }
+            if((!notGifted && clientGiftConditions.size() > 0) || (!notEvented && clientEventConditions.size() > 0)) {
+                List<String> clientsFromTaskQuery = new List<String>();
+                for(Task t : Database.query(taskQuery)) {
+                    clientsFromTaskQuery.add(t.AccountId);
+                }
             
-            if(clientsFromTaskQuery.size() > 0) {
-                query = ' FROM Account WHERE Id IN (\'' + String.join(clientsFromTaskQuery, '\',\'') + '\') ';
+                if(clientsFromTaskQuery.size() > 0) {
+                    query = ' FROM Account WHERE Id IN (\'' + String.join(clientsFromTaskQuery, '\',\'') + '\') ';
+                }
+                else {
+                    return new List<Object>();
+                }
             }
-            else {
-                return new List<Object>();
+            if(notGifted && giftedClients.size() > 0) {
+                query += 'AND Id NOT IN (\'' + String.join(giftedClients, '\',\'') + '\')';
             }
+
+            if(notEvented && eventedClients.size() > 0) {
+                query += 'AND Id NOT IN (\'' + String.join(eventedClients, '\',\'') + '\')';
+            }            
         }
 
         if(clientTransactionItemConditions.size() > 0) {
             query += ' AND Id IN (SELECT Client__c FROM TransactionItem__c WHERE ' + String.join(clientTransactionItemConditions, ' AND ') + ')';
         }
+
+        if(clientInsightsConditions.size() > 0) {
+            query += ' AND Id IN (SELECT Client__c FROM Client_Insight__c WHERE ' + String.join(clientInsightsConditions, ' AND ') + ')';
+        }
+
+        if(clientNotesConditions.size() > 0) {
+            if(clientTransactionItemConditions.size() > 0 && clientInsightsConditions.size() > 0) {
+                List<String> clientsFromFirstTwoJunc = new List<String>();
+                for(Account acc : Database.query('SELECT Id ' + query)) {
+                    clientsFromFirstTwoJunc.add(acc.Id);
+                }
+                if(clientsFromFirstTwoJunc.size() > 0) {
+                    query = ' FROM Account WHERE Id IN (\'' + String.join(clientsFromFirstTwoJunc, '\',\'') + '\')';
+                }
+                else {
+                    return new List<Object>();
+                }
+            }
+            query += ' AND Id IN (SELECT Client__c FROM Note__c WHERE IsDeleted__c = FALSE AND ' + String.join(clientNotesConditions, ' AND ') + ')';
+        }
+
+        query += ' ORDER BY LastPurchaseDate__pc DESC NULLS LAST';
         
         System.debug('client filters query---> ' + query);
         return CLT_Utils_Mapping.getStandardWrapperList('Account', 'Client', query);
@@ -243,7 +309,7 @@ public with sharing class CLT_Utils_PersonalClientList {
     public static Map<String, FilterInformation> getFiltersInformationMap() {
         return new Map<String, FilterInformation> {
             'segment' => new FilterInformation('segment', 'LightCurrentCluster__pc IN ({value})', 'textList'),
-            'type' => new FilterInformation('type', 'LocalOrTourist__pc IN ({value})','textList'),
+            'type' => new FilterInformation('type', 'CLienttype__pc IN (\'PROSPECT_T\', \'Client\') AND LocalOrTourist__pc IN ({value})','textList'),
             'lifetimeTurnover' => new FilterInformation('lifetimeTurnover', '(LifeTimePurchaseAmount__pc >= {fromValue} AND LifeTimePurchaseAmount__pc <= {toValue})', 'number', true),
             'lastPurchaseDate' => new FilterInformation('lastPurchaseDate', '(LastPurchaseDate__pc >= {fromValue} AND LastPurchaseDate__pc <= {toValue})', 'date', true),
             'product' => new FilterInformation('product', 'Product__r.StockKeepingUnit IN ({value})', 'textList', true, 'TransactionItem__c'),
@@ -254,7 +320,24 @@ public with sharing class CLT_Utils_PersonalClientList {
             'giftGifted' => new FilterInformation('giftGifted', 'Gifted__c = {value}', 'boolean', true, 'Task'),
             'giftGiftedDate' => new FilterInformation('giftGiftedDate', 'GiftedDate__c >= {value}', 'date', true, 'Task'),
             'eventAttended' => new FilterInformation('eventAttended', 'EventClientAttended__c = {value}', 'boolean', true, 'Task'),
-            'eventAttendedDate' => new FilterInformation('eventAttendedDate', 'EventAttendedDate__c >= {value}', 'date', true, 'Task')
+            'eventAttendedDate' => new FilterInformation('eventAttendedDate', 'EventAttendedDate__c >= {value}', 'date', true, 'Task'),
+            'children' => new FilterInformation('children', 'Children__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'collaboration' => new FilterInformation('collaboration', 'Collaboration__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'customisation' => new FilterInformation('customisation', 'Customisation__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'finishorColor' => new FilterInformation('finishorColor', 'FinishorColor__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'frequentTraveler' => new FilterInformation('frequentTraveler', 'FrequentTraveler__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'generationRange' => new FilterInformation('generationRange', 'GenerationRange__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'historicalClient' => new FilterInformation('historicalClient', 'HistoricalClient__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'hobbies' => new FilterInformation('hobbies', 'Hobbies__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'maritalStatus' => new FilterInformation('maritalStatus', 'MaritalStatus__c IN ({value})', 'textList', true, 'Client_Insight__c'),
+            'material' => new FilterInformation('material', 'Material__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'productCategory' => new FilterInformation('productCategory', 'ProductCategory__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'selfPurchaseorGift' => new FilterInformation('selfPurchaseorGift', 'SelfPurchaseorGift__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'spokenLanguage' => new FilterInformation('spokenLanguage', 'SpokenLanguage__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'travelingPurpose' => new FilterInformation('travelingPurpose', 'TravelingPurpose__c INCLUDES ({value})', 'textList', true, 'Client_Insight__c'),
+            'otherLikedBrands' => new FilterInformation('otherLikedBrands', 'OtherLikedBrands__c LIKE \'%{value}%\'', 'orTextList', true, 'Client_Insight__c'),
+            'upcomingTravelPlans' => new FilterInformation('upcomingTravelPlans', 'UpcomingTravelPlans__c LIKE \'%{value}%\'', 'orTextList', true, 'Client_Insight__c'),
+            'comments' => new FilterInformation('comments', 'Hashtags__c LIKE \'%#{value}#%\'', 'orTextList', true, 'Note__c')
         };
     }
 

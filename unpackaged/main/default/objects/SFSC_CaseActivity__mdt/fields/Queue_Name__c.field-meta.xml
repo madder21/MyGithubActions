@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Queue_Name__c</fullName>
+    <description>Filed used in the before save flow to update Hub Handle whne the case is assigned to a Queue.
+The picklists must contains the correct  Queue Names</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Queue Name</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Rimowa - CC - BRASP1</fullName>
+                <default>true</default>
+                <label>Rimowa - CC - BRASP1</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CS - BRA</fullName>
+                <default>false</default>
+                <label>Rimowa - CS - BRA</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CC - JAPOS1</fullName>
+                <default>false</default>
+                <label>Rimowa - CC - JAPOS1</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CS - JPN</fullName>
+                <default>false</default>
+                <label>Rimowa - CS - JPN</label>
+            </value>
+            <value>
+                <fullName>Rimowa - Admin - JAPOS1</fullName>
+                <default>false</default>
+                <label>Rimowa - Admin - JAPOS1</label>
+            </value>
+            <value>
+                <fullName>Rimowa - Admin - JPN</fullName>
+                <default>false</default>
+                <label>Rimowa - Admin - JPN</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CS&amp;CC - KOR</fullName>
+                <default>false</default>
+                <label>Rimowa - CS&amp;CC - KOR</label>
+            </value>
+            <value>
+                <fullName>Rimowa - MX - US</fullName>
+                <default>false</default>
+                <label>Rimowa - MX - US</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CS - US</fullName>
+                <default>false</default>
+                <label>Rimowa - CS - US</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CC - USATO1</fullName>
+                <default>false</default>
+                <label>Rimowa - CC - USATO1</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CC - USANY1</fullName>
+                <default>false</default>
+                <label>Rimowa - CC - USANY1</label>
+            </value>
+            <value>
+                <fullName>Rimowa - CA - US</fullName>
+                <default>false</default>
+                <label>Rimowa - CA - US</label>
+            </value>
+            <value>
+                <fullName>Rimowa - Admin - US</fullName>
+                <default>false</default>
+                <label>Rimowa - Admin - US</label>
+            </value>
+            <value>
+                <fullName>DEUKO1 - ADMIN</fullName>
+                <default>false</default>
+                <label>DEUKO1 - ADMIN</label>
+            </value>
+            <value>
+                <fullName>DEUKO1 - Customer Care</fullName>
+                <default>false</default>
+                <label>DEUKO1 - Customer Care</label>
+            </value>
+            <value>
+                <fullName>EU - ADMIN</fullName>
+                <default>false</default>
+                <label>EU - ADMIN</label>
+            </value>
+            <value>
+                <fullName>EU - Customer Service</fullName>
+                <default>false</default>
+                <label>EU - Customer Service</label>
+            </value>
+            <value>
+                <fullName>UAE - Customer Service</fullName>
+                <default>false</default>
+                <label>UAE - Customer Service</label>
+            </value>
+            <value>
+                <fullName>AUS Customer Care</fullName>
+                <default>false</default>
+                <label>AUS Customer Care</label>
+            </value>
+            <value>
+                <fullName>AUS Customer Service</fullName>
+                <default>false</default>
+                <label>AUS Customer Service</label>
+            </value>
+            <value>
+                <fullName>AUS - ADMIN</fullName>
+                <default>false</default>
+                <label>AUS - ADMIN</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

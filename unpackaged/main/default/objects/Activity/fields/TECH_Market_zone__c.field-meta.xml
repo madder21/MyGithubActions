@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TECH_Market_zone__c</fullName>
+    <externalId>false</externalId>
+    <formula>if(
+CONTAINS(Queue__c,&quot;UAE&quot;),
+&quot;UAE&quot;,
+ 
+   if(
+   CONTAINS(Queue__c,&quot;MX&quot;),
+   &quot;MX&quot;,
+   if(
+   CONTAINS(Queue__c,&quot;CA&quot;),
+   &quot;CA&quot;,
+   &quot;&quot; 
+   )
+   
+   )
+   
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>TECH_Market zone</label>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,6 +1,28 @@
-/*
- * Created by Israel Zygelboim on 06/02/2019.
- */
+/**
+ * @author Israel Zygelboim (Balink)
+ * @date February,06 2019
+ * @Type Apex Test Class
+ *****************************************************************************************************************************************************************
+ * @description This Test class contains the methods to test those method from CLT_Notifications :
+ * testSetup : Creation of test user and store
+ * TEST METHOD				        		|	DESCRIPTION
+ * testDeleteActivities       				|	Test the deletion of a specific task
+ * testPostActivities       				|	Test the upsert of a list of tasks
+ * testPostMultipleCATasksActivities    	|	Test the creation of a task for several CA at one time
+ * testPostMultipleClientsTasksActivities   |	Test the creation of a task related to several clients
+ * testGetActivities						|	Test the get of details of list of tasks and events that are related to the connected user
+ * testGetActivitiesDelta					|	Test the get of details of list of tasks and events with a datetime param to see only those that wer updted after
+ * testGetEvent       						|	Test the get of details of a specif event
+ * testGetClientCegidIdsMap       			|	Test the get of a MAp with the cegid ids of a client 
+ * 
+ * ****************************************************************************************************************************************************************
+ * @Version : 
+ * Version	|Date of modication	|Modified By	|Related Jira Ticket	|Description of changes			
+ * 0.0		|2019/02/06			|.Israel Z.		|.						|.original version
+ * 1.0		|2024/05/12			|.Sarah A.		|.						|.add of test for getEvent
+ * 1.1		|2024/05/29			|.Sarah A.		|.						|.add of test for getClientCegidIdsMap
+ * 1.1		|2024/07/22			|.Sarah A.		|.						|.add of test for getActivities with delta param
+*/
 @IsTest
 private class CLT_Activities_Test {
 
@@ -8,6 +30,9 @@ private class CLT_Activities_Test {
 	static void prepareTestData(){
 		User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
 		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
+		Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
+        ClientSource__c cs1 = CLT_TestDateFactory.createTestClientSource(client.Id, '001', 'TST00123', true);
+        ClientSource__c cs2 = CLT_TestDateFactory.createTestClientSource(client.Id, '002', 'TST00223', true);
 	}
 
 	@isTest
@@ -148,8 +173,10 @@ private class CLT_Activities_Test {
 
 			CLT_Activities.manageTaskAttachments(new List<String>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'}, t);
 
+			Account client = [SELECT PersonContactId FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
 			Event e = CLT_TestDateFactory.createTestEvent(sa.Id, false);
 			e.Description = 'test get activity event';
+			e.WhoId = client.PersonContactId;
 			insert e;
 
 			CLT_Activities cltActivities = new CLT_Activities();
@@ -169,5 +196,63 @@ private class CLT_Activities_Test {
 			}
 			System.assertEquals(2, itemsCount, 'number of activities that are receiven from get is not 2');
 		}
+	}
+
+	@isTest
+	static void testGetActivitiesDelta() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+
+        System.runAs(sa) {
+			Task t = CLT_TestDateFactory.createTask(sa.Id, false);
+			t.Description = 'test get activity task';
+			insert t;
+
+			CLT_Activities.manageTaskAttachments(new List<String>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'}, t);
+
+			Account client = [SELECT PersonContactId FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
+			Event e = CLT_TestDateFactory.createTestEvent(sa.Id, false);
+			e.Description = 'test get activity event';
+			e.WhoId = client.PersonContactId;
+			insert e;
+
+			CLT_Activities cltActivities = new CLT_Activities();
+			Test.startTest();
+			Date yesterdayDate = Date.today().adddays(-1);
+			Object responseGetActivities = ((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize((cltActivities.retrieveGet(new Map<String, String>{'deltaFrom' => ('2024-01-01T12:00:00Z')}))))).get('updatedActivities');
+			Test.stopTest();
+
+			Integer itemsCount = 0;
+			for(Object item : (list<Object>)JSON.deserializeUntyped(JSON.serialize(responseGetActivities))) {
+				System.debug('sss item--> ' + item);
+				String description = (String)((map<String, object>)JSON.deserializeUntyped(JSON.serialize(item))).get('desc');
+				if(description == 'test get activity task' || description == 'test get activity event') {
+					itemsCount++;
+				}
+			}
+			System.assertEquals(2, itemsCount, 'number of activities that are receiven from get is not 2');
+		}
+	}
+
+	@isTest
+	static void testGetEvent() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		Event e = CLT_TestDateFactory.createTestEvent(sa.Id, true);
+
+		CLT_Activities cltActivities = new CLT_Activities();
+		Test.startTest();
+		Object responseGetSpecificEvent = cltActivities.retrieveGet(new Map<String, String>{'eventId' => e.Id});
+		Test.stopTest();
+
+		String getEventId = (String)((map<String, object>)JSON.deserializeUntyped(JSON.serialize(((list<Object>)JSON.deserializeUntyped(JSON.serialize(responseGetSpecificEvent)))[0]))).get('id');
+		System.assertEquals(e.Id, getEventId, 'CLT_Activities_Test:testGetEvent: receiven Id is not the same from params');
+	}
+
+	@isTest
+	static void testGetClientCegidIdsMap() {
+		Account client = [SELECT Id FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
+		Map<String, Map<String, Object>> clientCegidIdsMap = new Map<String, Map<String, Object>> {client.Id => new Map<String, Object>()};
+
+		clientCegidIdsMap = CLT_Activities.getClientCegidIdsMap(clientCegidIdsMap);
+		System.assertEquals('TST00123', (String)(clientCegidIdsMap.get(client.Id)).get('cegidId'), 'CLT_Activities_Test:testGetClientCegidIdsMap: cegid id is not retrieved as expected');
 	}
 }

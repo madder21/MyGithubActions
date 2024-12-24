@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>TechCountSource__c</fullName>
+    <label>TechCountSource</label>
+    <summaryFilterItems>
+        <field>ClientSource__c.Source__c</field>
+        <operation>notEqual</operation>
+        <value>SF</value>
+    </summaryFilterItems>
+    <summaryForeignKey>ClientSource__c.Client__c</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <trackHistory>false</trackHistory>
+    <type>Summary</type>
+</CustomField>

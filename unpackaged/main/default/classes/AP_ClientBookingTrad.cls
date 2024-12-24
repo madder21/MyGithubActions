@@ -15,8 +15,10 @@ public with sharing class AP_ClientBookingTrad {
     public static List<BookingEventWrapper> initTranslationProcess(List<BookingEventWrapper> flowInputs) {
         System.debug('flowInput  '+flowInputs);
         BookingEventWrapper wrapper = flowInputs[0];
-        wrapper.subjectLabel = (wrapper.bookingNumber<>null)?Label.translationExists(null, wrapper.subjectLabel, wrapper.language)?Label.get(null, wrapper.subjectLabel, wrapper.language) 
-            + wrapper.bookingNumber: wrapper.subjectLabel : Label.get(null, wrapper.subjectLabel, wrapper.language) 
+        wrapper.subjectLabel = (wrapper.bookingNumber<>null)?
+            Label.translationExists(null, wrapper.subjectLabel, wrapper.language)?
+            Label.get(null, wrapper.subjectLabel, wrapper.language) : wrapper.subjectLabel : Label.get(null, wrapper.subjectLabel, wrapper.language) 
+            //+ wrapper.bookingNumber: wrapper.subjectLabel : Label.get(null, wrapper.subjectLabel, wrapper.language) 
             + ' '+wrapper.firstName + ' '+ wrapper.lastName;
         if(wrapper.bookingNumber==null){
             String labelToUse = wrapper.outreachReason;//=='Product'?'LABS_AP_Product': 'LABS_AP_Repair';

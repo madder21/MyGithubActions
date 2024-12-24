@@ -46,9 +46,10 @@ private class CLT_ClientList_Test {
 		ClientList__c cl = [SELECT Id FROM ClientList__c WHERE Name = 'TEST MY VIP' LIMIT 1];
 
 		System.runAs(sa) {
+			
 			Test.startTest();
 
-			Object getSpecificClientListResponse = cltClientList.retrieveGet(new Map<String, String>{'Type' => cl.Id});
+			Object getSpecificClientListResponse = cltClientList.retrieveGet(new Map<String, String>{'Type' => cl.Id, 'noLimit' => 'true'});
 			List<Object> clientListsInGetSpecific = (List<Object>)JSON.deserializeUntyped(JSON.serialize(((Map<String, Object>)JSON.deserializeUntyped(JSON.serialize(getSpecificClientListResponse))).get('clientLists')));
 			System.assertEquals(1, clientListsInGetSpecific.size(), 'returned specific client list size is different than 1');
 
@@ -59,6 +60,37 @@ private class CLT_ClientList_Test {
 			Test.stopTest();
 		}
 	}
+
+	@isTest
+	static void test_ClientList_GET_Membered() {
+		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+		CLT_ClientList cltClientList = new CLT_ClientList();
+
+		System.runAs(sa) {
+			ClientList__c clientList = new ClientList__c (
+            Name = 'test membered client list',
+            Type__c = 'Membered'
+			);
+            insert clientList;
+
+			Account client = [SELECT Id FROM Account WHERE FirstName = 'Test client 1' AND LastName = 'Test Last Name1' LIMIT 1];
+
+			ClientListMember__c clm = new ClientListMember__c(
+				ClientList__c = clientList.Id,
+				Client__c = client.Id
+			);
+			insert clm;
+
+			Test.startTest();
+
+			String memberedUnreachedQuery = CLT_Utils_ClientLists.buildDynamicQuery(clientList, sa.Id, 'TST123', true, true);
+			List<Account> queriedMembersList = Database.query('SELECT Id FROM Account WHERE IsPersonAccount = TRUE ' + memberedUnreachedQuery); 
+			System.assertEquals(1, queriedMembersList.size(), 'queried membbers list is not 1');
+		
+			Test.stopTest();
+		}
+	}
+
 
 	@isTest
 	static void test_ClientList_POST() {

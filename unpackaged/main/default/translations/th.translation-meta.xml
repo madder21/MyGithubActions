@@ -26,9 +26,111 @@
             <name>Cases</name>
         </sections>
     </reportTypes>
+    <reportTypes>
+        <description><!-- Clients with Entitlements with Contacts --></description>
+        <label><!-- Clients with Entitlements with Contacts --></label>
+        <name>Clients_with_Entitlements_with_Contacts</name>
+        <sections>
+            <label><!-- Clients --></label>
+            <name>Clients</name>
+        </sections>
+        <sections>
+            <label><!-- Contacts --></label>
+            <name>Contacts</name>
+        </sections>
+        <sections>
+            <label><!-- Entitlements --></label>
+            <name>Entitlements</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Service Contracts with Contract Line Items --></description>
+        <label><!-- Service Contracts with Contract Line Items --></label>
+        <name>Service_Contracts_with_Contract_Line_Items</name>
+        <sections>
+            <label><!-- Contract Line Items --></label>
+            <name>Contract Line Items</name>
+        </sections>
+        <sections>
+            <label><!-- Service Contracts --></label>
+            <name>Service Contracts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Service Contracts with Entitlements --></description>
+        <label><!-- Service Contracts with Entitlements --></label>
+        <name>Service_Contracts_with_Entitlements</name>
+        <sections>
+            <label><!-- Entitlements --></label>
+            <name>Entitlements</name>
+        </sections>
+        <sections>
+            <label><!-- Service Contracts --></label>
+            <name>Service Contracts</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Tasks and Cases --></description>
+        <label><!-- Tasks and Cases --></label>
+        <name>Tasks_and_Cases</name>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- Tasks and Cases and Accounts --></description>
+        <label><!-- Tasks and Cases and Accounts --></label>
+        <name>Tasks_and_Cases_and_Accounts</name>
+        <sections>
+            <label><!-- Accounts --></label>
+            <name>Accounts</name>
+        </sections>
+        <sections>
+            <label><!-- Activities --></label>
+            <name>Activities</name>
+        </sections>
+        <sections>
+            <label><!-- Cases --></label>
+            <name>Cases</name>
+        </sections>
+    </reportTypes>
+    <reportTypes>
+        <description><!-- User with case --></description>
+        <label><!-- User with case --></label>
+        <name>User_with_case</name>
+        <sections>
+            <label><!-- Cases (Created By) --></label>
+            <name>Cases (Created By)</name>
+        </sections>
+        <sections>
+            <label><!-- Users --></label>
+            <name>Users</name>
+        </sections>
+    </reportTypes>
+    <customLabels>
+        <label><!-- LABS_AP_AdditionalReminderDelay --></label>
+        <name>LABS_AP_AdditionalReminderDelay</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LABS_AP_CalendarICSTool --></label>
+        <name>LABS_AP_CalendarICSTool</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LABS_AP_CalendarICS_EventTitle --></label>
+        <name>LABS_AP_CalendarICS_EventTitle</name>
+    </customLabels>
     <customLabels>
         <label>ผลิตภัณฑ์</label>
         <name>LABS_AP_Product</name>
+    </customLabels>
+    <customLabels>
+        <label><!-- LABS_AP_ReminderDelay --></label>
+        <name>LABS_AP_ReminderDelay</name>
     </customLabels>
     <customLabels>
         <label>ซ่อมแซม</label>
@@ -38,4 +140,12 @@
         <label>การแจ้งเตือนการนัดหมาย</label>
         <name>LABS_AP_Task_Subject_BookingReminder</name>
     </customLabels>
+    <customLabels>
+        <label><!-- TargetSalesforce --></label>
+        <name>TargetSalesforce</name>
+    </customLabels>
+    <customApplications>
+        <label><!-- CSC Console --></label>
+        <name>CSCConsole</name>
+    </customApplications>
 </Translations>

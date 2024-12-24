@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RV_CaseOwnerSendEmail</fullName>
+    <active>true</active>
+    <description>Only case owner is allowed to send email from case</description>
+    <errorConditionFormula>AND(
+/* User has no ByPass VR Permission */
+  $Permission.ByPassVR = false,
+
+/* Only when an Email message is created */
+  ISNEW(), 
+  
+/* Only applied when the parent related record is a Case, case Id starts with 500 */
+  BEGINS(CASESAFEID(Parent.Id), &quot;500&quot;), 
+  
+/* Only applied for SFSC users in role hierarchy */
+  CONTAINS($UserRole.DeveloperName, &quot;CS&quot;),
+  
+/* Compare the Case owner and the current user id */
+  CASESAFEID(Parent.Owner:User.Id) != CASESAFEID($User.Id) 
+)</errorConditionFormula>
+    <errorMessage>Only case owner are allowed to send email !</errorMessage>
+</ValidationRule>

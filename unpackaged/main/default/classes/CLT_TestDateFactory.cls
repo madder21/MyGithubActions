@@ -1,7 +1,9 @@
 public class CLT_TestDateFactory {
+    public static String TEST_USER_EMAIL_POSTFIX = 'clttestuser@rimowa.com';
+    
     public static User createTestUser(String profileName, String langCode, Boolean toInsert) {
         String profileId = [SELECT Id FROM Profile WHERE name =: profileName].Id;
-        String username = Datetime.now().getTime()+'clttestuser@rimowa.com';
+        String username = Datetime.now().getTime() + TEST_USER_EMAIL_POSTFIX;
         User u = new User(
             Username = username,
             LastName = 'test',
@@ -38,7 +40,8 @@ public class CLT_TestDateFactory {
             Subject = 'test Subject',
             OwnerId = ownerId,
             Priority = 'Normal',
-            Status = 'Open'
+            Status = 'Open',
+            ActivityDate = Date.today().addDays(1)
         );
 
         if(toInsert) {
@@ -339,5 +342,49 @@ public class CLT_TestDateFactory {
         }
 
         return note;
+    }
+
+    public static ClientAddress__c createTestClientAddress(String clientId, Boolean toInsert) {
+        ClientAddress__c clientAddress = new ClientAddress__c(
+            Client__c = clientId
+        );
+        if(toInsert) {
+            insert clientAddress;
+        }
+
+        return clientAddress;
+    }
+
+    public static Notification__c createTestNotification(String type, String saId, DateTime sendingTime, Boolean toInsert) {
+        Notification__c notification = new Notification__c(
+            Type__c = type,
+            User__c = saId,
+            SendingTime__c = sendingTime
+        );
+        if(toInsert) {
+            insert notification;
+        }
+
+        return notification;
+    }
+
+    public static RClientConfigurations__c createTestRClientConfigurations(Boolean toInsert) {
+        RClientConfigurations__c rClientConfigurations = new RClientConfigurations__c(
+            NewElementNotifBatchLastRun__c = DateTime.now().addDays(-1),
+            ComboChallengeNotificationAfter__c = 10,
+            ComboChallengeNotifSendHour__c = 9,
+            NewProductNotifSendHour__c = 12,
+            NewEventNotifSendHour__c = 11,
+            NewGiftNotifSendHour__c = 11,
+            NewEmailTemplateNotifSendHour__c = 12,
+            ReattributedNotifSendHour__c = 9,
+            ReattributedClientListId__c = 'testtesttesttestte'
+        );
+
+        if(toInsert) {
+            insert rClientConfigurations;
+        }
+
+        return rClientConfigurations;
     }
 }

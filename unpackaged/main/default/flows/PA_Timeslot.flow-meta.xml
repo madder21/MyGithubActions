@@ -2,10 +2,26 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <assignments>
+        <name>Assign_All_Day_Event</name>
+        <label>Assign All Day Event</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.IsAllDayEvent</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.allDay</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_Timeslot_Event</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Event_Assignment</name>
         <label>Event Assignment</label>
-        <locationX>176</locationX>
-        <locationY>134</locationY>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>TimeslotEvent.ActivityDate</assignToReference>
             <operator>Assign</operator>
@@ -25,13 +41,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>timeSlot.endOn</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>TimeslotEvent.ActivityDateTime</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>timeSlot.startOn</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -77,22 +86,87 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>TimeslotEvent.BooxiId__c</assignToReference>
+            <assignToReference>TimeslotEvent.TimeslotIds__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>timeSlot.id</elementReference>
+                <elementReference>Formula_TimeslotsIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.ActivityDateTime</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.startOn</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Timeslot_Event</targetReference>
+            <targetReference>Check_AllDay_Flag</targetReference>
         </connector>
     </assignments>
-    <description>30/10/24 : Add Booxi Id assignment - Ulrich</description>
+    <assignments>
+        <name>Test</name>
+        <label>Test</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>Var_TimeslotsIds</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.timeslotIds</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Event_Assignment</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_AllDay_Flag</name>
+        <label>Check AllDay Flag</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Create_Timeslot_Event</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Was_Set</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>timeSlot.allDay</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_All_Day_Event</targetReference>
+            </connector>
+            <label>Was Set</label>
+        </rules>
+    </decisions>
+    <description>27/11/2024 Ulrich: Add timeslot Ids List
+04/12/2024: add all day event</description>
     <environments>Default</environments>
     <formulas>
         <name>ActivityDate</name>
         <dataType>Date</dataType>
         <expression>DATEVALUE({!timeSlot.startOn})</expression>
+    </formulas>
+    <formulas>
+        <name>currentIndexFormula</name>
+        <dataType>Number</dataType>
+        <expression>{!CurrentIndex}+1</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>Formula_TimeslotsIds</name>
+        <dataType>String</dataType>
+        <expression>SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!TextTemplate_TimeSlotIds}, &quot;[&quot;, &quot;&quot;), &quot;]&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), &quot;,00&quot;, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>timeSlotIds</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!timeSlot.timeslotIds})</expression>
     </formulas>
     <interviewLabel>PA_Timeslot {!$Flow.CurrentDateTime}</interviewLabel>
     <label>PA_Timeslot</label>
@@ -118,18 +192,23 @@
     <recordCreates>
         <name>Create_Timeslot_Event</name>
         <label>Create Timeslot Event</label>
-        <locationX>176</locationX>
-        <locationY>242</locationY>
+        <locationX>182</locationX>
+        <locationY>650</locationY>
         <inputReference>TimeslotEvent</inputReference>
     </recordCreates>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Event_Assignment</targetReference>
+            <targetReference>Test</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <textTemplates>
+        <name>TextTemplate_TimeSlotIds</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>{!Var_TimeslotsIds}</text>
+    </textTemplates>
     <variables>
         <name>client</name>
         <apexClass>ClientInputs</apexClass>
@@ -137,6 +216,17 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>CurrentIndex</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>2</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>timeSlot</name>
@@ -155,11 +245,33 @@
         <objectType>Event</objectType>
     </variables>
     <variables>
+        <name>TimeslotIdStr</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
         <name>TimeslotInputs</name>
         <apexClass>TimeslotInputs</apexClass>
         <dataType>Apex</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>TimeSlotsIds</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Var_TimeslotsIds</name>
+        <dataType>Number</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>2</scale>
     </variables>
 </Flow>

@@ -42,7 +42,7 @@ public class TNP001_AccountTriggerHandler_Test {
         user.isIntegrationUser__c =true;
         user.Username= 'test22112@test.com';
             user.LastName= 'test';
-            user.Email='test@test.com';
+            user.Email='test@rimowa.com';
             user.Alias='ttest';
             user.TimeZoneSidKey='Europe/Paris';
             user.LocaleSidKey= 'fr_FR_EURO';

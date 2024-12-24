@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>EmailMessageIsApproved</fullName>
+        <field>TECHIsApproved__c</field>
+        <literalValue>Yes</literalValue>
+        <name>Email Message Is Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>true</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>EmailMessageNotApproved</fullName>
+        <field>TECHIsApproved__c</field>
+        <literalValue>No</literalValue>
+        <name>Email Message Not Approved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Tech_Isapproved</fullName>
+        <description>Update Tech IsApproved to the value &quot;Waiting for approval&quot;</description>
+        <field>TECHIsApproved__c</field>
+        <literalValue>Waiting for approval</literalValue>
+        <name>Update Tech Isapproved</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+</Workflow>

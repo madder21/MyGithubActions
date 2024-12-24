@@ -1,9 +1,10 @@
 public class CLT_Utils_ClientTrigger {
-    public static void updateTargetedCustomersCAreattributionDate(List<Account> newClients, Map<Id, Account> oldClientsMap) {
+    public static void updateTargetedCustomersCAreattributionDateAndNotify(List<Account> newClients, Map<Id, Account> oldClientsMap) {
         for(Account client : newClients) {
             if(client.Targeted_Customers_CAreattribution__c && (!oldClientsMap.containsKey(client.Id) ||
                 (oldClientsMap.containsKey(client.Id) && !oldClientsMap.get(Client.Id).Targeted_Customers_CAreattribution__c))) {
                 client.Targeted_Customers_CAreattribution_Date__c = Date.today();
+                client.Targeted_Customers_CAreattribution_Notif__c = true;
             }
         }
     }

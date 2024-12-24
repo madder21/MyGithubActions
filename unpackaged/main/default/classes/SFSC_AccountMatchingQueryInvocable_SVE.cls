@@ -34,11 +34,11 @@ public class SFSC_AccountMatchingQueryInvocable_SVE {
 
         // Construct the conditions for first name and last name based on their values
         if (!String.isBlank(inp.customerFirstName) && !String.isBlank(inp.customerLastName)) {
-            conditions.add('(FirstName=\'' + String.escapeSingleQuotes(inp.customerFirstName) + '\' AND LastName=\'' + String.escapeSingleQuotes(inp.customerLastName) + '\')');
+            conditions.add('((FirstName != null AND FirstName=\'' + String.escapeSingleQuotes(inp.customerFirstName) + '\') AND (LastName != null AND LastName=\'' + String.escapeSingleQuotes(inp.customerLastName) + '\'))');
         } else if (!String.isBlank(inp.customerFirstName)) {
-            conditions.add('FirstName=\'' + String.escapeSingleQuotes(inp.customerFirstName) + '\'');
+            conditions.add('(FirstName != null AND FirstName=\'' + String.escapeSingleQuotes(inp.customerFirstName) + '\')');
         } else if (!String.isBlank(inp.customerLastName)) {
-            conditions.add('LastName=\'' + String.escapeSingleQuotes(inp.customerLastName) + '\'');
+            conditions.add('(LastName != null AND LastName=\'' + String.escapeSingleQuotes(inp.customerLastName) + '\')');
         }
 
         // Construct the conditions for phone and email based on their values
@@ -53,9 +53,9 @@ public class SFSC_AccountMatchingQueryInvocable_SVE {
         if (!String.isBlank(inp.customerPhone)) {
             phoneAndEmailConditions.add('((Phone != null AND Phone =\'' + String.escapeSingleQuotes(inp.customerPhone) + '\'))');
         }
-
+				// Solution to be found to trigger the query with the OtherEmail__c
         if (!String.isBlank(inp.customerEmail)) {
-            phoneAndEmailConditions.add('(OtherEmail__pc =\'' + String.escapeSingleQuotes(inp.customerEmail) + '\' OR PersonEmail =\'' + String.escapeSingleQuotes(inp.customerEmail) + '\')');
+            phoneAndEmailConditions.add('(PersonEmail!= null AND PersonEmail =\'' + String.escapeSingleQuotes(inp.customerEmail) + '\')');
         }
 
         if (!phoneAndEmailConditions.isEmpty()) {

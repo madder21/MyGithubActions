@@ -4,7 +4,7 @@
     <assignments>
         <name>Assign_CancellationToEvent</name>
         <label>Cancel event</label>
-        <locationX>578</locationX>
+        <locationX>754</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>bookingEvent.Status__c</assignToReference>
@@ -21,13 +21,29 @@
             </value>
         </assignmentItems>
         <connector>
+            <targetReference>Does_Notes_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Internal_Note</name>
+        <label>Assign Internal Note</label>
+        <locationX>732</locationX>
+        <locationY>1142</locationY>
+        <assignmentItems>
+            <assignToReference>bookingEvent.InternalNotes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.InternalNotes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
             <targetReference>Assign_Success</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_new_Appointment_Date</name>
         <label>Assign new Appointment Date</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>bookingEvent.StartDateTime</assignToReference>
@@ -58,13 +74,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Success</targetReference>
+            <targetReference>dec_ServiceChanged</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_New_Staff</name>
         <label>Assign New Staff</label>
-        <locationX>314</locationX>
+        <locationX>490</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>bookingEvent.OwnerId</assignToReference>
@@ -74,14 +90,30 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Success</targetReference>
+            <targetReference>Does_Notes_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Notes</name>
+        <label>Assign Notes</label>
+        <locationX>732</locationX>
+        <locationY>842</locationY>
+        <assignmentItems>
+            <assignToReference>bookingEvent.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Notes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Internal_Note_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Success</name>
         <label>Assign_Success</label>
-        <locationX>710</locationX>
-        <locationY>542</locationY>
+        <locationX>864</locationX>
+        <locationY>1334</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
             <operator>Assign</operator>
@@ -100,7 +132,7 @@
     <assignments>
         <name>Complete_event</name>
         <label>Complete event</label>
-        <locationX>842</locationX>
+        <locationX>1018</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>bookingEvent.Status__c</assignToReference>
@@ -110,13 +142,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Success</targetReference>
+            <targetReference>Does_Notes_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Complete_event_when_no_show</name>
         <label>Complete event when no show</label>
-        <locationX>1106</locationX>
+        <locationX>1282</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>bookingEvent.Status__c</assignToReference>
@@ -126,13 +158,37 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Assign_Success</targetReference>
+            <targetReference>Does_Notes_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>... Assign in Outreach reason Activity field the Service Name</description>
+        <name>dec_AssignService</name>
+        <label>Assign New Service</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>bookingEvent.EN_Outreach_Reason__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Service__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>bookingEvent.Outreach_Reason__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Service__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Does_Notes_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>ERROR_Type</name>
         <label>ERROR_Type</label>
-        <locationX>1370</locationX>
+        <locationX>1546</locationX>
         <locationY>242</locationY>
         <assignmentItems>
             <assignToReference>success</assignToReference>
@@ -152,7 +208,7 @@
     <decisions>
         <name>dec_ModificationType</name>
         <label>What are the modification?</label>
-        <locationX>710</locationX>
+        <locationX>864</locationX>
         <locationY>134</locationY>
         <defaultConnector>
             <targetReference>ERROR_Type</targetReference>
@@ -234,7 +290,119 @@
             <label>NoShow</label>
         </rules>
     </decisions>
-    <description>...PA FLOW, use to modify the of Event of the Booking</description>
+    <decisions>
+        <name>dec_ServiceChanged</name>
+        <label>is Service changed ?</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Does_Notes_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>no</defaultConnectorLabel>
+        <rules>
+            <name>decout_serviceChanged</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.Service__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.Service__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.Service__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>dec_AssignService</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Internal_Note_exist</name>
+        <label>Does Internal Note exist ?</label>
+        <locationX>864</locationX>
+        <locationY>1034</locationY>
+        <defaultConnector>
+            <targetReference>Assign_Success</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_InternalNote</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Internal_Note</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_Notes_exist</name>
+        <label>Does Notes exist ?</label>
+        <locationX>864</locationX>
+        <locationY>734</locationY>
+        <defaultConnector>
+            <targetReference>Does_Internal_Note_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.Notes__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.Notes__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.Notes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Notes</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <description>...PA FLOW, use to modify the of Event of the Booking
+Ulrich: 19/11 Manage Note
+Ulrich 20/11: Add InternalNote &amp; CreatedByStaffId</description>
     <environments>Default</environments>
     <formulas>
         <description>Transform the DateTime in Date Only</description>
@@ -270,7 +438,7 @@
     <processType>AutoLaunchedFlow</processType>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>584</locationX>
+        <locationX>738</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>dec_ModificationType</targetReference>

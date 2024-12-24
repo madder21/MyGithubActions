@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Maxence_notifs</fullName>
+    <columns>NAME</columns>
+    <columns>CREATED_DATE</columns>
+    <columns>SendingTime__c</columns>
+    <columns>Type__c</columns>
+    <columns>Subtype__c</columns>
+    <columns>Sent__c</columns>
+    <columns>Seen__c</columns>
+    <columns>Read__c</columns>
+    <columns>Client__c</columns>
+    <columns>User__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>User__c</field>
+        <operation>contains</operation>
+        <value>Maxence</value>
+    </filters>
+    <label>Maxence notifs</label>
+</ListView>

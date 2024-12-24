@@ -1,3 +1,14 @@
+/**
+ * @author (Balink)
+ * @Type Apex Class
+ *****************************************************************************************************************************************************************
+ * @description This class is called from R-Client App at the endpoint /retail/activities and let the SA get and manage his activities
+ ***************************************************************************************************************************************************************** 
+ * @Version : 
+ * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
+ * 1.0		|2024/05/12			|.Sarah A	|.RCLIENT-1063	    |.add method getEvent to return specific event details
+ * 1.1		|2024/07/19			|.Sarah A	|.RCLIENT-1157	    |.add delta param to retrieve only activities that got updated after the sent value
+*/
 public with sharing class CLT_Activities implements CLT_RetailInterface{
     
     public Object retrieveDelete(Map<String, String> params){
@@ -18,33 +29,122 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
     }
 
     public Object retrieveGet(Map<String, String> params){
-        String taskId = params.get('taskId');
+        String taskId = params.containsKey('taskId') ? params.get('taskId') : '';
+        String eventId = params.containsKey('eventId') ? params.get('eventId') : '';
+
+        String firstDayOfLastYear = Date.today().addYears(-1).year() + '-01-01';
+        String lastDayOfNextYear = Date.today().addYears(1).year() + '-12-31';
 
         if(!String.isEmpty(taskId)) {
             return getTask(taskId);
         }
+        else if(!String.isEmpty(eventId)) {
+            return getEvent(eventId);
+        }
+        else if(params.containsKey('deltaFrom')) {
+            String deltaFrom = params.get('deltaFrom');//received format need to be YYYY-MM-DDTHH:MM:SSZ
+
+            Map<String, Object> deltaResponse = new Map<String, Object>();
+
+            List<Map<String, Object>> deltaActivities = new List<Map<String, Object>>();
+            deltaActivities.addAll(getTasks(firstDayOfLastYear, lastDayOfNextYear, deltaFrom));
+            deltaActivities.addAll(getEvents(firstDayOfLastYear, lastDayOfNextYear, deltaFrom));
+
+            deltaResponse.put('updatedActivities', deltaActivities);
+
+            return deltaResponse;
+        }
         else {
-            list<map<string, object>> activities = new list<map<string, object>>();
-            activities.addAll(getTasks());
-            activities.addAll(getEvents());
+            List<Map<String, Object>> activities = new List<Map<String, Object>>();
+            activities.addAll(getTasks(firstDayOfLastYear, lastDayOfNextYear, null));
+            activities.addAll(getEvents(firstDayOfLastYear, lastDayOfNextYear, null));
         
             return activities;
         }
     }
 
-    public list<map<string, object>> getTasks(){
+    /*
+     * @METHOD 	: getTasks
+     * @DESC 	: Return the wrapped list of tasks related to the connected user that should be displayed in R-Client
+     * @PARAM 	: no params
+     * @RETURN 	: List<Map<String, Object>> : wrapped list of tasks
+     */
+    public list<map<string, object>> getTasks(String firstDayOfLastYear, String lastDayOfNextYear, String deltaFrom){
         String taskQuery = 'FROM Task WHERE OwnerId = \'' + UserInfo.getUserId() + '\' AND Outreach_Type__c = NULL' + 
-                            ' AND Status__c != \'Canceled\' AND (CompletedDateTime = NULL OR CompletedDateTime = LAST_N_DAYS:2)' +
+                            ' AND Status__c != \'Cancelled\' AND (CompletedDateTime = NULL OR CompletedDateTime = LAST_N_DAYS:3)' +
                             ' AND ((Status != \'Completed\' AND Status__c != \'Completed\') OR (Status = \'Completed\' AND Status__c = \'Completed\'))' +
-                            ' AND (Subject != \'Birthday to wish\' OR (Subject = \'Birthday to wish\' AND ActivityDate = LAST_N_DAYS:2))';
-        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', taskQuery);
-        
+                            ' AND (TaskType__c != \'Birthday\' OR (TaskType__c = \'Birthday\' AND (ActivityDate = NEXT_N_DAYS:3 OR ActivityDate  = TODAY)))'  +
+                            ' AND ActivityDate >= ' + firstDayOfLastYear + ' AND ActivityDate <= ' + lastDayOfNextYear;
+        if(!String.isEmpty(deltaFrom)) {
+            taskQuery += ' AND LastModifiedDate >= ' + deltaFrom;
+        }
+        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', taskQuery);      
     }
     
-    public list<map<string, object>> getEvents(){
-        return CLT_Utils_Mapping.getStandardWrapperList('Event', 'Event', 'FROM Event WHERE OwnerId = \'' + UserInfo.getUserId() + '\' AND Status__c != \'Canceled\'');
+    /*
+     * @METHOD 	: getEvents
+     * @DESC 	: Return the wrapped list of events related to the connected user that should be displayed in R-Client
+     * @PARAM 	: firstDayOfLastYear: date string of the first day of the last year, lastDayOfNextYear: date string of the last day of the next year, deltaFrom: String date of the last update
+     * @RETURN 	: List<Map<String, Object>> : wrapped list of events
+     */
+    public List<Map<String, Object>> getEvents(String firstDayOfLastYear, String lastDayOfNextYear, String deltaFrom){
+        Map<String, Map<String, Object>> clientCegidIdsMap = new Map<String, Map<String, Object>>();
+        Integer sixMonthAgoInterval = (Date.today().addMonths(-6)).daysBetween(Date.today());
+        String eventQuery = 'FROM Event WHERE OwnerId = \'' + UserInfo.getUserId() + '\'' +
+                            ' AND (Status__c != \'Cancelled\' OR (Status__c = \'Cancelled\' AND CancelledDateTime__c = LAST_N_DAYS:' + sixMonthAgoInterval + '))'  +
+                            ' AND ActivityDate >= ' + firstDayOfLastYear + ' AND ActivityDate <= ' + lastDayOfNextYear;
+        if(!String.isEmpty(deltaFrom)) {
+            eventQuery += ' AND LastModifiedDate >= ' + deltaFrom;
+        }
+        List<Map<String, Object>> events = CLT_Utils_Mapping.getStandardWrapperList('Event', 'Event', eventQuery);
+        for(Map<String, Object> eventMap : events) {
+            if(eventMap.containsKey('clientSFId') && (!String.isEmpty((String)eventMap.get('clientSFId')))) {
+                clientCegidIdsMap.put((String)eventMap.get('clientSFId'), new Map<String, Object>());
+            }
+        }
+
+        // retrieve the oldest CEGID Id related to the client in ClientSource__c object
+        if(clientCegidIdsMap.keySet().size() > 0) {
+            clientCegidIdsMap = getClientCegidIdsMap(clientCegidIdsMap);
+
+            for(Map<String, Object> eventMap : events) {
+                if(eventMap.containsKey('clientSFId') && clientCegidIdsMap.containsKey((String)eventMap.get('clientSFId')) && (clientCegidIdsMap.get((String)eventMap.get('clientSFId'))).containsKey('cegidId')) {
+                    eventMap.put('clientCegidId', (clientCegidIdsMap.get((String)eventMap.get('clientSFId'))).get('cegidId'));
+                }
+            }
+        }
+        return events;
     }
 
+    /*
+     * @METHOD 	: getClientCegidIdsMap
+     * @DESC 	: Return a map with the first created cegid id for the list of clients
+     * @PARAM 	: clientCegidIdsMap: clients key set for whom we need to find the cegid ids
+     * @RETURN 	: Map<String, Map<String, Object>> : map of client id as key and the valueis a map of ceid id and the source creation datetime
+     */
+    public static Map<String, Map<String, Object>> getClientCegidIdsMap(Map<String, Map<String, Object>> clientCegidIdsMap) {
+        for(ClientSource__c clientSource: [SELECT Id,SourceCode__c,SourceCreationDate__c,Client__c
+                                            FROM ClientSource__c 
+                                            WHERE Source__c = '001' AND Client__c IN :clientCegidIdsMap.keySet()
+                                            ORDER BY SourceCreationDate__c ASC]) {
+                                                
+            if(!clientCegidIdsMap.get(clientSource.Client__c).containsKey('cegidId') || 
+                (clientCegidIdsMap.get(clientSource.Client__c).containsKey('cegidId') && 
+                clientSource.SourceCreationDate__c < (Datetime)(clientCegidIdsMap.get(clientSource.Client__c).get('cegidCreationDate')))) {
+                (clientCegidIdsMap.get(clientSource.Client__c)).put('cegidId', clientSource.SourceCode__c);
+                (clientCegidIdsMap.get(clientSource.Client__c)).put('cegidCreationDate', clientSource.SourceCreationDate__c);
+            }
+        }
+
+        return clientCegidIdsMap;
+    }
+
+    /*
+     * @METHOD 	: getTask
+     * @DESC 	: Return the Task of the receiven id wrapped
+     * @PARAM 	: taskId : Id of the task
+     * @RETURN 	: List<Map<String, Object>> : wrapped Task fields
+     */
     public list<map<string, object>> getTask(String taskId){
         List<Map<String, Object>> returningTask = CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', 'FROM Task WHERE Id = \'' + taskId + '\'');
         
@@ -54,6 +154,33 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
         }
         
         return returningTask;
+    }
+
+    /*
+     * @METHOD 	: getEvent
+     * @DESC 	: Return the Event of the receiven id wrapped
+     * @PARAM 	: eventId : Id of the event
+     * @RETURN 	: List<Map<String, Object>> : wrapped Event fields
+     */
+    public List<Map<String, Object>> getEvent(String eventId) {
+        Map<String, Map<String, Object>> clientCegidIdsMap = new Map<String, Map<String, Object>>();
+        List<Map<String, Object>> event = CLT_Utils_Mapping.getStandardWrapperList('Event', 'Event', 'FROM Event WHERE Id = \'' + eventId + '\'');
+        //filtered according to Id, there will always be only one record
+        Map<String, Object> eventMap = event[0];
+        if(eventMap.containsKey('clientSFId') && (!String.isEmpty((String)eventMap.get('clientSFId')))) {
+            clientCegidIdsMap.put((String)eventMap.get('clientSFId'), new Map<String, Object>());
+        }
+        // retrieve the oldest CEGID Id related to the client in ClientSource__c object
+        if(clientCegidIdsMap.keySet().size() > 0) {
+            clientCegidIdsMap = getClientCegidIdsMap(clientCegidIdsMap);
+
+            if(eventMap.containsKey('clientSFId') && clientCegidIdsMap.containsKey((String)eventMap.get('clientSFId')) && (clientCegidIdsMap.get((String)eventMap.get('clientSFId'))).containsKey('cegidId')) {
+                eventMap.put('clientCegidId', (clientCegidIdsMap.get((String)eventMap.get('clientSFId'))).get('cegidId'));
+            }
+        }
+
+        //R-Client structure expects a list
+        return new List<Map<String, Object>> {eventMap};
     }
 
     public List<Object> upsertItems(Map<String,Object> body) {

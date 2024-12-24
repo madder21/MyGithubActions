@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <decisions>
+        <name>InboundOrOutbound</name>
+        <label>Inbound Or Outbound</label>
+        <locationX>743</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Inbound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varEmailMessage.Incoming</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>IsFromAddressEmpty</targetReference>
+            </connector>
+            <label>📥 Inbound</label>
+        </rules>
+        <rules>
+            <name>Outbound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varEmailMessage.Incoming</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_To_Address_Empty</targetReference>
+            </connector>
+            <label>📤 Outbound</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_From_address_is_an_email_Maison</name>
+        <label>Is From address is an email Maison ?</label>
+        <locationX>248</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>UpdateTask_Inbound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsMaison_FromEmail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_From_Maison_Email_Mapping.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateTask_Inbound_Maison</targetReference>
+            </connector>
+            <label>IsMaison From Email</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_To_Address_Empty</name>
+        <label>Is To Address Empty ?</label>
+        <locationX>842</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Get_To_Maison_Email_Mapping</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
+        <rules>
+            <name>To_Address_Is_Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ToEmailDomain</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <label>🗑️ To Address Is Empty</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_To_address_is_an_email_Maison</name>
+        <label>Is To address is an email Maison ?</label>
+        <locationX>1040</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>UpdateTask_Outbound</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsMaison_To_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_To_Maison_Email_Mapping.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UpdateTask_OutboundMaison</targetReference>
+            </connector>
+            <label>IsMaison To Email</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>IsFromAddressEmpty</name>
+        <label>Is From Address Empty ?</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Get_From_Maison_Email_Mapping</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Empty</defaultConnectorLabel>
+        <rules>
+            <name>IsEmpty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FromEmailDomain</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <label>🗑️ Is Empty</label>
+        </rules>
+    </decisions>
+    <description>Update the task associated to the email message, for incoming and outbound SME and Admin email messages</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Check the email message email address domain</description>
+        <name>FromEmailDomain</name>
+        <dataType>String</dataType>
+        <expression>IF(
+NOT(ISBLANK({!varEmailMessage.FromAddress})),
+(RIGHT({!varEmailMessage.FromAddress}, LEN({!varEmailMessage.FromAddress}) - FIND(&quot;@&quot;,{!varEmailMessage.FromAddress}) + 1)),
+&quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <description>Get the To address email domain from email message record</description>
+        <name>ToEmailDomain</name>
+        <dataType>String</dataType>
+        <expression>IF(
+NOT(ISBLANK({!varEmailMessage.ToAddress})),
+(RIGHT({!varEmailMessage.ToAddress}, LEN({!varEmailMessage.ToAddress}) - FIND(&quot;@&quot;,{!varEmailMessage.ToAddress}) + 1)),
+&quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <description>If true, the email message is send  to an SME</description>
+        <name>ToSmeOnEmailMessage</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+AND(  /* Correspond to an incoming sme message  */
+{!varEmailMessage.ToSME__c} = false,
+{!varEmailMessage.Incoming} = true,
+NOT(ISBLANK({!FromEmailDomain}))
+),
+true,
+false
+)</expression>
+    </formulas>
+    <interviewLabel>SFSC - Update Task Type according to email message {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SFSC - Subflow - Update Task Type according to email message</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Custom Metadata for checking the email message email address, if maisonor not</description>
+        <name>Get_From_Maison_Email_Mapping</name>
+        <label>Get From Maison Email Mapping</label>
+        <locationX>248</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_From_address_is_an_email_Maison</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>EmailDomain__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>FromEmailDomain</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Admin_Email__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Custom Metadata for checking the To email message email address, if maison or not</description>
+        <name>Get_To_Maison_Email_Mapping</name>
+        <label>Get To Maison Email Mapping</label>
+        <locationX>1040</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_To_address_is_an_email_Maison</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>EmailDomain__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ToEmailDomain</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Admin_Email__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetCaseInfos</name>
+        <label>GetCaseInfos</label>
+        <locationX>743</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>InboundOrOutbound</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.ParentId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Email_Message_SME</name>
+        <label>Update Email Message SME</label>
+        <locationX>116</locationX>
+        <locationY>782</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>ToSME__c</field>
+            <value>
+                <elementReference>ToSmeOnEmailMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <object>EmailMessage</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateTask_Inbound</name>
+        <label>UpdateTask - Inbound</label>
+        <locationX>380</locationX>
+        <locationY>674</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.ActivityId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Hub_Handle__c</field>
+            <value>
+                <elementReference>GetCaseInfos.HUB_Handle__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Hub_Origin__c</field>
+            <value>
+                <elementReference>GetCaseInfos.Hub_Origin__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>eMailDirection__c</field>
+            <value>
+                <elementReference>vareMailDirection</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateTask_Inbound_Maison</name>
+        <label>UpdateTask - Inbound / Maison</label>
+        <locationX>116</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>Update_Email_Message_SME</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.ActivityId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Hub_Handle__c</field>
+            <value>
+                <elementReference>GetCaseInfos.HUB_Handle__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Hub_Origin__c</field>
+            <value>
+                <elementReference>GetCaseInfos.Hub_Origin__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsMaison__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>eMailDirection__c</field>
+            <value>
+                <elementReference>vareMailDirection</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateTask_Outbound</name>
+        <label>UpdateTask - Outbound</label>
+        <locationX>1172</locationX>
+        <locationY>674</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.ActivityId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Hub_Handle__c</field>
+            <value>
+                <elementReference>GetCaseInfos.HUB_Handle__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Hub_Origin__c</field>
+            <value>
+                <elementReference>GetCaseInfos.Hub_Origin__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>eMailDirection__c</field>
+            <value>
+                <elementReference>vareMailDirection</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateTask_OutboundMaison</name>
+        <label>UpdateTask - Outbound / Maison</label>
+        <locationX>908</locationX>
+        <locationY>674</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varEmailMessage.ActivityId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Hub_Handle__c</field>
+            <value>
+                <elementReference>GetCaseInfos.HUB_Handle__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Hub_Origin__c</field>
+            <value>
+                <elementReference>GetCaseInfos.Hub_Origin__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>IsMaison__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>eMailDirection__c</field>
+            <value>
+                <elementReference>vareMailDirection</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Task</object>
+    </recordUpdates>
+    <start>
+        <locationX>617</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GetCaseInfos</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>caseId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>EmailTypeValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>IsMaisonValue</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>LP1</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Admin_Email__mdt</objectType>
+    </variables>
+    <variables>
+        <name>NumberOfAdminEmailCMDT</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>TESTIsAdmin</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>TESTIsIncoming</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>vareMailDirection</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varEmailMessage</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>EmailMessage</objectType>
+    </variables>
+</Flow>

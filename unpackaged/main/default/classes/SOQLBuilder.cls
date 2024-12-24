@@ -22,8 +22,14 @@ public with sharing class SOQLBuilder {
 
     public static Map<String, String> buildSOQLQueriesMap(Map<String, List<String>> mapObjectAndFields, Map<String, String> mapObjLookupFieldName, List<Id> clientIds){
         Map<String, String> soqlQueriesMap = new Map<String, String>();
+        String fieldsQuery;
         for(String objName : mapObjLookupFieldName.keySet()){
-            String fieldsQuery = mapObjectAndFields.containsKey(objName)?'Id, '+String.join(mapObjectAndFields.get(objName), ', '): 'Id';
+            if(objName == 'Account'){
+                fieldsQuery = mapObjectAndFields.containsKey(objName)?'Id, '+String.join(mapObjectAndFields.get(objName), ', '): 'Id';
+            }else {
+                fieldsQuery = mapObjectAndFields.containsKey(objName)?'Id, '+mapObjLookupFieldName.get(objName)+', '+String.join(mapObjectAndFields.get(objName), ', '): 'Id';
+            }
+            
             String quotedAccountIds = '\'' + String.join(clientIds, '\',\'') + '\'';
             String soqlQuery = 'SELECT '+fieldsQuery + ' FROM ' + objName + ' WHERE ' + mapObjLookupFieldName.get(objName)+' IN (' + quotedAccountIds + ')';
         	soqlQueriesMap.put(objName, soqlQuery);
@@ -81,18 +87,24 @@ public with sharing class SOQLBuilder {
     public static List<sObject> pushInQueue(SFAnonymizationPushInQueueWrapper wrapper) {
         List<sObject> objectToBeUpdate = new List<sObject>();
         Map<Id, Long> accountTimestampMap = new Map<Id, Long>();
+        Long tmp = wrapper.timeStamp;
         for(sObject obj : wrapper.globalList) {
-            Long tmp = accountTimestampMap.containsKey(obj.Id)?accountTimestampMap.get(obj.Id): wrapper.timeStamp;
-            accountTimestampMap.put(obj.Id, tmp);
             String objectAPIName = obj.Id.getSObjectType().getDescribe().getName();
+            String accountIdLink = String.valueOf(obj.get(wrapper.mapObjLookupFieldName.get(objectAPIName)));
+            Long currentTmp = tmp;
+            if(accountTimestampMap.containsKey(accountIdLink)) {
+                currentTmp = accountTimestampMap.get(obj.Id);
+            }else {
+                accountTimestampMap.put(accountIdLink, currentTmp);
+            }
             for(String fieldName : wrapper.mapObjectAndFields.get(objectAPIName)) {
                 if(fieldName.contains('mail') && obj.get(fieldName)<>null) {
-                	String emailFieldValue = tmp+'@'+tmp+'.'+tmp;
+                	String emailFieldValue = currentTmp+'@'+currentTmp+'.'+currentTmp;
                     obj.put(fieldName, emailFieldValue); 
 				}else if(obj.get(fieldName)<>null) {
-					obj.put(fieldName, wrapper.timeStamp); 
+					obj.put(fieldName, String.valueOf(currentTmp)); 
 				}
-			}
+			}            
             tmp+=1;
 			objectToBeUpdate.add(obj);
         }

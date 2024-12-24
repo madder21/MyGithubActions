@@ -26,7 +26,7 @@ public class AccountCDPQueuableCallout_TST {
         Test.startTest();
         System.enqueueJob(queuable);
         Test.stopTest();
-        System.assertNotEquals(testAccounts[0].Id, queuable.accountList[0].Id);
+        System.assertEquals(testAccounts[0].Id, queuable.accountList[0].Id);
     }
 
 }

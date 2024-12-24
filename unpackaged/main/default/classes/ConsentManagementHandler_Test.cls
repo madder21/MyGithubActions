@@ -9,6 +9,7 @@
  * @Version : 
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 0.0		|25052023			|.PLM		|.					|.
+ * 0.1		|1010203			 |.PLM		 |.CI-219		 |.Modification of method : emailConsentHandlerTest_Newsletter_Optin_DoubleOptin_UnitTest, assert modify for Optout in case of double optin
 */
 @isTest
 public with sharing class ConsentManagementHandler_Test {
@@ -323,7 +324,7 @@ public with sharing class ConsentManagementHandler_Test {
             aAccount.LastName = 'Test ' + i;
             aAccount.Salutation = 'Salutation ' + i;
             aAccount.Phone = '012345678' + i;
-            aAccount.PersonEmail = 'test' + i +'@gmail.com';
+            aAccount.PersonEmail = 'testdoubleoptin' + i +'@gmail.com';
             aAccount.WebsiteLocale__pc = 'DE';
             aAccount.WebsiteCountry__pc = 'DE';
             aAccount.Country__pc = 'DE';
@@ -362,7 +363,7 @@ public with sharing class ConsentManagementHandler_Test {
         // check that the ConsentWrapper instance has the correct ContactPointTypeConsent record
         Assert.areEqual(outputConsent.indiv.Id, outputConsent.cpTypeConsent.PartyId);
         Assert.areEqual(testAccList[0].Id, outputConsent.cpTypeConsent.AccountId__c);
-        Assert.areEqual('Optin', outputConsent.cpTypeConsent.PrivacyConsentStatus);
+        Assert.areEqual('Optout', outputConsent.cpTypeConsent.PrivacyConsentStatus);
         Assert.isNotNull(outputConsent.cpTypeConsent.Id);
 		
         // check that the ConsentWrapper instance has optout status for ContactPointConsent
@@ -373,6 +374,7 @@ public with sharing class ConsentManagementHandler_Test {
         Assert.isNull(outputConsent.commSubConsent);
 
         Assert.areEqual(true, outputConsent.clientToUpdate);
+        Assert.isFalse(outputConsent.client.OptinEmailing__pc);
 
 
     }

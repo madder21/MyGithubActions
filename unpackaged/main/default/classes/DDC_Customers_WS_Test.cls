@@ -113,7 +113,7 @@ private with sharing class DDC_Customers_WS_Test {
         User user = new User(
             Username = 'test4564566@test.com',
             LastName = 'test',
-            Email = 'test@test.com',
+            Email = 'test@rimowa.com',
             Alias = 'test',
             TimeZoneSidKey = 'GMT',
             LocaleSidKey = 'en_GB',

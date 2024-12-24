@@ -8,9 +8,10 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
     }
 
     public Object retrieveGet(Map<String, String> params){
+        Decimal versionNum = params.containsKey('versionNum') ? Decimal.valueOf(params.get('versionNum')) : 0;
         User user = getUser();
         Store__c userStore = getStore(user.StoreCode__c);
-        return new HomepageWrapper(getPortfolioInfo(user.Id), getNews(user, userStore), getTransactionCombo(user.Id, userStore.Id), getFeedbacks(user.Id));
+        return new HomepageWrapper(getPortfolioInfo(user.Id), getNews(user, userStore), getTransactionCombo(versionNum, user.Id, userStore.Id), getFeedbacks(user.Id));
     }
 
     public User getUser() {
@@ -103,6 +104,15 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
         return result;
     }
 
+    public List<Map<String, Object>> getTransactionCombo(Decimal versionNum, String userId, String storeId) {
+        if(versionNum >= 2.13) {
+            return getTransactionComboV2(userId, storeId);
+        }
+        else {
+            return getTransactionCombo(userId, storeId);
+        }
+    }
+
     public List<Map<String, Object>> getTransactionCombo(String userId, String storeId) {
         List<Map<String, Object>> result = new List<Map<String, Object>>();
 
@@ -113,7 +123,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
                                     WHERE TransactionDate__c = LAST_N_DAYS:13 AND Store__c = :storeId ORDER BY TransactionDate__c DESC LIMIT 1),
                                     (SELECT Id,CreatedDate 
                                     FROM Notes__r 
-                                    WHERE CreatedDate = LAST_N_DAYS:13 AND CreatedById = :userId),
+                                    WHERE CreatedDate = LAST_N_DAYS:13 AND CreatedById = :userId AND IsDeleted__c = FALSE),
                                     (SELECT Id,Outreach_Type__c,ActivityDate,CreatedDate
                                     FROM Tasks 
                                     WHERE CreatedDate = LAST_N_DAYS:13 AND OwnerId = :userId AND (Outreach_Type__c = NULL OR (Outreach_Type__c != NULL AND Outreach_Type__c NOT IN ('Gift','Event','Wishlist'))))
@@ -184,6 +194,155 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
         
         return result;
     }
+    
+    public List<Map<String, Object>> getTransactionComboV2(String userId, String storeId) {
+        List<String> comboClientsIds = new List<String>();
+        List<String> comboTransactionsIds = new List<String>();
+        for(Transaction__c t : [SELECT Id,Client__c, 
+                                    (SELECT Id 
+                                    FROM Transaction_Items__r 
+                                    WHERE (NOT Product__r.StockKeepingUnit LIKE '2%') AND Product__r.macrofunction__c != 'REPARATION' 
+                                        AND Type__c = 'Sale' AND ExclTaxAmount__c > 0)
+                                FROM Transaction__c 
+                                WHERE Client__r.Last_Transaction_SA__pc = :userId AND TransactionDate__c = LAST_N_DAYS:13 
+                                    AND Store__c = :storeId AND Client__c NOT IN 
+                                        (SELECT Client__c FROM ClientSource__c WHERE (SourceCode__c LIKE '____'  OR SourceCode__c LIKE '%000000'))]) {
+            if(t.Transaction_Items__r.size() > 0) {
+                comboTransactionsIds.add(t.Id);
+                comboClientsIds.add(t.Client__c);
+            }
+        }
+
+        List<Map<String, Object>> result = new List<Map<String, Object>>();
+
+        if(comboClientsIds.size() > 0) {
+            Map<String,Account> clientsMap = new Map<String, Account>(
+                                    [SELECT Id,FirstName,LastName,LastPurchaseDate__pc,FirstPurchaseDate__pc,LightCurrentCluster__pc,
+                                        (SELECT TransactionDate__c, LocalOrTourist__c 
+                                        FROM Transactions__r 
+                                        WHERE Id IN :comboTransactionsIds AND TransactionDate__c = LAST_N_DAYS:13 AND Store__c = :storeId ORDER BY TransactionDate__c DESC LIMIT 1),
+                                        (SELECT ReviewedInformation__c FROM Client_Insights__r WHERE LastReviewDate__c = LAST_N_DAYS:13),
+                                        (SELECT Id,Outreach_Type__c,ActivityDate,CreatedDate
+                                        FROM Tasks 
+                                        WHERE CreatedDate = LAST_N_DAYS:13 AND OwnerId = :userId AND (Outreach_Type__c = NULL OR (Outreach_Type__c != NULL AND Outreach_Type__c NOT IN ('Gift','Event','Wishlist'))))
+                                    FROM Account
+                                    WHERE Last_Transaction_SA__pc = :userId AND 
+                                        Id IN :comboClientsIds]);
+
+            Map<String, List<String>> clientNotesMap = new Map<String, List<String>>();
+            Map<String, Date> clientNotesLastDateMap = new Map<String, Date>();
+            for(Client_Insight_History__c cih : [SELECT ModifiedField__c,ClientInsight__r.Client__c, ModifiedAt__c
+                                                FROM Client_Insight_History__c
+                                                WHERE ClientInsight__r.Client__c IN :clientsMap.keySet() AND ModifiedBy__c = :userId AND ModifiedAt__c = LAST_N_DAYS:13]) {
+                if(!clientNotesMap.containsKey(cih.ClientInsight__r.Client__c)) {
+                    clientNotesMap.put(cih.ClientInsight__r.Client__c, new List<String>());
+                }
+                if(cih.ModifiedAt__c >= clientsMap.get(cih.ClientInsight__r.Client__c).LastPurchaseDate__pc && !clientNotesMap.get(cih.ClientInsight__r.Client__c).contains(cih.ModifiedField__c)) {
+                    clientNotesMap.get(cih.ClientInsight__r.Client__c).add(cih.ModifiedField__c);
+                    if(!clientNotesLastDateMap.containsKey(cih.ClientInsight__r.Client__c) || (clientNotesLastDateMap.containsKey(cih.ClientInsight__r.Client__c) && clientNotesLastDateMap.get(cih.ClientInsight__r.Client__c) < cih.ModifiedAt__c)) {
+                        clientNotesLastDateMap.put(cih.ClientInsight__r.Client__c, cih.ModifiedAt__c.date());
+                    }
+                }
+            }
+            for(Note_History__c noteH : [SELECT Note__r.Client__c, ModifiedAt__c
+                                        FROM Note_History__c
+                                        WHERE Note__r.Client__c IN :clientsMap.keySet() AND ModifiedBy__c = :userId AND ModifiedAt__c = LAST_N_DAYS:13]) {
+                if(!clientNotesMap.containsKey(noteH.Note__r.Client__c)) {
+                    clientNotesMap.put(noteH.Note__r.Client__c, new List<String>());
+                }
+                if(noteH.ModifiedAt__c >= clientsMap.get(noteH.Note__r.Client__c).LastPurchaseDate__pc) {
+                    if(!clientNotesMap.get(noteH.Note__r.Client__c).contains('note-comment')) {
+                        clientNotesMap.get(noteH.Note__r.Client__c).add('note-comment');
+                    }
+                    if(!clientNotesLastDateMap.containsKey(noteH.Note__r.Client__c) || (clientNotesLastDateMap.containsKey(noteH.Note__r.Client__c) && clientNotesLastDateMap.get(noteH.Note__r.Client__c) < noteH.ModifiedAt__c)) {
+                        clientNotesLastDateMap.put(noteH.Note__r.Client__c, noteH.ModifiedAt__c.date());
+                    }
+                }
+            }
+            for(Account client : clientsMap.values()) {
+                Boolean isFirstPurchase = client.FirstPurchaseDate__pc == client.LastPurchaseDate__pc ? true : false;
+                Integer doneCombo = 0;
+                Date lastInteractionDate;
+                Boolean isReviewedInsights = false;
+                Boolean note = false;
+                Task task;
+                Task outreach;
+                Boolean isTourist = false;
+
+                Date lastTransactionDate;
+                for(Transaction__c currentTransaction : client.Transactions__r) {
+                    if(lastTransactionDate == null || (lastTransactionDate != null && currentTransaction.TransactionDate__c >= lastTransactionDate)) {
+                        lastTransactionDate = currentTransaction.TransactionDate__c;
+                        isTourist = currentTransaction.LocalOrTourist__c == 'Tourist' ? true : false; 
+                    }
+                }
+
+                for(Client_Insight__c ci : client.Client_Insights__r) {
+                    Map<String, Object> reviewedInformationMap = !String.isEmpty(ci.ReviewedInformation__c) ? (Map<String, Object>)JSON.deserializeUntyped(ci.ReviewedInformation__c) : new Map<String, Object>();
+                    if(reviewedInformationMap.containsKey(userId)) {
+                        List<String> userReviewedDateList = ((String)reviewedInformationMap.get(userId)).split('-');
+                        Date userReviewedDate = userReviewedDateList.size() == 3 ? Date.newInstance(Integer.valueOf(userReviewedDateList[2]), Integer.valueOf(userReviewedDateList[1]), Integer.valueOf(userReviewedDateList[0])) : Date.newInstance(2000, 1, 1);
+                        if(userReviewedDate >= client.LastPurchaseDate__pc) {
+                            isReviewedInsights = true;
+                            note = true;
+                            doneCombo ++;
+                            if(lastInteractionDate == null || (lastInteractionDate != null && userReviewedDate > lastInteractionDate)) {
+                                lastInteractionDate = userReviewedDate;
+                            }
+                        }
+                    }
+                }
+
+                if(!isReviewedInsights && clientNotesMap.containsKey(client.Id) && ((isFirstPurchase && clientNotesMap.get(client.Id).size() >= 5) || (!isFirstPurchase && clientNotesMap.get(client.Id).size() >= 1) )) {
+                    note = true;
+                    doneCombo ++;
+                    if(lastInteractionDate == null || (lastInteractionDate != null && clientNotesLastDateMap.get(client.Id) > lastInteractionDate)) {
+                        lastInteractionDate = clientNotesLastDateMap.get(client.Id);
+                    }
+                }
+
+                for(Task currentTask : client.Tasks) {
+                    if(!isTourist && currentTask.ActivityDate >= client.LastPurchaseDate__pc && currentTask.CreatedDate >= client.LastPurchaseDate__pc 
+                        && String.isEmpty(currentTask.Outreach_Type__c) && (task == null || (task != null && currentTask.CreatedDate < task.CreatedDate))) {
+                        if(task == null) {
+                            doneCombo ++;
+                        }
+                        task = currentTask;
+                        if(lastInteractionDate == null || (lastInteractionDate != null && currentTask.CreatedDate > lastInteractionDate)) {
+                            lastInteractionDate = currentTask.CreatedDate.date();
+                        }
+                    }
+                    else if(currentTask.ActivityDate >= client.LastPurchaseDate__pc && currentTask.CreatedDate >= client.LastPurchaseDate__pc 
+                        && !String.isEmpty(currentTask.Outreach_Type__c) && (outreach == null || (outreach != null && currentTask.CreatedDate < outreach.CreatedDate))) {
+                        if(outreach == null) {
+                            doneCombo ++;
+                        }
+                        outreach = currentTask;
+
+                        if(lastInteractionDate == null || (lastInteractionDate != null && currentTask.CreatedDate > lastInteractionDate)) {
+                            lastInteractionDate = currentTask.CreatedDate.date();
+                        }
+                    }
+                }
+
+                result.add(new Map<String, Object> {
+                    'clientId' => client.Id,
+                    'firstName' => client.FirstName,
+                    'lastName' => client.LastName,
+                    'lastPurchaseDate' => client.LastPurchaseDate__pc,
+                    'segment' => client.LightCurrentCluster__pc,
+                    'noteId' => (note ? true : null),
+                    'taskId' => (task != null ? task.Id : null),
+                    'outreachId' => (outreach != null ? outreach.Id : null),
+                    'comboCompleted' => (((isTourist && doneCombo == 2) || doneCombo == 3) && lastInteractionDate.daysBetween(Date.today()) > 2 ? true : false),
+                    'lastInteractionDate' => lastInteractionDate,
+                    'isTourist' => isTourist
+                });
+            }
+        }
+
+        return result;
+    }
 
     public List<Map<String,Object>> getFeedbacks(String userId) {
         List<Map<String,Object>> feedbacksWrapper = new List<Map<String,Object>>();
@@ -193,7 +352,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
                                                 FROM due__Diduenjoy_Answer__c 
                                                 WHERE due__Score__c >= 9 AND due__Diduenjoy_Feedback__r.due__CreatedAt__c = LAST_N_DAYS:13
                                                     AND due__Diduenjoy_Feedback__r.Name LIKE 'Post Purchase In Store -%' 
-                                                    AND due__Diduenjoy_Feedback__r.due__Account__r.ClientAdvisor__pc = :userId
+                                                    AND due__Diduenjoy_Feedback__r.due__Account__r.Last_Transaction_SA__pc = :userId
                                                 ORDER BY due__Diduenjoy_Feedback__r.due__CreatedAt__c DESC LIMIT 5]){
             feedbacksWrapper.add(new Map<String,Object> {
                 'id' => feedback.Id,
@@ -220,7 +379,6 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
             this.newsInfo = newsInfo;
             this.comboChallenge = comboChallenge;
             this.feedbacks = feedbacks;
-
         }
     }
 }

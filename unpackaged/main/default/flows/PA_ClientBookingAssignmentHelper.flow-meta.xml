@@ -121,6 +121,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assign_CreatedByStaffId</name>
+        <label>assign CreatedByStaffId</label>
+        <locationX>50</locationX>
+        <locationY>10142</locationY>
+        <assignmentItems>
+            <assignToReference>clientBookingToCreate.CreatedByStaffId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.CreatedByStaffId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>does_ModifiedByStaffId_c_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assign_Duration_c</name>
         <label>assign Duration__c</label>
         <locationX>50</locationX>
@@ -166,6 +182,22 @@
         </assignmentItems>
         <connector>
             <targetReference>does_isCompleted_c_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assign_InternalNote_c</name>
+        <label>assign InternalNote__c</label>
+        <locationX>50</locationX>
+        <locationY>9842</locationY>
+        <assignmentItems>
+            <assignToReference>clientBookingToCreate.InternalNotes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.InternalNotes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>does_createdByStaffId_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -345,6 +377,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assign_ModifiedByStaffId</name>
+        <label>assign ModifiedByStaffId</label>
+        <locationX>50</locationX>
+        <locationY>10442</locationY>
+        <assignmentItems>
+            <assignToReference>clientBookingToCreate.ModifiedByStaffId__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.ModifiedByStaffId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>dec_TimeZone</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assign_ModifiedOn_c</name>
         <label>assign ModifiedOn__c</label>
         <locationX>50</locationX>
@@ -485,14 +533,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>dec_TimeZone</targetReference>
+            <targetReference>does_InternalNotes_exist</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assign_TimeZone_c</name>
         <label>assign TimeZone__c</label>
         <locationX>50</locationX>
-        <locationY>9842</locationY>
+        <locationY>10742</locationY>
         <assignmentItems>
             <assignToReference>clientBookingToCreate.TimeZone__c</assignToReference>
             <operator>Assign</operator>
@@ -1789,7 +1837,7 @@
         <locationX>182</locationX>
         <locationY>9434</locationY>
         <defaultConnector>
-            <targetReference>dec_TimeZone</targetReference>
+            <targetReference>does_InternalNotes_exist</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
@@ -1826,7 +1874,7 @@
         <name>dec_TimeZone</name>
         <label>does TimeZone__c exist ?</label>
         <locationX>182</locationX>
-        <locationY>9734</locationY>
+        <locationY>10634</locationY>
         <defaultConnectorLabel>no</defaultConnectorLabel>
         <rules>
             <name>decout_TimeZone_exist</name>
@@ -1856,6 +1904,70 @@
                 <targetReference>assign_TimeZone_c</targetReference>
             </connector>
             <label>yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>does_createdByStaffId_exist</name>
+        <label>does createdByStaffId exist ?</label>
+        <locationX>182</locationX>
+        <locationY>10034</locationY>
+        <defaultConnector>
+            <targetReference>does_ModifiedByStaffId_c_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_createdByStaffId</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.CreatedByStaffId__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.CreatedByStaffId__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_CreatedByStaffId</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>does_InternalNotes_exist</name>
+        <label>does Internal Note exist?</label>
+        <locationX>182</locationX>
+        <locationY>9734</locationY>
+        <defaultConnector>
+            <targetReference>does_createdByStaffId_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_InternalNote</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_InternalNote_c</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
@@ -1890,7 +2002,41 @@
             <label>yes</label>
         </rules>
     </decisions>
-    <description>...Assign field if they exist ni ClientBooking Object</description>
+    <decisions>
+        <name>does_ModifiedByStaffId_c_exist</name>
+        <label>does ModifiedByStaffId__c exist?</label>
+        <locationX>182</locationX>
+        <locationY>10334</locationY>
+        <defaultConnector>
+            <targetReference>dec_TimeZone</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>decout_modifiedByStaffId</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.ModifiedByStaffId__c</leftValueReference>
+                <operator>WasSet</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.ModifiedByStaffId__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_ModifiedByStaffId</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <description>...Assign field if they exist ni ClientBooking Object
+Ulrich 20/11: Add InternalNote &amp; CreatedByStaffId
+Ulrich 10/12: Add ModifiedByStaffId</description>
     <environments>Default</environments>
     <formulas>
         <name>f_StartsOnErrorMessage</name>

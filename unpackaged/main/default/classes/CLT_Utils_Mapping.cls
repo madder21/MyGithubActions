@@ -59,17 +59,17 @@ public with sharing class CLT_Utils_Mapping {
         System.debug(queryString);
         return queryString;
     }
-
+  
     public static List<Map<String, Object>> getStandardWrapperList(String objectName, String objectTitle, String query){
         List<Map<String, Object>> wrapperList = new List<Map<String, Object>>();
         Map<String, CLT_FieldsMapping__mdt> fieldsMapping = getMappingObjectDict(objectName, objectTitle, 'SFFieldPath__c');
         if(query == null){
             query = ' FROM '+objectName;
         }
+        Utils.addCustomHeader('QUERY', query, RestContext.request);
         for(SObject item : Database.query(getQueryString(fieldsMapping, query))){
             wrapperList.add(getItemWrapper(fieldsMapping, item));
         }
-
         return wrapperList;
     }
 
