@@ -14,7 +14,6 @@ public class SOM_testDataFactory {
     * @return Account 
     **/
 
-    
     public enum OrderType {MIXTE, STANDARD, PREORDER}
     
     public static STWDeliveryMethod__c createStoreOrigin(string storeOrigin) {
@@ -1205,7 +1204,54 @@ public class SOM_testDataFactory {
         return returnOrder;
 
     }
+    /**
+    * @description 
+    * @author Fatima-ezzahra LAFTOUMI | 06-09-2022 
+    * @param os 
+    * @return ReturnOrder
+    **/
+    public static ReturnOrder createReturnOrderSubmitted(OrderSummary os){
+        List<OrderItemSummary> listOrderItemSummForReturn = [SELECT Id, OrderSummaryId, Type, Product2Id , Quantity, QuantityAllocated, QuantityAvailableToFulfill, QuantityAvailableToReturn, QuantityFulfilled, QuantityShipped, QuantityReturned
+                                                                FROM OrderItemSummary WHERE Type != 'Delivery Charge' AND QuantityAvailableToReturn != 0
+                                                                AND OrderSummaryId = : os.Id];
 
+                                                       
+        ConnectApi.ReturnOrderLineItemInputRepresentation SingleChangeItem = new ConnectApi.ReturnOrderLineItemInputRepresentation();
+        List<ConnectApi.ReturnOrderLineItemInputRepresentation> changeLines = new List<ConnectApi.ReturnOrderLineItemInputRepresentation>();
+        SingleChangeItem.orderItemSummaryId = listOrderItemSummForReturn[0].Id;
+        SingleChangeItem.quantityExpected = 1;
+        SingleChangeItem.quantityReceived = 0;
+        SingleChangeItem.reasonForReturn = 'RE01';
+        SingleChangeItem.canReduceShipping = false;
+        changeLines.add(SingleChangeItem);
+
+        ConnectApi.ReturnOrderInputRepresentation changeInputRepresentation = new ConnectApi.ReturnOrderInputRepresentation();
+        List<ConnectApi.ReturnOrderInputRepresentation> listChangeInputs = new List<ConnectApi.ReturnOrderInputRepresentation>();
+        changeInputRepresentation.returnOrderLifeCycleType = 'MANAGED';
+        changeInputRepresentation.returnOrderLineItems = changeLines;
+        changeInputRepresentation.orderSummaryId = listOrderItemSummForReturn[0].OrderSummaryId;
+        changeInputRepresentation.Status = 'Submitted';
+        listChangeInputs.add(changeInputRepresentation);
+
+
+        ConnectApi.ReturnOrderOutputRepresentation outRep =  ConnectApi.ReturnOrder.createReturnOrder(changeInputRepresentation);
+
+        ReturnOrder returnOrder = [SELECT Id, AccountId,CurrencyIsoCode, ReturnOrderNumber, Status, OrderSummaryId,LifeCycleType FROM ReturnOrder WHERE Id =: outRep.returnOrderId LIMIT 1];
+
+        ReturnOrderLineItem returnOrderLineItemToUpdate = [SELECT Id, OrderItemSummary.Product2.StockKeepingUnit, QuantityReceived, QuantityRejected, QuantityExpected,Description,ReasonForRejection
+                                                                FROM ReturnOrderLineItem 
+                                                                WHERE returnOrderId =: returnOrder.Id LIMIT 1];
+        returnOrderLineItemToUpdate.QuantityReceived   = 0;
+        returnOrderLineItemToUpdate.QuantityRejected   = 0;
+        returnOrderLineItemToUpdate.QuantityExpected   = 1;
+        returnOrderLineItemToUpdate.Description        = 'no description';
+        returnOrderLineItemToUpdate.ReasonForRejection = 'Damaged Item';
+        returnOrderLineItemToUpdate.RepaymentMethod    = 'Refund';
+        update returnOrderLineItemToUpdate;
+
+        return returnOrder;
+
+    }
     
      /**
     * @description 

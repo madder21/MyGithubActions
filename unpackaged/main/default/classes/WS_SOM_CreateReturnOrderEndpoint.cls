@@ -129,8 +129,8 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             //roLineItem.QuantityExpected = returnOrderItemCreateUpdate.quantity; ==> this wil throw an exception
                         }
                         else if(roLineItem.QuantityExpected >= returnOrderItemCreateUpdate.quantity){
-                            roLineItem.QuantityReceived = returnOrderItemCreateUpdate.quantity; //returnOrderItemCreateUpdate.quantity;
-                            roLineItem.QuantityExpected = roLineItem.QuantityReceived;
+                                roLineItem.QuantityReceived = roLineItem.QuantityReceived + returnOrderItemCreateUpdate.quantity; //returnOrderItemCreateUpdate.quantity;
+                                //roLineItem.QuantityExpected = roLineItem.QuantityReceived; 
                         }
                         if (returnOrderItemCreateUpdate.reasonCode != null && returnOrderItemCreateUpdate.reasonCode.length() > 0)
                             roLineItem.ReasonForReturn = returnOrderItemCreateUpdate.reasonCode;

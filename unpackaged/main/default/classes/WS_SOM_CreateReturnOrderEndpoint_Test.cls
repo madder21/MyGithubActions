@@ -86,7 +86,7 @@ public with sharing class WS_SOM_CreateReturnOrderEndpoint_Test {
         Set<Id> shipsIds = (new Map<Id,Shipment>(shipsList)).keySet();
 
         List<ShipmentItem> shipItems = [SELECT Id, SerialNumber__c, OrderItemSummary.StockKeepingUnit FROM ShipmentItem WHERE ShipmentId IN: shipsIds];
-        ReturnOrder ro = SOM_testDataFactory.createReturnOrder(lOS[0]);
+        ReturnOrder ro = SOM_testDataFactory.createReturnOrderSubmitted(lOS[0]);
 
         WS_SOM_CreateReturnOrderEndpoint.ReturnOrderItemCreateUpdate roliReq = new WS_SOM_CreateReturnOrderEndpoint.ReturnOrderItemCreateUpdate();
         WS_SOM_CreateReturnOrderEndpoint.ReturnOrderCreateUpdateRequest roReq = new WS_SOM_CreateReturnOrderEndpoint.ReturnOrderCreateUpdateRequest();
