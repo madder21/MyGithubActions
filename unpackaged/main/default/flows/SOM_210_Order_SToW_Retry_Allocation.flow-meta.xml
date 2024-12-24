@@ -17,10 +17,12 @@
                 <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_FlowUtils_UuidGenerator</nameSegment>
         <outputParameters>
             <assignToReference>UuidValue</assignToReference>
             <name>value</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Uuid_Value_For_Reservation</name>
@@ -39,10 +41,12 @@
                 <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_FlowUtils_UuidGenerator</nameSegment>
         <outputParameters>
             <assignToReference>UuidValue</assignToReference>
             <name>value</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>OCI_Create_Reservation</name>
@@ -61,10 +65,12 @@
                 <elementReference>REC_OCICreateReservationInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociCreateReservation</nameSegment>
         <outputParameters>
             <assignToReference>REC_OCICreateReservationOutputRepresentation</assignToReference>
             <name>ociCreateReservationOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Release_OCI_Reservation</name>
@@ -83,7 +89,9 @@
                 <elementReference>REC_OCIReleaseReservationInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociReleaseReservation</nameSegment>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -517,6 +525,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Iterate_Over_COL_OCICreateReservationSingleInputRepresentation.stockKeepingUnit</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TotalQty</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>0.0</numberValue>
             </value>
         </assignmentItems>
         <connector>
@@ -1228,7 +1243,7 @@
             <label>SKU Duplicate</label>
         </rules>
     </decisions>
-    <description>Correction des erreurs des PE</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -1776,8 +1791,8 @@
     <recordUpdates>
         <name>Update_PEs_to_Resolved</name>
         <label>Update PEs to Resolved</label>
-        <locationX>1111</locationX>
-        <locationY>332</locationY>
+        <locationX>1116</locationX>
+        <locationY>365</locationY>
         <connector>
             <targetReference>L91</targetReference>
         </connector>
@@ -1828,7 +1843,7 @@
             <targetReference>Get_Locations</targetReference>
         </connector>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <variables>
         <name>C_OISidsForPE</name>
         <dataType>String</dataType>
