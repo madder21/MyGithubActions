@@ -342,14 +342,18 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                 ReturnOrderCreateUpdateRequest req = returnOrderToUpdateMap.get(ro.Id);
                 if (req.type == SOM_Constants.WMS_RETURN_TYPE){                
                     for (ReturnOrderLineItem roLineItem:ro.ReturnOrderLineItems) {
+                        Decimal QtyRec = roLineItem.QuantityReceived;
                         if( roLineItem.RepaymentMethod == 'Reship' ){
-                            Decimal QtyRec = roLineItem.QuantityReceived;
                             roLineItem.QuantityExpected 				= roLineItem.QuantityExpected - QtyRec;
                             roLineItem.Quantity_Previously_Received__c 	= roLineItem.Quantity_Previously_Received__c + QtyRec;
                             roLineItem.Quantity_Previously_Returned__c 	= roLineItem.Quantity_Previously_Returned__c + QtyRec;
                             roLineItem.QuantityReceived 				= 0;
                             ReturnOrderLineItemToUpdate.add(roLineItem);
-                    	}
+                        }else{
+                            roLineItem.Quantity_Previously_Received__c 	= roLineItem.Quantity_Previously_Received__c + QtyRec;
+                            roLineItem.Quantity_Previously_Returned__c 	= roLineItem.Quantity_Previously_Returned__c + QtyRec;
+                            ReturnOrderLineItemToUpdate.add(roLineItem);
+                        }
                     }
                 }
             }
