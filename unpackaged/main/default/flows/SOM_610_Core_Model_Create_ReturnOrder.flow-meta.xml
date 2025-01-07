@@ -3133,7 +3133,7 @@
         <label>DataTable Preview</label>
         <locationX>2775</locationX>
         <locationY>1019</locationY>
-        <allowBack>false</allowBack>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -3248,7 +3248,7 @@
                     <stringValue>Tech_ReturnReason__c:Reason,Tech_ReturnedQuantity__c:Quantity to return</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
         </fields>
         <nextOrFinishButtonLabel>Submit</nextOrFinishButtonLabel>
@@ -3445,7 +3445,7 @@
         <label>Reasons Selection</label>
         <locationX>1633</locationX>
         <locationY>1236</locationY>
-        <allowBack>false</allowBack>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -3544,7 +3544,7 @@
                     <elementReference>Get_Order_Summary</elementReference>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>changeItems</assignToReference>
@@ -3588,7 +3588,7 @@
         <label>ROLI DataTable</label>
         <locationX>2136</locationX>
         <locationY>731</locationY>
-        <allowBack>false</allowBack>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -3728,7 +3728,7 @@
                     <stringValue>Name:180, StockKeepingUnit:180, Tech_ReturnReason__c:180, Tech_ReturnedQuantity__c:180, Tech_RepaymentMethod__c:180, Description:180</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>C_OutPut_OIS</assignToReference>
@@ -3781,7 +3781,7 @@
         <label>Selector_OIS_Sreen1</label>
         <locationX>1235</locationX>
         <locationY>901</locationY>
-        <allowBack>false</allowBack>
+        <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
@@ -3873,7 +3873,7 @@
                     <stringValue>CB_FALSE</stringValue>
                 </value>
             </inputParameters>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <inputsOnNextNavToAssocScrn>ResetValues</inputsOnNextNavToAssocScrn>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>selectedOrderItemSummaries</assignToReference>
