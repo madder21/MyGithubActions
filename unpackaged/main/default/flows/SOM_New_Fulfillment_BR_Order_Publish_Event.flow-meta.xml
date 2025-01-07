@@ -1,110 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Error_Message</name>
-        <label>Error Message</label>
-        <locationX>1920</locationX>
-        <locationY>878</locationY>
-        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Filter_ErrorOutput_OS</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>requests</name>
-            <value>
-                <elementReference>ErrorRequests_OS</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>ErrorOutput_OS</assignToReference>
-            <name>output</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>Error_Message_0</name>
-        <label>Error Message</label>
-        <locationX>1035</locationX>
-        <locationY>972</locationY>
-        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Filter_ErrorOutput_ODGS</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>requests</name>
-            <value>
-                <elementReference>ErrorRequests_ODGS</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>ErrorOutput_ODGS</assignToReference>
-            <name>output</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>Error_Message_ODGS</name>
-        <label>Error Message</label>
-        <locationX>2389</locationX>
-        <locationY>589</locationY>
-        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Filter_ErrorOutput_ODGSS</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>requests</name>
-            <value>
-                <elementReference>ErrorRequests_ODGS</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>ErrorOutput_ODGS</assignToReference>
-            <name>output</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>Error_Message_OS</name>
-        <label>Error Message OS</label>
-        <locationX>2122</locationX>
-        <locationY>588</locationY>
-        <actionName>SOM_ErrorMessageBrazilianAddress</actionName>
-        <actionType>apex</actionType>
-        <connector>
-            <targetReference>Filter_ErrorOutput_OSs</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>requests</name>
-            <value>
-                <elementReference>ErrorRequests_OS</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>SOM_ErrorMessageBrazilianAddress</nameSegment>
-        <offset>0</offset>
-        <outputParameters>
-            <assignToReference>ErrorOutput_OS</assignToReference>
-            <name>output</name>
-        </outputParameters>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <name>Validate_Brazilian_Address_ODGS</name>
         <label>Validate Brazilian Address ODGS</label>
-        <locationX>1153</locationX>
-        <locationY>506</locationY>
+        <locationX>1149</locationX>
+        <locationY>263</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -128,8 +28,8 @@
     <actionCalls>
         <name>Validate_Brazilian_Address_OS</name>
         <label>Validate Brazilian Address OS</label>
-        <locationX>419</locationX>
-        <locationY>238</locationY>
+        <locationX>326</locationX>
+        <locationY>390</locationY>
         <actionName>WS_SOM_ValidateBrazilianAddress</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -152,288 +52,10 @@
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <assignments>
-        <name>Assign_Description</name>
-        <label>Assign Description</label>
-        <locationX>2116</locationX>
-        <locationY>1049</locationY>
-        <assignmentItems>
-            <assignToReference>DescriptionOS</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Over_ErrorOutputs.ErrorMessageDescription</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>DescriptionValidationOS</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Over_ErrorOutputs.ValidationErrorMessageDescription</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Over_ErrorOutputs</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_Description_0</name>
-        <label>Assign Description</label>
-        <locationX>2253</locationX>
-        <locationY>900</locationY>
-        <assignmentItems>
-            <assignToReference>DescriptionODGS</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Over_ErrorOutputss.ErrorMessageDescription</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>DescriptionValidationODGS</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Loop_Over_ErrorOutputss.ValidationErrorMessageDescription</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Over_ErrorOutputss</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ErrorRequest_ODGS</name>
-        <label>Assign ErrorRequest_ODGS</label>
-        <locationX>1170</locationX>
-        <locationY>974</locationY>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>bairro_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>cep_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>localidade_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>logradouro_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.RecordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>uf_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequests_ODGS</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ErrorRequest_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Error_Message_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ErrorRequest_ODGS_0_0</name>
-        <label>Assign ErrorRequest_ODGS</label>
-        <locationX>2251</locationX>
-        <locationY>593</locationY>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>bairro_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>cep_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>localidade_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>logradouro_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.RecordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_ODGS.uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>uf_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequests_ODGS</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ErrorRequest_ODGS</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Error_Message_ODGS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ErrorRequest_OS</name>
-        <label>Assign ErrorRequest_OS</label>
-        <locationX>1756</locationX>
-        <locationY>983</locationY>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>bairro_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>cep_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>localidade_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>logradouro_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.RecordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>uf_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequests_OS</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ErrorRequest_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Error_Message</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ErrorRequest_OS_0</name>
-        <label>Assign ErrorRequest_OS</label>
-        <locationX>1997</locationX>
-        <locationY>572</locationY>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.bairro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>bairro_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.cep</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>cep_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.localidade</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>localidade_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.logradouro</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>logradouro_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.RecordId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequest_OS.uf</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>uf_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>ErrorRequests_OS</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>ErrorRequest_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Error_Message_OS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_ODGS_Variables</name>
         <label>Assign ODGS Variables</label>
-        <locationX>1505</locationX>
-        <locationY>538</locationY>
+        <locationX>1669</locationX>
+        <locationY>268</locationY>
         <assignmentItems>
             <assignToReference>bairro_ODGS</assignToReference>
             <operator>Assign</operator>
@@ -483,8 +105,8 @@
     <assignments>
         <name>Assign_OS_Variables</name>
         <label>Assign OS Variables</label>
-        <locationX>362</locationX>
-        <locationY>643</locationY>
+        <locationX>651</locationX>
+        <locationY>755</locationY>
         <assignmentItems>
             <assignToReference>bairro_OS</assignToReference>
             <operator>Assign</operator>
@@ -532,442 +154,75 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_PE</name>
-        <label>Assign PE</label>
-        <locationX>1946</locationX>
-        <locationY>1276</locationY>
+        <name>Assign_PE_TaxID_info</name>
+        <label>Assign PE TaxID info</label>
+        <locationX>1523</locationX>
+        <locationY>609</locationY>
         <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.AttachedToId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Category</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Severity</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.OrderSummaryId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule1</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_List_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_OS_ToCreate</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Loop_Over_Filtered_ErrorOutput_OS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE_0</name>
-        <label>Assign PE</label>
-        <locationX>808</locationX>
-        <locationY>1202</locationY>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.AttachedToId</assignToReference>
+            <assignToReference>PE_Record.AttachedToId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Category</assignToReference>
+            <assignToReference>PE_Record.Category</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>Address Validation Brazil</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Severity</assignToReference>
+            <assignToReference>PE_Record.Message</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Shipping Address : Invalid CPF/TaxId</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>PE_Record.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>PE_Record.Severity</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>High</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Priority</assignToReference>
+            <assignToReference>PE_Record.Priority</assignToReference>
             <operator>Assign</operator>
             <value>
                 <stringValue>High</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.OrderSummaryId</assignToReference>
+            <assignToReference>PE_Record.OrderSummaryId</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Id</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
+            <assignToReference>PE_Record.Description</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>DescriptionMessageFormule</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_List_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ODGS_To_Create</elementReference>
+                <stringValue>Shipping Address : Invalid CPF/TaxId</stringValue>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Loop_Over_Filtered_ErrorOutput_ODGS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE_0_0</name>
-        <label>Assign PE</label>
-        <locationX>2865</locationX>
-        <locationY>1082</locationY>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.AttachedToId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Category</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Severity</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.OrderSummaryId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule2</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_OS_ToCreate</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Assign_PE_0_0_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE_0_0_0</name>
-        <label>Assign PE</label>
-        <locationX>3015</locationX>
-        <locationY>1082</locationY>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.AttachedToId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Category</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Severity</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.OrderSummaryId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule_0</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ODGS_To_Create</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_PE_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE_0_0_0_0</name>
-        <label>Assign PE</label>
-        <locationX>2566</locationX>
-        <locationY>869</locationY>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.AttachedToId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Category</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Severity</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.OrderSummaryId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_OS_ToCreate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule2</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_OS_ToCreate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_existing_ODGS_PE_0.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule_0</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToUpdate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ToUpdate</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_PE_0_0_0</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_PE_0_0_0_0_0</name>
-        <label>Assign PE</label>
-        <locationX>2708</locationX>
-        <locationY>1154</locationY>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.AttachedToId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Category</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Severity</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Priority</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>High</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Message</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.OrderSummaryId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ODGS_To_Create.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule_0</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToCreate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ODGS_To_Create</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_existing_OS_PE_0.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule2</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToUpdate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ToUpdate</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_PE_0_0_0</targetReference>
+            <targetReference>Create_PE_TaxID</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Requests_ODGS</name>
         <label>Assign Requests ODGS</label>
-        <locationX>1024</locationX>
-        <locationY>398</locationY>
+        <locationX>1151</locationX>
+        <locationY>401</locationY>
         <assignmentItems>
             <assignToReference>Request_ODGS.Identifier</assignToReference>
             <operator>Assign</operator>
@@ -996,8 +251,8 @@
     <assignments>
         <name>Assign_Requests_OS</name>
         <label>Assign Requests OS</label>
-        <locationX>554</locationX>
-        <locationY>268</locationY>
+        <locationX>505</locationX>
+        <locationY>376</locationY>
         <assignmentItems>
             <assignToReference>Request_OS.Identifier</assignToReference>
             <operator>Assign</operator>
@@ -1023,147 +278,12 @@
             <targetReference>Validate_Brazilian_Address_OS</targetReference>
         </connector>
     </assignments>
-    <assignments>
-        <name>PE_To_Update</name>
-        <label>PE To Update</label>
-        <locationX>3025</locationX>
-        <locationY>932</locationY>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_existing_OS_PE_0.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule2</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToUpdate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ToUpdate</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Id</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>Get_existing_ODGS_PE_0.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PE_ToUpdate.Description</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>DescriptionMessageFormule_0</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>PES_ToUpdate</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>PE_ToUpdate</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_PE_0_0</targetReference>
-        </connector>
-    </assignments>
-    <collectionProcessors>
-        <name>Filter_ErrorOutput_ODGS</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter ErrorOutput_ODGS</label>
-        <locationX>825</locationX>
-        <locationY>1045</locationY>
-        <assignNextValueToReference>currentItem_Filter_ErrorOutput_ODGS</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>ErrorOutput_ODGS</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ErrorOutput_ODGS.ReqId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>RecId_ODGS</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Over_Filtered_ErrorOutput_ODGS</targetReference>
-        </connector>
-    </collectionProcessors>
-    <collectionProcessors>
-        <name>Filter_ErrorOutput_ODGSS</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter ErrorOutput_ODGS</label>
-        <locationX>2380</locationX>
-        <locationY>729</locationY>
-        <assignNextValueToReference>currentItem_Filter_ErrorOutput_ODGSS</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>ErrorOutput_ODGS</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ErrorOutput_ODGSS.ReqId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>RecId_ODGS</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Over_ErrorOutputss</targetReference>
-        </connector>
-    </collectionProcessors>
-    <collectionProcessors>
-        <name>Filter_ErrorOutput_OS</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter ErrorOutput_OS</label>
-        <locationX>1980</locationX>
-        <locationY>1030</locationY>
-        <assignNextValueToReference>currentItem_Filter_ErrorOutput_OS</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>ErrorOutput_OS</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ErrorOutput_OS.ReqId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>RecId_OS</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Over_Filtered_ErrorOutput_OS</targetReference>
-        </connector>
-    </collectionProcessors>
-    <collectionProcessors>
-        <name>Filter_ErrorOutput_OSs</name>
-        <elementSubtype>FilterCollectionProcessor</elementSubtype>
-        <label>Filter ErrorOutput_OS</label>
-        <locationX>2039</locationX>
-        <locationY>840</locationY>
-        <assignNextValueToReference>currentItem_Filter_ErrorOutput_OSs</assignNextValueToReference>
-        <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
-        <collectionReference>ErrorOutput_OS</collectionReference>
-        <conditionLogic>and</conditionLogic>
-        <conditions>
-            <leftValueReference>currentItem_Filter_ErrorOutput_OSs.ReqId</leftValueReference>
-            <operator>EqualTo</operator>
-            <rightValue>
-                <elementReference>RecId_OS</elementReference>
-            </rightValue>
-        </conditions>
-        <connector>
-            <targetReference>Loop_Over_ErrorOutputs</targetReference>
-        </connector>
-    </collectionProcessors>
     <collectionProcessors>
         <name>Filter_Output_ODGS</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Output ODGS</label>
-        <locationX>1346</locationX>
-        <locationY>388</locationY>
+        <locationX>1308</locationX>
+        <locationY>268</locationY>
         <assignNextValueToReference>currentItem_Filter_Output_ODGS</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Output_ODGS</collectionReference>
@@ -1183,8 +303,8 @@
         <name>Filter_Output_OS</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>Filter Output OS</label>
-        <locationX>419</locationX>
-        <locationY>415</locationY>
+        <locationX>367</locationX>
+        <locationY>579</locationY>
         <assignNextValueToReference>currentItem_Filter_Output_OS</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>Output_OS</collectionReference>
@@ -1203,8 +323,8 @@
     <decisions>
         <name>Check_BR</name>
         <label>Check BR</label>
-        <locationX>593</locationX>
-        <locationY>429</locationY>
+        <locationX>644</locationX>
+        <locationY>395</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>BR_true</name>
@@ -1232,8 +352,8 @@
     <decisions>
         <name>Check_BR_0_0</name>
         <label>Check BR</label>
-        <locationX>849</locationX>
-        <locationY>533</locationY>
+        <locationX>1162</locationX>
+        <locationY>570</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>BR_true_0_0</name>
@@ -1252,159 +372,75 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_PE</name>
-        <label>Check PE</label>
-        <locationX>1539</locationX>
-        <locationY>1289</locationY>
+        <name>Check_BR_0_0_0</name>
+        <label>Check BR</label>
+        <locationX>1346</locationX>
+        <locationY>677</locationY>
         <defaultConnector>
-            <targetReference>Update_PE</targetReference>
+            <targetReference>Verify_BrazilianAddress</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>PE OS NOT null</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>PE_OS_null</name>
+            <name>TaxId_false</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_existing_OS_PE</leftValueReference>
+                <leftValueReference>Get_PE_TaxId</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Check_Variables_0</targetReference>
-            </connector>
-            <label>PE OS null</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_PE_0</name>
-        <label>Check PE</label>
-        <locationX>1293</locationX>
-        <locationY>1276</locationY>
-        <defaultConnector>
-            <targetReference>Update_PE_0</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>PE ODGS NOT null</defaultConnectorLabel>
-        <rules>
-            <name>PE_ODGS_null</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_existing_ODGS_PE</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>FX_TaxId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_PE_TaxID_info</targetReference>
+            </connector>
+            <label>TaxId false</label>
+        </rules>
+        <rules>
+            <name>TaxId_true</name>
+            <conditionLogic>1 OR (2 AND 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>FX_TaxId</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>Create_PE</targetReference>
-            </connector>
-            <label>PE ODGS null</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Check_PE_0_0</name>
-        <label>Check PE</label>
-        <locationX>2813</locationX>
-        <locationY>960</locationY>
-        <defaultConnectorLabel>PE OS NOT null</defaultConnectorLabel>
-        <rules>
-            <name>PES_NOT_null</name>
-            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Get_existing_OS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>FX_TaxId</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_existing_ODGS_PE_0</leftValueReference>
+                <leftValueReference>Get_PE_TaxId</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>PE_To_Update</targetReference>
+                <targetReference>Verify_BrazilianAddress</targetReference>
             </connector>
-            <label>PES NOT null</label>
-        </rules>
-        <rules>
-            <name>PES_null</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_existing_ODGS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_existing_OS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_PE_0_0</targetReference>
-            </connector>
-            <label>PES null</label>
-        </rules>
-        <rules>
-            <name>PE_OS_NOT_null_PE_ODGS_null</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_existing_ODGS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_existing_OS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_PE_0_0_0_0_0</targetReference>
-            </connector>
-            <label>PE OS NOT null &amp; PE ODGS null</label>
-        </rules>
-        <rules>
-            <name>PE_OS_null_PE_ODGS_NOT_null</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_existing_OS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_existing_ODGS_PE_0</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_PE_0_0_0_0</targetReference>
-            </connector>
-            <label>PE OS null &amp; PE ODGS NOT null</label>
+            <label>TaxId true</label>
         </rules>
     </decisions>
     <decisions>
         <name>Check_Variables</name>
         <label>Check Variables</label>
-        <locationX>660</locationX>
-        <locationY>896</locationY>
+        <locationX>944</locationX>
+        <locationY>812</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateNewOrderForCegidEvent</name>
-            <conditionLogic>( 1 AND 2 ) OR ( 3 AND 4 )</conditionLogic>
+            <conditionLogic>( 1 AND 2 AND 5 ) OR ( 3 AND 4 AND 5 )</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -1431,6 +467,13 @@
                 <operator>GreaterThan</operator>
                 <rightValue>
                     <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Delivery_Group_Summary.TECH_TaxId_Validation__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1440,63 +483,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Check_Variables_0</name>
-        <label>Check Variables</label>
-        <locationX>1543</locationX>
-        <locationY>1524</locationY>
-        <defaultConnector>
-            <targetReference>Create_PE</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>CreateNewOrderForCegidEvent_0</name>
-            <conditionLogic>((1 AND 2) OR (3 AND 4)) AND 5</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Status</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Fulfilled</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.Status</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Validated</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
-                <operator>GreaterThan</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.BillingCountry</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>BR</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_New_Order_For_Cegid_Event_0</targetReference>
-            </connector>
-            <label>Create New Order For Cegid Event</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>Verify_BrazilianAddress</name>
         <label>Verify BrazilianAddress</label>
-        <locationX>1472</locationX>
-        <locationY>787</locationY>
+        <locationX>1473</locationX>
+        <locationY>797</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>BrazilianAddresses_Verified</name>
@@ -1538,7 +528,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_OS_Tech_field_0_0</targetReference>
+                <targetReference>OSAddressVerified</targetReference>
             </connector>
             <label>OS Address Verified</label>
         </rules>
@@ -1560,7 +550,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_ODGS_Tech_field_0_0</targetReference>
+                <targetReference>ODGSAddressVerified</targetReference>
             </connector>
             <label>ODGS Address Verified</label>
         </rules>
@@ -1582,22 +572,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_OS_Tech_field_0_0_0</targetReference>
+                <targetReference>Brazilian_Addresses_NOT_Verified</targetReference>
             </connector>
             <label>BrazilianAddresses NOT Verified</label>
         </rules>
     </decisions>
     <environments>Default</environments>
-    <formulas>
-        <name>DescriptionMessageFormule</name>
-        <dataType>String</dataType>
-        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription}),&quot;{Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription}&quot;, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription})</expression>
-    </formulas>
-    <formulas>
-        <name>DescriptionMessageFormule1</name>
-        <dataType>String</dataType>
-        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription}),&quot;{Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription}&quot;, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription})</expression>
-    </formulas>
     <formulas>
         <name>DescriptionMessageFormule2</name>
         <dataType>String</dataType>
@@ -1608,6 +588,56 @@
         <name>DescriptionMessageFormule_0</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!DescriptionODGS}),{!DescriptionValidationODGS}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp; {!DescriptionODGS} &amp;{!DescriptionValidationODGS})</expression>
+    </formulas>
+    <formulas>
+        <name>FX_TaxId</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+  OR(
+    ISBLANK({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}),
+    LEN({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}) = 0
+  ),
+  FALSE,
+  AND(
+    MOD(
+      MOD(
+        11 - MOD(
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 1, 1)) * 10 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 2, 1)) * 9 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 3, 1)) * 8 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 5, 1)) * 7 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 6, 1)) * 6 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 7, 1)) * 5 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 9, 1)) * 4 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 10, 1)) * 3 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 11, 1)) * 2,
+          11
+        ),
+        11
+      ),
+      10
+    ) = VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 13, 1)),
+    MOD(
+      MOD(
+        11 - MOD(
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 1, 1)) * 11 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 2, 1)) * 10 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 3, 1)) * 9 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 5, 1)) * 8 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 6, 1)) * 7 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 7, 1)) * 6 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 9, 1)) * 5 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 10, 1)) * 4 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 11, 1)) * 3 +
+          VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 13, 1)) * 2,
+          11
+        ),
+        11
+      ),
+      10
+    ) = VALUE(MID({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 14, 1))
+  )
+)</expression>
     </formulas>
     <formulas>
         <name>ODGS_Formula</name>
@@ -1646,66 +676,10 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <interviewLabel>SOM - New Fulfillment BR Order Publish Event {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment BR Order Publish Event</label>
     <loops>
-        <name>Loop_Over_ErrorOutputs</name>
-        <label>Loop Over ErrorOutputs</label>
-        <locationX>2161</locationX>
-        <locationY>807</locationY>
-        <collectionReference>Filter_ErrorOutput_OSs</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_Description</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Assign_ErrorRequest_ODGS_0_0</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Loop_Over_ErrorOutputss</name>
-        <label>Loop Over ErrorOutputss</label>
-        <locationX>2398</locationX>
-        <locationY>888</locationY>
-        <collectionReference>Filter_ErrorOutput_ODGSS</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_Description_0</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Get_existing_OS_PE_0</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Loop_Over_Filtered_ErrorOutput_ODGS</name>
-        <label>Loop Over Filtered ErrorOutput_ODGS</label>
-        <locationX>1005</locationX>
-        <locationY>1154</locationY>
-        <collectionReference>ErrorOutput_ODGS</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_PE_0</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Get_existing_ODGS_PE</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>Loop_Over_Filtered_ErrorOutput_OS</name>
-        <label>Loop Over Filtered ErrorOutput_OS</label>
-        <locationX>1847</locationX>
-        <locationY>1126</locationY>
-        <collectionReference>Filter_ErrorOutput_OS</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>Assign_PE</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>Get_existing_OS_PE</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
         <name>Loop_Over_Filtered_ODGS</name>
         <label>Loop Over Filtered ODGS</label>
-        <locationX>1325</locationX>
-        <locationY>551</locationY>
+        <locationX>1450</locationX>
+        <locationY>320</locationY>
         <collectionReference>Filter_Output_ODGS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1718,8 +692,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <loops>
         <name>Loop_Over_Filtered_OS</name>
         <label>Loop Over Filtered OS</label>
-        <locationX>548</locationX>
-        <locationY>669</locationY>
+        <locationX>651</locationX>
+        <locationY>549</locationY>
         <collectionReference>Filter_Output_OS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -1751,8 +725,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <recordCreates>
         <name>Create_New_Order_For_Cegid_Event</name>
         <label>Create New Order For Cegid Event</label>
-        <locationX>465</locationX>
-        <locationY>893</locationY>
+        <locationX>951</locationX>
+        <locationY>996</locationY>
         <inputAssignments>
             <field>OrderSummaryNumber__c</field>
             <value>
@@ -1763,51 +737,23 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordCreates>
-        <name>Create_New_Order_For_Cegid_Event_0</name>
-        <label>Create New Order For Cegid Event</label>
-        <locationX>1549</locationX>
-        <locationY>1731</locationY>
+        <name>Create_PE_TaxID</name>
+        <label>Create PE TaxID</label>
+        <locationX>1643</locationX>
+        <locationY>570</locationY>
         <connector>
-            <targetReference>Create_PE</targetReference>
+            <targetReference>Update_ODGS_TaxID</targetReference>
         </connector>
-        <inputAssignments>
-            <field>OrderSummaryNumber__c</field>
-            <value>
-                <elementReference>$Record.OrderNumber</elementReference>
-            </value>
-        </inputAssignments>
-        <object>NewOrderForCegid__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_PE</name>
-        <label>Create PE</label>
-        <locationX>1314</locationX>
-        <locationY>1645</locationY>
-        <inputReference>PE_List_ToCreate</inputReference>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_PE_0</name>
-        <label>Create PE</label>
-        <locationX>3189</locationX>
-        <locationY>1082</locationY>
-        <inputReference>PES_ToCreate</inputReference>
-    </recordCreates>
-    <recordCreates>
-        <name>Create_PE_0_0</name>
-        <label>Create PE</label>
-        <locationX>2411</locationX>
-        <locationY>1025</locationY>
-        <inputReference>PES_ToCreate</inputReference>
+        <inputReference>PE_Record</inputReference>
     </recordCreates>
     <recordLookups>
         <name>Get_AddressValidationRules</name>
         <label>Get AddressValidationRules</label>
-        <locationX>1477</locationX>
-        <locationY>673</locationY>
+        <locationX>1364</locationX>
+        <locationY>510</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Verify_BrazilianAddress</targetReference>
+            <targetReference>Check_BR_0_0_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1822,181 +768,13 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_existing_ODGS_PE</name>
-        <label>Get existing ODGS PE</label>
-        <locationX>1148</locationX>
-        <locationY>1131</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Update_ODGS_Tech_field_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>AttachedToId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Message</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>ProcessException</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_existing_ODGS_PE_0</name>
-        <label>Get existing ODGS PE</label>
-        <locationX>2737</locationX>
-        <locationY>747</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_PE_0_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>AttachedToId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Message</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>ProcessException</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_existing_OS_PE</name>
-        <label>Get existing OS PE</label>
-        <locationX>1683</locationX>
-        <locationY>1132</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Update_OS_Tech_field_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>AttachedToId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Message</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>ProcessException</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
-        <name>Get_existing_OS_PE_0</name>
-        <label>Get existing OS PE</label>
-        <locationX>2567</locationX>
-        <locationY>747</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Get_existing_ODGS_PE_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Category</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Address Validation Brazil</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>AttachedToId</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Message</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>New</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>ProcessException</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>706</locationX>
-        <locationY>641</locationY>
+        <locationX>833</locationX>
+        <locationY>548</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_BR_0_0</targetReference>
+            <targetReference>Get_PE_TaxId</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -2013,8 +791,8 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary_0_0</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>689</locationX>
-        <locationY>395</locationY>
+        <locationX>775</locationX>
+        <locationY>393</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_BR</targetReference>
@@ -2031,11 +809,77 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <object>OrderDeliveryGroupSummary</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>Get_PE_TaxId</name>
+        <label>Get PE TaxId</label>
+        <locationX>999</locationX>
+        <locationY>561</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_BR_0_0</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AttachedToId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Address Validation Brazil</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Message</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Shipping Address : Invalid CPF/TaxId</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_ODGS_TaxID</name>
+        <label>Update ODGS TaxID</label>
+        <locationX>1790</locationX>
+        <locationY>690</locationY>
+        <connector>
+            <targetReference>Verify_BrazilianAddress</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>TECH_TaxId_Validation__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>OrderDeliveryGroupSummary</object>
+    </recordUpdates>
     <recordUpdates>
         <name>Update_ODGS_Tech_field</name>
         <label>Update ODGS Tech field</label>
-        <locationX>868</locationX>
-        <locationY>895</locationY>
+        <locationX>1089</locationX>
+        <locationY>804</locationY>
         <connector>
             <targetReference>Check_Variables</targetReference>
         </connector>
@@ -2056,82 +900,10 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <object>OrderDeliveryGroupSummary</object>
     </recordUpdates>
     <recordUpdates>
-        <name>Update_ODGS_Tech_field_0</name>
-        <label>Update ODGS Tech field</label>
-        <locationX>1366</locationX>
-        <locationY>1045</locationY>
-        <connector>
-            <targetReference>Check_PE_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_ODGS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Tech_BrazilianAddressVerified__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderDeliveryGroupSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_ODGS_Tech_field_0_0</name>
-        <label>Update ODGS Tech field</label>
-        <locationX>1754</locationX>
-        <locationY>800</locationY>
-        <connector>
-            <targetReference>Assign_ErrorRequest_OS</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_ODGS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Tech_BrazilianAddressVerified__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderDeliveryGroupSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_ODGS_Tech_field_0_0_0</name>
-        <label>Update ODGS Tech field</label>
-        <locationX>1895</locationX>
-        <locationY>681</locationY>
-        <connector>
-            <targetReference>Assign_ErrorRequest_OS_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_ODGS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Tech_BrazilianAddressVerified__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderDeliveryGroupSummary</object>
-    </recordUpdates>
-    <recordUpdates>
         <name>Update_OS_Tech_field</name>
         <label>Update OS Tech field</label>
-        <locationX>1118</locationX>
-        <locationY>781</locationY>
+        <locationX>1201</locationX>
+        <locationY>801</locationY>
         <connector>
             <targetReference>Update_ODGS_Tech_field</targetReference>
         </connector>
@@ -2150,137 +922,6 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             </value>
         </inputAssignments>
         <object>OrderSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_OS_Tech_field_0</name>
-        <label>Update OS Tech field</label>
-        <locationX>1483</locationX>
-        <locationY>1042</locationY>
-        <connector>
-            <targetReference>Check_PE</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Tech_BrazilianAddressVerified__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_OS_Tech_field_0_0</name>
-        <label>Update OS Tech field</label>
-        <locationX>1279</locationX>
-        <locationY>891</locationY>
-        <connector>
-            <targetReference>Assign_ErrorRequest_ODGS</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>TECH_PE_was_identified__c</field>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderDeliveryGroupSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_OS_Tech_field_0_0_0</name>
-        <label>Update OS Tech field</label>
-        <locationX>1712</locationX>
-        <locationY>682</locationY>
-        <connector>
-            <targetReference>Update_ODGS_Tech_field_0_0_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>RecId_OS</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>TECH_PE_was_identified__c</field>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputAssignments>
-        <object>OrderDeliveryGroupSummary</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_PE</name>
-        <label>Update PE</label>
-        <locationX>1740</locationX>
-        <locationY>1293</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_existing_OS_PE.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Description</field>
-            <value>
-                <elementReference>DescriptionMessageFormule1</elementReference>
-            </value>
-        </inputAssignments>
-        <object>ProcessException</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_PE_0</name>
-        <label>Update PE</label>
-        <locationX>1066</locationX>
-        <locationY>1283</locationY>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Id</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>Get_existing_ODGS_PE.Id</elementReference>
-            </value>
-        </filters>
-        <inputAssignments>
-            <field>Description</field>
-            <value>
-                <elementReference>DescriptionMessageFormule</elementReference>
-            </value>
-        </inputAssignments>
-        <object>ProcessException</object>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_PE_0_0</name>
-        <label>Update PE</label>
-        <locationX>3181</locationX>
-        <locationY>933</locationY>
-        <inputReference>PES_ToUpdate</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update_PE_0_0_0</name>
-        <label>Update PE</label>
-        <locationX>2567</locationX>
-        <locationY>1033</locationY>
-        <connector>
-            <targetReference>Create_PE_0_0</targetReference>
-        </connector>
-        <inputReference>PES_ToUpdate</inputReference>
     </recordUpdates>
     <start>
         <locationX>635</locationX>
@@ -2337,6 +978,186 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Brazilian_Addresses_NOT_Verified</name>
+        <label>Brazilian Addresses NOT Verified</label>
+        <locationX>1873</locationX>
+        <locationY>790</locationY>
+        <flowName>SOM_BR_Fulfillment_Addresses_NOT_Verified</flowName>
+        <inputAssignments>
+            <name>bairro_ODGS</name>
+            <value>
+                <elementReference>bairro_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>bairro_OS</name>
+            <value>
+                <elementReference>bairro_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>cep_ODGS</name>
+            <value>
+                <elementReference>cep_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>cep_OS</name>
+            <value>
+                <elementReference>cep_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>localidade_ODGS</name>
+            <value>
+                <elementReference>localidade_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>localidade_OS</name>
+            <value>
+                <elementReference>localidade_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>logradouro_ODGS</name>
+            <value>
+                <elementReference>logradouro_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>logradouro_OS</name>
+            <value>
+                <elementReference>logradouro_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_ODGS</name>
+            <value>
+                <elementReference>RecId_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_OS</name>
+            <value>
+                <elementReference>RecId_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>uf_ODGS</name>
+            <value>
+                <elementReference>uf_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>uf_OS</name>
+            <value>
+                <elementReference>uf_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>ODGSAddressVerified</name>
+        <label>ODGS Address Verified</label>
+        <locationX>1623</locationX>
+        <locationY>991</locationY>
+        <flowName>SOM_BR_Fulfillment_ODGS_Address_Verified</flowName>
+        <inputAssignments>
+            <name>bairro_OS</name>
+            <value>
+                <elementReference>bairro_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>cep_OS</name>
+            <value>
+                <elementReference>cep_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>localidade_OS</name>
+            <value>
+                <elementReference>localidade_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>logradouro_OS</name>
+            <value>
+                <elementReference>logradouro_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_ODGS</name>
+            <value>
+                <elementReference>RecId_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_OS</name>
+            <value>
+                <elementReference>RecId_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>uf_OS</name>
+            <value>
+                <elementReference>uf_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>OSAddressVerified</name>
+        <label>OS Address Verified</label>
+        <locationX>1343</locationX>
+        <locationY>985</locationY>
+        <flowName>SOM_BR_Fulfillment_OS_Address_Verified</flowName>
+        <inputAssignments>
+            <name>bairro_ODGS</name>
+            <value>
+                <elementReference>bairro_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>cep_ODGS</name>
+            <value>
+                <elementReference>cep_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>localidade_ODGS</name>
+            <value>
+                <elementReference>localidade_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>logradouro_ODGS</name>
+            <value>
+                <elementReference>logradouro_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_ODGS</name>
+            <value>
+                <elementReference>RecId_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecId_OS</name>
+            <value>
+                <elementReference>RecId_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>uf_ODGS</name>
+            <value>
+                <elementReference>uf_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
     <triggerOrder>50</triggerOrder>
     <variables>
         <name>bairro_ODGS</name>
@@ -2592,6 +1413,14 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
     </variables>
     <variables>
         <name>PE_OS_ToCreate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+    <variables>
+        <name>PE_Record</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
