@@ -17,7 +17,10 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createInvoiceFromFulfillmentOrder</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Ensure_Funds_Async</name>
@@ -42,7 +45,10 @@
                 <elementReference>$Record.OrderSummaryId</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ensureFundsOrderSummaryAsync</nameSegment>
+        <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
     <assignments>
@@ -268,6 +274,7 @@
         </rules>
     </decisions>
     <description>Fields for Report</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_First_Record_Ever_Created</name>
         <dataType>String</dataType>
@@ -387,6 +394,20 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_NewSerializedProductEcomSale</name>
+        <label>Create NewSerializedProductEcomSale</label>
+        <locationX>2270</locationX>
+        <locationY>1012</locationY>
+        <inputAssignments>
+            <field>InvoiceId__c</field>
+            <value>
+                <elementReference>Get_Last_Invoice_Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewSerializedProductEcomSale__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordCreates>
         <name>Publish_Invoice_PDF_Generation_Event</name>
         <label>Publish Invoice PDF Generation Event</label>
@@ -688,6 +709,9 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <label>Update InvoiceLines</label>
         <locationX>2274</locationX>
         <locationY>875</locationY>
+        <connector>
+            <targetReference>Create_NewSerializedProductEcomSale</targetReference>
+        </connector>
         <inputReference>InvoiceLinesToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
