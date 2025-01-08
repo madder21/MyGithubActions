@@ -2,6 +2,9 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>Fulfillment_Order</members>
+		<members>Order_summary_with_payment</members>  
+		<members>Return_Orders</members>  
+		<members>SOM_PE_ReportType</members>  
 		<name>ReportType</name>
 	</types>
 	<types>
@@ -82,6 +85,7 @@
 		<members>OCI_Home_Page_Default</members>
 		<members>Fulfillment_Order_Record_Page</members>
 		<members>Order_Summary_Record_Page</members>
+		<members>Ecom_operation_homepage</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
@@ -93,6 +97,27 @@
 	<types>
 		<members>OrderSummary.New_Order_For_Cegid_Event</members>
 		<name>QuickAction</name>
+	</types>
+	
+
+	<types>
+		<members>SOMDashboardReportsEcomOperations</members>  
+		<name>ReportFolder</name>
+	</types>
+
+	<types>
+		<members>SOMEcomOperations</members>  
+		<name>DashboardFolder</name>
+	</types>
+
+	<types>
+		<members>SOMEcomOperations/TmTFDLlycKasAQtKqtnvNqmrwSbutS</members>  
+		<name>Dashboard</name>
+	</types>
+
+	<types>
+		<members>standard__OMConsole</members>  
+		<name>CustomApplication</name>
 	</types>
 	<version>61.0</version>
 
