@@ -374,7 +374,7 @@
             <targetReference>Get_Order_Delivery_Groups</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2 AND ( 3 OR 4 OR 5 OR 6  )</filterLogic>
+        <filterLogic>1 AND 2 AND ( 3 OR 4 )</filterLogic>
         <filters>
             <field>SalesChannelId</field>
             <operator>NotEqualTo</operator>
@@ -401,20 +401,6 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Manual Order</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>BR</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>US</stringValue>
             </value>
         </filters>
         <object>Order</object>

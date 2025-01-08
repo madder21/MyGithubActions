@@ -201,7 +201,7 @@
             <targetReference>Get_SalesChannelMapping_mdt</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(( 1 AND 2 ) OR 3) AND 4</filterLogic>
         <filters>
             <field>BillingCountry</field>
             <operator>NotEqualTo</operator>
@@ -214,6 +214,13 @@
             <operator>NotEqualTo</operator>
             <value>
                 <stringValue>BR</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesChannelName__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Manual Order</stringValue>
             </value>
         </filters>
         <filters>
