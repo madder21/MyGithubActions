@@ -202,6 +202,20 @@
                 <elementReference>loopOverExistROLIs.QuantityExpected</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.Quantity_Previously_Received__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getEXISTROLI.QuantityReceived</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getEXISTROLI.Quantity_Previously_Returned__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getEXISTROLI.QuantityReceived</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Assign_Value_to_Collection</targetReference>
         </connector>
