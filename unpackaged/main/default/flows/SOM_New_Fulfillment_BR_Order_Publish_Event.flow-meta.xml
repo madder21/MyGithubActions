@@ -595,6 +595,18 @@
     </decisions>
     <environments>Default</environments>
     <formulas>
+
+        <name>DescriptionMessageFormule</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription}),{!Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_ODGS.ValidationErrorMessageDescription})</expression>
+    </formulas>
+    <formulas>
+        <name>DescriptionMessageFormule1</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription}),{!Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ErrorMessageDescription} &amp;{!Loop_Over_Filtered_ErrorOutput_OS.ValidationErrorMessageDescription})</expression>
+    </formulas>
+    <formulas>
+
         <name>DescriptionMessageFormule2</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!DescriptionOS}),{!DescriptionValidationOS}, &quot;The following fields are inconsistent with the Zip Code: &quot; &amp; {!DescriptionOS}&amp;

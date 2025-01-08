@@ -179,6 +179,14 @@ global with sharing class SOM_Constants{
     public static final String NEIGHBERHOODERROR = '\nThe field Neighborhood must not be empty!';
     public static final String STREETEMPTYERROR = '\nThe field Street Address must not be empty!';
     
+    public static final String ADDRESS = 'Address';
+    public static final String INTRODUCTION = 'Introduction';
+    public static final String ORDER = 'Order';
+    public static final String FIELDRATE1 = 'fieldRate1';
+    public static final String FIELDRATE2 = 'fieldRate2';
+    public static final String CLOSING = 'Closing';
+    public static final String REGARDS = 'Regards';
+
     
     
     
