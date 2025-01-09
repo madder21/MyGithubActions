@@ -22,6 +22,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
    
     public static final String CONCAT_CHARACTER               = '_';
     public static final String SERIAL_NUMBER_CONCAT_CHARACTER = ',';
+    public static final String SERIAL_NUMBER_SC_CONCAT_CHARACTER = ';';
 
     /**
      * @description handleReturnOrderCreateUpdateRequest Create Return Orders and Return Order Line Items
@@ -145,7 +146,11 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             for(Integer q = 0 ; q < roLineItem.QuantityExpected ; q++){
                                 srls.add(returnOrderItemCreateUpdate.serialNumbers[q]);
                             }
-                            roLineItem.SerialNumber__c  = String.join(srls, SERIAL_NUMBER_CONCAT_CHARACTER);
+                            if( roLineItem.SerialNumber__c != null){
+                            	roLineItem.SerialNumber__c  = roLineItem.SerialNumber__c + ';' +String.join(srls, SERIAL_NUMBER_SC_CONCAT_CHARACTER);
+                            } else {
+                            	roLineItem.SerialNumber__c  = String.join(srls, SERIAL_NUMBER_SC_CONCAT_CHARACTER);
+                            }
                         }
                         lineItemsToUpdate.add(roLineItem);
                         returnOrderIds.add(roLineItem.ReturnOrderId);
@@ -350,8 +355,8 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             roLineItem.QuantityReceived 				= 0;
                             ReturnOrderLineItemToUpdate.add(roLineItem);
                         }else{
-                            roLineItem.Quantity_Previously_Received__c 	= roLineItem.Quantity_Previously_Received__c + QtyRec;
-                            roLineItem.Quantity_Previously_Returned__c 	= roLineItem.Quantity_Previously_Returned__c + QtyRec;
+                            roLineItem.Quantity_Previously_Received__c 	=  QtyRec;
+                            roLineItem.Quantity_Previously_Returned__c 	=  QtyRec;
                             ReturnOrderLineItemToUpdate.add(roLineItem);
                         }
                     }
