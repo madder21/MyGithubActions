@@ -17,10 +17,13 @@
                 <elementReference>OrderSummaryInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>createOrderSummary</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>OrderSummaryOutputRepresentation</assignToReference>
             <name>createOrderSummaryOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Generate_Order_Creation_Transactional_Email</name>
@@ -42,8 +45,48 @@
                 <elementReference>CONST_EMAIL_TEMPLATE_ORDER_CREATED</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>54.0</apiVersion>
+    <assignments>
+        <name>Assign_New_ODGS_Info</name>
+        <label>Assign New ODGS Info</label>
+        <locationX>1695</locationX>
+        <locationY>181</locationY>
+        <assignmentItems>
+            <assignToReference>Get_ODG.DeliverToStreet</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Address1_1</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_ODG.StreetNumber__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FX_Address1_2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_ODG.RI_Neighborhood__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Store.Address2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_ODG.Complementary__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>get_Store.Address3__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_ODGS_BR</targetReference>
+        </connector>
+    </assignments>
     <assignments>
         <name>Assign_UPPERCase_Country_ODG</name>
         <label>Assign UPPERCase Country ODG</label>
@@ -132,8 +175,8 @@
     <decisions>
         <name>Check_SalesChannel</name>
         <label>Check SalesChannel</label>
-        <locationX>1693</locationX>
-        <locationY>329</locationY>
+        <locationX>1687</locationX>
+        <locationY>395</locationY>
         <defaultConnector>
             <targetReference>Update_Order_Summary_Capture_Status</targetReference>
         </defaultConnector>
@@ -263,6 +306,56 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>Update_ODGS_Click_And_Collect</name>
+        <label>Update ODGS Click And Collect</label>
+        <locationX>1374</locationX>
+        <locationY>191</locationY>
+        <defaultConnector>
+            <targetReference>Check_SalesChannel</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Update_ODGS_C_C</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_new_OS.SalesChannelName__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Rimowa</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_new_OS.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_ODG.DeliverToCountry</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>BR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_ODGS_Info</targetReference>
+            </connector>
+            <label>Update ODGS C&amp;C</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_Address1_1</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!get_Store.Address1__c}, FIND(&quot;,&quot;, {!get_Store.Address1__c}) - 1)</expression>
+    </formulas>
+    <formulas>
+        <name>FX_Address1_2</name>
+        <dataType>String</dataType>
+        <expression>TRIM(MID({!get_Store.Address1__c}, FIND(&quot;,&quot;, {!get_Store.Address1__c}) + 1, LEN({!get_Store.Address1__c}) - FIND(&quot;,&quot;, {!get_Store.Address1__c})))</expression>
+    </formulas>
     <formulas>
         <name>FX_Capture_Status</name>
         <dataType>String</dataType>
@@ -345,8 +438,8 @@
     <recordLookups>
         <name>Get_Language</name>
         <label>Get Language</label>
-        <locationX>1363</locationX>
-        <locationY>793</locationY>
+        <locationX>1378</locationX>
+        <locationY>798</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Order_Summary_Capture_Status_0</targetReference>
@@ -373,8 +466,8 @@
     <recordLookups>
         <name>Get_new_OS</name>
         <label>Get new OS</label>
-        <locationX>1074</locationX>
-        <locationY>896</locationY>
+        <locationX>1086</locationX>
+        <locationY>882</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_UPPERCase_Country_ODG</targetReference>
@@ -466,7 +559,7 @@
         <locationY>320</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_SalesChannel</targetReference>
+            <targetReference>get_Store</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -480,6 +573,37 @@
         <object>Sales_Channel_Mapping__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>get_Store</name>
+        <label>get Store</label>
+        <locationX>1251</locationX>
+        <locationY>187</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_ODGS_Click_And_Collect</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SourceStoreId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_ODG.CLICKCOLLECT_cegidWarehouseId__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Store__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_ODGS_BR</name>
+        <label>Update ODGS BR</label>
+        <locationX>1861</locationX>
+        <locationY>182</locationY>
+        <connector>
+            <targetReference>Check_SalesChannel</targetReference>
+        </connector>
+        <inputReference>Get_ODG</inputReference>
+    </recordUpdates>
     <recordUpdates>
         <name>Update_ODGS_Country</name>
         <label>Update ODGS Country</label>
