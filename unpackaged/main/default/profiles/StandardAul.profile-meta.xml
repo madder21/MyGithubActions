@@ -429,6 +429,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CLT_Email_Template__c.Email_Template_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Campaign.ActualCost</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2150,6 +2155,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Location</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Modified_By_StaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4924,6 +4934,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.Modified_By_StaffId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Related_Products_Details__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5508,6 +5523,9 @@
         <layout>CLT_List_Order__mdt-CLT List Order Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CLT_NotificationManagement__mdt-CLT NotificationManagement Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CLT_Picklist__mdt-CLT Picklist Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5804,7 +5822,13 @@
         <layout>News__c-News Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Note_History__c-Note History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Note__c-Note Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification__c-Notification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Opportunity-Opportunity Layout</layout>

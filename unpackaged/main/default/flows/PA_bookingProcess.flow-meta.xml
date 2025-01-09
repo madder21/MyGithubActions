@@ -581,6 +581,19 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Copy_1_of_Assign_ModifiedByStaffId_c</name>
+        <label>Copy 1 of Assign ModifiedByStaffId__c</label>
+        <locationX>3069</locationX>
+        <locationY>3074</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.ModifiedByStaffId__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_BookingStatus</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Copy_1_of_assign_new_booking_date</name>
         <label>Copy 1 of assign new booking date</label>
         <locationX>3856</locationX>
@@ -823,6 +836,13 @@
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <elementReference>getBooking_ByBookingNumber_ForModification.Notes__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.InternalNotes__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -1251,7 +1271,7 @@
         <locationX>2937</locationX>
         <locationY>2966</locationY>
         <defaultConnector>
-            <targetReference>Update_BookingStatus</targetReference>
+            <targetReference>Copy_1_of_Assign_ModifiedByStaffId_c</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1262,6 +1282,13 @@
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>clientBooking.ModifiedBy__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Client</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -1510,7 +1537,7 @@ Ulrich 10/12: Add ModifiedByStaffId</description>
             <field>WhatId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>clientBooking.Id</elementReference>
+                <elementReference>getBooking_ByBookingNumber_ForModification.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>

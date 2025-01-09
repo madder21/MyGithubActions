@@ -1,0 +1,52 @@
+.filters-prefered-icon {
+    display: inline-flex;
+    position: absolute;
+    justify-content: flex-end;
+    right: 8px;
+    top: 0;
+    transform: scale(0.45);
+    cursor: pointer;
+  }
+  .filters-prefered-input-hover {
+    cursor: pointer;
+  }
+  .slds-popover__footer {
+    white-space: pre-wrap;
+  }
+  .filters-prefered-label {
+    font-size: 14px !important;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.29;
+    letter-spacing: normal;
+    color: #191009 !important;
+    white-space: nowrap;
+  }
+  .is--combobox {
+    width: 100%;
+  }
+  .filters-selection{
+    position: absolute;
+    z-index: 7000;
+    left: 50%;
+    float: left;
+    top: 2rem;
+    background: var(--lwc-colorBackgroundAlt, rgb(255, 255, 255));
+    box-shadow: var(--lwc-shadowDropDown, 0 2px 3px 0 rgba(0, 0, 0, 0.16));
+    transform: translateX(-50%);
+  }
+
+  .slds-checkbox {
+    font-size: 15px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #706e6b;
+  }
+
+ .slds-form-element__control.is--combobox input {
+  padding-left: 30px;
+ }

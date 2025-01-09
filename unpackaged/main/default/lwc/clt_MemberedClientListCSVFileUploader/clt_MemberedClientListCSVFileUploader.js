@@ -1,6 +1,8 @@
 import {LightningElement, api, track} from 'lwc';
 import insertMembersFromFile from '@salesforce/apex/CLT_FileUploaderController.insertMembersFromFile';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import {refreshView} from 'lightning/navigation'; // Import refreshView
+
 //custom labels
 import uploadInstruction from '@salesforce/label/c.mlu_uploadInstruction';
 import fileMaxSize from '@salesforce/label/c.mlu_fileMaxSize';
@@ -27,7 +29,6 @@ export default class FileUploader extends LightningElement {
     fileContents;
     fileReader;
     content;
-    MAX_FILE_SIZE = 500001;
 
     get acceptedFormats() {
         return [".csv"];
@@ -65,10 +66,6 @@ export default class FileUploader extends LightningElement {
 
     uploadHelper() {
         this.file = this.filesUploaded[0];
-        if (this.file.size > this.MAX_FILE_SIZE) {
-            window.console.log(fileSizeTooLong);
-            return ;
-        }
         this.showLoadingSpinner = true;
         // create a FileReader object
         this.fileReader= new FileReader();
@@ -106,7 +103,11 @@ export default class FileUploader extends LightningElement {
                         variant: 'success',
                     }),
                 );
-                // location.reload();
+
+                // Wait for 5 seconds before refreshing the view
+                setTimeout(() => {
+                    refreshView();
+                }, 5000);
             })
             .catch(error => {
                 // Showing errors if any while inserting the files
@@ -124,5 +125,4 @@ export default class FileUploader extends LightningElement {
                 this.showLoadingSpinner = false;
             });
     }
-
 }

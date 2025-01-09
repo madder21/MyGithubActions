@@ -8,6 +8,7 @@
  * Version	|Date of modication	|Modified By|Related Jira Ticket|Description of changes			
  * 1.0		|2024/05/12			|.Sarah A	|.RCLIENT-1063	    |.add method getEvent to return specific event details
  * 1.1		|2024/07/19			|.Sarah A	|.RCLIENT-1157	    |.add delta param to retrieve only activities that got updated after the sent value
+ * 1.2		|2025/01/02			|.Sarah A	|.RCLIENT-1618	    |.check the showInAgenda only for birthday tasks of needed segments
 */
 public with sharing class CLT_Activities implements CLT_RetailInterface{
     
@@ -69,7 +70,7 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
      * @PARAM 	: no params
      * @RETURN 	: List<Map<String, Object>> : wrapped list of tasks
      */
-    public list<map<string, object>> getTasks(String firstDayOfLastYear, String lastDayOfNextYear, String deltaFrom){
+    public List<Map<String, Object>> getTasks(String firstDayOfLastYear, String lastDayOfNextYear, String deltaFrom){
         String taskQuery = 'FROM Task WHERE OwnerId = \'' + UserInfo.getUserId() + '\' AND Outreach_Type__c = NULL' + 
                             ' AND Status__c != \'Cancelled\' AND (CompletedDateTime = NULL OR CompletedDateTime = LAST_N_DAYS:3)' +
                             ' AND ((Status != \'Completed\' AND Status__c != \'Completed\') OR (Status = \'Completed\' AND Status__c = \'Completed\'))' +
@@ -78,7 +79,20 @@ public with sharing class CLT_Activities implements CLT_RetailInterface{
         if(!String.isEmpty(deltaFrom)) {
             taskQuery += ' AND LastModifiedDate >= ' + deltaFrom;
         }
-        return CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', taskQuery);      
+        
+        List<String> birthdayTasksInAgendaForSegments = RClientConfigurations__c.getOrgDefaults().BirthdayTasksInAgendaForSegments__c.split(',');
+        List<Map<String, Object>> wrappedTasks = CLT_Utils_Mapping.getStandardWrapperList('Task', 'Task', taskQuery);
+        for(Map<String, Object> wrappedTask : wrappedTasks) {
+            if(wrappedTask.containsKey('taskType') && wrappedTask.containsKey('clientSegment') && 
+                (String)wrappedTask.get('taskType') == 'Birthday' && birthdayTasksInAgendaForSegments.contains((String)wrappedTask.get('clientSegment'))) {
+                wrappedTask.put('showOnAgenda', true);
+            }
+            else {
+                wrappedTask.put('showOnAgenda', false);
+            }
+        }
+
+        return wrappedTasks;
     }
     
     /*

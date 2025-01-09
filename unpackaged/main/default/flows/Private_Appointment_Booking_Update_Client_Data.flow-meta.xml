@@ -207,6 +207,13 @@
         <locationX>578</locationX>
         <locationY>458</locationY>
         <assignmentItems>
+            <assignToReference>Retrieve_Account.OtherEmail__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Retrieve_Account.PersonEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>Retrieve_Account.PersonEmail</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -439,6 +446,13 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>client.EmailValid__pc</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Email_Validity</targetReference>
             </connector>
@@ -594,6 +608,13 @@
                 <operator>WasSet</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>client.ValidityPhone__pc</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>

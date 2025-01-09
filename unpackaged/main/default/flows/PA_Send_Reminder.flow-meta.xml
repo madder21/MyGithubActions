@@ -288,7 +288,7 @@
     <formulas>
         <name>f_ReminderSubject</name>
         <dataType>String</dataType>
-        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
+        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder}</expression>
     </formulas>
     <interviewLabel>Private Appointment Send Reminder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Private Appointment Send Reminder</label>
