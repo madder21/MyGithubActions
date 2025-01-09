@@ -219,6 +219,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_PE_TaxID_info_0</name>
+        <label>Assign PE TaxID info</label>
+        <locationX>1629</locationX>
+        <locationY>712</locationY>
+        <assignmentItems>
+            <assignToReference>Variable_TaxID_Field</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Verify_BrazilianAddress</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Requests_ODGS</name>
         <label>Assign Requests ODGS</label>
         <locationX>1151</locationX>
@@ -470,7 +486,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Order_Delivery_Group_Summary.TECH_TaxId_Validation__c</leftValueReference>
+                <leftValueReference>Variable_TaxID_Field</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -857,7 +873,7 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <locationX>1790</locationX>
         <locationY>690</locationY>
         <connector>
-            <targetReference>Verify_BrazilianAddress</targetReference>
+            <targetReference>Assign_PE_TaxID_info_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1518,6 +1534,16 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>Variable_TaxID_Field</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>VerifiedODGS_Address</name>
