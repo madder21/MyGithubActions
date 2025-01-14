@@ -402,7 +402,7 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <inputAssignments>
             <field>InvoiceId__c</field>
             <value>
-                <elementReference>Get_Last_Invoice_Record.Id</elementReference>
+                <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
             </value>
         </inputAssignments>
         <object>NewSerializedProductEcomSale__e</object>
