@@ -20,8 +20,8 @@
     <assignments>
         <name>Assign_ODGS_0</name>
         <label>Assign ODGS</label>
-        <locationX>428</locationX>
-        <locationY>1165</locationY>
+        <locationX>434</locationX>
+        <locationY>1178</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group_Summary.TECH_TaxId_Validation__c</assignToReference>
             <operator>Assign</operator>
@@ -40,6 +40,54 @@
             <targetReference>Update_ODGS</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Assign_OrderNumber</name>
+        <label>Assign OrderNumber</label>
+        <locationX>706</locationX>
+        <locationY>1521</locationY>
+        <assignmentItems>
+            <assignToReference>OrderNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId.OrderNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Create_New_Order_For_Cegid_Event</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Create_Event</name>
+        <label>Check Create Event</label>
+        <locationX>556</locationX>
+        <locationY>1389</locationY>
+        <defaultConnector>
+            <targetReference>Screen_Correct</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fulfilled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_All_PE</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_OrderNumber</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_TaxId</name>
         <label>Check TaxId</label>
@@ -185,6 +233,23 @@
         </value>
     </processMetadataValues>
     <processType>Flow</processType>
+    <recordCreates>
+        <name>Create_New_Order_For_Cegid_Event</name>
+        <label>Create New Order For Cegid Event</label>
+        <locationX>561</locationX>
+        <locationY>1655</locationY>
+        <connector>
+            <targetReference>Screen_Correct</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>OrderSummaryNumber__c</field>
+            <value>
+                <elementReference>OrderNumber</elementReference>
+            </value>
+        </inputAssignments>
+        <object>NewOrderForCegid__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
     <recordLookups>
         <name>Get_All_PE</name>
         <label>Get All PE</label>
@@ -196,7 +261,7 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>AttachedToId</field>
+            <field>OrderSummaryId</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>recordId.Id</elementReference>
@@ -216,7 +281,7 @@
                 <stringValue>Address Validation Brazil</stringValue>
             </value>
         </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>ProcessException</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
@@ -282,15 +347,15 @@
         <locationX>556</locationX>
         <locationY>1229</locationY>
         <connector>
-            <targetReference>Screen_Correct</targetReference>
+            <targetReference>Check_Create_Event</targetReference>
         </connector>
         <inputReference>Get_Order_Delivery_Group_Summary</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_PE</name>
         <label>Update PE</label>
-        <locationX>600</locationX>
-        <locationY>668</locationY>
+        <locationX>552</locationX>
+        <locationY>673</locationY>
         <connector>
             <targetReference>Get_All_PE</targetReference>
         </connector>
@@ -332,8 +397,8 @@
     <screens>
         <name>Screen_Correct</name>
         <label>Screen Correct</label>
-        <locationX>555</locationX>
-        <locationY>1376</locationY>
+        <locationX>339</locationX>
+        <locationY>1605</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -355,7 +420,7 @@
         <allowPause>true</allowPause>
         <fields>
             <name>ConfirmationScreen_0_0</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;Process Exception has not been resolved ! Please to check your TaxId&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Process Exception has not been resolved ! Please check your TaxId&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -369,6 +434,13 @@
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>OrderNumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>SObject</dataType>
