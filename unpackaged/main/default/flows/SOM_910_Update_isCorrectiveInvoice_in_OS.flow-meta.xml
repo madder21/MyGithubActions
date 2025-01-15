@@ -4,8 +4,8 @@
     <decisions>
         <name>is_OS_Fulfilled</name>
         <label>is OS Fulfilled</label>
-        <locationX>522</locationX>
-        <locationY>385</locationY>
+        <locationX>520</locationX>
+        <locationY>439</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes1</name>
@@ -33,8 +33,8 @@
     <decisions>
         <name>is_OS_HD</name>
         <label>is OS HD</label>
-        <locationX>269</locationX>
-        <locationY>396</locationY>
+        <locationX>266</locationX>
+        <locationY>448</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -73,6 +73,12 @@
             <label>Yes</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_UpperCase</name>
+        <dataType>String</dataType>
+        <expression>UPPER({!$Record.BillingCountry})</expression>
+    </formulas>
     <interviewLabel>SOM 910 Update isCorrectiveInvoice in OS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 910 Update isCorrectiveInvoice in OS</label>
     <processMetadataValues>
@@ -97,8 +103,8 @@
     <recordLookups>
         <name>Get_FO</name>
         <label>Get FO</label>
-        <locationX>402</locationX>
-        <locationY>393</locationY>
+        <locationX>397</locationX>
+        <locationY>442</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>is_OS_HD</targetReference>
@@ -127,8 +133,8 @@
     <recordUpdates>
         <name>Update_Invoices</name>
         <label>Update Invoices</label>
-        <locationX>129</locationX>
-        <locationY>390</locationY>
+        <locationX>116</locationX>
+        <locationY>449</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>ReferenceEntityId</field>
@@ -145,11 +151,27 @@
         </inputAssignments>
         <object>Invoice</object>
     </recordUpdates>
+    <recordUpdates>
+        <name>Update_OS_UpperCase</name>
+        <label>Update OS UpperCase</label>
+        <locationX>528</locationX>
+        <locationY>331</locationY>
+        <connector>
+            <targetReference>is_OS_Fulfilled</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>BillingCountry</field>
+            <value>
+                <elementReference>FX_UpperCase</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <start>
         <locationX>401</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>is_OS_Fulfilled</targetReference>
+            <targetReference>Update_OS_UpperCase</targetReference>
         </connector>
         <filterLogic>or</filterLogic>
         <filters>
