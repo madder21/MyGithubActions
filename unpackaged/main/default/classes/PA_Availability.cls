@@ -84,7 +84,7 @@ global without sharing class PA_Availability {
             return '{"error": "The user does not exist, or the related staffcode is not properly defined."}';
         }
 
-        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime,StartDateTime,IsAllDayEvent 
+        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime,StartDateTime,IsAllDayEvent, TimeslotIds__c 
                                   FROM Event 
                                   WHERE OwnerId = :staff.Id 
                                         AND ActivityDate >= :startDate 
@@ -203,8 +203,16 @@ global without sharing class PA_Availability {
         }
 
         for(Event event : busyEvents) {
+            DateTime FirstendDateTime;
+            if ((event.TimeslotIds__c <> null) && (event.IsAllDayEvent == false)){
+                System.debug('toto');
+                FirstendDateTime = event.EndDateTime.addMinutes(-30);
+            }
+            else{
+                FirstendDateTime = event.EndDateTime;
+            }
             DateTime startDateTime = event.ActivityDateTime<>null?event.ActivityDateTime: event.StartDateTime;
-            DateTime endDateTime = event.EndDateTime;
+            DateTime endDateTime = FirstendDateTime;
 
             while(startDateTime.date() <= endDateTime.date()) {
                 DateTime currentEndDateTime = (startDateTime.date() < endDateTime.date()) || (event.IsAllDayEvent && startDateTime.date() == endDateTime.date()) ? DateTime.newInstance(startDateTime.date(), Time.newInstance(23, 59, 59, 999)) : endDateTime;
@@ -257,6 +265,7 @@ global without sharing class PA_Availability {
         Map<Date, String> freeTimeSlotsByDate = new Map<Date, String>();
         Map<Date, String> availableTimeSlots = buildAvailableTimeSlots(appointmentHoursMap, appointmentDuration);
         for (Date aDate : availableTimeSlots.keySet()) {
+            List<String> allSlots = new List<String>();
             String availableSlots = availableTimeSlots.get(aDate);
             String busySlots = busyTimeSlotsMap.containsKey(aDate) ? busyTimeSlotsMap.get(aDate) : '';
             if (String.isBlank(busySlots)) {
@@ -272,8 +281,18 @@ global without sharing class PA_Availability {
                 Map<Date, String> selectedSlotMap = buildMapFromString(selectedSlotStr);
                 if(selectedSlotMap.containsKey(aDate)) {
                     System.debug('aDate '+aDate);
-                    List<String> freeSlotByParam = manageMissingSlots(availableSlots, busySlots, selectedSlotMap.get(aDate));
+                    for (String slot : busySlots.split(';')) {
+                        String startTime = slot.split(' - ')[0];
+                        String endTime = slot.split(' - ')[1];
+                        allSlots.addAll(SlotCalculator.generateSlots(startTime, endTime));
+                    }
+                    
+                    String allSlotsString = String.join(allSlots, ';');
+                    System.debug('allSlotsString '+allSlotsString);
+                    List<String> freeSlotByParam = manageMissingSlots(availableSlots, allSlotsString, selectedSlotMap.get(aDate));
+                    System.debug('freeSlotByParam : '+freeSlotByParam);
                     freeSlotByParam.add(selectedSlotMap.get(aDate));
+                    System.debug('freeSlotByParam : '+freeSlotByParam);
                     List<String> sortedIntervals = TimeIntervalSorter.sortTimeIntervals(freeSlotByParam);
                 	freeTimeSlotsByDate.put(aDate, String.join(sortedIntervals, ';'));
                 }else {
@@ -404,7 +423,11 @@ global without sharing class PA_Availability {
         List<String> availableSlotList = availableSlots.split(';');
         List<String> busySlotList = busySlots.split(';');
         
+        System.debug('busySlots : '+busySlots);
+        
         List<String> missingSlots = SlotCalculator.findMissingSlots(busySlotList, availableSlotList, calculatedFreeSlots);
+        System.debug('missingSlots : '+missingSlots);
+        System.debug('availableSlotList : '+availableSlotList[availableSlotList.size()-1]);
 		Integer selectedSlotStart = SlotCalculator.getTimeInMinutes(splitSelectedSlot[0]);
         Integer selectedSlotEnd = SlotCalculator.getTimeInMinutes(splitSelectedSlot[1]);
         for(String str : missingSlots) {
@@ -446,7 +469,7 @@ global without sharing class PA_Availability {
             }
             
         }
-        
+        System.debug('calculatedFreeSlots : '+calculatedFreeSlots);
         return calculatedFreeSlots;
     }
     

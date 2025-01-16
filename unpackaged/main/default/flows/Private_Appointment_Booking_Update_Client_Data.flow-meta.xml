@@ -20,7 +20,7 @@
     <assignments>
         <name>Assign_Email_Checked</name>
         <label>Assign Email Checked</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>1658</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.IsEmailChecked__c</assignToReference>
@@ -36,7 +36,7 @@
     <assignments>
         <name>Assign_Email_Validity</name>
         <label>Assign Email Validity</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>1058</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.EmailValid__pc</assignToReference>
@@ -82,7 +82,7 @@
     <assignments>
         <name>Assign_phone</name>
         <label>Assign phone</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.Phone</assignToReference>
@@ -98,7 +98,7 @@
     <assignments>
         <name>Assign_Phone_and_backup_phone2</name>
         <label>Assign Phone and backup phone2</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.Phone2__pc</assignToReference>
@@ -128,7 +128,7 @@
     <assignments>
         <name>Assign_Phone_and_backup_phone3</name>
         <label>Assign Phone and backup phone3</label>
-        <locationX>578</locationX>
+        <locationX>710</locationX>
         <locationY>758</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.Phone3__pc</assignToReference>
@@ -172,7 +172,7 @@
     <assignments>
         <name>Assign_Phone_Checked</name>
         <label>Assign Phone Checked</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>1958</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.IsPhoneChecked__c</assignToReference>
@@ -188,7 +188,7 @@
     <assignments>
         <name>Assign_Phone_Validity</name>
         <label>Assign Phone Validity</label>
-        <locationX>314</locationX>
+        <locationX>446</locationX>
         <locationY>1358</locationY>
         <assignmentItems>
             <assignToReference>Retrieve_Account.Phone1Valid__pc</assignToReference>
@@ -199,6 +199,29 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_DQE_Email_field</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Reverse_Order</name>
+        <label>Reverse Order</label>
+        <locationX>842</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>Retrieve_Account.OtherEmail__pc</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Retrieve_Account.PersonEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Retrieve_Account.PersonEmail</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Phone</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -227,7 +250,7 @@
     <decisions>
         <name>Check_DQE_Email_field</name>
         <label>Check DQE Email field</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>1550</locationY>
         <defaultConnector>
             <targetReference>Check_DQE_Phone_field</targetReference>
@@ -259,7 +282,7 @@
     <decisions>
         <name>Check_DQE_Phone_field</name>
         <label>Check DQE Phone field</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>1850</locationY>
         <defaultConnector>
             <targetReference>Update_Existing_Account</targetReference>
@@ -291,7 +314,7 @@
     <decisions>
         <name>Check_Email</name>
         <label>Check Email</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>350</locationY>
         <defaultConnector>
             <targetReference>Check_Phone</targetReference>
@@ -426,11 +449,33 @@
             </connector>
             <label>Email exist and other email exist in DB And email are different</label>
         </rules>
+        <rules>
+            <name>Email_Exist_in_DB_and_Equals_to_Other_Email</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Retrieve_Account.OtherEmail__pc</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>clientBooking.Email__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Retrieve_Account.PersonEmail</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>clientBooking.Email__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Reverse_Order</targetReference>
+            </connector>
+            <label>Email Exist in DB and Equals to Other Email</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_Email_Valid_field</name>
         <label>Check Email Valid field</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>950</locationY>
         <defaultConnector>
             <targetReference>Check_Phone_Valid_Value</targetReference>
@@ -462,7 +507,7 @@
     <decisions>
         <name>Check_Phone</name>
         <label>Check Phone</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>650</locationY>
         <defaultConnector>
             <targetReference>Check_Email_Valid_field</targetReference>
@@ -594,7 +639,7 @@
     <decisions>
         <name>Check_Phone_Valid_Value</name>
         <label>Check Phone Valid field</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>1250</locationY>
         <defaultConnector>
             <targetReference>Check_DQE_Email_field</targetReference>
@@ -626,7 +671,7 @@
     <decisions>
         <name>Check_Retrived_Account</name>
         <label>Check Retrived Account</label>
-        <locationX>732</locationX>
+        <locationX>930</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -670,7 +715,7 @@
     <recordLookups>
         <name>Retrieve_Account</name>
         <label>Retrieve Account</label>
-        <locationX>732</locationX>
+        <locationX>930</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -691,12 +736,12 @@
     <recordUpdates>
         <name>Update_Existing_Account</name>
         <label>Update Existing Account</label>
-        <locationX>446</locationX>
+        <locationX>578</locationX>
         <locationY>2150</locationY>
         <inputReference>Retrieve_Account</inputReference>
     </recordUpdates>
     <start>
-        <locationX>606</locationX>
+        <locationX>804</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Retrieve_Account</targetReference>

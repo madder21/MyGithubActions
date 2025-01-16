@@ -208,6 +208,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_New_Internal_Note_1</name>
+        <label>Assign New Internal Note</label>
+        <locationX>1568</locationX>
+        <locationY>2390</locationY>
+        <assignmentItems>
+            <assignToReference>getBooking_ByBookingNumber_ForModification.InternalNotes__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.InternalNotes__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_New_Note</name>
         <label>Assign New Note</label>
         <locationX>3856</locationX>
@@ -359,7 +375,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>does_ModifedByStaffId_exist</targetReference>
+            <targetReference>Internal_Note_Changed</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1298,12 +1314,37 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Internal_Note_Changed</name>
+        <label>Internal Note Changed?</label>
+        <locationX>1700</locationX>
+        <locationY>2282</locationY>
+        <defaultConnector>
+            <targetReference>does_ModifedByStaffId_exist</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_The_internal_note_changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>clientBooking.InternalNotes__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>getBooking_ByBookingNumber_ForModification.InternalNotes__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Internal_Note_1</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Note_Changed</name>
         <label>is Note Changed?</label>
         <locationX>1700</locationX>
         <locationY>1982</locationY>
         <defaultConnector>
-            <targetReference>does_ModifedByStaffId_exist</targetReference>
+            <targetReference>Internal_Note_Changed</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>

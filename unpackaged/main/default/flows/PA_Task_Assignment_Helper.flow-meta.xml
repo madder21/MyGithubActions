@@ -30,6 +30,7 @@
             </value>
         </inputParameters>
         <nameSegment>AP_ClientBookingTrad</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>subjectValue</assignToReference>
             <name>subjectLabel</name>
@@ -119,8 +120,16 @@
                 <stringValue>Appt Booking outreach reminder</stringValue>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>bookingTask.Client_Booking__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>clientBooking.Id</elementReference>
+            </value>
+        </assignmentItems>
     </assignments>
-    <description>...Assign Value to Task Field and return the task record</description>
+    <description>...Assign Value to Task Field and return the task record
+Ulrich 13/01/2025: assign clientBooking to task</description>
     <environments>Default</environments>
     <formulas>
         <name>ActivityDate</name>
