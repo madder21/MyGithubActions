@@ -319,6 +319,9 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         order.BillingState         = storeToWebOrder.billingContact.state;
         order.BillingPostalCode    = storeToWebOrder.billingContact.postalCode;
         order.BillingStreet        = storeToWebOrder.billingContact.street;
+        order.StreetNumber__c      = storeToWebOrder.billingContact.StreetNumber;
+        order.RI_Neighborhood__c   = storeToWebOrder.billingContact.Neighborhood;
+        order.Complementary__c     = storeToWebOrder.billingContact.Complementary;
         order.BillingPhoneNumber   = storeToWebOrder.billingContact.phone;
         order.BillingEmailAddress  = storeToWebOrder.billingContact.email;
         order.SalesChannelId       = salesChannelsMap.get(storeToWebOrder.salesChannelNumber).Id;
@@ -342,6 +345,9 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         odg.DeliverToPostalCode   = storeToWebOrder.deliveryContact.postalCode;
         odg.DeliverToState        = storeToWebOrder.deliveryContact.state;
         odg.DeliverToStreet       = storeToWebOrder.deliveryContact.street;
+        odg.StreetNumber__c      = storeToWebOrder.deliveryContact.StreetNumber;
+        odg.RI_Neighborhood__c   = storeToWebOrder.deliveryContact.Neighborhood;
+        odg.Complementary__c     = storeToWebOrder.deliveryContact.Complementary;
         odg.PhoneNumber           = storeToWebOrder.deliveryContact.phone;
         if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ){
             odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('Express_DE').Id;
@@ -466,5 +472,8 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         public String country;
         public String email;
         public String phone;
+        public String Complementary;
+        public String Neighborhood;
+        public String StreetNumber;
     }
 }
