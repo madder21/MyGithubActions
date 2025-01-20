@@ -4,36 +4,13 @@
     <assignments>
         <name>Assign_ODGS</name>
         <label>Assign ODGS</label>
-        <locationX>657</locationX>
-        <locationY>1154</locationY>
+        <locationX>557</locationX>
+        <locationY>1025</locationY>
         <assignmentItems>
             <assignToReference>Get_Order_Delivery_Group_Summary.TECH_TaxId_Validation__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Update_ODGS</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Assign_ODGS_0</name>
-        <label>Assign ODGS</label>
-        <locationX>434</locationX>
-        <locationY>1178</locationY>
-        <assignmentItems>
-            <assignToReference>Get_Order_Delivery_Group_Summary.TECH_TaxId_Validation__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Get_Order_Delivery_Group_Summary.TECH_PE_was_identified__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <booleanValue>false</booleanValue>
+                <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
         <connector>
@@ -43,8 +20,8 @@
     <assignments>
         <name>Assign_OrderNumber</name>
         <label>Assign OrderNumber</label>
-        <locationX>706</locationX>
-        <locationY>1521</locationY>
+        <locationX>783</locationX>
+        <locationY>1655</locationY>
         <assignmentItems>
             <assignToReference>OrderNumber</assignToReference>
             <operator>Assign</operator>
@@ -67,7 +44,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 AND 2 AND 3) OR ( 2 AND 4 AND 5)</conditionLogic>
             <conditions>
                 <leftValueReference>recordId.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -80,6 +57,27 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recordId.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recordId.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>recordId.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Validated</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -126,43 +124,6 @@
                 <targetReference>Screen_Error</targetReference>
             </connector>
             <label>Incorrect</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>Update_ODGS_fields</name>
-        <label>Update ODGS fields</label>
-        <locationX>543</locationX>
-        <locationY>1023</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Yes_To_all</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_All_PE</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_ODGS_0</targetReference>
-            </connector>
-            <label>Yes To all</label>
-        </rules>
-        <rules>
-            <name>Yes_One</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>Get_All_PE</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Assign_ODGS</targetReference>
-            </connector>
-            <label>Yes One</label>
         </rules>
     </decisions>
     <environments>Default</environments>
@@ -257,7 +218,7 @@
         <locationY>829</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Update_ODGS_fields</targetReference>
+            <targetReference>Assign_ODGS</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -288,8 +249,8 @@
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>778</locationX>
-        <locationY>370</locationY>
+        <locationX>776</locationX>
+        <locationY>338</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_PE</targetReference>
@@ -378,8 +339,8 @@
     <screens>
         <name>Screen_1</name>
         <label>Screen 1</label>
-        <locationX>778</locationX>
-        <locationY>218</locationY>
+        <locationX>776</locationX>
+        <locationY>171</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
