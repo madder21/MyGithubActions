@@ -201,7 +201,7 @@
             <targetReference>Get_SalesChannelMapping_mdt</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>(( 1 AND 2 ) OR 3) AND 4</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
             <field>BillingCountry</field>
             <operator>NotEqualTo</operator>
