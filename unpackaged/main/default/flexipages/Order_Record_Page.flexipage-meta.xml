@@ -22,7 +22,7 @@
                 <componentName>mockcomp:ltng_mockupAlert</componentName>
                 <identifier>mockcomp_ltng_mockupAlert</identifier>
                 <visibilityRule>
-                    <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                    <booleanFilter>1 AND 2 AND 3</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.Tech_CreateOS__c}</leftValue>
                         <operator>EQUAL</operator>
@@ -37,11 +37,6 @@
                         <leftValue>{!Record.BillingCountry}</leftValue>
                         <operator>NE</operator>
                         <rightValue>BR</rightValue>
-                    </criteria>
-                    <criteria>
-                        <leftValue>{!Record.SalesChannelName__c}</leftValue>
-                        <operator>NE</operator>
-                        <rightValue>Manual Order</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
