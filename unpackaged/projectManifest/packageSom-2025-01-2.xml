@@ -7,6 +7,9 @@
 	</types>
 	<types>
 		<members>NewSerializedProductEcomSale__e.InvoiceId__c</members>
+		<members>Legal_Entity__c.CegidInvoiceTemplateCode__c</members>
+		<members>OrderDeliveryGroupSummary.TECH_TaxId_Validation__c</members>
+		<members>OrderSummary.TECH_TaxId_BR__c</members>
 		<name>CustomField</name>
 	</types>
 	<types>
@@ -14,13 +17,23 @@
 		<name>ValidationRule</name>
 	</types>
 	
-
+<types>
+		<members>OrderSummary-Order Summary Layout</members>
+		
+		<members>OrderDeliveryGroupSummary-Order Delivery Group Summary Layout</members>
+		<name>Layout</name>
+	</types>
 	<types>
 		<members>SOM_400_CreateInvoiceAndEnsureFunds</members>
 		<members>SOM_610_Core_Model_Create_ReturnOrder</members>
 		<members>SOM_910_Update_isCorrectiveInvoice_in_OS</members>
 	  <members>SOM_UpdateStateOS</members>
 		<members>SOM_110_CoreModel_Create_OrderSummary</members>
+		<members>SOM_Resolve_Button_TaxId</members>
+		<members>SOM_BR_Fulfillment_Addresses_NOT_Verified</members>
+		<members>SOM_BR_Fulfillment_ODGS_Address_Verified</members>
+		<members>SOM_BR_Fulfillment_OS_Address_Verified</members>
+		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
 		<name>Flow</name>
 	</types>
 	<types>
@@ -29,6 +42,23 @@
 		<members>WS_SOM_CreateReturnOrderEndpoint_Test</members>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
 		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>Process_Exception_Record_Page</members>
+
+		<members>Ecom_operation_homepage</members>
+                <members>Order_Delivery_Group_Summary_Record_Page</members>
+		<members>Order_Summary_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
+	<types>
+			
+			<members>OrderSummary.Check_CPF</members>
+			<name>QuickAction</name>
+		</types>
+	<types>
+		<members>Retry_Allocation</members>
+		<name>CustomPermission</name>
 	</types>
 	<version>61.0</version>
 </Package>
