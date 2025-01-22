@@ -286,7 +286,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -303,24 +303,9 @@
                                     <rightValue>UNMANAGED</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Finance</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
+                                    <leftValue>{!$Permission.CustomPermission.Retry_Allocation}</leftValue>
                                     <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS  - Team Lead</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!$User.Profile.Name}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>CS - Advisor</rightValue>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -682,6 +667,16 @@
                                 <criteria>
                                     <leftValue>{!Record.Tech_BrazilianShippingAddressVerified__c}</leftValue>
                                     <operator>GT</operator>
+                                    <rightValue>0</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Check_CPF</value>
+                            <visibilityRule>
+                                <criteria>
+                                    <leftValue>{!Record.TECH_TaxId_BR__c}</leftValue>
+                                    <operator>NE</operator>
                                     <rightValue>0</rightValue>
                                 </criteria>
                             </visibilityRule>

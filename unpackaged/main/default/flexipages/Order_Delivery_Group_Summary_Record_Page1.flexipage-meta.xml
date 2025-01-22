@@ -22,10 +22,16 @@
                 <componentName>mockcomp:ltng_mockupAlert</componentName>
                 <identifier>mockcomp_ltng_mockupAlert</identifier>
                 <visibilityRule>
+                    <booleanFilter>1 OR 2</booleanFilter>
                     <criteria>
                         <leftValue>{!Record.TECH_PE_was_identified__c}</leftValue>
                         <operator>EQUAL</operator>
                         <rightValue>true</rightValue>
+                    </criteria>
+                    <criteria>
+                        <leftValue>{!Record.TECH_TaxId_Validation__c}</leftValue>
+                        <operator>EQUAL</operator>
+                        <rightValue>false</rightValue>
                     </criteria>
                 </visibilityRule>
             </componentInstance>
