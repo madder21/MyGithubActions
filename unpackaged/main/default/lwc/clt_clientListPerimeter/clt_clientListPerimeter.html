@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Client List Perimeter">
+        <div class="slds-p-around_medium">
+            <c-clt_multi-select
+            class="region-multi-select"
+            label={label.region}
+            unique-id="region-select"
+            ploptions={regionList}
+            select-all-available=true
+            onfilterset={handleRegionSet}
+            is-read-only={isReadOnly}
+            default-values={selectedRegions}
+            onopenedlist={handleOpenList}
+            >
+            </c-clt_multi-select>
+        </div>
+        <div class="slds-p-around_medium">
+            <c-clt_multi-select
+            class="country-multi-select"
+            label={label.country}
+            unique-id="country-select"
+            ploptions={countryList}
+            select-all-available=true
+            onfilterset={handleCountrySet}
+            is-read-only={isReadOnly}
+            default-values={selectedCountries}
+            onopenedlist={handleOpenList}
+            >
+            </c-clt_multi-select>
+        </div>
+        <div class="slds-p-around_medium">
+            <c-clt_multi-select
+            class="store-multi-select"
+            label={label.store}
+            unique-id="store-select"
+            ploptions={storeList}
+            select-all-available=true
+            onfilterset={handleStoreSet}
+            is-read-only={isReadOnly}
+            default-values={selectedStores}
+            onopenedlist={handleOpenList}
+            >
+            </c-clt_multi-select>
+        </div>
+        <div if:true={isEditMode}>
+            <footer class="slds-popover__footer slds-popover__footer_form">
+                <button class="slds-button slds-button_neutral" onclick={handleCancelClick}> {label.cancel} </button>
+                <button class="slds-button slds-button_brand" onclick={handleDoneClick}> {label.done} </button>
+            </footer>
+        </div>
+        <div if:false={isEditMode}>
+            <footer class="slds-popover__footer slds-popover__footer_form">
+                <button class="slds-button slds-button_brand" onclick={handleEditClick}> {label.edit} </button>
+            </footer>
+        </div>
+    </lightning-card>
+</template>

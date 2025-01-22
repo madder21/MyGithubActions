@@ -10,7 +10,13 @@
         <layout>Async_Job_Request__c-Async Job Request Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CLT_NotificationManagement__mdt-CLT NotificationManagement Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>ClientBooking__c-Client Booking Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification__c-Notification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>RepairOrder__c-Repair Order Layout</layout>
@@ -106,6 +112,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.InternalNotes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Modified_By_StaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -269,6 +280,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Modified_By_StaffId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Task.TECH_Market_zone__c</field>
         <readable>true</readable>
@@ -284,6 +300,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>RepairOrder__c</tab>
+        <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Wishlist__c</tab>
         <visibility>Hidden</visibility>
     </tabVisibilities>
     <applicationVisibilities>

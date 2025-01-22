@@ -7,7 +7,7 @@
  ***************************************************************************************************************************************************************** 
  * 0.0		|2024/04/18			|.PLM		|.JIRA SFMC-392			|.Original Version
  * 0.1		|2024/09/16			|.EBU		|.JIRA RCLIENT-1281		|.Add test to handle QueryException when looking for a unssigned staffcode (essentially UAT testing purpose)
- * 0.x		|
+ * 0.2		|2025/01/07			|.SA(Balink)|.JIRA RCLIENT-1651		|.Modify method buildBusyTimeSlotsMap to handle multiple days events and All day Events
 */
 
 @RestResource(urlMapping='/PrivateAppointment/*')
@@ -84,7 +84,7 @@ global without sharing class PA_Availability {
             return '{"error": "The user does not exist, or the related staffcode is not properly defined."}';
         }
 
-        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime,StartDateTime 
+        List<Event> busyEvents = [SELECT Id, ActivityDateTime,EndDateTime,StartDateTime,IsAllDayEvent, TimeslotIds__c 
                                   FROM Event 
                                   WHERE OwnerId = :staff.Id 
                                         AND ActivityDate >= :startDate 
@@ -132,32 +132,43 @@ global without sharing class PA_Availability {
      * @param appointmentHours The appointment hours JSON string.
      * @return Map<Date, List<String>> A map of appointment hours for each date.
      */
-    private static Map<Date, List<String>> mapAppointmentHours(Date startDate, Date endDate, String appointmentHours) {
-        Map<Date, List<String>> appointmentHoursMap = new Map<Date, List<String>>();
-        List<Object> appointmentHoursList = (List<Object>) JSON.deserializeUntyped(appointmentHours);
-
-        for (Object hour : appointmentHoursList) {
-            Map<String, Object> hourMap = (Map<String, Object>) hour;
-            Integer dow = (Integer) hourMap.get('dow');
-            String startHour = (String) hourMap.get('start');
-            String endHour = (String) hourMap.get('end');
-
-            for (Date currentDate = startDate; currentDate <= endDate; currentDate = currentDate.addDays(1)) {
-                Datetime currentDateTime = datetime.newInstance(currentDate.year(), currentDate.month(), currentDate.day());
-                String currentDayOfWeek = currentDateTime.format('EEEE').toLowerCase();
-                if (dow == getDayOfWeekNumber(currentDayOfWeek)) {
-                    if (!appointmentHoursMap.containsKey(currentDate)) {
-                        appointmentHoursMap.put(currentDate, new List<String>());
-                    }
-                    if (startHour != null && endHour != null) {
-                        appointmentHoursMap.get(currentDate).add(startHour + '-' + endHour);
-                    }
+   private static Map<Date, List<String>> mapAppointmentHours(Date startDate, Date endDate, String appointmentHours) {
+    Map<Date, List<String>> appointmentHoursMap = new Map<Date, List<String>>();
+    List<Object> appointmentHoursList = (List<Object>) JSON.deserializeUntyped(appointmentHours);
+ 
+    for (Object hour : appointmentHoursList) {
+        Map<String, Object> hourMap = (Map<String, Object>) hour;
+        Integer dow = (Integer) hourMap.get('dow');
+        String startHour = (String) hourMap.get('start');
+        String endHour = (String) hourMap.get('end');
+ 
+        // Adjust the endHour to subtract 30 minutes
+        if (endHour != null) {
+            Datetime endDateTime = Datetime.newInstance(2023, 1, 1, 
+                Integer.valueOf(endHour.split(':')[0]), 
+                Integer.valueOf(endHour.split(':')[1]), 
+                0
+            );
+            endDateTime = endDateTime.addMinutes(-30);
+            endHour = endDateTime.format('HH:mm:ss');
+        }
+ 
+        for (Date currentDate = startDate; currentDate <= endDate; currentDate = currentDate.addDays(1)) {
+            Datetime currentDateTime = datetime.newInstance(currentDate.year(), currentDate.month(), currentDate.day());
+            String currentDayOfWeek = currentDateTime.format('EEEE').toLowerCase();
+            if (dow == getDayOfWeekNumber(currentDayOfWeek)) {
+                if (!appointmentHoursMap.containsKey(currentDate)) {
+                    appointmentHoursMap.put(currentDate, new List<String>());
+                }
+                if (startHour != null && endHour != null) {
+                    appointmentHoursMap.get(currentDate).add(startHour + '-' + endHour);
                 }
             }
         }
-
-        return appointmentHoursMap;
     }
+ 
+    return appointmentHoursMap;
+}
 
     /**
      * Retrieves the day of the week number from the day name.
@@ -191,27 +202,34 @@ global without sharing class PA_Availability {
             busyTimeSlotsByDate.put(aDate, new List<String>());
         }
 
-        for (Event event : busyEvents) {
-            DateTime eventDateTime = event.ActivityDateTime<>null?event.ActivityDateTime: event.StartDateTime;//Ulrich
-            Date eventDate = eventDateTime.date();
-
-            if (!busyTimeSlotsByDate.containsKey(eventDate)) {
-                busyTimeSlotsByDate.put(eventDate, new List<String>());
+        for(Event event : busyEvents) {
+            DateTime FirstendDateTime;
+            if ((event.TimeslotIds__c <> null) && (event.IsAllDayEvent == false)){
+                System.debug('toto');
+                FirstendDateTime = event.EndDateTime.addMinutes(-30);
             }
+            else{
+                FirstendDateTime = event.EndDateTime;
+            }
+            DateTime startDateTime = event.ActivityDateTime<>null?event.ActivityDateTime: event.StartDateTime;
+            DateTime endDateTime = FirstendDateTime;
 
-            List<String> busyTimeSlots = busyTimeSlotsByDate.get(eventDate);
+            while(startDateTime.date() <= endDateTime.date()) {
+                DateTime currentEndDateTime = (startDateTime.date() < endDateTime.date()) || (event.IsAllDayEvent && startDateTime.date() == endDateTime.date()) ? DateTime.newInstance(startDateTime.date(), Time.newInstance(23, 59, 59, 999)) : endDateTime;
+                if(event.IsAllDayEvent) {
+                    startDateTime = DateTime.newInstance(startDateTime.date(), Time.newInstance(0, 0, 0, 0));
+                }
+                Date eventDate = startDateTime.date();
+                if (!busyTimeSlotsByDate.containsKey(eventDate)) {
+                    busyTimeSlotsByDate.put(eventDate, new List<String>());
+                }
 
-            String eventStartTime = String.valueOf(eventDateTime.hour()) + ':' +
-                                    (eventDateTime.minute() < 10 ? '0' : '') +
-                                    String.valueOf(eventDateTime.minute());
+                List<String> busyTimeSlots = busyTimeSlotsByDate.get(eventDate);
+                busyTimeSlots.add(getTimeFromDateTime(startDateTime) + ' - ' + getTimeFromDateTime(currentEndDateTime));
 
-            String eventEndTime = String.valueOf(event.EndDateTime.hour()) + ':' +
-                                  (event.EndDateTime.minute() < 10 ? '0' : '') +
-                                  String.valueOf(event.EndDateTime.minute());
-
-            String eventTimeSlot = eventStartTime + ' - ' + eventEndTime;
-
-            busyTimeSlots.add(eventTimeSlot);
+                //set startDate to next day to handle multiple  days events
+                startDateTime = DateTime.newInstance(startDateTime.date().addDays(1), Time.newInstance(0, 0, 0, 0));
+            }
         }
 
         Map<Date, String> busyTimeSlotsMap = new Map<Date, String>();
@@ -222,6 +240,17 @@ global without sharing class PA_Availability {
         }
 
         return busyTimeSlotsMap;
+    }
+
+    /**
+    * Converts a DateTime value to a time string in "HH:mm" format.
+    * @param inputDateTime The DateTime object to be converted.
+    * @return String The time in "HH:mm" format, where hours are in 24-hour format and minutes are zero-padded if less than 10.
+    */
+    private static String getTimeFromDateTime(DateTime inputDateTime) {
+        return String.valueOf(inputDateTime.hour()) + ':' +
+                (inputDateTime.minute() < 10 ? '0' : '') +
+                String.valueOf(inputDateTime.minute());
     }
 
     /**
@@ -236,6 +265,7 @@ global without sharing class PA_Availability {
         Map<Date, String> freeTimeSlotsByDate = new Map<Date, String>();
         Map<Date, String> availableTimeSlots = buildAvailableTimeSlots(appointmentHoursMap, appointmentDuration);
         for (Date aDate : availableTimeSlots.keySet()) {
+            List<String> allSlots = new List<String>();
             String availableSlots = availableTimeSlots.get(aDate);
             String busySlots = busyTimeSlotsMap.containsKey(aDate) ? busyTimeSlotsMap.get(aDate) : '';
             if (String.isBlank(busySlots)) {
@@ -251,8 +281,18 @@ global without sharing class PA_Availability {
                 Map<Date, String> selectedSlotMap = buildMapFromString(selectedSlotStr);
                 if(selectedSlotMap.containsKey(aDate)) {
                     System.debug('aDate '+aDate);
-                    List<String> freeSlotByParam = manageMissingSlots(availableSlots, busySlots, selectedSlotMap.get(aDate));
+                    for (String slot : busySlots.split(';')) {
+                        String startTime = slot.split(' - ')[0];
+                        String endTime = slot.split(' - ')[1];
+                        allSlots.addAll(SlotCalculator.generateSlots(startTime, endTime));
+                    }
+                    
+                    String allSlotsString = String.join(allSlots, ';');
+                    System.debug('allSlotsString '+allSlotsString);
+                    List<String> freeSlotByParam = manageMissingSlots(availableSlots, allSlotsString, selectedSlotMap.get(aDate));
+                    System.debug('freeSlotByParam : '+freeSlotByParam);
                     freeSlotByParam.add(selectedSlotMap.get(aDate));
+                    System.debug('freeSlotByParam : '+freeSlotByParam);
                     List<String> sortedIntervals = TimeIntervalSorter.sortTimeIntervals(freeSlotByParam);
                 	freeTimeSlotsByDate.put(aDate, String.join(sortedIntervals, ';'));
                 }else {
@@ -383,7 +423,11 @@ global without sharing class PA_Availability {
         List<String> availableSlotList = availableSlots.split(';');
         List<String> busySlotList = busySlots.split(';');
         
+        System.debug('busySlots : '+busySlots);
+        
         List<String> missingSlots = SlotCalculator.findMissingSlots(busySlotList, availableSlotList, calculatedFreeSlots);
+        System.debug('missingSlots : '+missingSlots);
+        System.debug('availableSlotList : '+availableSlotList[availableSlotList.size()-1]);
 		Integer selectedSlotStart = SlotCalculator.getTimeInMinutes(splitSelectedSlot[0]);
         Integer selectedSlotEnd = SlotCalculator.getTimeInMinutes(splitSelectedSlot[1]);
         for(String str : missingSlots) {
@@ -425,7 +469,7 @@ global without sharing class PA_Availability {
             }
             
         }
-        
+        System.debug('calculatedFreeSlots : '+calculatedFreeSlots);
         return calculatedFreeSlots;
     }
     

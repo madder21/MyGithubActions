@@ -269,7 +269,8 @@
             <label>12H, Task Completed</label>
         </rules>
     </decisions>
-    <description>.. Send a reminder for the given clientBooking appointment. Two kind of reminders are sent, one as a task for the Client Advisor and one for the client.</description>
+    <description>.. Send a reminder for the given clientBooking appointment. Two kind of reminders are sent, one as a task for the Client Advisor and one for the client.
+Ulrich 13/01/2025: additional condition based on clientBookingID</description>
     <environments>Default</environments>
     <formulas>
         <name>ActivityDate</name>
@@ -288,7 +289,7 @@
     <formulas>
         <name>f_ReminderSubject</name>
         <dataType>String</dataType>
-        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder} + &quot; &quot; + {!clientBooking.ConfirmationNumber__c}</expression>
+        <expression>{!$Label.LABS_AP_Task_Subject_BookingReminder}</expression>
     </formulas>
     <interviewLabel>Private Appointment Send Reminder {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Private Appointment Send Reminder</label>
@@ -357,10 +358,10 @@
             </value>
         </filters>
         <filters>
-            <field>Subject</field>
+            <field>Client_Booking__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>f_ReminderSubject</elementReference>
+                <elementReference>clientBooking.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>

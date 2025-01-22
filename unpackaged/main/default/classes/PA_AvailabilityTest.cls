@@ -6,6 +6,7 @@
  * 
  ***************************************************************************************************************************************************************** 
  * 0.0		|2024/04/18			|.PLM		|.JIRA SFMC-392			|.Original Version
+ * 0.1		|2025/01/08			|.SA(Balink)|.JIRA RCLIENT-1651		|.Modify method buildBusyTimeSlotsMap to handle multiple days events and All day Events
 */
 @isTest
 private class PA_AvailabilityTest {
@@ -55,6 +56,8 @@ private class PA_AvailabilityTest {
 		Time myTime = Time.newInstance(3, 3, 3, 0);
 		DateTime dt = DateTime.newInstance(myDate, myTime);
         
+        List<Event> events = new List<Event>();
+
         Event testEvent = new Event(
         	OwnerId = testStaff.Id,
             Store__c = testStore.Id,
@@ -63,7 +66,41 @@ private class PA_AvailabilityTest {
             ShowAs = 'Busy',
             Subject = 'Private Appointment'
         );
-        insert testEvent;
+        events.add(testEvent);
+
+        Event testEventMultiple = new Event(
+        	OwnerId = testStaff.Id,
+            Store__c = testStore.Id,
+            StartDateTime = DateTime.newInstance(2024, 1, 1, 12, 30, 0),
+            DurationInMinutes = 30,
+            ShowAs = 'Busy',
+            Subject = 'Private Appointment Multiple'
+        );
+        events.add(testEventMultiple);
+
+        Event testEventAllDaySingle = new Event(
+            IsAllDayEvent = true,
+        	OwnerId = testStaff.Id,
+            Store__c = testStore.Id,
+            ActivityDate = Date.newInstance(2024, 1, 1),
+            DurationInMinutes = 1440,
+            ShowAs = 'Busy',
+            Subject = 'Private Appointment All Day Single'
+        );
+        events.add(testEventAllDaySingle);
+
+        Event testEventAllDayMultiple = new Event(
+            IsAllDayEvent = true,
+        	OwnerId = testStaff.Id,
+            Store__c = testStore.Id,
+            ActivityDate = Date.newInstance(2024, 1, 1),
+            DurationInMinutes = 4320,
+            ShowAs = 'Busy',
+            Subject = 'Private Appointment All Day Multiple'
+        );
+        events.add(testEventAllDayMultiple);
+
+        insert events;
     }
     
     // Test method for getStoreAvailability

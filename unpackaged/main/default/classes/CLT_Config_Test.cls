@@ -1,16 +1,49 @@
+/**
+ * @author BALINK
+ * @Type Apex Test Class
+ *****************************************************************************************************************************************************************
+ * @description Test class for the `CLT_Config` Apex class:
+ * testSetup : Creation of test data including User, Store, Gift, and Clienteling Event
+ * TEST METHOD              | DESCRIPTION
+ * test_Config_DELETE       | Tests the `retrieveDelete` method of the `CLT_Config` class to ensure it handles deletion correctly.
+ * test_Config_POST         | Tests the `retrievePost` method of the `CLT_Config` class to verify it processes POST requests properly.
+ * test_Config_GET          | Tests the `retrieveGet` method of the `CLT_Config` class to ensure it retrieves data correctly for empty parameters.
+ * test_Config_GET_Gifts   | Tests the `retrieveGet` method with parameters for 'gift' to verify it retrieves gift data correctly.
+ * test_Config_GET_Events  | Tests the `retrieveGet` method with parameters for 'event' to ensure it retrieves event data correctly.
+ * 
+ * ****************************************************************************************************************************************************************
+ * @Version :
+ * Version  | Date of Modification | Modified By        | Related Jira Ticket | Description of Changes
+ * 0.0      |                      | BALINK             | .                   | Original version.
+ * 1.0      |18/12/2024            | Sarah A.(Balink)   | RCLIENT-1572        | only Online Appointment Service that are Online should be retruned.
+ */
 @isTest
 private class CLT_Config_Test {
 
+    /**
+     * @description Test setup method to prepare test data.
+     * Creates a test User, Store, Gift, and Clienteling Event records.
+     */
 	@TestSetup
 	static void prepareTestData(){
 		CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
-		CLT_TestDateFactory.createTestStore('TST123', true);
+		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
         String giftNameOption =  Gift__c.Name__c.getDescribe().getPicklistValues()[0].getLabel();
 		CLT_TestDateFactory.createTestGift(giftNameOption, true);
         String eventNameOption =  Event__c.Name__c.getDescribe().getPicklistValues()[0].getLabel();
 		CLT_TestDateFactory.createTestClientelingEvent(eventNameOption, true);
+        insert new AppointmentService__c(
+            Store__c = store.Id,
+            Status__c = 'Online',
+            Name = 'Test',
+            BooxiId__c = '123'
+        );
 	}
 
+    /**
+     * @description Test method to validate the deletion functionality in `CLT_Config`.
+     * Verifies that the `retrieveDelete` method correctly handles delete operations.
+    */
 	@isTest
 	static void test_Config_DELETE() {
 		CLT_Config cltConfig = new CLT_Config();
@@ -27,6 +60,10 @@ private class CLT_Config_Test {
         }
 	}
 
+    /**
+     * @description Test method to validate the POST functionality in `CLT_Config`.
+     * Verifies that the `retrievePost` method correctly processes POST requests.
+     */
 	@isTest
 	static void test_Config_POST() {
 		CLT_Config cltConfig = new CLT_Config();
@@ -43,6 +80,10 @@ private class CLT_Config_Test {
         }
 	}
 
+    /**
+     * @description Test method to validate the GET functionality in `CLT_Config` for empty parameters.
+     * Verifies that the `retrieveGet` method correctly retrieves data when no parameters are provided.
+     */
 	@isTest
 	static void test_Config_GET() {
 		CLT_Config cltConfig = new CLT_Config();
@@ -61,6 +102,10 @@ private class CLT_Config_Test {
         }
 	}
 
+    /**
+     * @description Test method to validate the GET functionality in `CLT_Config` for 'gift' type.
+     * Verifies that the `retrieveGet` method correctly retrieves gift data when 'type' parameter is set to 'gift'.
+     */
     @isTest
 	static void test_Config_GET_Gifts() {
 		CLT_Config cltConfig = new CLT_Config();
@@ -78,6 +123,10 @@ private class CLT_Config_Test {
         }
 	}
 
+    /**
+     * @description Test method to validate the GET functionality in `CLT_Config` for 'event' type.
+     * Verifies that the `retrieveGet` method correctly retrieves event data when 'type' parameter is set to 'event'.
+     */
     @isTest
 	static void test_Config_GET_Events() {
 		CLT_Config cltConfig = new CLT_Config();

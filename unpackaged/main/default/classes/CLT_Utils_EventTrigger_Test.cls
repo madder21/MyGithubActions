@@ -8,11 +8,13 @@
  * TEST METHOD                                      | DESCRIPTION
  * testSilentNotificationOnEventUpsert             | Test of silent notification generation on Event upsert
  * testSilentNotificationOnEventAssignmentUpdate   | Test of silent notification generation on Event owner update
+ * testSilentNotificationOnEventDelete             | Test of silent notification generation on Event delete
  * 
  * ****************************************************************************************************************************************************************
  * @Version :
  * Version  | Date of Modification | Modified By | Related Jira Ticket | Description of Changes
  * 0.0      | 2024/08/15           | Sarah A     | RCLIENT-1235        | Original version
+ * 0.1      | 2024/09/18           | Sarah A     | RCLIENT-1238        | add of testSilentNotificationOnEventDelete
  */
 @isTest
 private class CLT_Utils_EventTrigger_Test {
@@ -63,5 +65,29 @@ private class CLT_Utils_EventTrigger_Test {
         Notification__c notif = [SELECT RelatedRecordId__c FROM Notification__c WHERE User__c = :sa.Id AND Silent__c = true];
         System.assertEquals(e.Id, notif.RelatedRecordId__c, 'CLT_Utils_EventTrigger_Test:testSilentNotificationOnEventAssignmentUpdate: deleted notification not related to deleted event');
 
+    }
+
+    /**
+     * @description Test method to validate the creation of silent notifications on Event delete.
+     * This method ensures that a silent notification is created when an Event record is deleted.
+     */
+    @isTest
+    static void testSilentNotificationOnEventDelete() {
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        Event e = [SELECT Id,Subject FROM Event WHERE OwnerId = :sa.Id];
+
+        String eventId = e.Id;
+
+        Test.startTest();
+        delete e;
+        Test.stopTest();
+
+        Notification__c deleteSilentNotification = [SELECT RelatedRecordId__c 
+                                                        FROM Notification__c 
+                                                        WHERE User__c = :sa.Id AND Type__c = :CLT_SendSilentPushNotifications.SILENT_AGENDA_TYPE 
+                                                            AND Subtype__c = :CLT_SendSilentPushNotifications.SILENT_AGENDA_DELETE_SUBTYPE 
+                                                            AND Sent__c = true AND Silent__c = true];
+        System.assertEquals(eventId, deleteSilentNotification.RelatedRecordId__c, 'CLT_Utils_EventTrigger_Test:testSilentNotificationOnEventDelete: deleted notification not related to deleted event');
     }
 }

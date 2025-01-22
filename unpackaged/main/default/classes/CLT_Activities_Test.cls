@@ -21,16 +21,20 @@
  * 0.0		|2019/02/06			|.Israel Z.		|.						|.original version
  * 1.0		|2024/05/12			|.Sarah A.		|.						|.add of test for getEvent
  * 1.1		|2024/05/29			|.Sarah A.		|.						|.add of test for getClientCegidIdsMap
- * 1.1		|2024/07/22			|.Sarah A.		|.						|.add of test for getActivities with delta param
+ * 1.2		|2024/07/22			|.Sarah A.		|.						|.add of test for getActivities with delta param
+ * 1.3		|2025/01/05			|.Sarah A.		|.						|.modify get test to handle show agenda restriction for birthday tasks
 */
 @IsTest
 private class CLT_Activities_Test {
 
 	@TestSetup
 	static void prepareTestData(){
+		CLT_TestDateFactory.createTestRClientConfigurations(true);
 		User sa = CLT_TestDateFactory.createTestUser(System.Label.profileName_StoreUser, true);
 		Store__c store = CLT_TestDateFactory.createTestStore('TST123', true);
-		Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, true);
+		Account client = CLT_TestDateFactory.createTestClient('Test First Name', 'Test Last Name', sa.Id, store.Id, false);
+		client.LightCurrentCluster__pc = 'VIC';
+		insert client;
         ClientSource__c cs1 = CLT_TestDateFactory.createTestClientSource(client.Id, '001', 'TST00123', true);
         ClientSource__c cs2 = CLT_TestDateFactory.createTestClientSource(client.Id, '002', 'TST00223', true);
 	}
@@ -167,13 +171,15 @@ private class CLT_Activities_Test {
 		User sa = [SELECT Id FROM User WHERE Username LIKE '%clttestuser@rimowa.com' AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
 
         System.runAs(sa) {
+			Account client = [SELECT PersonContactId FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
 			Task t = CLT_TestDateFactory.createTask(sa.Id, false);
 			t.Description = 'test get activity task';
+			t.TaskType__c = 'Birthday';
+			t.WhatId = client.Id;
 			insert t;
 
 			CLT_Activities.manageTaskAttachments(new List<String>{'iVBORw0KGgoAAAANSUhEUgAAABsAAAAOCAYAAADez2d9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVDhPY/hPRzBqGVXAqGVUAaOWUQWMWkYVQEfL/v8HAOqF4mTjJwcdAAAAAElFTkSuQmCC'}, t);
 
-			Account client = [SELECT PersonContactId FROM Account WHERE FirstName = 'Test First Name' AND LastName = 'Test Last Name' LIMIT 1];
 			Event e = CLT_TestDateFactory.createTestEvent(sa.Id, false);
 			e.Description = 'test get activity event';
 			e.WhoId = client.PersonContactId;

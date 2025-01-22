@@ -16,11 +16,13 @@
  * testRelatedClientListMembersStatus              | Validates status update of ClientListMember related to tasks.
  * testSilentNotificationOnTaskUpsert              | Checks silent notification generation on task upsert.
  * testSilentNotificationOnTaskAssignmentUpdate    | Ensures silent notification generation on task owner update.
+ * testSilentNotificationOnTaskDelete              | Ensures silent notification generation on task delete.
  * ****************************************************************************************************************************************************************
  * @Version :
  * Version  | Date of Modification | Modified By | Related Jira Ticket | Description of Changes
  * 0.0      | 2019/07/15           |              |                     | Original version
  * 1.0      | 2024/08/15           |              |                     | add of testSilentNotificationOnTaskUpsert + testSilentNotificationOnTaskAssignmentUpdate
+ * 1.1      | 2024/09/18           |              |                     | add of testSilentNotificationOnTaskDelete
  */
 @IsTest
 private class CLT_Utils_TaskTrigger_Test {
@@ -197,7 +199,7 @@ private class CLT_Utils_TaskTrigger_Test {
 
     /**
      * @description Test method to validate the creation of silent notifications on Task owner update.
-     * This method ensures that a silent notification is created when the owner of an Task record is updated.
+     * This method ensures that a silent notification is created when the owner of a Task record is updated.
      */
     @isTest
     static void testSilentNotificationOnTaskAssignmentUpdate() {
@@ -215,5 +217,25 @@ private class CLT_Utils_TaskTrigger_Test {
         Notification__c notif = [SELECT RelatedRecordId__c FROM Notification__c WHERE User__c = :sa.Id AND Silent__c = true];
         System.assertEquals(t.Id, notif.RelatedRecordId__c, 'CLT_Utils_TaskTrigger_Test:testSilentNotificationOnTaskAssignmentUpdate: deleted notification not related to deleted task');
 
+    }
+
+     /**
+     * @description Test method to validate the creation of silent notifications on Task delete.
+     * This method ensures that a silent notification is created when a Task record is deleted.
+     */
+    @isTest
+    static void testSilentNotificationOnTaskDelete() {
+        String testUserEmailPostfix = '%' + CLT_TestDateFactory.TEST_USER_EMAIL_POSTFIX;
+        User sa = [SELECT Id FROM User WHERE Username LIKE :testUserEmailPostfix AND Profile.Name = :System.Label.profileName_StoreUser LIMIT 1];
+        Task t = CLT_TestDateFactory.createTask(sa.Id, true);
+
+        String taskId = t.Id;
+
+        Test.startTest();
+        delete t;
+        Test.stopTest();
+
+        Notification__c notif = [SELECT RelatedRecordId__c FROM Notification__c WHERE User__c = :sa.Id AND Silent__c = true];
+        System.assertEquals(taskId, notif.RelatedRecordId__c, 'CLT_Utils_TaskTrigger_Test:testSilentNotificationOnTaskDelete: deleted notification not related to deleted task');
     }
 }

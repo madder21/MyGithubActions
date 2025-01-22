@@ -2,26 +2,124 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <assignments>
-        <name>Assign_All_Day_Event</name>
-        <label>Assign All Day Event</label>
+        <name>AllDay_Event_Assignment</name>
+        <label>AllDay Event Assignment</label>
         <locationX>50</locationX>
-        <locationY>458</locationY>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.Type</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.type</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>client.userId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.IsReminderSet</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.Subject</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Other</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.Outreach_Reason__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.description</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.Store__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>client.storeId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.TimeslotIds__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_TimeslotsIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.ActivityDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BaseStartDatetime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.ActivityDateTime</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BaseStartDatetime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.StartDateTime</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BaseStartDatetime</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.EndDateTime</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>BaseEndDatetime</elementReference>
+            </value>
+        </assignmentItems>
         <assignmentItems>
             <assignToReference>TimeslotEvent.IsAllDayEvent</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>timeSlot.allDay</elementReference>
+                <booleanValue>true</booleanValue>
             </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>TimeslotEvent.DurationInMinutes</assignToReference>
+            <operator>Assign</operator>
         </assignmentItems>
         <connector>
             <targetReference>Create_Timeslot_Event</targetReference>
         </connector>
     </assignments>
     <assignments>
+        <description>Variable “Var_TimeslotsIds” used in formula for formatting</description>
+        <name>Assign_TimeSlotsIds</name>
+        <label>Assign TimeSlotsIds</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>Var_TimeslotsIds</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>timeSlot.timeslotIds</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_AllDay_Flag</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Event_Assignment</name>
         <label>Event Assignment</label>
-        <locationX>182</locationX>
-        <locationY>242</locationY>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>TimeslotEvent.ActivityDate</assignToReference>
             <operator>Assign</operator>
@@ -40,7 +138,7 @@
             <assignToReference>TimeslotEvent.EndDateTime</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>timeSlot.endOn</elementReference>
+                <elementReference>AdjustedEndDatetime</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -96,36 +194,20 @@
             <assignToReference>TimeslotEvent.ActivityDateTime</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>timeSlot.startOn</elementReference>
+                <elementReference>AdjustedStartDatetime</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Check_AllDay_Flag</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>Test</name>
-        <label>Test</label>
-        <locationX>182</locationX>
-        <locationY>134</locationY>
-        <assignmentItems>
-            <assignToReference>Var_TimeslotsIds</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>timeSlot.timeslotIds</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Event_Assignment</targetReference>
+            <targetReference>Create_Timeslot_Event</targetReference>
         </connector>
     </assignments>
     <decisions>
         <name>Check_AllDay_Flag</name>
         <label>Check AllDay Flag</label>
         <locationX>182</locationX>
-        <locationY>350</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Create_Timeslot_Event</targetReference>
+            <targetReference>Event_Assignment</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -138,19 +220,49 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>timeSlot.allDay</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Assign_All_Day_Event</targetReference>
+                <targetReference>AllDay_Event_Assignment</targetReference>
             </connector>
             <label>Was Set</label>
         </rules>
     </decisions>
     <description>27/11/2024 Ulrich: Add timeslot Ids List
-04/12/2024: add all day event</description>
+04/12/2024: add all day event
+24/12/2024: Fix managing timezone offsets for all day event</description>
     <environments>Default</environments>
     <formulas>
         <name>ActivityDate</name>
         <dataType>Date</dataType>
-        <expression>DATEVALUE({!timeSlot.startOn})</expression>
+        <expression>DATEVALUE({!AdjustedStartDatetime})</expression>
+    </formulas>
+    <formulas>
+        <name>AdjustedEndDatetime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(SUBSTITUTE(LEFT({!timeSlot.endOn}, 19), &quot;T&quot;, &quot; &quot;)) - {!EndOffSet}</expression>
+    </formulas>
+    <formulas>
+        <name>AdjustedStartDatetime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(SUBSTITUTE(LEFT({!timeSlot.startOn}, 19), &quot;T&quot;, &quot; &quot;)) - {!StartOffSet}</expression>
+    </formulas>
+    <formulas>
+        <description>EndOn DateTime In GMT</description>
+        <name>BaseEndDatetime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(SUBSTITUTE(LEFT({!timeSlot.endOn}, 19), &quot;T&quot;, &quot; &quot;))</expression>
+    </formulas>
+    <formulas>
+        <description>StartOn DateTime In GMT</description>
+        <name>BaseStartDatetime</name>
+        <dataType>DateTime</dataType>
+        <expression>DATETIMEVALUE(SUBSTITUTE(LEFT({!timeSlot.startOn}, 19), &quot;T&quot;, &quot; &quot;))</expression>
     </formulas>
     <formulas>
         <name>currentIndexFormula</name>
@@ -159,9 +271,23 @@
         <scale>2</scale>
     </formulas>
     <formulas>
+        <name>EndOffSet</name>
+        <dataType>Number</dataType>
+        <expression>(((VALUE(MID({!timeSlot.endOn}, 20, 3))) + (VALUE(MID({!timeSlot.endOn}, 24, 2)) / 60)) * 
+IF(LEFT(MID({!timeSlot.endOn}, 20, 1), 1) = &quot;-&quot;, -1, 1)) *(60/1440)</expression>
+        <scale>10</scale>
+    </formulas>
+    <formulas>
         <name>Formula_TimeslotsIds</name>
         <dataType>String</dataType>
         <expression>SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE({!TextTemplate_TimeSlotIds}, &quot;[&quot;, &quot;&quot;), &quot;]&quot;, &quot;&quot;), &quot; &quot;, &quot;&quot;), &quot;,00&quot;, &quot;&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>StartOffSet</name>
+        <dataType>Number</dataType>
+        <expression>(((VALUE(MID({!timeSlot.startOn}, 20, 3))) + (VALUE(MID({!timeSlot.startOn}, 24, 2)) / 60)) * 
+IF(LEFT(MID({!timeSlot.startOn}, 20, 1), 1) = &quot;-&quot;, -1, 1)) *(60/1440)</expression>
+        <scale>10</scale>
     </formulas>
     <formulas>
         <name>timeSlotIds</name>
@@ -193,17 +319,22 @@
         <name>Create_Timeslot_Event</name>
         <label>Create Timeslot Event</label>
         <locationX>182</locationX>
-        <locationY>650</locationY>
+        <locationY>542</locationY>
         <inputReference>TimeslotEvent</inputReference>
     </recordCreates>
     <start>
         <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Test</targetReference>
+            <targetReference>Assign_TimeSlotsIds</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <textTemplates>
+        <name>TestBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;timeSlot.startOn : {!timeSlot.startOn}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;timeSlot.endOn : &lt;/span&gt;{!timeSlot.endOn}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;AdjustedStartDatetime : &lt;/span&gt;{!AdjustedStartDatetime}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;StartOffSet : {!StartOffSet}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;AdjustedEndDatetime: &lt;/span&gt;{!AdjustedEndDatetime}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;EndOffSet : {!EndOffSet}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;BaseEndDatetime : {!BaseEndDatetime}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;BaseStartDatetime : {!BaseStartDatetime}&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
     <textTemplates>
         <name>TextTemplate_TimeSlotIds</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
@@ -226,6 +357,16 @@
         <scale>2</scale>
         <value>
             <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>StartDateTime</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>AdjustedStartDatetime</elementReference>
         </value>
     </variables>
     <variables>

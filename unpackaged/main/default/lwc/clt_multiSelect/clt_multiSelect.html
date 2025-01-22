@@ -1,0 +1,71 @@
+<template>
+    <div>
+        <label class="slds-form-element__label filters-prefered-label" for="combobox-id-48">{label}</label>
+    </div>
+    <div class="slds-form-element slds-grid filter-wrapper-center filters-holder">
+        <div class="slds-form-element__control is--combobox">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <input
+                            type="text"
+                            class="slds-input slds-combobox__input filters-prefered-input-hover"
+                            id="combobox-id-49"
+                            aria-controls="popover-unique-id-03"
+                            autocomplete="off"
+                            role="textbox"
+                            disabled={isDisable}
+                            placeholder={placeholderValue}
+                            onclick={handleClick}
+                            readonly="" />
+                        <lightning-icon icon-name="utility:down" class="filters-prefered-icon" onclick={handleClick}></lightning-icon>
+                        <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                            <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                            </svg>
+                        </span>
+                    </div>
+                    <section
+                        aria-describedby="dialog-body-id-25"
+                        aria-label="Language Options"
+                        class="slds-popover slds-popover_full-width slds-hide filters-selection"
+                        id="popover-unique-id-03"
+                        role="dialog">
+                        <div class="slds-popover__body slds-popover__body_small" id="dialog-body-id-25">
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__control" disabled={isDisable}>
+                                    <template for:each={options} for:item="option">
+                                        <div class="slds-checkbox single checkbox" key={option.value}>
+                                            <input
+                                                type="checkbox"
+                                                name="options"
+                                                id={option.value}
+                                                value={option.value}
+                                                onclick={handleSelection}
+                                                disabled={isReadOnly} />
+                                            <label class="slds-checkbox__label" for={option.value}>
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label">{option.label}</span>
+                                            </label>
+                                        </div>
+                                    </template>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div if:false={isReadOnly}>
+                            <footer class="slds-popover__footer slds-popover__footer_form">
+                                <button class="slds-button slds-button_neutral" onclick={handleCancel}> {labelObj.cancel} </button>
+                                <button class="slds-button slds-button_brand" onclick={handleSelected}> {labelObj.done} </button>
+                            </footer>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden-checkboxes" style="display: none;">
+        <template for:each={options} for:item="option">
+            <input key={option.value} type="checkbox" name="hidden-options" id={option.value} value={option.value} />
+        </template>
+    </div>
+</template>

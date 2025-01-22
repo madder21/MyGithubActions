@@ -1,4 +1,21 @@
-public class SlotCalculator {
+public with sharing class SlotCalculator {
+    
+    public static List<String> generateSlots(String startTime, String endTime) {
+		List<String> slots = new List<String>();
+        Integer startMinutes = getTimeInMinutes(startTime);
+   		Integer endMinutes = getTimeInMinutes(endTime);
+        
+        for (Integer times = startMinutes; times < endMinutes; times += 30) {
+            slots.add(minutesToTime(times) + ' - ' + minutesToTime(times + 30));
+        }
+        return slots;
+    }
+    
+    public static String minutesToTime(Integer minutes) {
+        Integer hours = minutes / 60;
+        Integer mins = Math.mod(minutes, 60);
+        return String.valueOf(hours) + ':' + (mins < 10 ? '0' + String.valueOf(mins) : String.valueOf(mins));
+    }
     
     public static List<String> findMissingSlots(List<String> busySlots, List<String> availableslots, List<String> calculedFreeSlots) {
         // Liste des créneaux manquants (basée sur la précédente logique)
@@ -61,4 +78,5 @@ public class SlotCalculator {
         Integer minutes = Integer.valueOf(timeParts[1]);
         return hours * 60 + minutes;
     }
+    
 }

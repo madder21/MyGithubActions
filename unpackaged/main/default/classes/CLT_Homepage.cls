@@ -65,7 +65,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
     public Map<String, Object> getNews(User user, Store__c userStore) {
         Map<String, Object> result = new Map<String, Object>();
         List<Map<String, Object>> newsResponse = new List<Map<String, Object>>();
-        Map<Id, News__c> newsMap = new Map<Id, News__c>([SELECT Id,Highlighted__c,Link__c,Title__c,Text__c,PublishStartDate__c,PublishEndDate__c,CreatedDate
+        Map<Id, News__c> newsMap = new Map<Id, News__c>([SELECT Id,Highlighted__c,Link__c,ActionLabel__c,Title__c,Text__c,PublishStartDate__c,PublishEndDate__c,CreatedDate
                                                         FROM News__c
                                                         WHERE (PublishStartDate__c = NULL OR PublishStartDate__c <= TODAY) 
                                                             AND (PublishEndDate__c = NULL OR PublishEndDate__c >= TODAY)
@@ -89,6 +89,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
             newsResponse.add(new Map<String, Object> {
                 'id' => news.Id,
                 'highlighted' => news.Highlighted__c,
+                'actionLabel' => !String.isEmpty(news.ActionLabel__c) ? news.ActionLabel__c : System.Label.CLT_defaultActionLabel,
                 'link' => (newsContentMap.containsKey(news.id) && newsContentMap.get(news.id).ContentLink__c != NULL ? newsContentMap.get(news.id).ContentLink__c : news.Link__c),
                 'title' => (newsContentMap.containsKey(news.id) && !String.isEmpty(newsContentMap.get(news.id).ContentTitle__c) ? newsContentMap.get(news.id).ContentTitle__c : news.Title__c),
                 'text' => (newsContentMap.containsKey(news.id) && !String.isEmpty(newsContentMap.get(news.id).ContentText__c) ? newsContentMap.get(news.id).ContentText__c : news.Text__c),
@@ -106,7 +107,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
 
     public List<Map<String, Object>> getTransactionCombo(Decimal versionNum, String userId, String storeId) {
         if(versionNum >= 2.13) {
-            return getTransactionComboV2(userId, storeId);
+            return getTransactionComboV2(userId);
         }
         else {
             return getTransactionCombo(userId, storeId);
@@ -195,7 +196,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
         return result;
     }
     
-    public List<Map<String, Object>> getTransactionComboV2(String userId, String storeId) {
+    public List<Map<String, Object>> getTransactionComboV2(String userId) {
         List<String> comboClientsIds = new List<String>();
         List<String> comboTransactionsIds = new List<String>();
         for(Transaction__c t : [SELECT Id,Client__c, 
@@ -204,8 +205,7 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
                                     WHERE (NOT Product__r.StockKeepingUnit LIKE '2%') AND Product__r.macrofunction__c != 'REPARATION' 
                                         AND Type__c = 'Sale' AND ExclTaxAmount__c > 0)
                                 FROM Transaction__c 
-                                WHERE Client__r.Last_Transaction_SA__pc = :userId AND TransactionDate__c = LAST_N_DAYS:13 
-                                    AND Store__c = :storeId AND Client__c NOT IN 
+                                WHERE Client__r.Last_Transaction_SA__pc = :userId AND TransactionDate__c = LAST_N_DAYS:13 AND Client__c NOT IN 
                                         (SELECT Client__c FROM ClientSource__c WHERE (SourceCode__c LIKE '____'  OR SourceCode__c LIKE '%000000'))]) {
             if(t.Transaction_Items__r.size() > 0) {
                 comboTransactionsIds.add(t.Id);
@@ -220,7 +220,8 @@ public with sharing class CLT_Homepage implements CLT_RetailInterface {
                                     [SELECT Id,FirstName,LastName,LastPurchaseDate__pc,FirstPurchaseDate__pc,LightCurrentCluster__pc,
                                         (SELECT TransactionDate__c, LocalOrTourist__c 
                                         FROM Transactions__r 
-                                        WHERE Id IN :comboTransactionsIds AND TransactionDate__c = LAST_N_DAYS:13 AND Store__c = :storeId ORDER BY TransactionDate__c DESC LIMIT 1),
+                                        WHERE Id IN :comboTransactionsIds AND TransactionDate__c = LAST_N_DAYS:13
+                                        ORDER BY TransactionDate__c DESC LIMIT 1),
                                         (SELECT ReviewedInformation__c FROM Client_Insights__r WHERE LastReviewDate__c = LAST_N_DAYS:13),
                                         (SELECT Id,Outreach_Type__c,ActivityDate,CreatedDate
                                         FROM Tasks 

@@ -126,6 +126,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>CLT_Email_Template__c.Email_Template_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CardPaymentMethod.RI_PaymentMethodId__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -607,6 +612,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.InternalNotes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Modified_By_StaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1965,6 +1975,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Store__c.Ferme__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Task.BooxiId__c</field>
         <readable>true</readable>
@@ -1977,6 +1992,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.InternalNotes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Modified_By_StaffId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5668,6 +5688,9 @@
         <layout>BlockEmailsAddresses__c-Block Emails Addresses Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>CLT_NotificationManagement__mdt-CLT NotificationManagement Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>CaseInteraction-Case Feed Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -5747,7 +5770,16 @@
         <layout>LogLevel__mdt-Log Level Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>NewsContent__c-News Content Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>News__c-News Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Note_History__c-Note History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Notification__c-Notification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Order-Order Layout</layout>
@@ -7110,6 +7142,10 @@
     <tabVisibilities>
         <tab>TransactionalEmail__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Wishlist__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>standard-Account</tab>

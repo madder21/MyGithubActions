@@ -10,9 +10,9 @@ public with sharing class TimeslotWrapper {
 	@InvocableVariable @AuraEnabled
 	public String type;
 	@InvocableVariable @AuraEnabled
-	public Datetime startOn;
+	public String startOn;
 	@InvocableVariable @AuraEnabled
-	public Datetime endOn;
+	public String endOn;
 	@InvocableVariable @AuraEnabled
 	public Boolean canModify;
 	@InvocableVariable @AuraEnabled

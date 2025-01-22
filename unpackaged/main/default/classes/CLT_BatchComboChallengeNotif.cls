@@ -124,14 +124,14 @@ global class CLT_BatchComboChallengeNotif implements Database.Batchable<sObject>
     public Map<String,Account> getChallengeClientsMap(List<Account> scope) {
         Map<Id,Account> clientsMap = new Map<Id,Account>(scope);
         Map<String,Account> challengeClientsMap = new Map<String,Account>();
-        for(Transaction__c t : [SELECT Client__c,Client__r.Last_Transaction_SA__pr.StoreCode__c,Store__r.SourceStoreId__c,
+        for(Transaction__c t : [SELECT Client__c,
                                     (SELECT Id 
                                     FROM Transaction_Items__r 
                                     WHERE (NOT Product__r.StockKeepingUnit LIKE '2%') AND Product__r.macrofunction__c != 'REPARATION' 
                                         AND Type__c = 'Sale' AND ExclTaxAmount__c > 0)
                                 FROM Transaction__c 
                                 WHERE TransactionDate__c = :dateOfPurchase AND Client__c IN :clientsMap.keySet()]) {
-            if(t.Transaction_Items__r.size() > 0 && t.Client__r.Last_Transaction_SA__pr.StoreCode__c == t.Store__r.SourceStoreId__c) {
+            if(t.Transaction_Items__r.size() > 0) {
                 Account client = clientsMap.get(t.Client__c);
                 challengeClientsMap.put(client.Id, client);
             }

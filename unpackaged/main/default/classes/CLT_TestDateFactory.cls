@@ -378,7 +378,8 @@ public class CLT_TestDateFactory {
             NewGiftNotifSendHour__c = 11,
             NewEmailTemplateNotifSendHour__c = 12,
             ReattributedNotifSendHour__c = 9,
-            ReattributedClientListId__c = 'testtesttesttestte'
+            ReattributedClientListId__c = 'testtesttesttestte',
+            BirthdayTasksInAgendaForSegments__c = 'VIC,Collab,Multi-timer'
         );
 
         if(toInsert) {
