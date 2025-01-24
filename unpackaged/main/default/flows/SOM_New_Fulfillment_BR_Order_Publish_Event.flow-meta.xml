@@ -456,7 +456,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateNewOrderForCegidEvent</name>
-            <conditionLogic>( 1 AND 2 AND 5 ) OR ( 3 AND 4 AND 5 )</conditionLogic>
+            <conditionLogic>(5 AND 6) AND ((1 AND 2) OR (3 AND 4))</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Status</leftValueReference>
                 <operator>EqualTo</operator>
@@ -490,6 +490,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_PE_TaxId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
