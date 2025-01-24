@@ -374,11 +374,7 @@
             <targetReference>Get_Order_Delivery_Groups</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-<<<<<<< HEAD
-        <filterLogic>1 AND 2 AND ( 3 OR 4 OR 5 OR 6  )</filterLogic>
-=======
         <filterLogic>and</filterLogic>
->>>>>>> parent of 5f01782b (Merge pull request #1198 from rimowa-lvmh/feature/SOM-1246-Block-orders-without-Tax-by-Country)
         <filters>
             <field>SalesChannelId</field>
             <operator>NotEqualTo</operator>
@@ -393,37 +389,6 @@
                 <stringValue>Activated</stringValue>
             </value>
         </filters>
-<<<<<<< HEAD
-        <filters>
-            <field>Tech_CreateOS__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>SalesChannelName__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Manual Order</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>BR</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>US</stringValue>
-            </value>
-        </filters>
-=======
->>>>>>> parent of 5f01782b (Merge pull request #1198 from rimowa-lvmh/feature/SOM-1246-Block-orders-without-Tax-by-Country)
         <object>Order</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
