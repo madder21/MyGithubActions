@@ -418,35 +418,6 @@
             </connector>
             <label>TaxId false</label>
         </rules>
-        <rules>
-            <name>TaxId_true</name>
-            <conditionLogic>1 OR (2 AND 3)</conditionLogic>
-            <conditions>
-                <leftValueReference>FX_TaxId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>FX_TaxId</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_PE_TaxId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Verify_BrazilianAddress</targetReference>
-            </connector>
-            <label>TaxId true</label>
-        </rules>
     </decisions>
     <decisions>
         <name>Check_Variables</name>
@@ -1572,4 +1543,4 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             <booleanValue>false</booleanValue>
         </value>
     </variables>
-</Flow>
+</Flow> 
