@@ -128,6 +128,14 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             lineItemsToCreate.add(roItemToCreate);
                             roLineItem.QuantityReceived = roLineItem.QuantityExpected;
                             //roLineItem.QuantityExpected = returnOrderItemCreateUpdate.quantity; ==> this wil throw an exception
+                            Schema.Location loc = locationMap.get(req.warehouseId);
+                            Boolean skuTo10d = loc.ConvertSkuTo10d__c;
+                            OrderShipmentItem orderShipmentItem = orderSummaryShipmentsMap.get(req.orderSummaryNumber).get(returnOrderItemCreateUpdate.sku);
+                            String sku10Di =  orderShipmentItem.skuDigitsVal[0];
+                            if(skuTo10d == True && sku10Di != null && sku10Di.length()> 0 ){
+                               roLineItem.Sku_10_Digits__c =  sku10Di ;
+                            }
+                            
                         }
                         else if(roLineItem.QuantityExpected >= returnOrderItemCreateUpdate.quantity){
                                 roLineItem.QuantityReceived = roLineItem.QuantityReceived + returnOrderItemCreateUpdate.quantity; //returnOrderItemCreateUpdate.quantity;
@@ -304,7 +312,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                     lineItem.SerialNumber__c = String.join(returnOrderItemRequest.serialNumbers, SERIAL_NUMBER_CONCAT_CHARACTER);
                                 } 
                                 lineItem.AdditionalReturnReason__c = returnOrderItemRequest.reasonFreeText;
-                                lineItem.Sku_10_Digits__c = returnOrderItemRequest.sku10Digits;
+                                if(returnOrderItemRequest.sku10Digits != null && returnOrderItemRequest.sku10Digits != ''){
+                                	lineItem.Sku_10_Digits__c = returnOrderItemRequest.sku10Digits;
+                                }
                                 returnOrderLineItemsToUpdateList.add(lineItem);
                             }
                             ReturnOrderLineItemList.add(lineItem);
@@ -419,6 +429,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                                             Map<Id, Map<String, returnOrderItemCreateUpdate>> returnOrderItemsToUpdateMap) {
         List<ConnectApi.ReturnOrderLineItemInputRepresentation> returnOrderLineItemsInputList = new List<ConnectApi.ReturnOrderLineItemInputRepresentation>();
         Map<String, returnOrderItemCreateUpdate> returnOrderItemsRequest = new Map<String, returnOrderItemCreateUpdate>();
+        Map<String, String> SKU10Map = new Map<String, String>();
         if (!orderSummaryShipmentsMap.containsKey(req.orderSummaryNumber)) 
             return 'No shipments found for this Order Summary.';
         //Iterate over return line items
@@ -437,6 +448,11 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             returnOrderLineItemInput.orderItemSummaryId = orderShipmentItem.orderItemSummaryId;
             returnOrderLineItemInput.reasonForReturn    = returnOrderItemCreateUpdate.reasonCode == null || returnOrderItemCreateUpdate.reasonCode.length() == 0 ? SOM_Constants.RETURN_DEFAULT_REASON_CODE : returnOrderItemCreateUpdate.reasonCode;
             returnOrderLineItemInput.quantityExpected   = returnOrderItemCreateUpdate.quantity;
+            //returnOrderLineItemInput.Sku10Digits__c =  orderShipmentItem.skuDigitsVal[0];
+            if(!orderShipmentItem.skuDigitsVal.isEmpty()){
+               SKU10Map.put(orderShipmentItem.orderItemSummaryId,orderShipmentItem.skuDigitsVal[0]);
+            }
+
             if (req.type == SOM_Constants.WMS_RETURN_TYPE)
                 returnOrderLineItemInput.quantityReceived = returnOrderItemCreateUpdate.quantity;
             
@@ -459,7 +475,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         returnOrderInput.status                   = req.type == SOM_Constants.RMA_RETURN_TYPE ? SOM_Constants.RETURN_ORDER_STATUS_CREATED : SOM_Constants.RETURN_ORDER_STATUS_RECEIVED;
         returnOrderInput.returnOrderLineItems     = returnOrderLineItemsInputList;
         ConnectApi.ReturnOrderOutputRepresentation returnOrderOutput = ConnectApi.Returnorder.createReturnOrder(returnOrderInput);
-        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn,QuantityExpected, Quantity_Previously_Received__c, Quantity_Previously_Returned__c, QuantityReceived, Product2.StockKeepingUnit, RepaymentMethod FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId];
+        List<ReturnOrderLineItem> createdROLIs = [SELECT Id, reasonForReturn,QuantityExpected, Quantity_Previously_Received__c, Quantity_Previously_Returned__c, QuantityReceived, Product2.StockKeepingUnit, RepaymentMethod,Sku_10_Digits__c,OrderItemSummaryId FROM ReturnOrderLineItem WHERE ReturnOrderId = :returnOrderOutput.returnOrderId];
         List<ReturnOrderLineItem> roliToUpdateFollowUp = new List<ReturnOrderLineItem>(); 
         for(ReturnOrderItemCreateUpdate reqItem : returnItems){
             for(Integer i=0; i<createdROLIs.size(); i++){
@@ -469,6 +485,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                     returnOrderItemsRequest.put(singleROLI.Id, reqItem);
                     if(req.type == SOM_Constants.RMA_RETURN_TYPE){ // If req.type = 1 => FollowUp = Refund
                         singleROLI.RepaymentMethod = SOM_Constants.RETURN_LINE_ITEM_FOLLOW_UP_REFUND;
+                        if(SKU10Map.get(singleROLI.OrderItemSummaryId) != null) {
+                          singleROLI.Sku_10_Digits__c = SKU10Map.get(singleROLI.OrderItemSummaryId);
+                        }
                         roliToUpdateFollowUp.add(singleROLI);
                     }
                     createdROLIs.remove(i);
@@ -570,13 +589,17 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     private static Map<String, Schema.Location> getLocationMap(List<String> locations){
         Map<String, Schema.Location> locationMap = new Map<String, Schema.Location>();
         if (locations.size() > 0) {
-            List<Schema.Location> locationResult = [SELECT Id, Name FROM Location WHERE Name IN :locations];
+            List<Schema.Location> locationResult = [SELECT Id, Name,ConvertSkuTo10d__c FROM Location WHERE Name IN :locations];
             if (locationResult != null) {
                 for (Schema.Location loc:locationResult) {
                     locationMap.put(loc.Name, loc);
                 }
+                
             }
         }
+        if (!locationMap.isEmpty()) {
+        for (String locationName : locationMap.keySet()) {
+            Schema.Location loc = locationMap.get(locationName);}}
 
         return locationMap;
     }
@@ -608,7 +631,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     private static Map<String, Map<String, OrderShipmentItem>> getOrderSummaryShipmentMap(List<String> orderNumbers){
         Map<String, Map<String, OrderShipmentItem>> orderSummaryShipmentsMap = new Map<String, Map<String, OrderShipmentItem>>();
         if (orderNumbers.size() > 0) {
-            List<Shipment> shipments = [SELECT Id, OrderSummary.OrderNumber, (SELECT Id, OrderItemSummaryId, OrderItemSummary.QuantityAvailableToReturn, Product2.StockKeepingUnit, SerialNumber__c FROM ShipmentItems) FROM Shipment WHERE OrderSummary.OrderNumber IN :orderNumbers AND ReturnOrderId = NULL];
+            List<Shipment> shipments = [SELECT Id, OrderSummary.OrderNumber, (SELECT Id, OrderItemSummaryId, OrderItemSummary.QuantityAvailableToReturn, Product2.StockKeepingUnit, SerialNumber__c,Sku10Digits__c FROM ShipmentItems) FROM Shipment WHERE OrderSummary.OrderNumber IN :orderNumbers AND ReturnOrderId = NULL];
             if (shipments != null) {
                 for (Shipment ship:shipments) {
                     if (!orderSummaryShipmentsMap.containsKey(ship.OrderSummary.OrderNumber))
@@ -623,6 +646,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                             OrderShipmentItem orderShipmentItem         = new OrderShipmentItem();
                             orderShipmentItem.orderItemSummaryId        = shipItem.OrderItemSummaryId;
                             orderShipmentItem.quantityAvailableToReturn = shipItem.OrderItemSummary.QuantityAvailableToReturn;
+                            if(shipItem.Sku10Digits__c != null && shipItem.Sku10Digits__c.length() > 0 ){
+                                orderShipmentItem.skuDigitsVal.add(shipItem.Sku10Digits__c);
+                            }
                             if (shipItem.SerialNumber__c != null && shipItem.SerialNumber__c.length() > 0) {
                                 orderShipmentItem.serialNumbers.add(shipItem.SerialNumber__c);
                             }
@@ -645,7 +671,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     private static Map<String, Map<String, List<ReturnOrderLineItem>>> getOrderSummaryReturnsMap(List<String> orderSummaryNumbers){
         Map<String, Map<String, List<ReturnOrderLineItem>>> orderSummaryReturnOrderLineItemsMap = new Map<String, Map<String, List<ReturnOrderLineItem>>>();
         if (orderSummaryNumbers.size() > 0) {
-            List<ReturnOrder> returnOrders = [SELECT Id, ReturnOrderNumber, Status, OrderSummary.OrderNumber, ReturnDate__c, (SELECT Id, Product2.StockKeepingUnit, ReturnOrderId, QuantityExpected, QuantityReceived, ConditionId__c,SerialNumber__c  FROM ReturnOrderLineItems) FROM ReturnOrder WHERE OrderSummary.OrderNumber IN :orderSummaryNumbers AND Status = :SOM_Constants.RETURN_ORDER_STATUS_SUBMITTED];
+            List<ReturnOrder> returnOrders = [SELECT Id, ReturnOrderNumber, Status, OrderSummary.OrderNumber, ReturnDate__c, (SELECT Id, Product2.StockKeepingUnit, ReturnOrderId, QuantityExpected, QuantityReceived, ConditionId__c,SerialNumber__c,sku_10_Digits__c  FROM ReturnOrderLineItems) FROM ReturnOrder WHERE OrderSummary.OrderNumber IN :orderSummaryNumbers AND Status = :SOM_Constants.RETURN_ORDER_STATUS_SUBMITTED];
             if (returnOrders != null) {
                 for (ReturnOrder retOrder:returnOrders) {
                     if (!orderSummaryReturnOrderLineItemsMap.containsKey(retOrder.OrderSummary.OrderNumber)) {
@@ -780,9 +806,11 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
         public String       sku;
         public List<String> serialNumbers;
         public Decimal      quantityAvailableToReturn;
+        public List<String>	skuDigitsVal;
 
         public OrderShipmentItem(){
             this.serialNumbers             = new List<String>();
+            this.skuDigitsVal             = new List<String>();
             this.quantityAvailableToReturn = 0;
         }
     }

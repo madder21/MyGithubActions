@@ -247,7 +247,7 @@ public class SOM_testDataFactory {
 		order.BillingStreet = '153A New Bond Street';
 		order.BillingCity = 'London';
 		order.BillingPostalCode = 'W1S 2TZ';
-		order.BillingCountry = 'AE';
+		order.BillingCountry = 'US';
 		order.BillingEmailAddress = 'test.user@rimowa.com';
 		order.BillingPhoneNumber = '0610101010';
         order.pricebook2Id = pricebookId;
