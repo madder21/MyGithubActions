@@ -144,7 +144,9 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
                         if (returnOrderItemCreateUpdate.serialNumbers != null){
                             List<String> srls = new List<String>();
                             for(Integer q = 0 ; q < roLineItem.QuantityExpected ; q++){
-                                srls.add(returnOrderItemCreateUpdate.serialNumbers[q]);
+                                if (returnOrderItemCreateUpdate.serialNumbers.size() > q){ 
+                                	srls.add(returnOrderItemCreateUpdate.serialNumbers[q]);
+                                }
                             }
                             if( roLineItem.SerialNumber__c != null){
                             	roLineItem.SerialNumber__c  = roLineItem.SerialNumber__c + ';' +String.join(srls, SERIAL_NUMBER_SC_CONCAT_CHARACTER);
