@@ -586,12 +586,13 @@
     <formulas>
         <name>FX_TaxId</name>
         <dataType>Boolean</dataType>
-        <expression>IF(
-  OR(
-    ISBLANK({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}),
-    LEN({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}) = 0
+        <expression>AND(
+  LEN({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}) &gt; 0,
+  NOT(
+    REGEX({!Get_Order_Delivery_Group_Summary.RI_TAX_ID__c}, 
+          &quot;^(\\d)\\1{2}\\.\\1{3}\\.\\1{3}-\\1{2}$&quot;
+    )
   ),
-  FALSE,
   AND(
     MOD(
       MOD(
@@ -1543,4 +1544,4 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             <booleanValue>false</booleanValue>
         </value>
     </variables>
-</Flow> 
+</Flow>
