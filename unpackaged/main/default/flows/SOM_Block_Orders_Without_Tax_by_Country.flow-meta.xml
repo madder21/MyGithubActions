@@ -14,6 +14,9 @@
                 <elementReference>Requests</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>SOM_BlockOrdersWithoutTax</nameSegment>
+        <offset>0</offset>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>62.0</apiVersion>
     <assignments>
@@ -49,8 +52,11 @@
     <decisions>
         <name>Check_TaxRateIsNull</name>
         <label>Check TaxRateIsNull</label>
-        <locationX>698</locationX>
-        <locationY>413</locationY>
+        <locationX>640</locationX>
+        <locationY>460</locationY>
+        <defaultConnector>
+            <targetReference>Update_Order_Tech_Field_0</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>TaxRateIsNull</name>
@@ -93,6 +99,7 @@
             <label>TaxRateIsNull_Record</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Block Orders Without Tax by Country</label>
     <loops>
@@ -129,6 +136,27 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
+        <name>Get_ODG</name>
+        <label>Get ODG</label>
+        <locationX>898</locationX>
+        <locationY>393</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_SalesChannelMapping_mdt</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderDeliveryGroup</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Order_Product_Tax_Line_Item</name>
         <label>Get Order Product Tax Line Item</label>
         <locationX>478</locationX>
@@ -163,8 +191,8 @@
     <recordLookups>
         <name>Get_SalesChannelMapping_mdt</name>
         <label>Get SalesChannelMapping__mdt</label>
-        <locationX>900</locationX>
-        <locationY>401</locationY>
+        <locationX>882</locationX>
+        <locationY>555</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_TaxRateIsNull</targetReference>
@@ -174,7 +202,7 @@
             <field>Zone__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>$Record.BillingCountry</elementReference>
+                <elementReference>Get_ODG.DeliverToCountry</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -184,8 +212,21 @@
     <recordUpdates>
         <name>Update_Order_Tech_Field</name>
         <label>Update Order Tech Field</label>
-        <locationX>50</locationX>
+        <locationX>49</locationX>
         <locationY>569</locationY>
+        <inputAssignments>
+            <field>Tech_CreateOS__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order_Tech_Field_0</name>
+        <label>Update Order Tech Field</label>
+        <locationX>645</locationX>
+        <locationY>264</locationY>
         <inputAssignments>
             <field>Tech_CreateOS__c</field>
             <value>
@@ -198,24 +239,10 @@
         <locationX>775</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>Get_SalesChannelMapping_mdt</targetReference>
+            <targetReference>Get_ODG</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>NotEqualTo</operator>
-            <value>
-                <stringValue>US</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>NotEqualTo</operator>
-            <value>
-                <stringValue>BR</stringValue>
-            </value>
-        </filters>
         <filters>
             <field>Status</field>
             <operator>EqualTo</operator>

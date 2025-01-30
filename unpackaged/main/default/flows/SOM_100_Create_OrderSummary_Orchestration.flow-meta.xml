@@ -349,7 +349,7 @@
     <recordLookups>
         <name>Get_Sales_Channel_Mapping_mdt_related_To_Record</name>
         <label>Get Sales Channel Mapping mdt related To Record</label>
-        <locationX>437</locationX>
+        <locationX>436</locationX>
         <locationY>627</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -374,7 +374,7 @@
             <targetReference>Get_Order_Delivery_Groups</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>1 AND 2 AND ( 3 OR 4 OR 5  )</filterLogic>
+        <filterLogic>1 AND 2 AND 3</filterLogic>
         <filters>
             <field>SalesChannelId</field>
             <operator>NotEqualTo</operator>
@@ -394,20 +394,6 @@
             <operator>EqualTo</operator>
             <value>
                 <booleanValue>true</booleanValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>BR</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>BillingCountry</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>US</stringValue>
             </value>
         </filters>
         <object>Order</object>
