@@ -374,7 +374,7 @@
             <targetReference>Get_Order_Delivery_Groups</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 AND 2 AND ( 3 OR 4 OR 5 OR 6  )</filterLogic>
         <filters>
             <field>SalesChannelId</field>
             <operator>NotEqualTo</operator>
@@ -387,6 +387,34 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Activated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Tech_CreateOS__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesChannelName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Manual Order</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>BillingCountry</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>BR</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>BillingCountry</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>US</stringValue>
             </value>
         </filters>
         <object>Order</object>
