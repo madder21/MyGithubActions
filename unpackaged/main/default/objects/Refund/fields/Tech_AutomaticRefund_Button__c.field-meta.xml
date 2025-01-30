@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_AutomaticRefund_Button__c</fullName>
+    <formula>OR(
+    ISPICKVAL(RefundMethod__c, &quot;PIX&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;IDEAL&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;KCB_RBT&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;KCB_ACC&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;Klarna&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;PAYPAL&quot;),
+    ISPICKVAL(RefundMethod__c, &quot;Credit Card&quot;),
+    CONTAINS(OrderPaymentSummaryType__c, &quot;APPLE_PAY&quot;)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tech_AutomaticRefund_Button</label>
+    <type>Checkbox</type>
+</CustomField>
