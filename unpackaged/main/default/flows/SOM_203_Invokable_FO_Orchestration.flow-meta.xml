@@ -176,6 +176,7 @@
             <label>Cegid Or Manual Order</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM 203 - Invokable FO Orchestration {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 203 - Invokable FO Orchestration</label>
     <processMetadataValues>
@@ -307,7 +308,7 @@
     <subflows>
         <name>SOM_210_OCI_HD_CC</name>
         <label>SOM 210 OCI HD &amp; CC</label>
-        <locationX>1295</locationX>
+        <locationX>1244</locationX>
         <locationY>246</locationY>
         <connector>
             <targetReference>Check_Stock_Availability</targetReference>
@@ -322,6 +323,10 @@
         <outputAssignments>
             <assignToReference>IsStockSufficient</assignToReference>
             <name>IsStockSufficient</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>RecordsFound</assignToReference>
+            <name>recordsFoundSuccess</name>
         </outputAssignments>
     </subflows>
     <subflows>
@@ -453,6 +458,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RecordsFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>S_FulfillmentGroupInputRepresentation</name>

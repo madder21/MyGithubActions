@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>57.0</apiVersion>
     <decisions>
         <name>Check_OCI_Reservation_Output</name>
         <label>Check OCI Reservation Output</label>
         <locationX>847</locationX>
         <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>noPreorder</targetReference>
+            <targetReference>Screen_Message</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <defaultConnectorLabel>Default Path</defaultConnectorLabel>
         <rules>
-            <name>Is_Success</name>
-            <conditionLogic>or</conditionLogic>
+            <name>PreOrder_Records</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>IsSuccess</leftValueReference>
+                <leftValueReference>SuccessRecords</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Screen_Message</targetReference>
+                <targetReference>noPreorder</targetReference>
             </connector>
-            <label>Is Success</label>
+            <label>PreOrder Records</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
     <interviewLabel>SOM 210 - Retry Allocation Button {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM 210 - Retry Allocation Button</label>
     <processMetadataValues>
@@ -67,8 +66,8 @@
     <screens>
         <name>Screen_Message</name>
         <label>Screen Message</label>
-        <locationX>1299</locationX>
-        <locationY>229</locationY>
+        <locationX>1209</locationX>
+        <locationY>242</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -106,6 +105,10 @@
         <outputAssignments>
             <assignToReference>IsSuccess</assignToReference>
             <name>IsSuccess</name>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>SuccessRecords</assignToReference>
+            <name>RecordsFound</name>
         </outputAssignments>
     </subflows>
     <variables>
