@@ -10,18 +10,18 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             
             date myDate = date.today();
             DateTime weekStart = myDate.toStartofWeek().addDays(-7);
-            String previousMonday = weekStart.format('MM/dd/YYYY');
+            String previousMonday = weekStart.format('MM/dd/yyyy');
             String dayOfWeek = weekStart.format('u');
             
             DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
-            String previousSunday = previousSundayDate.format('MM/dd/YYYY');
+            String previousSunday = previousSundayDate.format('MM/dd/yyyy');
             
             if(dayOfWeek !='1'){
                 weekStart = myDate.toStartofWeek().addDays(-6);
-                previousMonday = weekStart.format('MM/dd/YYYY');
+                previousMonday = weekStart.format('MM/dd/yyyy');
                 
                 previousSundayDate = myDate.toStartofWeek();
-                previousSunday = previousSundayDate.format('MM/dd/YYYY');
+                previousSunday = previousSundayDate.format('MM/dd/yyyy');
                 
             }
             
@@ -160,11 +160,11 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExportTEST','','');   
-            Logs.info('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExportTEST','','');   
+            Logs.debug('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','');   
+            Logs.info('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_USWeeklyReportSchedule US','weekExportTEST','','');   
+            Logs.error(e,'SOM_USWeeklyReportSchedule US','weekExport','','');   
         }  
         
     }
