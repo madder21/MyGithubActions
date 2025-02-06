@@ -44,7 +44,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
-            <conditionLogic>(1 AND 2 AND 3) OR ( 2 AND 4 AND 5)</conditionLogic>
+            <conditionLogic>2 AND ((1 AND 3) OR (4 AND 5))</conditionLogic>
             <conditions>
                 <leftValueReference>recordId.Status</leftValueReference>
                 <operator>EqualTo</operator>
