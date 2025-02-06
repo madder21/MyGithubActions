@@ -589,7 +589,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CreateCegidEvent</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND 3 AND 4 AND (2 OR (5 AND 6))</conditionLogic>
             <conditions>
                 <leftValueReference>Get_PE_Not_Resolved</leftValueReference>
                 <operator>IsNull</operator>
@@ -616,6 +616,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Validated</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Summary.tech_os_store_shipping_method__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
