@@ -10,6 +10,11 @@
 		<members>Order.SalesChannelName__c</members>
 		<members>Order.Tech_CreateOS__c</members>
 		<members>Sales_Channel_Mapping__mdt.TaxRateIsNull__c</members>
+		<members>Shipment.CarrierSubStatus__c</members>
+
+
+		<members>Shipment.CarrierStatus__c</members>
+
 		<name>CustomField</name>
 	</types>
 	<types>
@@ -20,6 +25,9 @@
 		<members>SOM_201_Start_Fulfillment_Process</members>
 		<members>SOM_100_Create_OrderSummary_Orchestration</members>
 		<members>SOM_Block_Orders_Without_Tax_by_Country</members>
+		<members>SOM_New_Fulfillment_BR_Order_Publish_Event</members>
+		<members>SOM_Resolve_Button_TaxId</members>
+		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
 		<name>Flow</name>
 	</types>
 	<types>
@@ -41,6 +49,7 @@
 	<types>
 		<members>AddressToBlockOrdersWithoutTax__mdt-Address To Block Orders Without Tax Layout</members>
 		<members>Sales_Channel_Mapping__mdt-Sales Channel Mapping Layout</members>
+		<members>Shipment-Shipment Layout</members>
 		<name>Layout</name>
 	</types>
 	<types>
