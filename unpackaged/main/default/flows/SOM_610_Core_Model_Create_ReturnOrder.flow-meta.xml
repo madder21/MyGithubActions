@@ -126,6 +126,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_FO_IDS_Fullfillig</name>
+        <label>Assign FO_IDS_Fullfillig</label>
+        <locationX>293</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>FO_IDS_Fullfillig</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>0a4ZZZZZZZZZZZZZZZ</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Fulfilling_FOIS</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Other_RO_Data</name>
         <label>Assign Other RO Data</label>
         <locationX>2843</locationX>
@@ -1581,6 +1597,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Check_FO_IDS_Fullfillig</name>
+        <label>Check FO_IDS_Fullfillig</label>
+        <locationX>419</locationX>
+        <locationY>180</locationY>
+        <defaultConnector>
+            <targetReference>Get_Fulfilling_FOIS</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>FO_IDS_Fullfillig_is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FO_IDS_Fullfillig</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_FO_IDS_Fullfillig</targetReference>
+            </connector>
+            <label>FO_IDS_Fullfillig is Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Check_if_ErrorDisplayed</name>
         <label>Check if ErrorDisplayed</label>
         <locationX>2624</locationX>
@@ -2427,7 +2468,7 @@
             <targetReference>Get_FO_Ids_0</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Get_Fulfilling_FOIS</targetReference>
+            <targetReference>Check_FO_IDS_Fullfillig</targetReference>
         </noMoreValuesConnector>
     </loops>
     <loops>
@@ -2664,8 +2705,8 @@
     <recordLookups>
         <name>Get_Fulfilling_FOIS</name>
         <label>Get Fulfilling FOIS</label>
-        <locationX>633</locationX>
-        <locationY>417</locationY>
+        <locationX>483</locationX>
+        <locationY>329</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Over_fulfilling_FOIs</targetReference>
