@@ -772,6 +772,8 @@ public class SOM_testDataFactory {
             
             //Change Order Status
             createdOrder.Status = SOM_Constants.ACTIVATED; 
+            createdOrder.Tech_CreateOS__c = true;
+
         }
     
         insert listOrderItemsByOrderId;
