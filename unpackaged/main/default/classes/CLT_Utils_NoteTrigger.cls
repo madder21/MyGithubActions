@@ -7,7 +7,7 @@ public with sharing class CLT_Utils_NoteTrigger {
                 noteHistoriesToInsert.add(new Note_History__c (
                     Note__c = note.Id,
                     ModifiedField__c = 'Body__c',
-                    NewValue__c = note.Body__c.length() > 255 ? (note.Body__c.substring(0, 251) + '...') : note.Body__c,
+                    NewValue__c = (note.Body__c != NULL && note.Body__c.length() > 255) ? (note.Body__c.substring(0, 251) + '...') : note.Body__c,
                     PreviousValue__c = oldNotesMap.containsKey(note.Id) ? (oldNotesMap.get(note.Id).Body__c.length() > 255 ? (oldNotesMap.get(note.Id).Body__c.substring(0, 251) + '...') : oldNotesMap.get(note.Id).Body__c) : '',
                     ModifiedBy__c = note.LastModifiedById,
                     ModifiedAt__c = note.LastModifiedDate
