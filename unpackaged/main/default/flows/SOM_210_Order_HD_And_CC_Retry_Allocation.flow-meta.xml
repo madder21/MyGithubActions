@@ -17,10 +17,13 @@
                 <elementReference>REC_OCIGetInventoryAvailabilityInputRepresentation</elementReference>
             </value>
         </inputParameters>
+        <nameSegment>ociGetAvailability</nameSegment>
+        <offset>0</offset>
         <outputParameters>
             <assignToReference>REC_OCIGetInventoryAvailabilityOutputRepresentation</assignToReference>
             <name>ociGetAvailabilityOutput</name>
         </outputParameters>
+        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
@@ -743,6 +746,7 @@
         </rules>
     </decisions>
     <description>Optimized Version 2</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_PEDescription</name>
         <dataType>String</dataType>
@@ -954,6 +958,13 @@
             <operator>In</operator>
             <value>
                 <elementReference>ReservedLocationIdCollection</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OrderSummaryRecord.Id</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
