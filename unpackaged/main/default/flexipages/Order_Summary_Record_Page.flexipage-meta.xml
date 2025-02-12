@@ -286,7 +286,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+                                <booleanFilter>1 AND  3 AND 4 AND ( 5 OR 2)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -306,6 +306,11 @@
                                     <leftValue>{!$Permission.CustomPermission.Retry_Allocation}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_isPreorder__c}</leftValue>
+                                    <operator>GE</operator>
+                                    <rightValue>1</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
@@ -640,44 +645,79 @@
                         <valueListItems>
                             <value>OrderSummary.New_Order_For_Cegid_Event</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND ( 3 OR 4 ) AND 5 AND 6</booleanFilter>
                                 <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Fulfilled</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.BillingCountry}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>BR</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.cegidDepositId__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.cegidCustomerId__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Tech_BrazilianAddressVerified__c}</leftValue>
+                                    <leftValue>{!Record.Tech_PushToCegidButton__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Tech_BrazilianShippingAddressVerified__c}</leftValue>
-                                    <operator>GT</operator>
-                                    <rightValue>0</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
                             <value>OrderSummary.Check_CPF</value>
                             <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.TECH_TaxId_BR__c}</leftValue>
                                     <operator>NE</operator>
                                     <rightValue>0</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.BillingCountry}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>BR</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Check_Address</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.BillingCountry}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>BR</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_PE_DisplayButton__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Check_Address</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.BillingCountry}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>BR</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_PE_DisplayButton__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_ShippingCountry__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>BR</rightValue>
+                                </criteria>
+                            </visibilityRule>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>OrderSummary.Check_Address</value>
+                            <visibilityRule>
+                                <booleanFilter>1 AND 2</booleanFilter>
+                                <criteria>
+                                    <leftValue>{!Record.BillingCountry}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>BR</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_PE_DisplayButton__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
