@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_PushToCegidButton__c</fullName>
+    <description>Formula To display button Push to Cegid</description>
+    <formula>AND(
+	OR(
+		AND(
+Tech_ShippingCountry__c = &quot;BR&quot;,
+SalesChannelName__c = &quot;Rimowa&quot;,
+Tech_PE_DisplayButton__c = true,
+TECH_TaxId_BR__c = 0,
+OR(
+AND(
+ISPICKVAL(Status, &quot;Fulfilled&quot;),
+tech_os_store_shipping_method__c = 0,
+OR(
+ISBLANK(cegidDepositId__c),
+ISBLANK(cegidCustomerId__c),
+ISBLANK(cegidOrderId__c)
+)
+),
+AND(
+ISPICKVAL(Status, &quot;Validated&quot;),
+tech_os_store_shipping_method__c = 1,
+OR(
+ISBLANK(cegidDepositId__c),
+ISBLANK(cegidCustomerId__c)
+)
+)
+)
+),
+AND(
+Tech_ShippingCountry__c != &quot;BR&quot;,
+SalesChannelName__c = &quot;Rimowa&quot;,
+OR(
+AND(
+OR(
+ISPICKVAL(Status, &quot;Validated&quot;),
+ISPICKVAL(Status, &quot;Fulfilling&quot;),
+ISPICKVAL(Status, &quot;Fulfilled&quot;)
+),
+ISBLANK(cegidCustomerId__c),
+tech_os_store_shipping_method__c = 0
+),
+AND(
+ISPICKVAL(Status, &quot;Validated&quot;),
+tech_os_store_shipping_method__c = 1,
+OR(
+ISBLANK(cegidDepositId__c),
+ISBLANK(cegidCustomerId__c),
+ISBLANK(cegidOrderId__c)
+)
+)
+)
+)
+)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Tech_PushToCegidButton</label>
+    <type>Checkbox</type>
+</CustomField>
