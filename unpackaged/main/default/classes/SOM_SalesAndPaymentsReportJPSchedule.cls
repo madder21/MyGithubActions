@@ -12,13 +12,13 @@ public class SOM_SalesAndPaymentsReportJPSchedule Implements Schedulable{
             
             date myDate = date.today();
             DateTime weekStart = myDate.toStartofWeek().addDays(-7);
-            String previousMonday = weekStart.format('MM/dd/YYYY');
+            String previousMonday = weekStart.format('MM/dd/yyyy');
             
             
             OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where  Address = 'noreply@rimowa.com' limit 1];
             
             DateTime previousSundayDate = myDate.toStartofWeek().addDays(-1);
-            String previousSunday = previousSundayDate.format('MM/dd/YYYY');
+            String previousSunday = previousSundayDate.format('MM/dd/yyyy');
             
             List<Messaging.SingleEmailMessage> emails = new List<Messaging.SingleEmailMessage>();
             

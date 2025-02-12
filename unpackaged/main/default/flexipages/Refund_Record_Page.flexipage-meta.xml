@@ -3,7 +3,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                
                 <componentInstanceProperties>
                     <name>iconName</name>
                     <value>info</value>
@@ -39,26 +38,11 @@
                         <valueListItems>
                             <value>Refund.AutomaticRefund</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7</booleanFilter>
+                                <booleanFilter>1 AND 2 AND 3 AND 4 AND 5</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Draft</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>COD</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>Paid in Store</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.OrderPaymentSummaryType__c}</leftValue>
-                                    <operator>NE</operator>
-                                    <rightValue>No Payment</rightValue>
                                 </criteria>
                                 <criteria>
                                     <leftValue>{!$User.Profile.Name}</leftValue>
@@ -74,6 +58,11 @@
                                     <leftValue>{!$Permission.CustomPermission.Identity_profile}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Tech_AutomaticRefund_Button__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>true</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
