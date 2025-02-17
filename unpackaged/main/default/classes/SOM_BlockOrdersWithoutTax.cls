@@ -2,14 +2,17 @@ global with sharing class SOM_BlockOrdersWithoutTax {
     
     @InvocableMethod(label='Block Orders Without Tax' description='Block Orders Without Tax' )
     global static void SOM_BlockOrdersWithoutTax(List<List<SOM_RequestBlockOrdersWithoutTax>> Requests){
-        Map<String, List<String>> RequestsMap = new Map<String, List<String>>();
+   		Map<String, List<Map<String, String>>> RequestsMap = new Map<String, List<Map<String, String>>>();
         Map<String, String>   EmailBodyConfigs = new Map<String,String>();
         for(List<SOM_RequestBlockOrdersWithoutTax> listID : Requests){
             for(SOM_RequestBlockOrdersWithoutTax redId : listID){
-                if (!RequestsMap.containsKey(redId.orderId)) {
-                    RequestsMap.put(redId.orderId, new List<String>());
+                if (!RequestsMap.containsKey(redId.orderId) ) {
+                	RequestsMap.put(redId.orderId, new List<Map<String, String>>());
                 }
-                RequestsMap.get(redId.orderId).add(redId.RecordId);                   
+                Map<String, String> recordData = new Map<String, String>();
+                recordData.put('RecordId', redId.RecordId);
+                recordData.put('OrderReferenceNumber', redId.OrderReferenceNumber);
+                RequestsMap.get(redId.orderId).add(recordData);
             }  
         }
         OrgWideEmailAddress owa = [SELECT id, Address, DisplayName FROM OrgWideEmailAddress WHERE /*Address = 'noreply@rimowa.com' OR*/ Address = 'maha.meghras@viseo.com'  LIMIT 1];
@@ -27,8 +30,9 @@ global with sharing class SOM_BlockOrdersWithoutTax {
         
         for (String orderId:RequestsMap.keySet()) {
             bodyMessage += EmailBodyConfigs.get(SOM_Constants.ORDER) + '&nbsp;' + orderId + '<br/>';
-            for(String RecordId:RequestsMap.get(orderId)){
-                bodyMessage += EmailBodyConfigs.get(SOM_Constants.fieldRate1) + '&nbsp;' + RecordId + '&nbsp;' + EmailBodyConfigs.get(SOM_Constants.fieldRate2);
+            for(Map<String, String> recordData : RequestsMap.get(orderId)){
+            bodyMessage += EmailBodyConfigs.get(SOM_Constants.ORDERREFERENCENUMBER)	 + '&nbsp;' + recordData.get('OrderReferenceNumber') + '<br/>';
+            bodyMessage += EmailBodyConfigs.get(SOM_Constants.fieldRate1) + '&nbsp;' + recordData.get('RecordId') + '&nbsp;' + EmailBodyConfigs.get(SOM_Constants.fieldRate2);
             }
         }
         

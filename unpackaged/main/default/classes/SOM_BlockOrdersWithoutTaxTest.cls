@@ -8,9 +8,11 @@ public with sharing class SOM_BlockOrdersWithoutTaxTest {
         SOM_RequestBlockOrdersWithoutTax Req1 = new SOM_RequestBlockOrdersWithoutTax();
         Req1.orderId   = 'Req1orderId';
         Req1.RecordId  = 'Req1RecordId';
+        Req1.OrderReferenceNumber = 'Req1OrderReferenceNumber';
         SOM_RequestBlockOrdersWithoutTax Req2 = new SOM_RequestBlockOrdersWithoutTax();
         Req2.orderId   = 'Req2orderId';
         Req2.RecordId  = 'Req2RecordId';
+        Req2.OrderReferenceNumber = 'OrderReferenceNumber' ;
         Request.add(Req1);
         Request.add(Req2);
         Requests.add(Request);
