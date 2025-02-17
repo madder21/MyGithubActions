@@ -49,8 +49,8 @@
     <decisions>
         <name>Check_RecordId</name>
         <label>Check RecordId</label>
-        <locationX>1210</locationX>
-        <locationY>643</locationY>
+        <locationX>1231</locationX>
+        <locationY>652</locationY>
         <defaultConnector>
             <targetReference>Sub_Resolve_PE</targetReference>
         </defaultConnector>
@@ -150,11 +150,11 @@ true, false)</expression>
     <recordLookups>
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
-        <locationX>1423</locationX>
-        <locationY>644</locationY>
+        <locationX>1555</locationX>
+        <locationY>635</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_RecordId</targetReference>
+            <targetReference>Popup_resolve_confirmation</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -171,8 +171,8 @@ true, false)</expression>
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>1590</locationX>
-        <locationY>638</locationY>
+        <locationX>1750</locationX>
+        <locationY>633</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
@@ -192,8 +192,8 @@ true, false)</expression>
     <recordLookups>
         <name>Get_PE</name>
         <label>Get PE</label>
-        <locationX>1728</locationX>
-        <locationY>644</locationY>
+        <locationX>1883</locationX>
+        <locationY>630</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Summary</targetReference>
@@ -269,19 +269,44 @@ true, false)</expression>
     <screens>
         <name>Popup_resolve_confirmation</name>
         <label>Popup resolve confirmation</label>
-        <locationX>1884</locationX>
-        <locationY>626</locationY>
+        <locationX>1389</locationX>
+        <locationY>646</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Get_PE</targetReference>
+            <targetReference>Check_RecordId</targetReference>
         </connector>
         <fields>
             <name>Resolve_Display</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong&gt;Are you sure you want to change this process exception status to Resolved?&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_PE.Id</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>DisplayMessageOS</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);&quot;&gt;Do you want to check the address for this order ?&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Order_Summary.Id</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
@@ -297,7 +322,7 @@ true, false)</expression>
         <allowPause>true</allowPause>
         <fields>
             <name>DisplayMessage1</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 18px;&quot;&gt;The address verification process exceptions have been successfully resolved!&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 12px;&quot;&gt;The address verification process exceptions have been successfully resolved!&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
@@ -307,7 +332,7 @@ true, false)</expression>
         <locationX>2019</locationX>
         <locationY>601</locationY>
         <connector>
-            <targetReference>Popup_resolve_confirmation</targetReference>
+            <targetReference>Get_PE</targetReference>
         </connector>
     </start>
     <status>Active</status>
