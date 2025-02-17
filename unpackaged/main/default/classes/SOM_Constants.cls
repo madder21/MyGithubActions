@@ -182,6 +182,7 @@ global with sharing class SOM_Constants{
     public static final String ADDRESS = 'Address';
     public static final String INTRODUCTION = 'Introduction';
     public static final String ORDER = 'Order';
+    public static final String ORDERREFERENCENUMBER = 'OrderReferenceNumber';
     public static final String FIELDRATE1 = 'fieldRate1';
     public static final String FIELDRATE2 = 'fieldRate2';
     public static final String CLOSING = 'Closing';
