@@ -50,6 +50,22 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Tech_Brazil_Value</name>
+        <label>Assign Tech Brazil Value</label>
+        <locationX>20</locationX>
+        <locationY>602</locationY>
+        <assignmentItems>
+            <assignToReference>Tech_OSAddressValidation_Brazil</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Address_PE</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Substract_1_PE</name>
         <label>Substract -1 PE</label>
         <locationX>2121</locationX>
@@ -65,6 +81,77 @@
             <targetReference>Update_OSLI</targetReference>
         </connector>
     </assignments>
+    <decisions>
+        <name>Check_PE_for_AddressValidation</name>
+        <label>Check PE for AddressValidation</label>
+        <locationX>11</locationX>
+        <locationY>457</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_Address_PE</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>false</name>
+            <conditionLogic>1 AND 4 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Category</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Address Validation Brazil</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Billing Address : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Tech_Brazil_Value</targetReference>
+            </connector>
+            <label>false</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Related_PE</name>
+        <label>Check Related PE</label>
+        <locationX>378</locationX>
+        <locationY>514</locationY>
+        <defaultConnector>
+            <targetReference>Update_OS_TechOS_AddressValidation</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_PE_CheckAddress</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Over_Address_PE</targetReference>
+            </connector>
+            <label>Exists</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Is_New</name>
         <label>Is New ?</label>
@@ -119,8 +206,8 @@
         <description>Order Summary Line Item</description>
         <name>Related_to_OSLI</name>
         <label>Related to OSLI ?</label>
-        <locationX>521</locationX>
-        <locationY>581</locationY>
+        <locationX>765</locationX>
+        <locationY>641</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes_related_to_OSLI</name>
@@ -214,8 +301,8 @@
     <decisions>
         <name>Update_ISOCode</name>
         <label>Update ISOCode</label>
-        <locationX>528</locationX>
-        <locationY>434</locationY>
+        <locationX>362</locationX>
+        <locationY>822</locationY>
         <defaultConnector>
             <targetReference>Related_to_OSLI</targetReference>
         </defaultConnector>
@@ -236,7 +323,8 @@
             <label>IsNewlyCreated</label>
         </rules>
     </decisions>
-    <description>Update CurrencyISOCode</description>
+    <description>Update Address Validation</description>
+    <environments>Default</environments>
     <formulas>
         <name>FX_Isnew</name>
         <dataType>Boolean</dataType>
@@ -269,6 +357,20 @@
             <targetReference>Update_tech_PE_Fulfillment_Count_c_in_OS</targetReference>
         </noMoreValuesConnector>
     </loops>
+    <loops>
+        <name>Loop_Over_Address_PE</name>
+        <label>Loop Over Address PE</label>
+        <locationX>227</locationX>
+        <locationY>470</locationY>
+        <collectionReference>Get_PE_CheckAddress</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_PE_for_AddressValidation</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_OS_TechOS_AddressValidation</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -291,8 +393,8 @@
     <recordLookups>
         <name>Get_OrderSummary</name>
         <label>Get OrderSummary</label>
-        <locationX>326</locationX>
-        <locationY>447</locationY>
+        <locationX>645</locationX>
+        <locationY>824</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Update_Currency_Iso_Code</targetReference>
@@ -333,6 +435,48 @@
         <queriedFields>OrderSummaryId</queriedFields>
         <sortField>Id</sortField>
         <sortOrder>Asc</sortOrder>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_PE_CheckAddress</name>
+        <label>Get PE CheckAddress</label>
+        <locationX>536</locationX>
+        <locationY>422</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Related_PE</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND( 3 OR 4 )</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Address Validation Brazil</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Message</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Message</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
         <name>get_PE_resolved</name>
@@ -408,8 +552,8 @@
     <recordUpdates>
         <name>Update_Currency_Iso_Code</name>
         <label>Update Currency Iso Code</label>
-        <locationX>326</locationX>
-        <locationY>577</locationY>
+        <locationX>785</locationX>
+        <locationY>819</locationY>
         <connector>
             <targetReference>Related_to_OSLI</targetReference>
         </connector>
@@ -420,6 +564,30 @@
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_OS_TechOS_AddressValidation</name>
+        <label>Update OS TechOS_AddressValidation</label>
+        <locationX>373</locationX>
+        <locationY>668</locationY>
+        <connector>
+            <targetReference>Update_ISOCode</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderSummaryId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Tech_PE_DisplayButton__c</field>
+            <value>
+                <elementReference>Tech_OSAddressValidation_Brazil</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderSummary</object>
     </recordUpdates>
     <recordUpdates>
         <name>Update_OSLI</name>
@@ -456,7 +624,7 @@
         <locationX>410</locationX>
         <locationY>136</locationY>
         <connector>
-            <targetReference>Update_ISOCode</targetReference>
+            <targetReference>Get_PE_CheckAddress</targetReference>
         </connector>
         <object>ProcessException</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
@@ -481,6 +649,16 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>OrderItemSummary</objectType>
+    </variables>
+    <variables>
+        <name>Tech_OSAddressValidation_Brazil</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
     </variables>
     <variables>
         <name>V01_Count_PE</name>
