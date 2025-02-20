@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+
+	<types>
+		<members>AddressToBlockOrdersWithoutTax__mdt</members>
+		<name>CustomObject</name>
+	</types>
 	<types>
 		<members>SOM_210_Order_HD_And_CC_Retry_Allocation</members>
 		<members>SOM_Resend_to_WMS_on_Return_Order</members>
 		<members>SOM_940_Resolve_Ignore_Process_Exception</members>
 		<members>SOM_940_Sub_Resolve_Process_Exception</members>
 		<members>SOM_945_Manage_Process_Exceptions</members>
+
+		<members>SOM_100_Create_OrderSummary_Orchestration</members>
+		<members>SOM_Block_Orders_Without_Tax_by_Country</members>
+		<members>SOM_00_Create_OS_from_Order</members>
+
 		<name>Flow</name>
 	</types>
 	<types>
@@ -17,6 +27,10 @@
 		<members>SOM_SalesAndPaymentsReportJPSchedule</members>
 		<members>SOM_SalesAndPaymentsReportEUSchedule</members>
 		
+		<members>SOM_BlockOrdersWithoutTax</members>
+		<members>SOM_BlockOrdersWithoutTaxTest</members>
+		<members>SOM_RequestBlockOrdersWithoutTax</members>
+		<members>SOM_constants</members>
 		<name>ApexClass</name>
 	</types>
 
@@ -24,27 +38,50 @@
 	<types>
 		<members>Refund.Tech_AutomaticRefund_Button__c</members>
 		<members>OrderSummary.Tech_PE_DisplayButton__c</members>
+                <members>OrderSummary.Tech_PushToCegidButton__c</members>
 
+		<members>AddressToBlockOrdersWithoutTax__mdt.Value__c</members>
+		<members>AddressToBlockOrdersWithoutTax__mdt.Email__c</members>
+		<members>Sales_Channel_Mapping__mdt.TaxRateIsNull__c</members>
 		<name>CustomField</name>
 	</types>
 	
-	
+	<types>
+		<members>OrderSummary-Order Summary Layout</members>
+		<members>AddressValidationRules__mdt-AddressValidationRules Layout</members>
+		<members>Order-Order Layout</members>
+		<name>Layout</name>
+	</types>
 
 	<types>
 			<members>Refund_Record_Page</members>
     <members>Return_Order_Line_Item_Record_Page</members>
-		<!--members>Order_Summary_Record_Page</members-->
+		<members>Order_Summary_Record_Page</members>
+		<members>Order_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
 	<types>
 		
 		<members>ReturnOrder.Resend_to_WMS</members>
 		<members>OrderSummary.Check_Address</members>
+		<members>Order.Create_Order_Summary</members>
 		<name>QuickAction</name>
 	</types>
 <types>
 		<members>SOM_Your_Account_App_Admin_User_Identity</members>
 		<name>PermissionSet</name>
+	</types>
+
+	<types>
+		<members>AddressToBlockOrdersWithoutTax.OrderReferenceNumber</members>
+		<members>AddressToBlockOrdersWithoutTax.Address</members>
+		<members>AddressToBlockOrdersWithoutTax.Closing</members>
+		<members>AddressToBlockOrdersWithoutTax.Introduction</members>
+		<members>AddressToBlockOrdersWithoutTax.Order</members>
+		<members>AddressToBlockOrdersWithoutTax.Regards</members>
+		<members>AddressToBlockOrdersWithoutTax.fieldRate1</members>
+		<members>AddressToBlockOrdersWithoutTax.fieldRate2</members>
+		<name>CustomMetadata</name>
 	</types>
 	
 	<version>61.0</version>

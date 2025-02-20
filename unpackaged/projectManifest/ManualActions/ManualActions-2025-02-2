@@ -2,5 +2,9 @@
     -> OrderSummary.Tech_PE_DisplayButton__c : Visible to all profiles.
 * Ticket : SOM-1251
     Assign the Permisson Set "SOM_Your_Account_App_Admin_User_Identity"  To identity Profile .
-* Ticket : SOM-1280
-    -> OrderSummary.Tech_PE_DisplayButton__c : Visible to all profiles.
+* Ticket : SOM-1281
+    -> OrderSummary.Tech_PushToCegidButton__c:  Visible to all Profile.
+* Ticket : SOM-1246
+    -> Order.SalesChannelName__c : Visible to all Profile.
+    -> Order.Tech_CreateOS__c : Visible to all Profile.
+ Adjust the order of execution to make sure that the flow "SOM_100_Create_OrderSummary_Orchestration" Runs before "SOM_Block_Orders_Without_Tax_by_Country" .

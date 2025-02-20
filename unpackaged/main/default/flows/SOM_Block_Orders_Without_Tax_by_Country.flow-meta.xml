@@ -39,6 +39,13 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>Request.OrderReferenceNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Order_Product_Tax_Line_Item.Order.OrderReferenceNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>Requests</assignToReference>
             <operator>Add</operator>
             <value>
@@ -66,6 +73,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SalesChannelName__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>CEGID</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -236,7 +250,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>775</locationX>
+        <locationX>776</locationX>
         <locationY>48</locationY>
         <connector>
             <targetReference>Get_ODG</targetReference>
@@ -255,6 +269,7 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <triggerOrder>300</triggerOrder>
     <variables>
         <name>Request</name>
         <apexClass>SOM_RequestBlockOrdersWithoutTax</apexClass>
