@@ -286,7 +286,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND  3 AND 4 AND ( 5 OR 2)</booleanFilter>
+                                <booleanFilter>1 AND  3 AND 4 AND 2 </booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -307,11 +307,7 @@
                                     <operator>EQUAL</operator>
                                     <rightValue>true</rightValue>
                                 </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Tech_isPreorder__c}</leftValue>
-                                    <operator>GE</operator>
-                                    <rightValue>1</rightValue>
-                                </criteria>
+                               
                             </visibilityRule>
                         </valueListItems>
                         <valueListItems>
