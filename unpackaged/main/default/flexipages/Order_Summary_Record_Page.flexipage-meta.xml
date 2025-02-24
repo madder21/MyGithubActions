@@ -680,22 +680,7 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>OrderSummary.Check_Address</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.BillingCountry}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>BR</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.Tech_PE_DisplayButton__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>false</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
+                       
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
