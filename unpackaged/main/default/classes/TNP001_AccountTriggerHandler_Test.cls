@@ -49,11 +49,13 @@ public class TNP001_AccountTriggerHandler_Test {
             user.EmailEncodingKey= 'ISO-8859-1';
             user.ProfileId ='00e1t000001XlmsAAC';
             user.LanguageLocaleKey='en_US';
-            insert user;
+        insert user;
+        
         Account acc = new Account();
-        acc.firstName ='laurent';
-        acc.LastName ='laurent';
-        acc.CreatedById=user.Id;
+            acc.firstName ='laurent';
+            acc.LastName ='laurent';
+            acc.CreatedById=user.Id;
+        
         Test.setMock(HttpCalloutMock.class, new MockUpdateInsertAccount());
         Test.startTest();
         insert acc;
@@ -61,13 +63,11 @@ public class TNP001_AccountTriggerHandler_Test {
         acc = [select id,firstName 
                from account
                where firstName ='laurent' ];
-        acc.LastName ='Amine';
-             
-        update acc;
-        
-        
+        acc.LastName ='Amine';   
+        update acc;     
         Test.stopTest();
-         system.assertNotEquals (acc , null);
+        
+    	system.assertNotEquals (acc, null);
     }
     
     private class MockUpdateInsertAccount implements HttpCalloutMock {
@@ -77,15 +77,13 @@ public class TNP001_AccountTriggerHandler_Test {
             res.setHeader('Content-Type', 'application/json');
             res.setHeader('Client Id', '64983556f39d4710952c7a461d8c3ea5');
             res.setHeader('Client secret', 'A058Cc3117E843Fba0c93a5FbA4E8b33');
+           
             //Endpoint of update Account call
-            
             res.setBody('{Done}');
             res.setStatusCode(200);
             res.setStatus('OK');
             
             return res;
-        }
-    
-    
-}
+        } 
+	}
 }
