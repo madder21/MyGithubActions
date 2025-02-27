@@ -5,7 +5,7 @@
         <name>Assign_Order_Summary_Id</name>
         <label>Assign Order Summary Id</label>
         <locationX>492</locationX>
-        <locationY>382</locationY>
+        <locationY>480</locationY>
         <assignmentItems>
             <assignToReference>OrderSummaryId</assignToReference>
             <operator>Assign</operator>
@@ -21,7 +21,7 @@
         <name>Check_OCI_Reservation_Output</name>
         <label>Check OCI Reservation Output</label>
         <locationX>967</locationX>
-        <locationY>372</locationY>
+        <locationY>470</locationY>
         <defaultConnector>
             <targetReference>Screen_Message</targetReference>
         </defaultConnector>
@@ -46,14 +46,14 @@
         <name>IsPreOrder_Item</name>
         <label>IsPreOrder Item</label>
         <locationX>692</locationX>
-        <locationY>378</locationY>
+        <locationY>477</locationY>
         <defaultConnector>
             <targetReference>Invokable_FO_Orchestration</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>IsPreorder</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>Order_Product_Summary</leftValueReference>
                 <operator>IsNull</operator>
@@ -66,12 +66,34 @@
             </connector>
             <label>IsPreorder</label>
         </rules>
+        <rules>
+            <name>IsProrderWithoutDate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Order_Product_Summary</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Order_Product_Summary_Not_IsPreorder_0</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>noPreorder_0_0_0</targetReference>
+            </connector>
+            <label>IsProrderWithoutDate</label>
+        </rules>
     </decisions>
     <decisions>
         <name>IsPreOrder_Item_Exist</name>
         <label>IsPreOrder Item Exist</label>
         <locationX>687</locationX>
-        <locationY>712</locationY>
+        <locationY>810</locationY>
         <defaultConnector>
             <targetReference>noPreorder_0_0</targetReference>
         </defaultConnector>
@@ -80,7 +102,7 @@
             <name>IsPreorder_0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Order_Product_Summary_Not_IsPreorder</leftValueReference>
+                <leftValueReference>Order_Product_Summary_Not_IsPreorder_0</leftValueReference>
                 <operator>IsEmpty</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
@@ -117,11 +139,11 @@
     <recordLookups>
         <name>Order_Product_Summary</name>
         <label>Order Product Summary</label>
-        <locationX>694</locationX>
-        <locationY>228</locationY>
+        <locationX>541</locationX>
+        <locationY>182</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>IsPreOrder_Item</targetReference>
+            <targetReference>Order_Product_Summary_Not_IsPreorder_0</targetReference>
         </connector>
         <filterLogic>(1 AND 3 AND 5) AND (2 OR 4)</filterLogic>
         <filters>
@@ -161,13 +183,13 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Order_Product_Summary_Not_IsPreorder</name>
+        <name>Order_Product_Summary_Not_IsPreorder_0</name>
         <label>Order Product Summary Not IsPreorder</label>
-        <locationX>492</locationX>
-        <locationY>713</locationY>
+        <locationX>540</locationX>
+        <locationY>304</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>IsPreOrder_Item_Exist</targetReference>
+            <targetReference>IsPreOrder_Item</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -206,7 +228,7 @@
         <name>noPreorder</name>
         <label>noPreorder</label>
         <locationX>1284</locationX>
-        <locationY>424</locationY>
+        <locationY>522</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -222,7 +244,7 @@
         <name>noPreorder_0</name>
         <label>PreorderTreated</label>
         <locationX>1126</locationX>
-        <locationY>812</locationY>
+        <locationY>910</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -238,7 +260,7 @@
         <name>noPreorder_0_0</name>
         <label>PreorderTreated</label>
         <locationX>739</locationX>
-        <locationY>545</locationY>
+        <locationY>643</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -254,10 +276,26 @@
         <showHeader>true</showHeader>
     </screens>
     <screens>
+        <name>noPreorder_0_0_0</name>
+        <label>noPreorder</label>
+        <locationX>835</locationX>
+        <locationY>260</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>no_records_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;No PreOrder Products with Start Date reached found.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Screen_Message</name>
         <label>Screen Message</label>
         <locationX>1291</locationX>
-        <locationY>298</locationY>
+        <locationY>396</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -270,8 +308,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>557</locationX>
-        <locationY>47</locationY>
+        <locationX>409</locationX>
+        <locationY>10</locationY>
         <connector>
             <targetReference>Order_Product_Summary</targetReference>
         </connector>
@@ -281,7 +319,7 @@
         <name>Invokable_FO_Orchestration</name>
         <label>Invokable FO Orchestration</label>
         <locationX>849</locationX>
-        <locationY>370</locationY>
+        <locationY>468</locationY>
         <connector>
             <targetReference>Check_OCI_Reservation_Output</targetReference>
         </connector>
@@ -305,9 +343,9 @@
         <name>PreOrder_Process</name>
         <label>PreOrder Process</label>
         <locationX>492</locationX>
-        <locationY>559</locationY>
+        <locationY>657</locationY>
         <connector>
-            <targetReference>Order_Product_Summary_Not_IsPreorder</targetReference>
+            <targetReference>IsPreOrder_Item_Exist</targetReference>
         </connector>
         <flowName>SOM_250_FulfillmentOrderBatchHelper_FO_On_PreOrder</flowName>
         <inputAssignments>
