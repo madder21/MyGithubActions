@@ -49,13 +49,17 @@
                         <valueListItems>
                             <value>Order.Create_Order_Summary</value>
                             <visibilityRule>
-                               
+                                <booleanFilter>1 AND 2</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.TECH_OS_Field__c}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>0</rightValue>
                                 </criteria>
-                                
+                                <criteria>
+                                    <leftValue>{!Record.isLegacyOrder__c}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>false</rightValue>
+                                </criteria>
                             </visibilityRule>
                         </valueListItems>
                     </valueList>
