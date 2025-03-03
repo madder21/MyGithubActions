@@ -41,7 +41,7 @@ public class TNP_001_QueueableCallOut implements Queueable,Database.AllowsCallou
                             JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFSC_Source,listCountryCode ); //source 'SFSC'     
                         }
                     }
-                    if(user == null ){
+                    if(user == null || user.Name == Label.SFMC_Username ){
                         JSONGenerated = TNP_002_ServiceClass.GenerateJSON(acc,Label.SFDC_Source,listCountryCode ); //source 'SFDC'       
                     }
                 }
