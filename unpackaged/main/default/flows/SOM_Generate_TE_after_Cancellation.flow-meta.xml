@@ -20,6 +20,8 @@
                 <stringValue>OrderCanceled</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>TE_Automatic_Cancellation</name>
@@ -41,8 +43,11 @@
                 <stringValue>CCAutomaticOrderCancellation</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_Order</name>
         <label>Check Order</label>
@@ -77,10 +82,10 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_C_C_Reminder_TE</leftValueReference>
-                <operator>IsNull</operator>
+                <leftValueReference>$Flow.CurrentDateTime</leftValueReference>
+                <operator>GreaterThanOrEqualTo</operator>
                 <rightValue>
-                    <booleanValue>false</booleanValue>
+                    <elementReference>$Record.TE_Cancellation_Date__c</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -89,6 +94,7 @@
             <label>Auto Cancel</label>
         </rules>
     </decisions>
+    <environments>Default</environments>
     <formulas>
         <name>TE_Cancellation_Date</name>
         <dataType>Date</dataType>
@@ -115,46 +121,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>Get_C_C_Reminder_TE</name>
-        <label>Get C&amp;C Reminder TE</label>
-        <locationX>571</locationX>
-        <locationY>366</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_Order</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>OrderSummary__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Sent</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Template__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>CCReminder</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>TransactionalEmail__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>447</locationX>
         <locationY>50</locationY>
         <connector>
-            <targetReference>Get_C_C_Reminder_TE</targetReference>
+            <targetReference>Check_Order</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
         <filterLogic>and</filterLogic>
