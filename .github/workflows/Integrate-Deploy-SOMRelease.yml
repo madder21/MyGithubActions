@@ -44,6 +44,5 @@ jobs:
                                
             # Deploy the entire branch to Integration org
             - name: 'Deploy the entire branch to Integration org'
-              run: >
-                  echo ${{env.APEX_TESTS}}
-                  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2023-10-1.xml" --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-10.1.txt) -u RimowaIntegrateOrg
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-03-1.xml"  -u RimowaIntegrateOrg
+             # run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2023-11-1.xml" --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-11.1.txt) -u RimowaIntegrateOrg
