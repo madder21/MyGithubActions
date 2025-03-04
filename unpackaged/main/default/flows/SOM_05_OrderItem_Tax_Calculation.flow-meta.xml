@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>FX_GrossUnitPrice</name>
+        <dataType>Currency</dataType>
+        <expression>IF(
+   ROUND(( {!FX_totalLineAmount} + {!FX_OrderProductTaxLineItemAmount})/{!Get_Order_Item.Quantity} , 2) = 
+   FLOOR(ROUND(( {!FX_totalLineAmount} + {!FX_OrderProductTaxLineItemAmount})/{!Get_Order_Item.Quantity} , 2)) + 0.01,
+   
+   FLOOR(ROUND(( {!FX_totalLineAmount} + {!FX_OrderProductTaxLineItemAmount})/{!Get_Order_Item.Quantity} , 2)), 
+
+   ROUND(( {!FX_totalLineAmount} + {!FX_OrderProductTaxLineItemAmount})/{!Get_Order_Item.Quantity} , 2)
+)</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_OrderProductTaxLineItemAmount</name>
+        <dataType>Currency</dataType>
+        <expression>({!Get_Order_Item.UnitPrice} - ({!Get_Order_Item.UnitPrice} / (1 + {!$Record.Rate} / 100))) * {!Get_Order_Item.Quantity}</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_totalLineAmount</name>
+        <dataType>Currency</dataType>
+        <expression>IF(
+   ROUND({!FX_UnitPrice} * {!Get_Order_Item.Quantity}, 2) = 
+   FLOOR(ROUND({!FX_UnitPrice} * {!Get_Order_Item.Quantity}, 2)) + 0.01,  
+   FLOOR(ROUND({!FX_UnitPrice} * {!Get_Order_Item.Quantity}, 2)), 
+   ROUND({!FX_UnitPrice} * {!Get_Order_Item.Quantity}, 2)
+)</expression>
+        <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>FX_UnitPrice</name>
+        <dataType>Currency</dataType>
+        <expression>{!Get_Order_Item.UnitPrice} - ( {!FX_OrderProductTaxLineItemAmount}/{!Get_Order_Item.Quantity})</expression>
+        <scale>2</scale>
+    </formulas>
+    <interviewLabel>SOM 05 - Order Item Tax Calculation {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM 05 - Order Item Tax Calculation</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Order_Item</name>
+        <label>Get Order Item</label>
+        <locationX>595</locationX>
+        <locationY>394</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Order_Product_Tax_Line_Item</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderItemId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Order_Item</name>
+        <label>Update Order Item</label>
+        <locationX>605</locationX>
+        <locationY>725</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.OrderItemId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>GrossUnitPrice</field>
+            <value>
+                <elementReference>FX_GrossUnitPrice</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>TotalLineAmount</field>
+            <value>
+                <elementReference>FX_totalLineAmount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UnitPrice</field>
+            <value>
+                <elementReference>FX_UnitPrice</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OrderItem</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order_Product_Tax_Line_Item</name>
+        <label>Update Order Product Tax Line Item</label>
+        <locationX>607</locationX>
+        <locationY>545</locationY>
+        <connector>
+            <targetReference>Update_Order_Item</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>FX_OrderProductTaxLineItemAmount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_Order_Item</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Rate</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>OrderItemTaxLineItem</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>OrderItemsToUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItem</objectType>
+    </variables>
+</Flow>
