@@ -286,7 +286,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND  3 AND 4 AND ( 5 OR 2)</booleanFilter>
+                                <booleanFilter>1 AND  3 AND 4 AND 2 AND 5 </booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -662,7 +662,7 @@
                                     <rightValue>0</rightValue>
                                 </criteria>
                                 <criteria>
-                                    <leftValue>{!Record.Tech_ShippingCountry__c}</leftValue>
+                                    <leftValue>{!Record.BillingCountry}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>BR</rightValue>
                                 </criteria>
@@ -684,27 +684,7 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>OrderSummary.Cancel_Item</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Waiting for goods</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.ProfileForCancelButton__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.StandardProductsCount__c}</leftValue>
-                                    <operator>GT</operator>
-                                    <rightValue>1</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
+                       
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
@@ -1009,10 +989,6 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
-                <componentInstanceProperties>
-                    <name>label</name>
-                    <value>Tabs</value>
-                </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>tabs</name>
                     <value>maintabs</value>
