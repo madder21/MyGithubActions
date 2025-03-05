@@ -350,7 +350,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         odg.Complementary__c     = storeToWebOrder.deliveryContact.Complementary;
         odg.PhoneNumber           = storeToWebOrder.deliveryContact.phone;
         if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ){
-            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('Express_DE').Id;
+            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('Express_DHL_DE').Id;
         } else if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && !(STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode))){
             odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('standard_DE').Id;
         }else{
