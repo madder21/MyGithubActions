@@ -286,7 +286,8 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND  3 AND 4 AND 2 AND 5 </booleanFilter>
+                                
+                                 <booleanFilter>1 AND  3 AND 4 AND ( 5 OR 2)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
