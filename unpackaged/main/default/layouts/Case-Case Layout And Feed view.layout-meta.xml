@@ -541,9 +541,9 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Custom Links</label>
-        <layoutColumns/>
-        <layoutColumns/>
-        <layoutColumns/>
+        <layoutColumns />
+        <layoutColumns />
+        <layoutColumns />
         <style>CustomLinks</style>
     </layoutSections>
     <platformActionList>
@@ -678,6 +678,15 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedCommentsList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Account__c</fields>
+        <fields>ConversationId__c</fields>
+        <relatedList>InsideConversation__c.Case__c</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEmailMessageList</relatedList>

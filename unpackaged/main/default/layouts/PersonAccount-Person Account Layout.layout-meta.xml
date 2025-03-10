@@ -123,6 +123,10 @@
                 <behavior>Edit</behavior>
                 <field>IsPhoneChecked__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>LiveChatOrigin__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns />
         <style>TwoColumnsLeftToRight</style>
@@ -893,6 +897,23 @@
         <fields>LastModifiedDate</fields>
         <fields>LastModifiedBy</fields>
         <relatedList>ContactPointTypeConsent.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>ConversationId__c</fields>
+        <relatedList>InsideConversation__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Account__c</fields>
+        <fields>ConversationId__c</fields>
+        <relatedList>InsideSocialConversation__c.Contact__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
