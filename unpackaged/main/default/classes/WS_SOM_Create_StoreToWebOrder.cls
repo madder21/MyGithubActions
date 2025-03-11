@@ -91,7 +91,15 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 }
                 throw new StoreToWebException('We cannot process your request, the following Order Summary Numbers already exist in Salesforce : '+duplicateOrderNumbers);
             }
-            
+            for (StoreToWebOrder storeToWebOrder:request.orders) {
+                if (String.isNotBlank(storeToWebOrder.orderedDate)) {
+                DateTime orderedDateTime = SOM_DateTimeHelper.convertISO8601ToDateTime(storeToWebOrder.orderedDate);
+                DateTime maxAllowedDateTime = DateTime.now().addDays(1);
+                if (orderedDateTime > maxAllowedDateTime) {
+                    throw new StoreToWebException('The OrderedDate cannot exceed today\'s date by more than 24 hours.');
+                }
+            }
+        }
             for (OrderDeliveryMethod odm:orderDeliveryMethods) {
                 orderDeliveryMethodMap.put(odm.ReferenceNumber, odm);
             }
