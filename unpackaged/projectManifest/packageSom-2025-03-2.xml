@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
+	
+	<types>
+		<members>ReturnOrder.Tech_ExchageButton__c</members>
+		<name>CustomField</name>
+	</types>
+<types>
 
+		<members>SOM_117_ReminderEmail</members>
+		<members>SOM_Generate_TE_after_Cancellation</members>
+		<members>SOM_960_Exchange_Manual_Order_Creation</members>
+		<members>SOM_Update_Exchange_Button_Field</members>
+		<name>Flow</name>
+    	</types>
 <types>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
 		<name>ApexClass</name>
 	</types>
-
+<types>
+		
+    <members>Return_Order_Record_Page</members>
+		<name>FlexiPage</name>
+	</types>
 	<version>63.0</version>
 
 </Package>

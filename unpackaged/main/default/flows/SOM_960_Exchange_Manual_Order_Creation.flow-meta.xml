@@ -90,7 +90,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>screen_success</targetReference>
+            <targetReference>OS_or_RO_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -543,6 +543,13 @@
                 <elementReference>Get_OS_from_RO.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_RO.Tech_ExchageButton__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Billing_Shipping_Info</targetReference>
         </connector>
@@ -837,6 +844,43 @@
             </conditions>
             <connector>
                 <targetReference>Get_RO</targetReference>
+            </connector>
+            <label>RO</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>OS_or_RO_0</name>
+        <label>OS or RO</label>
+        <locationX>2392</locationX>
+        <locationY>1417</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>OS_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>1Os</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screen_success</targetReference>
+            </connector>
+            <label>OS</label>
+        </rules>
+        <rules>
+            <name>RO_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>recordId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>2oN</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_RO</targetReference>
             </connector>
             <label>RO</label>
         </rules>
@@ -1227,6 +1271,16 @@
         <inputReference>C_Order_Product_Summaries_To_Update</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_RO</name>
+        <label>Update RO</label>
+        <locationX>2492</locationX>
+        <locationY>1262</locationY>
+        <connector>
+            <targetReference>screen_success</targetReference>
+        </connector>
+        <inputReference>Get_RO</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_VAT_AND_Legal_Entity_Field</name>
         <label>Update VAT AND Legal Entity Field</label>
         <locationX>2049</locationX>
@@ -1418,8 +1472,8 @@
     <screens>
         <name>screen_success</name>
         <label>screen success</label>
-        <locationX>2394</locationX>
-        <locationY>1408</locationY>
+        <locationX>2669</locationX>
+        <locationY>1409</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
