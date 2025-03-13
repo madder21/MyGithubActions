@@ -411,7 +411,7 @@ lineItem.isCC = false;
         for(Store__c Store:StoreLocation) {
             EmailStoreMap.put(Store.SourceStoreId__c,Store.Email__c);
         }
-        C_C_order_Cancellation_and_Reminder__mdt CC_Setting = [SELECT nbrOfDaysBeforeCancellation__c, nbrOfDaysBeforeReminder__c FROM C_C_order_Cancellation_and_Reminder__mdt];
+        C_C_order_Cancellation_and_Reminder__mdt CC_Setting = [SELECT nbrOfDaysBeforeCancellation__c, ByPass__c, nbrOfDaysBeforeReminder__c FROM C_C_order_Cancellation_and_Reminder__mdt];
         
         
         for (OrderSummary orderSum:orderSummaries) {
@@ -427,8 +427,13 @@ lineItem.isCC = false;
             orderSum.TE_Created_Date__c 	 = resultCreated_Date;
             orderSum.TE_Cancellation_Date__c = resultCancellation_Date;*/
             
-            orderSum.TE_Created_Date__c 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
-            orderSum.TE_Cancellation_Date__c = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            if(CC_Setting.ByPass__c == false){
+                orderSum.TE_Created_Date__c 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
+                orderSum.TE_Cancellation_Date__c = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            }else{
+                orderSum.TE_Created_Date__c 	 = System.now().addMinutes(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
+                orderSum.TE_Cancellation_Date__c = System.now().addMinutes(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            }
 
             
             SOM_OrderReadyForPickupTemplateContent orderReadyForPickupTemplateContent = new SOM_OrderReadyForPickupTemplateContent();
