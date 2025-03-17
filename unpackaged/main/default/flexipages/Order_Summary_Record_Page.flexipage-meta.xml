@@ -286,7 +286,7 @@
                         <valueListItems>
                             <value>OrderSummary.Retry_Allocation</value>
                             <visibilityRule>
-                                <booleanFilter>1 AND  3 AND 4 AND ( 5 OR 2 OR 6)</booleanFilter>
+                                <booleanFilter>1 AND  3 AND 4 AND 7 AND ( 5 OR 2 OR 6)</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.On_Hold__c}</leftValue>
                                     <operator>EQUAL</operator>
@@ -316,6 +316,11 @@
                                     <leftValue>{!Record.Status}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>Waiting for goods</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>NE</operator>
+                                    <rightValue>Created</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
