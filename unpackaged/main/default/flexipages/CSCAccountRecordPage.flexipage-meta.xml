@@ -143,6 +143,16 @@
                 <identifier>RecordFullAccount_pcField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.LiveChatOrigin__c</fieldItem>
+                <identifier>RecordLiveChatOrigin_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-780b2c3a-bc92-489d-9e51-0d482413990b</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -506,10 +516,6 @@
                     <value>Facet-c815314e-3271-42eb-96d8-51e75b84df62</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Client information</value>
                 </componentInstanceProperties>
@@ -522,10 +528,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-53939f88-6dee-4c26-9af9-0a24c6c856b9</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -542,10 +544,6 @@
                     <value>Facet-a214da61-3e01-48b7-abe3-8ceee92604e0</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Purchases</value>
                 </componentInstanceProperties>
@@ -560,10 +558,6 @@
                     <value>Facet-125803dd-f237-4529-9f24-8b098cd35d4f</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>false</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
                     <name>label</name>
                     <value>Other Details​</value>
                 </componentInstanceProperties>
@@ -576,10 +570,6 @@
                 <componentInstanceProperties>
                     <name>columns</name>
                     <value>Facet-7bbbc48b-0c1b-425f-8133-34735236f24b</value>
-                </componentInstanceProperties>
-                <componentInstanceProperties>
-                    <name>horizontalAlignment</name>
-                    <value>true</value>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
@@ -738,6 +728,32 @@
                 </componentInstanceProperties>
                 <componentName>force:relatedListQuickLinksContainer</componentName>
                 <identifier>force_relatedListQuickLinksContainer</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>parentFieldApiName</name>
+                    <value>Account.Id</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListApiName</name>
+                    <value>InsideConversations__r</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>relatedListComponentOverride</name>
+                    <value>NONE</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>rowsToDisplay</name>
+                    <value>10</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>showActionBar</name>
+                    <value>true</value>
+                </componentInstanceProperties>
+                <componentName>force:relatedListSingleContainer</componentName>
+                <identifier>force_relatedListSingleContainer</identifier>
             </componentInstance>
         </itemInstances>
         <name>rightcol</name>

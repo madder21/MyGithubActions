@@ -136,7 +136,7 @@ public with sharing class TNP_001_AccountTrigger_SVE {
         map<String,SObject> mapSobject  = new map<String,SObject>();
         for (Account accountToInsert:listAccountToInsert ){
             User user = mapInfoUser.get(accountToInsert.CreatedById);
-            if (user == null || (user != null && user.Name == Label.SFSC_Integration_User) ){
+            if (user == null || (user != null && (user.Name == Label.SFSC_Integration_User || user.Name == Label.SFMC_Username))){
                 listFinalAccountToInsert.add(accountToInsert);
             }
         }

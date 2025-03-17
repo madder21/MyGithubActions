@@ -15,7 +15,7 @@ global with sharing class SOM_BlockOrdersWithoutTax {
                 RequestsMap.get(redId.orderId).add(recordData);
             }  
         }
-        OrgWideEmailAddress owa = [SELECT id, Address, DisplayName FROM OrgWideEmailAddress WHERE /*Address = 'noreply@rimowa.com' OR*/ Address = 'maha.meghras@viseo.com'  LIMIT 1];
+        OrgWideEmailAddress owa = [SELECT id, Address, DisplayName FROM OrgWideEmailAddress WHERE Address = 'noreply@rimowa.com'/* OR Address = 'maha.meghras@viseo.com' */ LIMIT 1];
         List<AddressToBlockOrdersWithoutTax__mdt> EmailBody = [ SELECT Email__c, Value__c, DeveloperName FROM AddressToBlockOrdersWithoutTax__mdt];
         for (AddressToBlockOrdersWithoutTax__mdt Body : EmailBody) {
             if(!EmailBodyConfigs.containsKey(Body.DeveloperName) && Body.DeveloperName != SOM_Constants.ADDRESS){

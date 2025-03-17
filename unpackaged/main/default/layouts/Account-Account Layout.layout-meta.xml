@@ -97,6 +97,10 @@
                 <behavior>Edit</behavior>
                 <field>Gifted__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>LiveChatOrigin__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -360,6 +364,24 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>TransactionItem__c.Client__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <excludeButtons>MassChangeOwner</excludeButtons>
+        <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
+        <fields>ConversationId__c</fields>
+        <fields>AssignedTo__c</fields>
+        <fields>Started__c</fields>
+        <fields>Ended__c</fields>
+        <relatedList>InsideConversation__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>ConversationId__c</fields>
+        <fields>AssignedTo__c</fields>
+        <fields>Started__c</fields>
+        <fields>Ended__c</fields>
+        <relatedList>InsideSocialConversation__c.Account__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

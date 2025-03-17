@@ -1,0 +1,384 @@
+<apex:page showHeader="false" sidebar="false">
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <script type="text/javascript">__sfdcSessionId = '{!$Api.Session_Id}';</script>
+    <script src="/soap/ajax/42.0/connection.js" type="text/javascript"></script>
+    <script type="text/javascript">        
+        // #region Version Control
+        
+        // In Salesforce App Settings we map once the page with _v[x] extension, e.g. _v2
+        // _v[x].[y] - y is incremented in code editing and shows every release to Visualforce page in Saleforce
+        // When debugging in Console we can easily check if the correct file was loaded
+        // For development/review JavaScript code may be copied for a .js file; this way regions and functions can be collapsed/expanded 
+        
+        LogToConsole("######################### INSIDEChatStatusManager_v2.0 #########################");
+        
+        // #endregion Version Control
+        
+        // #region Variables
+        
+        var separatorLog = '##################################################';
+        var omniChannelLog = 'OmniChannel-';
+        var statusChangeListenerLog = 'StatusChangeListener: ';
+        var acceptListenerLog = 'AcceptListener: ';
+        var closedListenerLog = 'ClosedListener: ';
+        var declineUnacceptedAgentWorkLog = '   DeclineUnacceptedAgentWork: ';
+        var countAcceptedAgentWorkLog = '   CountAcceptedAgentWork: ';
+        var changeStatusToChatEmailLog = '   ChangeStatusToChatEmail: ';
+        var changeStatusToOnChatLog = '   ChangeStatusToOnChat: ';
+        var changeStatusToPreviousLog = '   ChangeStatusToPrevious: ';
+        var changeStatusFromOnChatToChatLog = '   ChangeStatusFromOnChatToChat: ';
+        
+        var conversationObjectName = 'InsideConversation__c';
+        var chatStatus = '0N50Y000000CcQG'; // Chat
+        var chatEmailStatus = '0N50Y000000fzdM'; // Chat & Email
+        var onChatStatus = '0N50Y000000CcQ1'; // On Chat
+        var logIsActive = true;
+        var chatCounter = 0;
+        
+        var initialStatus = "";
+        var prevStatus = "";
+        var currStatus = "";
+        var oneWorkAcceptedStatus = "";
+        var changedByOperatorStatus = "";
+        var objectPrefix = "";
+        
+        // #endregion Variables
+        
+        // #region Listeners
+        
+        var StatusChangeListener = function (result) {
+        
+            GetObjectPrefix();
+        
+            LogToConsole(separatorLog);
+            LogToConsole(statusChangeListenerLog + "InsideConversation Prefix: " + objectPrefix);
+            LogToConsole(statusChangeListenerLog + "Status Is: " + result.statusId);
+        
+            //Check here if the Current status is not from those allowed to accept chat, then decline any pending chat work item
+            QueryResult1 = sforce.connection.query("SELECT Id from ServiceChannel WHERE RelatedEntity = '" + conversationObjectName + "' limit 1");
+            ServiceChannelId = QueryResult1.getArray("records")[0].Id;
+        
+            if (ServiceChannelId != null && ServiceChannelId != "") {
+                QueryResult2 = sforce.connection.query("SELECT ServicePresenceStatusId from ServiceChannelStatus WHERE ServiceChannelId = '" + ServiceChannelId + "'");
+                ChatStatusIds = QueryResult2.getArray("records");
+        
+                var IsChatStatus = false;
+                for (var i = 0; i < ChatStatusIds.length; i++) {
+                    var record = ChatStatusIds[i];
+        
+                    if (record.ServicePresenceStatusId.search(result.statusId) >= 0) {
+                        IsChatStatus = true;
+                        break;
+                    }
+                }
+        
+                LogToConsole(statusChangeListenerLog + "IsChatStatus: " + IsChatStatus);
+        
+                if (!IsChatStatus) {
+                    DeclineUnacceptedAgentWork();
+                }
+        
+                CountAcceptedAgentWork(statusChangeListenerLog).then(function (response) {
+                    if (chatCounter == 0) {
+                        initialStatus = "";
+                        prevStatus = "";
+                        currStatus = "";
+                    }
+        
+                    if (chatCounter == 1 && result.statusId != currStatus) {
+                        changedByOperatorStatus = result.statusId;
+                    }
+                });
+            }
+        };
+        
+        var AcceptListener = function (result) {
+        
+            GetObjectPrefix();
+        
+            LogToConsole(separatorLog);
+            LogToConsole(acceptListenerLog + "InsideConversation Prefix: " + objectPrefix);
+        
+            if (result.workItemId != null && result.workItemId != "" && result.workItemId.substring(0, 3) == objectPrefix) {
+                sforce.console.presence.getServicePresenceStatusId(function (sresult) {
+                    if (sresult.success) {
+                        CountAcceptedAgentWork(acceptListenerLog).then(function (response) {
+        
+                            currStatus = sresult.statusId;
+        
+                            LogToConsole(acceptListenerLog + "Current Status is: " + currStatus);
+        
+                            if (oneWorkAcceptedStatus != "" && currStatus != oneWorkAcceptedStatus && chatCounter == 2) {
+                                currStatus = oneWorkAcceptedStatus;
+                            }
+        
+                            LogToConsole(acceptListenerLog + "Updated Current Status is: " + currStatus);
+                            LogToConsole(acceptListenerLog + "Chat Counter is " + chatCounter);
+        
+                            if (currStatus != null && currStatus != "" && currStatus != chatEmailStatus && currStatus != chatStatus && chatCounter === 1) {
+                                ChangeStatusToChatEmail();
+                                oneWorkAcceptedStatus = chatEmailStatus;
+                            }
+                            else if (currStatus != null && currStatus != "" && (currStatus == chatEmailStatus || currStatus == chatStatus) && chatCounter === 2) {
+                                ChangeStatusToOnChat();
+                            }
+                            else {
+                                var statusToLog = chatCounter > 2 ? onChatStatus : currStatus;
+                                LogToConsole(acceptListenerLog + "Current Status is already " + statusToLog);
+                                prevStatus = currStatus;
+        
+                                if (chatCounter == 1)
+                                    oneWorkAcceptedStatus = currStatus;
+        
+                                currStatus = "";
+                            }
+                        });
+                    } else {
+                        currStatus = "";
+                        LogToConsole(acceptListenerLog + "Failed to get current status");
+                    }
+                });
+            }
+            else {
+                LogToConsole(acceptListenerLog + result.workItemId + " prefix is not InsideConversation");
+            }
+        };
+        
+        var ClosedListener = function (result) {
+        
+            GetObjectPrefix();
+        
+            LogToConsole(separatorLog);
+            LogToConsole(closedListenerLog + "InsideConversation Prefix: " + objectPrefix);
+        
+            if (result.workItemId != null && result.workItemId != "" && result.workItemId.substring(0, 3) == objectPrefix) {
+                sforce.console.presence.getServicePresenceStatusId(function (result) {
+                    if (result.success) {
+                        CountAcceptedAgentWork(closedListenerLog).then(function (response) {
+                            currStatus = result.statusId;
+        
+                            LogToConsole(closedListenerLog + "Current Status is: " + currStatus);
+        
+                            if (currStatus != chatStatus && currStatus != chatEmailStatus && currStatus != onChatStatus) {
+                                prevStatus = currStatus;
+        
+                                LogToConsole(closedListenerLog + "Current Status is not chat status, set prevstatus to currstatus: " + currStatus);
+                            }
+                            else {
+                                if (currStatus != null && currStatus != "" && prevStatus != null && prevStatus != "" && currStatus != prevStatus) {
+        
+                                    LogToConsole(closedListenerLog + "current & previous status are different, change back to prev. status");
+                                    LogToConsole(closedListenerLog + "Previous Status is " + prevStatus + ", Current Status is " + currStatus + ", Initial Status is " + initialStatus);
+        
+                                    sforce.console.presence.getAgentWorks(function (result) {
+                                        if (result.success) {
+                                            var works = JSON.parse(result.works);
+        
+                                            var InsideChatFound = false;
+                                            for (var i = 0, len = works.length; i < len; ++i) {
+                                                var workitem = works[i];
+        
+                                                if (workitem.workItemId != null && workitem.workItemId != "" && workitem.workItemId.substring(0, 3) == objectPrefix) {
+                                                    InsideChatFound = true;
+                                                }
+                                            }
+        
+                                            if (!InsideChatFound)
+                                                ChangeStatusToPrevious();
+                                            else if (initialStatus == chatStatus)
+                                                ChangeStatusFromOnChatToChat(chatStatus);
+                                            else
+                                                ChangeStatusFromOnChatToChat(chatEmailStatus);
+        
+                                        } else {
+                                            LogToConsole(closedListenerLog + "Get work items failed");
+                                        }
+                                    });
+                                }
+                                else {
+                                    currStatus = "";
+                                    LogToConsole(closedListenerLog + "current Status and Previous Status are same: currStatus: " + currStatus + " " + " prevStatus: " + prevStatus);
+                                }
+                            }
+                        });
+                    } else {
+                        currStatus = "";
+                        LogToConsole(closedListenerLog + "Failed to get current status");
+                    }
+                });
+            }
+            else {
+                LogToConsole(closedListenerLog + result.workItemId + " prefix is not InsideConversation");
+            }
+        };
+        
+        // #endregion Listeners
+        
+        // #region Salesforce API
+        
+        function GetObjectPrefix() {
+            if (objectPrefix == null || objectPrefix == "") {
+                var resultx = sforce.connection.describeSObjects([conversationObjectName]);
+                objectPrefix = resultx[0].keyPrefix;
+            }
+        }
+        
+        function ChangeStatusToChatEmail() {
+            LogToConsole(acceptListenerLog + changeStatusToChatEmailLog + "Current Status is not Chat Status!");
+        
+            sforce.console.presence.setServicePresenceStatus(chatEmailStatus, function (result) {
+                if (result.success) {
+                    prevStatus = currStatus;
+                    currStatus = chatEmailStatus;
+        
+                    LogToConsole(acceptListenerLog + changeStatusToChatEmailLog + "Status changed successfully to " + chatEmailStatus);
+                }
+                else {
+                    LogToConsole(acceptListenerLog + changeStatusToChatEmailLog + "Status change failed to " + chatEmailStatus);
+                }
+            });
+        }
+        
+        function ChangeStatusToOnChat() {
+            sforce.console.presence.setServicePresenceStatus(onChatStatus, function (result) {
+                if (result.success) {
+        
+                    if (changedByOperatorStatus == "")
+                        initialStatus = prevStatus;
+                    else
+                        initialStatus = changedByOperatorStatus;
+        
+                    prevStatus = currStatus;
+                    currStatus = onChatStatus;
+        
+                    LogToConsole(acceptListenerLog + changeStatusToOnChatLog + "Status changed successfully to OnChat " + onChatStatus);
+                } else {
+                    LogToConsole(acceptListenerLog + changeStatusToOnChatLog + "Status change failed to OnChat " + onChatStatus);
+                }
+            });
+        }
+        
+        function ChangeStatusToPrevious() {
+            LogToConsole(closedListenerLog + changeStatusToPreviousLog + "No Inside Active Conversation Found, Can Change TO Previous Status");
+        
+            sforce.console.presence.setServicePresenceStatus(prevStatus, function (result) {
+                if (result.success) {
+                    currStatus = prevStatus;
+                    prevStatus = "";
+        
+                    initialStatus = "";
+                    changedByOperatorStatus = "";
+                    oneWorkAcceptedStatus = "";
+        
+                    LogToConsole(closedListenerLog + changeStatusToPreviousLog + "Status: Status changed successfully to prevStatus: " + prevStatus);
+                } else {
+                    LogToConsole(closedListenerLog + changeStatusToPreviousLog + "Status change failed to prevStatus: " + prevStatus);
+                }
+            });
+        }
+        
+        // Changing state to Chat&Email or Chat
+        function ChangeStatusFromOnChatToChat(status) {
+            LogToConsole(closedListenerLog + changeStatusFromOnChatToChatLog + "Active Inside Conversation Found, Can't Change To Non Chat Status");
+        
+            sforce.console.presence.setServicePresenceStatus(status, function (result) {
+                if (result.success) {
+                    currStatus = status;
+                    prevStatus = initialStatus;
+        
+                    LogToConsole(closedListenerLog + changeStatusFromOnChatToChatLog + "Status changed successfully to: " + status);
+                } else {
+                    LogToConsole(closedListenerLog + changeStatusFromOnChatToChatLog + "Status change failed to: " + status);
+                }
+            });
+        }
+        
+        function DeclineUnacceptedAgentWork() {
+            sforce.console.presence.getAgentWorks(function (wResult) {
+                if (wResult.success) {
+                    var works = JSON.parse(wResult.works);
+        
+                    LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Works: " + works.length);
+        
+                    for (var i = 0, len = works.length; i < len; ++i) {
+                        var workitem = works[i];
+        
+                        LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Workitem: " + workitem);
+        
+                        if (workitem.workItemId != null && workitem.workItemId != "" && workitem.workItemId.substring(0, 3) == objectPrefix) {
+        
+                            LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Workitem ID: " + workitem.workItemId + " " + workitem.isEngaged);
+        
+                            if (!workitem.isEngaged) {
+        
+                                LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Declining work item: " + workitem.workId);
+        
+                                sforce.console.presence.declineAgentWork(workitem.workId, function (result) {
+                                    if (result.success) {
+                                        LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Work Declined Successfully ");
+                                    } else {
+                                        LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Decline work failed ");
+                                    }
+                                });
+                                LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Declining work item done: " + workitem.workId);
+                            }
+                            else {
+                                LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Work Item is Active, Can't Decline");
+                            }
+                        }
+                    }
+        
+                } else {
+                    LogToConsole(statusChangeListenerLog + declineUnacceptedAgentWorkLog + "Get work items failed");
+                }
+            });
+        }
+        
+        function CountAcceptedAgentWork(listenerLog) {
+            var promise = new Promise(function (resolve, reject) {
+                sforce.console.presence.getAgentWorks(function (wResult) {
+                    if (wResult.success) {
+                        var works = JSON.parse(wResult.works);
+                        var count = 0;
+                        for (var i = 0, len = works.length; i < len; ++i) {
+                            var workitem = works[i];
+                            if (workitem.workItemId != null && workitem.workItemId != "" && workitem.workItemId.substring(0, 3) == objectPrefix) {
+                                if (workitem.isEngaged) {
+                                    count++;
+                                }
+                            }
+                        }
+                        chatCounter = count;
+                        LogToConsole(listenerLog + countAcceptedAgentWorkLog + "Accepted work items count is " + count);
+                        resolve(wResult);
+                    } else {
+                        LogToConsole(listenerLog + countAcceptedAgentWorkLog + "Get work items failed count is 0");
+                        reject(wResult);
+                    }
+                });
+            });
+        
+            return promise;
+        }
+        
+        // #endregion Salesforce API
+        
+        // #region Utils
+        
+        // Code like logging or any snippets which does not invoke Salesforce API
+        
+        function LogToConsole(message) {
+            if (logIsActive) console.log(omniChannelLog + message);
+        }
+        
+        // #endregion Utils
+        
+        // #region Add Event Listeners
+        
+        sforce.console.addEventListener(sforce.console.ConsoleEvent.PRESENCE.WORK_ACCEPTED, AcceptListener);
+        sforce.console.addEventListener(sforce.console.ConsoleEvent.PRESENCE.WORK_CLOSED, ClosedListener);
+        sforce.console.addEventListener(sforce.console.ConsoleEvent.PRESENCE.STATUS_CHANGED, StatusChangeListener);
+        
+        // #endregion
+    </script>
+</apex:page>
