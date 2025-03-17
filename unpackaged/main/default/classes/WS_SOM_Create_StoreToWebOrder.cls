@@ -28,6 +28,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<Integer, PaymentAuthorization> paymentAuthorizationsToPersistMap = new Map<Integer, PaymentAuthorization>();
             Map<Integer, Payment> paymentsToPersistMap                           = new Map<Integer, Payment>();
             
+            Map<String, Map<String, Map<String, String>>> NeworderDeliveryMethodMap = new Map<String, Map<String, Map<String, String>>>();
             Map<String, OrderDeliveryMethod> orderDeliveryMethodMap = new Map<String, OrderDeliveryMethod>();
             Map<String, Product2> productsMap                       = new Map<String, Product2>();
             Map<String, PricebookEntry> pricebookEntriesMap         = new Map<String, PricebookEntry>();
@@ -58,29 +59,40 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                     if (orderProduct.productSKU != null) productsSKU.add(orderProduct.productSKU);
                     if (orderProduct.locationExternalReference != null) locationsExternalRef.add(orderProduct.locationExternalReference);
                 }
-                if ( storeToWebOrder.deliveryContact.postalCode != null && storeToWebOrder.storeOrigin =='DE22' && storeToWebOrder.deliveryContact.country =='DE' ){
+                if ( storeToWebOrder.deliveryContact.postalCode != null && storeToWebOrder.storeOrigin == SOM_Constants.STORE_ORIGIN_DE && storeToWebOrder.deliveryContact.country == SOM_Constants.COUNTRY_DE ){
                     PostalCodes.add(storeToWebOrder.deliveryContact.postalCode);
                 }
                 
             }
             System.debug('PostalCode' + PostalCodes);
+            orderDeliveryMethods = [SELECT Id, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers ];
             if(PostalCodes != null && PostalCodes.size() !=0 ){
-                STWListEX = [SELECT ID, storeOrigin__c, country__c, postalCode__c, parentId__r.parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber, DeliveryMethodName__c 
+                STWListEX = [SELECT ID, storeOrigin__c, country__c,parentId__r.country__c, postalCode__c, parentId__r.parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber,deliveryMethodId__r.Id, DeliveryMethodName__c 
                              FROM STWDeliveryMethod__c 
-                             WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c = 'DE22'];            
-                OrderDeliveryMethod STorderDeliveryMethod = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber = 'standard_DE'];
-                OrderDeliveryMethodListIds.add(STorderDeliveryMethod.Id);
+                             WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c =: SOM_Constants.STORE_ORIGIN_DE];            
                 if(STWListEX != null){ 
                     for(STWDeliveryMethod__c stw : STWListEX){
-                        OrderDeliveryMethodListIds.add(stw.deliveryMethodId__c);
                         STWpostalCodeList.add(stw.postalCode__c);
                     }
-                    System.debug('OrderDeliveryMethodListIds' + OrderDeliveryMethodListIds);
-                    orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ID IN :OrderDeliveryMethodListIds OR ReferenceNumber = 'express_DE'];
-                    System.debug('orderDeliveryMethods' + orderDeliveryMethods);
+                    
+                    for (STWDeliveryMethod__c dm : STWListEX) {
+                        String storeOrigin = dm.parentId__r.parentId__r.storeOrigin__c;
+                        String country = dm.parentId__r.country__c; 
+                        String postalCode = dm.postalCode__c;
+                        String referenceNumber = dm.deliveryMethodId__r.Id;
+                        
+                        if (!NeworderDeliveryMethodMap.containsKey(storeOrigin) && storeOrigin != null) {
+                            NeworderDeliveryMethodMap.put(storeOrigin, new Map<String, Map<String, String>>());
+                        }
+                        if (storeOrigin != null && country!=null && !NeworderDeliveryMethodMap.get(storeOrigin).containsKey(country)) {
+                            NeworderDeliveryMethodMap.get(storeOrigin).put(country, new Map<String, String>());
+                        }
+                        
+                        NeworderDeliveryMethodMap.get(storeOrigin).get(country).put(postalCode, referenceNumber);
+                    }
+                     
+                    
                 }
-            }else{
-                orderDeliveryMethods = [SELECT ID, ReferenceNumber FROM OrderDeliveryMethod WHERE ReferenceNumber IN :orderDeliveryMethodReferenceNumbers];
             }
             //check order
             List<Order> orders = [SELECT ID, OrderReferenceNumber FROM Order WHERE OrderReferenceNumber IN :orderReferenceNumbers];
@@ -91,15 +103,15 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 }
                 throw new StoreToWebException('We cannot process your request, the following Order Summary Numbers already exist in Salesforce : '+duplicateOrderNumbers);
             }
-            
-																	 
-																													
-																		
-														   
-																														
-				 
-			 
-		 
+            for (StoreToWebOrder storeToWebOrder:request.orders) {
+                if (String.isNotBlank(storeToWebOrder.orderedDate)) {
+                DateTime orderedDateTime = SOM_DateTimeHelper.convertISO8601ToDateTime(storeToWebOrder.orderedDate);
+                DateTime maxAllowedDateTime = DateTime.now().addDays(1);
+                if (orderedDateTime > maxAllowedDateTime) {
+                    throw new StoreToWebException('The OrderedDate cannot exceed today\'s date by more than 24 hours.');
+                }
+            }
+        }
             for (OrderDeliveryMethod odm:orderDeliveryMethods) {
                 orderDeliveryMethodMap.put(odm.ReferenceNumber, odm);
             }
@@ -132,7 +144,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 if (accountsMap.get(storeToWebOrder.accountId) == null) 
                     throw new StoreToWebException('Account with Id '+storeToWebOrder.accountId+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check order delivery method
-                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null && storeToWebOrder.storeOrigin != 'DE22'  && storeToWebOrder.deliveryContact.country != 'DE') 
+                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null && storeToWebOrder.storeOrigin != SOM_Constants.STORE_ORIGIN_DE  && storeToWebOrder.deliveryContact.country != SOM_Constants.COUNTRY_DE) 
                     throw new StoreToWebException('Order Delivery Method with reference number '+storeToWebOrder.orderDeliveryMethodReferenceNumber+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check saleschannel
                 if (salesChannelsMap.get(storeToWebOrder.salesChannelNumber) == null) 
@@ -142,7 +154,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 Order order = createStoreToWebOrder(storeToWebOrder, pricebooks, salesChannelsMap);
                 ordersToPersistMap.put(i, order);
                 //Create OrderDeliveryGroup
-                OrderDeliveryGroup odg = createOrderDeliveryGroup(storeToWebOrder, orderDeliveryMethodMap, STWpostalCodeList);
+                OrderDeliveryGroup odg = createOrderDeliveryGroup(storeToWebOrder, orderDeliveryMethodMap, STWpostalCodeList, NeworderDeliveryMethodMap);
                 //-----set order id
                 orderDeliveryGroupToPersistMap.put(i, odg);
                 //Create order Items
@@ -344,7 +356,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         return order;
     }
     
-    public static OrderDeliveryGroup createOrderDeliveryGroup(StoreToWebOrder storeToWebOrder, Map<String, OrderDeliveryMethod> orderDeliveryMethodMap, List<String> STWpostalCodeList){
+    public static OrderDeliveryGroup createOrderDeliveryGroup(StoreToWebOrder storeToWebOrder, Map<String, OrderDeliveryMethod> orderDeliveryMethodMap, List<String> STWpostalCodeList, Map<String, Map<String, Map<String, String>>> NeworderDeliveryMethodMap) {
         OrderDeliveryGroup odg    = new OrderDeliveryGroup();
         odg.EmailAddress          = storeToWebOrder.deliveryContact.email;
         odg.DeliverToCity         = storeToWebOrder.deliveryContact.city;
@@ -357,8 +369,11 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         odg.RI_Neighborhood__c   = storeToWebOrder.deliveryContact.Neighborhood;
         odg.Complementary__c     = storeToWebOrder.deliveryContact.Complementary;
         odg.PhoneNumber           = storeToWebOrder.deliveryContact.phone;
-        if(storeToWebOrder.storeOrigin == 'DE22' &&  storeToWebOrder.deliveryContact.country == 'DE' && STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ){
-            odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get('Express_DHL_DE').Id;
+        
+        String ODM_Id = STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ? NeworderDeliveryMethodMap.get(SOM_Constants.STORE_ORIGIN_DE).get(SOM_Constants.COUNTRY_DE).get(storeToWebOrder.deliveryContact.postalCode) : null ;
+                
+        if(ODM_Id != null ){
+            odg.OrderDeliveryMethodId = ODM_Id;
         }else{
             odg.OrderDeliveryMethodId = orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber).Id;
         }

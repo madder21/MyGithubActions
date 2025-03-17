@@ -188,6 +188,8 @@ global with sharing class SOM_Constants{
     public static final String CLOSING = 'Closing';
     public static final String REGARDS = 'Regards';
 
+    public static final String STORE_ORIGIN_DE = 'DE22';
+    public static final String COUNTRY_DE = 'DE';
     
     
     
