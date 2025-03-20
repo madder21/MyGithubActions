@@ -61,13 +61,6 @@
             <name>Auto_Cancel</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>TE_Cancellation_Date</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>$Flow.CurrentDate</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.tech_os_store_shipping_method__c</leftValueReference>
                 <operator>GreaterThan</operator>
                 <rightValue>
