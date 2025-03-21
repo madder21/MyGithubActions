@@ -68,6 +68,6 @@ private class SOM_TransactionalEmailBatchTest {
         
         List<TransactionalEmail__c> emails = [SELECT Id, Status__c, Template__c FROM TransactionalEmail__c where Id IN :TransactionalEmailIds];
         System.assertEquals(2, emails.size(), 'There should be two transactional emails.');
-        
+         
     }
 }
