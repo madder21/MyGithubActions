@@ -117,7 +117,7 @@
     <formulas>
         <name>FX_OrderType</name>
         <dataType>String</dataType>
-        <expression>IF(AND({!Get_OrderDeliveryMethode.isHomeDelivery__c} = TRUE,{!$Record.SalesChannel.SalesChannelName} = &quot;CEGID&quot;),&quot;S2W HomeDelivery&quot;,IF(AND({!Get_OrderDeliveryMethode.isStorePickup__c} = TRUE,{!$Record.SalesChannel.SalesChannelName} = &quot;CEGID&quot;),&quot;S2W PickupInStore&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 0),&quot;ECOM&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 1),&quot;C&amp;C&quot;, IF({!$Record.SalesChannel.SalesChannelName} = &quot;Manual Order&quot;,&quot;Manual Order&quot;,&quot;&quot;)))))</expression>
+        <expression>IF({!$Record.storeToWebType__c}  = &quot;001&quot;,&quot;S2W HomeDelivery&quot;,IF({!$Record.storeToWebType__c}  = &quot;003&quot;,&quot;S2W PickupInStore&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 0),&quot;ECOM&quot;,IF(AND({!$Record.SalesChannel.SalesChannelName} = &quot;Rimowa&quot;,{!$Record.tech_os_store_shipping_method__c} = 1),&quot;C&amp;C&quot;, IF({!$Record.SalesChannel.SalesChannelName} = &quot;Manual Order&quot;,&quot;Manual Order&quot;,&quot;&quot;)))))</expression>
     </formulas>
     <interviewLabel>SOM_UpdateStateOS {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM_UpdateStateOS</label>
