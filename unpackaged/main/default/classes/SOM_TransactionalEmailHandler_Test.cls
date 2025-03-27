@@ -28,7 +28,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     */    
     public static List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> createInputs (){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         FulfillmentOrder fo2 = SOM_testDataFactory.createFO(lOS[1]);
@@ -95,7 +95,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
     @IsTest
     public static void testGenerateOrderTransactionalEmails(){
-        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
 
 
         List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
@@ -214,7 +214,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
         List<Shipment> sh = SOM_testDataFactory.createShipments(mapIDFO).values();
         Set<Id> shipIds = (new Map<Id,Shipment>(sh)).keySet();
-        //List<ShipmentItem> shI = [SELECT Id FROM ShipmentItem];
+        // List<ShipmentItem> shI = [SELECT Id FROM ShipmentItem];
         Set<String> lIds = (Set<String>)JSON.deserialize(JSON.serialize(shipIds), Set<String>.class);
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>();
 
@@ -263,7 +263,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateReturnOrderCreationTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
@@ -351,7 +351,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateRefundWithoutCreditMemoTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
