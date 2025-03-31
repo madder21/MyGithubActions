@@ -1,71 +1,87 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-
-<types>
+	<types>
 		<members>recoveryHourTE__mdt</members>
-		<members>OrderSummary</members>
 		<name>CustomObject</name>
 	</types>
-<types>
-		
-		<members>C_C_order_Cancellation_and_Reminder__mdt.isInMinutes__c</members>
-		
-		<name>CustomField</name>
-	</types>
-
-<types>
-		<members>SOM_Block_Orders_Without_Tax_by_Country</members>
-  	<members>SOM_00_Create_OS_from_Order</members>
-		<members>SOM_110_CoreModel_Create_OrderSummary</members>
-		<members>SOM_UpdateStateOS</members>
-		<name>Flow</name>
-	</types>
 	<types>
-
+		<members>ReturnOrder.Tech_ExchageButton__c</members>
+		<members>OrderSummary.Status__c</members>
 		<members>OrderSummary.storeToWebType__c</members>
-    	<members>recoveryHourTE__mdt.RecoveryHour__c</members>
+		<members>C_C_order_Cancellation_and_Reminder__mdt.isInMinutes__c</members>
 		<members>Order.storeToWebType__c</members>
+		<members>recoveryHourTE__mdt.RecoveryHour__c</members>
+		
 		<name>CustomField</name>
 	</types>
-  	<types>
-		<members>SOM_BlockOrdersWithoutTax</members>
+<types>
+
+		<members>SOM_117_ReminderEmail</members>
+		<members>SOM_Generate_TE_after_Cancellation</members>
+		<members>SOM_960_Exchange_Manual_Order_Creation</members>
+		<members>SOM_Update_Exchange_Button_Field</members>  
+	        <members>SOM_610_Core_Model_Create_ReturnOrder</members>
+	        <members>SOM_UpdateStateOS</members>
+	<members>SOM_00_Create_OS_from_Order</members>
+	<members>SOM_110_CoreModel_Create_OrderSummary</members>
+<members>SOM_Block_Orders_Without_Tax_by_Country</members>
+		<name>Flow</name>
+    	</types>
+<types>
+	<members>SOM_Constants</members>
+
+		<members>WS_SOM_Create_StoreToWebOrder</members>
+		<members>SOM_OrderSummaryStatusFieldController</members>
+		<members>SOM_OsStatusFieldControllerTest</members>
+	     <members>SOM_BlockOrdersWithoutTax</members>
 		<members>SOM_BlockOrdersWithoutTaxTest</members>
-		<members>SOM_TransactionalEmailHandler</members>
-      <members>AP2_SOMInvoiceManagement</members>
+	<members>SOM_TransactionalEmailHandler</members>
+		<members>SOM_TransactionalEmailHandler_Test</members>
+	<members>WS_SOM_Create_StoreToWebOrder</members>
+		
+	<members>AP2_SOMInvoiceManagement</members>
 		<members>AP2_SOMInvoiceManagement_Test</members>
 		<members>SOM_TransactionalEmailBatch</members>
 		<members>SOM_TransactionalEmailBatchTest</members>
 		<members>SOM_UpdateTEQueueableTest</members>
 		<members>SOM_UpdateTransactionalEmailsQueueable</members>
-		<members>SOM_TransactionalEmailHandler</members>
-		<members>SOM_TransactionalEmailHandler_Test</members>
-		<members>WS_SOM_Create_StoreToWebOrder</members>
-		<members>SOM_OrderSummaryStatusFieldController</members>
+
+	<members>SOM_OrderSummaryStatusFieldController</members>
 		<members>SOM_OsStatusFieldControllerTest</members>
 		<name>ApexClass</name>
+	</types>
+<types>
 
+	 <members>Order_Summary_Record_Page</members>	
+    <members>Return_Order_Record_Page</members>
+		<name>FlexiPage</name>
 	</types>
-	<types>
-		<members>C_C_order_Cancellation_and_Reminder.CC_order</members>
-		<members>recoveryHourTE.recoveryHour</members>
-		<name>CustomMetadata</name>
-	</types>
-	<types>
-		<members>C_C_order_Cancellation_and_Reminder__mdt-C%26C order - Cancellation and Reminder Layout</members>
-			<members>recoveryHourTE__mdt-recoveryHour Layout</members>
-		<name>Layout</name>
-	</types>
-	<types>
+		<types>
 		<members>OrderSummary.Custom_Compact_Layout</members>
 		<name>CompactLayout</name>
-	</types>
-	<types>
-		<members>Order_Summary_Record_Page</members>
-		<name>FlexiPage</name>
 	</types>
 	<types>
 		<members>sOM_OrderSummaryStatusField</members>
 		<name>LightningComponentBundle</name>
 	</types>
+	<types>
+		<members>C_C_order_Cancellation_and_Reminder__mdt-C%26C order - Cancellation and Reminder Layout</members>
+		<members>recoveryHourTE__mdt-recoveryHour Layout</members>
+		<name>Layout</name>
+	</types>
+<types>
+		<members>C_C_order_Cancellation_and_Reminder.CC_order</members>
+	<members>recoveryHourTE.recoveryHour</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>sOM_OrderSummaryStatusField</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
+		<members>OrderSummary.Custom_Compact_Layout</members>
+		<name>CompactLayout</name>
+	</types>
 	<version>63.0</version>
+
 </Package>
