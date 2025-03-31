@@ -53,6 +53,7 @@ public with sharing class SOQLBuilder {
         for(String objName : retrievedSOQLQueriesMap.keySet()) {
             String query = retrievedSOQLQueriesMap.get(objName);
             List<sObject> currentRecordList = Database.query(query);
+            System.debug('currentRecordList: '+currentRecordList);
             recordPerObject.put(objName, currentRecordList);
             globalList.addAll(currentRecordList);
         }
@@ -86,18 +87,22 @@ public with sharing class SOQLBuilder {
     
     public static List<sObject> pushInQueue(SFAnonymizationPushInQueueWrapper wrapper) {
         List<sObject> objectToBeUpdate = new List<sObject>();
-        Map<Id, Long> accountTimestampMap = new Map<Id, Long>();
+        Map<String, Long> accountTimestampMap = new Map<String, Long>();
         Long tmp = wrapper.timeStamp;
         for(sObject obj : wrapper.globalList) {
             String objectAPIName = obj.Id.getSObjectType().getDescribe().getName();
+            System.debug('objectAPIName: '+objectAPIName);
             String accountIdLink = String.valueOf(obj.get(wrapper.mapObjLookupFieldName.get(objectAPIName)));
+            System.debug('accountIdLink: '+accountIdLink);
             Long currentTmp = tmp;
             if(accountTimestampMap.containsKey(accountIdLink)) {
-                currentTmp = accountTimestampMap.get(obj.Id);
+                currentTmp = accountTimestampMap.get(accountIdLink);
             }else {
                 accountTimestampMap.put(accountIdLink, currentTmp);
             }
             for(String fieldName : wrapper.mapObjectAndFields.get(objectAPIName)) {
+                System.debug('obj.get(fieldName): '+obj.get(fieldName));
+                System.debug('currentTmp: '+currentTmp);
                 if(fieldName.contains('mail') && obj.get(fieldName)<>null) {
                 	String emailFieldValue = currentTmp+'@'+currentTmp+'.'+currentTmp;
                     obj.put(fieldName, emailFieldValue); 
