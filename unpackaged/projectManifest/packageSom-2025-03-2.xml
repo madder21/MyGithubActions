@@ -3,6 +3,7 @@
 	
 	<types>
 		<members>ReturnOrder.Tech_ExchageButton__c</members>
+		<members>OrderSummary.Status__c</members>
 		<name>CustomField</name>
 	</types>
 <types>
@@ -17,6 +18,8 @@
 <types>
 	<members>SOM_Constants</members>
 		<members>WS_SOM_Create_StoreToWebOrder</members>
+		<members>SOM_OrderSummaryStatusFieldController</members>
+		<members>SOM_OsStatusFieldControllerTest</members>
 		<name>ApexClass</name>
 	</types>
 <types>
@@ -25,6 +28,15 @@
     <members>Return_Order_Record_Page</members>
 		<name>FlexiPage</name>
 	</types>
+		<types>
+		<members>OrderSummary.Custom_Compact_Layout</members>
+		<name>CompactLayout</name>
+	</types>
+	<types>
+		<members>sOM_OrderSummaryStatusField</members>
+		<name>LightningComponentBundle</name>
+	</types>
+
 	<version>63.0</version>
 
 </Package>
