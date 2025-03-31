@@ -3,7 +3,7 @@
     <actionCalls>
         <name>Block_Orders_Without_Tax</name>
         <label>Block Orders Without Tax</label>
-        <locationX>681</locationX>
+        <locationX>883</locationX>
         <locationY>608</locationY>
         <actionName>SOM_BlockOrdersWithoutTax</actionName>
         <actionType>apex</actionType>
@@ -22,7 +22,7 @@
     <assignments>
         <name>Assign_Order_Product_Tax_Line_Item_IDS</name>
         <label>Assign Order Product Tax Line Item IDS</label>
-        <locationX>272</locationX>
+        <locationX>474</locationX>
         <locationY>659</locationY>
         <assignmentItems>
             <assignToReference>Request.orderId</assignToReference>
@@ -56,11 +56,68 @@
             <targetReference>Loop_Over_Order_Product_Tax_Line_Item</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Assign_OrderProducts_Ids</name>
+        <label>Assign OrderProducts Ids</label>
+        <locationX>50</locationX>
+        <locationY>144</locationY>
+        <assignmentItems>
+            <assignToReference>OrderProductsIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Order_Product.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Order_Product</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_OrderProductTaxlineItems_Ids</name>
+        <label>Assign OrderProductTaxlineItems Ids</label>
+        <locationX>666</locationX>
+        <locationY>176</locationY>
+        <assignmentItems>
+            <assignToReference>OrderPorductTaxLineItemsIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_product_TaxlineItems.OrderItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_product_TaxlineItems</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Assigned_Ids_Empty</name>
+        <label>Assigned Ids Empty</label>
+        <locationX>283</locationX>
+        <locationY>288</locationY>
+        <defaultConnector>
+            <targetReference>Get_Order_Product_Tax_Line_Item_Filtred</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Empty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>OrderProductsIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_TaxRateIsNull_Record</targetReference>
+            </connector>
+            <label>Empty</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Check_TaxRateIsNull</name>
         <label>Check TaxRateIsNull</label>
-        <locationX>640</locationX>
-        <locationY>460</locationY>
+        <locationX>929</locationX>
+        <locationY>430</locationY>
         <defaultConnector>
             <targetReference>Update_Order_Tech_Field_0</targetReference>
         </defaultConnector>
@@ -91,8 +148,8 @@
     <decisions>
         <name>Check_TaxRateIsNull_Record</name>
         <label>Check TaxRateIsNull Record</label>
-        <locationX>248</locationX>
-        <locationY>472</locationY>
+        <locationX>451</locationX>
+        <locationY>530</locationY>
         <defaultConnector>
             <targetReference>Update_Order_Tech_Field</targetReference>
         </defaultConnector>
@@ -102,6 +159,13 @@
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order_Product_Tax_Line_Item</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_OrderProduct_With_UnitPrice_different_Than_0</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -117,17 +181,45 @@
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - Block Orders Without Tax by Country</label>
     <loops>
+        <name>Loop_Over_Order_Product</name>
+        <label>Loop Over Order Product</label>
+        <locationX>281</locationX>
+        <locationY>145</locationY>
+        <collectionReference>Get_OrderProduct_With_UnitPrice_different_Than_0</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_OrderProducts_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assigned_Ids_Empty</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>Loop_Over_Order_Product_Tax_Line_Item</name>
         <label>Loop Over Order Product Tax Line Item</label>
-        <locationX>483</locationX>
+        <locationX>685</locationX>
         <locationY>595</locationY>
-        <collectionReference>Get_Order_Product_Tax_Line_Item</collectionReference>
+        <collectionReference>Get_Order_Product_Tax_Line_Item_Filtred</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
             <targetReference>Assign_Order_Product_Tax_Line_Item_IDS</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
             <targetReference>Block_Orders_Without_Tax</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_Over_product_TaxlineItems</name>
+        <label>Loop Over product TaxlineItems</label>
+        <locationX>664</locationX>
+        <locationY>308</locationY>
+        <collectionReference>Get_Order_Product_Tax_Line_Item</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_OrderProductTaxlineItems_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_OrderProduct_With_UnitPrice_different_Than_0</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -152,7 +244,7 @@
     <recordLookups>
         <name>Get_ODG</name>
         <label>Get ODG</label>
-        <locationX>898</locationX>
+        <locationX>1100</locationX>
         <locationY>393</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -173,13 +265,13 @@
     <recordLookups>
         <name>Get_Order_Product_Tax_Line_Item</name>
         <label>Get Order Product Tax Line Item</label>
-        <locationX>478</locationX>
-        <locationY>400</locationY>
+        <locationX>774</locationX>
+        <locationY>423</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Check_TaxRateIsNull_Record</targetReference>
+            <targetReference>Loop_Over_product_TaxlineItems</targetReference>
         </connector>
-        <filterLogic>( 1 OR 2 ) AND 3</filterLogic>
+        <filterLogic>(1 OR 2 ) AND 3</filterLogic>
         <filters>
             <field>Rate</field>
             <operator>EqualTo</operator>
@@ -203,10 +295,59 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_Order_Product_Tax_Line_Item_Filtred</name>
+        <label>Get Order Product Tax Line Item Filtred</label>
+        <locationX>469</locationX>
+        <locationY>278</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_TaxRateIsNull_Record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderItemId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OrderProductsIds</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItemTaxLineItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_OrderProduct_With_UnitPrice_different_Than_0</name>
+        <label>Get OrderProduct With UnitPrice different Than 0</label>
+        <locationX>447</locationX>
+        <locationY>151</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_Order_Product</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OrderPorductTaxLineItemsIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>UnitPrice</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_SalesChannelMapping_mdt</name>
         <label>Get SalesChannelMapping__mdt</label>
-        <locationX>882</locationX>
-        <locationY>555</locationY>
+        <locationX>1092</locationX>
+        <locationY>577</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_TaxRateIsNull</targetReference>
@@ -226,8 +367,8 @@
     <recordUpdates>
         <name>Update_Order_Tech_Field</name>
         <label>Update Order Tech Field</label>
-        <locationX>49</locationX>
-        <locationY>569</locationY>
+        <locationX>135</locationX>
+        <locationY>519</locationY>
         <inputAssignments>
             <field>Tech_CreateOS__c</field>
             <value>
@@ -239,8 +380,8 @@
     <recordUpdates>
         <name>Update_Order_Tech_Field_0</name>
         <label>Update Order Tech Field</label>
-        <locationX>645</locationX>
-        <locationY>264</locationY>
+        <locationX>828</locationX>
+        <locationY>205</locationY>
         <inputAssignments>
             <field>Tech_CreateOS__c</field>
             <value>
@@ -250,7 +391,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>776</locationX>
+        <locationX>978</locationX>
         <locationY>48</locationY>
         <connector>
             <targetReference>Get_ODG</targetReference>
@@ -270,6 +411,28 @@
     </start>
     <status>Active</status>
     <triggerOrder>300</triggerOrder>
+    <variables>
+        <name>currentItem_Filter_TAxlineItems</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>OrderItem</objectType>
+    </variables>
+    <variables>
+        <name>OrderPorductTaxLineItemsIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OrderProductsIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>Request</name>
         <apexClass>SOM_RequestBlockOrdersWithoutTax</apexClass>
