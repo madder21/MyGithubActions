@@ -700,27 +700,7 @@
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
-                        <valueListItems>
-                            <value>OrderSummary.Cancel_Item</value>
-                            <visibilityRule>
-                                <booleanFilter>1 AND 2 AND 3</booleanFilter>
-                                <criteria>
-                                    <leftValue>{!Record.Status}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>Waiting for goods</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.ProfileForCancelButton__c}</leftValue>
-                                    <operator>EQUAL</operator>
-                                    <rightValue>true</rightValue>
-                                </criteria>
-                                <criteria>
-                                    <leftValue>{!Record.StandardProductsCount__c}</leftValue>
-                                    <operator>GT</operator>
-                                    <rightValue>1</rightValue>
-                                </criteria>
-                            </visibilityRule>
-                        </valueListItems>
+                       
                     </valueList>
                 </componentInstanceProperties>
                 <componentInstanceProperties>
