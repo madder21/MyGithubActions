@@ -227,7 +227,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
-                                             BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,StreetNumber__c,Complementary__c, RI_Neighborhood__c,
+                                             BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,StreetNumber__c,Complementary__c, RI_Neighborhood__c,OrderedDate__c,
                                              (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, ReservedAtLocation.Name, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c,Type 
                                               FROM OrderItemSummaries ORDER BY LineNumber ASC),
                                              (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName, StreetNumber__c,Complementary__c, RI_Neighborhood__c 
@@ -255,13 +255,12 @@ public without sharing class SOM_TransactionalEmailHandler {
                 orderTemplateContent.billingState     = orderSumm.BillingState;
             }
             orderTemplateContent.channel          = orderSumm.SalesChannel.SalesChannelName;
-            orderTemplateContent.orderDate        = orderSumm.OrderedDate;
+            orderTemplateContent.orderDate        = orderSumm.OrderedDate__c;
             orderTemplateContent.orderNumber      = orderSumm.OrderNumber;
             orderTemplateContent.subtotal         = orderSumm.TotalAmount;
             orderTemplateContent.tax              = orderSumm.TotalTaxAmount.setScale(2);
             orderTemplateContent.total            = orderSumm.GrandTotalAmount;
-            orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
-            
+            orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;            
             /*if(orderSumm.SalesChannel.SalesChannelName == 'CEGID'){
 orderTemplateContent.orderType		  = 'StoreToWeb';
 }else if(orderSumm.SalesChannel.SalesChannelName == 'Rimowa') {
@@ -412,7 +411,7 @@ lineItem.isCC = false;
         for(Store__c Store:StoreLocation) {
             EmailStoreMap.put(Store.SourceStoreId__c,Store.Email__c);
         }
-        C_C_order_Cancellation_and_Reminder__mdt CC_Setting = [SELECT nbrOfDaysBeforeCancellation__c, nbrOfDaysBeforeReminder__c FROM C_C_order_Cancellation_and_Reminder__mdt];
+        C_C_order_Cancellation_and_Reminder__mdt CC_Setting = [SELECT nbrOfDaysBeforeCancellation__c, isInMinutes__c, nbrOfDaysBeforeReminder__c FROM C_C_order_Cancellation_and_Reminder__mdt];
         
         
         for (OrderSummary orderSum:orderSummaries) {
@@ -428,8 +427,13 @@ lineItem.isCC = false;
             orderSum.TE_Created_Date__c 	 = resultCreated_Date;
             orderSum.TE_Cancellation_Date__c = resultCancellation_Date;*/
             
-            orderSum.TE_Created_Date__c 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
-            orderSum.TE_Cancellation_Date__c = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            if(CC_Setting.isInMinutes__c == false){
+                orderSum.TE_Created_Date__c 	 = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
+                orderSum.TE_Cancellation_Date__c = System.now().addDays(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            }else{
+                orderSum.TE_Created_Date__c 	 = System.now().addMinutes(Integer.valueOf(CC_Setting.nbrOfDaysBeforeReminder__c));
+                orderSum.TE_Cancellation_Date__c = System.now().addMinutes(Integer.valueOf(CC_Setting.nbrOfDaysBeforeCancellation__c));
+            }
 
             
             SOM_OrderReadyForPickupTemplateContent orderReadyForPickupTemplateContent = new SOM_OrderReadyForPickupTemplateContent();
@@ -1124,7 +1128,7 @@ lineItem.taxRate = item.TaxRate__c;
     
     public class SOM_OrderConfirmationTemplateContent{
         public String orderNumber;
-        public Datetime orderDate;
+        public Date orderDate;
         public String channel;
         public String billingFirstName;
         public String billingLastName;

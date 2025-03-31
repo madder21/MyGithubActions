@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_OrderProduct_Ids</name>
+        <label>Assign OrderProduct Ids</label>
+        <locationX>1135</locationX>
+        <locationY>426</locationY>
+        <assignmentItems>
+            <assignToReference>OrderProductIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_Order_Product_Tax_Line_Item.OrderItemId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_Order_Product_Tax_Line_Item</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Order_Status</name>
         <label>Order Status</label>
-        <locationX>775</locationX>
-        <locationY>510</locationY>
+        <locationX>756</locationX>
+        <locationY>823</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Order_Product_Tax_Line_Item_NOT_Null</name>
@@ -24,6 +41,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Product</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Stauts_Activated_Order_0_0_0_0</targetReference>
             </connector>
@@ -31,19 +55,12 @@
         </rules>
         <rules>
             <name>Activated</name>
-            <conditionLogic>1 AND ( 3 OR ( 2 AND 4 ))</conditionLogic>
+            <conditionLogic>1 AND (2 OR (3 AND 4 ))</conditionLogic>
             <conditions>
                 <leftValueReference>recordId.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Activated</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Order_Product_Tax_Line_Item</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -58,6 +75,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Product</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -67,19 +91,12 @@
         </rules>
         <rules>
             <name>Draft</name>
-            <conditionLogic>1 AND ( 3 OR ( 2 AND 4 ))</conditionLogic>
+            <conditionLogic>1 AND (2 OR (3 AND 4 ))</conditionLogic>
             <conditions>
                 <leftValueReference>recordId.Status</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Draft</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_Order_Product_Tax_Line_Item</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -94,6 +111,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order_Product</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -105,6 +129,20 @@
     <environments>Default</environments>
     <interviewLabel>SOM-00-Create OS from Order {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM-00-Create OS from Order</label>
+    <loops>
+        <name>Loop_Over_Order_Product_Tax_Line_Item</name>
+        <label>Loop Over Order Product Tax Line Item</label>
+        <locationX>928</locationX>
+        <locationY>433</locationY>
+        <collectionReference>Get_Order_Product_Tax_Line_Item</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_OrderProduct_Ids</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Order_Product</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -127,8 +165,8 @@
     <recordLookups>
         <name>get_ODG</name>
         <label>get ODG</label>
-        <locationX>767</locationX>
-        <locationY>166</locationY>
+        <locationX>765</locationX>
+        <locationY>177</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_SalesChannelMapping_mdt</targetReference>
@@ -146,13 +184,41 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Order_Product_Tax_Line_Item</name>
-        <label>Get Order Product Tax Line Item</label>
-        <locationX>772</locationX>
-        <locationY>373</locationY>
+        <name>Get_Order_Product</name>
+        <label>Get Order Product</label>
+        <locationX>778</locationX>
+        <locationY>613</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Order_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>OrderProductIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>UnitPrice</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>OrderItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Order_Product_Tax_Line_Item</name>
+        <label>Get Order Product Tax Line Item</label>
+        <locationX>767</locationX>
+        <locationY>427</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_Order_Product_Tax_Line_Item</targetReference>
         </connector>
         <filterLogic>1 AND ( 2 OR 3 )</filterLogic>
         <filters>
@@ -180,8 +246,8 @@
     <recordLookups>
         <name>Get_SalesChannelMapping_mdt</name>
         <label>Get SalesChannelMapping__mdt</label>
-        <locationX>770</locationX>
-        <locationY>268</locationY>
+        <locationX>769</locationX>
+        <locationY>288</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Product_Tax_Line_Item</targetReference>
@@ -201,8 +267,8 @@
     <recordUpdates>
         <name>Update_Order_Status_0</name>
         <label>Update Order Status</label>
-        <locationX>782</locationX>
-        <locationY>811</locationY>
+        <locationX>764</locationX>
+        <locationY>1125</locationY>
         <connector>
             <targetReference>Stauts_Activated_Order_0</targetReference>
         </connector>
@@ -225,8 +291,8 @@
     <recordUpdates>
         <name>Update_Order_Status_0_0</name>
         <label>Update Order Status</label>
-        <locationX>777</locationX>
-        <locationY>1116</locationY>
+        <locationX>766</locationX>
+        <locationY>1426</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
@@ -253,7 +319,7 @@
         <name>Update_Order_Status_0_0_0</name>
         <label>Update Order Status</label>
         <locationX>1076</locationX>
-        <locationY>510</locationY>
+        <locationY>818</locationY>
         <connector>
             <targetReference>Stauts_Activated_Order_0_0</targetReference>
         </connector>
@@ -283,7 +349,7 @@
         <name>Update_Order_Tech_field</name>
         <label>Update Order Tech field</label>
         <locationX>430</locationX>
-        <locationY>499</locationY>
+        <locationY>807</locationY>
         <connector>
             <targetReference>Order_Summary_can_not_be_created</targetReference>
         </connector>
@@ -307,7 +373,7 @@
         <name>Order_Summary_can_not_be_created</name>
         <label>Order Summary can not be created</label>
         <locationX>297</locationX>
-        <locationY>499</locationY>
+        <locationY>807</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -322,8 +388,8 @@
     <screens>
         <name>Stauts_Activated_Order</name>
         <label>Stauts Activated Order</label>
-        <locationX>785</locationX>
-        <locationY>663</locationY>
+        <locationX>762</locationX>
+        <locationY>974</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -341,8 +407,8 @@
     <screens>
         <name>Stauts_Activated_Order_0</name>
         <label>Stauts Activated Order</label>
-        <locationX>779</locationX>
-        <locationY>947</locationY>
+        <locationX>766</locationX>
+        <locationY>1261</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -362,7 +428,7 @@
         <name>Stauts_Activated_Order_0_0</name>
         <label>Stauts Activated Order</label>
         <locationX>1226</locationX>
-        <locationY>510</locationY>
+        <locationY>818</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -377,8 +443,8 @@
     <screens>
         <name>Stauts_Activated_Order_0_0_0</name>
         <label>Stauts Activated Order</label>
-        <locationX>939</locationX>
-        <locationY>510</locationY>
+        <locationX>946</locationX>
+        <locationY>818</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -397,7 +463,7 @@
         <name>Stauts_Activated_Order_0_0_0_0</name>
         <label>Stauts Activated Order</label>
         <locationX>548</locationX>
-        <locationY>499</locationY>
+        <locationY>807</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -413,13 +479,20 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>643</locationX>
+        <locationX>638</locationX>
         <locationY>50</locationY>
         <connector>
             <targetReference>get_ODG</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>OrderProductIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>SObject</dataType>

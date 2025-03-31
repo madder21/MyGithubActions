@@ -352,6 +352,8 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         order.passedFraudScreening__c = true;
         order.captureAtShipment__c    = false;
         order.DeliverySignature__c    = true;
+        order.storeToWebType__c   = storeToWebOrder.storeToWebType;
+
         
         return order;
     }
@@ -457,6 +459,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         public String cegidCustomerId;
         public String paymentMethodCode; //PaymentMethod.RI_PaymentMethod ==> C_CC , C_KLARNA , CIP
         public String paymentReference; //PaymentAuthorization.GatewayRefNumber
+        public String storeToWebType;
         //order delivery method
         public String orderDeliveryMethodReferenceNumber; //OrderDeliveryMethod.ReferenceNumber
         //delivery contact

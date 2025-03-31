@@ -6,12 +6,15 @@ public with sharing class SOM_BlockOrdersWithoutTaxTest {
         List<List<SOM_RequestBlockOrdersWithoutTax>> Requests = new List<List<SOM_RequestBlockOrdersWithoutTax>>();
         List<SOM_RequestBlockOrdersWithoutTax> Request = new List<SOM_RequestBlockOrdersWithoutTax>();
         SOM_RequestBlockOrdersWithoutTax Req1 = new SOM_RequestBlockOrdersWithoutTax();
+        List<OrderSummary> orderList = SOM_testDataFactory.createOrderSummaryBulk(false, SOM_testDataFactory.OrderType.Standard, 1);
+        OrderSummary os = orderList[0];
+
         Req1.orderId   = 'Req1orderId';
-        Req1.RecordId  = 'Req1RecordId';
+        Req1.RecordId  = os.Id;
         Req1.OrderReferenceNumber = 'Req1OrderReferenceNumber';
         SOM_RequestBlockOrdersWithoutTax Req2 = new SOM_RequestBlockOrdersWithoutTax();
         Req2.orderId   = 'Req2orderId';
-        Req2.RecordId  = 'Req2RecordId';
+        Req2.RecordId  = os.Id;
         Req2.OrderReferenceNumber = 'OrderReferenceNumber' ;
         Request.add(Req1);
         Request.add(Req2);
