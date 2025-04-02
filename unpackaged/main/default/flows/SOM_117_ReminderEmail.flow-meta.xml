@@ -20,6 +20,8 @@
                 <stringValue>CCReminder</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <actionCalls>
         <name>Generate_Transactional_Email_0_0</name>
@@ -41,8 +43,11 @@
                 <stringValue>OrderReadyForPickup</stringValue>
             </value>
         </inputParameters>
+        <nameSegment>SOM_TransactionalEmailHandler</nameSegment>
+        <offset>0</offset>
     </actionCalls>
     <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Check_OS_Status</name>
         <label>Check OS Status</label>
@@ -65,35 +70,7 @@
             <label>Fulfilling</label>
         </rules>
     </decisions>
-    <decisions>
-        <name>Check_OS_Status_0</name>
-        <label>Check OS Status</label>
-        <locationX>873</locationX>
-        <locationY>328</locationY>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>Fulfilling_0</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.Status</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Fulfilling</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>Get_TE_Reminder</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>SOM_Cancel_C_C_Order_Summary</targetReference>
-            </connector>
-            <label>Fulfilling</label>
-        </rules>
-    </decisions>
+    <environments>Default</environments>
     <interviewLabel>SOM - 117 - ReminderEmail {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - 117 - ReminderEmail</label>
     <processMetadataValues>
@@ -115,41 +92,6 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordLookups>
-        <name>Get_TE_Reminder</name>
-        <label>Get TE Reminder</label>
-        <locationX>882</locationX>
-        <locationY>153</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>Check_OS_Status_0</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>OrderSummary__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Template__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>CCReminder</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Status__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Sent</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>TransactionalEmail__c</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <recordUpdates>
         <name>Update_TE</name>
         <label>Update TE</label>
@@ -221,17 +163,6 @@
             <timeSource>RecordField</timeSource>
         </scheduledPaths>
         <scheduledPaths>
-            <name>Auto_Cancellation</name>
-            <connector>
-                <targetReference>Get_TE_Reminder</targetReference>
-            </connector>
-            <label>Auto Cancellation</label>
-            <offsetNumber>0</offsetNumber>
-            <offsetUnit>Days</offsetUnit>
-            <recordField>TE_Cancellation_Date__c</recordField>
-            <timeSource>RecordField</timeSource>
-        </scheduledPaths>
-        <scheduledPaths>
             <name>Update_TE_Path</name>
             <connector>
                 <targetReference>Check_OS_Status</targetReference>
@@ -245,17 +176,4 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
-    <subflows>
-        <name>SOM_Cancel_C_C_Order_Summary</name>
-        <label>SOM - Cancel C&amp;C Order Summary</label>
-        <locationX>814</locationX>
-        <locationY>496</locationY>
-        <flowName>SOM_Cancel_C_C_Order_Summary</flowName>
-        <inputAssignments>
-            <name>recordId</name>
-            <value>
-                <elementReference>$Record</elementReference>
-            </value>
-        </inputAssignments>
-    </subflows>
 </Flow>
