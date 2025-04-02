@@ -2,10 +2,32 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>57.0</apiVersion>
     <decisions>
+        <name>AsynchVerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>974</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>AsynchBypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>POST_CallOut_Case_Detection_Language</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>HasNoAccountDecision</name>
         <label>Has No Account Decision</label>
         <locationX>182</locationX>
-        <locationY>384</locationY>
+        <locationY>492</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HasNoAccount</name>
@@ -23,7 +45,28 @@
             <label>❌ HasNoAccount</label>
         </rules>
     </decisions>
-    <environments>Default</environments>
+    <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>380</locationX>
+        <locationY>276</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CaseHubOrigin</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
     <formulas>
         <name>ISNEW</name>
         <dataType>Boolean</dataType>
@@ -51,27 +94,27 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <start>
-        <locationX>254</locationX>
+        <locationX>551</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>CaseHubOrigin</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
         <object>Case</object>
         <recordTriggerType>Create</recordTriggerType>
         <scheduledPaths>
             <connector>
-                <targetReference>POST_CallOut_Case_Detection_Language</targetReference>
+                <targetReference>AsynchVerifyBypassFlowStatus</targetReference>
             </connector>
             <pathType>AsyncAfterCommit</pathType>
         </scheduledPaths>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>CaseHubOrigin</name>
         <label>Case HubOrigin</label>
         <locationX>182</locationX>
-        <locationY>276</locationY>
+        <locationY>384</locationY>
         <connector>
             <targetReference>HasNoAccountDecision</targetReference>
         </connector>
@@ -94,7 +137,7 @@
         <name>Check_for_an_existing_Account_Key_1</name>
         <label>Check for an existing Account Key 1</label>
         <locationX>50</locationX>
-        <locationY>492</locationY>
+        <locationY>600</locationY>
         <flowName>Subflow_Check_for_an_existing_Account_Key_1</flowName>
         <inputAssignments>
             <name>CaseId</name>
@@ -106,8 +149,8 @@
     <subflows>
         <name>POST_CallOut_Case_Detection_Language</name>
         <label>POST CallOut Case Detection Language</label>
-        <locationX>578</locationX>
-        <locationY>276</locationY>
+        <locationX>842</locationX>
+        <locationY>384</locationY>
         <flowName>SFSC_POST_CallOut_Case_LanguageDetection</flowName>
         <inputAssignments>
             <name>recordId</name>
@@ -116,6 +159,16 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
     <variables>
         <name>recordId</name>
         <dataType>String</dataType>

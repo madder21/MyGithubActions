@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Case_To_Share_With_DUE</label>
+    <protected>false</protected>
+    <values>
+        <field>Field_Name__c</field>
+        <value xsi:type="xsd:string">ToShareWithDUE__c</value>
+    </values>
+    <values>
+        <field>Formula_Expression__c</field>
+        <value xsi:type="xsd:string">AND(
+    ISPICKVAL(Status, &#39;Closed&#39;),
+    ISBLANK(ParentId),
+    ISPICKVAL(Hub_Origin__c, &#39;US&#39;),
+    NOT(ISBLANK(TEXT(HUB_Handle__c))),
+    OR(
+        ISPICKVAL(Origin, &quot;Email&quot;),
+        ISPICKVAL(Origin, &quot;Phone&quot;),
+        ISPICKVAL(Origin, &quot;Web&quot;)
+    ),
+    OR(
+        ISPICKVAL(Type, &quot;Pre purchase&quot;),
+        ISPICKVAL(Type, &quot;Purchase&quot;),
+        ISPICKVAL(Type, &quot;Post purchase&quot;),
+        ISPICKVAL(Type, &quot;Repair&quot;),
+        AND(
+            ISPICKVAL(Type, &quot;General Information and corporate&quot;),
+            OR(
+                ISPICKVAL(SubType__c, &quot;Recrafted&quot;),
+                ISPICKVAL(SubType__c, &quot;VOC&quot;),
+                ISPICKVAL(SubType__c, &quot;Web assistance&quot;)
+            )
+        )
+    )
+)</value>
+    </values>
+    <values>
+        <field>Object_Name__c</field>
+        <value xsi:type="xsd:string">Case</value>
+    </values>
+    <values>
+        <field>Return_Type__c</field>
+        <value xsi:type="xsd:string">Boolean</value>
+    </values>
+    <values>
+        <field>Trigger_Condition__c</field>
+        <value xsi:type="xsd:string">AND(
+	NOT(ISNEW()),
+	ISCHANGED(AccountId)
+)</value>
+    </values>
+    <values>
+        <field>Trigger_Event__c</field>
+        <value xsi:type="xsd:string">Both</value>
+    </values>
+</CustomMetadata>

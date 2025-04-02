@@ -4,7 +4,7 @@
         <name>Copy_1_of_Send_Email_to_client</name>
         <label>Copy 1 of Send Email to client</label>
         <locationX>578</locationX>
-        <locationY>647</locationY>
+        <locationY>755</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -44,14 +44,12 @@
                 <booleanValue>true</booleanValue>
             </value>
         </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
         <name>Send_Email_to_client</name>
         <label>Send Email to client</label>
         <locationX>50</locationX>
-        <locationY>647</locationY>
+        <locationY>755</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -91,8 +89,6 @@
                 <booleanValue>true</booleanValue>
             </value>
         </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
     </actionCalls>
     <apiVersion>61.0</apiVersion>
     <constants>
@@ -120,7 +116,7 @@
         <name>Copy_1_of_Should_the_mail_to_client_be_sent</name>
         <label>Copy 1 of Should the mail to client be sent ?</label>
         <locationX>710</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Copy_1_of_Yes_send_email</name>
@@ -149,7 +145,7 @@
         <name>Is_it_a_transfered_case</name>
         <label>Is it a transfered case ?</label>
         <locationX>644</locationX>
-        <locationY>323</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>No_it_is_not_a_transfered_Case</name>
@@ -186,7 +182,7 @@
         <name>Should_the_mail_to_client_be_sent</name>
         <label>Should the mail to client be sent ?</label>
         <locationX>182</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes_send_email</name>
@@ -211,10 +207,31 @@
             <label>Yes send email</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>1007</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_it_a_transfered_case</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
     <description>Send an Email to the client when : 
 - Case is created &amp; From Email = CA ou US &amp;  Hub Handle = Hub Origin =  CA ou US &amp; Origin = Web or Email
 -Case Updated status = New Email &amp; From Email = CA ou US &amp; Hub Handle = CA ou US &amp; Origin = Web or Email</description>
-    <environments>Default</environments>
     <formulas>
         <name>EmailReceipient</name>
         <dataType>String</dataType>
@@ -245,7 +262,7 @@
         <name>Get_SFSC_CaseActivity_based_on_FromEmail</name>
         <label>Get SFSC - CaseActivity based on FromEmail</label>
         <locationX>182</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Should_the_mail_to_client_be_sent</targetReference>
@@ -266,7 +283,7 @@
         <name>Get_SFSC_CaseActivity_based_on_Market_zone</name>
         <label>Get SFSC - CaseActivity based on Market zone</label>
         <locationX>710</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Copy_1_of_Should_the_mail_to_client_be_sent</targetReference>
@@ -298,19 +315,11 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>518</locationX>
+        <locationX>881</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Is_it_a_transfered_case</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
-        <filterFormula>AND(
-	OR (TEXT({!$Record.Origin})=&quot;Web&quot;,TEXT({!$Record.Origin})=&quot;Email&quot;),
-	OR(
-
-	AND(ISNEW(),TEXT({!$Record.HUB_Handle__c})=&quot;US&quot;,TEXT({!$Record.Hub_Origin__c})=&quot;US&quot; ),
-	AND(NOT(ISNEW()), ISCHANGED({!$Record.Status}), TEXT({!$Record.HUB_Handle__c})=&quot;US&quot;,TEXT({!$Record.Status})=&quot;New email&quot; ,NOT(TEXT({!$Record.Market_zone__c})=&quot;MX&quot;))
-	)
-)</filterFormula>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
@@ -368,4 +377,14 @@
 &lt;/body&gt;
 &lt;/html&gt;</text>
     </textTemplates>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
 </Flow>

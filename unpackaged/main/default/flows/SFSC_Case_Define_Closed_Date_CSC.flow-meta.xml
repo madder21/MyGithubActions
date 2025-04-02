@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
-    <description>07/02/2024 - DUE fix</description>
-    <environments>Default</environments>
+    <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Define_ClosedDate_CSC</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
+    <description>Populate field Closed Date CSC for DUE - In Insert and Update Context. Define the Closed Date CSC at NOW when a case is create and updated IF status = Closed</description>
     <interviewLabel>SFSC - Case - Define Closed Date CSC {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SFSC - Case - Define Closed Date CSC</label>
     <processMetadataValues>
@@ -27,8 +48,8 @@
     <recordUpdates>
         <name>Define_ClosedDate_CSC</name>
         <label>Define ClosedDate CSC</label>
-        <locationX>176</locationX>
-        <locationY>323</locationY>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
         <inputAssignments>
             <field>Closed_date_CSC__c</field>
             <value>
@@ -38,12 +59,13 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
+        <locationX>56</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Define_ClosedDate_CSC</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>or</filterLogic>
         <filters>
             <field>IsClosed</field>
             <operator>EqualTo</operator>
@@ -51,9 +73,26 @@
                 <booleanValue>true</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Closed</stringValue>
+            </value>
+        </filters>
         <object>Case</object>
-        <recordTriggerType>Update</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
 </Flow>

@@ -423,6 +423,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.ToShareWithDUE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>ClientAddress__c.R360ID__c</field>
         <readable>true</readable>
@@ -2906,6 +2911,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Event__c-Event Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FieldFormulaConfig__mdt-FieldFormulaConfig Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FlowOrchestrationInstance-Orchestration Run Layout</layout>

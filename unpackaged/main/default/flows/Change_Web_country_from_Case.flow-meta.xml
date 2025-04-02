@@ -5,7 +5,7 @@
         <name>Value_of_Market</name>
         <label>Value of Market</label>
         <locationX>446</locationX>
-        <locationY>335</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Market_South_North_America</name>
@@ -53,6 +53,28 @@
             <label>Market Asia</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>776</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Value_of_Market</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
     <description>this flow is designed for filling values of Web Country after insertion of cases from Service Cloud</description>
     <interviewLabel>Change Web country from Case {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Change Web country from Case</label>
@@ -79,7 +101,7 @@
         <name>Web_Country_to_Asia</name>
         <label>Web Country to Asia</label>
         <locationX>578</locationX>
-        <locationY>455</locationY>
+        <locationY>539</locationY>
         <inputAssignments>
             <field>WebCountry__c</field>
             <value>
@@ -92,7 +114,7 @@
         <name>Web_Country_to_EMEA</name>
         <label>Web Country to EMEA</label>
         <locationX>314</locationX>
-        <locationY>455</locationY>
+        <locationY>539</locationY>
         <inputAssignments>
             <field>WebCountry__c</field>
             <value>
@@ -105,7 +127,7 @@
         <name>Web_Country_to_North_America</name>
         <label>Web Country to North America</label>
         <locationX>50</locationX>
-        <locationY>455</locationY>
+        <locationY>539</locationY>
         <inputAssignments>
             <field>WebCountry__c</field>
             <value>
@@ -115,10 +137,10 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>320</locationX>
+        <locationX>650</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Value_of_Market</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -133,4 +155,14 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
 </Flow>

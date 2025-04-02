@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>User.Case$CreatedById$Hub_Origin__c</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Origin</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Reason</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Status</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$WebCountry__c</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Type</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$SubType__c</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Activity__c</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Owner</field>
+    </columns>
+    <columns>
+        <field>User.Case$CreatedById$Account</field>
+    </columns>
+    <currency>EUR</currency>
+    <filter>
+        <criteriaItems>
+            <column>User.Case$CreatedById$Status</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>New,Working,Waiting for Client</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>User$Profile</column>
+            <columnToColumn>false</columnToColumn>
+            <isUnlocked>false</isUnlocked>
+            <operator>equals</operator>
+            <value>CS - Team Lead</value>
+        </criteriaItems>
+        <language>en_US</language>
+    </filter>
+    <format>Tabular</format>
+    <name>One Door Report</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>User_with_case__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <showGrandTotal>true</showGrandTotal>
+    <showSubTotals>true</showSubTotals>
+    <timeFrameFilter>
+        <dateColumn>User.Case$CreatedById$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

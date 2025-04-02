@@ -284,6 +284,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Case.ToShareWithDUE__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Case.isTransferred__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5939,7 +5944,13 @@
         <recordType>Event.AppointmentBooking</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>FieldFormulaConfig__mdt-FieldFormulaConfig Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Flow_Error_Email__mdt-Error Email Recipient Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Hub_Origin__mdt-Hub Origin Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>InsideConversation__c-Inside Conversation Layout</layout>
