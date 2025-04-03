@@ -26,7 +26,6 @@ global class SOM_TransactionalEmailBatch implements Database.Batchable<SObject>,
         } else {
             query = 'SELECT Id, Template__c, Status__c, TECH_CustomerKey__c FROM TransactionalEmail__c ' +
                     'WHERE Status__c = \'To send\' ' +
-                    'AND OrderSummary__r.Status != \'Canceled\' ' +
                     'AND CreatedDate > :recoveryDatetime ' +
                     'AND CreatedDate < :timeMinus10Minutes';
         }
