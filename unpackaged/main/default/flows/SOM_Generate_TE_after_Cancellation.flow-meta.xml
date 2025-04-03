@@ -81,6 +81,13 @@
                     <elementReference>$Record.TE_Cancellation_Date__c</elementReference>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Validated</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>TE_Automatic_Cancellation</targetReference>
             </connector>
