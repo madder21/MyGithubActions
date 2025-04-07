@@ -36,6 +36,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<String, SObject> locationsMap                       = new Map<String, SObject>();
             
             Set<String> orderReferenceNumbers               = new Set<String>(); 
+            Set<String> StoresOrigin               			= new Set<String>(); 
             Set<String> orderDeliveryMethodReferenceNumbers = new Set<String>();
             Set<String> productsSKU                         = new Set<String>();
             Set<String> currencies                          = new Set<String>();
@@ -45,9 +46,20 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             List<String> PostalCodes               			= new List<String>();
             Set<String> OrderDeliveryMethodListIds          = new Set<String>();
             List<OrderDeliveryMethod> orderDeliveryMethods = new List<OrderDeliveryMethod>();
-            List<String> STWpostalCodeList = new List<String>();
-            List<STWDeliveryMethod__c> STWListEX = new List<STWDeliveryMethod__c>();
+            List<String> STWpostalCodeList 				   = new List<String>();
+            List<STWDeliveryMethod__c> STWListEX 		   = new List<STWDeliveryMethod__c>();
+            List<STWDeliveryMethod__c> STWList 		   	   = new List<STWDeliveryMethod__c>();
+            Map<String, String> storeOriginCountryMap      = new Map<String, String>();
             
+            STWList = [SELECT ID, storeOrigin__c, country__c,parentId__r.country__c, postalCode__c, parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber,deliveryMethodId__r.Id, DeliveryMethodName__c 
+                       FROM STWDeliveryMethod__c 
+                       WHERE country__c != null ];    
+            if(STWList != null){ 
+                for(STWDeliveryMethod__c stw : STWList){
+                    storeOriginCountryMap.put(stw.parentId__r.storeOrigin__c,stw.country__c);
+                }
+            }
+            System.debug('storeOriginCountryMap : ' + storeOriginCountryMap);
             Boolean isStockAvailable = true;
             for (StoreToWebOrder storeToWebOrder:request.orders) {
                 if (storeToWebOrder.orderDeliveryMethodReferenceNumber != null) orderDeliveryMethodReferenceNumbers.add(storeToWebOrder.orderDeliveryMethodReferenceNumber);
@@ -55,11 +67,12 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 if (storeToWebOrder.accountId != null) accountIds.add(storeToWebOrder.accountId);
                 if (storeToWebOrder.salesChannelNumber != null) salesChannelRefNumbers.add(storeToWebOrder.salesChannelNumber);
                 if (storeToWebOrder.orderSummaryNumber != null) orderReferenceNumbers.add(storeToWebOrder.orderSummaryNumber);
+                if (storeToWebOrder.storeOrigin != null) StoresOrigin.add(storeToWebOrder.storeOrigin);
                 for (OrderProduct orderProduct:storeToWebOrder.orderProducts) {
                     if (orderProduct.productSKU != null) productsSKU.add(orderProduct.productSKU);
                     if (orderProduct.locationExternalReference != null) locationsExternalRef.add(orderProduct.locationExternalReference);
                 }
-                if ( storeToWebOrder.deliveryContact.postalCode != null && storeToWebOrder.storeOrigin == SOM_Constants.STORE_ORIGIN_DE && storeToWebOrder.deliveryContact.country == SOM_Constants.COUNTRY_DE ){
+                if ( storeToWebOrder.deliveryContact.postalCode != null && storeOriginCountryMap.containsKey(storeToWebOrder.storeOrigin)  && storeOriginCountryMap.get(storeToWebOrder.storeOrigin).contains(storeToWebOrder.deliveryContact.country)){
                     PostalCodes.add(storeToWebOrder.deliveryContact.postalCode);
                 }
                 
@@ -69,7 +82,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             if(PostalCodes != null && PostalCodes.size() !=0 ){
                 STWListEX = [SELECT ID, storeOrigin__c, country__c,parentId__r.country__c, postalCode__c, parentId__r.parentId__r.storeOrigin__c, deliveryMethodId__r.ReferenceNumber,deliveryMethodId__r.Id, DeliveryMethodName__c 
                              FROM STWDeliveryMethod__c 
-                             WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c =: SOM_Constants.STORE_ORIGIN_DE];            
+                             WHERE postalCode__c IN :PostalCodes AND parentId__r.parentId__r.storeOrigin__c IN :StoresOrigin];            
                 if(STWListEX != null){ 
                     for(STWDeliveryMethod__c stw : STWListEX){
                         STWpostalCodeList.add(stw.postalCode__c);
@@ -144,7 +157,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                 if (accountsMap.get(storeToWebOrder.accountId) == null) 
                     throw new StoreToWebException('Account with Id '+storeToWebOrder.accountId+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check order delivery method
-                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null && storeToWebOrder.storeOrigin != SOM_Constants.STORE_ORIGIN_DE  && storeToWebOrder.deliveryContact.country != SOM_Constants.COUNTRY_DE) 
+                if (orderDeliveryMethodMap.get(storeToWebOrder.orderDeliveryMethodReferenceNumber) == null &&   !(storeOriginCountryMap.containsKey(storeToWebOrder.storeOrigin))  && !(storeOriginCountryMap.get(storeToWebOrder.storeOrigin).contains(storeToWebOrder.deliveryContact.country))) 
                     throw new StoreToWebException('Order Delivery Method with reference number '+storeToWebOrder.orderDeliveryMethodReferenceNumber+' does not exist, orderNumber: '+storeToWebOrder.orderSummaryNumber);
                 //check saleschannel
                 if (salesChannelsMap.get(storeToWebOrder.salesChannelNumber) == null) 
@@ -372,8 +385,8 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
         odg.Complementary__c     = storeToWebOrder.deliveryContact.Complementary;
         odg.PhoneNumber           = storeToWebOrder.deliveryContact.phone;
         
-        String ODM_Id = STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ? NeworderDeliveryMethodMap.get(SOM_Constants.STORE_ORIGIN_DE).get(SOM_Constants.COUNTRY_DE).get(storeToWebOrder.deliveryContact.postalCode) : null ;
-                
+        String ODM_Id = STWpostalCodeList.contains(storeToWebOrder.deliveryContact.postalCode) ? NeworderDeliveryMethodMap.get(storeToWebOrder.storeOrigin).get(storeToWebOrder.deliveryContact.country).get(storeToWebOrder.deliveryContact.postalCode) : null ;
+        
         if(ODM_Id != null ){
             odg.OrderDeliveryMethodId = ODM_Id;
         }else{
