@@ -1,12 +1,18 @@
 # Unique name for this workflow
-name: Validate SOM release branch against Integrate
+name: Validate SOM release UAT branch 
 
 # Definition when the workflow should run
 on:
-  pull_request:
-    types: [assigned, opened, synchronize, reopened]
 
-        
+  workflow_dispatch
+  #pull_request:
+    #types: [assigned, opened, synchronize, reopened]
+    
+    #paths:
+     # - force-app/**
+    #branches:
+     # - Release-Candidate
+       
             
 
 # Jobs to be executed
@@ -28,20 +34,21 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v3
               with:
-                ref: release/SOM-2023.6.1
+                ref: Release-Candidate
             
             # List items
             - name: 'List items'
-              run: ls 'unpackaged/project manifest'
+              run: ls 'unpackaged/projectManifest'
           
             # Set the instanceUrl config value
             - name: 'Set the instanceUrl config value'
-              run: sfdx config:set instanceUrl=https://rimowa--integrate.sandbox.my.salesforce.com
+              run: sfdx config:set instanceUrl=https://rimowa--uat.sandbox.my.salesforce.com
               
               # Authorize devops user
             - name: 'Authorize Devops User'
-              run: sfdx force:auth:jwt:grant -i "3MVG9qQjGkWUbcrH_xlpO3xF9dIvXKYW_7tBvY37biyTivUmmmjljbZFlnQKz2wvcP04dmbGRCE0_FmAhWCro" -f JWT/server.key -a RimowaIntegrateOrg --username devops@rimowa.integrate
+              run: sfdx force:auth:jwt:grant -i "3MVG9T992fY2Y4vuAbTvG70Z35vHQkVv32ow9mftNiuovpgXNP0nemtMu.HZONZ9FAEofdb0D9Hu5z7A6TtJL" -f JWT/server.key -a RimowaUATOrg --username devops@rimowa.uat
               
             # Deploy the entire branch to Integration org
-            - name: 'Deploy the entire branch to Integration org'
-              run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaIntegrateOrg -c
+            - name: 'Deploy and Validate the entire branch to UAT org'
+              #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaUATOrg -c
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-04-1.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-04.1.txt) -u RimowaUATOrg --json 
