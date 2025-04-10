@@ -14,6 +14,7 @@ public with sharing class SOM_AdaptReservations {
     public static List<List<SOM_ADV_Reservation>> AdaptReserv(List<Request> requestList) {
         List<List<SOM_ADV_Reservation>> resList = new List<List<SOM_ADV_Reservation>>();
         List<List<SOM_ADV_Reservation>> resAdapted = new List<List<SOM_ADV_Reservation>>();
+        Try{   
         for(Request req: requestList){
             List<SOM_ADV_Reservation> resAdap = new List<SOM_ADV_Reservation>();
             for(SOM_ADV_Reservation res : req.reservations){
@@ -25,6 +26,12 @@ public with sharing class SOM_AdaptReservations {
             resAdapted.add(resAdap);
             
         }
+            Logs.debug('Adapt Reservations','SOM_AdaptReservations','AdaptReservation','','',requestList[0].ois.Id);   
+            Logs.info('Adapt Reservations','SOM_AdaptReservations','AdaptReservation','','',requestList[0].ois.Id);   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_AdaptReservations','AdaptReservation','','',requestList[0].ois.Id);   
+        }  
         return resAdapted;
     }
 }

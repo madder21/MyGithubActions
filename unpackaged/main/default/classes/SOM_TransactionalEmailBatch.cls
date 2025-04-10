@@ -34,7 +34,8 @@ global class SOM_TransactionalEmailBatch implements Database.Batchable<SObject>,
     }
 
     global void execute(Database.BatchableContext BC, List<TransactionalEmail__c> records) {
-        Set<Id> emailsToResendIds = new Set<Id>(); // Track IDs to avoid duplicates
+        try{
+            Set<Id> emailsToResendIds = new Set<Id>(); // Track IDs to avoid duplicates
 
         for (TransactionalEmail__c email : records) {
             email.Status__c = SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_DRAFT;
@@ -66,8 +67,14 @@ global class SOM_TransactionalEmailBatch implements Database.Batchable<SObject>,
             update emailsToUpdate.values();
             System.enqueueJob(new SOM_UpdateTransactionalEmailsQueueable(emailsToUpdate.values()));
         }
-    }
+            Logs.debug('Transactional Email Batch', 'SOM_TransactionalEmailBatch', 'Execute', '', '','');
+            Logs.info('Transactional Email Batch', 'SOM_TransactionalEmailBatch', 'Execute', '', '', '');
 
+        } catch (Exception e) {
+            Logs.error(e, 'SOM_TransactionalEmailBatch', 'Execute', '', '', '');
+        }
+
+    }
     global void finish(Database.BatchableContext BC) {
 
 
