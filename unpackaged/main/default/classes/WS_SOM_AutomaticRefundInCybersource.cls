@@ -51,11 +51,13 @@ global with sharing class WS_SOM_AutomaticRefundInCybersource {
                 response.paymentNetworkTransactionID      = String.valueOf(httpResponseMap.get('paymentNetworkTransactionID'));
                 response.invalidField                	  = String.valueOf(httpResponseMap.get('invalidField'));
             }
+            responseWrapper.add(response);
+			Logs.debug('Automatic Refund In Cybersource', 'WS_SOM_AutomaticRefundInCybersource', 'AutomaticRefundInCybersource',String.join(requests, ', '),String.join(responseWrapper, ', '),requests[0].RefundId);
+			Logs.info('Automatic Refund In Cybersource', 'WS_SOM_AutomaticRefundInCybersource', 'AutomaticRefundInCybersource',String.join(requests, ', '),String.join(responseWrapper, ', '),requests[0].RefundId);                
         }catch(Exception e) {
             System.debug('e.getMessage()' + e.getMessage() );
+            Logs.error(e, 'WS_SOM_AutomaticRefundInCybersource', 'AutomaticRefundInCybersource',String.join(requests, ', '),String.join(responseWrapper, ', '),requests[0].RefundId); 
         }
-        responseWrapper.add(response);
-        System.debug('responseWrapper' + responseWrapper);
         return responseWrapper;
     }
     
