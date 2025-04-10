@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 
-	<types>
+	
 	<!-- log trace for apex class : SOM-896 -->
 		<members>Log__c.relatedToId__c</members>
 
 		<name>CustomField</name>
 	</types>
   	<types>
+      	<!-- log trace for apex class : SOM-1118 -->
+      	<members>SOM_ClosingOrderSummaryAction</members>
 	<!-- log trace for apex class : SOM-896 -->
 
 		<members>SOM_AutomatedEmailWithProcessEXBatch</members>
@@ -53,6 +55,7 @@
 	<!-- log trace for apex class : SOM-896 -->
 			<members>Log__c-Log Layout</members>
 		<name>Layout</name>
+
 	</types>
 	<version>63.0</version>
 </Package>
