@@ -148,11 +148,11 @@ public with sharing class SOM_USReportMonthSchedule Implements Schedulable {
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Monthly US','SOM_USReportMonthSchedule','monthExport','','');   
-            Logs.info('Sales and payments report Schedule Monthly US','SOM_USReportMonthSchedule','monthExport','','');   
+            Logs.debug('Sales and payments report Schedule Monthly US','SOM_USReportMonthSchedule','monthExport','','','');   
+            Logs.info('Sales and payments report Schedule Monthly US','SOM_USReportMonthSchedule','monthExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_USReportMonthSchedule US','monthExport','','');   
+            Logs.error(e,'SOM_USReportMonthSchedule US','monthExport','','','');   
         }  
         
     }

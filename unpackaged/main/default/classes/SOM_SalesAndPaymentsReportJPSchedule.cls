@@ -168,11 +168,11 @@ public class SOM_SalesAndPaymentsReportJPSchedule Implements Schedulable{
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Weekly JP','SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','');   
-            Logs.info('Sales and payments report Schedule Weekly JP','SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','');   
+            Logs.debug('Sales and payments report Schedule Weekly JP','SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','','');   
+            Logs.info('Sales and payments report Schedule Weekly JP','SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesAndPaymentsReportJPSchedule JP','weekExportTEST','','');   
+            Logs.error(e,'SOM_SalesAndPaymentsReportJPSchedule','weekExportTEST','','','');   
         }  
         
         
