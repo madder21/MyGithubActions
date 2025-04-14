@@ -108,6 +108,7 @@ public with sharing class WS_SOM_CreateReturnOrderEndpoint_Test {
 
         Test.startTest();
         List<WS_SOM_CreateReturnOrderEndpoint.ReturnOrderCreateUpdateResponse> res = WS_SOM_CreateReturnOrderEndpoint.handleReturnOrderCreateUpdateRequest(new List<WS_SOM_CreateReturnOrderEndpoint.ReturnOrderCreateUpdateRequest>{roReq});
+        System.debug('res[0].errorMsg' + res[0].errorMessage);
         System.assertEquals(res[0].returnOrderStatus, 'OK');
         Test.stopTest();
     }
@@ -149,18 +150,6 @@ public with sharing class WS_SOM_CreateReturnOrderEndpoint_Test {
 
         List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
-        FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
-        List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
-        FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
-        FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
-                    (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit,
-                    OrderItemSummaryId, Quantity, Product2Id, OrderItemSummary.isSerialized__c FROM FulfillmentOrderLineItems WHERE Type !=: SOM_Constants.DELIVERY_CHARGE)
-                    FROM FulfillmentOrder WHERE OrderSummaryId IN: osIds];
-        Set<Id> Ids = (new Map<Id,FulfillmentOrder>(lFO)).keySet();
-        Set<String> LId = (Set<String>)JSON.deserialize(JSON.serialize(Ids), Set<String>.class);
-        Map<Id, FulfillmentOrder> mapIDFO = new Map<Id, FulfillmentOrder>(lFO);
-
-        Map<Id, Shipment> ships = SOM_testDataFactory.createShipments(mapIDFO);
 
 
         WS_SOM_CreateReturnOrderEndpoint.ReturnOrderItemCreateUpdate roliReq = new WS_SOM_CreateReturnOrderEndpoint.ReturnOrderItemCreateUpdate();
