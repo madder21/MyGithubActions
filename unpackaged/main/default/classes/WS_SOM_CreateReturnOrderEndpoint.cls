@@ -251,7 +251,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             String errorMessage = verifyReturnLineItemIsValid(returnOrderItemCreateUpdate, 
                                                         orderSummaryShipmentsMap.get(req.orderSummaryNumber).get(returnOrderItemCreateUpdate.sku), 
                                                         returnOrderItemConditionValues, 
-                                                        returnOrderItemReasonForReturnValues);
+                                                        returnOrderItemReasonForReturnValues,req);
             if (errorMessage != null) return errorMessage;
             //returnOrder items in submitted status that have the sku
             List<ReturnOrderLineItem> returnOrderLineItems = orderSummaryReturnOrderLineItemsMap.get(req.orderSummaryNumber).get(returnOrderItemCreateUpdate.sku);
@@ -439,7 +439,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
             String errorMessage = verifyReturnLineItemIsValid(returnOrderItemCreateUpdate, 
                                                     orderShipmentItem, 
                                                     returnOrderItemConditionValues, 
-                                                    returnOrderItemReasonForReturnValues);
+                                                    returnOrderItemReasonForReturnValues,req);
             if (errorMessage != null) return errorMessage;
             if (returnOrderItemCreateUpdate.quantity > orderShipmentItem.quantityAvailableToReturn)
                 return 'The return quantity: ' + returnOrderItemCreateUpdate.quantity + ' is greater than the quantity available to return: ' + orderShipmentItem.quantityAvailableToReturn;
@@ -512,7 +512,7 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
      */
     //private static Decimal GetSUMQuantityExpected(List<ConnectApi.ReturnOrderLineItemInputRepresentation> returnOrderLineItemsInputList){
     private static Decimal GetSUMQuantityExpected(List<ReturnOrderLineItem> ReturnOrderLineItemList){
-        
+
         List<String> ReturnOrderLineItemListIds = new List<String>();
         Map<String,Decimal> ReturnOrderLineItemMap = new Map<String,Decimal>();
         Decimal SUMQuantityExpected = 0;
@@ -745,8 +745,12 @@ global with sharing class WS_SOM_CreateReturnOrderEndpoint {
     private static String verifyReturnLineItemIsValid(ReturnOrderItemCreateUpdate returnOrderItemCreateUpdate, 
                                                     OrderShipmentItem orderShipmentItem,
                                                     List<String> returnOrderItemConditionValues,
-                                                    List<String> returnOrderItemReasonForReturnValues){
-
+                                                    List<String> returnOrderItemReasonForReturnValues,
+                                                    ReturnOrderCreateUpdateRequest req)
+{
+        if (orderShipmentItem.serialNumbers.size()  != 0 && ( returnOrderItemCreateUpdate.serialNumbers == null || returnOrderItemCreateUpdate.serialNumbers.isEmpty() ) && req.type == SOM_Constants.WMS_RETURN_TYPE ){
+            return 'The serialNumbers attribute for sku '+returnOrderItemCreateUpdate.sku+' is missing. Make sure to enter a valid serial number. '; 
+        }
         if (returnOrderItemCreateUpdate.sku == null || returnOrderItemCreateUpdate.sku.length() ==0)
             return 'SKU code must not be empty.';
         if (returnOrderItemCreateUpdate.quantity == null || returnOrderItemCreateUpdate.quantity <=0)
