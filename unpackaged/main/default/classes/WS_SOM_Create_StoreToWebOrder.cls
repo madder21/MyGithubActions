@@ -332,7 +332,7 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
             String ErrorResponse = JSON.serialize(response);
-            Logs.error(ex, 'Store To Web Response', 'WS_SOM_Create_StoreToWebOrder', JSON.serialize(request), ErrorResponse,string.valueof(orderReferenceNumbers)); 
+            Logs.error(ex, 'WS_SOM_Create_StoreToWebOrder', 'StoreToWebResponse', JSON.serialize(request), ErrorResponse,string.valueof(orderReferenceNumbers)); 
         }
         
         return response;
