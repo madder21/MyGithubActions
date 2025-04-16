@@ -6,6 +6,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
     public static final Decimal TAX_DIFF                             = 0.01;
     public static final String CHAR_CONCAT                           = '_';
     public static final String UUID_CHAR_CONCAT                      = '-';
+    public static Set<String> orderReferenceNumbers               = new Set<String>(); 
     
     @HttpPost
     global static StoreToWebResponse createOrder(StoreToWebRequest request){
@@ -35,7 +36,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             Map<String, SalesChannel> salesChannelsMap              = new Map<String, SalesChannel>();
             Map<String, SObject> locationsMap                       = new Map<String, SObject>();
             
-            Set<String> orderReferenceNumbers               = new Set<String>(); 
+            //Set<String> orderReferenceNumbers               = new Set<String>(); 
             Set<String> StoresOrigin               			= new Set<String>(); 
             Set<String> orderDeliveryMethodReferenceNumbers = new Set<String>();
             Set<String> productsSKU                         = new Set<String>();
@@ -103,7 +104,7 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
                         
                         NeworderDeliveryMethodMap.get(storeOrigin).get(country).put(postalCode, referenceNumber);
                     }
-                     
+                    System.debug('NeworderDeliveryMethodMap : ' + NeworderDeliveryMethodMap);
                     
                 }
             }
@@ -118,13 +119,13 @@ global with sharing class WS_SOM_Create_StoreToWebOrder {
             }
             for (StoreToWebOrder storeToWebOrder:request.orders) {
                 if (String.isNotBlank(storeToWebOrder.orderedDate)) {
-                DateTime orderedDateTime = SOM_DateTimeHelper.convertISO8601ToDateTime(storeToWebOrder.orderedDate);
-                DateTime maxAllowedDateTime = DateTime.now().addDays(1);
-                if (orderedDateTime > maxAllowedDateTime) {
-                    throw new StoreToWebException('The OrderedDate cannot exceed today\'s date by more than 24 hours.');
+                    DateTime orderedDateTime = SOM_DateTimeHelper.convertISO8601ToDateTime(storeToWebOrder.orderedDate);
+                    DateTime maxAllowedDateTime = DateTime.now().addDays(1);
+                    if (orderedDateTime > maxAllowedDateTime) {
+                        throw new StoreToWebException('The OrderedDate cannot exceed today\'s date by more than 24 hours.');
+                    }
                 }
             }
-        }
             for (OrderDeliveryMethod odm:orderDeliveryMethods) {
                 orderDeliveryMethodMap.put(odm.ReferenceNumber, odm);
             }
@@ -324,13 +325,14 @@ throw new StoreToWebException('Tax difference is greater than 0.01, OrderNumber:
             response.status = 'OK';
             response.orderNumber = 'The following Orders are commited successfully : '+string.valueof(orderReferenceNumbers).replace('{', '').replace('}', '');
             String result = JSON.serialize(response);
-            Logs.debug('Store To Web Response','WS_SOM_Create_StoreToWebOrder','StoreToWebResponse',JSON.serialize(request),result); 
+            Logs.debug('Store To Web Response','WS_SOM_Create_StoreToWebOrder','StoreToWebResponse',JSON.serialize(request),result,string.valueof(orderReferenceNumbers)); 
+            Logs.info('Store To Web Response','WS_SOM_Create_StoreToWebOrder','StoreToWebResponse',JSON.serialize(request),result,string.valueof(orderReferenceNumbers)); 
         } catch(Exception ex) {
             Database.rollback(sp);
             response.status       = 'KO';
             response.errorMessage = ex.getMessage();
             String ErrorResponse = JSON.serialize(response);
-            Logs.error(ex, 'Store To Web Response', 'WS_SOM_Create_StoreToWebOrder', JSON.serialize(request), ErrorResponse); 
+            Logs.error(ex, 'WS_SOM_Create_StoreToWebOrder', 'StoreToWebResponse', JSON.serialize(request), ErrorResponse,string.valueof(orderReferenceNumbers)); 
         }
         
         return response;

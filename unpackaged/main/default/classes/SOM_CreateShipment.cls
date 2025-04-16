@@ -82,7 +82,7 @@ public with sharing class SOM_CreateShipment {
                     shipmentLine.Product2Id                 = input.productId;
                     shipmentLine.FulfillmentOrderLineItemId = input.foliId;
                     shipmentLine.OrderItemSummaryId         = input.osItemId;
-                    if(input.S10Digits == true){
+                    if(input.S10Digits == true ){
                     	shipmentLine.Sku10Digits__c         	= serial.substring(0, 10);
                     }else{
                     	shipmentLine.Sku10Digits__c         	= input.sku10Digits; 
@@ -132,11 +132,11 @@ public with sharing class SOM_CreateShipment {
         param.doUpdateOSStatus = true;
         params.add(param);
         List<SOM_CloseFulfillmentOrderResponseWr> listFoIdResponse = SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderStatus(params); 
-           Logs.debug('Create Shippement','SOM_CreateShipment','CreateShipmentAndShipmentItems','','');   
-           Logs.info('Create Shippement','SOM_CreateShipment','CreateShipmentAndShipmentItems','','');   
-            
-        }catch(Exception e){
-            Logs.error(e,'SOM_CreateShipment','CreateShipmentAndShipmentItems','','');   
+           Logs.debug('Create Shippement','SOM_CreateShipment','CreateShipmentAndShipmentItems','','',wrShips[0][0].foId);   
+           Logs.info('Create Shippement','SOM_CreateShipment','CreateShipmentAndShipmentItems','','',wrShips[0][0].foId);   
+
+      }catch(Exception e){
+            Logs.error(e,'SOM_CreateShipment','CreateShipmentAndShipmentItems','','',wrShips[0][0].foId);   
         }  
         }
 

@@ -1,14 +1,16 @@
 public with sharing class SOM_InvoiceManagement {
-    
+    public static String relatedToId;
     //Update Invoice Document Number / Increment by Country
     public static void UpdateInvoicesNumber (Invoice newInvMap, Invoice oldInvMap) {
         try {
-            //GET Max invoice Number By Country Code
+            //GET Max invoice Number By Country Code 
             Map<string,string> maxInvoiceByCountryMap= new  Map<string,string>();
             Invoice InvDataMap  = [SELECT Id, DocumentNumber__c, DocumentNumber, InvoiceNumber__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, SalesChannelName__c END, (SELECT FulfilledToCountry FROM FulfillmentOrders LIMIT 1)  
                                    FROM Invoice WHERE Id = :newInvMap.Id];   
-            
+            relatedToId = InvDataMap.Id +' - '+ InvDataMap.ReferenceEntity.Id;
+            System.debug('InvDataMap' + InvDataMap);
             String countryCode = InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+            System.debug('countryCode' + countryCode);
             FulfillmentOrder[] groupedInvoiceByCountry = [SELECT FulfilledToCountry, Invoice.DocumentNumber__c FROM FulfillmentOrder  
                                                            WHERE Invoice.DocumentNumber__c != null AND FulfilledToCountry != null 
                                                            AND OrderSummary.SalesChannelName__c != 'CEGID' 
@@ -54,11 +56,21 @@ public with sharing class SOM_InvoiceManagement {
                 }
             }
             
-            Logs.debug('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', ''); 
-            Logs.info('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '');
+            Logs.debug('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId); 
+            Logs.info('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);
             
+            // Publish Platform Event after Invoice Document Update
+            NewSerializedProductEcomSale__e event = new NewSerializedProductEcomSale__e();
+            event.InvoiceId__c = newInvMap.Id;
+            Database.SaveResult sr = EventBus.publish(event);
+            if (!sr.isSuccess()) {
+                for (Database.Error err : sr.getErrors()) {
+                    System.debug('Error publishing event: ' + err.getMessage());
+                }
+            } 
+        
         } catch (Exception e) {
-          //  Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '');   
+            Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);   
         } 
     }   
 }

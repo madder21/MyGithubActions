@@ -16,7 +16,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
             List <ProcessException> ProcessExceptionRecords = [Select Id from ProcessException where Status=: SOM_Constants.PE_NEW and Category=: SOM_Constants.PE_PAYMENT ];
             List <Report> reportList = [SELECT Id,DeveloperName FROM Report where 
                                         DeveloperName IN :reportsDeveloperNamesMap.keySet()];
-            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where Address = 'noreply@rimowa.com' limit 1];
+            OrgWideEmailAddress owa = [select id, Address, DisplayName from OrgWideEmailAddress where /*Address = 'maha.meghras@viseo.com' OR*/ Address = 'noreply@rimowa.com' limit 1];
             if (!ProcessExceptionRecords.isEmpty()){
                 for(Report singleReport : reportList){
                     String country = singleReport.DeveloperName.right(2) == 'GB' ? 'UK' : singleReport.DeveloperName.right(2) ; 
@@ -24,7 +24,7 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                     // check if report is empty (without rows)
                     if(((Reports.ReportFactWithDetails)results?.getFactMap()?.get(SOM_Constants.TABULAR_REPORT_FACT_MAP_KEY))?.getRows()?.size() > 0){
                         String reportId = (String)singleReport.Id;
-                        String baseUrl = URL.getOrgDomainUrl().toExternalForm();
+                        String baseUrl = URL.getOrgDomainUrl().toExternalForm(); 
                         ApexPages.PageReference report = new ApexPages.PageReference('/'+reportId+'?csv=1&exp=1&enc=UTF-8&isdtp=p1');
                         Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
                         attachment.setFileName('E-Commerce Payment Capture Errors - ' + country + '.csv');
@@ -47,13 +47,13 @@ global with sharing class SOM_AutomatedEmailWithProcessEXBatch Implements Schedu
                     }
                 }
                 if(!emailList.isEmpty()) Messaging.sendEmail(emailList);
-            }
+            } 
             
-            Logs.debug('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
-            Logs.info('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
+            Logs.debug('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','','');   
+            Logs.info('Process Exception Emails','SOM_AutomatedEmailWithProcessEXBatch','DoExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_AutomatedEmailWithProcessEXBatch','DoExport','','');   
+            Logs.error(e,'SOM_AutomatedEmailWithProcessEXBatch','DoExport','','','');   
         }  
         
     }

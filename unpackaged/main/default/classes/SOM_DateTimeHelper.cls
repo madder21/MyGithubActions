@@ -20,12 +20,12 @@ public static List<DateTime> convertDateTimeByTimeZone(List<SOM_DateConvertionIn
             dateTimeToReturnList.add(dateValueToReturn);
         }
 
-        Logs.debug('Convert Date Time By TimeZone','SOM_DateTimeHelper','convertDateTimeByTimeZone','',''); 
-        Logs.info('Convert Date Time By TimeZone','SOM_DateTimeHelper','convertDateTimeByTimeZone','','');
+        Logs.debug('Convert Date Time By TimeZone','SOM_DateTimeHelper','convertDateTimeByTimeZone','','',''); 
+        Logs.info('Convert Date Time By TimeZone','SOM_DateTimeHelper','convertDateTimeByTimeZone','','','');
 
         return dateTimeToReturnList;  
     } catch(Exception e){
-        Logs.error(e,'SOM_DateTimeHelper','convertDateTimeByTimeZone','','');  
+        Logs.error(e,'SOM_DateTimeHelper','convertDateTimeByTimeZone','','','');  
         return null; 
     }
 }

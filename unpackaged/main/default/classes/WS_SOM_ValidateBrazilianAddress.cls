@@ -50,7 +50,7 @@ global with sharing class WS_SOM_ValidateBrazilianAddress {
             responsesWrappers.add(responseWrapper);
         	}
         }catch(Exception e) {
-            Logs.error(e,'WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',Reqs[0].ZipCode + Reqs[0].Identifier,result);   
+            Logs.error(e,'WS_SOM_ValidateBrazilianAddress','ValidateBrazilianAddress',Reqs[0].ZipCode + Reqs[0].Identifier,result, Reqs[0].Identifier);   
         }
             return responsesWrappers;
     }

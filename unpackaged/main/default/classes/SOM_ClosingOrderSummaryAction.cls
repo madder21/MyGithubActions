@@ -8,7 +8,7 @@ global with sharing class SOM_ClosingOrderSummaryAction {
         Map<Id, OrderSummaryStatus> orderSummaryStatusMap   = new Map<Id, OrderSummaryStatus>();
 
         Map<Id, OrderSummary> foOSMap = new Map<Id, OrderSummary>();
-        
+        try {
         if(responseFromFo[0].isSuccess == false){
             response.isSuccess = false;
             responseWr.add(response);
@@ -111,7 +111,6 @@ global with sharing class SOM_ClosingOrderSummaryAction {
             }
         }
 
-        try {
             if (osToUpdateList.size() > 0) update osToUpdateList;
             List<Id> osIdList = new List<Id>();
             for (OrderSummary os:osToUpdateList) {
@@ -120,9 +119,12 @@ global with sharing class SOM_ClosingOrderSummaryAction {
             response.foIds     = responseFromFo[0].foIds;
             response.osIds     = osIdList;
             response.isSuccess = true;
+			Logs.debug('Closing Order Summary Action', 'SOM_ClosingOrderSummaryAction', 'UpdateOrderSummaryStatus','','',responseFromFo[0].foIds[0]);
+			Logs.info('Closing Order Summary Action', 'SOM_ClosingOrderSummaryAction', 'UpdateOrderSummaryStatus','','',responseFromFo[0].foIds[0]);            
         } catch(DmlException ex) { 
             response.isSuccess = false;
             response.errorMessage = ex.getMessage();
+            Logs.error(ex, 'Closing Order Summary Action', 'SOM_ClosingOrderSummaryAction', '','',responseFromFo[0].foIds[0]);
         }
         responseWr.add(response);
 

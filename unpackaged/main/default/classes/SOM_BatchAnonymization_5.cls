@@ -42,8 +42,8 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             objectClientId.put(digi.Id, digi.AccountId);
         }
         try {
-            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','');   
-            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','');   
+            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','', cls[0]);   
+            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization','','', cls[0]);   
             if(objectsToUpdate != null && !objectsToUpdate.isEmpty()) {
                 objectsToUpdate.sort();
                 update objectsToUpdate;
@@ -55,62 +55,61 @@ global with sharing class SOM_BatchAnonymization_5 implements Database.Batchable
             privacyReq.Status__c           = 'Error';
             privacyReq.AnonymizationLog__c = e.getDmlMessage(0);
             insert privacyReq;
-            Logs.error(e,'SOM_BatchAnonymization_5','callBatchAnonymization','','');   
+            Logs.error(e,'SOM_BatchAnonymization_5','callBatchAnonymization','','', cls[0]);   
 
         }
     }
 
     global void finish(Database.BatchableContext BC){
         try {
-            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','');   
-            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','');   
-        if(isSuccess == true){
-            List<String> ordSumNumbersToSend = new List<String>();
-            for(String clSingle : orderSummaryNumbers.keySet()){
-                String anonymLog = string.valueof(orderSummaryNumbers.get(clSingle)).replace('{', '').replace('}', '');
-                ordSumNumbersToSend.addAll(orderSummaryNumbers.get(clSingle));
-                PrivacyRequest__c privacyReq = new PrivacyRequest__c();
-                privacyReq.Application__c      = 'SOM';
-                privacyReq.AccountId__c        = clSingle;
-                privacyReq.Status__c           = 'Success';
-                privacyReq.AnonymizationLog__c = anonymLog;
-                privacyRequestsToInsert.add(privacyReq);
-            }
-            if ( privacyRequestsToInsert != null && !privacyRequestsToInsert.isEmpty()){
-                insert privacyRequestsToInsert;
-            }
-            
-            List<Invoice> InvoiceList = [SELECT isCorrectiveInvoiceElligible__c FROM Invoice where BillingAccountId IN :cls];
-            for(Invoice Inv : InvoiceList){
-                Inv.isCorrectiveInvoiceElligible__c  = false;
-                InvoiceToBeUpdated.add(Inv);
-            }
-            update InvoiceToBeUpdated;
-            
-            String anonymLogToSend = string.valueof(ordSumNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
-            List<OrderSummary> nonAnomizedListOS = [SELECT Id, Status, OrderNumber, OriginalOrderId FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
-            List<Order> nonAnomizedOrderList = [SELECT Id, Status FROM Order WHERE Id NOT IN :orderIds and Status != 'Activated' AND AccountId IN :cls];
-            List<String> nonAnonymOrdNumbers = new List<String>();
-            
-            for(OrderSummary ord : nonAnomizedListOS){
-                nonAnonymOrdNumbers.add(ord.OrderNumber);
-                orderIds.add(ord.OriginalOrderId);
-            }
-            if(!(nonAnomizedListOS.size() > 0) && !(nonAnomizedOrderList.size() > 0)){
-                for(Account cli : [SELECT Id, isPurged__c FROM Account WHERE Id IN :cls]){
-                    cli.isPurged__c = true;
-                    clientsToBeUpdated.add(cli);
+            Logs.debug('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','',cls[0]);   
+            Logs.info('Anonymization process - Batch 5','SOM_BatchAnonymization_5','callBatchAnonymization - finish','','',cls[0]);   
+            if(isSuccess == true){
+                List<String> ordSumNumbersToSend = new List<String>();
+                for(String clSingle : orderSummaryNumbers.keySet()){
+                    String anonymLog = string.valueof(orderSummaryNumbers.get(clSingle)).replace('{', '').replace('}', '');
+                    ordSumNumbersToSend.addAll(orderSummaryNumbers.get(clSingle));
+                    PrivacyRequest__c privacyReq = new PrivacyRequest__c();
+                    privacyReq.Application__c      = 'SOM';
+                    privacyReq.AccountId__c        = clSingle;
+                    privacyReq.Status__c           = 'Success';
+                    privacyReq.AnonymizationLog__c = anonymLog;
+                    privacyRequestsToInsert.add(privacyReq);
                 }
-                update clientsToBeUpdated;
-            }
-            
-            String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
+                if ( privacyRequestsToInsert != null && !privacyRequestsToInsert.isEmpty()){
+                    insert privacyRequestsToInsert;
+                }
+                
+                List<Invoice> InvoiceList = [SELECT isCorrectiveInvoiceElligible__c FROM Invoice where BillingAccountId IN :cls];
+                for(Invoice Inv : InvoiceList){
+                    Inv.isCorrectiveInvoiceElligible__c  = false;
+                    InvoiceToBeUpdated.add(Inv);
+                }
+                update InvoiceToBeUpdated;
+                
+                String anonymLogToSend = string.valueof(ordSumNumbersToSend).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
+                List<OrderSummary> nonAnomizedListOS = [SELECT Id, Status, OrderNumber, OriginalOrderId FROM OrderSummary WHERE Status NOT IN (:Fulfilled, :Canceled) AND AccountId IN :cls];
+                List<Order> nonAnomizedOrderList = [SELECT Id, Status FROM Order WHERE Id NOT IN :orderIds and Status != 'Activated' AND AccountId IN :cls];
+                List<String> nonAnonymOrdNumbers = new List<String>();
+                for(OrderSummary ord : nonAnomizedListOS){
+                    nonAnonymOrdNumbers.add(ord.OrderNumber);
+                    orderIds.add(ord.OriginalOrderId);
+                }
+                if(!(nonAnomizedListOS.size() > 0) && !(nonAnomizedOrderList.size() > 0)){
+                    for(Account cli : [SELECT Id, isPurged__c FROM Account WHERE Id IN :cls]){
+                        cli.isPurged__c = true;
+                        clientsToBeUpdated.add(cli);
+                    }
+                    update clientsToBeUpdated;
+                }
+                
+                String nonAnonymLogToSend = string.valueof(nonAnonymOrdNumbers).replace('{', '').replace('}', '').replace('(', '').replace(')', '');
                 
                 SOM_BatchAnonymization_6 nextBatch = new SOM_BatchAnonymization_6(orderIds, objectClientId, cls, anonymLogToSend, nonAnonymLogToSend);
                 database.executebatch(nextBatch);
             } 
         }catch(Exception e){
-            Logs.error(e,'SOM_BatchAnonymization_5','BatchAnonymization - finish','','');   
+            Logs.error(e,'SOM_BatchAnonymization_5','BatchAnonymization - finish','','', cls[0]);   
         }  
     }
 
