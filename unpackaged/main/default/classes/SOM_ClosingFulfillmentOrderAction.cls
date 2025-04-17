@@ -88,9 +88,12 @@ global with sharing class SOM_ClosingFulfillmentOrderAction {
             }
             response.foIds     = foIdList;
             response.isSuccess = true;
+            Logs.debug('Update Fulfillment Order Status','SOM_ClosingFulfillmentOrderAction','UpdateFulfillmentOrderStatus','','', string.valueof(argWr[0].foIds)); 
+            Logs.info('Update Fulfillment Order Status','SOM_ClosingFulfillmentOrderAction','UpdateFulfillmentOrderStatus','','', string.valueof(argWr[0].foIds));
         } catch(DmlException ex) { 
             response.isSuccess = false;
             response.errorMessage = ex.getMessage();
+            Logs.error(ex,'SOM_ClosingFulfillmentOrderAction','SOM_ClosingFulfillmentOrderAction','','', string.valueof(argWr[0].foIds));   
         }
         responseWrapper.add(response);
 

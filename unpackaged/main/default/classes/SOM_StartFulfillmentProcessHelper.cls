@@ -3,9 +3,7 @@ public class SOM_StartFulfillmentProcessHelper {
         try{
             List<String> orderSummIds = new List<String>();
             for ( Start_Fulfillment_Process__e FulfillmentEvent : FulfillmentEventList){
-                if(!Test.isrunningtest()) {
                     orderSummIds.add(FulfillmentEvent.OrderSummaryID__c);
-                }
             }
             
             Id batchJobId = Database.executeBatch(new SOM_Batch_StartFulfillmentProcess(orderSummIds), 1);
