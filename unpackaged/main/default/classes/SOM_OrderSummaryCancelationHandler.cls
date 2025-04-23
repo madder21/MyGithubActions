@@ -8,13 +8,13 @@
 @RestResource(urlMapping='/OrderSummary/pickupCancel/*')
 global with sharing class SOM_OrderSummaryCancelationHandler {
 
-	/**
-	* @description 
-	* @author BADER EDDINE ELKHAL | 04-17-2022 
-	* @return Void 
-	**/
+    /**
+    * @description 
+    * @author BADER EDDINE ELKHAL | 04-17-2022 
+    * @return Void 
+    **/
     @HttpPost
-	global static Void cancelPickup() {
+    global static Void cancelPickup() {
 
         RestRequest request = RestContext.request;
         RestResponse response = RestContext.response;
@@ -33,7 +33,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
         List<Id> seOfFulfillmentOrderIds = new List<Id>();
         Map<Id, Refund> refundToPrepareByOsId = new Map<Id, Refund>();
         Map<Id, OrderSummary> listosToUpdate = new Map<Id, OrderSummary>();
-        Set<String> OrderSummaryNum = new Set<String>();
+        
 
 
         //Get request data
@@ -49,7 +49,7 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                 }
                 //Query On target OrderSummaries with related FulfillmentOrders
                 for(FulfillmentOrder fulmntOrder : [SELECT Id, Status, OrderSummaryId, OrderSummary.orderNumber, (SELECT Id, OrderItemSummaryId, Quantity , orderItemSummary.listPrice 
-                    FROM FulfillmentOrderLineItems WHERE Quantity>0 AND Type !=: SOM_Constants.DELIVERY_CHARGE) FROM fulfillmentOrder WHERE Type =: SOM_Constants.STORE AND	OrderSummary.OrderNumber IN : initialOsNumber AND 
+                    FROM FulfillmentOrderLineItems WHERE Quantity>0 AND Type !=: SOM_Constants.DELIVERY_CHARGE) FROM fulfillmentOrder WHERE Type =: SOM_Constants.STORE AND OrderSummary.OrderNumber IN : initialOsNumber AND 
                     ((orderSummary.Status =: SOM_Constants.VALIDATED AND Status =: SOM_Constants.ALLOCATED ) OR (orderSummary.Status =: SOM_Constants.ORDER_SUMMARY_FULFILLING AND Status =: SOM_Constants.ORDER_SUMMARY_FULFILLING ))]){
                     //Stack OrderSummaries
                     if(!OrderSummaryIdByNumber.containsKey(fulmntOrder.OrderSummary.orderNumber)) OrderSummaryIdByNumber.put(fulmntOrder.OrderSummary.OrderNumber, fulmntOrder.OrderSummaryId);
@@ -250,15 +250,8 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                     
                 }
                 
-                //Generate Transactional Email 
-                for(PickupCancelResponse pickUpLine : listPickUpResponse ){
-                    if((pickUpLine.errorMessage == null || pickUpLine.errorMessage == '') && pickUpLine.orderSummaryStatus == 'Canceled'){
-                    	OrderSummaryNum.add(pickUpLine.orderSummaryNumber);    
-                    }
-                }
-                if( !OrderSummaryNum.isEmpty()){
-                	GenerateTransactionalEmail(OrderSummaryNum);
-                }
+                Logs.debug('Cancel C&C Order','SOM_OrderSummaryCancelationHandler','cancelPickup',RequestBody,JSON.serialize(response),string.valueof(initialOsNumber)); 
+                Logs.info('Cancel C&C Order','SOM_OrderSummaryCancelationHandler','cancelPickup',RequestBody,JSON.serialize(response),string.valueof(initialOsNumber)); 
                 
                 response.statusCode = 200;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
@@ -275,9 +268,10 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
                 }));
             }
         }
-        catch(Exception exp){
+        catch(Exception exp){ 
             Database.rollback(sp);
                 response.statusCode = 403;
+                Logs.error(exp,'SOM_OrderSummaryCancelationHandler','cancelPickup',RequestBody,JSON.serialize(response),string.valueof(initialOsNumber)); 
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => 'Internal Error Please contact your Salesforce Admin'
                 
@@ -286,22 +280,6 @@ global with sharing class SOM_OrderSummaryCancelationHandler {
         }
     }
 
-		/*
-            DESCRIPTION : this method used for creating transactional email of Canceling C&C orders in Cegid
-        */
-        public static void GenerateTransactionalEmail(Set<String> OrderSummaryNum) {
-        	Map<Id, OrderSummary> orderSummariesMap = new Map<Id, OrderSummary>([SELECT Id FROM OrderSummary WHERE OrderNumber IN :OrderSummaryNum]);
-            List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputsList = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
-            for (String OSId : orderSummariesMap.keySet()) {
-                SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
-                generateTransactionalEmailInput.templateName = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED;
-                generateTransactionalEmailInput.recordId     = OSId;
-                generateTransactionalEmailInputsList.add(generateTransactionalEmailInput);
-                
-            }
-            SOM_TransactionalEmailHandler.generateTransactionalEmail(generateTransactionalEmailInputsList);
-        }
-    
 
     
     public class PickupCancelRequest{

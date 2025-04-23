@@ -9,9 +9,12 @@ public class SOM_UpdateTransactionalEmailsQueueable implements Queueable, Databa
         if (emailsToUpdate != null && !emailsToUpdate.isEmpty()) {
             try {
                 update emailsToUpdate;
+                
+                Logs.debug('SOM_UpdateTransactionalEmailsQueueable', 'SOM_UpdateTransactionalEmailsQueueable', 'Queueable Execute', '', '', '');
+                Logs.info('SOM_UpdateTransactionalEmailsQueueable', 'SOM_UpdateTransactionalEmailsQueueable', 'Queueable Execute', '', '', '');
             } catch (Exception e) {
-                System.debug('Error updating Transactional Emails: ' + e.getMessage());
-            } 
+                Logs.error(e, 'SOM_UpdateTransactionalEmailsQueueable', 'Queueable Execute', '', '', '');
+            }
         }
     }
 }

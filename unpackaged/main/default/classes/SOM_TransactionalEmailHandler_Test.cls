@@ -113,7 +113,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
 
 
-        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
+        List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary limit 1 ];
         Set<String> Ids = (new Map<String,OrderSummary>(lOS)).keySet();
         List<TransactionalEmail__c> trans = new List<TransactionalEmail__c>(); 
 

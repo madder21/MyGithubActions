@@ -2,53 +2,61 @@ public without sharing class SOM_TransactionalEmailHandler {
     
     @InvocableMethod(label='Generate Transactional Email' description='Generate a Transactional Email record to send an email by SFMC')
     public static void generateTransactionalEmail(List<SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputs){
-        Boolean CheckIsGlobalE = checkIsGlobalE(generateTransactionalEmailInputs[0].recordId);
-        Map<String, Set<String>> inputByTemplateMap = new Map<String, Set<String>>();
-        List<TransactionalEmail__c> transactionalEmailsToPersist = new List<TransactionalEmail__c>();
-        for(SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput:generateTransactionalEmailInputs) {
-            if (inputByTemplateMap.containsKey(generateTransactionalEmailInput.templateName)) {
-                inputByTemplateMap.get(generateTransactionalEmailInput.templateName).add(generateTransactionalEmailInput.recordId);
-                continue;
-            }
-            inputByTemplateMap.put(
-                generateTransactionalEmailInput.templateName, 
-                new Set<String> {generateTransactionalEmailInput.recordId}
-            );
-        }
-        System.debug('map templates :::: ' + inputByTemplateMap);
-        if (!CheckIsGlobalE){
-            for (String templateName:inputByTemplateMap.keySet()) {
-                if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION) {
-                    transactionalEmailsToPersist.addAll(generateShipmentConfirmationTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE) {
-                    transactionalEmailsToPersist.addAll(generateInvoiceTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED) {
-                    transactionalEmailsToPersist.addAll(generateOrderTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED) {
-                    transactionalEmailsToPersist.addAll(generateReturnReceptionTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP) {
-                    transactionalEmailsToPersist.addAll(generateOrderReadyForPickupTransactionalEmails(inputByTemplateMap.get(templateName)));
-                }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED) {
-                    transactionalEmailsToPersist.addAll(generateReturnOrderCreationTransactionalEmails(inputByTemplateMap.get(templateName)));
-                }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION) {
-                    transactionalEmailsToPersist.addAll(generateRefundValidationTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT) {
-                    transactionalEmailsToPersist.addAll(generateRefundWithoutCreditMemoTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED) {
-                    transactionalEmailsToPersist.addAll(generateOrderCanceledTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL) {
-                    transactionalEmailsToPersist.addAll(generateOrderCCAutomaticCancellationTransactionalEmails(inputByTemplateMap.get(templateName)));
-                } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER) {
-        			System.debug('generateOrderCCReminderTransactionalEmails >>>>>>>>>> if 1');
-                    transactionalEmailsToPersist.addAll(generateOrderCCReminderTransactionalEmails(inputByTemplateMap.get(templateName)));
-        			System.debug('generateOrderCCReminderTransactionalEmails >>>>>>>>>>>>>>>if 2');
-                }else {
-                    System.debug('Template name: ' + templateName + ' is not supported.');
+        try{
+            Boolean CheckIsGlobalE = checkIsGlobalE(generateTransactionalEmailInputs[0].recordId);
+            Map<String, Set<String>> inputByTemplateMap = new Map<String, Set<String>>();
+            List<TransactionalEmail__c> transactionalEmailsToPersist = new List<TransactionalEmail__c>();
+            for(SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput:generateTransactionalEmailInputs) {
+                if (inputByTemplateMap.containsKey(generateTransactionalEmailInput.templateName)) {
+                    inputByTemplateMap.get(generateTransactionalEmailInput.templateName).add(generateTransactionalEmailInput.recordId);
+                    continue;
                 }
-                System.debug('transactionalEmailsToPersist :::: ' + transactionalEmailsToPersist);
+                inputByTemplateMap.put(
+                    generateTransactionalEmailInput.templateName, 
+                    new Set<String> {generateTransactionalEmailInput.recordId}
+                );
             }
+            System.debug('map templates :::: ' + inputByTemplateMap);
+            if (!CheckIsGlobalE){
+                for (String templateName:inputByTemplateMap.keySet()) {
+                    if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION) {
+                        transactionalEmailsToPersist.addAll(generateShipmentConfirmationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE) {
+                        transactionalEmailsToPersist.addAll(generateInvoiceTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CREATED) {
+                        transactionalEmailsToPersist.addAll(generateOrderTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_RECEIVED) {
+                        transactionalEmailsToPersist.addAll(generateReturnReceptionTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_READY_FOR_PICKUP) {
+                        transactionalEmailsToPersist.addAll(generateOrderReadyForPickupTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_RETURN_CREATED) {
+                        transactionalEmailsToPersist.addAll(generateReturnOrderCreationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    }else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_CONFIRMATION) {
+                        transactionalEmailsToPersist.addAll(generateRefundValidationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_REFUND_ON_MISSING_PRODUCT) {
+                        transactionalEmailsToPersist.addAll(generateRefundWithoutCreditMemoTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CANCELED) {
+                        transactionalEmailsToPersist.addAll(generateOrderCanceledTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_ORDER_CC_AUTOMATIC_CANCEL) {
+                        transactionalEmailsToPersist.addAll(generateOrderCCAutomaticCancellationTransactionalEmails(inputByTemplateMap.get(templateName)));
+                    } else if (templateName == SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_ORDER_CC_REMINDER) {
+                        System.debug('generateOrderCCReminderTransactionalEmails >>>>>>>>>> if 1');
+                        transactionalEmailsToPersist.addAll(generateOrderCCReminderTransactionalEmails(inputByTemplateMap.get(templateName)));
+                        System.debug('generateOrderCCReminderTransactionalEmails >>>>>>>>>>>>>>>if 2');
+                    }else {
+                        System.debug('Template name: ' + templateName + ' is not supported.');
+                    }
+                    System.debug('transactionalEmailsToPersist :::: ' + transactionalEmailsToPersist);
+                }
+            }
+            if (!transactionalEmailsToPersist.isEmpty()) insert transactionalEmailsToPersist;
+            
+            Logs.debug('Generate Transactional Email','SOM_TransactionalEmailHandler','generateTransactionalEmail','','',generateTransactionalEmailInputs[0].recordId); 
+            Logs.info('Generate Transactional Email','SOM_TransactionalEmailHandler','generateTransactionalEmail','','',generateTransactionalEmailInputs[0].recordId); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateTransactionalEmail','','',generateTransactionalEmailInputs[0].recordId); 
         }
-        if (!transactionalEmailsToPersist.isEmpty()) insert transactionalEmailsToPersist;
+        
     }
     
     /**
@@ -61,6 +69,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         Map<Id, SOM_Additional_Shipment_Details> shipmentDetailsByFOId = new Map<Id, SOM_Additional_Shipment_Details>();
         
         List<TransactionalEmail__c> shipmentTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         Map<Id, Shipment> shipments = new Map<Id, Shipment>([SELECT Id, FulfillmentOrderId, OrderSummaryId,FulfillmentOrder.FulfilledToCountry, FulfillmentOrder.OrderSummary.AccountId,FulfillmentOrder.OrderSummary.Account.PersonEmail,FulfillmentOrder.OrderSummary.BillingEmailAddress , FulfillmentOrder.OrderSummary.OrderNumber, 
                                                              FulfillmentOrder.OrderSummary.SalesChannel.SalesChannelName,FulfillmentOrder.OrderSummary.language__c, ShipToStreet, Carrier__c, ShippingService__c,FulfillmentOrder.OrderSummary.BillingContactFirstName__c,FulfillmentOrder.OrderSummary.BillingContactLastName__c,
                                                              ShipToCity, ShipToPostalCode, ShipToCountry, ShipToState, shipToName, TrackingNumber,FulfillmentOrder.OrderSummary.StreetNumber__c,FulfillmentOrder.OrderSummary.Complementary__c,FulfillmentOrder.OrderSummary.RI_Neighborhood__c,
@@ -124,7 +133,11 @@ public without sharing class SOM_TransactionalEmailHandler {
             //shipmentTransactionalEmail.LanguageSite__c  = shipmentDetailsByFOId.get(fulfillmentOrderId).lang;
             shipmentTransactionalEmailsList.add(shipmentTransactionalEmail);
         }
-        
+            Logs.debug('Generate Shipment Confirmation Transactional Emails','SOM_TransactionalEmailHandler','generateShipmentConfirmationTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Shipment Confirmation Transactional Emails','SOM_TransactionalEmailHandler','generateShipmentConfirmationTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateShipmentConfirmationTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return shipmentTransactionalEmailsList;
     }
     
@@ -135,7 +148,8 @@ public without sharing class SOM_TransactionalEmailHandler {
         Map<String,String> mapInvCI = new Map<String,String>();
         Map<String,String> mapInvCIids = new Map<String,String>();
         Map<String,String> mapBccInvoiceEmail = new Map<String,String>();
-        
+        List<TransactionalEmail__c> invoiceTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         String InvoiceDocumentMulesoftEndpoint = [SELECT MasterLabel, Value__c, Template__c FROM SOM_Invoice_Setting__mdt WHERE Template__c = :'URL'].Value__c;
         
         for(Id recId : recordIds){
@@ -162,7 +176,7 @@ public without sharing class SOM_TransactionalEmailHandler {
             
         } 
         
-        List<TransactionalEmail__c> invoiceTransactionalEmailsList = new List<TransactionalEmail__c>();
+        
         List<FulfillmentOrder> fulfillmentOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, 
                                                     OrderSummary.AccountId, OrderSummary.Account.Salutation,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress , OrderSummary.BillingContactFirstName__c, OrderSummary.BillingContactLastName__c, 
                                                     OrderSummary.BillingCity, OrderSummary.BillingState,OrderSummary.language__c, OrderSummary.BillingCountry, OrderSummary.BillingPostalCode, OrderSummary.BillingStreet, 
@@ -213,7 +227,11 @@ public without sharing class SOM_TransactionalEmailHandler {
             
             invoiceTransactionalEmailsList.add(invoiceTransactionalEmail);
         }
-        
+            Logs.debug('Generate Invoice Transactional Emails','SOM_TransactionalEmailHandler','generateInvoiceTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Invoice Transactional Emails','SOM_TransactionalEmailHandler','generateInvoiceTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateInvoiceTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return invoiceTransactionalEmailsList;
         }
     
@@ -225,6 +243,7 @@ public without sharing class SOM_TransactionalEmailHandler {
 **/
     public static List<TransactionalEmail__c> generateOrderTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,StreetNumber__c,Complementary__c, RI_Neighborhood__c,OrderedDate__c,
@@ -260,7 +279,9 @@ public without sharing class SOM_TransactionalEmailHandler {
             orderTemplateContent.subtotal         = orderSumm.TotalAmount;
             orderTemplateContent.tax              = orderSumm.TotalTaxAmount.setScale(2);
             orderTemplateContent.total            = orderSumm.GrandTotalAmount;
-            orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;            
+            orderTemplateContent.currencyCode     = orderSumm.CurrencyIsoCode;
+            system.debug('Mehdi' + orderSumm.OrderedDate__c);
+            
             /*if(orderSumm.SalesChannel.SalesChannelName == 'CEGID'){
 orderTemplateContent.orderType		  = 'StoreToWeb';
 }else if(orderSumm.SalesChannel.SalesChannelName == 'Rimowa') {
@@ -339,11 +360,17 @@ lineItem.isCC = false;
             }            
             orderTransactionalEmailsList.add(orderTransactionalEmail);
         }
+            Logs.debug('Generate Order Transactional Emails','SOM_TransactionalEmailHandler','generateOrderTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Order Transactional Emails','SOM_TransactionalEmailHandler','generateOrderTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateOrderTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return orderTransactionalEmailsList;
     }
     
     public static List<TransactionalEmail__c> generateReturnReceptionTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<ReturnOrder> returnOrders = [SELECT Id,ReturnOrderNumber,OrderSummaryId, OrderSummary.language__c,OrderSummary.BillingContactFirstName__c,OrderSummary.BillingContactLastName__c,OrderSummary.OrderNumber, OrderSummary.SalesChannel.SalesChannelName, AccountId,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress ,
                                           (SELECT Id,Product2.StockKeepingUnit,Product2.ImageURL__c, Product2.ImageUrl1__c, QuantityReceived, TotalAmount, Description, CurrencyIsoCode 
                                            FROM ReturnOrderLineItems)
@@ -391,12 +418,18 @@ lineItem.isCC = false;
             
             returnTransactionalEmailsList.add(returnTransactionalEmail);
         }
+            Logs.debug('Generate Return Reception Transactional Emails','SOM_TransactionalEmailHandler','generateReturnReceptionTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Return Reception Transactional Emails','SOM_TransactionalEmailHandler','generateReturnReceptionTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateReturnReceptionTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return returnTransactionalEmailsList;
     }
     
     public static List<TransactionalEmail__c> generateOrderReadyForPickupTransactionalEmails(Set<String> recordIds) {
         
         List<TransactionalEmail__c> OrderReadyForPickupTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                                              BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress , tech_os_store_shipping_method__c,
@@ -488,6 +521,11 @@ lineItem.isCC = false;
             
         }
         Update orderSummaries;
+            Logs.debug('Generate Order Ready For Pickup Transactional Emails','SOM_TransactionalEmailHandler','generateOrderReadyForPickupTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Order Ready For Pickup Transactional Emails','SOM_TransactionalEmailHandler','generateOrderReadyForPickupTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateOrderReadyForPickupTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return OrderReadyForPickupTransactionalEmailsList;
         
     }
@@ -495,6 +533,7 @@ lineItem.isCC = false;
 	public static List<TransactionalEmail__c> generateOrderCCAutomaticCancellationTransactionalEmails(Set<String> recordIds) {
         
         List<TransactionalEmail__c> OrderCCAutomaticCancellationTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                                              BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress , tech_os_store_shipping_method__c,
@@ -575,6 +614,11 @@ lineItem.isCC = false;
             OrderCCAutomaticCancellationTransactionalEmailsList.add(CCAutomaticCancellationTransactionalEmail);
             
         }
+            Logs.debug('Generate Order CC Automatic Cancellation Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCCAutomaticCancellationTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Order CC Automatic Cancellation Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCCAutomaticCancellationTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateOrderCCAutomaticCancellationTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return OrderCCAutomaticCancellationTransactionalEmailsList;
         
     }
@@ -582,6 +626,7 @@ lineItem.isCC = false;
 	public static List<TransactionalEmail__c> generateOrderCCReminderTransactionalEmails(Set<String> recordIds) {
         
         List<TransactionalEmail__c> OrderCCAutomaticCancellationTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<OrderSummary> orderSummaries = [SELECT Id, language__c, OrderNumber, OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingStreet, BillingPostalCode, 
                                              BillingCity, BillingCountry, AccountId,Account.PersonEmail,BillingEmailAddress , tech_os_store_shipping_method__c,
@@ -656,12 +701,18 @@ lineItem.isCC = false;
             
         }
         Update orderSummaries;
+            Logs.debug('Generate Order CC Reminder Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCCReminderTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Order CC Reminder Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCCReminderTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateOrderCCReminderTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return OrderCCAutomaticCancellationTransactionalEmailsList;
         
     }
     
     public static List<TransactionalEmail__c> generateReturnOrderCreationTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> returnTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<ReturnOrder> returnOrders = [SELECT Id, OrderSummary.OrderNumber, OrderSummary.language__c, OrderSummary.SalesChannel.SalesChannelName,OrderSummary.BillingContactLastName__c,OrderSummary.BillingContactFirstName__c,
                                           OrderSummaryId,AccountId,OrderSummary.Account.PersonEmail,OrderSummary.BillingEmailAddress  FROM ReturnOrder WHERE Id IN :recordIds];
         
@@ -692,6 +743,11 @@ lineItem.isCC = false;
             
             returnTransactionalEmailsList.add(returnCreationTransactionalEmail);
         }
+            Logs.debug('Generate Return Order Creation Transactional Emails','SOM_TransactionalEmailHandler','generateReturnOrderCreationTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Return Order Creation Transactional Emails','SOM_TransactionalEmailHandler','generateReturnOrderCreationTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateReturnOrderCreationTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return returnTransactionalEmailsList;
     }
     
@@ -701,7 +757,7 @@ lineItem.isCC = false;
         Set<Id> CreditMemoIds                                                                               = new Set<Id>();
         Map<Id, OrderSummary> orderSummariesById  = new Map<Id, OrderSummary>();
         
-        
+        try{
         List<CreditMemo> creditMemos = [SELECT Id, Refund__c, Refund__r.CurrencyIsoCode, Refund__r.Amount,CreditDate, CreditMemoNumber, ReferenceEntityId, CurrencyIsoCode, 
                                         (SELECT Id, TaxRate, RelatedLine.RelatedLine.ReferenceEntityItemId, RelatedLine.RelatedLine.Product2.ImageURL__c , RelatedLine.RelatedLine.Product2.ImageUrl1__c, RelatedLine.RelatedLine.Product2.Name, 
                                          RelatedLine.RelatedLine.CurrencyIsoCode, RelatedLine.AdjustmentAmountWithTax, RelatedLine.AdjustmentTaxAmount, RelatedLine.AdjustmentAmount,
@@ -819,6 +875,11 @@ lineItem.taxRate = item.TaxRate__c;
             
             refundValidationTransactionalEmailsList.add(refundValidationTransactionalEmail);
         }
+            Logs.debug('Generate Refund Validation Transactional Emails','SOM_TransactionalEmailHandler','generateRefundValidationTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Refund Validation Transactional Emails','SOM_TransactionalEmailHandler','generateRefundValidationTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateRefundValidationTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return refundValidationTransactionalEmailsList;
     }
     
@@ -827,6 +888,7 @@ lineItem.taxRate = item.TaxRate__c;
         List<TransactionalEmail__c> transactionalEmails = new List<TransactionalEmail__c>();
         List<Refund> refunds = [SELECT ID, Amount, 	ValidationDate__c, CurrencyIsoCode, OrderPaymentSummary.OrderSummaryId FROM Refund WHERE Id IN :recordIds];
         List<Id> orderSummaryIds = new List<Id>();
+        try{
         for (Refund refund:refunds) {
             orderSummaryIds.add(refund.OrderPaymentSummary.OrderSummaryId);
         }
@@ -889,7 +951,11 @@ lineItem.taxRate = item.TaxRate__c;
             
             transactionalEmails.add(refundWithoutCreditEmail);
         }
-        
+            Logs.debug('Generate Refund Without CreditMemo Transactional Emails','SOM_TransactionalEmailHandler','generateRefundWithoutCreditMemoTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Refund Without CreditMemo Transactional Emails','SOM_TransactionalEmailHandler','generateRefundWithoutCreditMemoTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateRefundWithoutCreditMemoTransactionalEmails','','',string.valueof(recordIds)); 
+        }
         return transactionalEmails;
     } 
     
@@ -902,6 +968,7 @@ lineItem.taxRate = item.TaxRate__c;
 **/
     public static List<TransactionalEmail__c> generateOrderCanceledTransactionalEmails(Set<String> recordIds) {
         List<TransactionalEmail__c> orderTransactionalEmailsList = new List<TransactionalEmail__c>();
+        try{
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, OriginalOrder.GrandTotalAmount,OriginalOrder.TotalTaxAmount,OriginalOrder.TotalAmount,
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,
@@ -962,6 +1029,11 @@ lineItem.taxRate = item.TaxRate__c;
             }          
             
             orderTransactionalEmailsList.add(orderTransactionalEmail);
+        }
+            Logs.debug('Generate Order Cancellation  Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCanceledTransactionalEmails','','',string.valueof(recordIds)); 
+            Logs.info('Generate Order Cancellation  CreditMemo Transactional Emails','SOM_TransactionalEmailHandler','generateOrderCanceledTransactionalEmails','','',string.valueof(recordIds)); 
+        }catch(Exception exp){ 
+            Logs.error(exp,'SOM_TransactionalEmailHandler','generateOrderCanceledTransactionalEmails','','',string.valueof(recordIds)); 
         }
         return orderTransactionalEmailsList;
     }
