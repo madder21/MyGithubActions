@@ -123,7 +123,7 @@
                         <valueListItems>
                             <value>OrderSummary.Return_Items</value>
                             <visibilityRule>
-                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 ) AND (6 OR ( 7 AND 8 ))</booleanFilter>
+                                <booleanFilter>(1 AND 2 AND 3 AND 4 AND 5 AND 9 ) AND (6 OR ( 7 AND 8 ))</booleanFilter>
                                 <criteria>
                                     <leftValue>{!Record.OrderLifeCycleType}</leftValue>
                                     <operator>NE</operator>
@@ -163,6 +163,11 @@
                                     <leftValue>{!$Permission.CustomPermission.PS_CSC_Cancel}</leftValue>
                                     <operator>EQUAL</operator>
                                     <rightValue>false</rightValue>
+                                </criteria>
+                                <criteria>
+                                    <leftValue>{!Record.Status}</leftValue>
+                                    <operator>EQUAL</operator>
+                                    <rightValue>Fulfilled</rightValue>
                                 </criteria>
                             </visibilityRule>
                         </valueListItems>
