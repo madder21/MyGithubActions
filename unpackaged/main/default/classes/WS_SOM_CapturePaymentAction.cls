@@ -113,6 +113,8 @@ global with sharing class WS_SOM_CapturePaymentAction {
                             httpRequest.setHeader('Content-Type', 'application/json;charset=UTF-8');
                             httpRequest.setBody(requestAsString);
                             HttpResponse httpResponse = http.send(httpRequest);
+                            Logs.debug('Capture Payment Action', 'WS_SOM_CapturePaymentAction', 'capturePayment','','',string.valueof(fulfillmentOrderIds));
+                            Logs.info('Capture Payment Action', 'WS_SOM_CapturePaymentAction', 'capturePayment','','',string.valueof(fulfillmentOrderIds));            
                             if (httpResponse.getStatusCode() == 200) {
                                 //Read http response
                                 Map<String, Object> httpResponseMap = (Map<String, Object>)JSON.deserializeUntyped(httpResponse.getBody());
@@ -122,6 +124,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
                                 response.reconciliationId        = httpResponseMap.get('reconciliationId') != null ? String.valueOf(httpResponseMap.get('reconciliationId')) : null;
                                 response.authorizationCode       = httpResponseMap.get('authorizationCode') != null ? String.valueOf(httpResponseMap.get('authorizationCode')) : null;
                                 response.amount                  = totalAmount;
+                                System.debug('response.amount : ' + totalAmount );
                                 response.isSucces                = true;
                                 response.errorMessage            = httpResponseMap.get('errorDescription') != null ? String.valueOf(httpResponseMap.get('errorDescription')) : null;
                                 response.fulfillmentOrderId      = request.fulfillmetOrderId;
@@ -144,6 +147,7 @@ global with sharing class WS_SOM_CapturePaymentAction {
                     response.isSucces             = false;
                     response.errorMessage         = e.getMessage(); 
                     response.fulfillmentOrderId   = request.fulfillmetOrderId; 
+            		Logs.error(e, 'Capture Payment Action', 'WS_SOM_CapturePaymentAction', '','',string.valueof(fulfillmentOrderIds));
                 }
                 responseWrapper.add(response);
             }
