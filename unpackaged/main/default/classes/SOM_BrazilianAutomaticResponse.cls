@@ -23,5 +23,6 @@ global class SOM_BrazilianAutomaticResponse {
         public String   ddd;
         @AuraEnabled @InvocableVariable
         public String   siafi;
-
+		@AuraEnabled @InvocableVariable
+        public String   erro;
 }

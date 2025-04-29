@@ -4,7 +4,7 @@
     <assignments>
         <name>Add_1_PE</name>
         <label>Add + 1 PE</label>
-        <locationX>1797</locationX>
+        <locationX>2049</locationX>
         <locationY>256</locationY>
         <assignmentItems>
             <assignToReference>Current_OSLI.Unresolved_PEs__c</assignToReference>
@@ -20,7 +20,7 @@
     <assignments>
         <name>Add_Count_1</name>
         <label>Add Count +1</label>
-        <locationX>1026</locationX>
+        <locationX>1278</locationX>
         <locationY>50</locationY>
         <assignmentItems>
             <assignToReference>V01_Count_PE</assignToReference>
@@ -36,7 +36,7 @@
     <assignments>
         <name>assign_number_of_PE_to_unresolved_PE</name>
         <label>assign number of PE to unresolved PE</label>
-        <locationX>1872</locationX>
+        <locationX>2124</locationX>
         <locationY>877</locationY>
         <assignmentItems>
             <assignToReference>counter_PE</assignToReference>
@@ -52,8 +52,8 @@
     <assignments>
         <name>Assign_Tech_Brazil_Value</name>
         <label>Assign Tech Brazil Value</label>
-        <locationX>20</locationX>
-        <locationY>602</locationY>
+        <locationX>472</locationX>
+        <locationY>661</locationY>
         <assignmentItems>
             <assignToReference>Tech_OSAddressValidation_Brazil</assignToReference>
             <operator>Assign</operator>
@@ -68,7 +68,7 @@
     <assignments>
         <name>Substract_1_PE</name>
         <label>Substract -1 PE</label>
-        <locationX>2121</locationX>
+        <locationX>2373</locationX>
         <locationY>779</locationY>
         <assignmentItems>
             <assignToReference>Current_OSLI.Unresolved_PEs__c</assignToReference>
@@ -84,15 +84,15 @@
     <decisions>
         <name>Check_PE_for_AddressValidation</name>
         <label>Check PE for AddressValidation</label>
-        <locationX>11</locationX>
-        <locationY>457</locationY>
+        <locationX>50</locationX>
+        <locationY>654</locationY>
         <defaultConnector>
             <targetReference>Loop_Over_Address_PE</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>false</name>
-            <conditionLogic>1 AND 4 AND (2 OR 3)</conditionLogic>
+            <conditionLogic>1 AND 4 AND NOT ( 5 ) AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>Loop_Over_Address_PE.Category</leftValueReference>
                 <operator>EqualTo</operator>
@@ -121,17 +121,67 @@
                     <stringValue>New</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Description</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>The postal code is not recognized.</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Tech_Brazil_Value</targetReference>
             </connector>
             <label>false</label>
         </rules>
+        <rules>
+            <name>true</name>
+            <conditionLogic>1 AND 4 AND 5  AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Category</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Address Validation Brazil</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Message</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Billing Address : INVALID ADDRESS</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>New</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Loop_Over_Address_PE.Description</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>The postal code is not recognized.</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_ISOCode</targetReference>
+            </connector>
+            <label>true</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Check_Related_PE</name>
         <label>Check Related PE</label>
-        <locationX>378</locationX>
-        <locationY>514</locationY>
+        <locationX>630</locationX>
+        <locationY>513</locationY>
         <defaultConnector>
             <targetReference>Update_OS_TechOS_AddressValidation</targetReference>
         </defaultConnector>
@@ -155,7 +205,7 @@
     <decisions>
         <name>Is_New</name>
         <label>Is New ?</label>
-        <locationX>1472</locationX>
+        <locationX>1724</locationX>
         <locationY>426</locationY>
         <defaultConnector>
             <targetReference>Status_has_changed</targetReference>
@@ -180,7 +230,7 @@
     <decisions>
         <name>New_PE_Type_Fulfillment_Exist</name>
         <label>New PE Type Fulfillment Exist?</label>
-        <locationX>1019</locationX>
+        <locationX>1271</locationX>
         <locationY>432</locationY>
         <defaultConnector>
             <targetReference>Update_tech_PE_Fulfillment_Count_c_in_OS</targetReference>
@@ -206,7 +256,7 @@
         <description>Order Summary Line Item</description>
         <name>Related_to_OSLI</name>
         <label>Related to OSLI ?</label>
-        <locationX>765</locationX>
+        <locationX>1017</locationX>
         <locationY>641</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -228,7 +278,7 @@
     <decisions>
         <name>Resolved_or_not</name>
         <label>Resolved or not ?</label>
-        <locationX>1472</locationX>
+        <locationX>1724</locationX>
         <locationY>259</locationY>
         <defaultConnectorLabel>Resolved</defaultConnectorLabel>
         <rules>
@@ -250,7 +300,7 @@
     <decisions>
         <name>Status_has_changed</name>
         <label>Status has changed</label>
-        <locationX>1469</locationX>
+        <locationX>1721</locationX>
         <locationY>655</locationY>
         <defaultConnectorLabel>Other</defaultConnectorLabel>
         <rules>
@@ -301,7 +351,7 @@
     <decisions>
         <name>Update_ISOCode</name>
         <label>Update ISOCode</label>
-        <locationX>362</locationX>
+        <locationX>614</locationX>
         <locationY>822</locationY>
         <defaultConnector>
             <targetReference>Related_to_OSLI</targetReference>
@@ -346,7 +396,7 @@
     <loops>
         <name>L10_Process_Exceptions_Results</name>
         <label>L10 Process Exceptions Results</label>
-        <locationX>1027</locationX>
+        <locationX>1279</locationX>
         <locationY>231</locationY>
         <collectionReference>Get_Process_Exceptions_Fulfillment_per_OS</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -360,7 +410,7 @@
     <loops>
         <name>Loop_Over_Address_PE</name>
         <label>Loop Over Address PE</label>
-        <locationX>227</locationX>
+        <locationX>479</locationX>
         <locationY>470</locationY>
         <collectionReference>Get_PE_CheckAddress</collectionReference>
         <iterationOrder>Asc</iterationOrder>
@@ -393,7 +443,7 @@
     <recordLookups>
         <name>Get_OrderSummary</name>
         <label>Get OrderSummary</label>
-        <locationX>645</locationX>
+        <locationX>897</locationX>
         <locationY>824</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -414,7 +464,7 @@
     <recordLookups>
         <name>Get_OSLI</name>
         <label>Get OSLI</label>
-        <locationX>768</locationX>
+        <locationX>1020</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -439,8 +489,8 @@
     <recordLookups>
         <name>Get_PE_CheckAddress</name>
         <label>Get PE CheckAddress</label>
-        <locationX>536</locationX>
-        <locationY>422</locationY>
+        <locationX>788</locationX>
+        <locationY>421</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_Related_PE</targetReference>
@@ -481,7 +531,7 @@
     <recordLookups>
         <name>get_PE_resolved</name>
         <label>get PE resolved</label>
-        <locationX>1627</locationX>
+        <locationX>1879</locationX>
         <locationY>822</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -517,7 +567,7 @@
     <recordLookups>
         <name>Get_Process_Exceptions_Fulfillment_per_OS</name>
         <label>Get Process Exceptions (Fulfillment) per OS</label>
-        <locationX>883</locationX>
+        <locationX>1135</locationX>
         <locationY>430</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -552,7 +602,7 @@
     <recordUpdates>
         <name>Update_Currency_Iso_Code</name>
         <label>Update Currency Iso Code</label>
-        <locationX>785</locationX>
+        <locationX>1037</locationX>
         <locationY>819</locationY>
         <connector>
             <targetReference>Related_to_OSLI</targetReference>
@@ -568,7 +618,7 @@
     <recordUpdates>
         <name>Update_OS_TechOS_AddressValidation</name>
         <label>Update OS TechOS_AddressValidation</label>
-        <locationX>373</locationX>
+        <locationX>625</locationX>
         <locationY>668</locationY>
         <connector>
             <targetReference>Update_ISOCode</targetReference>
@@ -592,14 +642,14 @@
     <recordUpdates>
         <name>Update_OSLI</name>
         <label>Update OSLI</label>
-        <locationX>2121</locationX>
+        <locationX>2373</locationX>
         <locationY>257</locationY>
         <inputReference>Current_OSLI</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_tech_PE_Fulfillment_Count_c_in_OS</name>
         <label>Update tech_PE_Fulfillment_Count__c in OS</label>
-        <locationX>1287</locationX>
+        <locationX>1539</locationX>
         <locationY>424</locationY>
         <connector>
             <targetReference>Is_New</targetReference>
@@ -621,7 +671,7 @@
         <object>OrderSummary</object>
     </recordUpdates>
     <start>
-        <locationX>410</locationX>
+        <locationX>662</locationX>
         <locationY>136</locationY>
         <connector>
             <targetReference>Get_PE_CheckAddress</targetReference>

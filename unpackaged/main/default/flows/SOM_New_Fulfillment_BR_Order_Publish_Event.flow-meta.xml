@@ -98,6 +98,13 @@
                 <elementReference>Loop_Over_Filtered_ODGS.uf</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>erro_ODGS</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.erro</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Loop_Over_Filtered_ODGS</targetReference>
         </connector>
@@ -147,6 +154,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Loop_Over_Filtered_OS.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>erro_OS</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.erro</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1004,6 +1018,18 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             </value>
         </inputAssignments>
         <inputAssignments>
+            <name>erro_ODGS</name>
+            <value>
+                <elementReference>erro_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>erro_OS</name>
+            <value>
+                <elementReference>erro_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <name>localidade_ODGS</name>
             <value>
                 <elementReference>localidade_ODGS</elementReference>
@@ -1069,6 +1095,12 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             <name>cep_OS</name>
             <value>
                 <elementReference>cep_OS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>erro_OS</name>
+            <value>
+                <elementReference>erro_OS</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -1149,6 +1181,12 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
             <name>uf_ODGS</name>
             <value>
                 <elementReference>uf_ODGS</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>erro_ODGS</name>
+            <value>
+                <elementReference>erro_ODGS</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1265,6 +1303,20 @@ SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUB
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>erro_ODGS</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>erro_OS</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>ErrorOutput_ODGS</name>

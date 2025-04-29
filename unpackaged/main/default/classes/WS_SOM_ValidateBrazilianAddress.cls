@@ -40,6 +40,7 @@ global with sharing class WS_SOM_ValidateBrazilianAddress {
                 response.gia                = String.valueOf(httpResponseMap.get('gia'));
                 response.ddd      = String.valueOf(httpResponseMap.get('ddd'));
                 response.siafi                	  = String.valueOf(httpResponseMap.get('siafi'));
+                response.erro                	  = String.valueOf(httpResponseMap.get('erro'));
                 response.Identifier                	  = Req.Identifier;
             }
             result = httpResponse.getBody();
