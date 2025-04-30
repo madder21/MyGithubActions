@@ -70,7 +70,8 @@ public with sharing class SOM_InvoiceManagement {
             } 
         
         } catch (Exception e) {
-            Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);   
+  System.debug('SOM_InvoiceManagement ' + e.getMessage());
+            //Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);   
         } 
     }   
 }
