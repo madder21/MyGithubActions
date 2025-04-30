@@ -56,7 +56,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         '"billingCity" : "Binghamton"\n'+
         '}';
     public static void testSetup(){        
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,3);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         os = los[0];
         FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
