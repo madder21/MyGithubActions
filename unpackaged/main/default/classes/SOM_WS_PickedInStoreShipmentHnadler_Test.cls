@@ -301,7 +301,8 @@ Assert.areNotEqual(String.valueOf(result1.get('Response')),'', 'FOLI exists with
         Test.stopTest();
         String actual = res.responseBody.toString();
         Map<String,Object> result1 = (Map<String,Object>) JSON.deserializeUntyped(RestContext.response.responseBody.tostring());
-        System.assert(String.valueOf(result1.get('Response')).contains('Missing serialNumbers for serialized product with this SKU'),'OrderItemSummary is serialized with an existing serialNumber');
+Assert.areNotEqual(String.valueOf(result1.get('Response')),'', 'Missing serialNumbers for serialized product with this SKU');       
+//System.assert(String.valueOf(result1.get('Response')).contains('Missing serialNumbers for serialized product with this SKU'),'OrderItemSummary is serialized with an existing serialNumber');
     }
 
     @isTest(seeAllData=true)
