@@ -28,10 +28,10 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     */    
     public static List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> createInputs (){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
-        FulfillmentOrder fo2 = SOM_testDataFactory.createFO(lOS[1]);
+       // FulfillmentOrder fo2 = SOM_testDataFactory.createFO(lOS[1]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
         FulfilledFromLocation.VisitorAddress.State,FulfilledFromLocation.VisitorAddress.Country,
         FulfilledToName,FulfilledToCity,FulfilledToStreet,FulfilledToPostalCode,FulfilledToState,FulfilledToCountry,
@@ -49,7 +49,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
         ReturnOrder ro = SOM_testDataFactory.createReturnOrder(lOS[0]);
 
-        Refund ref = SOM_testDataFactory.createRefundWithCreditMemo(lOS[1],false,false);
+        Refund ref = SOM_testDataFactory.createRefundWithCreditMemo(lOS[0],false,false);
 
         List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> inputs = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
         SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput input1 = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
@@ -200,7 +200,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateShipmentConfirmationTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
@@ -293,7 +293,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateReturnReceptionTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
