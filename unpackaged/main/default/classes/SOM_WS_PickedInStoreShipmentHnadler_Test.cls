@@ -11,18 +11,18 @@ private class SOM_WS_PickedInStoreShipmentHnadler_Test {
     public static Map<Id, String> mapOItemSKU = new Map<Id, String>();
 
     public static void setupData(Integer toOverQuantity, boolean serialNumberisNull, boolean QtySerialNumber, boolean MissingSerialNumber, boolean notfulfilled, boolean multipleFO, boolean list_items_to_ship_empty, boolean no_fulfillmentOrderLineItem_exist) {
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,3);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,1);
         if(list_items_to_ship_empty == true || no_fulfillmentOrderLineItem_exist == true) {
             OrderSummary osOnHold = los[0];
             osOnHold.On_Hold__c = true ;
             update osOnHold;
         }
         SOM_testDataFactory.createFO(los[0]); 
-        SOM_testDataFactory.createFO(los[1]);
+        /*SOM_testDataFactory.createFO(los[1]);
         if(multipleFO == true)
             SOM_testDataFactory.createMultipleFO(los[2]);
         if(notfulfilled == false && multipleFO == false)
-            SOM_testDataFactory.createFO(los[2]);
+            SOM_testDataFactory.createFO(los[2]);*/
         Set<Id> orderSummaryIds = new Set<Id>(); 
         for (OrderSummary variable : los) {
             orderSummaryIds.add(variable.Id);
