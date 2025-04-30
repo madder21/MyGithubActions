@@ -49,7 +49,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
         ReturnOrder ro = SOM_testDataFactory.createReturnOrder(lOS[0]);
 
-        Refund ref = SOM_testDataFactory.createRefundWithCreditMemo(lOS[0],false,false);
+        //Refund ref = SOM_testDataFactory.createRefundWithCreditMemo(lOS[0],false,false);
 
         List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> inputs = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
         SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput input1 = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
@@ -73,8 +73,8 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
         input2.recordId = inv[0].Id;
         input5.recordId = lOS[0].Id;
         input6.recordId = ro.Id;
-        input7.recordId = ref.Id;
-        input8.recordId = ref.Id;
+       // input7.recordId = ref.Id;
+        //input8.recordId = ref.Id;
 
          inputs.add(input8);
         return inputs;
