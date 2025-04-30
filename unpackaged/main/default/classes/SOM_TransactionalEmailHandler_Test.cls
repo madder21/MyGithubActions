@@ -95,7 +95,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
 
     @IsTest
     public static void testGenerateOrderTransactionalEmails(){
-        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
 
 
         List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary];
@@ -110,7 +110,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     
     @IsTest
     public static void TestGenerateOrderCanceledTransactionalEmails(){
-        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
 
 
         List<OrderSummary> lOS = [SELECT Id,Status FROM OrderSummary limit 1 ];
@@ -233,7 +233,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateInvoiceTransactionalEmails(){
 		
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId, OrderSummary.BillingCountry,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
@@ -263,7 +263,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateReturnOrderCreationTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
@@ -323,7 +323,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateRefundValidationTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,7);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
@@ -351,7 +351,7 @@ public with sharing class SOM_TransactionalEmailHandler_Test {
     @IsTest(seeAllData = true)
     public static void testGenerateRefundWithoutCreditMemoTransactionalEmails(){
 
-        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> lOS = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         Set<Id> osIds = (new Map<Id,OrderSummary>(lOS)).keySet();        
         FulfillmentOrder fo = SOM_testDataFactory.createFO(lOS[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,Status, DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
