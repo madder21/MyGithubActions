@@ -888,6 +888,18 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CaseServices</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CaseTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CaseTriggerHandler_Test</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ClientBookingTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -3878,6 +3890,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Case.Technical_Closed_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Case.ToShareWithDUE__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -11808,6 +11825,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>FeedItem-Feed Item Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>FieldFormulaConfig__mdt-FieldFormulaConfig Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>FlowOrchestrationInstance-Orchestration Run Layout</layout>

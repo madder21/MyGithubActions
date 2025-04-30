@@ -4,8 +4,8 @@
     <decisions>
         <name>HasTheAccountChanged</name>
         <label>Has The Account Changed ?</label>
-        <locationX>644</locationX>
-        <locationY>1031</locationY>
+        <locationX>1150</locationX>
+        <locationY>1139</locationY>
         <defaultConnectorLabel>❌ Account Not Changed</defaultConnectorLabel>
         <rules>
             <name>AccountHasChanged</name>
@@ -33,12 +33,9 @@
     <decisions>
         <name>HasTheOwnerChanged</name>
         <label>Has The Owner Changed ?</label>
-        <locationX>347</locationX>
-        <locationY>623</locationY>
-        <defaultConnector>
-            <targetReference>Is_Case_External_Id_null_1</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>❌ Owner Not Changed</defaultConnectorLabel>
+        <locationX>831</locationX>
+        <locationY>731</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
         <rules>
             <name>OwnerHasChanged</name>
             <conditionLogic>and</conditionLogic>
@@ -49,20 +46,46 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>005</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Is_the_owner_changed_to_a_Queue</targetReference>
             </connector>
             <label>✅ Owner has changed</label>
         </rules>
+        <rules>
+            <name>Owner_Not_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>005</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_Case_External_Id_null_1</targetReference>
+            </connector>
+            <label>❌ Owner Not Changed</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Is_Case_External_Id_null</name>
         <label>Is Case External Id null?</label>
-        <locationX>204</locationX>
-        <locationY>947</locationY>
-        <defaultConnector>
-            <targetReference>CaseMassUpdateAsSpam</targetReference>
-        </defaultConnector>
+        <locationX>446</locationX>
+        <locationY>1439</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes_Case_External_Id_is_null</name>
@@ -83,8 +106,8 @@
     <decisions>
         <name>Is_Case_External_Id_null_1</name>
         <label>Is Case External Id null?</label>
-        <locationX>644</locationX>
-        <locationY>731</locationY>
+        <locationX>1150</locationX>
+        <locationY>839</locationY>
         <defaultConnector>
             <targetReference>HasTheAccountChanged</targetReference>
         </defaultConnector>
@@ -108,8 +131,8 @@
     <decisions>
         <name>Is_Case_related_to_an_Account</name>
         <label>Is Case related to an Account?</label>
-        <locationX>347</locationX>
-        <locationY>323</locationY>
+        <locationX>831</locationX>
+        <locationY>431</locationY>
         <defaultConnector>
             <targetReference>HasTheOwnerChanged</targetReference>
         </defaultConnector>
@@ -145,12 +168,77 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Is_the_owner_changed_to_a_Queue</name>
-        <label>Is the owner changed to a Queue</label>
-        <locationX>50</locationX>
-        <locationY>731</locationY>
+        <name>Is_owner_updated_via_Make_me_owner</name>
+        <label>Is owner updated via &quot;Make me owner&quot; ?</label>
+        <locationX>446</locationX>
+        <locationY>947</locationY>
+        <defaultConnector>
+            <targetReference>Is_Case_External_Id_null</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_the_user_assigned_the_case_by_clicking_on_make_me_owner</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>UserId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Hub_Handle_to_case_Satus</targetReference>
+            </connector>
+            <label>Yes the user assigned the case by clicking on make me owner</label>
+        </rules>
+        <rules>
+            <name>Owner_is_updating_by_the_button_change_owner</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>UserId</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_the_new_owner_the_same_hub</targetReference>
+            </connector>
+            <label>Owner is updating by the button change owner</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_new_owner_the_same_hub</name>
+        <label>Is the new owner the same hub ?</label>
+        <locationX>446</locationX>
+        <locationY>1055</locationY>
         <defaultConnector>
             <targetReference>Set_Hub_Handle_to_case</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_the_same_Hub</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.Hub__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Owner:User.Hub__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Hub_Handle_Status_to_case</targetReference>
+            </connector>
+            <label>Not the same Hub</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_owner_changed_to_a_Queue</name>
+        <label>Is the owner changed to a Queue</label>
+        <locationX>116</locationX>
+        <locationY>839</locationY>
+        <defaultConnector>
+            <targetReference>Is_owner_updated_via_Make_me_owner</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -163,14 +251,37 @@
                     <stringValue>00G</stringValue>
                 </rightValue>
             </conditions>
-            <connector>
-                <targetReference>CaseMassUpdateAsSpam</targetReference>
-            </connector>
             <label>Yes Owner is Queue</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>1320</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_Case_related_to_an_Account</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
     <description>V15 - Ulrich update</description>
-    <environments>Default</environments>
+    <formulas>
+        <name>UserId</name>
+        <dataType>String</dataType>
+        <expression>CASESAFEID({!$User.Id})</expression>
+    </formulas>
     <interviewLabel>SFSC - Trigger Flow on Update {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SFSC - Record Trigger - AFTER Update - Case Trigger Flow</label>
     <processMetadataValues>
@@ -193,10 +304,32 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordUpdates>
+        <name>Set_Hub_Handle_Status_to_case</name>
+        <label>Set Hub Handle &amp; Status to case</label>
+        <locationX>314</locationX>
+        <locationY>1163</locationY>
+        <connector>
+            <targetReference>Is_Case_External_Id_null</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>HUB_Handle__c</field>
+            <value>
+                <elementReference>$Record.Owner:User.Hub__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Set_Hub_Handle_to_case</name>
         <label>Set Hub Handle to case</label>
-        <locationX>204</locationX>
-        <locationY>839</locationY>
+        <locationX>578</locationX>
+        <locationY>1163</locationY>
         <connector>
             <targetReference>Is_Case_External_Id_null</targetReference>
         </connector>
@@ -208,11 +341,33 @@
         </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
+    <recordUpdates>
+        <name>Set_Hub_Handle_to_case_Satus</name>
+        <label>Set Hub Handle to case &amp; Satus</label>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
+        <connector>
+            <targetReference>Is_Case_External_Id_null</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>HUB_Handle__c</field>
+            <value>
+                <elementReference>$Record.Owner:User.Hub__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Working</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
     <start>
-        <locationX>221</locationX>
+        <locationX>1194</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Is_Case_related_to_an_Account</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
         <object>Case</object>
         <recordTriggerType>Update</recordTriggerType>
@@ -222,11 +377,8 @@
     <subflows>
         <name>Case_Hub_Regional_Hub_Created_Date_CSC</name>
         <label>Case Hub, Regional Hub &amp; Created Date CSC</label>
-        <locationX>72</locationX>
-        <locationY>1055</locationY>
-        <connector>
-            <targetReference>CaseMassUpdateAsSpam</targetReference>
-        </connector>
+        <locationX>314</locationX>
+        <locationY>1547</locationY>
         <flowName>SFSC_Subflow_Assign_Case_Hub_Regional_Hub_and_Created_Date_CSC</flowName>
         <inputAssignments>
             <name>Case</name>
@@ -238,8 +390,8 @@
     <subflows>
         <name>Case_Set_Entitlement</name>
         <label>Case Set Entitlement</label>
-        <locationX>512</locationX>
-        <locationY>1139</locationY>
+        <locationX>1018</locationX>
+        <locationY>1247</locationY>
         <flowName>SFSC_Subflow_Case_Set_Entitlement</flowName>
         <inputAssignments>
             <name>varCaseId</name>
@@ -249,23 +401,10 @@
         </inputAssignments>
     </subflows>
     <subflows>
-        <name>CaseMassUpdateAsSpam</name>
-        <label>Case Mass Update As SPAM</label>
-        <locationX>50</locationX>
-        <locationY>1331</locationY>
-        <flowName>SFSC_Subflow_Case_Mass_Update_as_Spam</flowName>
-        <inputAssignments>
-            <name>varCaseId</name>
-            <value>
-                <elementReference>$Record</elementReference>
-            </value>
-        </inputAssignments>
-    </subflows>
-    <subflows>
         <name>Copy_1_of_Case_Hub_Regional_Hub_Created_Date_CSC</name>
         <label>Copy 1 of Case Hub, Regional Hub &amp; Created Date CSC</label>
-        <locationX>512</locationX>
-        <locationY>839</locationY>
+        <locationX>1018</locationX>
+        <locationY>947</locationY>
         <connector>
             <targetReference>HasTheAccountChanged</targetReference>
         </connector>
@@ -280,8 +419,8 @@
     <subflows>
         <name>Link_Case_to_an_existing_account</name>
         <label>Link Case to an existing account</label>
-        <locationX>215</locationX>
-        <locationY>431</locationY>
+        <locationX>699</locationX>
+        <locationY>539</locationY>
         <connector>
             <targetReference>HasTheOwnerChanged</targetReference>
         </connector>
@@ -293,4 +432,14 @@
             </value>
         </inputAssignments>
     </subflows>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
 </Flow>

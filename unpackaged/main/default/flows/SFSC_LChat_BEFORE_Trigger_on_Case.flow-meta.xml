@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>63.0</apiVersion>
-    <description>Add description</description>
+    <description>Add description
+01/04: Update Case Trigger Type (created, updated =&gt; to created)</description>
     <interviewLabel>SFSC - LChat - BEFORE Trigger on Case {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SFSC - LChat - BEFORE Trigger on Case</label>
     <processMetadataValues>
@@ -57,7 +58,7 @@
             </value>
         </filters>
         <object>Case</object>
-        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <recordTriggerType>Create</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
     <status>Active</status>

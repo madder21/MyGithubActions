@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>58.0</apiVersion>
-    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
     <decisions>
         <name>Copy_1_of_Is_it_a_Person_Account</name>
         <label>Is it a Person Account?</label>
         <locationX>974</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Copy_1_of_Yes</name>
@@ -28,7 +27,7 @@
         <name>Is_it_a_Person_Account</name>
         <label>Is it a Person Account?</label>
         <locationX>182</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -47,10 +46,32 @@
         </rules>
     </decisions>
     <decisions>
+        <name>VerifyBypassFlowStatus</name>
+        <label>Verify Bypass Flow Status</label>
+        <locationX>1205</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Bypass Flow Enabled</defaultConnectorLabel>
+        <rules>
+            <name>BypassFlowNotEnabled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>HasCaseFlowsBypass</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Which</targetReference>
+            </connector>
+            <label>Bypass Flow Not Enabled</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Which</name>
         <label>Which Field is Filled?</label>
         <locationX>776</locationX>
-        <locationY>323</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Only_Client_is_filled</name>
@@ -127,7 +148,6 @@
         </rules>
     </decisions>
     <description>Case Update or Create - Sets Contact as Account on Case</description>
-    <environments>Default</environments>
     <interviewLabel>SFSC - Case Allign Contact and Account {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SFSC - Record Trigger - AFTER Upsert - Case Allign Contact and Account</label>
     <processMetadataValues>
@@ -153,7 +173,7 @@
         <name>Copy_1_of_Set_Contact_as_Person_Account</name>
         <label>Set Contact as Person Account</label>
         <locationX>842</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <inputAssignments>
             <field>ContactId</field>
             <value>
@@ -166,7 +186,7 @@
         <name>Set_Contact_as_Person_Account</name>
         <label>Set Contact as Person Account</label>
         <locationX>50</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <inputAssignments>
             <field>ContactId</field>
             <value>
@@ -179,7 +199,7 @@
         <name>Set_Contact_as_Person_Contact</name>
         <label>Set Contact as Person Contact</label>
         <locationX>578</locationX>
-        <locationY>431</locationY>
+        <locationY>539</locationY>
         <inputAssignments>
             <field>AccountId</field>
             <value>
@@ -189,20 +209,25 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>650</locationX>
+        <locationX>1079</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Which</targetReference>
+            <targetReference>VerifyBypassFlowStatus</targetReference>
         </connector>
-        <filterFormula>OR (
- (ISNEW() &amp;&amp; NOT(ISBLANK({!$Record.AccountId})&amp;&amp; ISBLANK({!$Record.ContactId})) ),
-( ISCHANGED({!$Record.AccountId})),
-( ISCHANGED({!$Record.ContactId}))
-)</filterFormula>
         <object>Case</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
     <triggerOrder>400</triggerOrder>
+    <variables>
+        <name>HasCaseFlowsBypass</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Setup.BypassTrigger__c.CaseFlows__c</elementReference>
+        </value>
+    </variables>
 </Flow>
