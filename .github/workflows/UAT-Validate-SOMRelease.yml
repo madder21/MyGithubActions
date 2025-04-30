@@ -51,4 +51,4 @@ jobs:
             # Deploy the entire branch to Integration org
             - name: 'Deploy and Validate the entire branch to UAT org'
               #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaUATOrg -c
-              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-04-1.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-04.1.txt) -u RimowaUATOrg --json 
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-04-2.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-04.2.txt) -u RimowaUATOrg --json 
