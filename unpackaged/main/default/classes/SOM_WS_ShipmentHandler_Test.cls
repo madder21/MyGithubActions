@@ -5,7 +5,7 @@ private class SOM_WS_ShipmentHandler_Test {
     public static void setupData() {
         List<SOM_WS_ShipmentHandler.ShipmentDataRquest> listToProcess = new List<SOM_WS_ShipmentHandler.ShipmentDataRquest>();
         List<SOM_WS_ShipmentHandler.WMS_ShipmentData> listShipmentData = new List<SOM_WS_ShipmentHandler.WMS_ShipmentData>();
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
         for(FulfillmentOrder fulfillOrder : [SELECT Id, FulfillmentOrderNumber, Status, OrderSummaryId, OrderSummary.Status,
                                         (SELECT Id, FulfillmentOrderLineItemNumber, FulfillmentOrderId, Product2.StockKeepingUnit, OrderItemSummaryId, Quantity, 
@@ -60,7 +60,7 @@ private class SOM_WS_ShipmentHandler_Test {
     public static void setupDataStoreCase() {
         List<SOM_WS_ShipmentHandler.ShipmentDataRquest> listToProcess = new List<SOM_WS_ShipmentHandler.ShipmentDataRquest>();
         List<SOM_WS_ShipmentHandler.WMS_ShipmentData> listShipmentData = new List<SOM_WS_ShipmentHandler.WMS_ShipmentData>();
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
         fo.type = SOM_Constants.FULFILLMENT_ORDER_FULFILLED_IN_STORE_PICKUP;
         Update fo;
