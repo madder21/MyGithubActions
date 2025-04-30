@@ -17,7 +17,7 @@ public static List<FulfillmentOrderLineItem> listfoli = new List<FulfillmentOrde
 List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
         List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : FulfillmentOrderIds];
-        List<Id> FulfillmentOrderLineIds = new List<Id>{listfoli[0].Id,listfoli[1].Id,listfoli[2].Id};
+        List<Id> FulfillmentOrderLineIds = new List<Id>{listfoli[0].Id};
         listFOLineids.add(FulfillmentOrderLineIds);
         request.idFOLI = listfoli[0].Id;
         request.qty = 0;
