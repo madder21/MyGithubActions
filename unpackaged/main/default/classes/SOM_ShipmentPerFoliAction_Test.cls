@@ -8,16 +8,19 @@ public static List<FulfillmentOrderLineItem> listfoli = new List<FulfillmentOrde
     @isTest(seeAllData=true)
     public static void makeData() {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,1);
-       // Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
- Set<Id> osIds = new Set<Id>{los[0].Id};
+        //Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+        Set<Id> osIds = new Set<Id>{los[0].Id};
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
-      //  FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
-       // List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
+        //FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
+        //List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
         //List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
-List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
+        List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
         List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : FulfillmentOrderIds];
-        List<Id> FulfillmentOrderLineIds = new List<Id>{listfoli[0].Id};
+        List<Id> FulfillmentOrderLineIds = new List<Id>();
+            for(FulfillmentOrderLineItem foliid : listfoli){
+                FulfillmentOrderLineIds.add(foliid.Id);
+            }
         listFOLineids.add(FulfillmentOrderLineIds);
         request.idFOLI = listfoli[0].Id;
         request.qty = 0;
