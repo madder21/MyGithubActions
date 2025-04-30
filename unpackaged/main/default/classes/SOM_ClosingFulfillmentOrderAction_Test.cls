@@ -9,7 +9,7 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
 
     @IsTest(seeAllData = true)
     public static void setupData() {
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,3);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,1);
         Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
         FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
