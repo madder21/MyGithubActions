@@ -14,7 +14,7 @@ public static List<FulfillmentOrderLineItem> listfoli = new List<FulfillmentOrde
       //  FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
        // List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
         //List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
-List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,};
+List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
         List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : FulfillmentOrderIds];
         List<Id> FulfillmentOrderLineIds = new List<Id>{listfoli[0].Id,listfoli[1].Id,listfoli[2].Id};
