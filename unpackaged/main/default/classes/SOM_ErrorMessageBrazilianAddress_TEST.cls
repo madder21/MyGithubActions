@@ -5,7 +5,7 @@ public with sharing class SOM_ErrorMessageBrazilianAddress_TEST {
     @IsTest(SeeAllData=true)
     public static void setup() {
         
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,3);
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.Standard,1);
         os = los[0];
         FulfillmentOrder fo = SOM_testDataFactory.createFO(los[0]);
         List<FulfillmentOrder> lFO = [SELECT Id,DeliveryMethodId,OrderSummaryId,Type,FulfilledFromLocationId,FulfilledFromLocation.VisitorAddress.City,FulfilledFromLocation.VisitorAddress.Street,FulfilledFromLocation.VisitorAddress.PostalCode,
