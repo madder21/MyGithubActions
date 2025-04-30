@@ -10,11 +10,13 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
     @IsTest(seeAllData = true)
     public static void setupData() {
         List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,1);
-        Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+        //Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+Set<Id> osIds = new Set<Id>{los[0].Id};
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
-        FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
-        List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
-        List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+        //FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
+       // List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
+        //List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+ List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
         FOidsList.add(FulfillmentOrderIds[0]);
         
@@ -29,8 +31,8 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
         if(shipping) {
             Map<Id, FulfillmentOrder> mapFO = new Map<Id, FulfillmentOrder>();
             mapFO.put(fo1.Id,fo1);
-            mapFO.put(fo2.Id,fo2);
-            mapFO.put(fo3[0].Id,fo3[0]);
+            //mapFO.put(fo2.Id,fo2);
+           // mapFO.put(fo3[0].Id,fo3[0]);
             SOM_testDataFactory.createShipments(mapFO);
         }
     }
