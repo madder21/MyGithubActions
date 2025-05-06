@@ -39,7 +39,7 @@ public class SOM_OrderSummaryStatusFieldController {
             return OS.Status + ' - Waiting Fraud Review';
         } else if (sumCapturedAmount == 0 && OS.FO_Capture_Error__c) {
             return OS.Status + ' - Pending Capture';
-        } else if (sumCapturedAmount == OS.GrandTotalAmount) {
+        } else if (sumCapturedAmount == OS.GrandTotalAmount && sumCapturedAmount > 0) {
             return OS.Status + ' - Captured';
         } else if ( ( sumRefundedAmount == OS.TotalProductAmountWithTax && sumRefundedAmount > 0 ) || ( sumRefundedAmount == sumCapturedAmount && sumRefundedAmount > 0 ))  {
             return OS.Status + ' - Refunded';

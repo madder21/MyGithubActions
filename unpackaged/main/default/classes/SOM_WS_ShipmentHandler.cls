@@ -110,6 +110,10 @@ global with sharing class SOM_WS_ShipmentHandler {
                             outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR, 'Shipment should contain at least one article to ship', flmntOrder.Id, null, null));
                             break;
                         }
+                        if (String.isBlank(shipmentDataLine.trackingNumber)) {
+                            outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR ,'The tracking number is missing. Please provide a valid tracking number.', flmntOrder.Id ,null,null));
+                            break;
+                        }
                         Shipment shipment = createShipmentRecord(flmntOrder, shipmentDataLine, listLocationById);
                         listWmsShimpentDataToProcess.add(shipmentDataLine);
                         foIdByExternalShipmentId.put(shipmentDataLine.WMSshipmentId, flmntOrder.Id);
