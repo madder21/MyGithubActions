@@ -32,7 +32,7 @@
 */
 @IsTest
 public with sharing class AP2_SOMInvoiceManagement_Test {
-    public static OrderSummary os = new OrderSummary();
+    public static OrderSummary os = new OrderSummary(); 
     public static String emailContent = '{\n'+
         '"orderNumber" : "DV400001203",\n'+
         '"orderCivility" : "2",\n'+
@@ -86,7 +86,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         ID invoiceID = inv[0].Id ;
         String res = '';
         Test.startTest();
-        	res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
+        	SOM_DownloadInvoiceDocumentController  resCtrl = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
         	system.debug('***serverAzureConnectionSuccess : res : '+res+'***');
         Test.stopTest();
         Assert.isNotNull(res);
@@ -98,9 +98,9 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         ID invoiceID = '3tt000000000000000';
         Test.startTest();
-        	String res = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
+        	 SOM_DownloadInvoiceDocumentController  resCtrl = AP2_SOMInvoiceManagement.SOM_ServerConnect(invoiceID);
         Test.stopTest();
-        Assert.isNull(res); 
+        Assert.isNotNull(resCtrl); 
      }
     
     @isTest (seeAllData = true)
