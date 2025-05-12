@@ -121,7 +121,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String myTestInvoice = 'myTestBlob';
 		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');        
         Test.stopTest();
-        Assert.isNotNull(customerKey, 'Expected a non-null customerKey');
+        Assert.areEqual('customerKeyBeLike',customerKey); 
      }
     
     @isTest (seeAllData = false)
@@ -129,10 +129,10 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         Test.startTest();
         String myTestInvoice = 'myTestBlob';
-        String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');
+		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');        
         Test.stopTest();
-        System.assert(customerKey.startsWith('Error'), 'Expected customerKey to start with "Error" but got: ' + customerKey);
-    }
+        Assert.areEqual('Error',customerKey); 
+     }
     
     @isTest (seeAllData = true)
     static void getAssetIdSFMCSuccess() {
@@ -232,6 +232,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                          AND email__c = :accTest.PersonEmail 
                                          AND OrderSummary__c = :os.Id];
 		Assert.isFalse(trEmail.TECH_GenerateInvoice__c);        
+        Assert.isNull(trEmail.TECH_CustomerKey__c);
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,trEmail.Template__c);
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_SENT,trEmail.Status__c);
     }
