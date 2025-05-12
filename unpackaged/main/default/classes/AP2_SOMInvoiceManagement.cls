@@ -96,7 +96,7 @@ public with sharing class AP2_SOMInvoiceManagement {
      */
     public static void SOM_DeleteInvoicesFromSFMC(List<TransactionalEmail__c> transacEmails){
         for(TransactionalEmail__c transacemail : transacEmails){
-           // SOM_DeleteInvoiceFromSFMC(transacemail.id, transacemail.TECH_CustomerKey__c);
+            SOM_DeleteInvoiceFromSFMC(transacemail.id, transacemail.TECH_CustomerKey__c);
         }
     }
      /*
