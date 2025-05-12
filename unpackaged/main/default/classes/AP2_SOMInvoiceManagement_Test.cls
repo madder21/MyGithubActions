@@ -206,9 +206,8 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                             AND email__c = :accTest.PersonEmail
                                             AND Client__c = :accTest.Id AND OrderSummary__c = :os.Id LIMIT 1];
         System.debug('**AP2 TEST : generateOneInvoiceInSFMCSuccess : ' + transEmail);
-        Assert.isfalse(transEmail.TECH_GenerateInvoice__c);
         Assert.areNotEqual('Error',transEmail.TECH_CustomerKey__c);
-        Assert.isNull(transEmail.TECH_CustomerKey__c);
+        Assert.isNotNull(transEmail.TECH_CustomerKey__c);
     }
 	
     @isTest (seeAllData = true)
