@@ -53,21 +53,19 @@ public with sharing class SOM_InvoiceManagement {
                             newInvMap.DocumentNumber__c = 'I000000001'+InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
                         }
                     } 
-                }
+                        NewSerializedProductEcomSale__e event = new NewSerializedProductEcomSale__e();
+                        event.InvoiceId__c = newInvMap.Id;
+                        Database.SaveResult sr = EventBus.publish(event);
+                        if (!sr.isSuccess()) {
+                            for (Database.Error err : sr.getErrors()) {
+                                SOMCustomException ex = new SOMCustomException('Error publishing event: ' + err.getMessage(), 'SOM_InvoiceManagement', 'UpdateInvoicesNumber');
+                                Logs.error(ex, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);
+                            }
+                        }
+                    }
             }
-            
             Logs.debug('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId); 
             Logs.info('Invoice Management', 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);
-            
-            // Publish Platform Event after Invoice Document Update
-            NewSerializedProductEcomSale__e event = new NewSerializedProductEcomSale__e();
-            event.InvoiceId__c = newInvMap.Id;
-            Database.SaveResult sr = EventBus.publish(event);
-            if (!sr.isSuccess()) {
-                for (Database.Error err : sr.getErrors()) {
-                    System.debug('Error publishing event: ' + err.getMessage());
-                }
-            } 
         
         } catch (Exception e) {
             Logs.error(e, 'SOM_InvoiceManagement', 'UpdateInvoicesNumber', '', '', relatedToId);   
