@@ -75,7 +75,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                 }  
             }
             else //System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId);
-            throw new SOMCustomException('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId +'Raise Error ::'+res.errorMessage  ,'AP2_SOMInvoiceManagement','SOM_GenerateInvoiceInSFMC');
+            throw new SOMCustomException('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId +' | Raise Error ::'+res.errorMessage  ,'AP2_SOMInvoiceManagement','SOM_GenerateInvoiceInSFMC');
                
         }
         else //System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Invoice not found');
@@ -96,7 +96,7 @@ public with sharing class AP2_SOMInvoiceManagement {
      */
     public static void SOM_DeleteInvoicesFromSFMC(List<TransactionalEmail__c> transacEmails){
         for(TransactionalEmail__c transacemail : transacEmails){
-            SOM_DeleteInvoiceFromSFMC(transacemail.id, transacemail.TECH_CustomerKey__c);
+           // SOM_DeleteInvoiceFromSFMC(transacemail.id, transacemail.TECH_CustomerKey__c);
         }
     }
      /*
@@ -247,7 +247,7 @@ public with sharing class AP2_SOMInvoiceManagement {
             request.setHeader('Content-Type', SFMCAPISetting.ContentType__c);
             request.setHeader('Authorization', 'Bearer '+oAUTHAccessToken);
             request.setBody(JSON.serialize(dataMap));
-          // Integer i=22/0;
+         //Integer i=22/0;
             System.debug('**AP2 SOM_UploadInSFMCAsset: endPoint : '+SFMCAPISetting.Rest_API_URL__c + SFMCAPISetting.Asset_Ressource__c);
             System.debug('**AP2 SOM_UploadInSFMCAsset: content type : '+ SFMCAPISetting.ContentType__c);
             System.debug('**AP2 SOM_UploadInSFMCAsset: body : '+ JSON.serialize(dataMap));
@@ -257,16 +257,23 @@ public with sharing class AP2_SOMInvoiceManagement {
             String responseBody = response.getBody();
             System.debug('**AP2 SOM_UploadInSFMCAsset: statusCode : ' + response.getStatusCode());
             System.debug('**AP2 SOM_UploadInSFMCAsset: response : ' + responseBody);
+             Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(responseBody);
             if(response.getStatusCode() == 200 ||response.getStatusCode() == 201){
+                
                 if(Test.isRunningTest()){
                     responseBody = '{"customerKey":"customerKeyBeLike"}';
                 }
-                Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(responseBody);
+               
                 customerKey = (String) responseMap.get('customerKey');
             }
+            else {
+                    customerKey =(String) responseMap.get('message')+'|validationErrors:: '+(String)((Map<String, Object>)((List<Object>) responseMap.get('validationErrors')).get(0)).get('message'); 
+          
+                throw new SOMCustomException(customerKey  ,'AP2_SOMInvoiceManagement','SOM_UploadInSFMCAsset');
+              }
         }catch(Exception e){
-            System.debug('**AP2 SOM_UploadInSFMCAsset: The following exception has occurred: ' + e.getMessage());
-             return customerKey +'exception MC connection: '+ e.getMessage();
+            System.debug(customerKey +'**AP2 SOM_UploadInSFMCAsset: The following exception has occurred: ' + e.getMessage());
+             return 'Error ::'+ e.getMessage();
         }
         return customerKey;
     }
