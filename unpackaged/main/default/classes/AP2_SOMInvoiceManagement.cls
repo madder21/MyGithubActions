@@ -61,7 +61,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                     /*STEP 4 : Upload into SFMC Content Builder the BLOB as PDF*/
                     String fileName = 'Invoice-'+ invoiceName;
                     String customerKey = SOM_UploadInSFMCAsset(invoiceDocument, fileName, oAUTHAccessToken);
-                    if(!customerKey.startsWith('Error')){
+                 if(customerKey != null && !customerKey.startsWith('Error')) {
                         /*STEP 5 : Update TransactionalEmail*/
                         updateTransactionalEmailGenerateInvoice(transacEmailId,customerKey);
                     }
