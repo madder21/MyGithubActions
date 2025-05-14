@@ -395,20 +395,6 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
-        <name>Create_NewSerializedProductEcomSale</name>
-        <label>Create NewSerializedProductEcomSale</label>
-        <locationX>2270</locationX>
-        <locationY>1012</locationY>
-        <inputAssignments>
-            <field>InvoiceId__c</field>
-            <value>
-                <elementReference>CreateInvoice.fulfillmentOrderInvoiceOutput.invoiceId</elementReference>
-            </value>
-        </inputAssignments>
-        <object>NewSerializedProductEcomSale__e</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
-    <recordCreates>
         <name>Publish_Invoice_PDF_Generation_Event</name>
         <label>Publish Invoice PDF Generation Event</label>
         <locationX>1359</locationX>
@@ -709,9 +695,6 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
         <label>Update InvoiceLines</label>
         <locationX>2274</locationX>
         <locationY>875</locationY>
-        <connector>
-            <targetReference>Create_NewSerializedProductEcomSale</targetReference>
-        </connector>
         <inputReference>InvoiceLinesToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
