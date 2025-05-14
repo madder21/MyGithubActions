@@ -37,7 +37,7 @@ public class SOM_OrderSummaryStatusFieldController {
     public static String getOrderStatus(OrderSummary OS, Decimal sumCapturedAmount, Decimal sumRefundedAmount) {
         if (OS.Status == 'Created' && sumCapturedAmount == 0 && !OS.passedFraudScreening__c) {
             return OS.Status + ' - Waiting Fraud Review';
-        } else if (sumCapturedAmount == 0 && OS.FO_Capture_Error__c) {
+        } else if (sumCapturedAmount == 0 && OS.FO_Capture_Error__c && OS.Status !='Canceled') {
             return OS.Status + ' - Pending Capture';
         } else if (sumCapturedAmount == OS.GrandTotalAmount && sumCapturedAmount > 0) {
             return OS.Status + ' - Captured';
