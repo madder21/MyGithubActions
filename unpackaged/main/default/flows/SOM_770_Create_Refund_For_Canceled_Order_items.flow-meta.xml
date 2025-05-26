@@ -43,8 +43,8 @@
     <decisions>
         <name>Canceled_Items_Exist</name>
         <label>Canceled Items Exist?</label>
-        <locationX>619</locationX>
-        <locationY>525</locationY>
+        <locationX>624</locationX>
+        <locationY>617</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -65,12 +65,12 @@
     <decisions>
         <name>Check_OS_Capture_Status</name>
         <label>Check OS Capture Status</label>
-        <locationX>624</locationX>
-        <locationY>813</locationY>
+        <locationX>620</locationX>
+        <locationY>888</locationY>
         <defaultConnectorLabel>Do Not Create a Refund</defaultConnectorLabel>
         <rules>
             <name>Create_Refund</name>
-            <conditionLogic>(1 AND (2 OR 3)) OR (4 AND 5)</conditionLogic>
+            <conditionLogic>(1 AND (2 OR 3)) OR (4 AND 5 AND 6)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.captureAtShipment__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -104,6 +104,13 @@
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_FO.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Canceled</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -423,7 +430,7 @@
         <locationY>364</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Canceled_Items_Exist</targetReference>
+            <targetReference>Get_FO</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -452,10 +459,40 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>Get_FO</name>
+        <label>Get FO</label>
+        <locationX>630</locationX>
+        <locationY>497</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Canceled_Items_Exist</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Capture_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Captured</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>FulfillmentOrder</object>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Fulfillment_Orders_With_Capture_Status_Captured</name>
         <label>Get Fulfillment Orders With Capture Status Captured</label>
         <locationX>630</locationX>
-        <locationY>677</locationY>
+        <locationY>741</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_OS_Capture_Status</targetReference>

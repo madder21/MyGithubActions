@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Tech_CancelItem__c</fullName>
+    <label>Tech_CancelItem</label>
+    <summaryFilterItems>
+        <field>OrderItemSummary.Type</field>
+        <operation>equals</operation>
+        <value>Order Product</value>
+    </summaryFilterItems>
+    <summaryFilterItems>
+        <field>OrderItemSummary.Current__c</field>
+        <operation>notContain</operation>
+        <value>Insufficient Stock</value>
+    </summaryFilterItems>
+    <summaryForeignKey>OrderItemSummary.OrderSummaryId</summaryForeignKey>
+    <summaryOperation>count</summaryOperation>
+    <type>Summary</type>
+</CustomField>
