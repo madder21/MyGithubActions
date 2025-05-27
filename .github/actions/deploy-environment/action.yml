@@ -78,7 +78,9 @@ runs:
     - name: Install Salesforce CLI (sf)
       shell: bash
       run: |
-        npm install --global @salesforce/cli
+        curl -sSfL https://developer.salesforce.com/media/salesforce-cli/sf-linux-x64.tar.xz | tar -xJ
+        ./sf/install
+        echo "$PWD/sf/bin" >> $GITHUB_PATH
         sf --version
 
     - name: Authenticate using JWT (sf CLI)
