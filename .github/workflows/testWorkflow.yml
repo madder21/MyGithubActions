@@ -1,0 +1,36 @@
+  
+  name: Manual Workflow Deploy
+
+  on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - integrate-sandbox
+          - uat-partial-sandbox
+          - production
+        default: 'integrate-sandbox'
+        required: true
+      validateOnly:
+        description: 'Run the deployment as validation only'
+        type: boolean
+        default: false
+
+  deploy-prod-jwt:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Deploy via JWT to Production
+        uses: ./.github/actions/deploy-jwt
+        with:
+          instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
+          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+          keyFilePath: JWT/server.key
+          alias: aliasTestCICDOrg
+          manifestPath: manifest/package.xml
+          #testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
