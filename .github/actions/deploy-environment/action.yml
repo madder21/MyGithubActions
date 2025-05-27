@@ -75,8 +75,15 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    container:
-      image: salesforce/cli:latest-slim
+    - name: Install Salesforce CLI
+    run: |
+      wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+      sudo mkdir ~/sfdx-cli
+      sudo tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx-cli --strip-components 1
+      export PATH=$PATH:~/sfdx-cli/bin
+      echo "~/sfdx-cli/bin" >> $GITHUB_PATH
+      sudo chmod -R 777 ~/sfdx-cli
+      sfdx --version
 
     - name: Authenticate using JWT (sf CLI)
       shell: bash
