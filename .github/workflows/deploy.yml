@@ -89,7 +89,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          
+
       # Install Salesforce CLI
       - name: 'Install Salesforce CLI'
         run: |
@@ -105,7 +105,7 @@ jobs:
           instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
           clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
           username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
-          keyFilePath: JWT/server.key
+          keyFilePath: ${{ secrets.SFDC_AUTH_KEY}}
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
           testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
