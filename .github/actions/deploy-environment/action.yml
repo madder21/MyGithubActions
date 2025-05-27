@@ -75,8 +75,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: 'Install Prerequisites'
-        uses: engPabloMartinez/sf-deploy-github-actions/installRequirements@master
+    container:
+      image: salesforce/cli:latest-slim
 
     - name: Authenticate using JWT (sf CLI)
       shell: bash
