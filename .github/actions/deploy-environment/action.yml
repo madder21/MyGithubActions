@@ -1,35 +1,52 @@
-name: Deploy To Environment
-description: Deploys to a specified environment
+name: Deploy Using JWT
+description: Authenticates with JWT and deploys specific package
 
 inputs:
-  validateOnly:
-    description: 'Run the deployment as validation only'
-    type: boolean
-  environmentName:
-    description: 'The name of the environment you are deploying to'
-    type: string
+  instanceUrl:
+    description: 'Salesforce instance URL (e.g., https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com)'
     required: true
-  sfdx_auth_url:
-    description: 'The auth url tied to your deployment environment'
+  clientId:
+    description: 'Consumer Key of the connected app'
+    required: true
+  username:
+    description: 'Salesforce username (integration user)'
+    required: true
+  keyFilePath:
+    description: 'Path to JWT private key file'
+    required: true
+  alias:
+    description: 'Alias for the authenticated org'
+    required: true
+  manifestPath:
+    description: 'Path to the package.xml manifest file'
+    required: true
+  testsToRunFile:
+    description: 'Path to the text file listing test classes to run'
     required: true
 
 runs:
   using: 'composite'
   steps:
-    - name: Install sfdx
+    - name: Install SFDX CLI
       shell: bash
       run: |
         npm install --global sfdx-cli
         sfdx --version
-    - name: Login to ${{ inputs.environmentName }}
+
+    - name: Set the instanceUrl config value
+      shell: bash
+      run: sfdx config:set instanceUrl=${{ inputs.instanceUrl }}
+
+    - name: Authorize DevOps User using JWT
       shell: bash
       run: |
-        sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{ inputs.sfdx_auth_url }}")
-    - name: Generate package.xml
-      shell: bash
-      run: |
-        sfdx project generate manifest --source-dir force-app --output-dir manifest
-    - name: Deploy to ${{ inputs.environmentName }}
+        sfdx auth:jwt:grant \
+          --clientid "${{ inputs.clientId }}" \
+          --jwtkeyfile "${{ inputs.keyFilePath }}" \
+          --username "${{ inputs.username }}" \
+          --setalias "${{ inputs.alias }}"
+
+    - name: Deploy and Validate using manifest and specified tests
       shell: bash
       run: |
         deployFlags=(
