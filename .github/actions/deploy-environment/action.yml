@@ -85,20 +85,20 @@ runs:
           --alias "${{ inputs.alias }}" \
           --instance-url "${{ inputs.instanceUrl }}"
 
-    - name: Deploy package
-      shell: bash
-      run: |
-        testClasses=$(paste -sd, < "${{ inputs.testsToRunFile }}")
-        deployFlags=(
-          --manifest "${{ inputs.manifestPath }}"
-          --target-org "${{ inputs.alias }}"
-          --test-level RunSpecifiedTests
-          --runtests "$testClasses"
-          --wait 30
-          --verbose
-          --json
-        )
-        if [ "${{ inputs.validateOnly }}" = "true" ]; then
-          deployFlags+=( --dry-run )
-        fi
-        sf project deploy start "${deployFlags[@]}"
+      - name: Deploy package
+        shell: bash
+        run: |
+          testClasses=$(paste -sd, < "${{ inputs.testsToRunFile }}")
+          deployFlags=(
+            --manifest "${{ inputs.manifestPath }}"
+            --target-org "${{ inputs.alias }}"
+            --test-level RunSpecifiedTests
+            --runtests "$testClasses"
+            --wait 30
+            --verbose
+            --json
+          )
+          if [ "${{ inputs.validateOnly }}" = "true" ]; then
+            deployFlags+=( --dry-run )
+          fi
+          sf project deploy start "${deployFlags[@]}"
