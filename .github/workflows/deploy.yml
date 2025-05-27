@@ -107,7 +107,7 @@ jobs:
       - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
         with:
-          instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
+          instanceUrl: https://login.salesforce.com
           clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
           username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
           keyFilePath: JWT/server.key
