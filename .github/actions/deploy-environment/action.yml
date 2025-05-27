@@ -75,13 +75,8 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Install Salesforce CLI (sf)
-      shell: bash
-      run: |
-        curl -sSfL https://developer.salesforce.com/media/salesforce-cli/sf-linux-x64.tar.xz | tar -xJ
-        ./sf/install
-        echo "$PWD/sf/bin" >> $GITHUB_PATH
-        sf --version
+    - name: 'Install Prerequisites'
+        uses: engPabloMartinez/sf-deploy-github-actions/installRequirements@master
 
     - name: Authenticate using JWT (sf CLI)
       shell: bash
