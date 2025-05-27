@@ -27,7 +27,7 @@ jobs:
         with:
             node-version: "14"
       - name: Deploy via JWT to Production
-        uses: ./.github/actions/deploy-jwt
+        uses: ./.github/actions/deploy-environment
         with:
           instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
           clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
