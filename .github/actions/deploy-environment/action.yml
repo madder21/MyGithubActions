@@ -37,7 +37,7 @@ runs:
       shell: bash
       run: sfdx config:set instanceUrl=${{ inputs.instanceUrl }}
 
-    - name: Authorize DevOps User using JWT
+    - name: Login to ${{ inputs.environmentName }}
       shell: bash
       run: |
         sfdx auth:jwt:grant \
@@ -46,7 +46,7 @@ runs:
           --username "${{ inputs.username }}" \
           --setalias "${{ inputs.alias }}"
 
-    - name: Deploy and Validate using manifest and specified tests
+    - name: Deploy to ${{ inputs.environmentName }}
       shell: bash
       run: |
         deployFlags=(
