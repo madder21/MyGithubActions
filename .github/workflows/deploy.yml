@@ -1,61 +1,98 @@
-name: Manual Deploy
+# name: Manual Deploy
 
-on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        type: choice
-        description: Which environment to deploy to
-        options:
-          - integrate-sandbox
-          - uat-partial-sandbox
-          - production
-        default: 'integrate-sandbox'
-        required: true
-      validateOnly:
-        description: 'Run the deployment as validation only'
-        type: boolean
-        default: false
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         type: choice
+#         description: Which environment to deploy to
+#         options:
+#           - integrate-sandbox
+#           - uat-partial-sandbox
+#           - production
+#         default: 'integrate-sandbox'
+#         required: true
+#       validateOnly:
+#         description: 'Run the deployment as validation only'
+#         type: boolean
+#         default: false
+
+# jobs:
+#   deploy-integrate:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#             node-version: "14"
+#       - name: Deploy to partial sandbox
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_INTEGRATE }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+#   deploy-partial-sandbox:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'uat-partial-sandbox' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#               node-version: "14"
+#       - name: Deploy to partial sandbox
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PARTIALSB }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+#   deploy-prod:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'production' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#               node-version: "14"
+#       - name: Deploy to production
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
+name: Manual Workflow Deploy
+
+  on:
+    workflow_dispatch:
+      inputs:
+        environment:
+          type: choice
+          description: Which environment to deploy to
+          options:
+            - integrate-sandbox
+            - uat-partial-sandbox
+            - production
+          default: 'integrate-sandbox'
+          required: true
+        validateOnly:
+          description: 'Run the deployment as validation only'
+          type: boolean
+          default: false
 
 jobs:
-  deploy-integrate:
+  deploy-prod-jwt:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
     steps:
       - uses: actions/checkout@v3
         with:
-            node-version: "14"
-      - name: Deploy to partial sandbox
-        uses: ./.github/actions/deploy-environment
-        with:
-          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_INTEGRATE }}
-          environmentName: ${{ github.event.inputs.environment }}
-          validateOnly: ${{ github.event.inputs.validateOnly }}
-
-  deploy-partial-sandbox:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'uat-partial-sandbox' }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
               node-version: "14"
-      - name: Deploy to partial sandbox
+      - name: Deploy via JWT to Production
         uses: ./.github/actions/deploy-environment
         with:
-          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PARTIALSB }}
-          environmentName: ${{ github.event.inputs.environment }}
-          validateOnly: ${{ github.event.inputs.validateOnly }}
-
-  deploy-prod:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.environment == 'production' }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-              node-version: "14"
-      - name: Deploy to production
-        uses: ./.github/actions/deploy-environment
-        with:
-          sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
-          environmentName: ${{ github.event.inputs.environment }}
-          validateOnly: ${{ github.event.inputs.validateOnly }}
+          instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
+          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+          keyFilePath: JWT/server.key
+          alias: aliasTestCICDOrg
+          manifestPath: manifest/package.xml
+          #testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
