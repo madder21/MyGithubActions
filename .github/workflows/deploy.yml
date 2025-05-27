@@ -84,9 +84,13 @@ jobs:
     if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup Node (optional, only if needed for something)
+        uses: actions/setup-node@v3
         with:
-              node-version: "14"
-      - name: Deploy via JWT to Production
+          node-version: "14"
+
+      - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
         with:
           instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
@@ -95,4 +99,5 @@ jobs:
           keyFilePath: JWT/server.key
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
-          #testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
+          testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
+          validateOnly: ${{ github.event.inputs.validateOnly }}

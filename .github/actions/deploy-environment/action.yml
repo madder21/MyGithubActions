@@ -47,7 +47,7 @@ description: Authenticates with JWT and deploys specific package
 
 inputs:
   instanceUrl:
-    description: 'Salesforce instance URL (e.g., https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com)'
+    description: 'Salesforce instance URL (e.g., https://login.salesforce.com)'
     required: true
   clientId:
     description: 'Consumer Key of the connected app'
@@ -67,39 +67,44 @@ inputs:
   testsToRunFile:
     description: 'Path to the text file listing test classes to run'
     required: true
+  validateOnly:
+    description: 'Run the deployment as validation only'
+    required: false
+    default: 'false'
 
 runs:
   using: 'composite'
   steps:
-    - name: Install SFDX CLI
+    - name: Install Salesforce CLI (sf)
       shell: bash
       run: |
-        npm install --global sfdx-cli
-        sfdx --version
+        npm install --global @salesforce/cli
+        sf --version
 
-    - name: Set the instanceUrl config value
-      shell: bash
-      run: sfdx config:set instanceUrl=${{ inputs.instanceUrl }}
-
-    - name: Login to ${{ inputs.environmentName }}
+    - name: Authenticate using JWT (sf CLI)
       shell: bash
       run: |
-        sfdx auth:jwt:grant \
-          --clientid "${{ inputs.clientId }}" \
-          --jwtkeyfile "${{ inputs.keyFilePath }}" \
+        sf org login jwt \
+          --client-id "${{ inputs.clientId }}" \
+          --jwt-key-file "${{ inputs.keyFilePath }}" \
           --username "${{ inputs.username }}" \
-          --setalias "${{ inputs.alias }}"
+          --alias "${{ inputs.alias }}" \
+          --instance-url "${{ inputs.instanceUrl }}"
 
-    - name: Deploy to ${{ inputs.environmentName }}
+    - name: Deploy package
       shell: bash
       run: |
+        testClasses=$(paste -sd, < "${{ inputs.testsToRunFile }}")
         deployFlags=(
-            --manifest manifest/package.xml
-            --wait 30
-            --test-level RunLocalTests
-            --verbose
-          )
+          --manifest "${{ inputs.manifestPath }}"
+          --target-org "${{ inputs.alias }}"
+          --test-level RunSpecifiedTests
+          --runtests "$testClasses"
+          --wait 30
+          --verbose
+          --json
+        )
         if [ "${{ inputs.validateOnly }}" = "true" ]; then
           deployFlags+=( --dry-run )
         fi
-        sfdx project deploy start "${deployFlags[@]}"
+        sf project deploy start "${deployFlags[@]}"
