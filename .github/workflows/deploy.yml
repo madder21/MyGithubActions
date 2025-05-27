@@ -61,22 +61,22 @@
 #           validateOnly: ${{ github.event.inputs.validateOnly }}
 name: Manual Workflow Deploy
 
-  on:
-    workflow_dispatch:
-      inputs:
-        environment:
-          type: choice
-          description: Which environment to deploy to
-          options:
-            - integrate-sandbox
-            - uat-partial-sandbox
-            - production
-          default: 'integrate-sandbox'
-          required: true
-        validateOnly:
-          description: 'Run the deployment as validation only'
-          type: boolean
-          default: false
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - integrate-sandbox
+          - uat-partial-sandbox
+          - production
+        default: 'integrate-sandbox'
+        required: true
+      validateOnly:
+        description: 'Run the deployment as validation only'
+        type: boolean
+        default: false
 
 jobs:
   deploy-prod-jwt:
