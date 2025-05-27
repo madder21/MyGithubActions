@@ -98,6 +98,11 @@ jobs:
             tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
             echo "$HOME/sfdx/bin" >> $GITHUB_PATH
             ~/sfdx/bin/sfdx version
+      - name: Create JWT key file
+        run: |
+          mkdir -p JWT
+          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
+          chmod 600 JWT/server.key
 
       - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
@@ -105,7 +110,7 @@ jobs:
           instanceUrl: https://empathetic-impala-4d2hgs-dev-ed.trailblaze.my.salesforce.com
           clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
           username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
-          keyFilePath: ${{ secrets.SFDC_AUTH_KEY}}
+          keyFilePath: JWT/server.key
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
           testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-05.1.txt
