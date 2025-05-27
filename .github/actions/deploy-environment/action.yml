@@ -48,8 +48,7 @@ runs:
         deployFlags=(
           --manifest "${{ inputs.manifestPath }}"
           --target-org "${{ inputs.alias }}"
-          --test-level RunSpecifiedTests
-          --runtests "$testClasses"
+          --test-level RunLocalTests
           --wait 30
           --verbose
           --json
