@@ -113,5 +113,5 @@ jobs:
           keyFilePath: JWT/server.key
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
-          testsToRunFile: unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt
+          testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
