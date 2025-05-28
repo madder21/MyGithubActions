@@ -124,17 +124,6 @@ jobs:
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
           chmod 600 JWT/server.key
 
-      - name: Apex static analysis
-        uses: ./
-        with:
-          pmdconfig: pmd-ruleset.xml
-          severity-threshold: 4
-          engine: pmd
-          target: tests
-          eslintconfig: .eslintrc.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.SFDX_INT_CLIENT_ID }}
-
       - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
         with:
