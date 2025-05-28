@@ -104,10 +104,16 @@ jobs:
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
           chmod 600 JWT/server.key
 
-      - name: Setup PMD
-        uses: legetz/setup-pmd@7.1.0
-      - name: APEX full scan for design rules only
-        run: pmd check --dir ./force-app/main/default/classes -R pmd-ruleset.xml -f text
+      - name: Apex static analysis
+        uses: ./
+        with:
+          pmdconfig: pmd-ruleset.xml
+          severity-threshold: 4
+          engine: pmd
+          target: tests
+          eslintconfig: .eslintrc.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.SFDX_INT_CLIENT_ID }}
 
       - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
