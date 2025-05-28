@@ -1,0 +1,383 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Rules"
+	xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+	<description>PMD Rules</description>
+
+	<rule name="SOQLSelectorPattern"
+		language="apex"
+		message="Queries should be performed only in Selector classes"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//MethodCallExpression[ lower-case( @FullMethodName ) = 'database.query' and ancestor::UserClass[ not(ends-with(@Image,'Selector') ) ] ] | //SoqlExpression[ ancestor::UserClass[ not(ends-with(@Image,'Selector') ) ] ] | //SoslExpression[ ancestor::UserClass[ not(ends-with(@Image,'Selector') ) ] ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule ref="category/apex/design.xml/StdCyclomaticComplexity" message="The {0} ''{1}'' has a Standard Cyclomatic Complexity of {2}.">
+		<priority>3</priority>
+		<properties>
+			<property name="reportLevel" value="10" />
+			<!-- relevant for Code Climate output only -->
+			<property name="cc_categories" value="Complexity" />
+			<property name="cc_remediation_points_multiplier" value="250" />
+			<property name="cc_block_highlighting" value="false" />
+		</properties>
+	</rule>
+	<rule name="WebServicesWrapperPattern"
+		language="apex"
+		message="Wrappers for Web Services should implement RequestWrapper and ResponseWrapper classes"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ends-with( lower-case( @Image ), 'wrapper' ) and ( ( count( ./UserClass[ @Image = 'RequestWrapper' ] ) = 0 ) or ( count( ./UserClass[ @Image = 'ResponseWrapper' ] ) = 0 ) ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServicesWrapperPrivateParameters"
+		language="apex"
+		message="Wrappers should define parameters as private"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//FieldDeclarationStatements//ModifierNode[ @Public = true() and ancestor::UserClass[ ends-with( lower-case( @Image ), 'wrapper' ) ] ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServicesDeserialization"
+		language="apex"
+		message="Wrappers for Web Services should implement a deserialization method returning the RequestWrapper object"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ends-with( lower-case( @Image ), 'wrapper' ) and count( ./Method[ @Image = 'deserialize' and @ReturnType = 'RequestWrapper' ] ) = 0 ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServicesSerialization"
+		language="apex"
+		message="Wrappers for Web Services should implement a serialization method in ResponseWrapper"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ends-with( lower-case( @Image ), 'wrapper' ) and count( ./UserClass/Method[ @Image = 'serialize' and @ReturnType = 'String' ] ) = 0 ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServicesOOP"
+		language="apex"
+		message="Web Services should implement an OOP model with a private constructor"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ./ModifierNode/Annotation[ lower-case( @Image ) = 'restresource' ] and not( ./Method[ @Constructor = true() and @Image = parent::UserClass/@Image and ./ModifierNode[ @Private = true() ] ] and ./Method[ ./ModifierNode/Annotation[ starts-with( @Image, 'Http' ) ] and ./BlockStatement//NewObjectExpression[ @Type = ancestor::UserClass/@Image ] ] ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServiceWrapperUsage"
+		language="apex"
+		message="Web Service should use Request and Response wrappers"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ./ModifierNode/Annotation[ lower-case( @Image ) = 'restresource' ] and not( ./Method[ //VariableDeclaration[ @Type = concat( ancestor::UserClass/@Image, 'Wrapper.RequestWrapper' ) ] ] and ./Method[ //NewObjectExpression[ @Type = concat( ancestor::UserClass/@Image, 'Wrapper.ResponseWrapper' ) ] ] ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServiceMultipleHttpMethods"
+		language="apex"
+		message="Web Service should only declare one Http method per class"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ./ModifierNode/Annotation[ lower-case( @Image ) = 'restresource' ] and ( count( ./Method/ModifierNode/Annotation[ starts-with( @Image, 'Http' ) ] ) > 1 ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="WebServiceNaming"
+		language="apex"
+		message="Web Service should be named after the implemented Http method"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						/UserClass[ ./ModifierNode/Annotation[ lower-case( @Image ) = 'restresource' ] and ( not( ends-with( lower-case( @Image ), lower-case( substring( descendant::Annotation[ starts-with( @Image, 'Http' ) ] [ last() ]/@Image, 5 ) ) ) ) ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesEnhancedForLoops"
+		language="apex"
+		message="Use enhanced for loops if no index is needed"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//ForLoopStatement[ not( .//BlockStatement//VariableExpression[ @Image = ancestor::ForLoopStatement/VariableDeclarationStatements/VariableDeclaration/@Image ] ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesReturnStatements"
+		language="apex"
+		message="Methods should not declare more than one return statement"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//Method[ count( .//ReturnStatement ) > 1 ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+
+	<rule name="CodeBestPracticesTryCatchRaiseException"
+		language="apex"
+		message="Catch blocks should not raise exceptions"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//CatchBlockStatement//ThrowStatement
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+
+	<rule name="CodeBestPracticesTryCatchDebugs"
+		language="apex"
+		message="Catch blocks must use other sentences than system debugs"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//CatchBlockStatement/BlockStatement[ count( .//ExpressionStatement ) > 0 and ( count( .//ExpressionStatement/MethodCallExpression[ lower-case( @FullMethodName ) = 'system.debug' ] ) = count( child::* ) ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesAvoidEmptyQueries"
+		language="apex"
+		message="Query parameters should be validated so queries are not performed if their parameters are empty"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//SoqlExpression[ count( ./BindExpressions/child::* ) > 0 and not( every $variable in ( ./BindExpressions/VariableExpression/@Image ) satisfies ( ancestor::IfBlockStatement/StandardCondition[ $variable=.//ReferenceExpression/@Image or $variable=.//VariableExpression/@Image ] ) ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesNonFilteredQueries"
+		language="apex"
+		message="Queries should filter results"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//SoqlExpression[ count( ./BindExpressions/child::* ) = 0 and not( contains( lower-case( @Query ), 'where' ) )]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesUseNamedCredentials"
+		language="apex"
+		message="Named Credentials should be used to set domains"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//LiteralExpression[ starts-with( lower-case( @Image ), 'www' ) or starts-with( lower-case( @Image ), 'https://' ) or starts-with( lower-case( @Image ), 'http://' ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="CodeBestPracticesInitIterableObjects"
+		language="apex"
+		message="Iterable objects should be initialized"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//ReturnStatement[ ( ./VariableExpression/@Image = ancestor::Method//VariableDeclaration[ not( ./NewListInitExpression or ./NewListLiteralExpression or ./NewSetInitExpression or ./NewSetLiteralExpression or ./NewMapInitExpression or ./NewMapLiteralExpression ) ]/@Image ) and ( starts-with( lower-case( ancestor::Method/@ReturnType ), 'list' ) or starts-with( ancestor::Method/@ReturnType, 'set' ) or starts-with( ancestor::Method/@ReturnType, 'map' ) or ends-with( ancestor::Method/@ReturnType, '[]' ) ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="TestDoNotUseIsRunningTest"
+		language="apex"
+		message="isRunningTest() should not be used to skip code execution"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//MethodCallExpression[ contains( lower-case( @FullMethodName ), 'test.isrunningtest' ) ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+	<rule name="TestUseIsTestNotationInTestClasses"
+		language="apex"
+		message="Classes with test methods must use @isTest notation"
+		class="net.sourceforge.pmd.lang.rule.XPathRule">
+		<description>
+
+		</description>
+		<priority>2</priority>
+		<properties>
+			<property name="version" value="2.0"/>
+			<property name="xpath">
+				<value>
+					<![CDATA[
+						//UserClass[ ./ModifierNode/@Test = false() and .//Method/ModifierNode/@TestOrTestSetup = true() ]
+					]]>
+				</value>
+			</property>
+		</properties>
+	</rule>
+
+</ruleset>

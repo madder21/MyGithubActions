@@ -57,3 +57,5 @@ runs:
           deployFlags+=( --dry-run )
         fi
         sf project deploy start "${deployFlags[@]}"
+
+# add destructive package logic
