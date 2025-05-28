@@ -96,7 +96,7 @@ jobs:
             ~/pmd/bin/run.sh pmd --version
       # Run PMD scan
       - name: 'Run PMD scan'
-        run: ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R ruleset.xml -f text
+        run: ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text
 
   deploy-prod-jwt:
     runs-on: ubuntu-latest
