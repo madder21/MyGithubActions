@@ -24,7 +24,7 @@ jobs:
       result: ${{ steps.check-outcome.outcome }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Install PMD
         run: |
