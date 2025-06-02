@@ -18,11 +18,26 @@ on:
         default: false
 
 jobs:
-  pmd-run:
+
+  test-upload:
     runs-on: ubuntu-latest
     steps:
+      - name: Create test file
+        run: echo "Hello, world!" > test.csv
+
+      - name: Upload test file
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-artifact
+          path: test.csv
+          
+  pmd-run:
+    runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.check-outcome.outcome }}
+    steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Install PMD
         run: |
@@ -34,8 +49,7 @@ jobs:
 
       - name: Run PMD scan and save to CSV
         run: |
-          ~/pmd/bin/run.sh pmd \
-            -d ./force-app/main/default/classes \
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes \
             -R pmd/pmd-ruleset.xml \
             -f csv > pmd-results.csv
 
@@ -52,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Setup Node (optional)
         uses: actions/setup-node@v3
         with:
           node-version: "18"
