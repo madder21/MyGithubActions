@@ -19,18 +19,42 @@ on:
 
 jobs:
 
-  test-upload:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create test file
-        run: echo "Hello, world!" > test.csv
+    - name: Create file
+      run: |
+        printf "Hello\nWorld\n" > hw.txt
 
-      - name: Upload test file
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-artifact
-          path: test.csv
-          
+    - name: Create file
+      run: |
+        echo First        > other.txt
+        echo Second Line >> other.txt
+        echo Third       >> other.txt
+
+
+    - name: Show file content
+      run: |
+        pwd
+        ls -la
+        cat hw.txt
+        cat other.txt
+
+
+    - name: Create directory and create file in homedir
+      run: |
+        ls -la ~/
+        mkdir ~/.zorg
+        echo First        > ~/.zorg/home.txt
+        echo Second Line >> ~/.zorg/home.txt
+        echo Third       >> ~/.zorg/home.txt
+        ls -la ~/.zorg/
+
+    - name: Show file content
+      run: |
+        ls -la ~/
+        cat ~/.zorg/home.txt
+
   pmd-run:
     runs-on: ubuntu-latest
     outputs:
