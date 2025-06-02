@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <formulas>
+        <name>TrackingURL</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.ReturnTrackingNumber__c}),NULL,{!Get_URL.STW_URL__c} &amp; &quot;ww/EN/trackpage?trackingnumber=&quot; &amp; {!$Record.ReturnTrackingNumber__c})</expression>
+    </formulas>
+    <interviewLabel>SOM_600 Return Order Tracking URL {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM_600 Return Order Tracking URL</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_URL</name>
+        <label>Get URL</label>
+        <locationX>590</locationX>
+        <locationY>380</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_Tacking_URL</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>STW_URL__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Tacking_URL</name>
+        <label>Update Tacking URL</label>
+        <locationX>593</locationX>
+        <locationY>540</locationY>
+        <inputAssignments>
+            <field>ReturnTrackingURL__c</field>
+            <value>
+                <elementReference>TrackingURL</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>458</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_URL</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>ReturnTrackingNumber__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>ReturnTrackingNumber__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>ReturnOrder</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -27,6 +27,9 @@
         <label>Create New Order For Cegid Event</label>
         <locationX>332</locationX>
         <locationY>220</locationY>
+        <connector>
+            <targetReference>NewOrderForCegid_0</targetReference>
+        </connector>
         <inputAssignments>
             <field>OrderSummaryNumber__c</field>
             <value>
@@ -50,6 +53,22 @@
         <fields>
             <name>Text</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Are you sure you want to force sending this order to Cegid ?&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>NewOrderForCegid_0</name>
+        <label>NewOrderForCegid</label>
+        <locationX>242</locationX>
+        <locationY>373</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Text_0</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(0, 0, 0);&quot;&gt;The Order Summary is now being sent to Cegid. It could take some time for this operation to complete. &lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(0, 0, 0);&quot;&gt;Please reload the Order Summary in 20 seconds to see the result.&lt;/strong&gt;&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <showFooter>true</showFooter>
