@@ -52,7 +52,7 @@ global with sharing class SOM_InvoiceDocumentController {
         
         List<FulfillmentOrder> fulfillmentOrder = [SELECT Invoice.TotalAmount, Invoice.TotalAmountWithTax, Invoice.TotalTaxAmount, Invoice.InvoiceDate, Invoice.Invoice_Timezone_Date__c, Invoice.InvoiceNumber__c, Invoice.DocumentNumber, OrderSummary.Account.Name, OrderSummary.OrderNumber, 
                                                    FulfilledToName, StreetNumber__c, FulfilledToCity,Complementary__c,RI_Neighborhood__c, FulfilledToPostalCode, FulfilledToStreet, FulfilledToState, FulfilledToCountry, OrderSummary.BillingCity,OrderSummary.BillingState, OrderSummary.BillingPostalCode, OrderSummary.BillingContactFirstName__c , OrderSummary.BillingContactLastName__c,
-                                                   OrderSummary.BillingStreet, OrderSummary.BillingCountry, OrderSummary.RI_Neighborhood__c,OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c,OrderSummary.StreetNumber__c,OrderSummary.Complementary__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
+                                                   OrderSummary.BillingStreet, OrderSummary.OrderedDate ,OrderSummary.BillingCountry, OrderSummary.RI_Neighborhood__c,OrderSummaryId, OrderSummary.Legal_Entity__c, OrderSummary.VAT_ID__c, CurrencyIsoCode, OrderSummary.language__c,OrderSummary.StreetNumber__c,OrderSummary.Complementary__c, (SELECT id, TrackingNumber FROM FulfillmentOrderShipments) FROM FulfillmentOrder WHERE InvoiceId= :invoiceId];
         List<InvoiceLine> invoiceLines = [SELECT Id, Type, TaxRate,TaxAmount, Product2.Description, Quantity, UnitPrice, GrossUnitPrice, ChargeAmountWithTax, ChargeTaxAmount, TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN hsCode__c,hsCodeDescription__c,COO__c, Description, LineNumber END FROM InvoiceLine WHERE InvoiceId = :invoiceId];
         
         System.debug('fulfillmentOrder.get(0).OrderSummary.Legal_Entity__c ' + fulfillmentOrder.get(0).OrderSummary.VAT_ID__c);
@@ -63,6 +63,7 @@ global with sharing class SOM_InvoiceDocumentController {
         invDoc.invoiceDate    = isCorrectiveInvoice ? DateTime.newInstance(cInvoice.Corrective_Invoice_Date__c.year(), cInvoice.Corrective_Invoice_Date__c.month(), cInvoice.Corrective_Invoice_Date__c.day()).format('yyyy-MM-dd') : DateTime.newInstance(fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.year(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.month(), fulfillmentOrder.get(0).Invoice.Invoice_Timezone_Date__c.day()).format('yyyy-MM-dd');
         invDoc.documentNumber = isCorrectiveInvoice ? cInvoice.Name : fulfillmentOrder.get(0).Invoice.InvoiceNumber__c;
         invDoc.Template 	  = templateCode;
+        invDoc.orderDate 	  = DateTime.newInstance(fulfillmentOrder.get(0).OrderSummary.OrderedDate.year(), fulfillmentOrder.get(0).OrderSummary.OrderedDate.month(), fulfillmentOrder.get(0).OrderSummary.OrderedDate.day()).format('yyyy-MM-dd');
         
         if (fulfillmentOrder != null && !fulfillmentOrder.isEmpty()) {
             //AmountsFormat info
@@ -327,6 +328,7 @@ global with sharing class SOM_InvoiceDocumentController {
         public String                Template {get; set;} 
         public String                TaxID {get; set;} 
         public String 				 CROSS_BORDER { get; set; }
+        public String 				 orderDate { get; set; }
     }
     
     
