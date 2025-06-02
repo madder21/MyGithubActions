@@ -36,7 +36,9 @@ jobs:
 
       - name: Run PMD scan and save to CSV
         run: |
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f pmd-results
+          # ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv > pmd-results.csv
+
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text
 
   deploy-prod-jwt:
     needs: pmd-run
