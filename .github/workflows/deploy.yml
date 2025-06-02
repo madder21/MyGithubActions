@@ -34,11 +34,22 @@ jobs:
           mv ~/pmd-bin-$PMD_VERSION ~/pmd
           ~/pmd/bin/run.sh pmd --version
 
-      - name: Run PMD scan and save to CSV
+      - name: Run PMD scan and fail on violations
+        id: pmd-scan
         run: |
-          # ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv > pmd-results.csv
+          mkdir -p reports
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text | tee reports/pmd-results.txt
+          if grep -qvi "No problems found!" reports/pmd-results.txt; then
+            echo "PMD violations found!"
+            exit 1
+          fi
 
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text
+      - name: Upload PMD report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: reports/pmd-results.txt
 
   deploy-prod-jwt:
     needs: pmd-run
