@@ -20,11 +20,9 @@ on:
 jobs:
   pmd-run:
     runs-on: ubuntu-latest
-    outputs:
-      result: ${{ steps.check-outcome.outcome }}
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install PMD
         run: |
@@ -36,12 +34,13 @@ jobs:
 
       - name: Run PMD scan and save to CSV
         run: |
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes \
+          ~/pmd/bin/run.sh pmd \
+            -d ./force-app/main/default/classes \
             -R pmd/pmd-ruleset.xml \
             -f csv > pmd-results.csv
 
       - name: Upload PMD results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.4
         with:
           name: pmd-results
           path: pmd-results.csv
@@ -53,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node (optional)
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
