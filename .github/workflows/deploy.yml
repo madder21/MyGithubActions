@@ -38,10 +38,17 @@ jobs:
         id: pmd-scan
         run: |
           mkdir -p reports
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text | tee reports/pmd-results.txt
-          if grep -qvi "No problems found!" reports/pmd-results.txt; then
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text > reports/pmd-results.txt
+
+          echo "---- PMD OUTPUT ----"
+          cat reports/pmd-results.txt
+
+          # Check if the file is non-empty (indicating violations)
+          if [ -s reports/pmd-results.txt ]; then
             echo "PMD violations found!"
             exit 1
+          else
+            echo "No PMD violations."
           fi
 
       - name: Upload PMD report
