@@ -44,19 +44,19 @@ jobs:
           mkdir -p reports
           echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
 
-          echo "🔍 Checking for source files to analyze..."
+          echo "Checking for source files to analyze..."
           if [ -z "$(find ./force-app/main/default/classes -type f -name '*.cls')" ]; then
-            echo "⚠️ No .cls files found in ./force-app/main/default/classes"
+            echo "No .cls files found in ./force-app/main/default/classes"
           else
-            echo "✅ Found Apex files:"
+            echo "Found Apex files:"
             find ./force-app/main/default/classes -type f -name '*.cls'
           fi
 
-          echo "🚀 Running PMD scan..."
+          echo "Running PMD scan..."
           ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
 
-          echo "📄 PMD output:"
-          cat reports/pmd-results.csv || echo "⚠️ No report generated!"
+          echo "PMD output:"
+          cat reports/pmd-results.csv || echo "No report generated!"
 
       - name: Set PMD result output
         id: set-result
