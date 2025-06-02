@@ -34,17 +34,17 @@ jobs:
           mv ~/pmd-bin-$PMD_VERSION ~/pmd
           ~/pmd/bin/run.sh pmd --version
 
-      - name: Run PMD scan and generate CSV with header
+      - name: Run PMD scan and fail on violations
         id: pmd-scan
         run: |
           mkdir -p reports
           echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
-          ~/pmd/bin/run.sh pmd check -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv >> reports/pmd-results.csv
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv >> reports/pmd-results.csv
 
-          # Show output for debugging
+          echo "---- PMD OUTPUT ----"
           cat reports/pmd-results.csv
 
-          # Fail if violations exist (any line after the header)
+          # Count lines; header-only (1 line) = no violations
           line_count=$(wc -l < reports/pmd-results.csv)
           if [ "$line_count" -gt 1 ]; then
             echo "PMD violations found!"
