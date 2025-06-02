@@ -34,29 +34,24 @@ jobs:
           mv ~/pmd-bin-$PMD_VERSION ~/pmd
           ~/pmd/bin/run.sh pmd --version
 
-      - name: Run PMD scan and fail on violations
+      - name: Run PMD scan and generate CSV with header
         id: pmd-scan
         run: |
           mkdir -p reports
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv -Dreportfile.header=true > reports/pmd-results.csv
+          echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
+          ~/pmd/bin/run.sh pmd check -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv >> reports/pmd-results.csv
 
-          echo "---- PMD OUTPUT ----"
+          # Show output for debugging
           cat reports/pmd-results.csv
 
-          # Check if the file is non-empty (indicating violations)
-          if [ -s reports/pmd-results.csv ]; then
+          # Fail if violations exist (any line after the header)
+          line_count=$(wc -l < reports/pmd-results.csv)
+          if [ "$line_count" -gt 1 ]; then
             echo "PMD violations found!"
             exit 1
           else
             echo "No PMD violations."
           fi
-
-      - name: Upload PMD report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: pmd-report
-          path: reports/pmd-results.csv
 
   deploy-prod-jwt:
     needs: pmd-run
