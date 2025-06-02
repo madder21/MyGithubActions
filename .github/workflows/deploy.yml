@@ -1,3 +1,64 @@
+# name: Manual Deploy
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         type: choice
+#         description: Which environment to deploy to
+#         options:
+#           - integrate-sandbox
+#           - uat-partial-sandbox
+#           - production
+#         default: 'integrate-sandbox'
+#         required: true
+#       validateOnly:
+#         description: 'Run the deployment as validation only'
+#         type: boolean
+#         default: false
+
+# jobs:
+#   deploy-integrate:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#             node-version: "14"
+#       - name: Deploy to partial sandbox
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_INTEGRATE }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+#   deploy-partial-sandbox:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'uat-partial-sandbox' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#               node-version: "14"
+#       - name: Deploy to partial sandbox
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PARTIALSB }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+#   deploy-prod:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.inputs.environment == 'production' }}
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#               node-version: "14"
+#       - name: Deploy to production
+#         uses: ./.github/actions/deploy-environment
+#         with:
+#           sfdx_auth_url: ${{ secrets.SFDX_AUTH_URL_PRODUCTION }}
+#           environmentName: ${{ github.event.inputs.environment }}
+#           validateOnly: ${{ github.event.inputs.validateOnly }}
 name: Manual Workflow Deploy
 
 on:
@@ -18,72 +79,44 @@ on:
         default: false
 
 jobs:
-
-  test-upload:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-
-    name: Modify/add files
-    . . .
-
-    name: push changes to remote
-    run: |
-    git config --global user.name "user mane"
-    git config --global user.email "user email"
-    
-    git add &lt;pathspec&gt; git commit -m "commit message"
-    git push
-          
   pmd-run:
     runs-on: ubuntu-latest
-    outputs:
-      result: ${{ steps.check-outcome.outcome }}
     steps:
-      - name: Checkout source code
+      # Checkout the source code
+      - name: 'Checkout source code'
         uses: actions/checkout@v2
 
-      - name: Install PMD
+      # Install PMD
+      - name: 'Install PMD'
         run: |
-          PMD_VERSION=$(cat pmd/pmd-version.txt)
-          wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F$PMD_VERSION/pmd-bin-$PMD_VERSION.zip
-          unzip pmd-bin-$PMD_VERSION.zip -d ~
-          mv ~/pmd-bin-$PMD_VERSION ~/pmd
-          ~/pmd/bin/run.sh pmd --version
-
-      - name: Run PMD scan and save to CSV
-        run: |
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes \
-            -R pmd/pmd-ruleset.xml \
-            -f csv > pmd-results.csv
-
-      - name: Upload PMD results
-        uses: actions/upload-artifact@v3
-        with:
-          name: pmd-results
-          path: pmd-results.csv
+            PMD_VERSION=`cat pmd/pmd-version.txt`
+            wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F$PMD_VERSION/pmd-bin-$PMD_VERSION.zip
+            unzip pmd-bin-$PMD_VERSION.zip -d ~
+            mv ~/pmd-bin-$PMD_VERSION ~/pmd
+            ~/pmd/bin/run.sh pmd --version
+      # Run PMD scan
+      - name: 'Run PMD scan'
+        run: ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f text
 
   deploy-prod-jwt:
-    needs: pmd-run
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.environment == 'integrate-sandbox' }}
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Node (optional)
+      - name: Setup Node (optional, only if needed for something)
         uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Install Salesforce CLI
+      # Install Salesforce CLI
+      - name: 'Install Salesforce CLI'
         run: |
-          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-          mkdir ~/sfdx
-          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-          ~/sfdx/bin/sfdx version
+            wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+            mkdir ~/sfdx
+            tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+            echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+            ~/sfdx/bin/sfdx version
 
       - name: Create JWT key file
         run: |
