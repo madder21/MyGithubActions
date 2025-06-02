@@ -53,7 +53,7 @@ jobs:
           ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
 
           echo "PMD output:"
-          cat reports/pmd-results.csv || echo "⚠️ No report generated!"
+          cat reports/pmd-results.csv || echo "No report generated!"
 
           echo "Checking for violations..."
           line_count=$(wc -l < reports/pmd-results.csv)
