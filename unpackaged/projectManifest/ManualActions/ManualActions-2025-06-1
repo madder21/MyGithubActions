@@ -1,0 +1,20 @@
+* Ticket: SOM-1291 :
+    -> OrderSummary.Tech_CancelItem__c : Visible to all Profile
+
+* Ticket: 1342 :
+    Legal_Entity__c.cegidPaymentMethodID__c :
+    ->  Visible to : Identity Profile - System Administrator Profile - Ecom Operations Profile - Finance Profile - Technical Profile
+    ->  Editable to : System Administrator Profile - Ecom Operations Profile - Technical Profile - Finance Profile
+    ->  "SOM - OM - Ecom Operations rights" : Edit 
+
+* Ticket: SOM-1352 :
+    -> Activate fulfillment order record page for Identity Profile
+    -> Update the permission set SOM - OM - Ecom Operations rights :
+        Order.Complementary__c                  : Read Access + Edit Access
+        Order.StreetNumber__c                   : Read Access + Edit Access
+        Order.RI_Neighborhood__c                : Read Access + Edit Access
+        OrderDeliveryGroup.Complementary__c     : Read Access + Edit Access
+        OrderDeliveryGroup.StreetNumber__c      : Read Access + Edit Access
+        OrderDeliveryGroup.RI_Neighborhood__c   : Read Access + Edit Access
+    -> To manage Stock in OCI → Assign Omnichannel Inventory Manager to the user
+
