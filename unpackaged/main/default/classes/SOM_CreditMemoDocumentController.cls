@@ -44,7 +44,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
             String templateCode = ApexPages.currentPage().getParameters().get('template');
             creditMemoDoc.Template = templateCode;
-            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,Complementary__c,StreetNumber__c,RI_Neighborhood__c,
+            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode,OrderedDate, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,Complementary__c,StreetNumber__c,RI_Neighborhood__c,
                                            BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, Credit_Memo_Date__c, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                            (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
                                             TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, Description, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
@@ -70,7 +70,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                     billingContact.name        = ordSummary.BillingContactFirstName__c + ' ' + ordSummary.BillingContactLastName__c;
                     billingContact.city        = ordSummary.BillingCity;
                     billingContact.country     = Country;
-                    
+                	creditMemoDoc.orderDate   = DateTime.newInstance(ordSummary.OrderedDate.year(), ordSummary.OrderedDate.month(), ordSummary.OrderedDate.day()).format('dd.MM.yyyy');
                     
                     if (Country == 'Brazil' && !String.IsBlank(ordSummary.StreetNumber__c) && !String.IsBlank(ordSummary.Complementary__c)){
                         billingContact.address = ordSummary.BillingStreet + ', ' + ordSummary.StreetNumber__c + ' - ' + ordSummary.Complementary__c;
@@ -390,6 +390,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   paymentType {get; set;}
         public String                   Template {get; set;}
         public String                	TaxID {get; set;}
+        public String                   orderDate {get; set;}
     }
     global with sharing class CreditMemoContact{
         public String name {get; set;}
