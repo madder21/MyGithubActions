@@ -163,7 +163,7 @@
             <name>NOT_BR_Order</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>$Record.OrderSummary.BillingCountry</leftValueReference>
+                <leftValueReference>$Record.FulfilledToCountry</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>BR</stringValue>
@@ -273,7 +273,6 @@
             <label>RIMOWA/Manual + HD</label>
         </rules>
     </decisions>
-    <description>Fields for Report</description>
     <environments>Default</environments>
     <formulas>
         <name>FX_First_Record_Ever_Created</name>
@@ -454,8 +453,8 @@ LEN({!Get_Last_Invoice_Record.DocumentNumber__c})-3)</expression>
     <recordLookups>
         <name>Get_Last_Invoice_Record</name>
         <label>Get Last Invoice Record</label>
-        <locationX>612</locationX>
-        <locationY>292</locationY>
+        <locationX>3371</locationX>
+        <locationY>297</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <filterLogic>and</filterLogic>
         <filters>

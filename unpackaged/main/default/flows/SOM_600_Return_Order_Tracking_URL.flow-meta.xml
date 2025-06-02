@@ -38,14 +38,6 @@
         <connector>
             <targetReference>Update_Tacking_URL</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Name</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>storeLocator</stringValue>
-            </value>
-        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>STW_URL__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
