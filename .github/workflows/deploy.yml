@@ -39,12 +39,14 @@ jobs:
         run: |
           mkdir -p reports
           echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv >> reports/pmd-results.csv
+
+          echo "Running PMD scan..."
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv
 
           echo "---- PMD OUTPUT ----"
           cat reports/pmd-results.csv
 
-          # Count lines; header-only (1 line) = no violations
+          # Check for violations
           line_count=$(wc -l < reports/pmd-results.csv)
           if [ "$line_count" -gt 1 ]; then
             echo "PMD violations found!"
@@ -52,6 +54,7 @@ jobs:
           else
             echo "No PMD violations."
           fi
+
 
   deploy-prod-jwt:
     needs: pmd-run
