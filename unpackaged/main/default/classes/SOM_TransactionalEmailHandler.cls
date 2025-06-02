@@ -247,7 +247,7 @@ public without sharing class SOM_TransactionalEmailHandler {
         List<OrderSummary> orderSummaries = [SELECT Id, OrderNumber , OrderedDate, SalesChannel.SalesChannelName, 
                                              BillingContactFirstName__c, BillingContactLastName__c, BillingState, BillingStreet, BillingPostalCode,tech_os_store_shipping_method__c, 
                                              BillingCity, BillingCountry, TotalAmount, TotalTaxAmount,language__c, GrandTotalAmount, AccountId,Account.PersonEmail, CurrencyIsoCode,BillingEmailAddress ,StreetNumber__c,Complementary__c, RI_Neighborhood__c,OrderedDate__c,
-                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, ReservedAtLocation.Name, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c,Type 
+                                             (SELECT Id,StockKeepingUnit,Name,LineNumber,Product2.ImageURL__c, Product2.ImageUrl1__c, ReservedAtLocationId, ReservedAtLocation.Name, Quantity, TotalLineAmount, Description, IsPreOrder__c, PreOrder_message__c,Type ,GrossUnitPrice 
                                               FROM OrderItemSummaries ORDER BY LineNumber ASC),
                                              (SELECT Id,DeliverToCountry, CLICKCOLLECT_StoreName__c, DeliverToCity, DeliverToState, DeliverToStreet, DeliverToPostalCode, DeliverToName, StreetNumber__c,Complementary__c, RI_Neighborhood__c 
                                               FROM OrderDeliveryGroupSummaries)
@@ -323,7 +323,7 @@ orderTemplateContent.PickupStoreName = '';
                     lineItem.name            = orderItemSumm.Name;
                     lineItem.description     = orderItemSumm.Description;
                     lineItem.isPreorder      = orderItemSumm.IsPreOrder__c;
-                    lineItem.amount          = orderItemSumm.TotalLineAmount;
+                    lineItem.amount          = orderItemSumm.GrossUnitPrice;
                     lineItem.quantity        = orderItemSumm.Quantity;
                     lineItem.preorderMessage = orderItemSumm.PreOrder_message__c;
                     //lineItem.imageURL		 = orderItemSumm.Product2.ImageURL__c;
