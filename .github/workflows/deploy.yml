@@ -89,7 +89,7 @@ jobs:
         run: echo "Approved to deploy"
 
   deploy-integrate:
-    needs: [pmd-run, wait-approval]
+    needs: wait-approval
     if: >
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.environment == 'integrate-sandbox' &&
@@ -138,7 +138,7 @@ jobs:
 
   wait-uat-approval:
       if: github.event_name == 'workflow_dispatch'
-      needs: [pmd-run, wait-approval, deploy-integrate]
+      needs: deploy-integrate
       runs-on: ubuntu-latest
       environment:
         name: ${{ github.event.inputs.environment }}
@@ -147,7 +147,7 @@ jobs:
           run: echo "Approved to deploy"
 
   deploy-uat:
-    needs: [pmd-run, wait-uat-approval]
+    needs: wait-uat-approval
     if: >
       github.event.inputs.pmdRequired == 'false' ||
         (
@@ -194,14 +194,10 @@ jobs:
   deploy-prod:
     needs: [deploy-uat]
     if: >
-      github.event_name == 'workflow_dispatch' &&
-      github.event.inputs.environment == 'production' &&
+      github.event.inputs.pmdRequired == 'false' ||
       (
-        github.event.inputs.pmdRequired == 'false' ||
-        (
-          github.event.inputs.pmdRequired == 'true' &&
-          needs.pmd-run.outputs.pmd_status == 'success'
-        )
+        github.event.inputs.pmdRequired == 'true' &&
+        needs.pmd-run.outputs.pmd_status == 'success'
       )
     runs-on: ubuntu-latest
     steps:
