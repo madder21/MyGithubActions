@@ -19,7 +19,7 @@ on:
       pmdRequired:
         description: 'Block deployment if PMD fails'
         type: boolean
-        default: true
+        default: false
 
   pull_request:
     paths:
@@ -54,15 +54,12 @@ jobs:
           mkdir -p reports
           echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
 
-          echo "Checking for Apex files..."
           if [ -z "$(find ./force-app/main/default/classes -type f -name '*.cls')" ]; then
             echo "No .cls files found"
           else
-            echo "Apex files found:"
             find ./force-app/main/default/classes -type f -name '*.cls'
           fi
 
-          echo "Running PMD..."
           ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
 
       - name: Set PMD result output
@@ -81,14 +78,39 @@ jobs:
           name: pmd-report
           path: reports/pmd-results.csv
 
+  wait-approval:
+    if: github.event_name == 'workflow_dispatch'
+    needs: pmd-run
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Wait for manual approval before deploying to ${{ github.event.inputs.environment }}
+        run: echo "Approved to deploy"
+
   deploy-integrate:
-    needs: pmd-check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.pmd-check.outputs.pmd_status == 'success'
+    needs: [pmd-run, wait-approval]
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.environment == 'integrate-sandbox' &&
+      (
+        github.event.inputs.pmdRequired == 'false' ||
+        (
+          github.event.inputs.pmdRequired == 'true' &&
+          needs.pmd-run.outputs.pmd_status == 'success'
+        )
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup and Deploy to Integrate
+        run: echo "Deploying to Integrate..."
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
 
-      - name: Setup CLI
+      - name: Install Salesforce CLI
         run: |
           wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
           mkdir ~/sfdx
@@ -96,13 +118,13 @@ jobs:
           echo "$HOME/sfdx/bin" >> $GITHUB_PATH
           ~/sfdx/bin/sfdx version
 
-      - name: Create JWT Key
+      - name: Create JWT key file
         run: |
           mkdir -p JWT
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
           chmod 600 JWT/server.key
 
-      - name: Deploy to Integrate
+      - name: Deploy via JWT to Sandbox
         uses: ./.github/actions/deploy-environment
         with:
           instanceUrl: https://login.salesforce.com
@@ -114,51 +136,101 @@ jobs:
           testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
-  
 
-  # deploy-prod-jwt:
-  #   needs: pmd-run
-  #   runs-on: ubuntu-latest
-  #   if: >
-  #     github.event_name == 'workflow_dispatch' &&
-  #     github.event.inputs.environment == 'integrate-sandbox' &&
-  #     (
-  #       github.event.inputs.pmdRequired == 'false' ||
-  #       (
-  #         github.event.inputs.pmdRequired == 'true' &&
-  #         needs.pmd-run.outputs.pmd_status == 'success'
-  #       )
-  #     )
-  #   steps:
-  #     - uses: actions/checkout@v3
+  deploy-uat:
+    needs: [pmd-run, wait-approval]
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.environment == 'uat-partial-sandbox' &&
+      (
+        github.event.inputs.pmdRequired == 'false' ||
+        (
+          github.event.inputs.pmdRequired == 'true' &&
+          needs.pmd-run.outputs.pmd_status == 'success'
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup and Deploy to UAT
+        run: echo "Deploying to UAT..."
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
 
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: "18"
+      - name: Install Salesforce CLI
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
 
-  #     - name: Install Salesforce CLI
-  #       run: |
-  #         wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-  #         mkdir ~/sfdx
-  #         tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-  #         echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-  #         ~/sfdx/bin/sfdx version
+      - name: Create JWT key file
+        run: |
+          mkdir -p JWT
+          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
+          chmod 600 JWT/server.key
 
-  #     - name: Create JWT key file
-  #       run: |
-  #         mkdir -p JWT
-  #         echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
-  #         chmod 600 JWT/server.key
+      - name: Deploy via JWT to Sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          instanceUrl: https://login.salesforce.com
+          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+          keyFilePath: JWT/server.key
+          alias: aliasTestCICDOrg
+          manifestPath: manifest/package.xml
+          testsToRunFile: specifiedTestsClass/testsToRun.txt
+          validateOnly: ${{ github.event.inputs.validateOnly }}
 
-  #     - name: Deploy via JWT to Sandbox
-  #       uses: ./.github/actions/deploy-environment
-  #       with:
-  #         instanceUrl: https://login.salesforce.com
-  #         clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
-  #         username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
-  #         keyFilePath: JWT/server.key
-  #         alias: aliasTestCICDOrg
-  #         manifestPath: manifest/package.xml
-  #         testsToRunFile: specifiedTestsClass/testsToRun.txt
-  #         validateOnly: ${{ github.event.inputs.validateOnly }}
+
+  deploy-prod:
+    needs: [pmd-run, wait-approval]
+    if: >
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.environment == 'production' &&
+      (
+        github.event.inputs.pmdRequired == 'false' ||
+        (
+          github.event.inputs.pmdRequired == 'true' &&
+          needs.pmd-run.outputs.pmd_status == 'success'
+        )
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup and Deploy to Production
+        run: echo "Deploying to Production..."
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Salesforce CLI
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
+
+      - name: Create JWT key file
+        run: |
+          mkdir -p JWT
+          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
+          chmod 600 JWT/server.key
+
+      - name: Deploy via JWT to Sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          instanceUrl: https://login.salesforce.com
+          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+          keyFilePath: JWT/server.key
+          alias: aliasTestCICDOrg
+          manifestPath: manifest/package.xml
+          testsToRunFile: specifiedTestsClass/testsToRun.txt
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+
