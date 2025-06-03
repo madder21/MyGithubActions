@@ -1,59 +1,61 @@
-name: 'Deploy to Salesforce'
-description: 'Reusable action to deploy metadata to Salesforce using JWT'
+name: Deploy Using JWT
+description: Authenticates with JWT and deploys specific package
+
 inputs:
   instanceUrl:
+    description: 'Salesforce instance URL (e.g., https://login.salesforce.com)'
     required: true
-    description: 'Salesforce login URL (e.g., https://login.salesforce.com)'
   clientId:
+    description: 'Consumer Key of the connected app'
     required: true
-    description: 'Connected App client ID'
   username:
+    description: 'Salesforce username (integration user)'
     required: true
-    description: 'Salesforce username'
   keyFilePath:
+    description: 'Path to JWT private key file'
     required: true
-    description: 'Path to JWT server key file'
   alias:
+    description: 'Alias for the authenticated org'
     required: true
-    description: 'SFDX alias to set for the org'
   manifestPath:
+    description: 'Path to the package.xml manifest file'
     required: true
-    description: 'Path to package.xml file'
   testsToRunFile:
+    description: 'Path to the text file listing test classes to run'
     required: true
-    description: 'Path to file listing Apex test classes'
   validateOnly:
-    required: true
-    description: 'Whether to validate the deployment only (true/false)'
+    description: 'Run the deployment as validation only'
+    required: false
+    default: 'false'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
-    - name: Authenticate via JWT
+    - name: Authenticate using JWT (sf CLI)
+      shell: bash
       run: |
-        sfdx auth:jwt:grant \
-          --clientid "${{ inputs.clientId }}" \
-          --jwtkeyfile "${{ inputs.keyFilePath }}" \
+        sf org login jwt \
+          --client-id "${{ inputs.clientId }}" \
+          --jwt-key-file "${{ inputs.keyFilePath }}" \
           --username "${{ inputs.username }}" \
-          --instanceurl "${{ inputs.instanceUrl }}" \
-          --setalias "${{ inputs.alias }}"
+          --alias "${{ inputs.alias }}" \
+          --instance-url "${{ inputs.instanceUrl }}"
 
-    - name: Display Org Info
-      run: sfdx force:org:display --targetusername "${{ inputs.alias }}" --verbose
-
-    - name: Read Apex tests to run
-      id: read-tests
+    - name: Deploy package
+      shell: bash
       run: |
-        TESTS=$(cat "${{ inputs.testsToRunFile }}" | paste -sd, -)
-        echo "testclasses=$TESTS" >> $GITHUB_OUTPUT
+        testClasses=$(paste -sd, < "${{ inputs.testsToRunFile }}")
+        deployFlags=(
+          --manifest "${{ inputs.manifestPath }}"
+          --target-org "${{ inputs.alias }}"
+          --test-level RunLocalTests
+          --wait 30
+          --verbose
+          --json
+        )
+        if [ "${{ inputs.validateOnly }}" = "true" ]; then
+          deployFlags+=( --dry-run )
+        fi
+        sf project deploy start "${deployFlags[@]}"
 
-    - name: Deploy Metadata
-      run: |
-        echo "Running deployment with validateOnly=${{ inputs.validateOnly }}"
-        sfdx force:source:deploy \
-          --manifest "${{ inputs.manifestPath }}" \
-          --targetusername "${{ inputs.alias }}" \
-          --testlevel RunSpecifiedTests \
-          --runtests "${{ steps.read-tests.outputs.testclasses }}" \
-          --wait 60 \
-          ${{ inputs.validateOnly == 'true' && '--checkonly' || '' }}
+# add destructive package logic
