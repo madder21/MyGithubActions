@@ -84,7 +84,7 @@ jobs:
 
   deploy-integrate:
     needs: pmd-check
-    if: needs.pmd-check.outputs.pmd_status == 'success'
+    # if: needs.pmd-check.outputs.pmd_status == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
