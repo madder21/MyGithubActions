@@ -84,7 +84,7 @@ jobs:
 
   deploy-integrate:
     needs: pmd-check
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.pmd-check.outputs.pmd_status == 'success'
+    if: needs.pmd-check.outputs.pmd_status == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
