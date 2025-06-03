@@ -136,9 +136,18 @@ jobs:
           testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
+  wait-uat-approval:
+      if: github.event_name == 'workflow_dispatch'
+      needs: [pmd-run, wait-approval, deploy-integrate]
+      runs-on: ubuntu-latest
+      environment:
+        name: ${{ github.event.inputs.environment }}
+      steps:
+        - name: Wait for manual approval before deploying to ${{ github.event.inputs.environment }}
+          run: echo "Approved to deploy"
 
   deploy-uat:
-    needs: [pmd-run, wait-approval]
+    needs: [pmd-run, wait-approval, deploy-integrate, wait-uat-approval]
     if: >
       github.event_name == 'workflow_dispatch' &&
       github.event.inputs.environment == 'uat-partial-sandbox' &&
