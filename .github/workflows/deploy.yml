@@ -190,9 +190,18 @@ jobs:
           testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
+  wait-prod-approval:
+        if: github.event_name == 'workflow_dispatch'
+        needs: deploy-uat
+        runs-on: ubuntu-latest
+        environment:
+          name: ${{ github.event.inputs.environment }}
+        steps:
+          - name: Wait for manual approval before deploying to ${{ github.event.inputs.environment }}
+            run: echo "Approved to deploy"
 
   deploy-prod:
-    needs: [deploy-uat]
+    needs: [wait-prod-approval]
     if: >
       github.event.inputs.pmdRequired == 'false' ||
       (
