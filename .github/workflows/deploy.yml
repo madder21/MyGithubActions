@@ -1,25 +1,25 @@
 name: Manual Workflow Deploy + PR Check
 
 on:
-  # workflow_dispatch:
-  #   inputs:
-  #     environment:
-  #       type: choice
-  #       description: Which environment to deploy to
-  #       options:
-  #         - integrate-sandbox
-  #         - uat-partial-sandbox
-  #         - production
-  #       default: 'integrate-sandbox'
-  #       required: true
-  #     validateOnly:
-  #       description: 'Run the deployment as validation only'
-  #       type: boolean
-  #       default: false
-  #     pmdRequired:
-  #       description: 'Block deployment if PMD fails'
-  #       type: boolean
-  #       default: true
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - integrate-sandbox
+          - uat-partial-sandbox
+          - production
+        default: 'integrate-sandbox'
+        required: true
+      validateOnly:
+        description: 'Run the deployment as validation only'
+        type: boolean
+        default: false
+      pmdRequired:
+        description: 'Block deployment if PMD fails'
+        type: boolean
+        default: true
 
   pull_request:
     paths:
