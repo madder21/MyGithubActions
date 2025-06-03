@@ -21,7 +21,6 @@ on:
   #       type: boolean
   #       default: true
 
-  workflow_dispatch:
   pull_request:
     paths:
       - 'force-app/**'
@@ -84,7 +83,7 @@ jobs:
 
   deploy-integrate:
     needs: pmd-check
-    # if: needs.pmd-check.outputs.pmd_status == 'success'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.pmd-check.outputs.pmd_status == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -115,90 +114,7 @@ jobs:
           testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
-  approve-uat:
-    needs: deploy-integrate
-    runs-on: ubuntu-latest
-    environment:
-      name: uat-partial-sandbox
-      url: https://test.salesforce.com
-    steps:
-      - name: Wait for UAT approval
-        run: echo "UAT deployment approved."
-
-  deploy-uat:
-    needs: approve-uat
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup CLI
-        run: |
-          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-          mkdir ~/sfdx
-          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-          ~/sfdx/bin/sfdx version
-
-      - name: Create JWT Key
-        run: |
-          mkdir -p JWT
-          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
-          chmod 600 JWT/server.key
-
-      - name: Deploy to UAT
-        uses: ./.github/actions/deploy-environment
-        with:
-          instanceUrl: https://login.salesforce.com
-          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
-          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
-          keyFilePath: JWT/server.key
-          alias: aliasTestCICDOrg
-          manifestPath: manifest/package.xml
-          testsToRunFile: specifiedTestsClass/testsToRun.txt
-          validateOnly: ${{ github.event.inputs.validateOnly }}
-
-  approve-prod:
-    needs: deploy-uat
-    runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://login.salesforce.com
-    steps:
-      - name: Wait for Production approval
-        run: echo "Production deployment approved."
-
-  deploy-prod:
-    needs: approve-prod
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Setup CLI
-        run: |
-          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-          mkdir ~/sfdx
-          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
-          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
-          ~/sfdx/bin/sfdx version
-
-      - name: Create JWT Key
-        run: |
-          mkdir -p JWT
-          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
-          chmod 600 JWT/server.key
-
-      - name: Deploy to Production
-        uses: ./.github/actions/deploy-environment
-        with:
-          instanceUrl: https://login.salesforce.com
-          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
-          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
-          keyFilePath: JWT/server.key
-          alias: aliasTestCICDOrg
-          manifestPath: manifest/package.xml
-          testsToRunFile: specifiedTestsClass/testsToRun.txt
-          validateOnly: ${{ github.event.inputs.validateOnly }}
-
+  
 
   # deploy-prod-jwt:
   #   needs: pmd-run
