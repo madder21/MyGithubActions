@@ -1,7 +1,35 @@
-name: Deploy Pipeline
+name: Manual Workflow Deploy + PR Check
 
 on:
-  workflow_dispatch:
+  # workflow_dispatch:
+  #   inputs:
+  #     environment:
+  #       type: choice
+  #       description: Which environment to deploy to
+  #       options:
+  #         - integrate-sandbox
+  #         - uat-partial-sandbox
+  #         - production
+  #       default: 'integrate-sandbox'
+  #       required: true
+  #     validateOnly:
+  #       description: 'Run the deployment as validation only'
+  #       type: boolean
+  #       default: false
+  #     pmdRequired:
+  #       description: 'Block deployment if PMD fails'
+  #       type: boolean
+  #       default: true
+
+  pull_request:
+    paths:
+      - 'force-app/**'
+      - 'pmd/**'
+    branches:
+      - main
+      - master
+      - develop
+      - release/**
 
 jobs:
   pmd-run:
@@ -25,7 +53,17 @@ jobs:
         run: |
           mkdir -p reports
           echo "Problem,Package,File,Priority,Line,Description,Rule,Ruleset" > reports/pmd-results.csv
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD scan completed"
+
+          echo "Checking for Apex files..."
+          if [ -z "$(find ./force-app/main/default/classes -type f -name '*.cls')" ]; then
+            echo "No .cls files found"
+          else
+            echo "Apex files found:"
+            find ./force-app/main/default/classes -type f -name '*.cls'
+          fi
+
+          echo "Running PMD..."
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
 
       - name: Set PMD result output
         id: set-result
@@ -44,12 +82,11 @@ jobs:
           path: reports/pmd-results.csv
 
   deploy-integrate:
-    needs: pmd-run
+    needs: pmd-check
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.pmd-check.outputs.pmd_status == 'success'
     runs-on: ubuntu-latest
-    if: needs.pmd-run.outputs.pmd_status == 'success'
     steps:
-      - name: Checkout source
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup CLI
         run: |
@@ -59,7 +96,7 @@ jobs:
           echo "$HOME/sfdx/bin" >> $GITHUB_PATH
           ~/sfdx/bin/sfdx version
 
-      - name: Create JWT key
+      - name: Create JWT Key
         run: |
           mkdir -p JWT
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
@@ -75,7 +112,7 @@ jobs:
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
           testsToRunFile: specifiedTestsClass/testsToRun.txt
-          validateOnly: false
+          validateOnly: ${{ github.event.inputs.validateOnly }}
 
   approve-uat:
     needs: deploy-integrate
@@ -85,7 +122,7 @@ jobs:
       url: https://test.salesforce.com
     steps:
       - name: Wait for UAT approval
-        run: echo "UAT deployment manually approved."
+        run: echo "UAT deployment approved."
 
   deploy-uat:
     needs: approve-uat
@@ -101,7 +138,7 @@ jobs:
           echo "$HOME/sfdx/bin" >> $GITHUB_PATH
           ~/sfdx/bin/sfdx version
 
-      - name: Create JWT key
+      - name: Create JWT Key
         run: |
           mkdir -p JWT
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
@@ -117,7 +154,7 @@ jobs:
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
           testsToRunFile: specifiedTestsClass/testsToRun.txt
-          validateOnly: false
+          validateOnly: ${{ github.event.inputs.validateOnly }}
 
   approve-prod:
     needs: deploy-uat
@@ -127,7 +164,7 @@ jobs:
       url: https://login.salesforce.com
     steps:
       - name: Wait for Production approval
-        run: echo "Production deployment manually approved."
+        run: echo "Production deployment approved."
 
   deploy-prod:
     needs: approve-prod
@@ -143,7 +180,7 @@ jobs:
           echo "$HOME/sfdx/bin" >> $GITHUB_PATH
           ~/sfdx/bin/sfdx version
 
-      - name: Create JWT key
+      - name: Create JWT Key
         run: |
           mkdir -p JWT
           echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
@@ -159,4 +196,52 @@ jobs:
           alias: aliasTestCICDOrg
           manifestPath: manifest/package.xml
           testsToRunFile: specifiedTestsClass/testsToRun.txt
-          validateOnly: false
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+
+
+  # deploy-prod-jwt:
+  #   needs: pmd-run
+  #   runs-on: ubuntu-latest
+  #   if: >
+  #     github.event_name == 'workflow_dispatch' &&
+  #     github.event.inputs.environment == 'integrate-sandbox' &&
+  #     (
+  #       github.event.inputs.pmdRequired == 'false' ||
+  #       (
+  #         github.event.inputs.pmdRequired == 'true' &&
+  #         needs.pmd-run.outputs.pmd_status == 'success'
+  #       )
+  #     )
+  #   steps:
+  #     - uses: actions/checkout@v3
+
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "18"
+
+  #     - name: Install Salesforce CLI
+  #       run: |
+  #         wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+  #         mkdir ~/sfdx
+  #         tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+  #         echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+  #         ~/sfdx/bin/sfdx version
+
+  #     - name: Create JWT key file
+  #       run: |
+  #         mkdir -p JWT
+  #         echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
+  #         chmod 600 JWT/server.key
+
+  #     - name: Deploy via JWT to Sandbox
+  #       uses: ./.github/actions/deploy-environment
+  #       with:
+  #         instanceUrl: https://login.salesforce.com
+  #         clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+  #         username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+  #         keyFilePath: JWT/server.key
+  #         alias: aliasTestCICDOrg
+  #         manifestPath: manifest/package.xml
+  #         testsToRunFile: specifiedTestsClass/testsToRun.txt
+  #         validateOnly: ${{ github.event.inputs.validateOnly }}
