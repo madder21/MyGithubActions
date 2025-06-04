@@ -91,14 +91,10 @@ jobs:
   deploy-integrate:
     needs: wait-approval
     if: >
-      github.event_name == 'workflow_dispatch' &&
-      github.event.inputs.environment == 'integrate-sandbox' &&
+      github.event.inputs.pmdRequired == 'false' ||
       (
-        github.event.inputs.pmdRequired == 'false' ||
-        (
-          github.event.inputs.pmdRequired == 'true' &&
-          needs.pmd-run.outputs.pmd_status == 'success'
-        )
+        github.event.inputs.pmdRequired == 'true' &&
+        needs.pmd-run.outputs.pmd_status == 'success'
       )
     runs-on: ubuntu-latest
     steps:
