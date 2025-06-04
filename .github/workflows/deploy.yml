@@ -79,7 +79,6 @@ jobs:
           path: reports/pmd-results.csv
 
   wait-approval:
-    if: github.event_name == 'workflow_dispatch'
     needs: pmd-run
     runs-on: ubuntu-latest
     environment:
