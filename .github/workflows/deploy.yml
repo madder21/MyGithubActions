@@ -60,7 +60,7 @@ jobs:
             find ./force-app/main/default/classes -type f -name '*.cls'
           fi
 
-          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/pmd-ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
+          ~/pmd/bin/run.sh pmd -d ./force-app/main/default/classes -R pmd/ruleset.xml -f csv --force-language apex >> reports/pmd-results.csv || echo "PMD exited with non-zero status"
 
       - name: Set PMD result output
         id: set-result
