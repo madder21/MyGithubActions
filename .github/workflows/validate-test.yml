@@ -58,30 +58,30 @@ jobs:
 
           echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME,Pass Rate,Fail Rate,Skip Rate" > test-results/apex-test-detailed.csv
 
-          TESTS_EXIST=$(jq '.result.tests != null' "$RESULTS_FILE")
+          TESTS_EXIST=$(jq '.tests != null and (.tests | length > 0)' "$RESULTS_FILE")
           if [ "$TESTS_EXIST" != "true" ]; then
             echo "No test results found."
             cat "$RESULTS_FILE"
             exit 1
           fi
 
-          TOTAL=$(jq '.result.tests | length' "$RESULTS_FILE")
-          PASSED=$(jq '[.result.tests[] | select(.outcome=="Pass")] | length' "$RESULTS_FILE")
-          FAILED=$(jq '[.result.tests[] | select(.outcome=="Fail")] | length' "$RESULTS_FILE")
-          SKIPPED=$(jq '[.result.tests[] | select(.outcome=="Skip")] | length' "$RESULTS_FILE")
+          TOTAL=$(jq '.tests | length' "$RESULTS_FILE")
+          PASSED=$(jq '[.tests[] | select(.Outcome=="Pass")] | length' "$RESULTS_FILE")
+          FAILED=$(jq '[.tests[] | select(.Outcome=="Fail")] | length' "$RESULTS_FILE")
+          SKIPPED=$(jq '[.tests[] | select(.Outcome=="Skip")] | length' "$RESULTS_FILE")
 
           PASS_RATE=$(awk "BEGIN {printf \"%.2f\", (${PASSED}/${TOTAL}) * 100}")
           FAIL_RATE=$(awk "BEGIN {printf \"%.2f\", (${FAILED}/${TOTAL}) * 100}")
           SKIP_RATE=$(awk "BEGIN {printf \"%.2f\", (${SKIPPED}/${TOTAL}) * 100}")
 
           jq -r --arg pr "$PASS_RATE" --arg fr "$FAIL_RATE" --arg sr "$SKIP_RATE" \
-            '.result.tests[] | [
-              .methodName, 
-              .outcome, 
-              (.message // ""), 
-              (.runTime | tostring), 
-              $pr, 
-              $fr, 
+            '.tests[] | [
+              (.ApexClass.Name + "." + .MethodName),
+              .Outcome,
+              (.Message // ""),
+              (.RunTime | tostring),
+              $pr,
+              $fr,
               $sr
             ] | @csv' "$RESULTS_FILE" >> test-results/apex-test-detailed.csv
 
