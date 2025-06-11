@@ -12,7 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -21,9 +22,13 @@ jobs:
           npm install --global sfdx-cli
           sfdx --version
 
-      - name: Login to Org
+      - name: Install Apex Plugin (for force:apex:test:run)
         run: |
-          sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{secrets.SFDC_AUTH_URL}}")
+          sfdx plugins:install @salesforce/plugin-apex
+
+      - name: Login to Salesforce Org
+        run: |
+          sfdx auth:sfdxurl:store --sfdxurlfile <(echo "${{ secrets.SFDC_AUTH_URL }}") --setdefaultusername
 
       - name: Read Test Class Names from File
         id: read-tests
@@ -34,4 +39,11 @@ jobs:
 
       - name: Run Specified Test Classes
         run: |
-          sfdx apex run test -n "${{ steps.read-tests.outputs.TEST_CLASSES }}" -w 15
+          sfdx force:apex:test:run -n "${{ steps.read-tests.outputs.TEST_CLASSES }}" -w 15 --resultformat human --outputdir test-results
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apex-test-results
+          path: test-results
