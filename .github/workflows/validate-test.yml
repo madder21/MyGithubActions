@@ -28,7 +28,7 @@ jobs:
 
       - name: Login to Salesforce Org
         run: |
-          sfdx auth:sfdxurl:store --sfdxurlfile <(echo "${{ secrets.SFDC_AUTH_URL }}") --setdefaultusername
+          sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{secrets.SFDC_AUTH_URL}}")
 
       - name: Read Test Class Names from File
         id: read-tests
