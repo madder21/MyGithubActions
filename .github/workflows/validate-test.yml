@@ -1,14 +1,13 @@
-name: Run Specified Test Classes
+name: Run Specified Apex Test Classes
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - force-app/**
       - specifiedTestsClass/testsToRun.txt
 
 jobs:
-  run-specified-tests:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,33 +16,30 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install SFDX CLI
+      - name: Install Salesforce CLI (sf)
         run: |
-          npm install --global sfdx-cli
-          sfdx --version
+          npm install --global @salesforce/cli
+          sf --version
 
-      - name: Install Apex Plugin (for force:apex:test:run)
+      - name: Authenticate with Salesforce Org
         run: |
-          sfdx plugins:install @salesforce/plugin-apex
-
-      - name: Login to Salesforce Org
-        run: |
-          sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{secrets.SFDC_AUTH_URL}}")
+          echo "${{ secrets.SFDC_AUTH_URL }}" > auth-url.txt
+          sf org login sfdx-url --sfdx-url-file auth-url.txt --alias ci-org --set-default
 
       - name: Read Test Class Names from File
-        id: read-tests
+        id: test-classes
         run: |
           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
-          echo "Running test classes: $TEST_CLASSES"
+          echo "Test classes to run: $TEST_CLASSES"
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
       - name: Run Specified Test Classes
         run: |
-          sfdx force:apex:test:run -n "${{ steps.read-tests.outputs.TEST_CLASSES }}" -w 15 --resultformat human --outputdir test-results
+          sf apex run test --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" --wait 20 --result-format human --output-dir test-results
 
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: apex-test-results
+          name: test-results
           path: test-results
