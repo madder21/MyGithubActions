@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - force-app/**
-      - specifiedTestsClass/classes-to-run.txt
+      - specifiedTestsClass/testsToRun.txt
 
 jobs:
   run-specified-tests:
@@ -28,7 +28,7 @@ jobs:
       - name: Read Test Class Names from File
         id: read-tests
         run: |
-          TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/classes-to-run.txt | sed 's/,$//')
+          TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
           echo "Running test classes: $TEST_CLASSES"
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
