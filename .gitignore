@@ -2,13 +2,21 @@
 # If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
 # For useful gitignore templates see: https://github.com/github/gitignore
 
+
+# Org Authentication files
+server.crt
+server.key
+*auth_url.txt
+*auth_url.json
+
 # Salesforce cache
 .sf/
 .sfdx/
 .localdevserver/
 deploy-options.json
-server.crt
-server.key
+
+# Salesforce cache
+mdapioutput/
 
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
@@ -38,6 +46,25 @@ ehthumbs.db
 [Dd]esktop.ini
 $RECYCLE.BIN/
 
+# VS Code project settings
+# temp disabled to share recommended extensions but omit user-specific settings
+# .vscode/
+.vscode/settings.json
+
+#Ignore mm.log File
+mm.log
+
+#Ignore Sublime Project Files
+*.sublime*
+
+#Ignore MavensMate Files
+apex-scripts/*
+
+#Ignore IlluminatedCloud Files
+.idea/
+IlluminatedCloud/
+*.iml
+
 # Local environment variables
 .env
 
@@ -45,3 +72,21 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
+
+#Ignore Eclipse Project Files
+salesforce.schema
+Referenced\ Packages/*
+.project
+.settings/*
+
+#Ignore Build Files
+.tmp
+dist
+*_prod
+deploy_*
+
+#Misc
+scripts/*.key
+scripts/*.crt
+*.temp
+*.todo
