@@ -120,25 +120,32 @@ jobs:
             --target-org prod-org \
             --wait 30
           echo "Deployment completed."
-      - name: Archive deployed package.xml with date-based name
+      
+      - name: Archive package.xml with date
         if: success()
         run: |
-          mkdir -p archivedPackage
+          mkdir -p archievedPackage
       
-          # Format date as DDMMYYYY
-          DATE=$(date +"%d%m%Y")
-          BASENAME="package${DATE}"
-          FILENAME="${BASENAME}.xml"
-          COUNTER=0
+          DATE=$(date +%d%m%Y)
+          BASE_NAME="package${DATE}.xml"
+          ARCHIVE_DIR="archievedPackage"
+          DEST_PATH="${ARCHIVE_DIR}/${BASE_NAME}"
       
-          # Check for existing files and increment version if needed
-          while [ -e "archivedPackage/$FILENAME" ]; do
-            COUNTER=$((COUNTER + 1))
-            FILENAME="${BASENAME}_V${COUNTER}.xml"
+          # Increment filename if exists
+          COUNT=0
+          while [ -e "$DEST_PATH" ]; do
+            COUNT=$((COUNT + 1))
+            DEST_PATH="${ARCHIVE_DIR}/package${DATE}_V${COUNT}.xml"
           done
       
-          # Move and rename the package.xml
-          mv manifest/package.xml "archivedPackage/$FILENAME"
+          mv manifest/package.xml "$DEST_PATH"
+          echo "Moved and renamed package.xml to $DEST_PATH"
       
-          echo "Archived package as archivedPackage/$FILENAME"
+          # Optional: Commit and push to repo
+          git config --global user.email "you@example.com"
+          git config --global user.name "GitHub Actions"
+          git add "$DEST_PATH"
+          git commit -m "Archive deployed package.xml on $DATE"
+          git push
+        
         
