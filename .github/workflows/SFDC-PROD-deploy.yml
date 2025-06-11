@@ -125,10 +125,10 @@ jobs:
         if: success()
         run: |
           mkdir -p manifest/archievedPackage
-          
+
           DATE=$(date +%d%m%Y)
           BASE_NAME="package${DATE}.xml"
-          ARCHIVE_DIR="archievedPackage"
+          ARCHIVE_DIR="manifest/archievedPackage"
           DEST_PATH="${ARCHIVE_DIR}/${BASE_NAME}"
       
           # Increment filename if exists
