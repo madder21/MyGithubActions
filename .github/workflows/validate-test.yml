@@ -1,6 +1,7 @@
 name: Run Specified Apex Test Classes
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - force-app/**
