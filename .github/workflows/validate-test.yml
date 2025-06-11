@@ -43,6 +43,7 @@ jobs:
 
       - name: Run Specified Apex Tests
         run: |
+          mkdir -p test-results
           sf apex run test \
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --wait 20 \
@@ -52,11 +53,20 @@ jobs:
       - name: Generate Test Results CSV
         run: |
           sudo apt-get update && sudo apt-get install -y jq
+
           RESULTS_FILE=$(find test-results -name "*.json" | head -n 1)
+          echo "Reading results from $RESULTS_FILE"
           echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME" > test-results/apex-test-summary.csv
+
+          TESTS_EXIST=$(jq '.result.tests != null' "$RESULTS_FILE")
+          if [ "$TESTS_EXIST" != "true" ]; then
+            echo "No test results found. Dumping JSON:"
+            cat "$RESULTS_FILE"
+            exit 0
+          fi
+
           jq -r '.result.tests[] | [.methodName, .outcome, (.message // ""), (.runTime // 0)] | @csv' "$RESULTS_FILE" >> test-results/apex-test-summary.csv
 
-          # Calculate Pass, Fail, Skip Rates
           TOTAL=$(jq '.result.tests | length' "$RESULTS_FILE")
           PASSED=$(jq '[.result.tests[] | select(.outcome=="Pass")] | length' "$RESULTS_FILE")
           FAILED=$(jq '[.result.tests[] | select(.outcome=="Fail")] | length' "$RESULTS_FILE")
