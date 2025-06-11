@@ -43,7 +43,6 @@ jobs:
 
       - name: Run Specified Apex Tests
         run: |
-          mkdir -p test-results
           sf apex run test \
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --wait 20 \
@@ -56,6 +55,7 @@ jobs:
 
           RESULTS_FILE=$(find test-results -name "*.json" | head -n 1)
           echo "Reading results from $RESULTS_FILE"
+
           echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME" > test-results/apex-test-summary.csv
 
           TESTS_EXIST=$(jq '.result.tests != null' "$RESULTS_FILE")
@@ -65,7 +65,7 @@ jobs:
             exit 0
           fi
 
-          jq -r '.result.tests[] | [.methodName, .outcome, (.message // ""), (.runTime // 0)] | @csv' "$RESULTS_FILE" >> test-results/apex-test-summary.csv
+          jq -r '.result.tests[] | [.methodName, .outcome, (.message // ""), (.runTime | tostring)] | @csv' "$RESULTS_FILE" >> test-results/apex-test-summary.csv
 
           TOTAL=$(jq '.result.tests | length' "$RESULTS_FILE")
           PASSED=$(jq '[.result.tests[] | select(.outcome=="Pass")] | length' "$RESULTS_FILE")
@@ -76,10 +76,10 @@ jobs:
           FAIL_RATE=$(awk "BEGIN {printf \"%.2f\", (${FAILED}/${TOTAL}) * 100}")
           SKIP_RATE=$(awk "BEGIN {printf \"%.2f\", (${SKIPPED}/${TOTAL}) * 100}")
 
-          echo ",,,," >> test-results/apex-test-summary.csv
-          echo "Pass Rate,${PASS_RATE}%" >> test-results/apex-test-summary.csv
-          echo "Fail Rate,${FAIL_RATE}%" >> test-results/apex-test-summary.csv
-          echo "Skip Rate,${SKIP_RATE}%" >> test-results/apex-test-summary.csv
+          echo "" >> test-results/apex-test-summary.csv
+          echo "Pass Rate,${PASS_RATE}%,," >> test-results/apex-test-summary.csv
+          echo "Fail Rate,${FAIL_RATE}%,," >> test-results/apex-test-summary.csv
+          echo "Skip Rate,${SKIP_RATE}%,," >> test-results/apex-test-summary.csv
 
       - name: Upload Test Results
         if: always()
