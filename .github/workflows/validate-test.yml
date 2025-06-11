@@ -49,23 +49,21 @@ jobs:
             --result-format json \
             --output-dir test-results
 
-      - name: Generate Test Results CSV
+      - name: Generate Detailed CSV Report
         run: |
           sudo apt-get update && sudo apt-get install -y jq
 
           RESULTS_FILE=$(find test-results -name "*.json" | head -n 1)
           echo "Reading results from $RESULTS_FILE"
 
-          echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME" > test-results/apex-test-summary.csv
+          echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME,Pass Rate,Fail Rate,Skip Rate" > test-results/apex-test-detailed.csv
 
           TESTS_EXIST=$(jq '.result.tests != null' "$RESULTS_FILE")
           if [ "$TESTS_EXIST" != "true" ]; then
-            echo "No test results found. Dumping JSON:"
+            echo "No test results found."
             cat "$RESULTS_FILE"
-            exit 0
+            exit 1
           fi
-
-          jq -r '.result.tests[] | [.methodName, .outcome, (.message // ""), (.runTime | tostring)] | @csv' "$RESULTS_FILE" >> test-results/apex-test-summary.csv
 
           TOTAL=$(jq '.result.tests | length' "$RESULTS_FILE")
           PASSED=$(jq '[.result.tests[] | select(.outcome=="Pass")] | length' "$RESULTS_FILE")
@@ -76,10 +74,16 @@ jobs:
           FAIL_RATE=$(awk "BEGIN {printf \"%.2f\", (${FAILED}/${TOTAL}) * 100}")
           SKIP_RATE=$(awk "BEGIN {printf \"%.2f\", (${SKIPPED}/${TOTAL}) * 100}")
 
-          echo "" >> test-results/apex-test-summary.csv
-          echo "Pass Rate,${PASS_RATE}%,," >> test-results/apex-test-summary.csv
-          echo "Fail Rate,${FAIL_RATE}%,," >> test-results/apex-test-summary.csv
-          echo "Skip Rate,${SKIP_RATE}%,," >> test-results/apex-test-summary.csv
+          jq -r --arg pr "$PASS_RATE" --arg fr "$FAIL_RATE" --arg sr "$SKIP_RATE" \
+            '.result.tests[] | [
+              .methodName, 
+              .outcome, 
+              (.message // ""), 
+              (.runTime | tostring), 
+              $pr, 
+              $fr, 
+              $sr
+            ] | @csv' "$RESULTS_FILE" >> test-results/apex-test-detailed.csv
 
       - name: Upload Test Results
         if: always()
