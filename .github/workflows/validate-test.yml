@@ -22,12 +22,12 @@ jobs:
 
       - name: Authenticate using JWT
         run: |
-          echo "${{ secrets.SFDC_JWT_KEY }}" > server.key
+          echo "${{ secrets.SFDC_AUTH_KEY }}" > server.key
           sf org login jwt \
-            --client-id "${{ secrets.SFDC_CLIENT_ID }}" \
+            --client-id "${{ secrets.SFDX_INT_CLIENT_ID }}" \
             --jwt-key-file server.key \
-            --username "${{ secrets.SFDC_USERNAME }}" \
-            --instance-url "${{ secrets.SFDC_LOGIN_URL }}" \
+            --username "${{ secrets.SFDX_INT_USERNAME }}" \
+            --instance-url "${{ secrets.SFDC_URL_BASE }}" \
             --set-default
 
       - name: Deploy Source
