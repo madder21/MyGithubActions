@@ -124,8 +124,8 @@ jobs:
       - name: Archive package.xml with date
         if: success()
         run: |
-          mkdir -p archievedPackage
-      
+          mkdir -p manifest/archievedPackage
+          
           DATE=$(date +%d%m%Y)
           BASE_NAME="package${DATE}.xml"
           ARCHIVE_DIR="archievedPackage"
