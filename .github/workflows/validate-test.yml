@@ -1,17 +1,113 @@
-name: Deploy and Run Tests with JWT Auth
+# name: Deploy and Run Tests with JWT Auth
+
+# on:
+#   workflow_dispatch:
+#   push:
+#     paths:
+#       - force-app/**
+#       - specifiedTestsClass/testsToRun.txt
+
+# jobs:
+#   deploy-prod:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v3
+
+#       - name: Install Salesforce CLI
+#         run: |
+#           npm install --global @salesforce/cli
+#           sf --version
+
+#       - name: Authenticate using JWT
+#         run: |
+#           echo "${{ secrets.SFDC_AUTH_KEY }}" > server.key
+#           sf org login jwt \
+#             --client-id "${{ secrets.SFDX_INT_CLIENT_ID }}" \
+#             --jwt-key-file server.key \
+#             --username "${{ secrets.SFDX_INT_USERNAME }}" \
+#             --instance-url "${{ secrets.SFDC_URL_BASE }}" \
+#             --set-default
+
+#       - name: Deploy Source
+#         run: |
+#           sf project deploy start --source-dir force-app --wait 10
+
+#       - name: Read Test Class Names from File
+#         id: test-classes
+#         run: |
+#           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+#           echo "Test classes to run: $TEST_CLASSES"
+#           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
+
+#       - name: Run Specified Apex Tests
+#         run: |
+#           sf apex run test \
+#             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
+#             --wait 20 \
+#             --result-format json \
+#             --output-dir test-results
+
+#       - name: Generate Detailed CSV Report
+#         run: |
+#           sudo apt-get update && sudo apt-get install -y jq
+
+#           RESULTS_FILE=$(find test-results -name "*.json" | head -n 1)
+#           echo "Reading results from $RESULTS_FILE"
+
+#           echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME,Pass Rate,Fail Rate,Skip Rate" > test-results/apex-test-detailed.csv
+
+#           TESTS_EXIST=$(jq '.tests != null and (.tests | length > 0)' "$RESULTS_FILE")
+#           if [ "$TESTS_EXIST" != "true" ]; then
+#             echo "No test results found."
+#             cat "$RESULTS_FILE"
+#             exit 1
+#           fi
+
+#           TOTAL=$(jq '.tests | length' "$RESULTS_FILE")
+#           PASSED=$(jq '[.tests[] | select(.Outcome=="Pass")] | length' "$RESULTS_FILE")
+#           FAILED=$(jq '[.tests[] | select(.Outcome=="Fail")] | length' "$RESULTS_FILE")
+#           SKIPPED=$(jq '[.tests[] | select(.Outcome=="Skip")] | length' "$RESULTS_FILE")
+
+#           PASS_RATE=$(awk "BEGIN {printf \"%.2f\", (${PASSED}/${TOTAL}) * 100}")
+#           FAIL_RATE=$(awk "BEGIN {printf \"%.2f\", (${FAILED}/${TOTAL}) * 100}")
+#           SKIP_RATE=$(awk "BEGIN {printf \"%.2f\", (${SKIPPED}/${TOTAL}) * 100}")
+
+#           jq -r --arg pr "$PASS_RATE" --arg fr "$FAIL_RATE" --arg sr "$SKIP_RATE" \
+#             '.tests[] | [
+#               (.ApexClass.Name + "." + .MethodName),
+#               .Outcome,
+#               (.Message // ""),
+#               (.RunTime | tostring),
+#               $pr,
+#               $fr,
+#               $sr
+#             ] | @csv' "$RESULTS_FILE" >> test-results/apex-test-detailed.csv
+
+#       - name: Upload Test Results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: apex-test-results
+#           path: test-results
+name: Validate Deployment on Production
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - force-app/**
-      - specifiedTestsClass/testsToRun.txt
+    inputs:
+      validateOnly:
+        description: "Validate Only (no deploy)?"
+        required: false
+        default: "true"
 
 jobs:
-  deploy:
+  validate-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -30,64 +126,20 @@ jobs:
             --instance-url "${{ secrets.SFDC_URL_BASE }}" \
             --set-default
 
-      - name: Deploy Source
-        run: |
-          sf project deploy start --source-dir force-app --wait 10
-
       - name: Read Test Class Names from File
         id: test-classes
         run: |
           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
-          echo "Test classes to run: $TEST_CLASSES"
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
-      - name: Run Specified Apex Tests
+      - name: Validate Package Deployment
         run: |
-          sf apex run test \
+          sf project deploy start \
+            --manifest manifest/package.xml \
+            --test-level RunSpecifiedTests \
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
-            --wait 20 \
-            --result-format json \
-            --output-dir test-results
+            --target-org prod-org \
+            --wait 30 \
+            $([[ "${{ github.event.inputs.validateOnly }}" == "true" ]] && echo "--check-only")
+          
 
-      - name: Generate Detailed CSV Report
-        run: |
-          sudo apt-get update && sudo apt-get install -y jq
-
-          RESULTS_FILE=$(find test-results -name "*.json" | head -n 1)
-          echo "Reading results from $RESULTS_FILE"
-
-          echo "TEST NAME,OUTCOME,MESSAGE,RUNTIME,Pass Rate,Fail Rate,Skip Rate" > test-results/apex-test-detailed.csv
-
-          TESTS_EXIST=$(jq '.tests != null and (.tests | length > 0)' "$RESULTS_FILE")
-          if [ "$TESTS_EXIST" != "true" ]; then
-            echo "No test results found."
-            cat "$RESULTS_FILE"
-            exit 1
-          fi
-
-          TOTAL=$(jq '.tests | length' "$RESULTS_FILE")
-          PASSED=$(jq '[.tests[] | select(.Outcome=="Pass")] | length' "$RESULTS_FILE")
-          FAILED=$(jq '[.tests[] | select(.Outcome=="Fail")] | length' "$RESULTS_FILE")
-          SKIPPED=$(jq '[.tests[] | select(.Outcome=="Skip")] | length' "$RESULTS_FILE")
-
-          PASS_RATE=$(awk "BEGIN {printf \"%.2f\", (${PASSED}/${TOTAL}) * 100}")
-          FAIL_RATE=$(awk "BEGIN {printf \"%.2f\", (${FAILED}/${TOTAL}) * 100}")
-          SKIP_RATE=$(awk "BEGIN {printf \"%.2f\", (${SKIPPED}/${TOTAL}) * 100}")
-
-          jq -r --arg pr "$PASS_RATE" --arg fr "$FAIL_RATE" --arg sr "$SKIP_RATE" \
-            '.tests[] | [
-              (.ApexClass.Name + "." + .MethodName),
-              .Outcome,
-              (.Message // ""),
-              (.RunTime | tostring),
-              $pr,
-              $fr,
-              $sr
-            ] | @csv' "$RESULTS_FILE" >> test-results/apex-test-detailed.csv
-
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: apex-test-results
-          path: test-results
