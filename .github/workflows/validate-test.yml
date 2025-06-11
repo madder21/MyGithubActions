@@ -1,24 +1,36 @@
-name: Run Test Classes
+name: Run Specified Test Classes
 
 on:
   push:
     paths:
       - force-app/**
+      - specifiedTestsClass/classes-to-run.txt
 
 jobs:
-  run-test-classes:
+  run-specified-tests:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Install SFDX
+
+      - name: Install SFDX CLI
         run: |
           npm install --global sfdx-cli
           sfdx --version
-      - name: Login To Org
+
+      - name: Login to Org
         run: |
           sfdx org login sfdx-url --set-default --sfdx-url-file <(echo "${{secrets.SFDC_AUTH_URL}}")
-      - name: Run Test Classes
+
+      - name: Read Test Class Names from File
+        id: read-tests
         run: |
-          sfdx apex run test -l RunLocalTests -w 15
+          TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/classes-to-run.txt | sed 's/,$//')
+          echo "Running test classes: $TEST_CLASSES"
+          echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
+
+      - name: Run Specified Test Classes
+        run: |
+          sfdx apex run test -n "${{ steps.read-tests.outputs.TEST_CLASSES }}" -w 15
