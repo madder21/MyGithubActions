@@ -157,4 +157,4 @@ jobs:
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --target-org prod-org \
             --wait 30 \
-            $([[ "${{ github.event.inputs.validateOnly }}" == "true" ]] && echo "--check-only")
+            $([[ "${{ github.event.inputs.validateOnly }}" == "true" ]] && echo "--dry-run")
