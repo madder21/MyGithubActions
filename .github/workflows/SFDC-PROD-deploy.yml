@@ -93,15 +93,24 @@ jobs:
           echo "Starting validation (dry run)..."
           set -e  # Exit immediately if a command fails
 
-          sf project deploy start \
-            --manifest manifest/package.xml \
-            --test-level RunSpecifiedTests \
-            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
-            --target-org prod-org \
-            --wait 30 \
-            --dry-run
+          VALIDATION_OUTPUT=$(sf project deploy start \
+          --manifest manifest/package.xml \
+          --test-level RunSpecifiedTests \
+          --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
+          --target-org prod-org \
+          --wait 30 \
+          --dry-run \
+          --json)
 
-          echo "Validation successful."
+          echo "$VALIDATION_OUTPUT" > validation-result.json
+
+          # Parse errors to CSV
+          echo "File Path,Component Type,Full Name,Problem Type,Problem" > validation-results.csv
+      
+          echo "$VALIDATION_OUTPUT" | jq -r '
+            .result.details.componentFailures[]? |
+            [.fileName, .componentType, .fullName, .problemType, .problem] |
+            @csv' >> validation-results.csv
           
           echo "Starting deployment..."
           sf project deploy start \
