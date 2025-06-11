@@ -70,7 +70,7 @@ jobs:
         id: auth
         run: |
           echo "Getting access token via OAuth2"
-          RESPONSE=$(curl -s -X POST "${{ secrets.SFDX_AUTH_URL_INTEGRATE }}/services/oauth2/token" \
+          RESPONSE=$(curl -s -X POST "${{ secrets.SFDC_URL_BASE }}/services/oauth2/token" \
             -d "grant_type=password" \
             -d "client_id=${{ secrets.SFDX_INT_CLIENT_ID }}" \
             -d "client_secret=${{ secrets.SFDX_INT_CLIENT_SECRET }}" \
