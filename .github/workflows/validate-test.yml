@@ -4,12 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       validateOnly:
-        description: 'Run validation only? (true/false)'
+        description: 'Run validation only (true/false)?'
         required: false
         default: 'false'
 
 jobs:
-  validate:
+  validate-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -38,8 +38,11 @@ jobs:
           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
-      - name: Validate Package Deployment
+      - name: Validate and optionally deploy
         run: |
+          echo "Starting validation (dry run)..."
+          set -e  # Exit immediately if a command fails
+
           sf project deploy start \
             --manifest manifest/package.xml \
             --test-level RunSpecifiedTests \
@@ -48,42 +51,13 @@ jobs:
             --wait 30 \
             --dry-run
 
-  deploy:
-    if: github.event.inputs.validateOnly != 'true'
-    needs: validate
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Install Salesforce CLI
-        run: |
-          npm install --global @salesforce/cli
-          sf --version
-
-      - name: Authenticate using JWT
-        run: |
-          echo "${{ secrets.SFDC_AUTH_KEY }}" > server.key
-          sf org login jwt \
-            --client-id "${{ secrets.SFDX_INT_CLIENT_ID }}" \
-            --jwt-key-file server.key \
-            --username "${{ secrets.SFDX_INT_USERNAME }}" \
-            --instance-url "${{ secrets.SFDC_URL_BASE }}" \
-            --alias prod-org \
-            --set-default
-
-      - name: Read Test Class Names from File
-        id: test-classes
-        run: |
-          TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
-          echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
-
-      - name: Deploy Package to Production
-        run: |
+          echo "Validation successful."
+          
+          echo "Starting deployment..."
           sf project deploy start \
             --manifest manifest/package.xml \
             --test-level RunSpecifiedTests \
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --target-org prod-org \
             --wait 30
+          echo "Deployment completed."
