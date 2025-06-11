@@ -91,23 +91,30 @@
 #         with:
 #           name: apex-test-results
 #           path: test-results
-name: Validate Deployment on Production
+# name: Validate Deployment on Production
+
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       validateOnly:
+#         description: "Validate Only (no deploy)?"
+#         required: false
+#         default: "true"
+
+name: Deploy and Run Tests with JWT Auth
 
 on:
   workflow_dispatch:
-    inputs:
-      validateOnly:
-        description: "Validate Only (no deploy)?"
-        required: false
-        default: "true"
+  push:
+    paths:
+      - force-app/**
+      - specifiedTestsClass/testsToRun.txt
 
 jobs:
-  validate-deploy:
+  deploy-prod:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
-
       - name: Checkout repo
         uses: actions/checkout@v3
 
@@ -124,6 +131,11 @@ jobs:
             --jwt-key-file server.key \
             --username "${{ secrets.SFDX_INT_USERNAME }}" \
             --instance-url "${{ secrets.SFDC_URL_BASE }}" \
+            --set-default
+
+      - name: Deploy Source
+        run: |
+          sf project deploy start --source-dir force-app --wait 10
             --set-default
 
       - name: Read Test Class Names from File
