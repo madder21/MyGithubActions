@@ -120,3 +120,25 @@ jobs:
             --target-org prod-org \
             --wait 30
           echo "Deployment completed."
+      - name: Archive deployed package.xml with date-based name
+        if: success()
+        run: |
+          mkdir -p archivedPackage
+      
+          # Format date as DDMMYYYY
+          DATE=$(date +"%d%m%Y")
+          BASENAME="package${DATE}"
+          FILENAME="${BASENAME}.xml"
+          COUNTER=0
+      
+          # Check for existing files and increment version if needed
+          while [ -e "archivedPackage/$FILENAME" ]; do
+            COUNTER=$((COUNTER + 1))
+            FILENAME="${BASENAME}_V${COUNTER}.xml"
+          done
+      
+          # Move and rename the package.xml
+          mv manifest/package.xml "archivedPackage/$FILENAME"
+      
+          echo "Archived package as archivedPackage/$FILENAME"
+        
