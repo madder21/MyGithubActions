@@ -1,46 +1,110 @@
-name: Run Specified Apex Test Classes
+# name: Run Specified Apex Test Classes
+
+# on:
+#   workflow_dispatch:
+#   push:
+#     paths:
+#       - force-app/**
+#       - specifiedTestsClass/testsToRun.txt
+
+# jobs:
+#   run-tests:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v3
+#         with:
+#           fetch-depth: 0
+
+#       - name: Install Salesforce CLI (sf)
+#         run: |
+#           npm install --global @salesforce/cli
+#           sf --version
+
+#       - name: Authenticate with Salesforce Org
+#         run: |
+#           echo "${{ secrets.SFDC_AUTH_URL }}" > auth-url.txt
+#           sf org login sfdx-url --sfdx-url-file auth-url.txt --alias ci-org --set-default
+
+#       - name: Read Test Class Names from File
+#         id: test-classes
+#         run: |
+#           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+#           echo "Test classes to run: $TEST_CLASSES"
+#           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
+
+#       - name: Run Specified Test Classes
+#         run: |
+#           sf apex run test --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" --wait 20 --result-format human --output-dir test-results
+
+#       - name: Upload Test Results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-results
+#           path: test-results
+
+name: Deploy to Salesforce Using OAuth2
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - force-app/**
-      - specifiedTestsClass/testsToRun.txt
 
 jobs:
-  run-tests:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
-      - name: Install Salesforce CLI (sf)
+      - name: Install Salesforce CLI
         run: |
           npm install --global @salesforce/cli
           sf --version
 
-      - name: Authenticate with Salesforce Org
+      - name: Authenticate with Salesforce via OAuth2
+        id: auth
         run: |
-          echo "${{ secrets.SFDC_AUTH_URL }}" > auth-url.txt
-          sf org login sfdx-url --sfdx-url-file auth-url.txt --alias ci-org --set-default
+          echo "Getting access token via OAuth2"
+          RESPONSE=$(curl -s -X POST "${{ secrets.SFDX_AUTH_URL_INTEGRATE }}/services/oauth2/token" \
+            -d "grant_type=password" \
+            -d "client_id=${{ secrets.SFDX_INT_CLIENT_ID }}" \
+            -d "client_secret=${{ secrets.SFDX_INT_CLIENT_SECRET }}" \
+            -d "username=${{ secrets.SFDX_INT_USERNAME }}" \
+            -d "password=${{ secrets.SFDX_INT_PASSWORD }}")
 
-      - name: Read Test Class Names from File
-        id: test-classes
-        run: |
-          TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
-          echo "Test classes to run: $TEST_CLASSES"
-          echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
+          echo "Response: $RESPONSE"
 
-      - name: Run Specified Test Classes
+          ACCESS_TOKEN=$(echo "$RESPONSE" | jq -r .access_token)
+          INSTANCE_URL=$(echo "$RESPONSE" | jq -r .instance_url)
+
+          if [ "$ACCESS_TOKEN" == "null" ]; then
+            echo "Failed to get access token"
+            exit 1
+          fi
+
+          echo "Got access token from $INSTANCE_URL"
+
+          echo "Creating temporary SFDX auth URL"
+          echo "force://:${ACCESS_TOKEN}@${INSTANCE_URL#https://}" > sfdx_auth_url.txt
+
+          sf org login sfdx-url --sfdx-url-file sfdx_auth_url.txt --set-default
+
+      - name: Deploy Source
         run: |
-          sf apex run test --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" --wait 20 --result-format human --output-dir test-results
+          sf project deploy start --source-dir force-app --wait 10
+
+      - name: Run Tests
+        run: |
+          sf apex run test --test-level RunLocalTests --wait 10 --result-format human --output-dir test-results
 
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: apex-test-results
           path: test-results
+          
