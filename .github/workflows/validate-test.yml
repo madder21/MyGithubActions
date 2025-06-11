@@ -105,6 +105,11 @@ name: Deploy and Run Tests with JWT Auth
 
 on:
   workflow_dispatch:
+    inputs:
+      validateOnly:
+        description: 'Validate Only (true/false)'
+        required: false
+        default: 'false'
   push:
     paths:
       - force-app/**
@@ -131,12 +136,12 @@ jobs:
             --jwt-key-file server.key \
             --username "${{ secrets.SFDX_INT_USERNAME }}" \
             --instance-url "${{ secrets.SFDC_URL_BASE }}" \
+            --alias prod-org \
             --set-default
 
       - name: Deploy Source
         run: |
           sf project deploy start --source-dir force-app --wait 10
-            --set-default
 
       - name: Read Test Class Names from File
         id: test-classes
@@ -153,5 +158,3 @@ jobs:
             --target-org prod-org \
             --wait 30 \
             $([[ "${{ github.event.inputs.validateOnly }}" == "true" ]] && echo "--check-only")
-          
-
