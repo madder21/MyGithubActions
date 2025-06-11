@@ -75,7 +75,8 @@ jobs:
             -d "client_id=${{ secrets.SFDX_INT_CLIENT_ID }}" \
             -d "client_secret=${{ secrets.SFDX_INT_CLIENT_SECRET }}" \
             -d "username=${{ secrets.SFDX_INT_USERNAME }}" \
-            -d "password=${{ secrets.SFDX_INT_PASSWORD }}")
+            -d "password=${{ secrets.SFDX_INT_PASSWORD }}") \
+            -d "redirect_uri=https://login.salesforce.com"
 
           echo "Response: $RESPONSE"
 
