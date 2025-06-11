@@ -108,10 +108,9 @@
             <td class="Invoice_Inf">
                 <br/>
                 <span class="fett"><apex:outputText value="{!invoiceConfigs['INVOICE_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
-                <!--apex:outputpanel rendered="{!invoiceDoc.Template != 'AE'}">
-                	<apex:outputText value="{!invoiceConfigs['ORDER_DATE']}"/> :&nbsp;<apex:outputText value="{!invoiceDoc.orderDate}"/><br/>
-                </apex:outputpanel--> 
-              <apex:outputText value="{!invoiceConfigs['ORDER_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDateAr2.png')}" width="18%" height="20%" style="margin-top:-5px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderDate}"/><br/>
+                <apex:outputpanel rendered="{!invoiceDoc.Template != 'AE'}">
+                	<apex:outputText value="{!invoiceConfigs['ORDER_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDateAr2.png')}" width="18%" height="20%" style="margin-top:-5px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderDate}"/><br/>
+                </apex:outputpanel> 
          
                 <apex:outputText value="{!invoiceConfigs['INVOICE_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDate1.png')}" width="18%" height="18%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['ORDER_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
