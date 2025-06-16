@@ -150,26 +150,26 @@ jobs:
           done
       
           # Move package.xml to archive
-          if [ -f manifest/package.xml ]; then
-            mv manifest/package.xml "$DEST_PATH"
-            echo "Moved manifest/package.xml to $DEST_PATH"
+          if [ -f manifest/PendingProdManifests/package.xml ]; then
+            mv manifest/PendingProdManifests/package.xml "$DEST_PATH"
+            echo "Moved manifest/PendingProdManifests/package.xml to $DEST_PATH"
           else
-            echo "No manifest/package.xml found to archive!"
+            echo "No manifest/PendingProdManifests/package.xml found to archive!"
           fi
       
-          # Remove PendingProdManifests/package.xml if it exists
-          if [ -f PendingProdManifests/package.xml ]; then
-            rm -v PendingProdManifests/package.xml
-            echo "Removed PendingProdManifests/package.xml"
+          # Remove manifest/PendingProdManifests/package.xml if it exists
+          if [ -f manifest/PendingProdManifests/package.xml ]; then
+            rm -v manifest/PendingProdManifests/package.xml
+            echo "Removed manifest/PendingProdManifests/package.xml"
       
             # Remove from Git if tracked
-            if git ls-files --error-unmatch "PendingProdManifests/package.xml" > /dev/null 2>&1; then
-              git rm "PendingProdManifests/package.xml"
+            if git ls-files --error-unmatch "manifest/PendingProdManifests/package.xml" > /dev/null 2>&1; then
+              git rm "manifest/PendingProdManifests/package.xml"
             else
-              echo "PendingProdManifests/package.xml not tracked by Git"
+              echo "manifest/PendingProdManifests/package.xml not tracked by Git"
             fi
           else
-            echo "No PendingProdManifests/package.xml found to delete"
+            echo "No manifest/PendingProdManifests/package.xml found to delete"
           fi
       
           # Commit changes if any
@@ -181,7 +181,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Archive package.xml on $DATE and clean PendingProdManifests"
+            git commit -m "Archive package.xml on $DATE and clean manifest/PendingProdManifests"
             git push
           fi
         
