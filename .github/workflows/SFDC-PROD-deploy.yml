@@ -130,6 +130,11 @@ jobs:
       - name: Archive package.xml with date and clean PendingProdManifests
         if: success()
         run: |
+          echo "Current working directory: $(pwd)"
+          echo "Listing files:"
+          find . -type f
+      
+          # Prepare archive dir
           mkdir -p manifest/archievedPackage
       
           DATE=$(date +%d%m%Y)
@@ -137,29 +142,46 @@ jobs:
           ARCHIVE_DIR="manifest/archievedPackage"
           DEST_PATH="${ARCHIVE_DIR}/${BASE_NAME}"
       
-          # Increment filename if exists
+          # If file exists with same name, version it
           COUNT=0
           while [ -e "$DEST_PATH" ]; do
             COUNT=$((COUNT + 1))
             DEST_PATH="${ARCHIVE_DIR}/package${DATE}_V${COUNT}.xml"
           done
       
-          # Move to archive
-          mv manifest/PendingProdManifests/package.xml "$DEST_PATH"
-          echo "Moved and renamed package.xml to $DEST_PATH"
-
-          echo "Checking manifest/PendingProdManifests/package.xml existence..."
-          if test -f "manifest/PendingProdManifests/package.xml"; then
-            echo "File exists, removing it..."
-            rm -v "manifest/PendingProdManifests/package.xml"
+          # Move package.xml to archive
+          if [ -f manifest/package.xml ]; then
+            mv manifest/package.xml "$DEST_PATH"
+            echo "Moved manifest/package.xml to $DEST_PATH"
           else
-            echo "No package.xml found in PendingProdManifests"
+            echo "No manifest/package.xml found to archive!"
           fi
       
-          # Optional: Commit and push to repo
+          # Remove PendingProdManifests/package.xml if it exists
+          if [ -f PendingProdManifests/package.xml ]; then
+            rm -v PendingProdManifests/package.xml
+            echo "Removed PendingProdManifests/package.xml"
+      
+            # Remove from Git if tracked
+            if git ls-files --error-unmatch "PendingProdManifests/package.xml" > /dev/null 2>&1; then
+              git rm "PendingProdManifests/package.xml"
+            else
+              echo "PendingProdManifests/package.xml not tracked by Git"
+            fi
+          else
+            echo "No PendingProdManifests/package.xml found to delete"
+          fi
+      
+          # Commit changes if any
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Actions"
+      
           git add "$DEST_PATH"
-          git rm -f PendingProdManifests/package.xml || true
-          git commit -m "Archive deployed package.xml on $DATE and clean PendingProdManifests"
-          git push
+      
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Archive package.xml on $DATE and clean PendingProdManifests"
+            git push
+          fi
+        
