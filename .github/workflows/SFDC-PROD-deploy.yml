@@ -120,8 +120,14 @@ jobs:
             --target-org prod-org \
             --wait 30
           echo "Deployment completed."
-      
-      - name: Archive package.xml with date
+
+      - name: Debug PendingProdManifests directory before removal
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Listing PendingProdManifests directory contents:"
+          ls -la PendingProdManifests || echo "PendingProdManifests folder does not exist"
+
+      - name: Archive package.xml with date and clean PendingProdManifests
         if: success()
         run: |
           mkdir -p manifest/archievedPackage
@@ -141,11 +147,11 @@ jobs:
           # Move to archive
           mv manifest/package.xml "$DEST_PATH"
           echo "Moved and renamed package.xml to $DEST_PATH"
-      
-          # Remove from PendingProdManifests if exists
-          if [ -f "PendingProdManifests/package.xml" ]; then
-            rm PendingProdManifests/package.xml
-            echo "Deleted package.xml from PendingProdManifests"
+
+          echo "Checking PendingProdManifests/package.xml existence..."
+          if test -f "PendingProdManifests/package.xml"; then
+            echo "File exists, removing it..."
+            rm -v "PendingProdManifests/package.xml"
           else
             echo "No package.xml found in PendingProdManifests"
           fi
@@ -157,6 +163,3 @@ jobs:
           git rm -f PendingProdManifests/package.xml || true
           git commit -m "Archive deployed package.xml on $DATE and clean PendingProdManifests"
           git push
-        
-        
-        
