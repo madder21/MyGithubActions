@@ -125,7 +125,7 @@ jobs:
         if: success()
         run: |
           mkdir -p manifest/archievedPackage
-
+      
           DATE=$(date +%d%m%Y)
           BASE_NAME="package${DATE}.xml"
           ARCHIVE_DIR="manifest/archievedPackage"
@@ -138,14 +138,25 @@ jobs:
             DEST_PATH="${ARCHIVE_DIR}/package${DATE}_V${COUNT}.xml"
           done
       
+          # Move to archive
           mv manifest/package.xml "$DEST_PATH"
           echo "Moved and renamed package.xml to $DEST_PATH"
+      
+          # Remove from PendingProdManifests if exists
+          if [ -f "PendingProdManifests/package.xml" ]; then
+            rm PendingProdManifests/package.xml
+            echo "Deleted package.xml from PendingProdManifests"
+          else
+            echo "No package.xml found in PendingProdManifests"
+          fi
       
           # Optional: Commit and push to repo
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Actions"
           git add "$DEST_PATH"
-          git commit -m "Archive deployed package.xml on $DATE"
+          git rm -f PendingProdManifests/package.xml || true
+          git commit -m "Archive deployed package.xml on $DATE and clean PendingProdManifests"
           git push
+        
         
         

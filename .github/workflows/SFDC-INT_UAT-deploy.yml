@@ -181,14 +181,14 @@ jobs:
         run: |
           mkdir -p manifest/PendingProdManifests
           DATE=$(date +%d%m%Y)
-          BASE_NAME="package${DATE}.xml"
+          BASE_NAME="package.xml"
           ARCHIVE_DIR="manifest/PendingProdManifests"
           DEST_PATH="${ARCHIVE_DIR}/${BASE_NAME}"
 
           COUNT=0
           while [ -e "$DEST_PATH" ]; do
             COUNT=$((COUNT + 1))
-            DEST_PATH="${ARCHIVE_DIR}/package${DATE}_V${COUNT}.xml"
+            DEST_PATH="${ARCHIVE_DIR}/package_V${COUNT}.xml"
           done
 
           mv manifest/package.xml "$DEST_PATH"
