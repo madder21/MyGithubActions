@@ -1,13 +1,34 @@
-name: Manual Workflow Deploy + PR Check
-
+name: Integrate and UAT Deployment Workflow 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Which environment to deploy to
+        options:
+          - integrate-sandbox
+          - uat-partial-sandbox
+          - production
+        default: 'integrate-sandbox'
+        required: true
+      validateOnly:
+        description: 'Run the deployment as validation only'
+        type: boolean
+        default: false
+      pmdRequired:
+        description: 'Block deployment if PMD fails'
+        type: boolean
+        default: false
+
   pull_request:
     paths:
       - 'force-app/**'
       - 'pmd/**'
     branches:
+      - main
       - master
+      - develop
+      - release/**
 
 jobs:
   pmd-run:
@@ -56,7 +77,23 @@ jobs:
           name: pmd-report
           path: reports/pmd-results.csv
 
+  wait-approval:
+    needs: pmd-run
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Wait for manual approval before deploying to ${{ github.event.inputs.environment }}
+        run: echo "Approved to deploy"
+
   deploy-integrate:
+    needs: wait-approval
+    if: >
+      github.event.inputs.pmdRequired == 'false' ||
+      (
+        github.event.inputs.pmdRequired == 'true' &&
+        needs.pmd-run.outputs.pmd_status == 'success'
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -94,6 +131,13 @@ jobs:
           validateOnly: ${{ github.event.inputs.validateOnly }}
 
   deploy-uat:
+    needs: deploy-integrate
+    if: >
+      github.event.inputs.pmdRequired == 'false' ||
+        (
+          github.event.inputs.pmdRequired == 'true' &&
+          needs.pmd-run.outputs.pmd_status == 'success'
+        )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -129,3 +173,58 @@ jobs:
           manifestPath: manifest/package.xml
           testsToRunFile: specifiedTestsClass/testsToRun.txt
           validateOnly: ${{ github.event.inputs.validateOnly }}
+
+  wait-prod-approval:
+        if: github.event_name == 'workflow_dispatch'
+        needs: deploy-uat
+        runs-on: ubuntu-latest
+        environment:
+          name: ${{ github.event.inputs.environment }}
+        steps:
+          - name: Wait for manual approval before deploying to ${{ github.event.inputs.environment }}
+            run: echo "Approved to deploy"
+
+  deploy-prod:
+    needs: [wait-prod-approval]
+    if: >
+      github.event.inputs.pmdRequired == 'false' ||
+      (
+        github.event.inputs.pmdRequired == 'true' &&
+        needs.pmd-run.outputs.pmd_status == 'success'
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup and Deploy to Production
+        run: echo "Deploying to Production..."
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install Salesforce CLI
+        run: |
+          wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+          mkdir ~/sfdx
+          tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+          echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+          ~/sfdx/bin/sfdx version
+
+      - name: Create JWT key file
+        run: |
+          mkdir -p JWT
+          echo "${{ secrets.SFDC_AUTH_KEY }}" > JWT/server.key
+          chmod 600 JWT/server.key
+
+      - name: Deploy via JWT to Sandbox
+        uses: ./.github/actions/deploy-environment
+        with:
+          instanceUrl: https://login.salesforce.com
+          clientId: ${{ secrets.SFDX_INT_CLIENT_ID }}
+          username: ulrich.m.ndong.ngomo@empathetic-impala-4d2hgs.com
+          keyFilePath: JWT/server.key
+          alias: aliasTestCICDOrg
+          manifestPath: manifest/package.xml
+          testsToRunFile: specifiedTestsClass/testsToRun.txt
+          validateOnly: ${{ github.event.inputs.validateOnly }}
+
