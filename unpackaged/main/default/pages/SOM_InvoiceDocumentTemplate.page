@@ -51,16 +51,16 @@
     </table>
 </apex:outputpanel>    
 
-<div class="div2">
+<div class="div2" style="{!invoiceConfigs['STYLE_DOCUMENT']}">
     <h3> <apex:outputText value="{!invoiceConfigs['PDF_TYPE_INVOICE']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/taxInvoice.PNG')}" width="15%" height="15%" style="margin-top:-4px" alt="RIMOWA"/></apex:outputpanel> </h3>
 </div>
 
-<div class="content">
+<div class="content" style="{!invoiceConfigs['STYLE_DOCUMENT']}">
     <table class="billing_contact_importer">
         <tr>
             <!-- Billing contact information -->
             <td class="Bill_Contact_Inf">
-                <apex:outputText value="{!invoiceConfigs['BILLING_CONTACT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="13%" height="18%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel><br/> 
+                <apex:outputText value="{!invoiceConfigs['BILLING_CONTACT']}"/> <apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/BillingContact.PNG')}" width="27%" height="27%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel><br/> 
                 <apex:outputText value="{!invoiceDoc.billingContact.name}"/> &nbsp; <apex:outputText value="{!invoiceConfigs['CIVILITY']}"/> <br/> 
                 <apex:outputText value="{!invoiceDoc.billingContact.company}"/><br/>
                 <apex:outputpanel rendered="{!invoiceDoc.Template != 'BR'}">
@@ -107,9 +107,12 @@
             <!-- Invoice information -->
             <td class="Invoice_Inf">
                 <br/>
-                <span class="fett"><apex:outputText value="{!invoiceConfigs['INVOICE_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
-                <apex:outputText value="{!invoiceConfigs['ORDER_DATE']}"/> :&nbsp;<apex:outputText value="{!invoiceDoc.orderDate}"/><br/>
-                <apex:outputText value="{!invoiceConfigs['INVOICE_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDate.PNG')}" width="18%" height="18%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
+                <span class="fett"><apex:outputText value="{!invoiceConfigs['INVOICE_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!invoiceDoc.documentNumber}"/></span><br/>
+                <apex:outputpanel rendered="{!invoiceDoc.Template != 'AE'}">
+                	<apex:outputText value="{!invoiceConfigs['ORDER_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDateAr2.png')}" width="18%" height="20%" style="margin-top:-5px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderDate}"/><br/>
+                </apex:outputpanel> 
+         
+                <apex:outputText value="{!invoiceConfigs['INVOICE_DATE']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDate1.png')}" width="18%" height="18%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.invoiceDate}"/><br/>
                 <apex:outputText value="{!invoiceConfigs['ORDER_NUMBER']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp;<apex:outputText value="{!invoiceDoc.orderNumber}"/><br/>
                 <apex:outputpanel rendered="{!invoiceDoc.Template != 'JP'}"><apex:outputText value="{!invoiceConfigs['TERM_OF_DELIVERY']}"/><apex:outputpanel rendered="{!invoiceDoc.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TermDelivery.PNG')}" width="22%" height="22%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> &nbsp;<apex:outputText value="{!invoiceConfigs['TERM_OF_DELIVERY_VALUE']}"/><br/></apex:outputpanel>
                 <apex:outputText value="{!invoiceConfigs['TAX_ID']}"/><apex:outputpanel rendered="{!IF(OR(invoiceDoc.Template == 'ES',invoiceDoc.Template == 'IT',invoiceDoc.Template == 'BR'),true,false)}">&nbsp;:&nbsp;<apex:outputText value="{!invoiceDoc.TaxID}"/></apex:outputpanel><br/>

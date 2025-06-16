@@ -50,12 +50,12 @@
         </table>
         
     </apex:outputpanel>
-    <div class="div2">
+    <div class="div2" style="{!creditMemoConfigs['STYLE_DOCUMENT']}" >
         <h3> <apex:outputText value="{!creditMemoConfigs['PDF_TYPE_CREDIT_MEMO']}"/> &nbsp; <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/TaxCreditNote.PNG')}" width="25%" height="25%" style="margin-top:-4px" alt="RIMOWA"/></apex:outputpanel></h3>
         
     </div>
     
-    <div class="content">
+    <div class="content" style="{!creditMemoConfigs['STYLE_DOCUMENT']}">
         <table class="billing_contact_importer">
             <tr>
                 <!-- Billing contact information -->
@@ -99,7 +99,9 @@
                 <td class="Invoice_Inf">
                     <span class="fett"><apex:outputText value="{!creditMemoConfigs['CREDIT_MEMO_NUMBER']}"/> <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditNoteNo.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoNumber}"/></span><br/>
                      <apex:outputText value="{!creditMemoConfigs['INVOICE_NUMBER']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceNumber.PNG')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.invoiceNumber}"/><br/>
-                     <apex:outputText value="{!creditMemoConfigs['ORDER_DATE']}"/> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderDate}"/><br/>
+                     <apex:outputpanel rendered="{!creditMemoDocument.Template != 'AE'}">
+                     	<apex:outputText value="{!creditMemoConfigs['ORDER_DATE']}"/> <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/InvoiceDateAr2.png')}" width="17%" height="17%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderDate}"/><br/>
+                     </apex:outputpanel>
                      <apex:outputText value="{!creditMemoConfigs['CREDIT_MEMO_DATE']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/CreditMemoDate.PNG')}" width="25%" height="25%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.creditMemoDate}"/><br/>
                      <apex:outputText value="{!creditMemoConfigs['ORDER_NUMBER']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/OrderNumber.PNG')}" width="20%" height="20%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> :&nbsp; <apex:outputText value="{!creditMemoDocument.orderNumber}"/><br/>
                 	 <apex:outputText value="{!creditMemoConfigs['TAX_ID']}"/><apex:outputpanel rendered="{!IF(creditMemoDocument.Template == 'BR',true,false)}">&nbsp;:&nbsp;<apex:outputText value="{!creditMemoDocument.TaxID}"/></apex:outputpanel><br/>
@@ -139,8 +141,8 @@
                 </apex:outputpanel>
                 <apex:outputpanel rendered="{!AND(creditMemoDocument.Template != 'jp', creditMemoDocument.Template != 'JP')}"> 
                 <tr>
-                    <th width="50px"><apex:outputText value="{!creditMemoConfigs['ITEM_DESCRIPTION']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemDesc.PNG')}" width="25%" height="25%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
-                    <th width="20px"><apex:outputText value="{!creditMemoConfigs['QUANTITY']}"/> <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image rendered="{!IF(len(quantityColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Quantity.PNG')}" width="33%" height="33%" style= "display: block;margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
+                    <th width="50px"><apex:outputText value="{!creditMemoConfigs['ITEM_DESCRIPTION']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemDesc.PNG')}" width="29%" height="29%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
+                    <th width="20px"><apex:outputText value="{!creditMemoConfigs['QUANTITY']}"/> <apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Quantity.PNG')}" width="33%" height="33%" style="display: block;margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
                     <th width="27px"><apex:outputText value="{!creditMemoConfigs['NET_AMOUNT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/NetAmount.PNG')}" width="46%" height="46%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></th>
                     <th width="27px" class="align-right"><apex:outputpanel rendered="{!creditMemoDocument.Template != 'BR'}"><apex:outputText value="{!creditMemoConfigs['VAT_AMOUNT']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/GrossAmount.PNG')}" width="100%" height="100%" style="display:block; margin-top:-3px" alt="RIMOWA"/></apex:outputpanel></apex:outputpanel></th>
                     <th width="27px" class="align-right"><apex:outputText value="{!creditMemoConfigs['TOTAL']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"> <apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/Total.PNG')}" width="80%" height="80%" style="margin-left: 74%;display:block; margin-top:-3px; " alt="RIMOWA"/></apex:outputpanel></th>
@@ -148,7 +150,7 @@
                 </apex:outputpanel>
                 <apex:outputpanel rendered="{!creditMemoConfigs['ITEM_NUM_DISPLAY'] == 'true'}">
                     <tr>
-                        <th width="70px" colspan="2"><apex:outputText value="{!creditMemoConfigs['ITEM_NO']}"/><apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}">&nbsp;<apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemNo.PNG')}" width="16%" height="16%" style="margin-top:-2px" alt="RIMOWA"/></apex:outputpanel></th>
+                        <th colspan="5"><apex:outputText value="{!creditMemoConfigs['ITEM_NO']}"/>&nbsp;<apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/ItemNo.PNG')}" width="9%" height="9%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> </th>
                         <th width="27px" class="align-right">&nbsp;</th>
                         <th width="27px" class="align-right">&nbsp;</th>
                         <th width="27px">&nbsp;</th>
@@ -156,7 +158,7 @@
                 </apex:outputpanel>
                 <apex:outputpanel rendered="{!creditMemoConfigs['SERIAL_NUM_DISPLAY'] == 'true'}">
                     <tr>
-                        <th colspan="5"><apex:outputText value="{!creditMemoConfigs['SERIAL_NO']}"/>&nbsp;<apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image rendered="{!IF(len(serialNumberColumnName) > 0, TRUE, FALSE)}" url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/SerialNumber.PNG')}" width="13%" height="13%" style= "margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> </th>
+                        <th colspan="5"><apex:outputText value="{!creditMemoConfigs['SERIAL_NO']}"/>&nbsp;<apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/SerialNumber.PNG')}" width="13%" height="13%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> </th>
                     </tr>
                 </apex:outputpanel>
             	<apex:outputpanel rendered="{!creditMemoConfigs['HS_CODE_DISPLAY'] == 'true'}">
