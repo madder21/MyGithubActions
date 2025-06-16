@@ -2,6 +2,10 @@ name: Validate and Deploy on SFDC Production
 
 on:
   workflow_dispatch:
+    inputs:
+      package_to_deploy:
+        description: 'Package XML file name from manifest/archievedPackage/ (e.g., package15062025.xml)'
+        required: true
   pull_request:
     paths:
       - 'force-app/**'
@@ -88,64 +92,46 @@ jobs:
           TEST_CLASSES=$(tr '\n' ',' < specifiedTestsClass/testsToRun.txt | sed 's/,$//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
-      - name: Validate and optionally deploy
+      - name: List available packages
         run: |
-          echo "Starting validation (dry run)..."
-          set -e  # Exit immediately if a command fails
+          echo "Available packages in manifest/archievedPackage/:"
+          ls -1 manifest/archievedPackage/
+
+      - name: Validate and deploy selected package
+        run: |
+          SELECTED_PACKAGE="manifest/archievedPackage/${{ github.event.inputs.package_to_deploy }}"
+
+          if [ ! -f "$SELECTED_PACKAGE" ]; then
+            echo "❌ Selected package not found: $SELECTED_PACKAGE"
+            exit 1
+          fi
+
+          echo "Starting validation (dry run) of $SELECTED_PACKAGE..."
+          set -e
 
           VALIDATION_OUTPUT=$(sf project deploy start \
-          --manifest manifest/package.xml \
-          --test-level RunSpecifiedTests \
-          --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
-          --target-org prod-org \
-          --wait 30 \
-          --dry-run \
-          --json)
+            --manifest "$SELECTED_PACKAGE" \
+            --test-level RunSpecifiedTests \
+            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
+            --target-org prod-org \
+            --wait 30 \
+            --dry-run \
+            --json)
 
           echo "$VALIDATION_OUTPUT" > validation-result.json
 
-          # Parse errors to CSV
           echo "File Path,Component Type,Full Name,Problem Type,Problem" > validation-results.csv
-      
           echo "$VALIDATION_OUTPUT" | jq -r '
             .result.details.componentFailures[]? |
             [.fileName, .componentType, .fullName, .problemType, .problem] |
             @csv' >> validation-results.csv
-          
-          echo "Starting deployment..."
+
+          echo "Starting deployment of $SELECTED_PACKAGE..."
           sf project deploy start \
-            --manifest manifest/package.xml \
+            --manifest "$SELECTED_PACKAGE" \
             --test-level RunSpecifiedTests \
             --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --target-org prod-org \
             --wait 30
-          echo "Deployment completed."
-      
-      - name: Archive package.xml with date
-        if: success()
-        run: |
-          mkdir -p manifest/archievedPackage
 
-          DATE=$(date +%d%m%Y)
-          BASE_NAME="package${DATE}.xml"
-          ARCHIVE_DIR="manifest/archievedPackage"
-          DEST_PATH="${ARCHIVE_DIR}/${BASE_NAME}"
-      
-          # Increment filename if exists
-          COUNT=0
-          while [ -e "$DEST_PATH" ]; do
-            COUNT=$((COUNT + 1))
-            DEST_PATH="${ARCHIVE_DIR}/package${DATE}_V${COUNT}.xml"
-          done
-      
-          mv manifest/package.xml "$DEST_PATH"
-          echo "Moved and renamed package.xml to $DEST_PATH"
-      
-          # Optional: Commit and push to repo
-          git config --global user.email "you@example.com"
-          git config --global user.name "GitHub Actions"
-          git add "$DEST_PATH"
-          git commit -m "Archive deployed package.xml on $DATE"
-          git push
-        
-        
+          echo "Deployment completed."
