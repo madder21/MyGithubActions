@@ -148,10 +148,10 @@ jobs:
           mv manifest/package.xml "$DEST_PATH"
           echo "Moved and renamed package.xml to $DEST_PATH"
 
-          echo "Checking PendingProdManifests/package.xml existence..."
-          if test -f "PendingProdManifests/package.xml"; then
+          echo "Checking manifest/PendingProdManifests/package.xml existence..."
+          if test -f "manifest/PendingProdManifests/package.xml"; then
             echo "File exists, removing it..."
-            rm -v "PendingProdManifests/package.xml"
+            rm -v "manifest/PendingProdManifests/package.xml"
           else
             echo "No package.xml found in PendingProdManifests"
           fi
