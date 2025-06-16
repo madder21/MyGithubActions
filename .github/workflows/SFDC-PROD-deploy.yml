@@ -159,18 +159,18 @@ jobs:
       
           # Remove manifest/PendingProdManifests/package.xml if it exists
           if [ -f manifest/PendingProdManifests/package.xml ]; then
-            rm -v manifest/PendingProdManifests/package.xml
-            echo "Removed manifest/PendingProdManifests/package.xml"
-      
-            # Remove from Git if tracked
-            if git ls-files --error-unmatch "manifest/PendingProdManifests/package.xml" > /dev/null 2>&1; then
-              git rm "manifest/PendingProdManifests/package.xml"
-            else
-              echo "manifest/PendingProdManifests/package.xml not tracked by Git"
-            fi
+          rm -v manifest/PendingProdManifests/package.xml
+          echo "Removed manifest/PendingProdManifests/package.xml"
+        
+          if git ls-files --error-unmatch "manifest/PendingProdManifests/package.xml" > /dev/null 2>&1; then
+            git rm "manifest/PendingProdManifests/package.xml"
+          else
+            echo "manifest/PendingProdManifests/package.xml not tracked by Git"
+          fi
           else
             echo "No manifest/PendingProdManifests/package.xml found to delete"
           fi
+        
       
           # Commit changes if any
           git config --global user.email "you@example.com"
