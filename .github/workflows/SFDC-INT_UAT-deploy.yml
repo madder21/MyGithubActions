@@ -117,7 +117,7 @@ jobs:
           echo "Deployment completed."
 
   validate-and-deploy-uat:
-    needs: pmd-run
+    needs: validate-and-deploy-int
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
