@@ -6,10 +6,19 @@ public with sharing class SOM_InvoiceManagement {
             //GET Max invoice Number By Country Code 
             Map<string,string> maxInvoiceByCountryMap= new  Map<string,string>();
             Invoice InvDataMap  = [SELECT Id, DocumentNumber__c, DocumentNumber, InvoiceNumber__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, SalesChannelName__c END, (SELECT FulfilledToCountry FROM FulfillmentOrders LIMIT 1)  
-                                   FROM Invoice WHERE Id = :newInvMap.Id];   
+                                   FROM Invoice WHERE Id = :newInvMap.Id]; 
+           // List<OrderSummary> OrderSummaryId  = [SELECT  	Id FROM 	OrderSummary where Id=:newInvMap.ReferenceEntityId LIMIT 1 ];
+            List<FulfillmentOrder> InvDataMapFo  = [SELECT  FulfilledToCountry FROM FulfillmentOrder where OrderSummaryId=:newInvMap.ReferenceEntityId LIMIT 1 ]; 
+              //List<FulfillmentOrder> InvDataMap2  = [SELECT Id FROM FulfillmentOrder where InvoiceId = :newInvMap.Id LIMIT 1];
             relatedToId = InvDataMap.Id +' - '+ InvDataMap.ReferenceEntity.Id;
             System.debug('InvDataMap' + InvDataMap);
-            String countryCode = InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+            String countryCode;
+            if(InvDataMapFo.size() > 0){
+               countryCode = InvDataMapFo[0].FulfilledToCountry;
+            }
+         
+             //countryCode = InvDataMap.FulfillmentOrders[0].FulfilledToCountry;
+                 
             System.debug('countryCode' + countryCode);
             FulfillmentOrder[] groupedInvoiceByCountry = [SELECT FulfilledToCountry, Invoice.DocumentNumber__c FROM FulfillmentOrder  
                                                            WHERE Invoice.DocumentNumber__c != null AND FulfilledToCountry != null 
