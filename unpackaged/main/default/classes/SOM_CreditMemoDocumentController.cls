@@ -9,6 +9,7 @@ global with sharing class SOM_CreditMemoDocumentController {
     public String                AmountsFormat {get; set; }
     public CreditMemoAddress        creditMemoAddress { get; set;}
     public String                creditMemoId;
+    Public Boolean 				CheckSerialNumber {get ; set;}
     
     public SOM_CreditMemoDocumentController() {
             this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
@@ -157,6 +158,10 @@ global with sharing class SOM_CreditMemoDocumentController {
                                 lineItem.serialNumber = creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c;
                                 this.quantityColumnName     = 'QUANTITY';
                                 this.SerialNumberColumnName = 'SERIAL NO.';
+                                CheckSerialNumber = False ;
+                                if(creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c != null  && CheckSerialnumber == False){
+                                    CheckSerialNumber = True ;
+                                }
                             }
                             else {
                                 //we should use adjustment
@@ -195,8 +200,10 @@ global with sharing class SOM_CreditMemoDocumentController {
                             }
                             //  lineItem.itemNumber = counter;
                             lineItems.add(lineItem);
+
                             // counter++;
                         }
+
                 }
                 lineItems.sort();
                 // List<CreditMemoLineItem> lineItems2 = new List<CreditMemoLineItem>();
