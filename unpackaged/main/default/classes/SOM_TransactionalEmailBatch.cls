@@ -22,9 +22,9 @@ global class SOM_TransactionalEmailBatch implements Database.Batchable<SObject>,
         String query;
 
         if (Test.isRunningTest()) {
-            query = 'SELECT Id, Template__c, Status__c, TECH_CustomerKey__c FROM TransactionalEmail__c WHERE Id IN :TransactionalId';
+            query = 'SELECT Id, Template__c, Status__c, TECH_CustomerKey__c,EmailContent__c FROM TransactionalEmail__c WHERE Id IN :TransactionalId';
         } else {
-            query = 'SELECT Id, Template__c, Status__c, TECH_CustomerKey__c FROM TransactionalEmail__c ' +
+            query = 'SELECT Id, Template__c, Status__c, TECH_CustomerKey__c,EmailContent__c FROM TransactionalEmail__c ' +
                     'WHERE Status__c = \'To send\' ' +
                     'AND CreatedDate > :recoveryDatetime ' +
                     'AND CreatedDate < :timeMinus10Minutes';
