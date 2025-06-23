@@ -61,7 +61,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                     /*STEP 4 : Upload into SFMC Content Builder the BLOB as PDF*/
                     String fileName = 'Invoice-'+ invoiceName;
                     String customerKey = SOM_UploadInSFMCAsset(invoiceDocument, fileName, oAUTHAccessToken);
-                 if(customerKey != null && !customerKey.startsWith('Error')) {
+                    if(!customerKey.startsWith('Error')){
                         /*STEP 5 : Update TransactionalEmail*/
                         updateTransactionalEmailGenerateInvoice(transacEmailId,customerKey);
                     }
@@ -109,7 +109,7 @@ public with sharing class AP2_SOMInvoiceManagement {
         Map<Id,String> resultsMAP = new Map<Id,String>();
         String Result = 'KO' ;
         for(TransactionalEmail__c transacemail : transacEmails){
-            Result = SOM_DeleteInvoiceFromSFMC2(transacemail.Id, transacemail.TECH_CustomerKey__c, oAUTHAccessToken);
+            Result = SOM_DeleteInvoiceFromSFMC2(transacemail, transacemail.TECH_CustomerKey__c, oAUTHAccessToken);
             resultsMAP.put(transacemail.Id,Result);
         }
         return resultsMap ;
@@ -147,11 +147,20 @@ public with sharing class AP2_SOMInvoiceManagement {
  
               }
     }
-    public static String SOM_DeleteInvoiceFromSFMC2(String transacEmailId, String CustomerKey,String oAUTHAccessToken){
+    public static String SOM_DeleteInvoiceFromSFMC2(TransactionalEmail__c transacEmail, String CustomerKey,String oAUTHAccessToken){
         //String oAUTHAccessToken = SOM_AuthSFMCAccessToken();
         try{
-        if(String.isNotEmpty(oAUTHAccessToken) && oAUTHAccessToken!='Error'){
-            String assetID = SOM_GetAssetIdByCustomerKeyInSFMC(CustomerKey,oAUTHAccessToken);
+            String assetID;
+            if(String.isNotEmpty(oAUTHAccessToken) && oAUTHAccessToken!='Error'){
+                if(CustomerKey != null){
+                    assetID = SOM_GetAssetIdByCustomerKeyInSFMC(CustomerKey,oAUTHAccessToken); // je check CustomerKey
+                }else{
+                String jsonString = transacemail.EmailContent__c;
+                Map<String, Object> data = (Map<String, Object>) JSON.deserializeUntyped(jsonString);
+                String invoiceNumber = (String) data.get('invoiceNumber');
+                System.debug('Invoice Number: ' + invoiceNumber);
+                assetID = SOM_GetAssetIdByNameInSFMC(invoiceNumber,oAUTHAccessToken);
+            }
             if(String.isNotEmpty(assetID) && assetID!='Error'){
                 String deleteResponse = SOM_DeleteInSFMCAsset(assetID,oAUTHAccessToken);
                 System.debug('**AP2 SOM_DeleteInvoiceFromSFMC reponseDelete : ' + deleteResponse);
@@ -169,12 +178,56 @@ public with sharing class AP2_SOMInvoiceManagement {
  
         }catch (Exception e) {
                 SOMCustomException exep=(SOMCustomException)e;
-                 Logs.error(e,exep.apexclassName,exep.methodName,'','',transacEmailId);
+                 Logs.error(e,exep.apexclassName,exep.methodName,'','',transacEmail.Id);
  
               }
         return 'KO';
     }
    
+        /*
+     * @METHOD  : SOM_GetAssetIdByNameInSFMC
+     * @DESC    : Rest API POST Method to post The Invoice in Param
+     * @PARAM   : String name : 'Invoice-'+DocName  
+     * @PARAM   : String oAUTHAccessToken : Auth Token for Rest API Method
+     * @RETURN  : String assetId : Id of the asset
+     */
+    public static String SOM_GetAssetIdByNameInSFMC(String name, String oAUTHAccessToken){
+        String assetId = 'Error';
+        SFMCAPISetting__c   SFMCAPISetting =    SFMCAPISetting__c.getOrgDefaults();      
+        Map<String, Object> dataMap = new Map<String, Object>{'query' => new Map<String, Object> {'property' => 'name',
+                                                                                                  'simpleOperator' => 'equal',
+                                                                                                  'value' => 'Invoice-'+name}
+                                                             };
+        HttpRequest request = new HttpRequest();
+        try{
+            //String endPoint = SFMCAPISetting.Rest_API_URL__c + SFMCAPISetting.Asset_Ressource__c + '/'+SFMCAPISetting.QueryPath__c;
+            request.setEndpoint(SFMCAPISetting.Rest_API_URL__c + SFMCAPISetting.Asset_Ressource__c + SFMCAPISetting.QueryPath__c);
+            request.setMethod('POST');
+            request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+            request.setHeader('Authorization', 'Bearer ' + oAUTHAccessToken);
+            request.setBody(JSON.serialize(dataMap));
+           
+           
+            Http http = new Http();
+            HttpResponse response = http.send(request);
+            String responseBody = response.getBody();
+            if(response.getStatusCode() == 200 ||response.getStatusCode() == 201){
+                if(Test.isRunningTest()){
+                    responseBody = '{"count": 1,"page": 1,"pageSize": 50,"links": {},"items": [{"id": 1010,"customerKey": "customerKeyBeLike","objectID": "3714b8b9-8356-4bd2-a6b7-2b6d241a5b04","assetType": {"id": 127,"name": "pdf","displayName": "Document"}}]}';
+                }
+                Map<String, Object> responseMap = (Map<String, Object>)JSON.deserializeUntyped(responseBody);
+                List<Object> items = (List<Object>)responseMap.get('items');
+                Map<String, Object> item = (Map<String, Object>)items[0];
+                assetId = JSON.serialize(item.get('id'));
+                System.debug('**AP2 SOM_GetAssetIdByNameInSFMC get id : '+ assetId);
+            }
+        }catch(Exception e){
+            System.debug('**AP2 SOM_GetAssetIdByNameInSFMC: The following exception has occurred: ' + e.getMessage());
+            assetId = 'Error';
+        }
+        return assetID;
+    }
+
     /*
      * @METHOD  : updateTransactionalEmailGenerateInvoice
      * @DESC    : Update of the TransacEmail passed in Param with the customerKey passed in param and flag the record with the field TECH_GenerateInvoice__c

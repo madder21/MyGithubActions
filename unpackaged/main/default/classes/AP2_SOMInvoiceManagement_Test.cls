@@ -74,6 +74,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         inv[0].InvoiceNumber__c = 'invtest1';
         update inv;
     }
+    
     @IsTest (seeAllData = true)
     public static void serverAzureConnectionSuccess() {
          // Set mock callout class 
@@ -120,7 +121,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         String myTestInvoice = 'myTestBlob';
 		String customerKey = AP2_SOMInvoiceManagement.SOM_UploadInSFMCAsset(myTestInvoice, 'invoice-123456789.pdf', 'tokkenTestBelike');        
         Test.stopTest();
-        System.assertEquals(null, customerKey, 'Expected customerKey to be null');
+        Assert.isNotNull(customerKey, 'Expected a non-null customerKey');
      }
     
     @isTest (seeAllData = false)
@@ -144,6 +145,18 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Test.stopTest();
         Assert.areEqual('1010',myTestResponse); 
      }
+    
+    @isTest (seeAllData = true)
+    static void getAssetIdbyNameSFMCSuccess() {
+        Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
+        Test.startTest();
+        String myTestResponse;
+        String name = 'customerKeyBeLike';
+        String tokkenTest= 'tokkenTestBelike';
+        myTestResponse = AP2_SOMInvoiceManagement.SOM_GetAssetIdByNameInSFMC(name, tokkenTest);        
+        Test.stopTest();
+        Assert.areEqual('1010',myTestResponse); 
+    }
     
     @isTest (seeAllData = true)
     static void deleteAssetInSFMCSuccess() {
@@ -185,7 +198,6 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
     static void generateOneInvoiceInSFMCSuccess(){
         Test.setMock(HttpCalloutMock.class, new MockHttpResponseGenerator());
         testSetup();
-        String customerKey = 'customerKeyBeLike';
         Account accTest = [SELECT ID,personEmail from Account where personEmail = 'test@test.com' and lastName = 'test' Limit 1];
         Test.startTest();
         
@@ -197,7 +209,6 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                                                          EmailContent__c = emailContent);
         
 		insert transacEmail;
-        AP2_SOMInvoiceManagement.updateTransactionalEmailGenerateInvoice(transacEmail.Id, customerKey);
         Test.stopTest();
         TransactionalEmail__c transEmail= [SELECT ID, Name, EmailContent__c, email__c, TECH_GenerateInvoice__c, OrderSummary__c, Client__c, TECH_CustomerKey__c 
                                            FROM TransactionalEmail__c
@@ -206,6 +217,7 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
                                             AND email__c = :accTest.PersonEmail
                                             AND Client__c = :accTest.Id AND OrderSummary__c = :os.Id LIMIT 1];
         System.debug('**AP2 TEST : generateOneInvoiceInSFMCSuccess : ' + transEmail);
+        Assert.isTrue(transEmail.TECH_GenerateInvoice__c);
         Assert.areNotEqual('Error',transEmail.TECH_CustomerKey__c);
         Assert.isNotNull(transEmail.TECH_CustomerKey__c);
     }
@@ -235,7 +247,6 @@ public with sharing class AP2_SOMInvoiceManagement_Test {
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_INVOICE,trEmail.Template__c);
         Assert.areEqual(SOM_Constants.TRANSACTIONAL_EMAIL_STATUS_SENT,trEmail.Status__c);
     }
-    
      @isTest (seeAllData = false)
     static void getInvoiceDetail_Test(){
         

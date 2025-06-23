@@ -156,7 +156,7 @@
                         <th width="27px">&nbsp;</th>
                     </tr>
                 </apex:outputpanel>
-                <apex:outputpanel rendered="{!creditMemoConfigs['SERIAL_NUM_DISPLAY'] == 'true'}">
+                <apex:outputPanel rendered="{!AND(creditMemoConfigs['SERIAL_NUM_DISPLAY'] == 'true', CheckSerialNumber = True)}">
                     <tr>
                         <th colspan="5"><apex:outputText value="{!creditMemoConfigs['SERIAL_NO']}"/>&nbsp;<apex:outputpanel rendered="{!creditMemoDocument.Template == 'AE'}"><apex:image url="{!URLFOR($Resource.InvoiceRessources, 'ArabicRessources/SerialNumber.PNG')}" width="13%" height="13%" style="margin-top:-3px" alt="RIMOWA"/></apex:outputpanel> </th>
                     </tr>
