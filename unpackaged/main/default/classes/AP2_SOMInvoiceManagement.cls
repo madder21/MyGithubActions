@@ -61,7 +61,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                     /*STEP 4 : Upload into SFMC Content Builder the BLOB as PDF*/
                     String fileName = 'Invoice-'+ invoiceName;
                     String customerKey = SOM_UploadInSFMCAsset(invoiceDocument, fileName, oAUTHAccessToken);
-                 if(customerKey != null && !customerKey.startsWith('Error')) {
+                    if(!customerKey.startsWith('Error')){
                         /*STEP 5 : Update TransactionalEmail*/
                         updateTransactionalEmailGenerateInvoice(transacEmailId,customerKey);
                     }
@@ -75,7 +75,7 @@ public with sharing class AP2_SOMInvoiceManagement {
                 }  
             }
             else //System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId);
-            throw new SOMCustomException('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId +'Raise Error ::'+res.errorMessage  ,'AP2_SOMInvoiceManagement','SOM_GenerateInvoiceInSFMC');
+            throw new SOMCustomException('**AP2 SOM_GenerateInvoiceInSFMC: Blob not retrieve for invoice :' + invoiceId +' | Raise Error ::'+res.errorMessage  ,'AP2_SOMInvoiceManagement','SOM_GenerateInvoiceInSFMC');
                
         }
         else //System.debug('**AP2 SOM_GenerateInvoiceInSFMC: Invoice not found');
