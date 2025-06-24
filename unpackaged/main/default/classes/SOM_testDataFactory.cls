@@ -409,7 +409,7 @@ public class SOM_testDataFactory {
 
     public static List<OrderSummary> getListOrderSummaries(Id originalOrderId){
 		List<OrderSummary> orderSummries = [SELECT Id, LastModifiedDate, CreatedDate, OrderNumber, OriginalOrderId, AccountId, 
-            BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, BillingAddress, BillingEmailAddress, 
+            BillingStreet, BillingCity, BillingState, BillingPostalCode, BillingCountry, BillingAddress, BillingEmailAddress, OrderedDate__c,
             TotalTaxAmount, Status, SalesChannelId, CaptureStatus__c, (SELECT Id, status FROM FulfillmentOrders),
             (SELECT Id, status, Type, Name FROM OrderItemSummaries)
 			FROM OrderSummary WHERE OriginalOrderId =: originalOrderId];
@@ -423,7 +423,7 @@ public class SOM_testDataFactory {
     public static List<OrderSummary> getListOrderSummaryByOrder(List<Order> listOrders){
 		List<OrderSummary> orderSummries = [SELECT Id, OrderNumber, OriginalOrderId, AccountId, BillingStreet, BillingCity, 
 			BillingState, BillingPostalCode, BillingCountry, BillingAddress, BillingEmailAddress, TotalTaxAmount, 
-			Status, SalesChannelId, CaptureStatus__c, captureAtShipment__c,  On_Hold__c, CreateFulfillmentOrderImmediatly__c, OrderLifeCycleType,
+			Status, SalesChannelId, CaptureStatus__c, captureAtShipment__c,  On_Hold__c, CreateFulfillmentOrderImmediatly__c, OrderLifeCycleType,OrderedDate__c,
             (SELECT Id, status FROM FulfillmentOrders)
 			FROM OrderSummary WHERE OriginalOrderId =: listOrders];
 
@@ -1536,7 +1536,7 @@ public class SOM_testDataFactory {
             CardPaymentMethod cardPayMethod = createCardPaymentMethod(account.Id, 'CreditCard', 'Visa');
             listCardPayMethodbyOrderId.put(createdOrder.Id, cardPayMethod);
             //Create OrderDeliveryMethod
-            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standard_AE',listProducts[1].Id,'standard_AE');
+            OrderDeliveryMethod oDeliveryMethod = createOrderDeliveryMethod('standard_UAE',listProducts[1].Id,'standard_UAE');
             listOrderDlvryMthdByOrderId.put(createdOrder.Id, oDeliveryMethod);
         }
         insert listPaymentGrpsByOrderId.values();

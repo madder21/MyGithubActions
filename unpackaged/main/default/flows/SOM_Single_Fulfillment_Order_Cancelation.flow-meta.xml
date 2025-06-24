@@ -637,6 +637,13 @@
                 <elementReference>QuantityToCancel.value</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>SumQtyToCancel</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>QuantityToCancel.value</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Add_Fulfillment_Order_LineItems_To_Cancel_Input_0</targetReference>
         </connector>
@@ -1136,10 +1143,10 @@
             <name>Yes</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>V_SelectedItemsCounter</leftValueReference>
+                <leftValueReference>SumQtyToCancel</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <elementReference>V_CountFOLIs</elementReference>
+                    <elementReference>Get_Fulfillment_Order.ItemCount</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -1533,6 +1540,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumberPreview</name>
@@ -1559,6 +1567,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FulfillmentLineItemPreviewDt</name>
@@ -1689,6 +1698,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>ConfirmeChanges</name>
@@ -1744,6 +1754,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_FOLISelection</name>
@@ -1770,6 +1781,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>FO_Line_Item_Datatable</name>
@@ -1904,6 +1916,7 @@
                 <isRequired>false</isRequired>
             </fields>
             <isRequired>false</isRequired>
+            <regionContainerType>SectionWithoutHeader</regionContainerType>
         </fields>
         <fields>
             <name>OrderSummaryNumber_Text</name>
@@ -2214,6 +2227,17 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <scale>0</scale>
+    </variables>
+    <variables>
+        <name>SumQtyToCancel</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
     </variables>
     <variables>
         <name>UpdatedPEList</name>

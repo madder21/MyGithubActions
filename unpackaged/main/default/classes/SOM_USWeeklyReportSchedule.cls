@@ -160,11 +160,11 @@ public with sharing class SOM_USWeeklyReportSchedule Implements Schedulable {
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','');   
-            Logs.info('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','');   
+            Logs.debug('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','','');   
+            Logs.info('Sales and payments report Schedule Weekly US','SOM_USWeeklyReportSchedule','weekExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_USWeeklyReportSchedule US','weekExport','','');   
+            Logs.error(e,'SOM_USWeeklyReportSchedule US','weekExport','','','');   
         }  
         
     }

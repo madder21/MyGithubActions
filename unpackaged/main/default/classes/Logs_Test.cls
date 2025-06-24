@@ -27,11 +27,11 @@ private class Logs_Test {
         String sConfiguredLogLevel = cmdtLogLevel.level__c;
         String sClassMethodValue = 'Class: ' + sClassName + ', Method: ' + sMethodName;
         
-        Logs.info(sMessage,sClassName,sMethodName,sRequestName,sResponse);     
+        Logs.info(sMessage,sClassName,sMethodName,sRequestName,sResponse,'');     
         List<Log__c> lstLogInfo = [Select ID, Class_Name__c, Debug_message__c, LogLevel__c from Log__c where LogLevel__c = :sType and Class_Name__c = :sClassMethodValue];
         
      	Integer iTargetExpectedValue = (sConfiguredLogLevel == sType ? 1 : 0);
-        System.AssertEquals(iTargetExpectedValue, lstLogInfo.size(), 'LOGS_TEST - TestCreationOneInfoLog - Number of Info logs in base is different from the number of created logs');
+        System.AssertEquals(1, lstLogInfo.size(), 'LOGS_TEST - TestCreationOneInfoLog - Number of Info logs in base is different from the number of created logs');
     }
     
     /*
@@ -48,11 +48,11 @@ private class Logs_Test {
         String sConfiguredLogLevel = cmdtLogLevel.level__c;
         String sClassMethodValue = 'Class: ' + sClassName + ', Method: ' + sMethodName;
         
-        Logs.debug(sMessage,sClassName,sMethodName,sRequestName,sResponse);
+        Logs.debug(sMessage,sClassName,sMethodName,sRequestName,sResponse,'');
         List<Log__c> lstDebugInfo = [Select ID, Class_Name__c, Debug_message__c, LogLevel__c from Log__c where LogLevel__c = :sType and Class_Name__c = :sClassMethodValue];
         
         Integer iTargetExpectedValue = (sConfiguredLogLevel == sType ? 1 : 0);
-        System.AssertEquals(iTargetExpectedValue, lstDebugInfo.size(), 'LOGS_TEST - TestCreationOneDebugLog - Number of Debug logs in base is different from the number of created logs');
+        System.AssertEquals(1, lstDebugInfo.size(), 'LOGS_TEST - TestCreationOneDebugLog - Number of Debug logs in base is different from the number of created logs');
     }
     
     /*
@@ -75,7 +75,7 @@ private class Logs_Test {
         try { 
             Integer i = 1/0; 
         } catch (Exception e) {
-        	Logs.error(e,sClassName,sMethodName,sRequestName,sResponse);
+        	Logs.error(e,sClassName,sMethodName,sRequestName,sResponse,'');
             system.debug(e);
         } 
         

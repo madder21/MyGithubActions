@@ -1,9 +1,10 @@
 public with sharing class CLT_Clients implements CLT_RetailInterface {
     static Map<String, List<String>> compareTypeFieldsMap = new Map<String, List<String>> {
         'contains' => new List<String>{'Phone'},
+        'oneOfList' => new List<String>{'Nationality__pc','Country__pc'},
         'startWith' => new List<String>{'FirstName','LastName','PersonEmail','BillingCity'},
         'id' => new List<String>{'Id'},
-        'equal' => new List<String>{'Country__pc','Nationality__pc'}
+        'equal' => new List<String>{}
     };
 
     public Object retrieveDelete(Map<String, String> params){
@@ -66,11 +67,15 @@ public with sharing class CLT_Clients implements CLT_RetailInterface {
 
     private String getCondition(String fieldName, String paramKey, String paramValue) {
         String comapreType = compareTypeFieldsMap.get('contains').contains(paramKey) ? 'contains' :
+            compareTypeFieldsMap.get('oneOfList').contains(paramKey) ? 'oneOfList' :
             compareTypeFieldsMap.get('startWith').contains(paramKey) ? 'startWith' :
             compareTypeFieldsMap.get('id').contains(paramKey) ? 'id' :
             compareTypeFieldsMap.get('equal').contains(paramKey) ? 'equal' : 'equal';
 
         switch on comapreType {
+            when 'oneOfList' {                
+                return fieldName + ' IN (\'' + String.join(paramValue.split(';'), '\',\'') + '\')';
+            }
             when 'contains' {                
                 return fieldName + ' LIKE \'%' + paramValue + '%\'';
             }

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <assignments>
+        <name>Assign_PE_Status</name>
+        <label>Assign PE Status</label>
+        <locationX>544</locationX>
+        <locationY>614</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Over_PE.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Resolved</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>PE_ToUpadate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Over_PE</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Over_PE</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_PE_Description</name>
+        <label>Check PE Description</label>
+        <locationX>327</locationX>
+        <locationY>472</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Over_PE</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>The_postal_code_is_not_recognized</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Over_PE.Description</leftValueReference>
+                <operator>StartsWith</operator>
+                <rightValue>
+                    <stringValue>The postal code is not recognized</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_PE_Status</targetReference>
+            </connector>
+            <label>The postal code is not recognized</label>
+        </rules>
+    </decisions>
+    <interviewLabel>SOM - Resolve PE For Not Recognized {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SOM - Resolve BR PE For Not Recognized Address</label>
+    <loops>
+        <name>Loop_Over_PE</name>
+        <label>Loop Over PE</label>
+        <locationX>605</locationX>
+        <locationY>401</locationY>
+        <collectionReference>Get_PE_BR</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Check_PE_Description</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_PE</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_PE_BR</name>
+        <label>Get PE BR</label>
+        <locationX>774</locationX>
+        <locationY>400</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Loop_Over_PE</targetReference>
+        </connector>
+        <filterLogic>1 AND 2 AND  ( 3 OR 4 ) AND 5</filterLogic>
+        <filters>
+            <field>OrderSummaryId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Category</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Address Validation Brazil</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Message</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Shipping Address : INVALID ADDRESS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Message</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Billing Address : INVALID ADDRESS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ProcessException</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_PE</name>
+        <label>Update PE</label>
+        <locationX>699</locationX>
+        <locationY>615</locationY>
+        <inputReference>PE_ToUpadate</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>646</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_PE_BR</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>cegidOrderId__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <object>OrderSummary</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>PE_ToUpadate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>ProcessException</objectType>
+    </variables>
+</Flow>

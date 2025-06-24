@@ -11,8 +11,8 @@
     <decisions>
         <name>Chech_if_Brazilian_orders</name>
         <label>Chech if Brazilian orders</label>
-        <locationX>118</locationX>
-        <locationY>409</locationY>
+        <locationX>18</locationX>
+        <locationY>348</locationY>
         <defaultConnector>
             <targetReference>Check_Order_Sales_Channel</targetReference>
         </defaultConnector>
@@ -36,8 +36,8 @@
     <decisions>
         <name>Check_Order_Sales_Channel</name>
         <label>Check Order Sales Channel</label>
-        <locationX>332</locationX>
-        <locationY>554</locationY>
+        <locationX>346</locationX>
+        <locationY>546</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Is_Not_From_CEGID</name>
@@ -50,7 +50,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Get_Order_Summary.BillingCountry</leftValueReference>
+                <leftValueReference>Get_Order_Summary.Tech_ShippingCountry__c</leftValueReference>
                 <operator>NotEqualTo</operator>
                 <rightValue>
                     <stringValue>BR</stringValue>
@@ -62,7 +62,7 @@
             <label>Is Not From CEGID</label>
         </rules>
     </decisions>
-    <description>Launch Event for Orders other than S2W</description>
+    <environments>Default</environments>
     <interviewLabel>SOM - {!$Flow.CurrentDateTime}</interviewLabel>
     <label>SOM - New Fulfillment Order Publish Event</label>
     <processMetadataValues>
@@ -102,7 +102,7 @@
         <name>Get_Order_Delivery_Group_Summary</name>
         <label>Get Order Delivery Group Summary</label>
         <locationX>274</locationX>
-        <locationY>352</locationY>
+        <locationY>340</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Chech_if_Brazilian_orders</targetReference>
@@ -122,8 +122,8 @@
     <recordLookups>
         <name>Get_Order_Summary</name>
         <label>Get Order Summary</label>
-        <locationX>461</locationX>
-        <locationY>333</locationY>
+        <locationX>486</locationX>
+        <locationY>340</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Delivery_Group_Summary</targetReference>
@@ -142,13 +142,14 @@
         <queriedFields>SalesChannelName__c</queriedFields>
         <queriedFields>OrderNumber</queriedFields>
         <queriedFields>BillingCountry</queriedFields>
+        <queriedFields>Tech_ShippingCountry__c</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
         <name>Update_Adress_field</name>
         <label>Update Adress field</label>
-        <locationX>107</locationX>
-        <locationY>553</locationY>
+        <locationX>25</locationX>
+        <locationY>551</locationY>
         <connector>
             <targetReference>Check_Order_Sales_Channel</targetReference>
         </connector>
@@ -160,7 +161,6 @@
                 <elementReference>Get_Order_Summary.Id</elementReference>
             </value>
         </filters>
-        
         <inputAssignments>
             <field>Complementary__c</field>
             <value>

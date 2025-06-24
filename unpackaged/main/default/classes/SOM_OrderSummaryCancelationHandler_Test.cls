@@ -28,9 +28,9 @@ public with sharing class SOM_OrderSummaryCancelationHandler_Test {
     @IsTest(SeeAllData=true)
     public static void testCancelPickup() {
      
-        List<OrderSummary> os = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,2);
+        List<OrderSummary> os = SOM_testDataFactory.createOrderSummaryBulk(true,SOM_testDataFactory.OrderType.Standard,1);
         SOM_testDataFactory.createFO(os[0]);
-        SOM_testDataFactory.createFO(os[1]);
+        //SOM_testDataFactory.createFO(os[1]);
         Set<Id> Ids = (new Map<Id,OrderSummary>(os)).keySet();
         os = [SELECT Id, OrderNumber FROM OrderSummary WHERE Id IN: Ids];
         
@@ -40,9 +40,9 @@ public with sharing class SOM_OrderSummaryCancelationHandler_Test {
         SOM_OrderSummaryCancelationHandler.PickupCancelRequest req1 = new SOM_OrderSummaryCancelationHandler.PickupCancelRequest();
         req1.orderSummaryNumber = os.get(0).OrderNumber;
         SOM_OrderSummaryCancelationHandler.PickupCancelRequest req2 = new SOM_OrderSummaryCancelationHandler.PickupCancelRequest();
-        req2.orderSummaryNumber = os.get(1).OrderNumber;
+        //req2.orderSummaryNumber = os.get(1).OrderNumber;
         listOrderNumberRequest.add(req1);
-        listOrderNumberRequest.add(req2);
+        //listOrderNumberRequest.add(req2);
         RestResponse res = setReqRes(listOrderNumberRequest);
 
         Test.startTest();

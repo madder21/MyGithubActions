@@ -37,8 +37,8 @@ global with sharing class SOM_BatchAnonymization_4 implements Database.Batchable
     global void execute(Database.BatchableContext BC, List<CardPaymentMethod> relatedCardPaymentMethod){
         
         try {
-            Logs.debug('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization','','');   
-            Logs.info('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization','','');   
+            Logs.debug('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization','','', cls[0]);   
+            Logs.info('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization','','', cls[0]);   
             for(CardPaymentMethod cardPayMeth : relatedCardPaymentMethod){
                 cardPayMeth.CardHolderFirstName     = stringOperator;
                 cardPayMeth.CardHolderLastName      = stringOperator;
@@ -59,20 +59,20 @@ global with sharing class SOM_BatchAnonymization_4 implements Database.Batchable
             privacyReq.Status__c           = 'Error';
             privacyReq.AnonymizationLog__c = e.getDmlMessage(0);
             insert privacyReq;
-            Logs.error(e,'SOM_BatchAnonymization_4','callBatchAnonymization','','');   
+            Logs.error(e,'SOM_BatchAnonymization_4','callBatchAnonymization','','',cls[0]);   
         }
     }
 
     global void finish(Database.BatchableContext BC){
         try {
-            Logs.debug('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization - finish','','');   
-            Logs.info('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization - finish','','');   
+            Logs.debug('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization - finish','','',cls[0]);   
+            Logs.info('Anonymization process - Batch 4','SOM_BatchAnonymization_4','callBatchAnonymization - finish','','',cls[0]);   
             if(nextBatch == true){
                 SOM_BatchAnonymization_5 nextBatch = new SOM_BatchAnonymization_5(orderIds,paymentMethodIds, objectClientId, orderSummaryNumbers, cls);
                 database.executebatch(nextBatch);
             } 
         }catch(Exception e){
-            Logs.error(e,'SOM_BatchAnonymization_4','BatchAnonymization - finish','','');   
+            Logs.error(e,'SOM_BatchAnonymization_4','BatchAnonymization - finish','','',cls[0]);   
         }  
     }
 }

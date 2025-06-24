@@ -173,11 +173,11 @@ public with sharing class SOM_SalesPaymentsReportUKMonthSchedule Implements Sche
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Monthly UK','SOM_SalesPaymentsReportUKMonthSchedule','monthExport','','');   
-            Logs.info('Sales and payments report Schedule Monthly UK','SOM_SalesPaymentsReportUKMonthSchedule','monthExport','','');   
+            Logs.debug('Sales and payments report Schedule Monthly UK','SOM_SalesPaymentsReportUKMonthSchedule','monthExport','','','');   
+            Logs.info('Sales and payments report Schedule Monthly UK','SOM_SalesPaymentsReportUKMonthSchedule','monthExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesPaymentsReportUKMonthSchedule UK','monthExport','','');   
+            Logs.error(e,'SOM_SalesPaymentsReportUKMonthSchedule UK','monthExport','','','');   
         }  
         
         

@@ -8,6 +8,8 @@ global with sharing class SOM_CreditMemoDocumentController {
     public String                SerialNumberColumnName {get; set;}
     public String                AmountsFormat {get; set; }
     public CreditMemoAddress        creditMemoAddress { get; set;}
+    public String                creditMemoId;
+    Public Boolean 				CheckSerialNumber {get ; set;}
     
     public SOM_CreditMemoDocumentController() {
             this.countryMap = SOM_Utils.getCountryKeyValueMap(SOM_Constants.ORDER_SUMMARY_NAME, SOM_Constants.ORDER_SUMMARY_COUNTRY_FIELD_NAME);
@@ -30,7 +32,8 @@ global with sharing class SOM_CreditMemoDocumentController {
                 }
             }  
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoDocumentConfigs','','');   
+            //Throw new Exception ('setCreditMemoDocumentConfigs') ;
+            Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoDocumentConfigs','','','SOM_Invoice_Setting__mdt');   
         } 
     }
     public void setCreditMemoData(){
@@ -39,10 +42,10 @@ global with sharing class SOM_CreditMemoDocumentController {
             CreditMemoContact billingContact = new CreditMemoContact();
             CreditMemoContact deliveryContact = new CreditMemoContact();
             CreditMemoAddress cmAddress       = new CreditMemoAddress();
-            String creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
+            creditMemoId = ApexPages.currentPage().getParameters().get('creditMemoId');
             String templateCode = ApexPages.currentPage().getParameters().get('template');
             creditMemoDoc.Template = templateCode;
-            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,Complementary__c,StreetNumber__c,RI_Neighborhood__c,
+            List<CreditMemo> creditMemo = [SELECT ID, ReturnOrder__c,ReturnOrder__r.Tech_ShippingFeeRefund__c, Refund__r.RefundOrigin__c, TYPEOF ReferenceEntity WHEN OrderSummary THEN Id, CurrencyIsoCode,OrderedDate, Account.Name, OrderNumber, BillingCity, BillingPostalCode, BillingState, BillingContactFirstName__c,Complementary__c,StreetNumber__c,RI_Neighborhood__c,
                                            BillingContactLastName__c, BillingCountry, BillingStreet END, CreditDate, Credit_Memo_Date__c, CreditMemoNumber, DocumentNumber, TotalAmount, TotalAmountWithTax, TotalTaxAmount,
                                            (SELECT ID, Type, RelatedLineId, ReferenceEntityItemTypeCode, Product2.Description, AdjustmentAmountWithTax, AdjustmentAmount, AdjustmentTaxAmount, ChargeTaxAmount, ChargeAmount, ChargeAmountWithTax, ReturnOrderLineItem__c, ReturnOrderLineItem__r.QuantityReturned, ReturnOrderLineItem__r.SerialNumber__c,  
                                             TYPEOF ReferenceEntityItem WHEN OrderItemSummary THEN TaxRate__c, hsCode__c, hsCodeDescription__c, COO__c, Description, LineNumber END FROM CreditMemoLines ) FROM CreditMemo WHERE Id = :creditMemoId];
@@ -68,7 +71,7 @@ global with sharing class SOM_CreditMemoDocumentController {
                     billingContact.name        = ordSummary.BillingContactFirstName__c + ' ' + ordSummary.BillingContactLastName__c;
                     billingContact.city        = ordSummary.BillingCity;
                     billingContact.country     = Country;
-                    
+                	creditMemoDoc.orderDate   = DateTime.newInstance(ordSummary.OrderedDate.year(), ordSummary.OrderedDate.month(), ordSummary.OrderedDate.day()).format('dd.MM.yyyy');
                     
                     if (Country == 'Brazil' && !String.IsBlank(ordSummary.StreetNumber__c) && !String.IsBlank(ordSummary.Complementary__c)){
                         billingContact.address = ordSummary.BillingStreet + ', ' + ordSummary.StreetNumber__c + ' - ' + ordSummary.Complementary__c;
@@ -155,6 +158,10 @@ global with sharing class SOM_CreditMemoDocumentController {
                                 lineItem.serialNumber = creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c;
                                 this.quantityColumnName     = 'QUANTITY';
                                 this.SerialNumberColumnName = 'SERIAL NO.';
+                                CheckSerialNumber = False ;
+                                if(creditMemoLine.ReturnOrderLineItem__r.SerialNumber__c != null  && CheckSerialnumber == False){
+                                    CheckSerialNumber = True ;
+                                }
                             }
                             else {
                                 //we should use adjustment
@@ -193,8 +200,10 @@ global with sharing class SOM_CreditMemoDocumentController {
                             }
                             //  lineItem.itemNumber = counter;
                             lineItems.add(lineItem);
+
                             // counter++;
                         }
+
                 }
                 lineItems.sort();
                 // List<CreditMemoLineItem> lineItems2 = new List<CreditMemoLineItem>();
@@ -223,18 +232,18 @@ global with sharing class SOM_CreditMemoDocumentController {
 
             }  
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoData','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','setCreditMemoData','','',creditMemoId);   
         } 
 
     }
-
+        
     public String getCreditMemoProductType(CreditMemo creditMemo){
         try{  
             if (creditMemo.Refund__r.RefundOrigin__c == SOM_Constants.REFUND_ORIGIN_APPEASEMENT )
                 return SOM_Constants.CreditMemo_LINE_TYPE_ADJUSTMENT;
             return SOM_Constants.INVOICE_LINE_TYPE_CHARGE;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoProductType','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoProductType','','', creditMemo.Id);   
         }
         return null;
     }
@@ -245,7 +254,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
             return creditMemoLine.ChargeAmount;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getAmount','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getAmount','','',creditMemoLine.Id);   
         }
         return null;
     }
@@ -256,7 +265,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
             return creditMemoLine.ChargeTaxAmount;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getVAT','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getVAT','','', creditMemoLine.Id);   
         }
         return null;
     }
@@ -267,7 +276,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
             return creditMemoLine.ChargeAmountWithTax;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getAmountWithTax','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getAmountWithTax','','', creditMemoLine.Id);   
         }
         return null;
     }
@@ -315,7 +324,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         }
             return creditMemoTaxesSorted;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoTaxLineItems','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getCreditMemoTaxLineItems','','',creditMemo.Id);   
         }  
         return null;
     }
@@ -336,7 +345,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             }
 
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','getPaymentMethod','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','getPaymentMethod','','', orderSummaryId);   
         }  
         return '';
     }
@@ -345,7 +354,7 @@ global with sharing class SOM_CreditMemoDocumentController {
             Sales_Channel_Mapping__mdt AmountsFormat = [SELECT AmountsFormat__c FROM Sales_Channel_Mapping__mdt WHERE  Zone__c =: CountryIso];
             return AmountsFormat.AmountsFormat__c;
         }catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoDocumentController','setAmountsFormat','','');   
+            Logs.error(e,'SOM_CreditMemoDocumentController','setAmountsFormat','','', 'Sales_Channel_Mapping__mdt');   
         }  
         return null;
     }
@@ -388,6 +397,7 @@ global with sharing class SOM_CreditMemoDocumentController {
         public String                   paymentType {get; set;}
         public String                   Template {get; set;}
         public String                	TaxID {get; set;}
+        public String                   orderDate {get; set;}
     }
     global with sharing class CreditMemoContact{
         public String name {get; set;}

@@ -1,5 +1,5 @@
 # Unique name for this workflow
-name: Validate SOM release UAT branch 
+name: Validate SOM release PROD branch 
 
 # Definition when the workflow should run
 on:
@@ -17,7 +17,7 @@ on:
 
 # Jobs to be executed
 jobs:
-    deploy-branch-to-integrate:
+    validate-branch-to-prod:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
@@ -42,13 +42,13 @@ jobs:
           
             # Set the instanceUrl config value
             - name: 'Set the instanceUrl config value'
-              run: sfdx config:set instanceUrl=https://rimowa--uat.sandbox.my.salesforce.com
+              run: sfdx config:set instanceUrl=https://rimowa.sandbox.my.salesforce.com
               
               # Authorize devops user
             - name: 'Authorize Devops User'
-              run: sfdx force:auth:jwt:grant -i "3MVG9T992fY2Y4vuAbTvG70Z35vHQkVv32ow9mftNiuovpgXNP0nemtMu.HZONZ9FAEofdb0D9Hu5z7A6TtJL" -f JWT/server.key -a RimowaUATOrg --username devops@rimowa.uat
+              run: sfdx force:auth:jwt:grant -i "3MVG9fTLmJ60pJ5KTOKDKvUl1bGE8wDK7wIcpp4mVLDp7u_vwXw7diiE1V9WblwxxjryyeOmaA4fTOGQN0GZp" -f JWT/server.key -a RimowaProdOrg  --username devops@rimowa.com
               
             # Deploy the entire branch to Integration org
-            - name: 'Deploy and Validate the entire branch to UAT org'
-              #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaUATOrg -c
-              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-04-1.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-04.1.txt) -u RimowaUATOrg --json 
+            - name: 'Deploy and Validate the entire branch to PROD org'
+              #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaProdOrg -c
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-06-1.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-06.1.txt) -u RimowaProdOrg --json 

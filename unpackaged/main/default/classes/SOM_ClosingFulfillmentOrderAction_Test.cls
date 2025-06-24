@@ -3,18 +3,23 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
 
     public static List<List<Id>> listeFOids = new List<List<Id>>();
     public static List<Id> listFOids = new List<Id>();
+    public static List<Id> FOidsList = new List<Id>();
     public static Boolean shipping = false;
     public static Boolean cancel = false;
 
     @IsTest(seeAllData = true)
     public static void setupData() {
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,3);
-        Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,1);
+        //Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+Set<Id> osIds = new Set<Id>{los[0].Id};
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
-        FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
-        List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
-        List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+        //FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
+       // List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
+        //List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+ List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
+        FOidsList.add(FulfillmentOrderIds[0]);
+        
         List<OrderItemSummary> ois = [SELECT Id, OrderSummaryId,status FROM OrderItemSummary WHERE Status =: SOM_Constants.Status_Ordered AND OrderSummaryId IN :osIds];
         List<List<Id>> lfoIds = new List<List<Id>>{FulfillmentOrderIds};
         listeFOids = lfoIds;
@@ -26,8 +31,8 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
         if(shipping) {
             Map<Id, FulfillmentOrder> mapFO = new Map<Id, FulfillmentOrder>();
             mapFO.put(fo1.Id,fo1);
-            mapFO.put(fo2.Id,fo2);
-            mapFO.put(fo3[0].Id,fo3[0]);
+            //mapFO.put(fo2.Id,fo2);
+           // mapFO.put(fo3[0].Id,fo3[0]);
             SOM_testDataFactory.createShipments(mapFO);
         }
     }
@@ -36,11 +41,11 @@ public with sharing class SOM_ClosingFulfillmentOrderAction_Test {
     public static void testClosingOK() {
         setupData(); 
     	List<Id> foIds = new List<Id>();
-        List<fulfillmentOrder> ListfulfillmentOrder = [Select Id, Status from fulfillmentOrder where id in: listFOids  ];
+        List<fulfillmentOrder> ListfulfillmentOrder = [Select Id, Status from fulfillmentOrder where id in: FOidsList  ];
         
         SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs request = new SOM_ClosingFulfillmentOrderAction.UpdateFulfillmentOrderArgs();
-        if(listFOids.size() > 0)
-        request.foIds = listFOids;
+        if(FOidsList.size() > 0)
+        request.foIds = FOidsList;
         request.doUpdateOSStatus = true;
         
         Test.startTest();

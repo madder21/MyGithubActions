@@ -36,11 +36,11 @@ public with sharing class SOM_DownloadInvoiceDocumentController {
                 request.setMethod('GET');
                 Http http1 = new Http();
                 HttpResponse response = http1.send(request);
-        
+        //integer i=22/0;
                 if (response.getStatusCode() == 200) {
                     this.invoiceData = EncodingUtil.base64Encode(response.getBodyAsBlob());
                 } else {
-                    this.errorMessage = title + ' document number ' + invoiceNumber + ' not found.';
+                    this.errorMessage =' Retrieve Blob storage Status Error  :'+response.getStatus()+'| Retrieve Blob storage Error Code  :'+response.getStatusCode()+'|'+title + ' document number ' + invoiceNumber + ' not found.';
                 }
             } catch(Exception ex) {
                  this.errorMessage = ex.getMessage();

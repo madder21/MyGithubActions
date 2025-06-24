@@ -148,11 +148,11 @@ public with sharing class SOM_SalesPaymentsReportMonthAUSchedule Implements Sche
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Monthly  AU','SOM_SalesPaymentsReportMonthAUSchedule','monthExport','','');   
-            Logs.info('Sales and payments report Schedule Monthly  AU','SOM_SalesPaymentsReportMonthAUSchedule','monthExport','','');   
+            Logs.debug('Sales and payments report Schedule Monthly  AU','SOM_SalesPaymentsReportMonthAUSchedule','monthExport','','','');   
+            Logs.info('Sales and payments report Schedule Monthly  AU','SOM_SalesPaymentsReportMonthAUSchedule','monthExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesPaymentsReportMonthAUSchedule AU','monthExport','','');   
+            Logs.error(e,'SOM_SalesPaymentsReportMonthAUSchedule AU','monthExport','','','');   
         }  
     }   
     

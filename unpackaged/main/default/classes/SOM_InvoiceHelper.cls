@@ -23,14 +23,12 @@ public class SOM_InvoiceHelper {
                 SOM_DateConvertionInput dateinput          = new SOM_DateConvertionInput();
                 dateinput.targetTimeZone                   = invoiceTimeZonesMap.get(singleInvoice.Id);
                 dateinput.dateToConvert                    = singleInvoice.CreatedDate;
-            System.debug('dateinput' + dateinput);
                 singleInvoice.Invoice_Timezone_Date__c     = SOM_DateTimeHelper.convertDateTimeByTimeZone(new List<SOM_DateConvertionInput>{dateinput})[0].date();
-            System.debug('singleInvoice.Invoice_Timezone_Date__c' + singleInvoice.Invoice_Timezone_Date__c);
             }            
-            Logs.debug('Invoice Timezone','SOM_InvoiceHelper','updateInvoiceTimezoneDate','',''); 
-            Logs.info('Invoice Timezone','SOM_InvoiceHelper','updateInvoiceTimezoneDate','','');
+            Logs.debug('Invoice Timezone','SOM_InvoiceHelper','updateInvoiceTimezoneDate','','', newMap[0].Id); 
+            Logs.info('Invoice Timezone','SOM_InvoiceHelper','updateInvoiceTimezoneDate','','',newMap[0].Id);
         } catch(Exception e){
-            Logs.error(e,'SOM_InvoiceHelper','updateInvoiceTimezoneDate','','');   
+            Logs.error(e,'SOM_InvoiceHelper','updateInvoiceTimezoneDate','','',newMap[0].Id);   
         } 
         
     }

@@ -99,11 +99,12 @@ global with sharing class SOM_ErrorMessageBrazilianAddress {
                 response.ReqId = Req.RecordId;
                 responseWrapper.add(response);
                 responsesWrappers.add(responseWrapper);
+                
                 //Logs.debug('ErrorMessage Brazilian Address','SOM_ErrorMessageBrazilianAddress','ErrorMessageBrazilianAddress','','');   
                 //Logs.info('ErrorMessage Brazilian Address','SOM_ErrorMessageBrazilianAddress','ErrorMessageBrazilianAddress','','');   
             } 
         }catch(Exception e) {
-            Logs.error(e,'SOM_ErrorMessageBrazilianAddress','ErrorMessageBrazilianAddress','','');   
+            Logs.error(e,'SOM_ErrorMessageBrazilianAddress','ErrorMessageBrazilianAddress','','', requests.get(0).get(0).RecordId);   
         }
         return responsesWrappers;
     }

@@ -33,13 +33,14 @@ public with sharing class SOM_ShipmentPerFoliAction {
     @InvocableMethod(label='Shipped Quantity By FOLI')
     public static List<List<SOM_ShipmentPerFoliAction>> getShippedQuantityByFOLI(List<List<Id>> foLineItemsIds){
         List<List<SOM_ShipmentPerFoliAction>> output = new List<List<SOM_ShipmentPerFoliAction>>();
+        try {
         List<SOM_ShipmentPerFoliAction> listWR = new List<SOM_ShipmentPerFoliAction>();
         Map<Id, Integer> mapQ = new Map<Id, Integer>();
         for(AggregateResult resultFoli : [SELECT  FulfillmentOrderLineItemId FoliId , SUM(Quantity) Quantity  
                                             FROM ShipmentItem 
                                             WHERE FulfillmentOrderLineItemId IN : foLineItemsIds[0]
                                             GROUP BY FulfillmentOrderLineItemId ORDER BY FulfillmentOrderLineItemId DESC]){
-            SOM_ShipmentPerFoliAction foliqte = new SOM_ShipmentPerFoliAction();                                   
+            SOM_ShipmentPerFoliAction foliqte = new SOM_ShipmentPerFoliAction(); 
             foliqte.idFoli = (Id) resultFoli.get('FoliId');
             foliqte.qty    = Integer.valueOf((Decimal) resultFoli.get('Quantity'));
             listWR.add(foliqte);
@@ -55,6 +56,12 @@ public with sharing class SOM_ShipmentPerFoliAction {
         }
 
         output.add(listWR);
+        Logs.debug('Shipment Per Foli Action','SOM_ShipmentPerFoliAction','ShipmentPerFoliAction','','', foLineItemsIds[0][0]);   
+        Logs.info('Shipment Per Foli Action','SOM_ShipmentPerFoliAction','ShipmentPerFoliAction','','', foLineItemsIds[0][0]);   
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_ShipmentPerFoliAction','ShipmentPerFoliAction','','', foLineItemsIds[0][0]);   
+        }  
         return output;
 
     }

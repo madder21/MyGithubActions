@@ -153,10 +153,10 @@ public with sharing class TNP_002_ServiceClass {
             Map<string,object> addressMap = buildObjectMap(accountInput, 'TNP_AddressMap__c');
             addressMap.put ('Address1_Country',personMaillingCountryIso3Code);   
             addressMap.put ('Address1_DQCheck',false);
-            addressMap.put ('Address1_DQValidity',false);     
+            addressMap.put ('Address1_DQValidity',null);     
             addressMap.put ('Address2_Country',personOtherCountryIso3Code);
             addressMap.put ('Address2_DQCheck',false);
-            addressMap.put ('Address2_DQValidity',false);
+            addressMap.put ('Address2_DQValidity',null);
             System.debug(CLASS_NAME+ '/' + METHOD_NAME +'/'+ 'addressMap'+addressMap);
             JsonMap.put('Addresses',addressMap);
             

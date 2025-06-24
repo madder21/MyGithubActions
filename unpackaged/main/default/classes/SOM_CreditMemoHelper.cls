@@ -26,10 +26,10 @@ public class SOM_CreditMemoHelper {
                 dateinput.dateToConvert             = singleCredit.CreatedDate;
                 singleCredit.Credit_Memo_Date__c    = SOM_DateTimeHelper.convertDateTimeByTimeZone(new List<SOM_DateConvertionInput>{dateinput})[0].date();
             }
-            Logs.debug('Credit Memo Timezone','SOM_CreditMemoHelper','updateCreditMemoDate','',''); 
-            Logs.info('Credit Memo Timezone','SOM_CreditMemoHelper','updateCreditMemoDate','','');
+            Logs.debug('Credit Memo Timezone','SOM_CreditMemoHelper','updateCreditMemoDate','','',newMap[0].Id); 
+            Logs.info('Credit Memo Timezone','SOM_CreditMemoHelper','updateCreditMemoDate','','',newMap[0].Id);
         } catch(Exception e){
-            Logs.error(e,'SOM_CreditMemoHelper','updateCreditMemoDate','','');   
+            Logs.error(e,'SOM_CreditMemoHelper','updateCreditMemoDate','','',newMap[0].Id);   
         } 
     }
     

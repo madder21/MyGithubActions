@@ -38,19 +38,20 @@ global with sharing class SOM_WS_ShipmentHandler {
         response.addHeader('Content-Type', 'application/json');
         String RequestBody = request.requestBody.toString() != null ? request.requestBody.toString() : null;
         Map<Id, WMS_OutPutFulfillment> outPutResponseByFOId  = new Map<Id, WMS_OutPutFulfillment>();
+        Map<String, List<WMS_ShipmentData>> listShipmentsDataWithFoNumber = new Map<String, List<WMS_ShipmentData>>();
         
         Savepoint sp = Database.setSavepoint();
         try {
+            
             List<ShipmentDataRquest> shipmentDataRquestInputs = (List<ShipmentDataRquest>) json.deserialize(RequestBody, List<ShipmentDataRquest>.class);
             if (shipmentDataRquestInputs.isEmpty()) {
                 response.statusCode   = STATUS_CODE_403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                     'Response' => 'Shipment records are empty.'
-                }));
+                        }));
                 return;
-            }
-
-            Map<String, List<WMS_ShipmentData>> listShipmentsDataWithFoNumber = getShipmentDataByFulfillmentOrderMap(shipmentDataRquestInputs);
+            }        
+            listShipmentsDataWithFoNumber = getShipmentDataByFulfillmentOrderMap(shipmentDataRquestInputs);
             //Get Fulfillment Orders
             List<FulfillmentOrder>  fulfillmentOrders = [SELECT Id, FulfillmentOrderNumber, AccountId, DeliveryMethodId, FulfilledFromLocationId, 
                 FulfilledToName, FulfilledToStreet, FulfilledToCity, FulfilledToState, FulfilledToPostalCode, 
@@ -107,6 +108,10 @@ global with sharing class SOM_WS_ShipmentHandler {
                     for(WMS_ShipmentData shipmentDataLine : listShipmentsDataWithFoNumber.get(flmntOrder.FulfillmentOrderNumber)){
                         if (shipmentDataLine.articles?.isEmpty()) {
                             outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR, 'Shipment should contain at least one article to ship', flmntOrder.Id, null, null));
+                            break;
+                        }
+                        if (String.isBlank(shipmentDataLine.trackingNumber)) {
+                            outPutResponseByFOId.put(flmntOrder.Id, createWMSOutputFulfillmentResponse(STATUS_ERROR ,'The tracking number is missing. Please provide a valid tracking number.', flmntOrder.Id ,null,null));
                             break;
                         }
                         Shipment shipment = createShipmentRecord(flmntOrder, shipmentDataLine, listLocationById);
@@ -208,6 +213,9 @@ global with sharing class SOM_WS_ShipmentHandler {
                             outPutResponseByFOId);
             SOM_TransactionalEmailHandler.generateTransactionalEmail(transactionalEmails);
             
+            Logs.debug('Create Shipments','SOM_WS_ShipmentHandler','createShipments',RequestBody,JSON.serialize(response),string.valueof(listShipmentsDataWithFoNumber.keySet())); 
+            Logs.info('Create Shipments','SOM_WS_ShipmentHandler','createShipments',RequestBody,JSON.serialize(response),string.valueof(listShipmentsDataWithFoNumber.keySet())); 
+            
             response.statusCode   = STATUS_CODE_200;
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => outPutResponseByFOId.values()
@@ -216,6 +224,7 @@ global with sharing class SOM_WS_ShipmentHandler {
             Database.rollback(sp);
             List<WMS_OutPutFulfillment> foOutPutResponseData = new List<WMS_OutPutFulfillment>();
             response.statusCode = STATUS_CODE_403;
+            Logs.error(ex,'SOM_WS_ShipmentHandler','createShipments',RequestBody,JSON.serialize(response),string.valueof(listShipmentsDataWithFoNumber.keySet())); 
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => outPutResponseByFOId.values(),
                 'Error'    => getErrorMessageForResponse(ex.getMessage())
@@ -257,33 +266,40 @@ global with sharing class SOM_WS_ShipmentHandler {
                             Map<String, Id> foIdByExternalShipmentId,
                             Map<Id, FulfillmentOrder> listFulfillementOrderById,
                             Map<Id, WMS_OutPutFulfillment> outPutResponseByFOId){
-        List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputsList = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
-        for(Shipment shipment : shipmentToInsertBySpExternalId.values()){
-            if(!listFoIdResponse.get(0).foIds.contains(shipment.FulfillmentOrderId)) continue;
-            //Create Transactional Email Input
-            SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
-            generateTransactionalEmailInput.templateName = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION;
-            generateTransactionalEmailInput.recordId     = shipment.Id;
-            generateTransactionalEmailInputsList.add(generateTransactionalEmailInput);
-
-            WMS_OutPutshipmentData shipmentOutPut = new WMS_OutPutshipmentData();
-            shipmentOutPut.shipmentExternalId     = shipment.WMSShipmentId__c;
-            shipmentOutPut.shipmentId             = shipment.Id;
-            //Prepare Out Put Data 
-            if(outPutResponseByFOId.containsKey(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c))){
-                outPutResponseByFOId.get(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c))?.shipments.add(shipmentOutPut);
-                continue;
+            List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput> generateTransactionalEmailInputsList = new List<SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput>();
+            Try{                        
+                for(Shipment shipment : shipmentToInsertBySpExternalId.values()){
+                    if(!listFoIdResponse.get(0).foIds.contains(shipment.FulfillmentOrderId)) continue;
+                    //Create Transactional Email Input
+                    SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput generateTransactionalEmailInput = new SOM_TransactionalEmailHandler.SOM_GenerateTransactionalEmailInput();
+                    generateTransactionalEmailInput.templateName = SOM_Constants.TRANSACTIONAL_EMAIL_TEMPLATE_NAME_SHIPPING_CONFIRMATION;
+                    generateTransactionalEmailInput.recordId     = shipment.Id;
+                    generateTransactionalEmailInputsList.add(generateTransactionalEmailInput);
+        
+                    WMS_OutPutshipmentData shipmentOutPut = new WMS_OutPutshipmentData();
+                    shipmentOutPut.shipmentExternalId     = shipment.WMSShipmentId__c;
+                    shipmentOutPut.shipmentId             = shipment.Id;
+                    //Prepare Out Put Data 
+                    if(outPutResponseByFOId.containsKey(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c))){
+                        outPutResponseByFOId.get(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c))?.shipments.add(shipmentOutPut);
+                        continue;
+                    }
+        
+                    FulfillmentOrder fullOrder = listFulfillementOrderById.get(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c));
+                    outPutResponseByFOId.put(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c), 
+                                    createWMSOutputFulfillmentResponse(STATUS_OK, null, 
+                                    foIdByExternalShipmentId.get(shipment.WMSShipmentId__c), 
+                                    fullOrder != null ? fullOrder.FulfillmentOrderNumber : null,
+                                    new List<WMS_OutPutshipmentData>{shipmentOutPut}));
+                }
+                
+                Logs.debug('Populate Shipmen tTransactional Email','SOM_WS_ShipmentHandler','populateShipmentTransactionalEmailAndOutputResponse','','',string.valueof(foIdByExternalShipmentId.values())); 
+                Logs.info('Populate Shipmen tTransactional Email','SOM_WS_ShipmentHandler','populateShipmentTransactionalEmailAndOutputResponse','','',string.valueof(foIdByExternalShipmentId.values())); 
+                                
+            }catch(Exception ex){
+                Logs.error(ex,'SOM_WS_ShipmentHandler','populateShipmentTransactionalEmailAndOutputResponse','','',string.valueof(foIdByExternalShipmentId.values())); 
             }
-
-            FulfillmentOrder fullOrder = listFulfillementOrderById.get(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c));
-            outPutResponseByFOId.put(foIdByExternalShipmentId.get(shipment.WMSShipmentId__c), 
-                            createWMSOutputFulfillmentResponse(STATUS_OK, null, 
-                            foIdByExternalShipmentId.get(shipment.WMSShipmentId__c), 
-                            fullOrder != null ? fullOrder.FulfillmentOrderNumber : null,
-                            new List<WMS_OutPutshipmentData>{shipmentOutPut}));
-        }
-
-        return generateTransactionalEmailInputsList;
+        return generateTransactionalEmailInputsList;                        
     }
     
     /**
@@ -352,11 +368,17 @@ global with sharing class SOM_WS_ShipmentHandler {
      */
     private static Map<Id, Integer> getShippedQuantityByFOLI(Set<Id> foLineItemsIds){
         Map<Id, Integer> totalExistingShipmentItemsByFoliId = new Map<Id, Integer>();
-        for(AggregateResult resultFoli : [SELECT  FulfillmentOrderLineItemId FoliId , SUM(Quantity) Quantity  
-                                                FROM ShipmentItem 
-                                                WHERE FulfillmentOrderLineItemId IN : foLineItemsIds 
-                                                GROUP BY FulfillmentOrderLineItemId]){
-            totalExistingShipmentItemsByFoliId.put((Id) resultFoli.get('FoliId'), Integer.valueOf((Decimal) resultFoli.get('Quantity')));
+        try{
+            for(AggregateResult resultFoli : [SELECT  FulfillmentOrderLineItemId FoliId , SUM(Quantity) Quantity  
+                                              FROM ShipmentItem 
+                                              WHERE FulfillmentOrderLineItemId IN : foLineItemsIds 
+                                              GROUP BY FulfillmentOrderLineItemId]){
+                                                  totalExistingShipmentItemsByFoliId.put((Id) resultFoli.get('FoliId'), Integer.valueOf((Decimal) resultFoli.get('Quantity')));
+                                              }
+            Logs.debug('Get Shipped Quantity By FOLI','SOM_WS_ShipmentHandler','getShippedQuantityByFOLI','','',string.valueof(foLineItemsIds)); 
+            Logs.info('Get Shipped Quantity By FOLI','SOM_WS_ShipmentHandler','getShippedQuantityByFOLI','','',string.valueof(foLineItemsIds)); 
+        }catch(Exception ex){
+            Logs.error(ex,'SOM_WS_ShipmentHandler','getShippedQuantityByFOLI','','',string.valueof(foLineItemsIds)); 
         }
 
         return totalExistingShipmentItemsByFoliId;
@@ -369,46 +391,51 @@ global with sharing class SOM_WS_ShipmentHandler {
      */
     private static Map<Id, Map<String,Integer>> getShippedQuantityBySkuByFO(Set<Id> foLineItemsIds){
         Map<Id, Map<String,Integer>> totalExistingShippedQuantityBySkuByFO = new Map<Id, Map<String,Integer>>();
-        for(ShipmentItem shipmentItem : [SELECT     FulfillmentOrderLineItemId , 
-                                                    FulfillmentOrderLineItem.Product2.StockKeepingUnit ,
-                                                    FulfillmentOrderLineItem.FulfillmentOrderId , 
-                                                    Quantity  
-                                            FROM ShipmentItem 
-                                            WHERE FulfillmentOrderLineItemId IN : foLineItemsIds]){
-            if(totalExistingShippedQuantityBySkuByFO.containsKey(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)){
-                if(
-                    totalExistingShippedQuantityBySkuByFO
-                    .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
-                    .containsKey(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit)){
-                        totalExistingShippedQuantityBySkuByFO
-                            .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
-                            .put(
-                                shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
-                                Integer.valueOf(
-                                    totalExistingShippedQuantityBySkuByFO
-                                        .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
-                                        .get(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit) + shipmentItem.Quantity)
-                                );
-                }else{
-                    totalExistingShippedQuantityBySkuByFO
-                        .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
-                        .put(
-                            shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
-                            Integer.valueOf(shipmentItem.Quantity)
-                            );
-                }
-                
-            }else{
-                totalExistingShippedQuantityBySkuByFO.put(
-                    shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId,
-                    new Map<String, Integer> {
-                        shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit => Integer.valueOf(shipmentItem.Quantity)
-                    }
-                );
-
-            }
+        try{
+            for(ShipmentItem shipmentItem : [SELECT     FulfillmentOrderLineItemId , 
+                                             FulfillmentOrderLineItem.Product2.StockKeepingUnit ,
+                                             FulfillmentOrderLineItem.FulfillmentOrderId , 
+                                             Quantity  
+                                             FROM ShipmentItem 
+                                             WHERE FulfillmentOrderLineItemId IN : foLineItemsIds]){
+                                                 if(totalExistingShippedQuantityBySkuByFO.containsKey(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)){
+                                                     if(
+                                                         totalExistingShippedQuantityBySkuByFO
+                                                         .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                                                         .containsKey(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit)){
+                                                             totalExistingShippedQuantityBySkuByFO
+                                                                 .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                                                                 .put(
+                                                                     shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
+                                                                     Integer.valueOf(
+                                                                         totalExistingShippedQuantityBySkuByFO
+                                                                         .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                                                                         .get(shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit) + shipmentItem.Quantity)
+                                                                 );
+                                                         }else{
+                                                             totalExistingShippedQuantityBySkuByFO
+                                                                 .get(shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId)
+                                                                 .put(
+                                                                     shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit,
+                                                                     Integer.valueOf(shipmentItem.Quantity)
+                                                                 );
+                                                         }
+                                                     
+                                                 }else{
+                                                     totalExistingShippedQuantityBySkuByFO.put(
+                                                         shipmentItem.FulfillmentOrderLineItem.FulfillmentOrderId,
+                                                         new Map<String, Integer> {
+                                                             shipmentItem.FulfillmentOrderLineItem.Product2.StockKeepingUnit => Integer.valueOf(shipmentItem.Quantity)
+                                                                 }
+                                                     );
+                                                     
+                                                 }
+                                             }
+            Logs.debug('Get Shipped Quantity By FO','SOM_WS_ShipmentHandler','getShippedQuantityBySkuByFO','','',string.valueof(foLineItemsIds)); 
+            Logs.info('Get Shipped Quantity By FO','SOM_WS_ShipmentHandler','getShippedQuantityBySkuByFO','','',string.valueof(foLineItemsIds)); 
+        }catch(Exception ex){
+            Logs.error(ex,'SOM_WS_ShipmentHandler','getShippedQuantityBySkuByFO','','',string.valueof(foLineItemsIds)); 
         }
-
         return totalExistingShippedQuantityBySkuByFO;
     }
 
@@ -422,41 +449,46 @@ global with sharing class SOM_WS_ShipmentHandler {
     private static Shipment createShipmentRecord(FulfillmentOrder flmntOrder, 
                                         WMS_ShipmentData shipmentDataLine,
                                         Map<Id, Schema.Location> listLocationById) {
-        //Create shiipment object
-        Shipment shipment           = new Shipment();
-        shipment.DeliveryMethodId   = flmntOrder.DeliveryMethodId;
-        shipment.FulfillmentOrderId = flmntOrder.Id;
-        shipment.OrderSummaryId     = flmntOrder.OrderSummaryId;
-        shipment.ShipToName         = flmntOrder.FulfilledToName;
-        shipment.SourceLocationId   = flmntOrder.FulfilledFromLocationId;
-        shipment.DispatchDate__c    = shipmentDataLine.dispatchDate;
-        shipment.WMSShipmentId__c   = shipmentDataLine.WMSshipmentId;
-        shipment.TrackingNumber     = shipmentDataLine.trackingNumber;
-        shipment.CentiroShipmentId__c   = shipmentDataLine.CentiroShipmentId;
-        shipment.Carrier__c         = shipmentDataLine.carrier != null ? shipmentDataLine.carrier : flmntOrder.DeliveryMethod.Carrier;
-        shipment.ShippingService__c = shipmentDataLine.shippingService != null ? shipmentDataLine.shippingService : flmntOrder.DeliveryMethod.ReferenceNumber;
-        shipment.Status             = SOM_Constants.SHIPMENT_SHIPPED;
-        if(listLocationById.containsKey(flmntOrder.FulfilledFromLocationId)){
-            shipment.ShipFromCity       = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.City;
-            shipment.ShipFromStreet     = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Street;
-            shipment.ShipFromPostalCode = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.PostalCode;
-            shipment.ShipFromState      = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.State;
-            shipment.ShipFromCountry    = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Country;
+		Shipment shipment           = new Shipment();        
+		try{
+            //Create shiipment object
+            shipment.DeliveryMethodId   = flmntOrder.DeliveryMethodId;
+            shipment.FulfillmentOrderId = flmntOrder.Id;
+            shipment.OrderSummaryId     = flmntOrder.OrderSummaryId;
+            shipment.ShipToName         = flmntOrder.FulfilledToName;
+            shipment.SourceLocationId   = flmntOrder.FulfilledFromLocationId;
+            shipment.DispatchDate__c    = shipmentDataLine.dispatchDate;
+            shipment.WMSShipmentId__c   = shipmentDataLine.WMSshipmentId;
+            shipment.TrackingNumber     = shipmentDataLine.trackingNumber;
+            shipment.CentiroShipmentId__c   = shipmentDataLine.CentiroShipmentId;
+            shipment.Carrier__c         = shipmentDataLine.carrier != null ? shipmentDataLine.carrier : flmntOrder.DeliveryMethod.Carrier;
+            shipment.ShippingService__c = shipmentDataLine.shippingService != null ? shipmentDataLine.shippingService : flmntOrder.DeliveryMethod.ReferenceNumber;
+            shipment.Status             = SOM_Constants.SHIPMENT_SHIPPED;
+            if(listLocationById.containsKey(flmntOrder.FulfilledFromLocationId)){
+                shipment.ShipFromCity       = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.City;
+                shipment.ShipFromStreet     = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Street;
+                shipment.ShipFromPostalCode = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.PostalCode;
+                shipment.ShipFromState      = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.State;
+                shipment.ShipFromCountry    = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Country;
+            }
+            if(flmntOrder.type.equalsIgnoreCase(SOM_Constants.FULFILLMENT_ORDER_FULFILLED_IN_STORE_PICKUP)){
+                shipment.ShipToCity       = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.City;
+                shipment.ShipToStreet     = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Street;
+                shipment.ShipToPostalCode = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.PostalCode;
+                shipment.ShipToState      = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.State;
+                shipment.ShipToCountry    = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Country;
+            } else if(flmntOrder.type.equalsIgnoreCase(SOM_Constants.WAREHOUSE)){
+                shipment.ShipToCity       = flmntOrder.FulfilledToCity;
+                shipment.ShipToStreet     = flmntOrder.FulfilledToStreet;
+                shipment.ShipToPostalCode = flmntOrder.FulfilledToPostalCode;
+                shipment.ShipToState      = flmntOrder.FulfilledToState;
+                shipment.ShipToCountry    = flmntOrder.FulfilledToCountry;
+            }
+            Logs.debug('Create Shipment Record','SOM_WS_ShipmentHandler','createShipmentRecord','','',flmntOrder.Id); 
+            Logs.info('Create ShipmentRecord','SOM_WS_ShipmentHandler','createShipmentRecord','','',flmntOrder.Id); 
+        }catch(Exception ex){
+            Logs.error(ex,'SOM_WS_ShipmentHandler','createShipmentRecord','','',flmntOrder.Id); 
         }
-        if(flmntOrder.type.equalsIgnoreCase(SOM_Constants.FULFILLMENT_ORDER_FULFILLED_IN_STORE_PICKUP)){
-            shipment.ShipToCity       = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.City;
-            shipment.ShipToStreet     = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Street;
-            shipment.ShipToPostalCode = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.PostalCode;
-            shipment.ShipToState      = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.State;
-            shipment.ShipToCountry    = listLocationById.get(flmntOrder.FulfilledFromLocationId)?.VisitorAddress.Country;
-        } else if(flmntOrder.type.equalsIgnoreCase(SOM_Constants.WAREHOUSE)){
-            shipment.ShipToCity       = flmntOrder.FulfilledToCity;
-            shipment.ShipToStreet     = flmntOrder.FulfilledToStreet;
-            shipment.ShipToPostalCode = flmntOrder.FulfilledToPostalCode;
-            shipment.ShipToState      = flmntOrder.FulfilledToState;
-            shipment.ShipToCountry    = flmntOrder.FulfilledToCountry;
-        }
-
         return shipment;
     }
 

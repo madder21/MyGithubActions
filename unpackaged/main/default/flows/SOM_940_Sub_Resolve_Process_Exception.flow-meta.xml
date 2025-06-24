@@ -139,6 +139,13 @@
                 <elementReference>Loop_Over_Filtered_ODGS.uf</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>erro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_ODGS.erro</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Loop_Over_Filtered_ODGS</targetReference>
         </connector>
@@ -188,6 +195,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Loop_Over_Filtered_OS.uf</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>erro</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Over_Filtered_OS.erro</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -463,8 +477,8 @@
     <assignments>
         <name>OS_Error_Message_0</name>
         <label>OS Error Message</label>
-        <locationX>1461</locationX>
-        <locationY>1007</locationY>
+        <locationX>1480</locationX>
+        <locationY>1016</locationY>
         <assignmentItems>
             <assignToReference>DescriptionError</assignToReference>
             <operator>Assign</operator>
@@ -770,10 +784,18 @@
         <name>DescriptionMessageValidation</name>
         <dataType>String</dataType>
         <expression>IF(
+({!erro}) = &quot;true&quot;, 
+&quot;The postal code is not recognized. Please verify the address to be able to push the Order to Cegid once the shipment is created for the order. &quot;,
+IF(
     ISBLANK({!DescriptionError}),
     {!DescriptionErrorValidation},
     &quot;The following fields are inconsistent with the Zip Code : &quot; &amp; {!DescriptionError} &amp; &quot; &quot; &amp; {!DescriptionErrorValidation}
-)</expression>
+))</expression>
+    </formulas>
+    <formulas>
+        <name>DisplayError</name>
+        <dataType>Boolean</dataType>
+        <expression>IF({!erro} = &quot;true&quot;, true, false)</expression>
     </formulas>
     <formulas>
         <name>FX_ErrorMessageDisplay</name>
@@ -1099,7 +1121,7 @@ true, false)</expression>
     <recordUpdates>
         <name>Update_PE_Description</name>
         <label>Update PE Description</label>
-        <locationX>1295</locationX>
+        <locationX>1291</locationX>
         <locationY>851</locationY>
         <connector>
             <targetReference>ScreenError_0_0</targetReference>
@@ -1198,9 +1220,34 @@ true, false)</expression>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
+            <name>Error2</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The postal code is not recognized. Please verify the address to be able to push the Order to Cegid once the shipment is created for the order.&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>DisplayError</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>error</name>
             <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;The process exception cannot be resolved. Please verify the following fields on the {!Address} :&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;{!DescriptionError}&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;{!DescriptionErrorValidation}&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>DisplayError</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
@@ -1296,6 +1343,13 @@ true, false)</expression>
     </variables>
     <variables>
         <name>DescriptionErrorValidation</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>erro</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

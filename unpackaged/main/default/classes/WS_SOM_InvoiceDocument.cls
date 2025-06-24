@@ -24,17 +24,22 @@ global with sharing class WS_SOM_InvoiceDocument {
             res.statusCode = 404;  
         }
         List<OrderPaymentSummary> orderPaymentList = [SELECT Id, Method, OrderSummaryId FROM OrderPaymentSummary WHERE OrderSummaryId = :OrderSummaryId ];        
-        if (attachment != null && !attachment.isEmpty()) {
-            delete attachment.get(0);
-            if (sObjName == SOM_Constants.INVOICE_SOBJECT_TYPE_NAME &&  !(orderPaymentList[0].Method == SOM_Constants.CASH_ON_DELIVERY  && FulfilledToCountry == SOM_Constants.JP_COUNTRY_CODE) )
-                triggerEmailGeneration(invoiceId);
-        }else {
-            res.statusCode = 404;
-        }
-        Logs.debug('doDelete Operation', 'WS_SOM_InvoiceDocument', 'doDelete', String.valueOf(req), String.valueOf(res));
-        Logs.info('doDelete Operation', 'WS_SOM_InvoiceDocument', 'doDelete', String.valueOf(req), String.valueOf(res));
+            if (attachment != null && !attachment.isEmpty()) {
+                delete attachment.get(0);
+                if ( sObjName == SOM_Constants.CORRECTIVE_INVOICE_SOBJECT_TYPE_NAME || (sObjName == SOM_Constants.INVOICE_SOBJECT_TYPE_NAME &&
+                !(orderPaymentList[0].Method == SOM_Constants.CASH_ON_DELIVERY && FulfilledToCountry == SOM_Constants.JP_COUNTRY_CODE))) {
+                    
+                    triggerEmailGeneration(invoiceId);
+                }
+            } else {
+                res.statusCode = 404;
+            }
+            
+            
+        Logs.debug('doDelete Operation', 'WS_SOM_InvoiceDocument', 'doDelete', String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
+        Logs.info('doDelete Operation', 'WS_SOM_InvoiceDocument', 'doDelete', String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
     } catch (Exception e) {
-        Logs.error(e, 'WS_SOM_InvoiceDocument', 'doDelete Operation', 'doDelete processing request: ' + String.valueOf(req), String.valueOf(res));
+        Logs.error(e, 'WS_SOM_InvoiceDocument', 'doDelete Operation', 'doDelete processing request: ' + String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
     }
     }
     @HttpGet
@@ -49,10 +54,10 @@ global with sharing class WS_SOM_InvoiceDocument {
         } else {
             res.statusCode = 404;
         }
-        Logs.debug('doGet Operation', 'WS_SOM_InvoiceDocument', 'doGet', String.valueOf(req), String.valueOf(res));
-        Logs.info('doGet Operation', 'WS_SOM_InvoiceDocument', 'doGet', String.valueOf(req), String.valueOf(res));
+        Logs.debug('doGet Operation', 'WS_SOM_InvoiceDocument', 'doGet', String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
+        Logs.info('doGet Operation', 'WS_SOM_InvoiceDocument', 'doGet', String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
     } catch (Exception e) {
-        Logs.error(e, 'WS_SOM_InvoiceDocument', 'doGet Operation', 'doDelete processing request: ' + String.valueOf(req), String.valueOf(res));
+        Logs.error(e, 'WS_SOM_InvoiceDocument', 'doGet Operation', 'doDelete processing request: ' + String.valueOf(req), String.valueOf(res),req.requestURI.substring(req.requestURI.lastIndexOf('/')+1));
     }
     }
     
@@ -68,10 +73,10 @@ global with sharing class WS_SOM_InvoiceDocument {
             if (!Test.isRunningTest()) {
                 SOM_TransactionalEmailHandler.generateTransactionalEmail(generateTransactionalEmailInputsList);
             }
-            Logs.debug('triggerEmailGeneration','WS_SOM_InvoiceDocument','monthExport','','');   
-            Logs.info('triggerEmailGeneration','WS_SOM_InvoiceDocument','monthExport','',''); 
+            Logs.debug('triggerEmailGeneration','WS_SOM_InvoiceDocument','monthExport','','', invoiceId);   
+            Logs.info('triggerEmailGeneration','WS_SOM_InvoiceDocument','monthExport','','', invoiceId); 
         } catch (Exception e) {
-            Logs.error(e, 'WS_SOM_InvoiceDocument', 'triggerEmailGeneration', '','');
+            Logs.error(e, 'WS_SOM_InvoiceDocument', 'triggerEmailGeneration', '','', invoiceId);
         }
     }
 }

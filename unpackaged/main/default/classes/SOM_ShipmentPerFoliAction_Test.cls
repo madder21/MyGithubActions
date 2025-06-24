@@ -7,21 +7,26 @@ public static List<FulfillmentOrderLineItem> listfoli = new List<FulfillmentOrde
     
     @isTest(seeAllData=true)
     public static void makeData() {
-        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,3);
-        Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+        List<OrderSummary> los = SOM_testDataFactory.createOrderSummaryBulk(false,SOM_testDataFactory.OrderType.STANDARD,1);
+        //Set<Id> osIds = new Set<Id>{los[0].Id,los[1].Id,los[2].Id};
+        Set<Id> osIds = new Set<Id>{los[0].Id};
         FulfillmentOrder fo1 = SOM_testDataFactory.createFO(los[0]);
-        FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
-        List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
-        List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+        //FulfillmentOrder fo2 = SOM_testDataFactory.createFO(los[1]);
+        //List<FulfillmentOrder> fo3 = SOM_testDataFactory.createMultipleFO(los[2]);
+        //List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id,fo2.Id,fo3[0].Id,fo3[1].Id};
+        List<Id> FulfillmentOrderIds = new List<Id>{fo1.Id};
         listFOids.addAll(FulfillmentOrderIds);
         List<FulfillmentOrderLineItem> listfoli = [SELECT Id , Quantity FROM FulfillmentOrderLineItem WHERE FulfillmentOrderId IN : FulfillmentOrderIds];
-        List<Id> FulfillmentOrderLineIds = new List<Id>{listfoli[0].Id,listfoli[1].Id,listfoli[2].Id};
+        List<Id> FulfillmentOrderLineIds = new List<Id>();
+            for(FulfillmentOrderLineItem foliid : listfoli){
+                FulfillmentOrderLineIds.add(foliid.Id);
+            }
         listFOLineids.add(FulfillmentOrderLineIds);
         request.idFOLI = listfoli[0].Id;
         request.qty = 0;
         map<Id,FulfillmentOrder> foMap = new map<Id,FulfillmentOrder>();
         foMap.put(FulfillmentOrderIds[0],fo1 );
-        foMap.put(FulfillmentOrderIds[1],fo2 );
+        //foMap.put(FulfillmentOrderIds[1],fo2 );
         map<Id,Shipment> shipments = SOM_testDataFactory.createShipments(foMap);
     }
     

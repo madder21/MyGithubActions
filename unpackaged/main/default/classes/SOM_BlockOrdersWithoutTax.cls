@@ -2,6 +2,8 @@ global with sharing class SOM_BlockOrdersWithoutTax {
     
     @InvocableMethod(label='Block Orders Without Tax' description='Block Orders Without Tax' )
     global static void SOM_BlockOrdersWithoutTax(List<List<SOM_RequestBlockOrdersWithoutTax>> Requests){
+        String OrderIdRecord;
+        try{
         Map<String, List<Map<String, String>>> RequestsMap = new Map<String, List<Map<String, String>>>();
         Map<String, String>   EmailBodyConfigs = new Map<String,String>();
         for(List<SOM_RequestBlockOrdersWithoutTax> listID : Requests){
@@ -27,10 +29,10 @@ global with sharing class SOM_BlockOrdersWithoutTax {
         
         
         String bodyMessage = EmailBodyConfigs.get(SOM_Constants.INTRODUCTION);
-        
         for (String orderId:RequestsMap.keySet()) {
+            OrderIdRecord = orderId;
             bodyMessage += EmailBodyConfigs.get(SOM_Constants.ORDER) + '&nbsp;' + orderId + '<br/>';
-            Boolean isFirstOrderRefNum = true;
+            Boolean isFirstOrderRefNum = true;            
             for(Map<String, String> recordData : RequestsMap.get(orderId)){
                 if (isFirstOrderRefNum) {
                     bodyMessage += EmailBodyConfigs.get(SOM_Constants.ORDERREFERENCENUMBER) + '&nbsp;' + recordData.get('OrderReferenceNumber') + '<br/>';
@@ -43,6 +45,12 @@ global with sharing class SOM_BlockOrdersWithoutTax {
         bodyMessage += EmailBodyConfigs.get(SOM_Constants.CLOSING);
         bodyMessage += EmailBodyConfigs.get(SOM_Constants.REGARDS);
         sendEmail(EmailBodyConfigs.get(SOM_Constants.ADDRESS), owa, bodyMessage);
+        Logs.debug('Block Orders Without Tax', 'SOM_BlockOrdersWithoutTax', 'SOM_BlockOrdersWithoutTax', '', '', OrderIdRecord);
+        Logs.info('Block Orders Without Tax', 'SOM_BlockOrdersWithoutTax', 'SOM_BlockOrdersWithoutTax', '', '', OrderIdRecord);    
+            
+        }catch(Exception e){
+            Logs.error(e,'SOM_BlockOrdersWithoutTax','SOM_BlockOrdersWithoutTax','','',OrderIdRecord);   
+        }
         
         
     }

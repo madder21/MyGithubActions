@@ -360,6 +360,11 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
                     
                 }
             }
+            
+            
+            Logs.debug('Create Picked In Store Shipments','SOM_WS_PickedInStoreShipmentHnadler','createPickedInStoreShipments',RequestBody,JSON.serialize(responseData),string.valueof(requestByOSNumber.keySet())); 
+            Logs.info('Create Picked In Store Shipments','SOM_WS_PickedInStoreShipmentHnadler','createPickedInStoreShipments',RequestBody,JSON.serialize(responseData),string.valueof(requestByOSNumber.keySet())); 
+            
             if(responseData.isEmpty()){
                 response.statusCode = 403;
                 response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
@@ -376,6 +381,7 @@ global with sharing class SOM_WS_PickedInStoreShipmentHnadler {
         } catch (Exception exp) {
             Database.rollback(sp);
             response.statusCode = 403;
+            Logs.error(exp, 'Create Picked In Store Shipments', 'SOM_WS_PickedInStoreShipmentHnadler', RequestBody, JSON.serialize(response),string.valueof(requestByOSNumber.keySet())); 
             response.responseBody = Blob.valueOf(JSON.serialize(new Map<String, Object> {
                 'Response' => 'Internal Error Please contact your Salesforce Admin'
             

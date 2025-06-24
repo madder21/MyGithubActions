@@ -149,11 +149,11 @@ public with sharing class SOM_SalesAndPaymentsReportMonthSchedule Implements Sch
             
             Messaging.sendEmail(emails);
             
-            Logs.debug('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
-            Logs.info('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','');   
+            Logs.debug('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','','');   
+            Logs.info('Sales and payments report Schedule Monthly AE','SOM_SalesAndPaymentsReportMonthSchedule','monthExport','','','');   
             
         }catch(Exception e){
-            Logs.error(e,'SOM_SalesAndPaymentsReportMonthSchedule AE','monthExport','','');   
+            Logs.error(e,'SOM_SalesAndPaymentsReportMonthSchedule AE','monthExport','','','');   
         }  
         
         
