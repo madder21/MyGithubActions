@@ -7,10 +7,7 @@ on:
       - 'force-app/**'
       - 'pmd/**'
     branches:
-      - main
-      - master
-      - develop
-      - release/**
+      - "Release-Candidate"
 
 jobs:
   pmd-run:
