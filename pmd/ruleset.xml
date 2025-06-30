@@ -1,0 +1,1210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns="http://pmd.sourceforge.net/ruleset/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Apex Ruleset Results" xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+	<description>Copado Default Ruleset for Apex</description>
+	<!--  ALL STANDARD CATEGORIES, WHICH INCLUDES ALL STANDARD RULES  -->
+	
+	<rule name="ApexAssertionsShouldIncludeMessage"
+          language="apex"
+          since="6.13.0"
+          message="Apex test assert statement should make use of the message parameter."
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.ApexAssertionsShouldIncludeMessageRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#apexassertionsshouldincludemessage">
+        <description>
+			The second parameter of System.assert/third parameter of System.assertEquals/System.assertNotEquals is a message.
+			Having a second/third parameter provides more information and makes it easier to debug the test failure and
+			improves the readability of test output.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexUnitTestClassShouldHaveAsserts"
+          language="apex"
+          since="5.5.1"
+          message="Apex unit tests should System.assert() or assertEquals() or assertNotEquals()"
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.ApexUnitTestClassShouldHaveAssertsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#apexunittestclassshouldhaveasserts">
+        <description>
+			Apex unit tests should include at least one assertion.  This makes the tests more robust, and using assert
+			with messages provide the developer a clearer idea of what the test does.  Custom assert method invocation
+			patterns can be specified using the 'additionalAssertMethodPattern' property if required.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexUnitTestMethodShouldHaveIsTestAnnotation"
+          since="6.13.0"
+          language="apex"
+          message="Apex test methods should have @isTest annotation."
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#apexunittestmethodshouldhaveistestannotation">
+        <description>
+			Apex test methods should have `@isTest` annotation instead of the `testMethod` keyword,
+			as `testMethod` is deprecated.
+			Salesforce advices to use [@isTest](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation_isTest.htm)
+			annotation for test classes and methods.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//Method[ModifierNode[@DeprecatedTestMethod = true()]]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="ApexUnitTestShouldNotUseSeeAllDataTrue"
+          language="apex"
+          since="5.5.1"
+          message="Apex unit tests should not use @isTest(seeAllData = true)"
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.ApexUnitTestShouldNotUseSeeAllDataTrueRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#apexunittestshouldnotuseseealldatatrue">
+        <description>
+			Apex unit tests should not use @isTest(seeAllData=true) because it opens up the existing database data for unexpected modification by tests.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidGlobalModifier"
+          language="apex"
+          since="5.5.0"
+          message="Avoid using global modifier"
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.AvoidGlobalModifierRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#avoidglobalmodifier">
+        <description>
+			Global classes should be avoided (especially in managed packages) as they can never be deleted or changed in signature. Always check twice if something needs to be global.
+			Many interfaces (e.g. Batch) required global modifiers in the past but don't require this anymore. Don't lock yourself in.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidLogicInTrigger"
+          language="apex"
+          since="5.5.0"
+          message="Avoid logic in triggers"
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.AvoidLogicInTriggerRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#avoidlogicintrigger">
+        <description>
+			As triggers do not allow methods like regular classes they are less flexible and suited to apply good encapsulation style.
+			Therefore delegate the triggers work to a regular class (often called Trigger handler class).
+
+			See more here: &lt;https://developer.salesforce.com/page/Trigger_Frameworks_and_Apex_Trigger_Best_Practices&gt;
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="DebugsShouldUseLoggingLevel"
+          since="6.18.0"
+          language="apex"
+          message="Calls to System.debug should specify a logging level."
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#debugsshoulduselogginglevel">
+       <description>
+			The first parameter of System.debug, when using the signature with two parameters, is a LoggingLevel enum.
+
+			Having the Logging Level specified provides a cleaner log, and improves readability of it.
+       </description>
+       <priority>3</priority>
+       <properties>
+          <property name="strictMode" type="Boolean" value="false" description="If true, mark statements that use the DEBUG enum of LoggingLevel."/>
+          <property name="version" value="2.0"/>
+          <property name="xpath">
+             <value>
+				<![CDATA[
+				//MethodCallExpression[lower-case(@FullMethodName)='system.debug'][count(*)=2
+				    or ($strictMode=true() and count(*)=3 and lower-case(VariableExpression/@Image)='debug')]
+				]]>
+             </value>
+          </property>
+       </properties>
+    </rule>
+
+    <rule name="UnusedLocalVariable"
+          since="6.23.0"
+          language="apex"
+          message="Variable ''{0}'' defined but not used"
+          class="net.sourceforge.pmd.lang.apex.rule.bestpractices.UnusedLocalVariableRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_bestpractices.html#unusedlocalvariable">
+        <description>
+			Detects when a local variable is declared and/or assigned but not used.
+        </description>
+    </rule>
+
+    <rule name="ClassNamingConventions"
+          language="apex"
+          since="5.5.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.ClassNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#classnamingconventions">
+        <description>
+            Configurable naming conventions for type declarations. This rule reports
+            type declarations which do not match the regex that applies to their
+            specific kind (e.g. enum or interface). Each regex can be configured through
+            properties.
+
+            By default this rule uses the standard Apex naming convention (Pascal case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="IfElseStmtsMustUseBraces"
+          language="apex"
+          since="5.6.0"
+          message="Avoid using 'if...else' statements without curly braces"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#ifelsestmtsmustusebraces">
+        <description>
+			Avoid using if..else statements without using surrounding braces. If the code formatting
+			or indentation is lost then it becomes difficult to separate the code being controlled
+			from the rest.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//IfBlockStatement/BlockStatement[@CurlyBrace= false()][count(child::*) > 0]
+					|
+					//IfElseBlockStatement/BlockStatement[@CurlyBrace= false()][count(child::*) > 0]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="IfStmtsMustUseBraces"
+          language="apex"
+          since="5.6.0"
+          message="Avoid using if statements without curly braces"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#ifstmtsmustusebraces">
+        <description>
+			Avoid using if statements without using braces to surround the code block. If the code
+			formatting or indentation is lost then it becomes difficult to separate the code being
+			controlled from the rest.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//IfBlockStatement/BlockStatement[@CurlyBrace= false()]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="FieldDeclarationsShouldBeAtStart"
+          language="apex"
+          since="6.23.0"
+          message="Field declaration for ''{0}'' should be before method declarations in its class"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.FieldDeclarationsShouldBeAtStartRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#fielddeclarationsshouldbeatstart">
+        <description>
+            Field declarations should appear before method declarations within a class.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="FieldNamingConventions"
+          language="apex"
+          since="6.15.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.FieldNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#fieldnamingconventions">
+        <description>
+            Configurable naming conventions for field declarations. This rule reports variable declarations
+            which do not match the regex that applies to their specific kind ---e.g. constants (static final),
+            static field, final field. Each regex can be configured through properties.
+
+            By default this rule uses the standard Apex naming convention (Camel case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="ForLoopsMustUseBraces"
+          language="apex"
+          since="5.6.0"
+          message="Avoid using 'for' statements without curly braces"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#forloopsmustusebraces">
+        <description>
+			Avoid using 'for' statements without using surrounding braces. If the code formatting or
+			indentation is lost then it becomes difficult to separate the code being controlled
+			from the rest.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//ForLoopStatement/BlockStatement[@CurlyBrace= false()]
+					|
+					//ForEachStatement/BlockStatement[@CurlyBrace= false()]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="FormalParameterNamingConventions"
+          language="apex"
+          since="6.15.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.FormalParameterNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#formalparameternamingconventions">
+        <description>
+            Configurable naming conventions for formal parameters of methods.
+            This rule reports formal parameters which do not match the regex that applies to their
+            specific kind (e.g. method parameter, or final method parameter). Each regex can be
+            configured through properties.
+
+            By default this rule uses the standard Apex naming convention (Camel case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="LocalVariableNamingConventions"
+          language="apex"
+          since="6.15.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.LocalVariableNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#localvariablenamingconventions">
+        <description>
+            Configurable naming conventions for local variable declarations.
+            This rule reports variable declarations which do not match the regex that applies to their
+            specific kind (e.g. local variable, or final local variable). Each regex can be configured through
+            properties.
+
+            By default this rule uses the standard Apex naming convention (Camel case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="MethodNamingConventions"
+          language="apex"
+          since="5.5.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.MethodNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#methodnamingconventions">
+        <description>
+            Configurable naming conventions for method declarations. This rule reports
+            method declarations which do not match the regex that applies to their
+            specific kind (e.g. static method, or test method). Each regex can be
+            configured through properties.
+
+            By default this rule uses the standard Apex naming convention (Camel case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="OneDeclarationPerLine"
+          language="apex"
+          since="6.7.0"
+          message="Use one statement for each line, it enhances code readability."
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#onedeclarationperline">
+        <description>
+			Apex allows the use of several variables declaration of the same type on one line. However, it
+			can lead to quite messy code. This rule looks for several declarations on the same line.
+        </description>
+        <priority>1</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="reportInForLoopInitializer" type="Boolean" value="true" description="If false, multiple declarations in a for loop initializer are not flagged."/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//VariableDeclarationStatements
+					  [count(VariableDeclaration) > 1 and ($reportInForLoopInitializer = true() or name(parent::*) != 'ForLoopStatement')]
+					  [$strictMode or count(distinct-values(VariableDeclaration/@BeginLine)) != count(VariableDeclaration)]
+					|
+					//FieldDeclarationStatements
+					  [count(FieldDeclaration) > 1]
+					  [$strictMode or count(distinct-values(FieldDeclaration/VariableExpression/@BeginLine)) != count(FieldDeclaration/VariableExpression)]
+					]]>
+                </value>
+            </property>
+            <property name="version" value="2.0"/>
+            <property name="strictMode" type="Boolean" value="false"
+                      description="If true, mark combined declaration even if the declarations are on separate lines."/>
+        </properties>
+    </rule>
+
+    <rule name="PropertyNamingConventions"
+          language="apex"
+          since="6.15.0"
+          message="The {0} name ''{1}'' doesn''t match ''{2}''"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.PropertyNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#propertynamingconventions">
+        <description>
+            Configurable naming conventions for property declarations. This rule reports
+            property declarations which do not match the regex that applies to their
+            specific kind (e.g. static property, or instance property). Each regex can be
+            configured through properties.
+
+            By default this rule uses the standard Apex naming convention (Camel case).
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="VariableNamingConventions"
+          language="apex"
+          since="5.5.0"
+          deprecated="true"
+          message="{0} variable {1} should begin with {2}"
+          class="net.sourceforge.pmd.lang.apex.rule.codestyle.VariableNamingConventionsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#variablenamingconventions">
+        <description>
+			A variable naming conventions rule - customize this to your liking.  Currently, it
+			checks for final variables that should be fully capitalized and non-final variables
+			that should not include underscores.
+
+			This rule is deprecated and will be removed with PMD 7.0.0. The rule is replaced
+			by the more general rules {% rule "apex/codestyle/FieldNamingConventions" %},
+			{% rule "apex/codestyle/FormalParameterNamingConventions" %},
+			{% rule "apex/codestyle/LocalVariableNamingConventions" %}, and
+			{% rule "apex/codestyle/PropertyNamingConventions" %}.
+        </description>
+        <priority>1</priority>
+    </rule>
+
+    <rule name="WhileLoopsMustUseBraces"
+          language="apex"
+          since="5.6.0"
+          message="Avoid using 'while' statements without curly braces"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_codestyle.html#whileloopsmustusebraces">
+        <description>
+			Avoid using 'while' statements without using braces to surround the code block. If the code
+			formatting or indentation is lost then it becomes difficult to separate the code being
+			controlled from the rest.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//WhileLoopStatement/BlockStatement[@CurlyBrace= false()]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+	
+	<rule name="AvoidDeeplyNestedIfStmts"
+          language="apex"
+          since="5.5.0"
+          message="Deeply nested if..then statements are hard to read"
+          class="net.sourceforge.pmd.lang.apex.rule.design.AvoidDeeplyNestedIfStmtsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#avoiddeeplynestedifstmts">
+        <description>
+			Avoid creating deeply nested if-then statements since they are harder to read and error-prone to maintain.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="CyclomaticComplexity"
+          language="apex"
+          message="The {0} ''{1}'' has a{2} cyclomatic complexity of {3}."
+          since="6.0.0"
+          class="net.sourceforge.pmd.lang.apex.rule.design.CyclomaticComplexityRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#cyclomaticcomplexity">
+        <description>
+			The complexity of methods directly affects maintenance costs and readability. Concentrating too much decisional logic
+			in a single method makes its behaviour hard to read and change.
+
+			Cyclomatic complexity assesses the complexity of a method by counting the number of decision points in a method,
+			plus one for the method entry. Decision points are places where the control flow jumps to another place in the
+			program. As such, they include all control flow statements, such as 'if', 'while', 'for', and 'case'.
+
+			Generally, numbers ranging from 1-4 denote low complexity, 5-7 denote moderate complexity, 8-10 denote
+			high complexity, and 11+ is very high complexity. By default, this rule reports methods with a complexity >= 10.
+			Additionally, classes with many methods of moderate complexity get reported as well once the total of their
+			methods' complexities reaches 40, even if none of the methods was directly reported.
+
+			Reported methods should be broken down into several smaller methods. Reported classes should probably be broken down
+			into subcomponents.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="CognitiveComplexity"
+          language="apex"
+          message="The {0} ''{1}'' has a{2} cognitive complexity of {3}, current threshold is {4}"
+          since="6.22.0"
+          class="net.sourceforge.pmd.lang.apex.rule.design.CognitiveComplexityRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#cognitivecomplexity">
+        <description>
+        	<![CDATA[
+			Methods that are highly complex are difficult to read and more costly to maintain. If you include too much decisional
+			logic within a single method, you make its behavior hard to understand and more difficult to modify.
+			Cognitive complexity is a measure of how difficult it is for humans to read and understand a method. Code that contains
+			a break in the control flow is more complex, whereas the use of language shorthands doesn't increase the level of
+			complexity. Nested control flows can make a method more difficult to understand, with each additional nesting of the
+			control flow leading to an increase in cognitive complexity.
+			Information about Cognitive complexity can be found in the original paper here:
+			<https://www.sonarsource.com/docs/CognitiveComplexity.pdf>
+			By default, this rule reports methods with a complexity of 15 or more. Reported methods should be broken down into less
+			complex components.
+			]]>
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ExcessiveClassLength"
+          language="apex"
+          since="5.5.0"
+          message="Avoid really long classes."
+          class="net.sourceforge.pmd.lang.apex.rule.design.ExcessiveClassLengthRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#excessiveclasslength">
+        <description>
+			Excessive class file lengths are usually indications that the class may be burdened with excessive
+			responsibilities that could be provided by external classes or functions. In breaking these methods
+			apart the code becomes more managable and ripe for reuse.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ExcessiveParameterList"
+          language="apex"
+          since="5.5.0"
+          message="Avoid long parameter lists."
+          class="net.sourceforge.pmd.lang.apex.rule.design.ExcessiveParameterListRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#excessiveparameterlist">
+        <description>
+			Methods with numerous parameters are a challenge to maintain, especially if most of them share the
+			same datatype. These situations usually denote the need for new objects to wrap the numerous parameters.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ExcessivePublicCount"
+          language="apex"
+          since="5.5.0"
+          message="This class has a bunch of public methods and attributes"
+          class="net.sourceforge.pmd.lang.apex.rule.design.ExcessivePublicCountRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#excessivepubliccount">
+        <description>
+			Classes with large numbers of public methods and attributes require disproportionate testing efforts
+			since combinational side effects grow rapidly and increase risk. Refactoring these classes into
+			smaller ones not only increases testability and reliability but also allows new variations to be
+			developed easily.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="NcssConstructorCount"
+          language="apex"
+          since="5.5.0"
+          message="The constructor has an NCSS line count of {0}"
+          class="net.sourceforge.pmd.lang.apex.rule.design.NcssConstructorCountRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#ncssconstructorcount">
+        <description>
+			This rule uses the NCSS (Non-Commenting Source Statements) algorithm to determine the number of lines
+			of code for a given constructor. NCSS ignores comments, and counts actual statements. Using this algorithm,
+			lines of code that are split are counted as one.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="NcssMethodCount"
+          language="apex"
+          since="5.5.0"
+          message="The method ''{0}()'' has an NCSS line count of {1}"
+          class="net.sourceforge.pmd.lang.apex.rule.design.NcssMethodCountRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#ncssmethodcount">
+        <description>
+			This rule uses the NCSS (Non-Commenting Source Statements) algorithm to determine the number of lines
+			of code for a given method. NCSS ignores comments, and counts actual statements. Using this algorithm,
+			lines of code that are split are counted as one.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="NcssTypeCount"
+          language="apex"
+          since="5.5.0"
+          message="The type has an NCSS line count of {0}"
+          class="net.sourceforge.pmd.lang.apex.rule.design.NcssTypeCountRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#ncsstypecount">
+        <description>
+			This rule uses the NCSS (Non-Commenting Source Statements) algorithm to determine the number of lines
+			of code for a given type. NCSS ignores comments, and counts actual statements. Using this algorithm,
+			lines of code that are split are counted as one.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="StdCyclomaticComplexity"
+          language="apex"
+          since="5.5.0"
+          message="The {0} ''{1}'' has a Standard Cyclomatic Complexity of {2}."
+          class="net.sourceforge.pmd.lang.apex.rule.design.StdCyclomaticComplexityRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#stdcyclomaticcomplexity">
+        <description>
+			Complexity directly affects maintenance costs is determined by the number of decision points in a method
+			plus one for the method entry.  The decision points include 'if', 'while', 'for', and 'case labels' calls.
+			Generally, numbers ranging from 1-4 denote low complexity, 5-7 denote moderate complexity, 8-10 denote
+			high complexity, and 11+ is very high complexity.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="TooManyFields"
+          language="apex"
+          since="5.5.0"
+          message="Too many fields"
+          class="net.sourceforge.pmd.lang.apex.rule.design.TooManyFieldsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_design.html#toomanyfields">
+        <description>
+			Classes that have too many fields can become unwieldy and could be redesigned to have fewer fields,
+			possibly through grouping related fields in new objects.  For example, a class with individual
+			city/state/zip fields could park them within a single Address field.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexDoc"
+          language="apex"
+          since="6.8.0"
+          message="ApexDoc comment is missing or incorrect"
+          class="net.sourceforge.pmd.lang.apex.rule.documentation.ApexDocRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_documentation.html#apexdoc">
+        <description>
+			This rule validates that:
+
+			*   ApexDoc comments are present for classes, methods, and properties that are public or global, excluding
+			    overrides and test classes (as well as the contents of test classes).
+			*   ApexDoc comments are present for classes, methods, and properties that are protected or private, depending
+			    on the properties `reportPrivate` and `reportProtected`.
+			*   ApexDoc comments should contain @description depending on the property `reportMissingDescription`.
+			*   ApexDoc comments on non-void, non-constructor methods should contain @return.
+			*   ApexDoc comments on void or constructor methods should not contain @return.
+			*   ApexDoc comments on methods with parameters should contain @param for each parameter, in the same
+			    order as the method signature.
+			*   ApexDoc comments are present on properties is only validated, if the property `reportProperty` is enabled.
+			    By setting `reportProperty` to false, you can ignore missing comments on properties.
+
+			Method overrides and tests are both exempted from having ApexDoc.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexCSRF"
+          language="apex"
+          since="5.5.3"
+          message="Avoid making DML operations in Apex class constructor or initializers"
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.ApexCSRFRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#apexcsrf">
+        <description>
+			Having DML operations in Apex class constructor or initializers can have unexpected side effects:
+			By just accessing a page, the DML statements would be executed and the database would be modified.
+			Just querying the database is permitted.
+
+			In addition to constructors and initializers, any method called `init` is checked as well.
+
+			Salesforce Apex already protects against this scenario and raises a runtime exception.
+
+			Note: This rule has been moved from category "Security" to "Error Prone" with PMD 6.21.0, since
+			using DML in constructors is not a security problem, but crashes the application.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidDirectAccessTriggerMap"
+          language="apex"
+          since="6.0.0"
+          message="Avoid directly accessing Trigger.old and Trigger.new"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#avoiddirectaccesstriggermap">
+        <description>
+			Avoid directly accessing Trigger.old and Trigger.new as it can lead to a bug. Triggers should be bulkified and iterate through the map to handle the actions for each item separately.
+        </description>
+        <priority>3</priority>
+            <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//ArrayLoadExpression[TriggerVariableExpression and LiteralExpression]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="AvoidHardcodingId"
+          language="apex"
+          since="6.0.0"
+          message="Hardcoding Id's is bound to break when changing environments."
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.AvoidHardcodingIdRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#avoidhardcodingid">
+        <description>
+			When deploying Apex code between sandbox and production environments, or installing Force.com AppExchange packages,
+			it is essential to avoid hardcoding IDs in the Apex code. By doing so, if the record IDs change between environments,
+			the logic can dynamically identify the proper data to operate against and not fail.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidNonExistentAnnotations"
+          language="apex"
+          since="6.5.0"
+          message="Use of non existent annotations will lead to broken Apex code which will not compile in the future."
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.AvoidNonExistentAnnotationsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#avoidnonexistentannotations">
+        <description>
+            Apex supported non existent annotations for legacy reasons.
+            In the future, use of such non-existent annotations could result in broken apex code that will not compile.
+            This will prevent users of garbage annotations from being able to use legitimate annotations added to Apex in the future.
+            A full list of supported annotations can be found at https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_classes_annotation.htm
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="EmptyCatchBlock"
+          language="apex"
+          since="6.0.0"
+          message="Avoid empty catch blocks"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#emptycatchblock">
+        <description>
+			Empty Catch Block finds instances where an exception is caught, but nothing is done.
+			In most circumstances, this swallows an exception which should either be acted on
+			or reported.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="allowCommentedBlocks" type="Boolean" description="Empty blocks containing comments will be skipped" value="false"/>
+            <property name="allowExceptionNameRegex" type="Regex" description="Empty blocks catching exceptions with names matching this regular expression will be skipped" value="^(ignored|expected)$"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//CatchBlockStatement[./BlockStatement[count(*) = 0] and
+					    not(matches(@VariableName, $allowExceptionNameRegex)) and
+					    ($allowCommentedBlocks = false() or @ContainsComment = false())]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="EmptyIfStmt"
+          language="apex"
+          since="6.0.0"
+          message="Avoid empty 'if' statements"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#emptyifstmt">
+        <description>
+			Empty If Statement finds instances where a condition is checked but nothing is done about it.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//IfBlockStatement
+					 [BlockStatement[count(*) = 0]]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="EmptyStatementBlock"
+          language="apex"
+          since="6.0.0"
+          message="Avoid empty block statements."
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#emptystatementblock">
+        <description>
+			Empty block statements serve no purpose and should be removed.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="reportEmptyPrivateNoArgConstructor" type="Boolean" value="true" description="If false, empty private no-arg constructors are not flagged. This supports a common idiom used by singleton pattern implementations, utility classes, etc."/>
+            <property name="reportEmptyVirtualMethod" type="Boolean" value="true" description="If false, empty virtual methods are not flagged. This supports abstract base classes with default no-op implementations."/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//Method[$reportEmptyPrivateNoArgConstructor = true() or (@Constructor != true() or ./ModifierNode[@Private != true()] or ./Parameter[count(*) > 0])]/ModifierNode[@Abstract != true() and ($reportEmptyVirtualMethod = true() or @Virtual != true()) and ../BlockStatement[count(*) = 0]]
+					| //Method/BlockStatement//BlockStatement[count(*) = 0 and @Location != parent::*/@Location]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="EmptyTryOrFinallyBlock"
+          language="apex"
+          since="6.0.0"
+          message="Avoid empty try or finally blocks"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#emptytryorfinallyblock">
+        <description>
+			Avoid empty try or finally blocks - what's the point?
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//TryCatchFinallyBlockStatement[./BlockStatement[count(*) = 0]]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="EmptyWhileStmt"
+          language="apex"
+          since="6.0.0"
+          message="Avoid empty 'while' statements"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#emptywhilestmt">
+        <description>
+			Empty While Statement finds all instances where a while statement does nothing.
+			If it is a timing loop, then you should use Thread.sleep() for it; if it is
+			a while loop that does a lot in the exit expression, rewrite it to make it clearer.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//WhileLoopStatement[./BlockStatement[count(*) = 0]]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="InaccessibleAuraEnabledGetter"
+          language="apex"
+          since="6.36.0"
+          message="AuraEnabled getter must be public or global if is referenced in Lightning components"
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.InaccessibleAuraEnabledGetterRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#inaccessibleauraenabledgetter">
+        <description>
+			In the Summer '21 release, a mandatory security update enforces access modifiers on Apex properties in
+			Lightning component markup. The update prevents access to private or protected Apex getters from Aura
+			and Lightning Web Components.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="MethodWithSameNameAsEnclosingClass"
+          language="apex"
+          since="5.5.0"
+          message="Classes should not have non-constructor methods with the same name as the class"
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.MethodWithSameNameAsEnclosingClassRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#methodwithsamenameasenclosingclass">
+        <description>
+			Non-constructor methods should not have the same name as the enclosing class.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="OverrideBothEqualsAndHashcode"
+          language="apex"
+          since="6.31.0"
+          message="Ensure you override both equals() and hashCode()"
+          class="net.sourceforge.pmd.lang.apex.rule.errorprone.OverrideBothEqualsAndHashcodeRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#overridebothequalsandhashcode">
+        <description>
+			Override both `public Boolean equals(Object obj)`, and `public Integer hashCode()`, or override neither.
+			Even if you are inheriting a hashCode() from a parent class, consider implementing hashCode and explicitly
+			delegating to your superclass.
+
+			This is especially important when [Using Custom Types in Map Keys and Sets](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/langCon_apex_collections_maps_keys_userdefined.htm).
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="TestMethodsMustBeInTestClasses"
+          language="apex"
+          since="6.22.0"
+          message="Test methods must be in test classes"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_errorprone.html#testmethodsmustbeintestclasses">
+       <description>
+          Test methods marked as a testMethod or annotated with @IsTest,
+          but not residing in a test class should be moved to a proper
+          class or have the @IsTest annotation added to the class.
+
+          Support for tests inside functional classes was removed in Spring-13 (API Version 27.0),
+          making classes that violate this rule fail compile-time. This rule is mostly usable when
+          dealing with legacy code.
+       </description>
+       <priority>3</priority>
+       <properties>
+          <property name="version" value="2.0"/>
+          <property name="xpath">
+             <value>
+			    <![CDATA[
+			    //UserClass[
+			      not(./ModifierNode/Annotation[lower-case(@Image) = 'istest']) and
+			      (
+			        (./Method/ModifierNode/Annotation[lower-case(@Image) = 'istest']) or
+			        (./Method/ModifierNode[@Test = true()])
+			      )
+			    ]
+			    ]]>
+             </value>
+          </property>
+       </properties>
+    </rule>
+
+    <rule name="AvoidDebugStatements"
+          language="apex"
+          since="6.36.0"
+          message="Avoid debug statements since they impact on performance"
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#avoiddebugstatements">
+        <description>
+			Debug statements contribute to longer transactions and consume Apex CPU time even when debug logs are not being captured.
+
+			When possible make use of other debugging techniques such as the Apex Replay Debugger and Checkpoints that could cover *most* use cases.
+
+			For other valid use cases that the statement is in fact valid make use of the `@SuppressWarnings` annotation or the `//NOPMD` comment.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//MethodCallExpression[lower-case(@FullMethodName)='system.debug']
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="AvoidDmlStatementsInLoops"
+          language="apex"
+          since="5.5.0"
+          deprecated="true"
+          message="Avoid DML statements inside loops"
+          class="net.sourceforge.pmd.lang.apex.rule.performance.AvoidDmlStatementsInLoopsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#avoiddmlstatementsinloops">
+        <description>
+			Avoid DML statements inside loops to avoid hitting the DML governor limit. Instead, try to batch up the data into a list and invoke your DML once on that list of data outside the loop.
+
+			This rule is deprecated and will be removed with PMD 7.0.0. The rule is replaced
+			by the more general rule {% rule "apex/performance/OperationWithLimitsInLoop" %}.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidSoqlInLoops"
+          language="apex"
+          since="5.5.0"
+          deprecated="true"
+          message="Avoid Soql queries inside loops"
+          class="net.sourceforge.pmd.lang.apex.rule.performance.AvoidSoqlInLoopsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#avoidsoqlinloops">
+        <description>
+			New objects created within loops should be checked to see if they can created outside them and reused.
+
+			This rule is deprecated and will be removed with PMD 7.0.0. The rule is replaced
+			by the more general rule {% rule "apex/performance/OperationWithLimitsInLoop" %}.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="AvoidSoslInLoops"
+          language="apex"
+          since="6.0.0"
+          deprecated="true"
+          message="Avoid Sosl queries inside loops"
+          class="net.sourceforge.pmd.lang.apex.rule.performance.AvoidSoslInLoopsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#avoidsoslinloops">
+        <description>
+			Sosl calls within loops can cause governor limit exceptions.
+
+			This rule is deprecated and will be removed with PMD 7.0.0. The rule is replaced
+			by the more general rule {% rule "apex/performance/OperationWithLimitsInLoop" %}.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="EagerlyLoadedDescribeSObjectResult"
+          language="apex"
+          since="6.40.0"
+          message="DescribeSObjectResult could be being loaded eagerly with all child relationships."
+          class="net.sourceforge.pmd.lang.apex.rule.ApexXPathRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#eagerlyloadeddescribesobjectresult">
+        <description>
+			This rule finds `DescribeSObjectResult`s which could have been loaded eagerly via `SObjectType.getDescribe()`.
+
+			When using `SObjectType.getDescribe()` or `Schema.describeSObjects()` without supplying a `SObjectDescribeOptions`,
+			implicitly it will be using `SObjectDescribeOptions.DEFAULT` and then all
+			child relationships will be loaded eagerly regardless whether this information is needed or not.
+			This has a potential negative performance impact. Instead [`SObjectType.getDescribe(options)`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_class_Schema_SObjectType.htm#unique_346834793)
+			or [`Schema.describeSObjects(SObjectTypes, options)`](https://developer.salesforce.com/docs/atlas.en-us.apexref.meta/apexref/apex_methods_system_schema.htm#apex_System_Schema_describeSObjects)
+			should be used and a `SObjectDescribeOptions` should be supplied. By using
+			`SObjectDescribeOptions.DEFERRED` the describe attributes will be lazily initialized at first use.
+
+			Lazy loading `DescribeSObjectResult` on picklist fields is not always recommended. The lazy loaded
+			describe objects might not be 100% accurate. It might be safer to explicitly use
+			`SObjectDescribeOptions.FULL` in such a case. The same applies when you need the same `DescribeSObjectResult`
+			to be consistent across different contexts and API versions.
+
+			Properties:
+
+			* `noDefault`: The behavior of `SObjectDescribeOptions.DEFAULT` changes from API Version 43 to 44:
+			    With API Version 43, the attributes are loaded eagerly. With API Version 44, they are loaded lazily.
+			    Simply using `SObjectDescribeOptions.DEFAULT` doesn't automatically make use of lazy loading.
+			    (unless "Use Improved Schema Caching" critical update is applied, `SObjectDescribeOptions.DEFAULT` does fallback
+			    to lazy loading)
+			    With this property enabled, such usages are found.
+			    You might ignore this, if you can make sure, that you don't run a mix of API Versions.
+        </description>
+        <priority>3</priority>
+        <properties>
+            <property name="noDefault" type="Boolean" value="false" description="Do not allow SObjectDescribeOptions.DEFAULT option to ensure consistent results no matter where getDescribe is called"/>
+            <property name="version" value="2.0"/>
+            <property name="xpath">
+                <value>
+					<![CDATA[
+					//MethodCallExpression
+					    [
+					        lower-case(@MethodName) = "getdescribe" and ReferenceExpression[@SObjectType = true()]
+					        or lower-case(@MethodName) = "describesobjects"
+					    ]
+					    [not(VariableExpression/ReferenceExpression
+					            [lower-case(@Image) = ("sobjectdescribeoptions", "fielddescribeoptions")]
+					         )
+					    ]
+					|
+					//ReferenceExpression
+					    [$noDefault = true()]
+					    [lower-case(@Image) = "sobjectdescribeoptions"]
+					    [parent::VariableExpression[lower-case(@Image) = "default"]]
+					]]>
+                </value>
+            </property>
+        </properties>
+    </rule>
+
+    <rule name="OperationWithLimitsInLoop"
+          language="apex"
+          since="6.29.0"
+          message="Avoid operations in loops that may hit governor limits"
+          class="net.sourceforge.pmd.lang.apex.rule.performance.OperationWithLimitsInLoopRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_performance.html#operationwithlimitsinloop">
+        <description>
+            Database class methods, DML operations, SOQL queries, SOSL queries, Approval class methods, Email sending, async scheduling or queueing within loops can cause governor limit exceptions. Instead, try to batch up the data into a list and invoke the operation once on that list of data outside the loop.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexBadCrypto"
+          language="apex"
+          since="5.5.3"
+          message="Apex classes should use random IV/key"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexBadCryptoRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexbadcrypto">
+        <description>
+			The rule makes sure you are using randomly generated IVs and keys for `Crypto` calls.
+			Hard-wiring these values greatly compromises the security of encrypted data.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexCRUDViolation"
+          language="apex"
+          since="5.5.3"
+          message="Validate CRUD permission before SOQL/DML operation"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexCRUDViolationRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexcrudviolation">
+        <description>
+        	<![CDATA[
+			The rule validates you are checking for access permissions before a SOQL/SOSL/DML operation.
+			Since Apex runs in system mode not having proper permissions checks results in escalation of
+			privilege and may produce runtime errors. This check forces you to handle such scenarios.
+			By default, the rule allows access checks can be performed using system Apex provisions such as
+			`DescribeSObjectResult.isAccessible/Createable/etc.`, the SOQL `WITH SECURITY_ENFORCED` clause,
+			or using the open source [Force.com ESAPI](https://github.com/forcedotcom/force-dot-com-esapi)
+			class library. Because it is common to use authorization facades to assist with this task, the
+			rule also allows configuration of regular expression-based patterns for the methods used to
+			authorize each type of CRUD operation. These pattern are configured via the following properties:
+			* `createAuthMethodPattern`/`createAuthMethodTypeParamIndex` - a pattern for the method used
+			  for create authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for create.
+			* `readAuthMethodPattern`/`readAuthMethodTypeParamIndex` - a pattern for the method used
+			  for read authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for read.
+			* `updateAuthMethodPattern`/`updateAuthMethodTypeParamIndex` - a pattern for the method used
+			  for update authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for update.
+			* `deleteAuthMethodPattern`/`deleteAuthMethodTypeParamIndex` - a pattern for the method used
+			  for delete authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for delete.
+			* `undeleteAuthMethodPattern`/`undeleteAuthMethodTypeParamIndex` - a pattern for the method used
+			  for undelete authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for undelete.
+			* `mergeAuthMethodPattern`/`mergeAuthMethodTypeParamIndex` - a pattern for the method used
+			  for merge authorization and an optional 0-based index of the parameter passed to that method
+			  that denotes the `SObjectType` being authorized for merge.
+			The following example shows how the rule can be configured for the
+			[sirono-common](https://github.com/SCWells72/sirono-common)
+			[`AuthorizationUtil`](https://github.com/SCWells72/sirono-common#authorization-utilities) class:
+			```xml
+			<rule ref="category/apex/security.xml/ApexCRUDViolation" message="Validate CRUD permission before SOQL/DML operation">
+			    <priority>3</priority>
+			    <properties>
+			        <property name="createAuthMethodPattern" value="AuthorizationUtil\.(is|assert)(Createable|Upsertable)"/>
+			        <property name="readAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Accessible"/>
+			        <property name="updateAuthMethodPattern" value="AuthorizationUtil\.(is|assert)(Updateable|Upsertable)"/>
+			        <property name="deleteAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Deletable"/>
+			        <property name="undeleteAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Undeletable"/>
+			        <property name="mergeAuthMethodPattern" value="AuthorizationUtil\.(is|assert)Mergeable"/>
+			    </properties>
+			</rule>
+			```
+			Note: This rule will produce false positives for VF getter methods. In VF getters the access permission
+			check happens automatically and is not needed explicitly. However, the rule can't reliably determine
+			whether a getter is a VF getter or not and reports a violation in any case. In such cases, the violation
+			should be [suppressed](pmd_userdocs_suppressing_warnings.html).
+			]]>
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexDangerousMethods"
+          language="apex"
+          since="5.5.3"
+          message="Calling potentially dangerous method"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexDangerousMethodsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexdangerousmethods">
+        <description>
+			Checks against calling dangerous methods.
+
+			For the time being, it reports:
+
+			* Against `FinancialForce`'s `Configuration.disableTriggerCRUDSecurity()`. Disabling CRUD security
+			opens the door to several attacks and requires manual validation, which is unreliable.
+			* Calling `System.debug` passing sensitive data as parameter, which could lead to exposure
+			of private data.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexInsecureEndpoint"
+          language="apex"
+          since="5.5.3"
+          message="Apex callouts should use encrypted communication channels"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexInsecureEndpointRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexinsecureendpoint">
+        <description>
+			Checks against accessing endpoints under plain **http**. You should always use
+			**https** for security.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexOpenRedirect"
+          language="apex"
+          since="5.5.3"
+          message="Apex classes should safely redirect to a known location"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexOpenRedirectRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexopenredirect">
+        <description>
+			Checks against redirects to user-controlled locations. This prevents attackers from
+			redirecting users to phishing sites.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexSharingViolations"
+          language="apex"
+          since="5.5.3"
+          message="Apex classes should declare a sharing model if DML or SOQL/SOSL is used"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexSharingViolationsRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexsharingviolations">
+        <description>
+			Detect classes declared without explicit sharing mode if DML methods are used. This
+			forces the developer to take access restrictions into account before modifying objects.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexSOQLInjection"
+          language="apex"
+          since="5.5.3"
+          message="Avoid untrusted/unescaped variables in DML query"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexSOQLInjectionRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexsoqlinjection">
+        <description>
+			Detects the usage of untrusted / unescaped variables in DML queries.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexSuggestUsingNamedCred"
+          language="apex"
+          since="5.5.3"
+          message="Suggest named credentials for authentication"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexSuggestUsingNamedCredRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexsuggestusingnamedcred">
+        <description>
+			Detects hardcoded credentials used in requests to an endpoint.
+
+			You should refrain from hardcoding credentials:
+			  * They are hard to mantain by being mixed in application code
+			  * Particularly hard to update them when used from different classes
+			  * Granting a developer access to the codebase means granting knowledge
+			     of credentials, keeping a two-level access is not possible.
+			  * Using different credentials for different environments is troublesome
+			     and error-prone.
+
+			Instead, you should use *Named Credentials* and a callout endpoint.
+
+			For more information, you can check [this](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_callouts_named_credentials.htm)
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexXSSFromEscapeFalse"
+          language="apex"
+          since="5.5.3"
+          message="Apex classes should escape Strings in error messages"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexXSSFromEscapeFalseRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexxssfromescapefalse">
+        <description>
+			Reports on calls to `addError` with disabled escaping. The message passed to `addError`
+			will be displayed directly to the user in the UI, making it prime ground for XSS
+			attacks if unescaped.
+        </description>
+        <priority>3</priority>
+    </rule>
+
+    <rule name="ApexXSSFromURLParam"
+          language="apex"
+          since="5.5.3"
+          message="Apex classes should escape/sanitize Strings obtained from URL parameters"
+          class="net.sourceforge.pmd.lang.apex.rule.security.ApexXSSFromURLParamRule"
+          externalInfoUrl="${pmd.website.baseurl}/pmd_rules_apex_security.html#apexxssfromurlparam">
+        <description>
+			Makes sure that all values obtained from URL parameters are properly escaped / sanitized
+			to avoid XSS attacks.
+        </description>
+        <priority>3</priority>
+    </rule>
+</ruleset>
