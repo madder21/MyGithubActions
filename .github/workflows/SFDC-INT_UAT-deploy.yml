@@ -79,10 +79,6 @@ jobs:
             --alias prod-org \
             --set-default
 
-      - name: Debug: Show org info
-        run: |
-          sf org display --target-org prod-org --verbose
-
       - name: Read Test Class Names from File
         id: test-classes
         run: |
@@ -92,21 +88,16 @@ jobs:
       - name: Validate and optionally deploy
         run: |
           echo "Starting validation (dry run)..."
-          echo "Tests to run: '${{ steps.test-classes.outputs.TEST_CLASSES }}'"
           set -e
 
           VALIDATION_OUTPUT=$(sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            --tests ${{ steps.test-classes.outputs.TEST_CLASSES }} \
+            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
-            --json) || {
-              echo "Deployment failed with exit code $? - validation output:"
-              echo "$VALIDATION_OUTPUT"
-              exit 1
-            }
+            --json)
 
           echo "$VALIDATION_OUTPUT" > validation-result.json
 
@@ -139,10 +130,6 @@ jobs:
             --alias prod-org \
             --set-default
 
-      - name: Debug: Show org info
-        run: |
-          sf org display --target-org prod-org --verbose
-
       - name: Read Test Class Names from File
         id: test-classes
         run: |
@@ -152,21 +139,16 @@ jobs:
       - name: Validate and optionally deploy
         run: |
           echo "Starting validation (dry run)..."
-          echo "Tests to run: '${{ steps.test-classes.outputs.TEST_CLASSES }}'"
           set -e
 
           VALIDATION_OUTPUT=$(sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            --tests ${{ steps.test-classes.outputs.TEST_CLASSES }} \
+            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
-            --json) || {
-              echo "Deployment failed with exit code $? - validation output:"
-              echo "$VALIDATION_OUTPUT"
-              exit 1
-            }
+            --json)
 
           echo "$VALIDATION_OUTPUT" > validation-result.json
 
