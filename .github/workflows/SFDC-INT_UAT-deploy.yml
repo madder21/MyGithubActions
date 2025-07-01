@@ -82,7 +82,7 @@ jobs:
       - name: Read Test Class Names from File
         id: test-classes
         run: |
-          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun-02.2.txt | sed 's/,$//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
       - name: Validate and optionally deploy
@@ -142,7 +142,7 @@ jobs:
       - name: Read Test Class Names from File
         id: test-classes
         run: |
-          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun-02.2.txt | sed 's/,$//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
       - name: Validate and optionally deploy
