@@ -42,13 +42,13 @@ jobs:
           
             # Set the instanceUrl config value
             - name: 'Set the instanceUrl config value'
-              run: sfdx config:set instanceUrl=https://rimowa.sandbox.my.salesforce.com
+              run: sfdx config:set instanceUrl="${{ secrets.SFDC_URL_BASE }}"
               
               # Authorize devops user
             - name: 'Authorize Devops User'
-              run: sfdx force:auth:jwt:grant -i "3MVG9fTLmJ60pJ5KTOKDKvUl1bGE8wDK7wIcpp4mVLDp7u_vwXw7diiE1V9WblwxxjryyeOmaA4fTOGQN0GZp" -f JWT/server.key -a RimowaProdOrg  --username devops@rimowa.com
+              run: sfdx force:auth:jwt:grant -i "${{ secrets.SFDX_INT_CLIENT_ID }}" -f "${{ secrets.SFDC_AUTH_KEY }}" -a RimowaProdOrg  --username "${{ secrets.SFDX_INT_USERNAME }}"
               
             # Deploy the entire branch to Integration org
             - name: 'Deploy and Validate the entire branch to PROD org'
               #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaProdOrg -c
-              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageSom-2025-06-1.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun-2025-06.1.txt) -u RimowaProdOrg --json 
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageRClient.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt) -u prod-org --json 
