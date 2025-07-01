@@ -79,19 +79,19 @@ jobs:
             --alias prod-org \
             --set-default
 
-      - name: Read Test Class Names from File
+      - name: Prepare test flags
         run: |
-          TEST_FLAGS=""
+          echo "" > test_flags.txt
           while IFS= read -r line || [ -n "$line" ]; do
-            TEST_FLAGS+=" --tests \"$line\""
+            echo "--tests \"$line\"" >> test_flags.txt
           done < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt
-          echo "$TEST_FLAGS" > test_flags.txt
 
-      - name: Validate and deploy
+      - name: Validate and optionally deploy
         run: |
           echo "Starting validation (dry run)..."
           set -e
-          TEST_FLAGS=$(cat test_flags.txt)
+
+          TEST_FLAGS=$(cat test_flags.txt | xargs)
 
           VALIDATION_OUTPUT=$(eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
@@ -142,19 +142,19 @@ jobs:
             --alias prod-org \
             --set-default
 
-      - name: Read Test Class Names from File
+      - name: Prepare test flags
         run: |
-          TEST_FLAGS=""
+          echo "" > test_flags.txt
           while IFS= read -r line || [ -n "$line" ]; do
-            TEST_FLAGS+=" --tests \"$line\""
+            echo "--tests \"$line\"" >> test_flags.txt
           done < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt
-          echo "$TEST_FLAGS" > test_flags.txt
 
-      - name: Validate and deploy
+      - name: Validate and optionally deploy
         run: |
           echo "Starting validation (dry run)..."
           set -e
-          TEST_FLAGS=$(cat test_flags.txt)
+
+          TEST_FLAGS=$(cat test_flags.txt | xargs)
 
           VALIDATION_OUTPUT=$(eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
