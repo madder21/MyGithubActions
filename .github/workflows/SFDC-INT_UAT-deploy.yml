@@ -80,41 +80,41 @@ jobs:
             --set-default
 
       - name: Read Test Class Names from File
-        id: test-classes
         run: |
           TEST_FLAGS=""
           while IFS= read -r line || [ -n "$line" ]; do
             TEST_FLAGS+=" --tests \"$line\""
           done < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt
-          echo "TEST_FLAGS=${TEST_FLAGS}" >> $GITHUB_OUTPUT
+          echo "$TEST_FLAGS" > test_flags.txt
 
-      - name: Validate and optionally deploy
+      - name: Validate and deploy
         run: |
           echo "Starting validation (dry run)..."
           set -e
-      
+          TEST_FLAGS=$(cat test_flags.txt)
+
           VALIDATION_OUTPUT=$(eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            ${{ steps.test-classes.outputs.TEST_FLAGS }} \
+            $TEST_FLAGS \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
             --json)
-      
+
           echo "$VALIDATION_OUTPUT" > validation-result.json
-      
+
           echo "File Path,Component Type,Full Name,Problem Type,Problem" > validation-results.csv
           echo "$VALIDATION_OUTPUT" | jq -r '
             .result.details.componentFailures[]? |
             [.fileName, .componentType, .fullName, .problemType, .problem] |
             @csv' >> validation-results.csv
-      
+
           echo "Starting deployment..."
           eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            ${{ steps.test-classes.outputs.TEST_FLAGS }} \
+            $TEST_FLAGS \
             --target-org prod-org \
             --wait 30
           echo "Deployment completed."
@@ -143,41 +143,41 @@ jobs:
             --set-default
 
       - name: Read Test Class Names from File
-        id: test-classes
         run: |
           TEST_FLAGS=""
           while IFS= read -r line || [ -n "$line" ]; do
             TEST_FLAGS+=" --tests \"$line\""
           done < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt
-          echo "TEST_FLAGS=${TEST_FLAGS}" >> $GITHUB_OUTPUT
+          echo "$TEST_FLAGS" > test_flags.txt
 
-      - name: Validate and optionally deploy
+      - name: Validate and deploy
         run: |
           echo "Starting validation (dry run)..."
           set -e
-      
+          TEST_FLAGS=$(cat test_flags.txt)
+
           VALIDATION_OUTPUT=$(eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            ${{ steps.test-classes.outputs.TEST_FLAGS }} \
+            $TEST_FLAGS \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
             --json)
-      
+
           echo "$VALIDATION_OUTPUT" > validation-result.json
-      
+
           echo "File Path,Component Type,Full Name,Problem Type,Problem" > validation-results.csv
           echo "$VALIDATION_OUTPUT" | jq -r '
             .result.details.componentFailures[]? |
             [.fileName, .componentType, .fullName, .problemType, .problem] |
             @csv' >> validation-results.csv
-      
+
           echo "Starting deployment..."
           eval sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            ${{ steps.test-classes.outputs.TEST_FLAGS }} \
+            $TEST_FLAGS \
             --target-org prod-org \
             --wait 30
           echo "Deployment completed."
