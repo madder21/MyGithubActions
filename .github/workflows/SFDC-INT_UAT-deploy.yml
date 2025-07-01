@@ -82,7 +82,7 @@ jobs:
       - name: Read Test Class Names from File
         id: test-classes
         run: |
-          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+          TEST_CLASSES=$(tr '\n' ' ' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/ $//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
       - name: Validate and optionally deploy
@@ -93,7 +93,7 @@ jobs:
           VALIDATION_OUTPUT=$(sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
+            --tests ${{ steps.test-classes.outputs.TEST_CLASSES }} \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
@@ -106,15 +106,6 @@ jobs:
             .result.details.componentFailures[]? |
             [.fileName, .componentType, .fullName, .problemType, .problem] |
             @csv' >> validation-results.csv
-
-          # echo "Starting deployment..."
-          # sf project deploy start \
-          #   --manifest unpackaged/projectManifest/packageRClient.xml \
-          #   --test-level RunSpecifiedTests \
-          #   --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
-          #   --target-org prod-org \
-          #   --wait 30
-          # echo "Deployment completed."
 
   validate-and-deploy-uat:
     needs: validate-and-deploy-int
@@ -142,7 +133,7 @@ jobs:
       - name: Read Test Class Names from File
         id: test-classes
         run: |
-          TEST_CLASSES=$(tr '\n' ',' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/,$//')
+          TEST_CLASSES=$(tr '\n' ' ' < unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt | sed 's/ $//')
           echo "TEST_CLASSES=$TEST_CLASSES" >> $GITHUB_OUTPUT
 
       - name: Validate and optionally deploy
@@ -153,7 +144,7 @@ jobs:
           VALIDATION_OUTPUT=$(sf project deploy start \
             --manifest unpackaged/projectManifest/packageRClient.xml \
             --test-level RunSpecifiedTests \
-            --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
+            --tests ${{ steps.test-classes.outputs.TEST_CLASSES }} \
             --target-org prod-org \
             --wait 30 \
             --dry-run \
@@ -166,15 +157,6 @@ jobs:
             .result.details.componentFailures[]? |
             [.fileName, .componentType, .fullName, .problemType, .problem] |
             @csv' >> validation-results.csv
-
-          # echo "Starting deployment..."
-          # sf project deploy start \
-          #   --manifest unpackaged/projectManifest/packageRClient.xml \
-          #   --test-level RunSpecifiedTests \
-          #   --tests "${{ steps.test-classes.outputs.TEST_CLASSES }}" \
-          #   --target-org prod-org \
-          #   --wait 30
-          # echo "Deployment completed."
 
       - name: Archive packageRClient.xml with date
         if: success()
