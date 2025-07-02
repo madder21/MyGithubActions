@@ -3,17 +3,7 @@ name: Validate SOM release PROD branch
 
 # Definition when the workflow should run
 on:
-
-  workflow_dispatch
-  #pull_request:
-    #types: [assigned, opened, synchronize, reopened]
-    
-    #paths:
-     # - force-app/**
-    #branches:
-     # - Release-Candidate
-       
-            
+  workflow_dispatch:
 
 # Jobs to be executed
 jobs:
