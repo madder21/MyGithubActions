@@ -1,0 +1,54 @@
+# Unique name for this workflow
+name: Validate SOM release PROD branch 
+
+# Definition when the workflow should run
+on:
+
+  workflow_dispatch
+  #pull_request:
+    #types: [assigned, opened, synchronize, reopened]
+    
+    #paths:
+     # - force-app/**
+    #branches:
+     # - Release-Candidate
+       
+            
+
+# Jobs to be executed
+jobs:
+    validate-branch-to-prod:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: 'Install Salesforce CLI'
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # Checkout the source code
+            - name: 'Checkout source code'
+              uses: actions/checkout@v3
+              with:
+                ref: Release-Candidate
+            
+            # List items
+            - name: 'List items'
+              run: ls 'unpackaged/projectManifest'
+          
+            # Set the instanceUrl config value
+            - name: 'Set the instanceUrl config value'
+              run: sfdx config:set instanceUrl="${{ secrets.SFDC_URL_BASE }}"
+              
+              # Authorize devops user
+            - name: 'Authorize Devops User'
+              run: sfdx force:auth:jwt:grant -i "${{ secrets.SFDX_INT_CLIENT_ID }}" -f "${{ secrets.SFDC_AUTH_KEY }}" -a RimowaProdOrg  --username "${{ secrets.SFDX_INT_USERNAME }}"
+              
+            # Deploy the entire branch to Integration org
+            - name: 'Deploy and Validate the entire branch to PROD org'
+              #run: sfdx force:source:deploy -x "unpackaged/project manifest/packageSom-2023-6-1.xml" -u RimowaProdOrg -c
+              run:  sfdx force:source:deploy -x "unpackaged/projectManifest/packageRClient.xml" --checkonly --testlevel RunSpecifiedTests --runtests $(cat unpackaged/projectManifest/specifiedTestsClass/testsToRun.txt) -u prod-org --json 
