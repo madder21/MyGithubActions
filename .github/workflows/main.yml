@@ -24,7 +24,7 @@ jobs:
             - name: 'Checkout source code'
               uses: actions/checkout@v3
               with:
-                ref: Release-Candidate
+                ref: master
             
             # List items
             - name: 'List items'
