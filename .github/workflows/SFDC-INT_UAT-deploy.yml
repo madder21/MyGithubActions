@@ -2,12 +2,12 @@ name: Validate and Deploy in INT/UAT
 
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'force-app/**'
-      - 'pmd/**'
-    branches:
-      - master
+  # pull_request:
+  #   paths:
+  #     - 'force-app/**'
+  #     - 'pmd/**'
+  #   branches:
+  #     - master
 
 jobs:
   pmd-run:
